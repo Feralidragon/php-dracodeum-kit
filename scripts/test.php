@@ -32,6 +32,7 @@ $input->addModifier('constraints.range', [
 
 
 echo "INPUT:\n";
+var_dump($input->getName());
 var_dump($input->setValue($value));
 var_dump($input->isInitialized() ? $input->getValue() : null);
 var_dump($input->getLabel($text_options));
@@ -45,6 +46,7 @@ echo "\n\n";
 
 foreach ($input->getModifiers() as $i => $modifier) {
 	echo "INPUT MODIFIER [{$i}]:\n";
+	var_dump($modifier->getName());
 	var_dump($modifier->getLabel($text_options));
 	var_dump($modifier->getDescription($text_options));
 	var_dump($modifier->getMessage($text_options));
