@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @license https://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
+namespace Feralygon\Kit\Core;
+
+use Feralygon\Kit\Core\Component\{
+	Exceptions,
+	Traits
+};
+use Feralygon\Kit\Core\Traits\ExtendedPropertiesArrayAccess as TExtendedPropertiesArrayAccess;
+use Feralygon\Kit\Core\Utilities\Type as UType;
+
+/**
+ * Core component class.
+ * 
+ * This class is the base to be extended from when creating a component.<br>
+ * <br>
+ * A component is an object which represents a specific functional part of an application and is expected to have several different implementations from the developer.<br>
+ * Examples of this kind of object are inputs, outputs, tables, parameters, kernels, filters, constraints, models, controllers, handlers, etc, 
+ * all of which are expected to end up having tens or even hundreds of different implementations over time, each one representing a specific input, output, table, etc, respectively.<br>
+ * <br>
+ * Usually, this would be achieved by extending the base class, and implementing all the methods declared as abstract or through multiple interfaces recognized by the base class, 
+ * or even overriding existing methods.<br>
+ * This has several issues however, such as having internal code of the base class mixed with the actual methods meant to implement a component,  
+ * and it becomes unclear what each method is intended to do and how to extend and implement it, specially in relatively complex components, 
+ * while overriding would certainly end up accidentally breaking the base code of the base class in some given way.<br>
+ * <br>
+ * Interfaces, the ideal way of defining methods for implementation, only allow public methods to be defined, 
+ * and many of the methods of a component are actually meant to be implemented as protected, given that they should not become visible when the component is used.<br>
+ * After all, interfaces are meant to establish contracts usable from any scope between multiple classes, and not for specific implementations within the scope of a single one.<br>
+ * <br>
+ * In summary, it makes code much harder to read and maintain, and it's very error prone as it doesn't properly and cleanly isolate internal code from 
+ * what the developer actually intends and is supposed to define and customize.<br>
+ * <br>
+ * Therefore, the implementation of a component is not done by extending the component itself, nor through interfaces, a <b>prototype</b> is used instead.<br>
+ * A prototype is an object which represents a specific implementation or set of definitions of a component.<br>
+ * <br>
+ * Any methods meant to implement a component are declared in a prototype instead, generally with the same class name as the component, but in a different namespace.<br>
+ * This completely encapsulates the internal implementation from what is to be implemented by a developer when using it, 
+ * and this way both the component and its prototype may share the same names for the same kind of methods without conflict, 
+ * and all these methods may be public without any issues, allowing the usage of interfaces to segregate optional implementations from the prototype itself.<br>
+ * <br>
+ * This encapsulation is further reinforced by the fact that a prototype is never aware of which specific component is using it, as there is no back reference to it from the prototype.<br>
+ * Also, a component may be extended or recreated to modify or refactor any internal behavior and still be able to reuse the existing prototypes in the same way, 
+ * and the prototype methods may be called directly for testing purposes, allowing for more powerful debugging and unit testing.<br>
+ * <br>
+ * When using a component, the prototype itself is not accessible in any way whatsoever, other than from within the component itself, 
+ * thus a prototype should not have any public methods meant to be called from anywhere else other than its component, except for testing purposes.<br>
+ * Therefore, whenever a new public method is required to be called from a component, the component itself should be extended and have such a method implemented there instead, 
+ * given that the public methods of a component are the only ones visible from any scope, which also means that for such cases it's not necessary to extend the prototypes.<br>
+ * <br>
+ * Both components and prototypes may also have a layer of custom properties, which may be given during instantiation.<br>
+ * While all readable properties from a component may be accessed from any scope, in the case of a prototype they are effectively only visible to itself and the component using it.<br>
+ * <br>
+ * A prototype may also require to have existing functions bound to itself by a component, which must strictly follow the function templates defined by the prototype itself, 
+ * and which may or may not correspond to actual methods from the component itself.<br>
+ * <br>
+ * A single prototype instance may also be used by multiple component instances at the same time, although it's not a normal use case, 
+ * and it's limited to the prototype whether or not requiring functions to be bound to itself, however a single component can never have more than a single prototype.
+ * 
+ * @since 1.0.0
+ * @see \Feralygon\Kit\Core\Prototype
+ * @see \Feralygon\Kit\Core\Component\Traits\Properties
+ * @see \Feralygon\Kit\Core\Component\Traits\Initialization
+ * @see \Feralygon\Kit\Core\Component\Traits\Prototypes
+ */
+abstract class Component implements \ArrayAccess
+{
+	//Traits
+	use TExtendedPropertiesArrayAccess;
+	use Traits\Properties;
+	use Traits\Initialization;
+	use Traits\Prototypes;
+	
+	
+	
+	//Private properties
+	/** @var \Feralygon\Kit\Core\Prototype */
+	private $prototype;
+	
+	
+	
+	//Final public magic methods
+	/**
+	 * Instantiate class.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Prototype|string|null $prototype [default = null] <p>The prototype instance, class or name.<br>
+	 * If not set, the base prototype class is used.</p>
+	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties, as <code>name => value</code> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeBaseClass
+	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeClass
+	 * @throws \Feralygon\Kit\Core\Component\Exceptions\PrototypePropertiesNotAllowed
+	 */
+	final public function __construct($prototype = null, array $properties = [], array $prototype_properties = [])
+	{
+		//prototype base class
+		$prototype_base_class = $this->getPrototypeBaseClass();
+		if (!UType::isA($prototype_base_class, Prototype::class)) {
+			throw new Exceptions\InvalidPrototypeBaseClass(['component' => $this, 'base_class' => $prototype_base_class]);
+		}
+		
+		//prototype validation
+		if (!isset($prototype)) {
+			$prototype = $prototype_base_class;
+		} else {
+			//build
+			if (is_string($prototype)) {
+				$instance = $this->buildPrototype($prototype, $prototype_properties);
+				if (isset($instance)) {
+					$prototype = $instance;
+					$prototype_properties = [];
+				}
+			}
+			
+			//check
+			if (!UType::isA($prototype, $prototype_base_class)) {
+				throw new Exceptions\InvalidPrototypeClass(['component' => $this, 'class' => UType::class($prototype), 'base_class' => $prototype_base_class]);
+			}
+		}
+		
+		//prototype instantiation
+		if (is_string($prototype)) {
+			$this->prototype = new $prototype($prototype_properties);
+		} elseif (!empty($prototype_properties)) {
+			throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
+		} else {
+			$this->prototype = $prototype;
+		}
+		
+		//properties
+		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'buildProperty']), $this->getRequiredPropertyNames());
+		
+		//initialize
+		$this->initialize();
+	}
+	
+	
+	
+	//Abstract public static methods
+	/**
+	 * Get prototype base class.
+	 * 
+	 * Any prototype class or instance given to be used by this component must be or 
+	 * extend from the same class as the prototype base class returned here.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The prototype base class.</p>
+	 */
+	abstract public static function getPrototypeBaseClass() : string;
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Get prototype instance.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Core\Prototype <p>The prototype instance.</p>
+	 */
+	final protected function getPrototype() : Prototype
+	{
+		return $this->prototype;
+	}
+}

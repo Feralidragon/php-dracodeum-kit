@@ -1,0 +1,25 @@
+{
+	"name" : "feralygon/kit",
+	"version" : "1.0.0",
+	"type" : "library",
+	"license" : "MIT",
+	"description" : "Feralygon Kit",
+	"keywords" : [
+		"framework"
+	],
+	"require" : {
+		"php" : "~7.1.0",
+		"ext-mbstring" : "*"
+	},
+	"authors" : [{
+			"name" : "Cláudio \"Feralidragon\" Luís",
+			"email" : "claudio.luis@aptoide.com"
+		}
+	],
+	"autoload" : {
+		"files" : [
+			"autoload.php"
+		]
+	},
+	"minimum-stability" : "dev"
+}

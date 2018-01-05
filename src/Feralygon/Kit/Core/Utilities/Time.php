@@ -1,0 +1,842 @@
+<?php
+
+/**
+ * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @license https://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
+namespace Feralygon\Kit\Core\Utilities;
+
+use Feralygon\Kit\Core\Utility;
+use Feralygon\Kit\Core\Enumerations\Time as ETime;
+use Feralygon\Kit\Core\Options\Text as TextOptions;
+use Feralygon\Kit\Core\Utilities\Time\{
+	Options,
+	Exceptions
+};
+
+/**
+ * Core time utility class.
+ * 
+ * This utility implements a set of methods used to manipulate and retrieve information about time.
+ * 
+ * @since 1.0.0
+ */
+final class Time extends Utility
+{
+	//Private constants
+	/** Multiples table. */
+	private const MULTIPLES_TABLE = [[
+		'time' => ETime::T1_YEAR,
+		'symbol' => 'Y',
+		'singular' => "year",
+		'plural' => "years",
+		'precision' => 0,
+		'limit' => 3,
+		'min_multiple' => 'D'
+	], [
+		'time' => ETime::T1_MONTH,
+		'symbol' => 'M',
+		'singular' => "month",
+		'plural' => "months",
+		'precision' => 0,
+		'limit' => 2,
+		'min_multiple' => 'D'
+	], [
+		'time' => ETime::T1_WEEK,
+		'symbol' => 'W',
+		'singular' => "week",
+		'plural' => "weeks",
+		'precision' => 0,
+		'limit' => 2,
+		'min_multiple' => 'D'
+	], [
+		'time' => ETime::T1_DAY,
+		'symbol' => 'D',
+		'singular' => "day",
+		'plural' => "days",
+		'precision' => 0,
+		'limit' => 3,
+		'min_multiple' => 'min'
+	], [
+		'time' => ETime::T1_HOUR,
+		'symbol' => 'h',
+		'singular' => "hour",
+		'plural' => "hours",
+		'precision' => 0,
+		'limit' => 3,
+		'min_multiple' => 's'
+	], [
+		'time' => ETime::T1_MINUTE,
+		'symbol' => 'min',
+		'singular' => "minute",
+		'plural' => "minutes",
+		'precision' => 0,
+		'limit' => 2,
+		'min_multiple' => 's'
+	], [
+		'time' => 1,
+		'symbol' => 's',
+		'singular' => "second",
+		'plural' => "seconds",
+		'precision' => 2,
+		'limit' => 1,
+		'min_multiple' => 's'
+	], [
+		'time' => 1e-3,
+		'symbol' => 'ms',
+		'singular' => "millisecond",
+		'plural' => "milliseconds",
+		'precision' => 2,
+		'limit' => 1,
+		'min_multiple' => 'ms'
+	], [
+		'time' => 1e-6,
+		'symbol' => 'µs',
+		'singular' => "microsecond",
+		'plural' => "microseconds",
+		'precision' => 0,
+		'limit' => 1,
+		'min_multiple' => 'µs'
+	], [
+		'time' => 1e-9,
+		'symbol' => 'ns',
+		'singular' => "nanosecond",
+		'plural' => "nanoseconds",
+		'precision' => 0,
+		'limit' => 1,
+		'min_multiple' => 'ns'
+	]];
+	
+	
+	
+	//Private static properties
+	/** @var float[] */
+	private static $multiples = [];
+	
+	
+	
+	//Final public static methods
+	/**
+	 * Retrieve Unix timestamp from a given timestamp.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $timestamp <p>The timestamp to retrieve from, as supported by the PHP core <code>strtotime</code> function  
+	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\InvalidTimestamp
+	 * @return int <p>The Unix timestamp from the given timestamp.</p>
+	 */
+	final public static function timestamp($timestamp) : int
+	{
+		if (Type::evaluateInteger($timestamp)) {
+			return $timestamp;
+		} elseif (Type::evaluateString($timestamp)) {
+			$t = strtotime($timestamp);
+			if ($t !== false) {
+				return $t;
+			}
+		}
+		throw new Exceptions\InvalidTimestamp(['timestamp' => $timestamp]);
+	}
+	
+	/**
+	 * Evaluate a given value as a timestamp.
+	 * 
+	 * Only the following types and formats can be evaluated into timestamps:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01 12:00:00</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid timestamp.</p>
+	 */
+	final public static function evaluateTimestamp(&$value, ?string $format = null, bool $nullable = false) : bool
+	{
+		//nullable
+		if (!isset($value)) {
+			return $nullable;
+		}
+		
+		//timestamp
+		try {
+			$value = self::timestamp($value);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+		} catch (Exceptions\InvalidTimestamp $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into a timestamp.
+	 * 
+	 * Only the following types and formats can be coerced into timestamps:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01 12:00:00</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to coerce into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\TimestampCoercionFailed
+	 * @return int|string|null <p>The given value coerced into a timestamp.<br>
+	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 */
+	final public static function coerceTimestamp($value, ?string $format = null, bool $nullable = false)
+	{
+		if (!self::evaluateTimestamp($value, $format, $nullable)) {
+			throw new Exceptions\TimestampCoercionFailed(['value' => $value]);
+		}
+		return $value;
+	}
+	
+	/**
+	 * Generate a string from a given timestamp.
+	 * 
+	 * The returning string represents the given timestamp in order to be shown or printed out in messages.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $timestamp <p>The timestamp to generate from, as supported by the PHP core <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @return string <p>The generated string from the given timestamp.</p>
+	 */
+	final public static function stringifyTimestamp($timestamp, $text_options = null) : string
+	{
+		$text_options = TextOptions::load($text_options);
+		$format = 'Y-m-d H:i:s e';
+		
+		//TODO: use Localization to retrieve the correct timestamp format
+		
+		return self::coerceTimestamp($timestamp, $format);
+	}
+	
+	/**
+	 * Evaluate a given value as a date.
+	 * 
+	 * Only the following types and formats can be evaluated into dates:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01</code> for <samp>2017-01-01</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Calendar_date
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid date.</p>
+	 */
+	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
+	{
+		if (!isset($value)) {
+			return $nullable;
+		} elseif (self::evaluateTimestamp($value)) {
+			$value = (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Coerce a given value into a date.
+	 * 
+	 * Only the following types and formats can be coerced into dates:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01</code> for <samp>2017-01-01</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to coerce into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\DateCoercionFailed
+	 * @return int|string|null <p>The given value coerced into a date.<br>
+	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 */
+	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
+	{
+		if (!self::evaluateDate($value, $format, $nullable)) {
+			throw new Exceptions\DateCoercionFailed(['value' => $value]);
+		}
+		return $value;
+	}
+	
+	/**
+	 * Generate a string from a given date.
+	 * 
+	 * The returning string represents the given date in order to be shown or printed out in messages.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $date <p>The date to generate from, as supported by the PHP core <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @return string <p>The generated string from the given date.</p>
+	 */
+	final public static function stringifyDate($date, $text_options = null) : string
+	{
+		$text_options = TextOptions::load($text_options);
+		$format = 'Y-m-d';
+		
+		//TODO: use Localization to retrieve the correct date format
+		
+		return self::coerceDate($date, $format);
+	}
+	
+	/**
+	 * Evaluate a given value as a time.
+	 * 
+	 * Only the following types and formats can be evaluated into times:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2:05PM</code> for <samp>14:05:00</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Calendar_date
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid time.</p>
+	 */
+	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
+	{
+		if (!isset($value)) {
+			return $nullable;
+		} elseif (self::evaluateTimestamp($value)) {
+			$value -= (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Coerce a given value into a time.
+	 * 
+	 * Only the following types and formats can be coerced into times:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2:05PM</code> for <samp>14:05:00</samp>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null] <p>The format to coerce into, as supported by the PHP core <code>date</code> function.<br>
+	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\TimeCoercionFailed
+	 * @return int|string|null <p>The given value coerced into a time.<br>
+	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 */
+	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
+	{
+		if (!self::evaluateTime($value, $format, $nullable)) {
+			throw new Exceptions\TimeCoercionFailed(['value' => $value]);
+		}
+		return $value;
+	}
+	
+	/**
+	 * Generate a string from a given time.
+	 * 
+	 * The returning string represents the given time in order to be shown or printed out in messages.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $time <p>The time to generate from, as supported by the PHP core <code>strtotime</code> function or as the number of seconds.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @return string <p>The generated string from the given time.</p>
+	 */
+	final public static function stringifyTime($time, $text_options = null) : string
+	{
+		$text_options = TextOptions::load($text_options);
+		$format = 'H:i:s e';
+		
+		//TODO: use Localization to retrieve the correct time format
+		
+		return self::coerceTime($time, $format);
+	}
+	
+	/**
+	 * Calculate how long ago it has been, in a human-readable format, since a given timestamp.
+	 * 
+	 * The returning string represents how long ago it has been since a given timestamp, in a human-readable format, as shown in the examples below, 
+	 * for a given timestamp set as <code>2017-01-01 12:00:00</code>:<br>
+	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 12:00:00</code> returns <samp><i>just now</i></samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 11:06:23</code> returns <samp><i>5 minutes ago</i></samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 09:45:00</code> returns <samp><i>2 hours ago</i></samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code>2016-10-01 12:00:00</code> returns <samp><i>3 months ago</i></samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code>2016-01-01 12:00:00</code> returns <samp><i>1 year ago</i></samp>.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $timestamp <p>The timestamp to calculate from, as supported by the PHP core <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @return string <p>The calculated period on how long ago it has been, in a human-readable format, since the given timestamp.</p>
+	 */
+	final public static function ago($timestamp, $text_options = null) : string
+	{
+		//initialize
+		$timestamp = self::timestamp($timestamp);
+		$text_options = TextOptions::load($text_options);
+		$period = max(0, time() - $timestamp);
+		
+		//years
+		if ($period >= ETime::T1_YEAR) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in years.
+			 * @placeholder number The number of years.
+			 * @tags core utility time ago
+			 * @example 3 years ago
+			 */
+			return Text::plocalize("{{number}} year ago", "{{number}} years ago", (int)($period / ETime::T1_YEAR), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//months
+		if ($period >= ETime::T1_MONTH) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in months.
+			 * @placeholder number The number of months.
+			 * @tags core utility time ago
+			 * @example 3 months ago
+			 */
+			return Text::plocalize("{{number}} month ago", "{{number}} months ago", (int)($period / ETime::T1_MONTH), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//weeks
+		if ($period >= ETime::T1_WEEK) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in weeks.
+			 * @placeholder number The number of weeks.
+			 * @tags core utility time ago
+			 * @example 3 weeks ago
+			 */
+			return Text::plocalize("{{number}} week ago", "{{number}} weeks ago", (int)($period / ETime::T1_WEEK), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//days
+		if ($period >= ETime::T1_DAY) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in days.
+			 * @placeholder number The number of days.
+			 * @tags core utility time ago
+			 * @example 3 days ago
+			 */
+			return Text::plocalize("{{number}} day ago", "{{number}} days ago", (int)($period / ETime::T1_DAY), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//hours
+		if ($period >= ETime::T1_HOUR) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in hours.
+			 * @placeholder number The number of hours.
+			 * @tags core utility time ago
+			 * @example 3 hours ago
+			 */
+			return Text::plocalize("{{number}} hour ago", "{{number}} hours ago", (int)($period / ETime::T1_HOUR), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//minutes
+		if ($period >= ETime::T1_MINUTE) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in minutes.
+			 * @placeholder number The number of minutes.
+			 * @tags core utility time ago
+			 * @example 3 minutes ago
+			 */
+			return Text::plocalize("{{number}} minute ago", "{{number}} minutes ago", (int)($period / ETime::T1_MINUTE), 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//seconds
+		if ($period >= 1) {
+			/**
+			 * @description Human-readable time, on how long ago it has been, scaled in seconds.
+			 * @placeholder number The number of seconds.
+			 * @tags core utility time ago
+			 * @example 3 seconds ago
+			 */
+			return Text::plocalize("{{number}} second ago", "{{number}} seconds ago", $period, 'number', 'core.utilities.time', $text_options);
+		}
+		
+		//just now
+		/**
+		 * @description Human-readable time, on how long ago it has been, just now.
+		 * @tags core utility time ago
+		 */
+		return Text::localize("just now", 'core.utilities.time', $text_options);
+	}
+	
+	/**
+	 * Retrieve human-readable period from a given machine one.
+	 * 
+	 * The returning period represents the given one in a human-readable format, 
+	 * by rounding it to the nearest most significant time multiples, as shown in the examples below:<br>
+	 * &nbsp; &#8226; &nbsp; <code>12</code> returns <samp><i>12 seconds</i></samp>, or <samp><i>12s</i></samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>300.55</code> returns <samp><i>5 minutes and 55 milliseconds</i></samp>, or <samp><i>5min 55ms</i></samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>7268</code> returns <samp><i>2 hours, 1 minute and 8 seconds</i></samp>, or <samp><i>2h 1min 8s</i></samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>295500</code> returns <samp><i>3 days, 10 hours and 5 minutes</i></samp>, or <samp><i>3D 10h 5min</i></samp> in short form.<br>
+	 * <br>
+	 * Whenever the short form is enabled with <var>$options->short = true</var>, the following symbols are used:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>Y</samp> : years<br>
+	 * &nbsp; &#8226; &nbsp; <samp>M</samp> : months<br>
+	 * &nbsp; &#8226; &nbsp; <samp>W</samp> : weeks<br>
+	 * &nbsp; &#8226; &nbsp; <samp>D</samp> : days<br>
+	 * &nbsp; &#8226; &nbsp; <samp>h</samp> : hours<br>
+	 * &nbsp; &#8226; &nbsp; <samp>min</samp> : minutes<br>
+	 * &nbsp; &#8226; &nbsp; <samp>s</samp> : seconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>ms</samp> : milliseconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>µs</samp> : microseconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
+	 * 
+	 * @since 1.0.0
+	 * @param float $period <p>The machine-readable period to retrieve from, in seconds.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Hperiod|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @return string <p>The human-readable period from the given machine one.</p>
+	 */
+	final public static function hperiod(float $period, $text_options = null, $options = null) : string
+	{
+		//initialize
+		$text_options = TextOptions::load($text_options);
+		$options = Options\Hperiod::load($options);
+		$precision = $options->precision;
+		$limit = $options->limit;
+		$min_multiple = $options->min_multiple;
+		$sign = $period >= 0 ? '' : '-';
+		$period = abs($period);
+		
+		//parts
+		$parts = [];
+		foreach (self::MULTIPLES_TABLE as $row) {
+			//prepare
+			if (isset($options->max_multiple) && $row['time'] > $options->max_multiple) {
+				continue;
+			} elseif ($period >= $row['time']) {
+				if (!isset($precision)) {
+					$precision = $row['precision'];
+				}
+				if (!isset($limit)) {
+					$limit = $row['limit'];
+				}
+				if (!isset($min_multiple)) {
+					$min_multiple = $row['min_multiple'];
+				}
+			}
+			$is_last = (isset($limit) && (count($parts) + 1) >= $limit && $period >= $row['time']) || (isset($min_multiple) && $row['time'] <= $min_multiple);
+			if (!$is_last && $period < $row['time']) {
+				continue;
+			}
+			
+			//calculate
+			$number = $is_last ? round($period / $row['time'], $precision) : floor($period / $row['time']);
+			if (!empty($number)) {
+				if ($options->short) {
+					$part = "{$number}{$row['symbol']}";
+				} else {
+					switch ($row['symbol']) {
+						case 'ns':
+							/**
+							 * @description Human-readable time scaled in nanoseconds.
+							 * @placeholder number The number of nanoseconds.
+							 * @tags core utility time hperiod
+							 * @example 3 nanoseconds
+							 */
+							$part = Text::plocalize("{{number}} nanosecond", "{{number}} nanoseconds", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'µs':
+							/**
+							 * @description Human-readable time scaled in microseconds.
+							 * @placeholder number The number of microseconds.
+							 * @tags core utility time hperiod
+							 * @example 3 microseconds
+							 */
+							$part = Text::plocalize("{{number}} microsecond", "{{number}} microseconds", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'ms':
+							/**
+							 * @description Human-readable time scaled in milliseconds.
+							 * @placeholder number The number of milliseconds.
+							 * @tags core utility time hperiod
+							 * @example 3 milliseconds
+							 */
+							$part = Text::plocalize("{{number}} millisecond", "{{number}} milliseconds", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 's':
+							/**
+							 * @description Human-readable time scaled in seconds.
+							 * @placeholder number The number of seconds.
+							 * @tags core utility time hperiod
+							 * @example 3 seconds
+							 */
+							$part = Text::plocalize("{{number}} second", "{{number}} seconds", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'min':
+							/**
+							 * @description Human-readable time scaled in minutes.
+							 * @placeholder number The number of minutes.
+							 * @tags core utility time hperiod
+							 * @example 3 minutes
+							 */
+							$part = Text::plocalize("{{number}} minute", "{{number}} minutes", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'h':
+							/**
+							 * @description Human-readable time scaled in hours.
+							 * @placeholder number The number of hours.
+							 * @tags core utility time hperiod
+							 * @example 3 hours
+							 */
+							$part = Text::plocalize("{{number}} hour", "{{number}} hours", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'D':
+							/**
+							 * @description Human-readable time scaled in days.
+							 * @placeholder number The number of days.
+							 * @tags core utility time hperiod
+							 * @example 3 days
+							 */
+							$part = Text::plocalize("{{number}} day", "{{number}} days", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'W':
+							/**
+							 * @description Human-readable time scaled in weeks.
+							 * @placeholder number The number of weeks.
+							 * @tags core utility time hperiod
+							 * @example 3 weeks
+							 */
+							$part = Text::plocalize("{{number}} week", "{{number}} weeks", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'M':
+							/**
+							 * @description Human-readable time scaled in months.
+							 * @placeholder number The number of months.
+							 * @tags core utility time hperiod
+							 * @example 3 months
+							 */
+							$part = Text::plocalize("{{number}} month", "{{number}} months", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						case 'Y':
+							/**
+							 * @description Human-readable time scaled in years.
+							 * @placeholder number The number of years.
+							 * @tags core utility time hperiod
+							 * @example 3 years
+							 */
+							$part = Text::plocalize("{{number}} year", "{{number}} years", $number, 'number', 'core.utilities.time', $text_options);
+							break;
+						default:
+							$part = $number === 1.0 ? "{$number} {$row['singular']}" : "{$number} {$row['plural']}";
+							break;
+					}
+				}
+				
+				//add part
+				$parts[] = $part;
+			}
+			if ($is_last) {
+				break;
+			}
+			$period -= $number * $row['time'];
+		}
+		
+		//implode
+		if (empty($parts)) {
+			return '';
+		}
+		$parts[0] = $sign . $parts[0];
+		if (count($parts) === 1) {
+			return $parts[0];
+		} elseif ($options->short) {
+			return implode(' ', $parts);
+		}
+		$last_part = array_pop($parts);
+		$parts_list = implode(', ', $parts);
+		
+		//return
+		/**
+		 * @description Usage of the "and" conjunction in a full human-readable time.
+		 * @placeholder list The comma separated list of parts from the human-readable time.
+		 * @placeholder last The last part from the human-readable time.
+		 * @tags core utility time hperiod
+		 * @example 1 day, 12 hours and 35 minutes
+		 */
+		return Text::localize("{{list}} and {{last}}", 'core.utilities.time', $text_options, [
+			'parameters' => ['list' => $parts_list, 'last' => $last_part]
+		]);
+	}
+	
+	/**
+	 * Retrieve machine-readable period from a given human one.
+	 * 
+	 * The returning period represents the given one in a machine-readable format and in seconds, 
+	 * by converting it as shown in the examples below:<br>
+	 * &nbsp; &#8226; &nbsp; <code><i>12 seconds</i></code> or <code><i>12s</i></code> returns <samp>12</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code><i>5 minutes and 55 milliseconds</i></code> or <code><i>5min 55ms</i></code> returns <samp>300.55</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code><i>2 hours, 1 minute and 8 seconds</i></code> or <code><i>2h 1min 8s</i></code> returns <samp>7268</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code><i>3 days, 10 hours and 5 minutes</i></code> or <code><i>3D 10h 5min</i></code> returns <samp>295500</samp>.<br>
+	 * <br>
+	 * Whenever the short form is used, the following symbols are recognized:<br>
+	 * &nbsp; &#8226; &nbsp; <code>Y</code> : years<br>
+	 * &nbsp; &#8226; &nbsp; <code>M</code> : months<br>
+	 * &nbsp; &#8226; &nbsp; <code>W</code> : weeks<br>
+	 * &nbsp; &#8226; &nbsp; <code>D</code> : days<br>
+	 * &nbsp; &#8226; &nbsp; <code>h</code> : hours<br>
+	 * &nbsp; &#8226; &nbsp; <code>min</code> : minutes<br>
+	 * &nbsp; &#8226; &nbsp; <code>s</code> : seconds<br>
+	 * &nbsp; &#8226; &nbsp; <code>ms</code> : milliseconds<br>
+	 * &nbsp; &#8226; &nbsp; <code>µs</code> : microseconds<br>
+	 * &nbsp; &#8226; &nbsp; <code>ns</code> : nanoseconds
+	 * 
+	 * @since 1.0.0
+	 * @param string $period <p>The human-readable period to retrieve from.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\MperiodInvalidPeriod
+	 * @return float <p>The machine-readable period, in seconds, from the given human one.</p>
+	 */
+	final public static function mperiod(string $period) : float
+	{
+		//parse
+		if (!preg_match_all('/([\-+])?(\d+([\.,]\d+)?)\s*([^\s,]+)?/i', $period, $matches)) {
+			throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
+		}
+		
+		//calculate
+		$number = 0.0;
+		foreach ($matches[2] as $i => $time) {
+			$time = str_replace(',', '.', $time);
+			$multiple = empty($matches[4][$i]) ? 's' : $matches[4][$i];
+			if (!self::evaluateMultiple($multiple)) {
+				throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
+			}
+			$number += (float)$time * $multiple * ($matches[1][$i] === '-' ? -1 : 1);
+		}
+		return $number;
+	}
+	
+	/**
+	 * Evaluate a given value as a multiple.
+	 * 
+	 * Only the following types and formats can be evaluated into multiples:<br>
+	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>3600</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; symbols, such as: <code>h</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; names in English, such as: <code>hour</code> or <code>hours</code> for hours.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid multiple.</p>
+	 */
+	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
+	{
+		//multiples
+		if (empty(self::$multiples)) {
+			foreach (self::MULTIPLES_TABLE as $row) {
+				foreach (['time', 'symbol', 'singular', 'plural'] as $column) {
+					self::$multiples[(string)$row[$column]] = $row['time'];
+				}
+			}
+		}
+		
+		//evaluate
+		if (!isset($value)) {
+			return $nullable;
+		} elseif (!is_scalar($value) || is_bool($value) || !isset(self::$multiples[(string)$value])) {
+			return false;
+		}
+		$value = self::$multiples[(string)$value];
+		return true;
+	}
+	
+	/**
+	 * Generate a time series from a given start timestamp.
+	 * 
+	 * The returning time series is an array of times, starting as set by the <var>$start</var> parameter 
+	 * and ending as set by the <var>$end</var> parameter, with a specific interval between them as set 
+	 * by the <var>$interval</var> parameter.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @param int|float|string $start <p>The start timestamp to generate from, as supported by the PHP core <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param int|float|string|null $end [default = null] <p>The end timestamp to generate to, as supported by the PHP core <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.<br>
+	 * If not set, the current system time is used.</p>
+	 * @param int|float $interval [default = \Feralygon\Kit\Core\Enumerations\Time::T1_DAY] <p>The interval between values to generate with, in seconds.<br>
+	 * It must be greater than <code>0</code>.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Generate|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateInvalidInterval
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateStartGreaterThanEnd
+	 * @return float[]|string[] <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>
+	 */
+	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
+	{
+		//initialize
+		if ($interval <= 0.0) {
+			throw new Exceptions\GenerateInvalidInterval(['interval' => $interval]);
+		}
+		if (!is_float($start)) {
+			$start = (float)self::timestamp($start);
+		}
+		if (!isset($end)) {
+			$end = microtime(true);
+		} elseif (!is_float($end)) {
+			$end = (float)self::timestamp($end);
+		}
+		if ($start > $end) {
+			throw new Exceptions\GenerateStartGreaterThanEnd(['start' => $start, 'end' => $end]);
+		}
+		$options = Options\Generate::load($options);
+		
+		//values
+		$values = [];
+		$current = $start;
+		do {
+			$values[(string)$current] = $current;
+			$current += $interval;
+		} while ($current < $end);
+		
+		//format
+		if (isset($options->format)) {
+			foreach ($values as &$value) {
+				$value = date($options->format, (int)$value);
+			}
+			unset($value);
+			$values = array_unique($values);
+		}
+		
+		//keys format
+		if (isset($options->keys_format)) {
+			$keys = array_keys($values);
+			foreach ($keys as &$key) {
+				$key = date($options->keys_format, (int)$key);
+			}
+			unset($key);
+			$values = array_combine($keys, $values);
+		}
+		
+		//return
+		return $values;
+	}
+}
