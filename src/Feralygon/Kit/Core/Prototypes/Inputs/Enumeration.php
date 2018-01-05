@@ -69,6 +69,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'enumeration';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		//check

@@ -55,6 +55,12 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'hash';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UHash::evaluate($value, $this->getBits());

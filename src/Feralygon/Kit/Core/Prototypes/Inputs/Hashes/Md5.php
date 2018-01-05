@@ -35,6 +35,12 @@ class Md5 extends Hash
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'md5';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		return "MD5";

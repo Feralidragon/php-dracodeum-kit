@@ -47,6 +47,12 @@ class Time extends Input implements IInformation, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'time';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UTime::evaluateTime($value);

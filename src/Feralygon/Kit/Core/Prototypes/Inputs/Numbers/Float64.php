@@ -33,6 +33,12 @@ class Float64 extends Number
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'float64';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UType::evaluateFloat($value);

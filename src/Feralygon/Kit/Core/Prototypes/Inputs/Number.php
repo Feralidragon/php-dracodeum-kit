@@ -47,6 +47,12 @@ class Number extends Input implements IInformation, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'number';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UType::evaluateNumber($value);

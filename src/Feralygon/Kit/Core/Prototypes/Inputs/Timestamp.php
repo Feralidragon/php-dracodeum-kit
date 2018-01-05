@@ -47,6 +47,12 @@ class Timestamp extends Input implements IInformation, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'timestamp';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UTime::evaluateTimestamp($value);

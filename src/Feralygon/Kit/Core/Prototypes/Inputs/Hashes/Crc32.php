@@ -35,6 +35,12 @@ class Crc32 extends Hash
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'crc32';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		return "CRC32";

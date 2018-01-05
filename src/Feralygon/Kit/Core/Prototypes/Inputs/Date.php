@@ -47,6 +47,12 @@ class Date extends Input implements IInformation, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'date';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UTime::evaluateDate($value);

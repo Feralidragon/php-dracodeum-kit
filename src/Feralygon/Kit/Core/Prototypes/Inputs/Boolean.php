@@ -33,6 +33,12 @@ class Boolean extends Input implements IInformation
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'boolean';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UType::evaluateBoolean($value);

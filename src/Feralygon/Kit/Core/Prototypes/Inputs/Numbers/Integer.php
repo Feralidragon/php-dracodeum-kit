@@ -148,6 +148,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'integer';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		return UType::evaluateInteger($value) && (!isset($this->minimum) || $value >= $this->minimum) && (!isset($this->maximum) || $value <= $this->maximum);

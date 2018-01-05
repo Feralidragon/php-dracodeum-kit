@@ -557,6 +557,19 @@ class Input extends Component
 	}
 	
 	/**
+	 * Get name.
+	 * 
+	 * The returning name is a canonical string, which uniquely identifies this input.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The name.</p>
+	 */
+	final public function getName() : string
+	{
+		return $this->getPrototype()->getName();
+	}
+	
+	/**
 	 * Get value.
 	 * 
 	 * @since 1.0.0

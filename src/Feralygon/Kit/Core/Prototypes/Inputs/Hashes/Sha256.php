@@ -35,6 +35,12 @@ class Sha256 extends Hash
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'sha256';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		return "SHA-256";

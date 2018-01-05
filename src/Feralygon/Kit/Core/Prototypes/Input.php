@@ -28,6 +28,16 @@ abstract class Input extends Prototype
 {
 	//Abstract public methods
 	/**
+	 * Get name.
+	 * 
+	 * The returning name must be a canonical string, which uniquely identifies this input.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The name.</p>
+	 */
+	abstract public function getName() : string;
+	
+	/**
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0

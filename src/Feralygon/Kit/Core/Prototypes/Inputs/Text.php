@@ -46,6 +46,12 @@ class Text extends Input implements IPrototypeProperties, IInformation, IModifie
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'text';
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value) : bool
 	{
 		//evaluate
