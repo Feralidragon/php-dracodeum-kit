@@ -21,6 +21,7 @@ use Feralygon\Kit\Core\Prototype\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Component
  * @see \Feralygon\Kit\Core\Prototype\Interfaces\Properties
+ * @see \Feralygon\Kit\Core\Prototype\Interfaces\Functions
  * @see \Feralygon\Kit\Core\Prototype\Interfaces\Initialization
  */
 abstract class Prototype implements \ArrayAccess
