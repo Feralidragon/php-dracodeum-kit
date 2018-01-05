@@ -218,6 +218,19 @@ class Input extends Component
 	
 	//Public methods
 	/**
+	 * Get name.
+	 * 
+	 * The returning name is a canonical string, which uniquely identifies this input.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The name.</p>
+	 */
+	public function getName() : string
+	{
+		return $this->getPrototype()->getName();
+	}
+	
+	/**
 	 * Get value string.
 	 * 
 	 * @since 1.0.0
@@ -554,19 +567,6 @@ class Input extends Component
 	final public function isInitialized() : bool
 	{
 		return $this->initialized;
-	}
-	
-	/**
-	 * Get name.
-	 * 
-	 * The returning name is a canonical string, which uniquely identifies this input.
-	 * 
-	 * @since 1.0.0
-	 * @return string <p>The name.</p>
-	 */
-	final public function getName() : string
-	{
-		return $this->getPrototype()->getName();
 	}
 	
 	/**
