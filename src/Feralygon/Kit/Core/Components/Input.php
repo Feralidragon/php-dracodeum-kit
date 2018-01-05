@@ -246,7 +246,7 @@ class Input extends Component
 		$text_options = TextOptions::load($text_options);
 		$info_options = Options\Info::load($info_options);
 		$prototype = $this->getPrototype();
-		$label = $prototype instanceof PrototypeInterfaces\Information ? $prototype->getLabel($text_options, $info_options) : UText::unslugify(UText::toKebabCase(UType::basename($prototype)), UText::UNSLUG_CAPITALIZE_FIRST);
+		$label = $prototype instanceof PrototypeInterfaces\Information ? $prototype->getLabel($text_options, $info_options) : UText::unslugify($this->getName(), UText::UNSLUG_CAPITALIZE_FIRST);
 		
 		//null
 		if ($this->nullable && !$info_options->exclude_null) {
