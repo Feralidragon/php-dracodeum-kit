@@ -98,6 +98,20 @@ abstract class Modifier extends Component
 	
 	//Public methods
 	/**
+	 * Get name.
+	 * 
+	 * The returning name is a canonical string, which uniquely identifies this modifier within an input.
+	 * 
+	 * @since 1.0.0
+	 * @return string|null <p>The name or <samp>null</samp> if none exists.</p>
+	 */
+	public function getName() : ?string
+	{
+		$prototype = $this->getPrototype();
+		return $prototype instanceof PrototypeInterfaces\Name ? $prototype->getName() : null;
+	}
+	
+	/**
 	 * Get label.
 	 * 
 	 * @since 1.0.0

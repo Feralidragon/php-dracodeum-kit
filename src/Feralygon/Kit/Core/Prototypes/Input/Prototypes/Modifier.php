@@ -14,6 +14,7 @@ use Feralygon\Kit\Core\Prototype;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Components\Input\Components\Modifier
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Name
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Error
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Priority
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Information

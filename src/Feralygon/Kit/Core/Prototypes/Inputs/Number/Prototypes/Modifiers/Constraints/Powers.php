@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Const
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification
 };
@@ -30,7 +31,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Powers extends Constraint implements IPrototypeProperties, IInformation, IStringification
+class Powers extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification
 {
 	//Private properties
 	/** @var int[]|float[] */
@@ -105,6 +106,15 @@ class Powers extends Constraint implements IPrototypeProperties, IInformation, I
 	public static function getRequiredPropertyNames() : array
 	{
 		return ['powers'];
+	}
+	
+	
+	
+	//Implemented public methods (core input modifier prototype name interface)
+	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'constraints.powers';
 	}
 	
 	

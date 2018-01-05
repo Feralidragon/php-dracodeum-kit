@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Const
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification
 };
@@ -30,7 +31,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Minimum extends Constraint implements IPrototypeProperties, IInformation, IStringification
+class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification
 {
 	//Private properties
 	/** @var int|float */
@@ -90,6 +91,15 @@ class Minimum extends Constraint implements IPrototypeProperties, IInformation, 
 	public static function getRequiredPropertyNames() : array
 	{
 		return ['value'];
+	}
+	
+	
+	
+	//Implemented public methods (core input modifier prototype name interface)
+	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'constraints.minimum';
 	}
 	
 	

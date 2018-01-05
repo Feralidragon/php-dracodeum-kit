@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Const
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification
 };
@@ -33,7 +34,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Range extends Constraint implements IPrototypeProperties, IInformation, IStringification
+class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification
 {
 	//Private properties
 	/** @var int|float */
@@ -138,6 +139,15 @@ class Range extends Constraint implements IPrototypeProperties, IInformation, IS
 	public static function getRequiredPropertyNames() : array
 	{
 		return ['min_value', 'max_value'];
+	}
+	
+	
+	
+	//Implemented public methods (core input modifier prototype name interface)
+	/** {@inheritdoc} */
+	public function getName() : string
+	{
+		return 'constraints.range';
 	}
 	
 	
