@@ -701,20 +701,21 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifier|string $modifier <p>The modifier instance or name to add.</p>
+	 * @param array $prototype_properties [default = []] <p>The modifier prototype properties to use, as <code>name => value</code> pairs.</p>
 	 * @param array $properties [default = []] <p>The modifier properties to use, as <code>name => value</code> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ModifierNameNotFound
 	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\InvalidModifier
 	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ModifierPropertiesNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addModifier($modifier, array $properties = []) : Input
+	final public function addModifier($modifier, array $prototype_properties = [], array $properties = []) : Input
 	{
 		//prototype
 		$prototype = $this->getPrototype();
 		
 		//validate and build
 		if (is_string($modifier)) {
-			$instance = $prototype instanceof PrototypeInterfaces\Modifiers ? $prototype->buildModifier($modifier, $properties) : null;
+			$instance = $prototype instanceof PrototypeInterfaces\Modifiers ? $prototype->buildModifier($modifier, $prototype_properties, $properties) : null;
 			if (isset($instance)) {
 				$modifier = $instance;
 			} else {
@@ -722,7 +723,7 @@ class Input extends Component
 			}
 		} elseif (!is_object($modifier) || !UType::isA($modifier, Components\Modifier::class)) {
 			throw new Exceptions\InvalidModifier(['modifier' => $modifier, 'component' => $this, 'prototype' => $prototype]);
-		} elseif (!empty($properties)) {
+		} elseif (!empty($prototype_properties) || !empty($properties)) {
 			throw new Exceptions\ModifierPropertiesNotAllowed(['component' => $this, 'prototype' => $prototype]);
 		}
 		
@@ -793,14 +794,14 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance or class to evaluate with.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance, class or name to evaluate with.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
 	 * @return bool <p>Boolean <samp>true</samp> if the given value is evaluated as valid with the given prototype.</p>
 	 */
-	final public static function evaluateValue(&$value, $prototype, array $properties = [], array $prototype_properties = []) : bool
+	final public static function evaluateValue(&$value, $prototype, array $prototype_properties = [], array $properties = []) : bool
 	{
-		$input = new static($prototype, $properties, $prototype_properties);
+		$input = new static($prototype, $prototype_properties, $properties);
 		if ($input->setValue($value)) {
 			$value = $input->getValue();
 			return true;
@@ -813,14 +814,14 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance or class to coerce with.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
 	 * @return mixed <p>The given value coerced with the given prototype.</p>
 	 */
-	final public static function coerceValue($value, $prototype, array $properties = [], array $prototype_properties = [])
+	final public static function coerceValue($value, $prototype, array $prototype_properties = [], array $properties = [])
 	{
-		$input = new static($prototype, $properties, $prototype_properties);
+		$input = new static($prototype, $prototype_properties, $properties);
 		if (!$input->setValue($value)) {
 			throw new Exceptions\ValueCoercionFailed([
 				'value' => $value,

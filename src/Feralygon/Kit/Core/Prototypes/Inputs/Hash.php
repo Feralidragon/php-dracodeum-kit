@@ -167,17 +167,17 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	//Implemented public methods (core input prototype modifiers interface)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
 	{
 		switch ($name) {
 			case 'constraints.values':
-				return $this->createConstraint(Constraints\Values::class, [], $properties);
+				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(Constraints\Values::class, [], ['negate' => true] + $properties);
+				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
 			case 'filters.raw':
-				return $this->createFilter(Filters\Raw::class, [], $properties);
+				return $this->createFilter(Filters\Raw::class, $prototype_properties, $properties);
 			case 'filters.base64':
-				return $this->createFilter(Filters\Base64::class, [], $properties);
+				return $this->createFilter(Filters\Base64::class, $prototype_properties, $properties);
 		}
 		return null;
 	}

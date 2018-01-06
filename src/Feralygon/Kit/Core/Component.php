@@ -91,13 +91,13 @@ abstract class Component implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototype|string|null $prototype [default = null] <p>The prototype instance, class or name.<br>
 	 * If not set, the base prototype class is used.</p>
-	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeBaseClass
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeClass
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\PrototypePropertiesNotAllowed
 	 */
-	final public function __construct($prototype = null, array $properties = [], array $prototype_properties = [])
+	final public function __construct($prototype = null, array $prototype_properties = [], array $properties = [])
 	{
 		//prototype base class
 		$prototype_base_class = $this->getPrototypeBaseClass();
