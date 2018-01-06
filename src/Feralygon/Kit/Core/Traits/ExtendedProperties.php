@@ -273,7 +273,7 @@ trait ExtendedProperties
 	
 	//Final protected methods
 	/**
-	 * Create property instance.
+	 * Create a property instance.
 	 * 
 	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property <p>The created property instance.</p>

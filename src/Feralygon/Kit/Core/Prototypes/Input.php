@@ -50,7 +50,7 @@ abstract class Input extends Prototype
 	
 	//Protected methods
 	/**
-	 * Create constraint instance.
+	 * Create a constraint instance.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype <p>The constraint prototype instance, class or name.</p>
@@ -64,7 +64,7 @@ abstract class Input extends Prototype
 	}
 	
 	/**
-	 * Create filter instance.
+	 * Create a filter instance.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype <p>The filter prototype instance, class or name.</p>
