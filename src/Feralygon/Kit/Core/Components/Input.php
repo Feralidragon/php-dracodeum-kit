@@ -553,6 +553,34 @@ class Input extends Component
 		return $set;
 	}
 	
+	/**
+	 * Create a constraint instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype <p>The constraint prototype instance, class or name.</p>
+	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The constraint properties, as <code>name => value</code> pairs.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint <p>The created constraint instance.</p>
+	 */
+	public function createConstraint($prototype, array $prototype_properties = [], array $properties = []) : Components\Modifiers\Constraint
+	{
+		return new Components\Modifiers\Constraint($prototype, $prototype_properties, $properties);
+	}
+	
+	/**
+	 * Create a filter instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype <p>The filter prototype instance, class or name.</p>
+	 * @param array $prototype_properties [default = []] <p>The filter prototype properties, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The filter properties, as <code>name => value</code> pairs.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter <p>The created filter instance.</p>
+	 */
+	public function createFilter($prototype, array $prototype_properties = [], array $properties = []) : Components\Modifiers\Filter
+	{
+		return new Components\Modifiers\Filter($prototype, $prototype_properties, $properties);
+	}
+	
 	
 	
 	//Final public methods
@@ -737,6 +765,52 @@ class Input extends Component
 		
 		//return
 		return $this;
+	}
+	
+	/**
+	 * Add constraint.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint|\Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $constraint <p>The constraint component instance, prototype instance, class or name to add.</p>
+	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The constraint properties to use, as <code>name => value</code> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\InvalidConstraint
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ConstraintPropertiesNotAllowed
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addConstraint($constraint, array $prototype_properties = [], array $properties = []) : Input
+	{
+		if (is_string($constraint) || (is_object($constraint) && UType::isA($constraint, Components\Modifiers\Constraint::getPrototypeBaseClass()))) {
+			$constraint = $this->createConstraint($constraint, $prototype_properties, $properties);
+		} elseif (!is_object($constraint) || !UType::isA($constraint, Components\Modifiers\Constraint::class)) {
+			throw new Exceptions\InvalidConstraint(['constraint' => $constraint, 'component' => $this, 'prototype' => $this->getPrototype()]);
+		} elseif (!empty($prototype_properties) || !empty($properties)) {
+			throw new Exceptions\ConstraintPropertiesNotAllowed(['component' => $this, 'prototype' => $this->getPrototype()]);
+		}
+		return $this->addModifier($constraint);
+	}
+	
+	/**
+	 * Add filter.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter|\Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $filter <p>The filter component instance, prototype instance, class or name to add.</p>
+	 * @param array $prototype_properties [default = []] <p>The filter prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The filter properties to use, as <code>name => value</code> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\InvalidFilter
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\FilterPropertiesNotAllowed
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addFilter($filter, array $prototype_properties = [], array $properties = []) : Input
+	{
+		if (is_string($filter) || (is_object($filter) && UType::isA($filter, Components\Modifiers\Filter::getPrototypeBaseClass()))) {
+			$filter = $this->createFilter($filter, $prototype_properties, $properties);
+		} elseif (!is_object($filter) || !UType::isA($filter, Components\Modifiers\Filter::class)) {
+			throw new Exceptions\InvalidFilter(['filter' => $filter, 'component' => $this, 'prototype' => $this->getPrototype()]);
+		} elseif (!empty($prototype_properties) || !empty($properties)) {
+			throw new Exceptions\FilterPropertiesNotAllowed(['component' => $this, 'prototype' => $this->getPrototype()]);
+		}
+		return $this->addModifier($filter);
 	}
 	
 	/**
