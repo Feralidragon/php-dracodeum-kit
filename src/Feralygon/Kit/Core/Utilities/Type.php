@@ -504,7 +504,11 @@ final class Type extends Utility
 			if (isset($base_object_class) && !self::isA($class, $base_object_class)) {
 				return false;
 			} elseif (!is_object($value)) {
-				$value = self::construct($class, $arguments);
+				try {
+					$value = self::construct($class, $arguments);
+				} catch (\Exception $exception) {
+					return false;
+				}
 			}
 		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
 			return false;
