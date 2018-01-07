@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the functions trait whenever the signature from a given function is invalid.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read string $name <p>The function name.</p>
  * @property-read \Closure $function <p>The function.</p>
  * @property-read \Closure $template <p>The function template.</p>
@@ -38,22 +37,20 @@ class InvalidFunctionSignature extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'name', 'function', 'template', 'signature', 'template_signature'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name', 'function', 'template', 'signature', 'template_signature']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'name':
 				return UType::evaluateString($value);
 			case 'function':
@@ -65,6 +62,6 @@ class InvalidFunctionSignature extends Exception
 			case 'template_signature':
 				return UType::evaluateString($value);
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }
