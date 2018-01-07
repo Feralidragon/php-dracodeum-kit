@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the extended properties trait whenever a given value is invalid for a given property.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read string $name <p>The property name.</p>
  * @property-read mixed $value <p>The property value.</p>
  */
@@ -34,27 +33,25 @@ class InvalidPropertyValue extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'name', 'value'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name', 'value']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'name':
 				return UType::evaluateString($value) && UText::isIdentifier($value);
 			case 'value':
 				return true;
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }

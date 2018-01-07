@@ -186,7 +186,6 @@ trait ExtendedProperties
 	 * @param mixed $value <p>The property value to set with.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotSetWriteonceProperty
-	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
@@ -199,8 +198,6 @@ trait ExtendedProperties
 			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
 		} elseif ($property_mode === 'w-') {
 			throw new Exceptions\CannotSetWriteonceProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		}
 		
 		//set
@@ -222,7 +219,6 @@ trait ExtendedProperties
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotUnsetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotUnsetWriteonceProperty
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotUnsetRequiredProperty
-	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\CannotUnsetProperty
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
@@ -237,8 +233,6 @@ trait ExtendedProperties
 			throw new Exceptions\CannotUnsetWriteonceProperty(['object' => $this, 'name' => $name]);
 		} elseif (in_array($name, $this->properties_required, true)) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		}
 		
 		//unset
@@ -345,15 +339,16 @@ trait ExtendedProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
+	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertyNotFound
 	 * @return \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property <p>The property instance from the given name.</p>
 	 */
 	final private function getProperty(string $name) : Objects\Property
 	{
 		if (!isset($this->properties[$name])) {
-			//builder
-			if (!isset($this->properties_builder)) {
-				throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
+			//check
+			if (!$this->properties_initialized) {
+				throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 			}
 			
 			//property

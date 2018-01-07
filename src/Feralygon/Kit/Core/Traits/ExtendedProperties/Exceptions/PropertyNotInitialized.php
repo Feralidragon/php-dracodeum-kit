@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the extended properties trait whenever a given property has not been initialized yet.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read string $name <p>The property name.</p>
  */
 class PropertyNotInitialized extends Exception
@@ -34,25 +33,23 @@ class PropertyNotInitialized extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'name'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'name':
 				return UType::evaluateString($value) && UText::isIdentifier($value);
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }

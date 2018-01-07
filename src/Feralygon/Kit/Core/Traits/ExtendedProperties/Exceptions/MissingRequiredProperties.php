@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the extended properties trait whenever required properties are missing.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read string[] $names <p>The property names.</p>
  */
 class MissingRequiredProperties extends Exception
@@ -35,22 +34,20 @@ class MissingRequiredProperties extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'names'];
+		return array_merge(parent::getRequiredPropertyNames(), ['names']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'names':
 				if (is_array($value) && !empty($value)) {
 					foreach ($value as &$v) {
@@ -62,12 +59,9 @@ class MissingRequiredProperties extends Exception
 				}
 				return false;
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 	
-	
-	
-	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
