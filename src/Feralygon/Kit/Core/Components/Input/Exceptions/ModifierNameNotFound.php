@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
-use Feralygon\Kit\Core\Components\Input;
 use Feralygon\Kit\Core\Components\Input\Exception;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
@@ -18,8 +17,6 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read string $name <p>The modifier name.</p>
- * @property-read \Feralygon\Kit\Core\Components\Input $component <p>The input component instance.</p>
- * @property-read \Feralygon\Kit\Core\Prototypes\Input $prototype <p>The input prototype instance.</p>
  */
 class ModifierNameNotFound extends Exception
 {
@@ -32,27 +29,23 @@ class ModifierNameNotFound extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['name', 'component', 'prototype'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'name':
 				return UType::evaluateString($value);
-			case 'component':
-				return is_object($value) && UType::isA($value, Input::class);
-			case 'prototype':
-				return is_object($value) && UType::isA($value, Input::getPrototypeBaseClass());
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }

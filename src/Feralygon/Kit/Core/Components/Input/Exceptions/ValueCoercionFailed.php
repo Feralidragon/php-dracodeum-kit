@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
-use Feralygon\Kit\Core\Components\Input;
 use Feralygon\Kit\Core\Components\Input\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
 use Feralygon\Kit\Core\Utilities\{
@@ -22,8 +21,6 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read \Feralygon\Kit\Core\Components\Input $component <p>The input component instance.</p>
- * @property-read \Feralygon\Kit\Core\Prototypes\Input $prototype <p>The input prototype instance.</p>
  * @property-read string $error_message <p>The error message.</p>
  */
 class ValueCoercionFailed extends Exception implements ICoercion
@@ -37,35 +34,28 @@ class ValueCoercionFailed extends Exception implements ICoercion
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['value', 'component', 'prototype', 'error_message'];
+		return array_merge(parent::getRequiredPropertyNames(), ['value', 'error_message']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'component':
-				return is_object($value) && UType::isA($value, Input::class);
-			case 'prototype':
-				return is_object($value) && UType::isA($value, Input::getPrototypeBaseClass());
 			case 'error_message':
 				return UType::evaluateString($value);
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 	
-	
-	
-	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
