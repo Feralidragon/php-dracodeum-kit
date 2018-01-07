@@ -321,6 +321,9 @@ trait ExtendedProperties
 		UCall::assertSignature($builder, function (string $name) : ?Objects\Property {}, true);
 		$this->properties_builder = \Closure::fromCallable($builder);
 		
+		//initialized
+		$this->properties_initialized = true;
+		
 		//properties
 		foreach ($properties as $name => $value) {
 			try {
@@ -329,9 +332,6 @@ trait ExtendedProperties
 				throw new Exceptions\InvalidPropertyValue(['object' => $this, 'name' => $name, 'value' => $value]);
 			}
 		}
-		
-		//finish
-		$this->properties_initialized = true;
 	}
 	
 	/**
