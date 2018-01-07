@@ -8,11 +8,35 @@
 namespace Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 
 use Feralygon\Kit\Core;
+use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core extended properties trait property object exception class.
  * 
  * @since 1.0.0
+ * @property-read \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property $property <p>The property instance.</p>
  * @see \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property
  */
-abstract class Exception extends Core\Exception {}
+abstract class Exception extends Core\Exception
+{
+	//Implemented public static methods
+	/** {@inheritdoc} */
+	public static function getRequiredPropertyNames() : array
+	{
+		return ['property'];
+	}
+	
+	
+	
+	//Implemented protected methods
+	/** {@inheritdoc} */
+	protected function evaluateProperty(string $name, &$value) : ?bool
+	{
+		switch ($name) {
+			case 'property':
+				return is_object($value) && UType::isA($value, Property::class);
+		}
+		return null;
+	}
+}
