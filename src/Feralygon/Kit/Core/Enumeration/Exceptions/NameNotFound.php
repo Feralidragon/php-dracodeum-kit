@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Core\Enumeration\Exceptions;
 
-use Feralygon\Kit\Core\Enumeration;
 use Feralygon\Kit\Core\Enumeration\Exception;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
@@ -17,7 +16,6 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * This exception is thrown from an enumeration whenever a given name is not found.
  * 
  * @since 1.0.0
- * @property-read string $enumeration <p>The enumeration class.</p>
  * @property-read string $name <p>The name.</p>
  */
 class NameNotFound extends Exception
@@ -31,25 +29,23 @@ class NameNotFound extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['enumeration', 'name'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'enumeration':
-				return UType::evaluateClass($value, Enumeration::class);
 			case 'name':
 				return UType::evaluateString($value);
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }
