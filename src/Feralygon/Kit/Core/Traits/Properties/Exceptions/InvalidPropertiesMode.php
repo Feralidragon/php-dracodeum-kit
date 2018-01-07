@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the properties trait whenever a given mode is invalid.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read mixed $mode <p>The mode.</p>
  * @property-read string[] $modes [default = []] <p>The allowed modes.</p>
  */
@@ -39,22 +38,20 @@ class InvalidPropertiesMode extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'mode'];
+		return array_merge(parent::getRequiredPropertyNames(), ['mode']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'mode':
 				return true;
 			case 'modes':
@@ -70,12 +67,9 @@ class InvalidPropertiesMode extends Exception
 				}
 				return false;
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 	
-	
-	
-	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{

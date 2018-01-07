@@ -19,7 +19,6 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an object using the properties trait whenever a given property with a given name is attempted to be retrieved.
  * 
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
  * @property-read string $name <p>The property name.</p>
  */
 class CannotGetProperty extends Exception
@@ -33,25 +32,23 @@ class CannotGetProperty extends Exception
 	
 	
 	
-	//Implemented public static methods
+	//Overridden public static methods
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['object', 'name'];
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'object':
-				return is_object($value);
 			case 'name':
 				return UType::evaluateString($value) && UText::isIdentifier($value);
 		}
-		return null;
+		return parent::evaluateProperty($name, $value);
 	}
 }
