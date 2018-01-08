@@ -87,6 +87,17 @@ class Input extends Component
 	
 	
 	
+	//Implemented protected methods (core component initialization trait)
+	protected function initialize() : void
+	{
+		$this->getPrototype()
+			->bind('createConstraint', [$this, 'createConstraint'])
+			->bind('createFilter', [$this, 'createFilter'])
+		;
+	}
+	
+	
+	
 	//Implemented public static methods (core component properties trait)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array

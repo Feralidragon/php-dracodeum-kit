@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Prototypes;
 
 use Feralygon\Kit\Core\Prototype;
+use Feralygon\Kit\Core\Prototype\Interfaces\Functions as IFunctions;
 use Feralygon\Kit\Core\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -24,7 +25,7 @@ use Feralygon\Kit\Core\Components\Input\Components\Modifiers\{
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\ValueStringification
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\Modifiers
  */
-abstract class Input extends Prototype
+abstract class Input extends Prototype implements IFunctions
 {
 	//Abstract public methods
 	/**
@@ -48,6 +49,21 @@ abstract class Input extends Prototype
 	
 	
 	
+	//Implemented public methods (core prototype functions interface)
+	/** {@inheritdoc} */
+	public function getFunctionTemplate(string $name) : ?callable
+	{
+		switch ($name) {
+			case 'createConstraint':
+				return function ($prototype, array $prototype_properties, array $properties) : Constraint {};
+			case 'createFilter':
+				return function ($prototype, array $prototype_properties, array $properties) : Filter {};
+		}
+		return null;
+	}
+	
+	
+	
 	//Protected methods
 	/**
 	 * Create a constraint instance.
@@ -60,7 +76,7 @@ abstract class Input extends Prototype
 	 */
 	protected function createConstraint($prototype, array $prototype_properties = [], array $properties = []) : Constraint
 	{
-		return new Constraint($prototype, $prototype_properties, $properties);
+		return $this->call('createConstraint', $prototype, $prototype_properties, $properties);
 	}
 	
 	/**
@@ -74,6 +90,6 @@ abstract class Input extends Prototype
 	 */
 	protected function createFilter($prototype, array $prototype_properties = [], array $properties = []) : Filter
 	{
-		return new Filter($prototype, $prototype_properties, $properties);
+		return $this->call('createFilter', $prototype, $prototype_properties, $properties);
 	}
 }
