@@ -97,6 +97,7 @@ abstract class Component implements \ArrayAccess
 	 * @param array $prototype_properties [default = []] <p>The prototype properties, as <code>name => value</code> pairs.</p>
 	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeBaseClass
+	 * @throws \Feralygon\Kit\Core\Component\Exceptions\PrototypeNameNotFound
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeClass
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\PrototypePropertiesNotAllowed
 	 */
@@ -118,6 +119,8 @@ abstract class Component implements \ArrayAccess
 				if (isset($instance)) {
 					$prototype = $instance;
 					$prototype_properties = [];
+				} elseif (!class_exists($prototype)) {
+					throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
 				}
 			}
 			
@@ -206,14 +209,14 @@ abstract class Component implements \ArrayAccess
 					$value = $instance;
 					return true;
 				}
-			} catch (Exceptions\InvalidPrototypeClass $exception) {}
+			} catch (Exceptions\InvalidPrototypeClass | Exceptions\PrototypeNameNotFound $exception) {}
 			return false;
 		}
 		
 		//finish
 		try {
 			$value = new static($value, $prototype_properties, $properties);
-		} catch (Exceptions\InvalidPrototypeClass $exception) {
+		} catch (Exceptions\InvalidPrototypeClass | Exceptions\PrototypeNameNotFound $exception) {
 			return false;
 		}
 		return true;
@@ -263,7 +266,7 @@ abstract class Component implements \ArrayAccess
 			UCall::assertSignature($builder, function ($prototype, array $prototype_properties, array $properties) : Component {}, true);
 			try {
 				return UType::coerceObject($builder($value, $prototype_properties, $properties), static::class);
-			} catch (Exceptions\InvalidPrototypeClass $exception) {
+			} catch (Exceptions\InvalidPrototypeClass | Exceptions\PrototypeNameNotFound $exception) {
 				throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
 			}
 			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
@@ -272,7 +275,7 @@ abstract class Component implements \ArrayAccess
 		//finish
 		try {
 			return new static($value, $prototype_properties, $properties);
-		} catch (Exceptions\InvalidPrototypeClass $exception) {
+		} catch (Exceptions\InvalidPrototypeClass | Exceptions\PrototypeNameNotFound $exception) {
 			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
 		}
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
