@@ -25,7 +25,7 @@ class InvalidPrototypeClass extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid prototype class {{class}} in component {{component}}.\n" . 
+		return "Invalid prototype class {{class}} for component {{component}}.\n" . 
 			"HINT: Only a class or subclass of {{base_class}} is allowed for this component.";
 	}
 	

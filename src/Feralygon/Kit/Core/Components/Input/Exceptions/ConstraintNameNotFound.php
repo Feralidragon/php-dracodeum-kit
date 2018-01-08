@@ -8,23 +8,23 @@
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
 use Feralygon\Kit\Core\Components\Input\Exception;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core input component invalid constraint exception class.
+ * Core input component constraint name not found exception class.
  * 
- * This exception is thrown from an input whenever a given constraint is invalid.
+ * This exception is thrown from an input whenever a given constraint name is not found.
  * 
  * @since 1.0.0
- * @property-read mixed $constraint <p>The constraint.</p>
+ * @property-read string $name <p>The constraint name.</p>
  */
-class InvalidConstraint extends Exception
+class ConstraintNameNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid constraint {{constraint}} in input {{component}} (with prototype {{prototype}}).\n" . 
-			"HINT: Only a constraint component instance, prototype instance, class or name is allowed.";
+		return "Constraint name {{name}} not found in input {{component}} (with prototype {{prototype}}).";
 	}
 	
 	
@@ -33,7 +33,7 @@ class InvalidConstraint extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['constraint']);
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
@@ -43,8 +43,8 @@ class InvalidConstraint extends Exception
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'constraint':
-				return true;
+			case 'name':
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

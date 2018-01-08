@@ -8,23 +8,23 @@
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
 use Feralygon\Kit\Core\Components\Input\Exception;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core input component invalid filter exception class.
+ * Core input component filter name not found exception class.
  * 
- * This exception is thrown from an input whenever a given filter is invalid.
+ * This exception is thrown from an input whenever a given filter name is not found.
  * 
  * @since 1.0.0
- * @property-read mixed $filter <p>The filter.</p>
+ * @property-read string $name <p>The filter name.</p>
  */
-class InvalidFilter extends Exception
+class FilterNameNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid filter {{filter}} in input {{component}} (with prototype {{prototype}}).\n" . 
-			"HINT: Only a filter component instance, prototype instance, class or name is allowed.";
+		return "Filter name {{name}} not found in input {{component}} (with prototype {{prototype}}).";
 	}
 	
 	
@@ -33,7 +33,7 @@ class InvalidFilter extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['filter']);
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
@@ -43,8 +43,8 @@ class InvalidFilter extends Exception
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'filter':
-				return true;
+			case 'name':
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

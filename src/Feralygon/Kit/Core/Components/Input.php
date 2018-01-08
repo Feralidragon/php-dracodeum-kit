@@ -738,10 +738,8 @@ class Input extends Component
 	 */
 	final public function addModifier($modifier, array $prototype_properties = [], array $properties = []) : Input
 	{
-		//prototype
-		$prototype = $this->getPrototype();
-		
 		//validate and build
+		$prototype = $this->getPrototype();
 		if (is_string($modifier)) {
 			$instance = $prototype instanceof PrototypeInterfaces\Modifiers ? $prototype->buildModifier($modifier, $prototype_properties, $properties) : null;
 			if (isset($instance)) {
@@ -774,20 +772,29 @@ class Input extends Component
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint|\Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $constraint <p>The constraint component instance, prototype instance, class or name to add.</p>
 	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties to use, as <code>name => value</code> pairs.</p>
 	 * @param array $properties [default = []] <p>The constraint properties to use, as <code>name => value</code> pairs.</p>
-	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\InvalidConstraint
-	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ConstraintPropertiesNotAllowed
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ConstraintNameNotFound
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addConstraint($constraint, array $prototype_properties = [], array $properties = []) : Input
 	{
-		if (is_string($constraint) || (is_object($constraint) && UType::isA($constraint, Components\Modifiers\Constraint::getPrototypeBaseClass()))) {
-			$constraint = $this->createConstraint($constraint, $prototype_properties, $properties);
-		} elseif (!is_object($constraint) || !UType::isA($constraint, Components\Modifiers\Constraint::class)) {
-			throw new Exceptions\InvalidConstraint(['constraint' => $constraint, 'component' => $this, 'prototype' => $this->getPrototype()]);
-		} elseif (!empty($prototype_properties) || !empty($properties)) {
-			throw new Exceptions\ConstraintPropertiesNotAllowed(['component' => $this, 'prototype' => $this->getPrototype()]);
+		//modifier
+		$prototype = $this->getPrototype();
+		if (is_string($constraint) && $prototype instanceof PrototypeInterfaces\Modifiers) {
+			$modifier = $prototype->buildModifier($constraint, $prototype_properties, $properties);
+			if (isset($modifier)) {
+				$constraint = $modifier;
+			} elseif (!class_exists($constraint)) {
+				throw new Exceptions\ConstraintNameNotFound(['name' => $constraint, 'component' => $this, 'prototype' => $prototype]);
+			}
 		}
-		return $this->addModifier($constraint);
+		
+		//builder
+		$builder = function ($prototype, array $prototype_properties, array $properties) : Component {
+			return $this->createConstraint($prototype, $prototype_properties, $properties);
+		};
+		
+		//add
+		return $this->addModifier(Components\Modifiers\Constraint::coerce($constraint, $prototype_properties, $properties, $builder));
 	}
 	
 	/**
@@ -797,20 +804,29 @@ class Input extends Component
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter|\Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $filter <p>The filter component instance, prototype instance, class or name to add.</p>
 	 * @param array $prototype_properties [default = []] <p>The filter prototype properties to use, as <code>name => value</code> pairs.</p>
 	 * @param array $properties [default = []] <p>The filter properties to use, as <code>name => value</code> pairs.</p>
-	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\InvalidFilter
-	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\FilterPropertiesNotAllowed
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\FilterNameNotFound
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addFilter($filter, array $prototype_properties = [], array $properties = []) : Input
 	{
-		if (is_string($filter) || (is_object($filter) && UType::isA($filter, Components\Modifiers\Filter::getPrototypeBaseClass()))) {
-			$filter = $this->createFilter($filter, $prototype_properties, $properties);
-		} elseif (!is_object($filter) || !UType::isA($filter, Components\Modifiers\Filter::class)) {
-			throw new Exceptions\InvalidFilter(['filter' => $filter, 'component' => $this, 'prototype' => $this->getPrototype()]);
-		} elseif (!empty($prototype_properties) || !empty($properties)) {
-			throw new Exceptions\FilterPropertiesNotAllowed(['component' => $this, 'prototype' => $this->getPrototype()]);
+		//modifier
+		$prototype = $this->getPrototype();
+		if (is_string($filter) && $prototype instanceof PrototypeInterfaces\Modifiers) {
+			$modifier = $prototype->buildModifier($filter, $prototype_properties, $properties);
+			if (isset($modifier)) {
+				$filter = $modifier;
+			} elseif (!class_exists($filter)) {
+				throw new Exceptions\FilterNameNotFound(['name' => $filter, 'component' => $this, 'prototype' => $prototype]);
+			}
 		}
-		return $this->addModifier($filter);
+		
+		//builder
+		$builder = function ($prototype, array $prototype_properties, array $properties) : Component {
+			return $this->createFilter($prototype, $prototype_properties, $properties);
+		};
+		
+		//add
+		return $this->addModifier(Components\Modifiers\Filter::coerce($filter, $prototype_properties, $properties, $builder));
 	}
 	
 	/**
