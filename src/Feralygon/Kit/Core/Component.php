@@ -186,13 +186,15 @@ abstract class Component implements \ArrayAccess
 	 */
 	final public static function evaluate(&$value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : bool
 	{
-		//check
+		//initialize
 		if (!isset($value)) {
 			return $nullable;
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return true;
 		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
 			return false;
+		} elseif (is_object($value)) {
+			$prototype_properties = [];
 		}
 		
 		//builder
@@ -204,18 +206,16 @@ abstract class Component implements \ArrayAccess
 					$value = $instance;
 					return true;
 				}
-			} catch (\Exception $exception) {}
+			} catch (Exceptions\InvalidPrototypeClass $exception) {}
 			return false;
 		}
 		
-		//instantiate
+		//finish
 		try {
 			$value = new static($value, $prototype_properties, $properties);
-		} catch (\Exception $exception) {
+		} catch (Exceptions\InvalidPrototypeClass $exception) {
 			return false;
 		}
-		
-		//return
 		return true;
 	}
 	
@@ -247,13 +247,15 @@ abstract class Component implements \ArrayAccess
 	 */
 	final public static function coerce($value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : ?Component
 	{
-		//check
+		//initialize
 		if (!isset($value) && $nullable) {
 			return null;
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
 		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
 			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+		} elseif (is_object($value)) {
+			$prototype_properties = [];
 		}
 		
 		//builder
@@ -261,20 +263,18 @@ abstract class Component implements \ArrayAccess
 			UCall::assertSignature($builder, function ($prototype, array $prototype_properties, array $properties) : Component {}, true);
 			try {
 				return UType::coerceObject($builder($value, $prototype_properties, $properties), static::class);
-			} catch (\Exception $exception) {
+			} catch (Exceptions\InvalidPrototypeClass $exception) {
 				throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
 			}
 			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
 		}
 		
-		//instantiate
+		//finish
 		try {
 			return new static($value, $prototype_properties, $properties);
-		} catch (\Exception $exception) {
+		} catch (Exceptions\InvalidPrototypeClass $exception) {
 			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
 		}
-		
-		//finish
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
 	}
 	
