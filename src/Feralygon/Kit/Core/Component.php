@@ -12,7 +12,10 @@ use Feralygon\Kit\Core\Component\{
 	Traits
 };
 use Feralygon\Kit\Core\Traits\ExtendedPropertiesArrayAccess as TExtendedPropertiesArrayAccess;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Utilities\{
+	Call as UCall,
+	Type as UType
+};
 
 /**
  * Core component class.
@@ -153,6 +156,127 @@ abstract class Component implements \ArrayAccess
 	 * @return string <p>The prototype base class.</p>
 	 */
 	abstract public static function getPrototypeBaseClass() : string;
+	
+	
+	
+	//Final public static methods
+	/**
+	 * Evaluate a given value as an instance.
+	 * 
+	 * Only component instances, prototype instances, classes and names can be evaluated into instances.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function ($prototype, array $prototype_properties, array $properties) : \Feralygon\Kit\Core\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Prototype|string $prototype</b></code> : The prototype instance, class or name to build with.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <code>name => value</code> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <code>name => value</code> pairs.<br>
+	 * <br>
+	 * Return: <samp><b>\Feralygon\Kit\Core\Component</b></samp><br>
+	 * The built instance.
+	 * </p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an instance.</p>
+	 */
+	final public static function evaluate(&$value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : bool
+	{
+		//check
+		if (!isset($value)) {
+			return $nullable;
+		} elseif (is_object($value) && UType::isA($value, static::class)) {
+			return true;
+		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
+			return false;
+		}
+		
+		//builder
+		if (isset($builder)) {
+			UCall::assertSignature($builder, function ($prototype, array $prototype_properties, array $properties) : Component {}, true);
+			try {
+				$instance = $builder($value, $prototype_properties, $properties);
+				if (UType::isA($instance, static::class)) {
+					$value = $instance;
+					return true;
+				}
+			} catch (\Exception $exception) {}
+			return false;
+		}
+		
+		//instantiate
+		try {
+			$value = new static($value, $prototype_properties, $properties);
+		} catch (\Exception $exception) {
+			return false;
+		}
+		
+		//return
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into an instance.
+	 * 
+	 * Only component instances, prototype instances, classes and names can be coerced into instances.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function ($prototype, array $prototype_properties, array $properties) : \Feralygon\Kit\Core\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Prototype|string $prototype</b></code> : The prototype instance, class or name to build with.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <code>name => value</code> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <code>name => value</code> pairs.<br>
+	 * <br>
+	 * Return: <samp><b>\Feralygon\Kit\Core\Component</b></samp><br>
+	 * The built instance.
+	 * </p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Component\Exceptions\CoercionFailed
+	 * @return static|null <p>The given value coerced into an instance.<br>
+	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 */
+	final public static function coerce($value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : ?Component
+	{
+		//check
+		if (!isset($value) && $nullable) {
+			return null;
+		} elseif (is_object($value) && UType::isA($value, static::class)) {
+			return $value;
+		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
+			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+		}
+		
+		//builder
+		if (isset($builder)) {
+			UCall::assertSignature($builder, function ($prototype, array $prototype_properties, array $properties) : Component {}, true);
+			try {
+				return UType::coerceObject($builder($value, $prototype_properties, $properties), static::class);
+			} catch (\Exception $exception) {
+				throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
+			}
+			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+		}
+		
+		//instantiate
+		try {
+			return new static($value, $prototype_properties, $properties);
+		} catch (\Exception $exception) {
+			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
+		}
+		
+		//finish
+		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+	}
 	
 	
 	
