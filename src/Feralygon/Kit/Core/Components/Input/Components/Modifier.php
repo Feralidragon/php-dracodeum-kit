@@ -232,7 +232,7 @@ abstract class Modifier extends Component
 	/**
 	 * Get specification instance.
 	 * 
-	 * The returning specification describes this modifier as a structure.
+	 * The returning specification describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification|null <p>The specification instance or <samp>null</samp> if none exists.</p>

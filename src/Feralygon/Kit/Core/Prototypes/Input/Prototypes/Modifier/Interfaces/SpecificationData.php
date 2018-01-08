@@ -21,7 +21,8 @@ interface SpecificationData
 	/**
 	 * Get specification data.
 	 * 
-	 * The returning data is meant to best characterize this modifier, such as returning some of its properties as <samp>name => value</samp> pairs for example.
+	 * The returning data is meant to characterize this modifier, such as, 
+	 * for example, returning some of its properties as <samp>name => value</samp> pairs.
 	 * 
 	 * @since 1.0.0
 	 * @return mixed <p>The specification data.</p>
