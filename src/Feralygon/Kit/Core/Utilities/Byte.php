@@ -172,7 +172,7 @@ final class Byte extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid multiple.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{

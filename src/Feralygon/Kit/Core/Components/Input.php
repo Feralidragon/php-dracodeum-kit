@@ -887,7 +887,7 @@ class Input extends Component
 	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance, class or name to evaluate with.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is evaluated as valid with the given prototype.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated with the given prototype.</p>
 	 */
 	final public static function evaluateValue(&$value, $prototype, array $prototype_properties = [], array $properties = []) : bool
 	{
@@ -932,7 +932,7 @@ class Input extends Component
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $before_modifiers [default = false] <p>Execute the evaluator functions set to be executed before the modifiers.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is evaluated as valid.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated.</p>
 	 */
 	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false) : bool
 	{

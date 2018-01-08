@@ -137,7 +137,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid boolean.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a boolean.</p>
 	 */
 	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
 	{
@@ -202,7 +202,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid number.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a number.</p>
 	 */
 	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
 	{
@@ -285,7 +285,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid integer.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an integer.</p>
 	 */
 	final public static function evaluateInteger(&$value, bool $nullable = false) : bool
 	{
@@ -343,7 +343,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid float.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a float.</p>
 	 */
 	final public static function evaluateFloat(&$value, bool $nullable = false) : bool
 	{
@@ -392,7 +392,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid string.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a string.</p>
 	 */
 	final public static function evaluateString(&$value, bool $nullable = false) : bool
 	{
@@ -436,7 +436,7 @@ final class Type extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid class.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a class.</p>
 	 */
 	final public static function evaluateClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -489,7 +489,7 @@ final class Type extends Utility
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid object.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an object.</p>
 	 */
 	final public static function evaluateObject(&$value, $base_object_class = null, array $arguments = [], bool $nullable = false) : bool
 	{
@@ -543,7 +543,7 @@ final class Type extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid object or class.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an object or class.</p>
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{

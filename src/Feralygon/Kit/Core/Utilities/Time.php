@@ -157,7 +157,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid timestamp.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a timestamp.</p>
 	 */
 	final public static function evaluateTimestamp(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -240,7 +240,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid date.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a date.</p>
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -318,7 +318,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid time.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a time.</p>
 	 */
 	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -746,7 +746,7 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid multiple.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{

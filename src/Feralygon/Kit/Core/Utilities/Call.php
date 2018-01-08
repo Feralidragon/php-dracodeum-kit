@@ -581,7 +581,7 @@ final class Call extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid callable.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(&$value, ?callable $template = null, bool $nullable = false) : bool
 	{

@@ -34,7 +34,7 @@ final class Hash extends Utility
 	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Hash\Exceptions\InvalidBits
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid hash.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a hash.</p>
 	 */
 	final public static function evaluate(&$value, int $bits, bool $nullable = false) : bool
 	{

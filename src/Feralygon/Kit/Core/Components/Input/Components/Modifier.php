@@ -234,7 +234,7 @@ abstract class Modifier extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is valid.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated.</p>
 	 */
 	final public function evaluateValue(&$value) : bool
 	{

@@ -68,7 +68,7 @@ final class Locale
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is a valid language.</p>
+	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a language.</p>
 	 */
 	final public static function evaluateLanguage(&$value, bool $nullable = false) : bool
 	{
