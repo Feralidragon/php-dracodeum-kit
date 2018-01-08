@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Core\Components\Input\Components;
 
 use Feralygon\Kit\Core\Component;
-use Feralygon\Kit\Core\Components\Input\Components\Modifier\Objects;
+use Feralygon\Kit\Core\Components\Input\Components\Modifier\{
+	Objects,
+	Structures
+};
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier as Prototype;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -224,6 +227,27 @@ abstract class Modifier extends Component
 		
 		//return
 		return $set;
+	}
+	
+	/**
+	 * Get specification instance.
+	 * 
+	 * The returning specification describes this modifier as a structure.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification|null <p>The specification instance or <samp>null</samp> if none exists.</p>
+	 */
+	public function getSpecification() : ?Structures\Specification
+	{
+		$name = $this->getName();
+		if (isset($name)) {
+			$prototype = $this->getPrototype();
+			return new Structures\Specification([
+				'name' => $name,
+				'data' => $prototype instanceof PrototypeInterfaces\SpecificationData ? $prototype->getSpecificationData() : null
+			]);
+		}
+		return null;
 	}
 	
 	

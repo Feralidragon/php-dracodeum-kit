@@ -20,5 +20,6 @@ use Feralygon\Kit\Core\Prototype;
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Information
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\ErrorInformation
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\SpecificationData
  */
 abstract class Modifier extends Prototype {}
