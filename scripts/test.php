@@ -51,5 +51,8 @@ foreach ($input->getModifiers() as $i => $modifier) {
 	var_dump($modifier->getDescription($text_options));
 	var_dump($modifier->getMessage($text_options));
 	var_dump($modifier->getString($text_options));
+	
+	$specification = $modifier->getSpecification();
+	var_dump(['name' => $specification->name, 'data' => $specification->data]);
 	echo "\n\n";
 }
