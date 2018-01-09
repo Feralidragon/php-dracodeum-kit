@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Components\Input\{
 	Components,
 	Exceptions,
 	Objects,
-	Options
+	Options,
+	Structures
 };
 use Feralygon\Kit\Core\Prototypes\{
 	Input as Prototype,
@@ -592,6 +593,24 @@ class Input extends Component
 		return new Components\Modifiers\Filter($prototype, $prototype_properties, $properties);
 	}
 	
+	/**
+	 * Get specification instance.
+	 * 
+	 * The returning specification describes this input by using a structure.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Core\Components\Input\Structures\Specification <p>The specification instance.</p>
+	 */
+	public function getSpecification() : ?Structures\Specification
+	{
+		$prototype = $this->getPrototype();
+		return new Structures\Specification([
+			'name' => $this->getName(),
+			'data' => $prototype instanceof PrototypeInterfaces\SpecificationData ? $prototype->getSpecificationData() : null,
+			'modifiers' => $this->getModifierSpecifications()
+		]);
+	}
+	
 	
 	
 	//Final public methods
@@ -885,6 +904,26 @@ class Input extends Component
 	final public function hasError() : bool
 	{
 		return isset($this->error);
+	}
+	
+	/**
+	 * Get modifier specification instances.
+	 * 
+	 * The returning specifications describe the modifiers from this input by using structures.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification[] <p>The modifier specification instances.</p>
+	 */
+	final public function getModifierSpecifications() : array
+	{
+		$specifications = [];
+		foreach ($this->getModifiers() as $modifier) {
+			$specification = $modifier->getSpecification();
+			if (isset($specification)) {
+				$specifications[] = $specification;
+			}
+		}
+		return $specifications;
 	}
 	
 	
