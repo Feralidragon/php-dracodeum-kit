@@ -397,14 +397,18 @@ class Input extends Component
 	public function getDefaultNullDescription($text_options = null) : ?string
 	{
 		$text_options = TextOptions::load($text_options);
-		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @description Default core input component null description.
-			 * @tags core component input null description default non-end-user
+			 * @description Default core input component null description (end-user).
+			 * @tags core component input null description default end-user
 			 */
-			return UText::localize("Alternatively, it may also be null.", 'core.components.input', $text_options);
+			return UText::localize("Alternatively, it may also be empty.", 'core.components.input', $text_options);
 		}
-		return null;
+		/**
+		 * @description Default core input component null description.
+		 * @tags core component input null description default non-end-user
+		 */
+		return UText::localize("Alternatively, it may also be null.", 'core.components.input', $text_options);
 	}
 	
 	/**
@@ -469,14 +473,18 @@ class Input extends Component
 	public function getDefaultNullMessage($text_options = null) : ?string
 	{
 		$text_options = TextOptions::load($text_options);
-		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @description Default core input component null message.
-			 * @tags core component input null message default non-end-user
+			 * @description Default core input component null message (end-user).
+			 * @tags core component input null message default end-user
 			 */
-			return UText::localize("Alternatively, a null value may also be given.", 'core.components.input', $text_options);
+			return UText::localize("Alternatively, an empty value may also be given.", 'core.components.input', $text_options);
 		}
-		return null;
+		/**
+		 * @description Default core input component null message.
+		 * @tags core component input null message default non-end-user
+		 */
+		return UText::localize("Alternatively, a null value may also be given.", 'core.components.input', $text_options);
 	}
 	
 	/**
