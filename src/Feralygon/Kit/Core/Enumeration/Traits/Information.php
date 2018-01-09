@@ -12,7 +12,7 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 /**
  * Core enumeration information trait.
  * 
- * This trait defines a set of methods to retrieve information from an enumeration, such as label and description.
+ * This trait defines a set of methods to retrieve information from an enumeration, namely a label and a description.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Enumeration

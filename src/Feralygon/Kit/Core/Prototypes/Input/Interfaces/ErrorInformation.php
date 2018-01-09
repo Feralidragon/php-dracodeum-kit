@@ -12,7 +12,7 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 /**
  * Core input prototype error information interface.
  * 
- * This interface defines a method to retrieve error information from an input prototype, as a message.
+ * This interface defines a method to retrieve error information from an input prototype, namely an error message.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototypes\Input
