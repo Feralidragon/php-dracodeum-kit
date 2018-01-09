@@ -163,14 +163,14 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->negate) {
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 				/**
-				 * @description Core text input values constraint modifier prototype description (negate, technical).
+				 * @description Core text input values constraint modifier prototype message (negate, technical).
 				 * @placeholder values The list of disallowed text values.
-				 * @tags core prototype input text modifier constraint values description technical
+				 * @tags core prototype input text modifier constraint values message technical
 				 * @example The following strings are not allowed: "foo", "bar" and "abc".
 				 */
 				return UText::plocalize(
@@ -183,9 +183,9 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 				);
 			}
 			/**
-			 * @description Core text input values constraint modifier prototype description (negate).
+			 * @description Core text input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed text values.
-			 * @tags core prototype input text modifier constraint values description non-technical
+			 * @tags core prototype input text modifier constraint values message non-technical
 			 * @example The following texts are not allowed: "foo", "bar" and "abc".
 			 */
 			return UText::plocalize(
@@ -198,9 +198,9 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/**
-			 * @description Core text input values constraint modifier prototype description (technical).
+			 * @description Core text input values constraint modifier prototype message (technical).
 			 * @placeholder values The list of allowed text values.
-			 * @tags core prototype input text modifier constraint values description technical
+			 * @tags core prototype input text modifier constraint values message technical
 			 * @example Only one of the following strings is allowed: "foo", "bar" or "abc".
 			 */
 			return UText::plocalize(
@@ -213,73 +213,15 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		}
 		/**
-		 * @description Core text input values constraint modifier prototype description.
+		 * @description Core text input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed text values.
-		 * @tags core prototype input text modifier constraint values description non-technical
+		 * @tags core prototype input text modifier constraint values message non-technical
 		 * @example Only one of the following texts is allowed: "foo", "bar" or "abc".
 		 */
 		return UText::plocalize(
 			"Only the following text is allowed: {{values}}.",
 			"Only one of the following texts is allowed: {{values}}.",
 			count($this->values), null,
-			'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
-				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->negate) {
-			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-				/**
-				 * @description Core text input values constraint modifier prototype message (negate, technical).
-				 * @placeholder values The list of disallowed text values.
-				 * @tags core prototype input text modifier constraint values message technical
-				 * @example The given string cannot be "foo", "bar" nor "abc".
-				 */
-				return UText::localize(
-					"The given string cannot be {{values}}.",
-					'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
-						'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR])]
-					]
-				);
-			}
-			/**
-			 * @description Core text input values constraint modifier prototype message (negate).
-			 * @placeholder values The list of disallowed text values.
-			 * @tags core prototype input text modifier constraint values message non-technical
-			 * @example The given text cannot be "foo", "bar" nor "abc".
-			 */
-			return UText::localize(
-				"The given text cannot be {{values}}.",
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR])]
-				]
-			);
-		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core text input values constraint modifier prototype message (technical).
-			 * @placeholder values The list of allowed text values.
-			 * @tags core prototype input text modifier constraint values message technical
-			 * @example The given string must be "foo", "bar" or "abc".
-			 */
-			return UText::localize(
-				"The given string must be {{values}}.",
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-				]
-			);
-		}
-		/**
-		 * @description Core text input values constraint modifier prototype message.
-		 * @placeholder values The list of allowed text values.
-		 * @tags core prototype input text modifier constraint values message non-technical
-		 * @example The given text must be "foo", "bar" or "abc".
-		 */
-		return UText::localize(
-			"The given text must be {{values}}.",
 			'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
 				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]

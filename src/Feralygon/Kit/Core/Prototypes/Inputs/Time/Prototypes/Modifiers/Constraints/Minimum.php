@@ -118,14 +118,14 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyTime($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core time input minimum constraint modifier prototype description (exclusive).
+			 * @description Core time input minimum constraint modifier prototype message (exclusive).
 			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input time modifier constraint minimum description
+			 * @tags core prototype input time modifier constraint minimum message
 			 * @example Only times after 12:45:00 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core time input minimum constraint modifier prototype description.
+		 * @description Core time input minimum constraint modifier prototype message.
 		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input time modifier constraint minimum description
+		 * @tags core prototype input time modifier constraint minimum message
 		 * @example Only times after or at 12:45:00 are allowed.
 		 */
 		return UText::localize(
 			"Only times after or at {{value}} are allowed.", 
-			'core.prototypes.inputs.time.prototypes.modifiers.constraints.minimum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyTime($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core time input minimum constraint modifier prototype message (exclusive).
-			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input time modifier constraint minimum message
-			 * @example The given time must be after 12:45:00.
-			 */
-			return UText::localize(
-				"The given time must be after {{value}}.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core time input minimum constraint modifier prototype message.
-		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input time modifier constraint minimum message
-		 * @example The given time must be after or at 12:45:00.
-		 */
-		return UText::localize(
-			"The given time must be after or at {{value}}.", 
 			'core.prototypes.inputs.time.prototypes.modifiers.constraints.minimum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

@@ -118,14 +118,14 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyTimestamp($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core timestamp input maximum constraint modifier prototype description (exclusive).
+			 * @description Core timestamp input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input timestamp modifier constraint maximum description
+			 * @tags core prototype input timestamp modifier constraint maximum message
 			 * @example Only timestamps before 2017-01-17 17:20:00 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core timestamp input maximum constraint modifier prototype description.
+		 * @description Core timestamp input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input timestamp modifier constraint maximum description
+		 * @tags core prototype input timestamp modifier constraint maximum message
 		 * @example Only timestamps before or on 2017-01-17 17:20:00 are allowed.
 		 */
 		return UText::localize(
 			"Only timestamps before or on {{value}} are allowed.", 
-			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyTimestamp($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core timestamp input maximum constraint modifier prototype message (exclusive).
-			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input timestamp modifier constraint maximum message
-			 * @example The given timestamp must be before 2017-01-17 17:20:00.
-			 */
-			return UText::localize(
-				"The given timestamp must be before {{value}}.", 
-				'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core timestamp input maximum constraint modifier prototype message.
-		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input timestamp modifier constraint maximum message
-		 * @example The given timestamp must be before or on 2017-01-17 17:20:00.
-		 */
-		return UText::localize(
-			"The given timestamp must be before or on {{value}}.", 
 			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.maximum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

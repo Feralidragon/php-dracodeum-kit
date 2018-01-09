@@ -118,14 +118,14 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyDate($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core date input minimum constraint modifier prototype description (exclusive).
+			 * @description Core date input minimum constraint modifier prototype message (exclusive).
 			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input date modifier constraint minimum description
+			 * @tags core prototype input date modifier constraint minimum message
 			 * @example Only dates after 2017-01-15 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core date input minimum constraint modifier prototype description.
+		 * @description Core date input minimum constraint modifier prototype message.
 		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input date modifier constraint minimum description
+		 * @tags core prototype input date modifier constraint minimum message
 		 * @example Only dates after or on 2017-01-15 are allowed.
 		 */
 		return UText::localize(
 			"Only dates after or on {{value}} are allowed.", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyDate($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core date input minimum constraint modifier prototype message (exclusive).
-			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input date modifier constraint minimum message
-			 * @example The given date must be after 2017-01-15.
-			 */
-			return UText::localize(
-				"The given date must be after {{value}}.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core date input minimum constraint modifier prototype message.
-		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input date modifier constraint minimum message
-		 * @example The given date must be after or on 2017-01-15.
-		 */
-		return UText::localize(
-			"The given date must be after or on {{value}}.", 
 			'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

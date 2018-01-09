@@ -118,14 +118,14 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyTime($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core time input maximum constraint modifier prototype description (exclusive).
+			 * @description Core time input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint maximum description
+			 * @tags core prototype input time modifier constraint maximum message
 			 * @example Only times before 17:20:00 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core time input maximum constraint modifier prototype description.
+		 * @description Core time input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input time modifier constraint maximum description
+		 * @tags core prototype input time modifier constraint maximum message
 		 * @example Only times before or at 17:20:00 are allowed.
 		 */
 		return UText::localize(
 			"Only times before or at {{value}} are allowed.", 
-			'core.prototypes.inputs.time.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyTime($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core time input maximum constraint modifier prototype message (exclusive).
-			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint maximum message
-			 * @example The given time must be before 17:20:00.
-			 */
-			return UText::localize(
-				"The given time must be before {{value}}.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core time input maximum constraint modifier prototype message.
-		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input time modifier constraint maximum message
-		 * @example The given time must be before or at 17:20:00.
-		 */
-		return UText::localize(
-			"The given time must be before or at {{value}}.", 
 			'core.prototypes.inputs.time.prototypes.modifiers.constraints.maximum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

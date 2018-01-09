@@ -142,14 +142,14 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$values_strings = $this->getValuesStrings($text_options);
 		if ($this->negate) {
 			/**
-			 * @description Core timestamp input values constraint modifier prototype description (negate).
+			 * @description Core timestamp input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed timestamp values.
-			 * @tags core prototype input timestamp modifier constraint values description
+			 * @tags core prototype input timestamp modifier constraint values message
 			 * @example The following timestamps are not allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
 			 */
 			return UText::plocalize(
@@ -162,47 +162,15 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		}
 		/**
-		 * @description Core timestamp input values constraint modifier prototype description.
+		 * @description Core timestamp input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed timestamp values.
-		 * @tags core prototype input timestamp modifier constraint values description
+		 * @tags core prototype input timestamp modifier constraint values message
 		 * @example Only one of the following timestamps is allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 or 2017-01-18 03:00:00.
 		 */
 		return UText::plocalize(
 			"Only the following timestamp is allowed: {{values}}.",
 			"Only one of the following timestamps is allowed: {{values}}.",
 			count($this->values), null,
-			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.values', $text_options, [
-				'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR | UText::STRING_NO_QUOTES])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$values_strings = $this->getValuesStrings($text_options);
-		if ($this->negate) {
-			/**
-			 * @description Core timestamp input values constraint modifier prototype message (negate).
-			 * @placeholder values The list of disallowed timestamp values.
-			 * @tags core prototype input timestamp modifier constraint values message
-			 * @example The given timestamp cannot be 2017-01-15 12:45:00, 2017-01-17 17:20:00 nor 2017-01-18 03:00:00.
-			 */
-			return UText::localize(
-				"The given timestamp cannot be {{values}}.",
-				'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR | UText::STRING_NO_QUOTES])]
-				]
-			);
-		}
-		/**
-		 * @description Core timestamp input values constraint modifier prototype message.
-		 * @placeholder values The list of allowed timestamp values.
-		 * @tags core prototype input timestamp modifier constraint values message
-		 * @example The given timestamp must be 2017-01-15 12:45:00, 2017-01-17 17:20:00 or 2017-01-18 03:00:00.
-		 */
-		return UText::localize(
-			"The given timestamp must be {{values}}.",
 			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.values', $text_options, [
 				'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR | UText::STRING_NO_QUOTES])]
 			]

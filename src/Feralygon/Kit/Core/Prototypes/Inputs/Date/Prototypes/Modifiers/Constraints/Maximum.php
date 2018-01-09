@@ -118,14 +118,14 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyDate($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core date input maximum constraint modifier prototype description (exclusive).
+			 * @description Core date input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint maximum description
+			 * @tags core prototype input date modifier constraint maximum message
 			 * @example Only dates before 2017-01-17 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core date input maximum constraint modifier prototype description.
+		 * @description Core date input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input date modifier constraint maximum description
+		 * @tags core prototype input date modifier constraint maximum message
 		 * @example Only dates before or on 2017-01-17 are allowed.
 		 */
 		return UText::localize(
 			"Only dates before or on {{value}} are allowed.", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyDate($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core date input maximum constraint modifier prototype message (exclusive).
-			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint maximum message
-			 * @example The given date must be before 2017-01-17.
-			 */
-			return UText::localize(
-				"The given date must be before {{value}}.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core date input maximum constraint modifier prototype message.
-		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input date modifier constraint maximum message
-		 * @example The given date must be before or on 2017-01-17.
-		 */
-		return UText::localize(
-			"The given date must be before or on {{value}}.", 
 			'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

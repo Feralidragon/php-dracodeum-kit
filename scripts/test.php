@@ -51,7 +51,6 @@ foreach ($input->getModifiers() as $i => $modifier) {
 	echo "INPUT MODIFIER [{$i}]:\n";
 	var_dump($modifier->getName());
 	var_dump($modifier->getLabel($text_options));
-	var_dump($modifier->getDescription($text_options));
 	var_dump($modifier->getMessage($text_options));
 	var_dump($modifier->getString($text_options));
 	

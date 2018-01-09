@@ -141,13 +141,13 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core number input values constraint modifier prototype description (negate).
+			 * @description Core number input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed number values.
-			 * @tags core prototype input number modifier constraint values description
+			 * @tags core prototype input number modifier constraint values message
 			 * @example The following numbers are not allowed: 3, 8 and 27.
 			 */
 			return UText::plocalize(
@@ -160,46 +160,15 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		}
 		/**
-		 * @description Core number input values constraint modifier prototype description.
+		 * @description Core number input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed number values.
-		 * @tags core prototype input number modifier constraint values description
+		 * @tags core prototype input number modifier constraint values message
 		 * @example Only one of the following numbers is allowed: 3, 8 or 27.
 		 */
 		return UText::plocalize(
 			"Only the following number is allowed: {{values}}.",
 			"Only one of the following numbers is allowed: {{values}}.",
 			count($this->values), null,
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options, [
-				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->negate) {
-			/**
-			 * @description Core number input values constraint modifier prototype message (negate).
-			 * @placeholder values The list of disallowed number values.
-			 * @tags core prototype input number modifier constraint values message
-			 * @example The given number cannot be 3, 8 nor 27.
-			 */
-			return UText::localize(
-				"The given number cannot be {{values}}.",
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR])]
-				]
-			);
-		}
-		/**
-		 * @description Core number input values constraint modifier prototype message.
-		 * @placeholder values The list of allowed number values.
-		 * @tags core prototype input number modifier constraint values message
-		 * @example The given number must be 3, 8 or 27.
-		 */
-		return UText::localize(
-			"The given number must be {{values}}.",
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options, [
 				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]

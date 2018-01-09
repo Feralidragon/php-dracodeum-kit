@@ -142,14 +142,14 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$values_strings = $this->getValuesStrings($text_options);
 		if ($this->negate) {
 			/**
-			 * @description Core time input values constraint modifier prototype description (negate).
+			 * @description Core time input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed time values.
-			 * @tags core prototype input time modifier constraint values description
+			 * @tags core prototype input time modifier constraint values message
 			 * @example The following times are not allowed: 03:00:00, 12:45:00 and 17:20:00.
 			 */
 			return UText::plocalize(
@@ -162,47 +162,15 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		}
 		/**
-		 * @description Core time input values constraint modifier prototype description.
+		 * @description Core time input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed time values.
-		 * @tags core prototype input time modifier constraint values description
+		 * @tags core prototype input time modifier constraint values message
 		 * @example Only one of the following times is allowed: 03:00:00, 12:45:00 or 17:20:00.
 		 */
 		return UText::plocalize(
 			"Only the following time is allowed: {{values}}.",
 			"Only one of the following times is allowed: {{values}}.",
 			count($this->values), null,
-			'core.prototypes.inputs.time.prototypes.modifiers.constraints.values', $text_options, [
-				'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR | UText::STRING_NO_QUOTES])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$values_strings = $this->getValuesStrings($text_options);
-		if ($this->negate) {
-			/**
-			 * @description Core time input values constraint modifier prototype message (negate).
-			 * @placeholder values The list of disallowed time values.
-			 * @tags core prototype input time modifier constraint values message
-			 * @example The given time cannot be 03:00:00, 12:45:00 nor 17:20:00.
-			 */
-			return UText::localize(
-				"The given time cannot be {{values}}.",
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR | UText::STRING_NO_QUOTES])]
-				]
-			);
-		}
-		/**
-		 * @description Core time input values constraint modifier prototype message.
-		 * @placeholder values The list of allowed time values.
-		 * @tags core prototype input time modifier constraint values message
-		 * @example The given time must be 03:00:00, 12:45:00 or 17:20:00.
-		 */
-		return UText::localize(
-			"The given time must be {{values}}.",
 			'core.prototypes.inputs.time.prototypes.modifiers.constraints.values', $text_options, [
 				'parameters' => ['values' => UText::stringify($values_strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR | UText::STRING_NO_QUOTES])]
 			]

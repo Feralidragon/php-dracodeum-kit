@@ -129,20 +129,6 @@ abstract class Modifier extends Component
 	}
 	
 	/**
-	 * Get description.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @return string|null <p>The description or <samp>null</samp> if none exists.</p>
-	 */
-	public function getDescription($text_options = null) : ?string
-	{
-		$text_options = TextOptions::load($text_options);
-		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\Information ? $prototype->getDescription($text_options) : null;
-	}
-	
-	/**
 	 * Get message.
 	 * 
 	 * The returning message is assertive relative the expected value.
@@ -197,10 +183,7 @@ abstract class Modifier extends Component
 		if ($prototype instanceof PrototypeInterfaces\ErrorInformation) {
 			return $prototype->getErrorMessage($text_options);
 		} elseif ($prototype instanceof PrototypeInterfaces\Information) {
-			$message = $prototype->getMessage($text_options);
-			if (isset($message)) {
-				return $message;
-			}
+			return $prototype->getMessage($text_options);
 		}
 		
 		//default

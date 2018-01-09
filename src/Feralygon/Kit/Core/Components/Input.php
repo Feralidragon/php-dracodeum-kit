@@ -368,17 +368,17 @@ class Input extends Component
 			if (!$info_options->exclude_modifiers) {
 				$modifiers = $this->getModifiers();
 				if (!empty($modifiers)) {
-					$modifier_descriptions = [];
+					$modifier_messages = [];
 					foreach ($modifiers as $modifier) {
-						$modifier_description = $modifier->getDescription($text_options);
-						if (isset($modifier_description)) {
-							$modifier_descriptions[] = $modifier_description;
+						$modifier_message = $modifier->getMessage($text_options);
+						if (isset($modifier_message)) {
+							$modifier_messages[] = $modifier_message;
 						}
 					}
-					if (!empty($modifier_descriptions)) {
-						$description .= "\n\n" . implode("\n", $modifier_descriptions);
+					if (!empty($modifier_messages)) {
+						$description .= "\n\n" . implode("\n", $modifier_messages);
 					}
-					unset($modifier_descriptions, $modifier_description);
+					unset($modifier_messages, $modifier_message);
 				}
 			}
 		}

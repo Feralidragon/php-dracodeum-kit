@@ -172,15 +172,15 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @description Core number input range constraint modifier prototype description (negate exclusive minimum and maximum).
+				 * @description Core number input range constraint modifier prototype message (negate exclusive minimum and maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range description
+				 * @tags core prototype input number modifier constraint range message
 				 * @example Only numbers lesser than or equal to 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
@@ -191,10 +191,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @description Core number input range constraint modifier prototype description (negate exclusive minimum).
+				 * @description Core number input range constraint modifier prototype message (negate exclusive minimum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range description
+				 * @tags core prototype input number modifier constraint range message
 				 * @example Only numbers lesser than or equal to 100 or greater than 250 are allowed.
 				 */
 				return UText::localize(
@@ -205,10 +205,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @description Core number input range constraint modifier prototype description (negate exclusive maximum).
+				 * @description Core number input range constraint modifier prototype message (negate exclusive maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range description
+				 * @tags core prototype input number modifier constraint range message
 				 * @example Only numbers lesser than 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
@@ -219,10 +219,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			}
 			/**
-			 * @description Core number input range constraint modifier prototype description (negate).
+			 * @description Core number input range constraint modifier prototype message (negate).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range description
+			 * @tags core prototype input number modifier constraint range message
 			 * @example Only numbers lesser than 100 or greater than 250 are allowed.
 			 */
 			return UText::localize(
@@ -233,10 +233,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
-			 * @description Core number input range constraint modifier prototype description (exclusive minimum and maximum).
+			 * @description Core number input range constraint modifier prototype message (exclusive minimum and maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range description
+			 * @tags core prototype input number modifier constraint range message
 			 * @example Only numbers greater than 100 and lesser than 250 are allowed.
 			 */
 			return UText::localize(
@@ -247,10 +247,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			);
 		} elseif ($this->min_exclusive) {
 			/**
-			 * @description Core number input range constraint modifier prototype description (exclusive minimum).
+			 * @description Core number input range constraint modifier prototype message (exclusive minimum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range description
+			 * @tags core prototype input number modifier constraint range message
 			 * @example Only numbers greater than 100 and lesser than or equal to 250 are allowed.
 			 */
 			return UText::localize(
@@ -261,10 +261,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			);
 		} elseif ($this->max_exclusive) {
 			/**
-			 * @description Core number input range constraint modifier prototype description (exclusive maximum).
+			 * @description Core number input range constraint modifier prototype message (exclusive maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range description
+			 * @tags core prototype input number modifier constraint range message
 			 * @example Only numbers greater than or equal to 100 and lesser than 250 are allowed.
 			 */
 			return UText::localize(
@@ -275,132 +275,14 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			);
 		}
 		/**
-		 * @description Core number input range constraint modifier prototype description.
-		 * @placeholder min_value The minimum allowed value.
-		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input number modifier constraint range description
-		 * @example Only numbers greater than or equal to 100 and lesser than or equal to 250 are allowed.
-		 */
-		return UText::localize(
-			"Only numbers greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->negate) {
-			if ($this->min_exclusive && $this->max_exclusive) {
-				/**
-				 * @description Core number input range constraint modifier prototype message (negate exclusive minimum and maximum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range message
-				 * @example The given number must be lesser than or equal to 100 or greater than or equal to 250.
-				 */
-				return UText::localize(
-					"The given number must be lesser than or equal to {{min_value}} or greater than or equal to {{max_value}}.", 
-					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-					]
-				);
-			} elseif ($this->min_exclusive) {
-				/**
-				 * @description Core number input range constraint modifier prototype message (negate exclusive minimum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range message
-				 * @example The given number must be lesser than or equal to 100 or greater than 250.
-				 */
-				return UText::localize(
-					"The given number must be lesser than or equal to {{min_value}} or greater than {{max_value}}.", 
-					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-					]
-				);
-			} elseif ($this->max_exclusive) {
-				/**
-				 * @description Core number input range constraint modifier prototype message (negate exclusive maximum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input number modifier constraint range message
-				 * @example The given number must be lesser than 100 or greater than or equal to 250.
-				 */
-				return UText::localize(
-					"The given number must be lesser than {{min_value}} or greater than or equal to {{max_value}}.", 
-					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-					]
-				);
-			}
-			/**
-			 * @description Core number input range constraint modifier prototype message (negate).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range message
-			 * @example The given number must be lesser than 100 or greater than 250.
-			 */
-			return UText::localize(
-				"The given number must be lesser than {{min_value}} or greater than {{max_value}}.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-				]
-			);
-		} elseif ($this->min_exclusive && $this->max_exclusive) {
-			/**
-			 * @description Core number input range constraint modifier prototype message (exclusive minimum and maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range message
-			 * @example The given number must be greater than 100 and lesser than 250.
-			 */
-			return UText::localize(
-				"The given number must be greater than {{min_value}} and lesser than {{max_value}}.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-				]
-			);
-		} elseif ($this->min_exclusive) {
-			/**
-			 * @description Core number input range constraint modifier prototype message (exclusive minimum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range message
-			 * @example The given number must be greater than 100 and lesser than or equal to 250.
-			 */
-			return UText::localize(
-				"The given number must be greater than {{min_value}} and lesser than or equal to {{max_value}}.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-				]
-			);
-		} elseif ($this->max_exclusive) {
-			/**
-			 * @description Core number input range constraint modifier prototype message (exclusive maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint range message
-			 * @example The given number must be greater than or equal to 100 and lesser than 250.
-			 */
-			return UText::localize(
-				"The given number must be greater than or equal to {{min_value}} and lesser than {{max_value}}.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
-				]
-			);
-		}
-		/**
 		 * @description Core number input range constraint modifier prototype message.
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
 		 * @tags core prototype input number modifier constraint range message
-		 * @example The given number must be greater than or equal to 100 and lesser than or equal to 250.
+		 * @example Only numbers greater than or equal to 100 and lesser than or equal to 250 are allowed.
 		 */
 		return UText::localize(
-			"The given number must be greater than or equal to {{min_value}} and lesser than or equal to {{max_value}}.", 
+			"Only numbers greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
 				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
 			]

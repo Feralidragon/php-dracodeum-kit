@@ -151,13 +151,13 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core number input multiples constraint modifier prototype description (negate).
+			 * @description Core number input multiples constraint modifier prototype message (negate).
 			 * @placeholder multiples The list of disallowed multiples.
-			 * @tags core prototype input number modifier constraint multiples description
+			 * @tags core prototype input number modifier constraint multiples message
 			 * @example Multiples of 2, 3 and 5 are not allowed.
 			 */
 			return UText::localize(
@@ -168,44 +168,13 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 			);
 		}
 		/**
-		 * @description Core number input multiples constraint modifier prototype description.
+		 * @description Core number input multiples constraint modifier prototype message.
 		 * @placeholder multiples The list of allowed multiples.
-		 * @tags core prototype input number modifier constraint multiples description
+		 * @tags core prototype input number modifier constraint multiples message
 		 * @example Only multiples of 2, 3 or 5 are allowed.
 		 */
 		return UText::localize(
 			"Only multiples of {{multiples}} are allowed.",
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.multiples', $text_options, [
-				'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->negate) {
-			/**
-			 * @description Core number input multiples constraint modifier prototype message (negate).
-			 * @placeholder multiples The list of disallowed multiples.
-			 * @tags core prototype input number modifier constraint multiples message
-			 * @example The given number cannot be a multiple of 2, 3 nor 5.
-			 */
-			return UText::localize(
-				"The given number cannot be a multiple of {{multiples}}.",
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.multiples', $text_options, [
-					'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR])]
-				]
-			);
-		}
-		/**
-		 * @description Core number input multiples constraint modifier prototype message.
-		 * @placeholder multiples The list of allowed multiples.
-		 * @tags core prototype input number modifier constraint multiples message
-		 * @example The given number must be a multiple of 2, 3 or 5.
-		 */
-		return UText::localize(
-			"The given number must be a multiple of {{multiples}}.",
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.multiples', $text_options, [
 				'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]

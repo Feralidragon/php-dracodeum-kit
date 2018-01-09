@@ -117,13 +117,13 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->exclusive) {
 			/**
-			 * @description Core number input maximum constraint modifier prototype description (exclusive).
+			 * @description Core number input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint maximum description
+			 * @tags core prototype input number modifier constraint maximum message
 			 * @example Only numbers lesser than 250 are allowed.
 			 */
 			return UText::localize(
@@ -134,44 +134,13 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core number input maximum constraint modifier prototype description.
+		 * @description Core number input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input number modifier constraint maximum description
+		 * @tags core prototype input number modifier constraint maximum message
 		 * @example Only numbers lesser than or equal to 250 are allowed.
 		 */
 		return UText::localize(
 			"Only numbers lesser than or equal to {{value}} are allowed.", 
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $this->value]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->exclusive) {
-			/**
-			 * @description Core number input maximum constraint modifier prototype message (exclusive).
-			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint maximum message
-			 * @example The given number must be lesser than 250.
-			 */
-			return UText::localize(
-				"The given number must be lesser than {{value}}.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $this->value]
-				]
-			);
-		}
-		/**
-		 * @description Core number input maximum constraint modifier prototype message.
-		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input number modifier constraint maximum message
-		 * @example The given number must be lesser than or equal to 250.
-		 */
-		return UText::localize(
-			"The given number must be lesser than or equal to {{value}}.", 
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
 				'parameters' => ['value' => $this->value]
 			]

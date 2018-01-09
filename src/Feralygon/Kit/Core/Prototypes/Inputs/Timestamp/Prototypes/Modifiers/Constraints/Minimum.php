@@ -118,14 +118,14 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$value_string = UTime::stringifyTimestamp($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core timestamp input minimum constraint modifier prototype description (exclusive).
+			 * @description Core timestamp input minimum constraint modifier prototype message (exclusive).
 			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input timestamp modifier constraint minimum description
+			 * @tags core prototype input timestamp modifier constraint minimum message
 			 * @example Only timestamps after 2017-01-15 12:45:00 are allowed.
 			 */
 			return UText::localize(
@@ -136,45 +136,13 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		/**
-		 * @description Core timestamp input minimum constraint modifier prototype description.
+		 * @description Core timestamp input minimum constraint modifier prototype message.
 		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input timestamp modifier constraint minimum description
+		 * @tags core prototype input timestamp modifier constraint minimum message
 		 * @example Only timestamps after or on 2017-01-15 12:45:00 are allowed.
 		 */
 		return UText::localize(
 			"Only timestamps after or on {{value}} are allowed.", 
-			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.minimum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		$value_string = UTime::stringifyTimestamp($this->value, $text_options);
-		if ($this->exclusive) {
-			/**
-			 * @description Core timestamp input minimum constraint modifier prototype message (exclusive).
-			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input timestamp modifier constraint minimum message
-			 * @example The given timestamp must be after 2017-01-15 12:45:00.
-			 */
-			return UText::localize(
-				"The given timestamp must be after {{value}}.", 
-				'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core timestamp input minimum constraint modifier prototype message.
-		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input timestamp modifier constraint minimum message
-		 * @example The given timestamp must be after or on 2017-01-15 12:45:00.
-		 */
-		return UText::localize(
-			"The given timestamp must be after or on {{value}}.", 
 			'core.prototypes.inputs.timestamp.prototypes.modifiers.constraints.minimum', $text_options, [
 				'parameters' => ['value' => $value_string]
 			]

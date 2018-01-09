@@ -173,127 +173,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
-	{
-		$min_value_string = UTime::stringifyDate($this->min_value, $text_options);
-		$max_value_string = UTime::stringifyDate($this->max_value, $text_options);
-		if ($this->negate) {
-			if ($this->min_exclusive && $this->max_exclusive) {
-				/**
-				 * @description Core date input range constraint modifier prototype description (negate exclusive minimum and maximum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input date modifier constraint range description
-				 * @example Only dates before or on 2017-01-15 or after or on 2017-01-17 are allowed.
-				 */
-				return UText::localize(
-					"Only dates before or on {{min_value}} or after or on {{max_value}} are allowed.", 
-					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
-				);
-			} elseif ($this->min_exclusive) {
-				/**
-				 * @description Core date input range constraint modifier prototype description (negate exclusive minimum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input date modifier constraint range description
-				 * @example Only dates before or on 2017-01-15 or after 2017-01-17 are allowed.
-				 */
-				return UText::localize(
-					"Only dates before or on {{min_value}} or after {{max_value}} are allowed.", 
-					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
-				);
-			} elseif ($this->max_exclusive) {
-				/**
-				 * @description Core date input range constraint modifier prototype description (negate exclusive maximum).
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input date modifier constraint range description
-				 * @example Only dates before 2017-01-15 or after or on 2017-01-17 are allowed.
-				 */
-				return UText::localize(
-					"Only dates before {{min_value}} or after or on {{max_value}} are allowed.", 
-					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
-				);
-			}
-			/**
-			 * @description Core date input range constraint modifier prototype description (negate).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range description
-			 * @example Only dates before 2017-01-15 or after 2017-01-17 are allowed.
-			 */
-			return UText::localize(
-				"Only dates before {{min_value}} or after {{max_value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		} elseif ($this->min_exclusive && $this->max_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype description (exclusive minimum and maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range description
-			 * @example Only dates after 2017-01-15 and before 2017-01-17 are allowed.
-			 */
-			return UText::localize(
-				"Only dates after {{min_value}} and before {{max_value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		} elseif ($this->min_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype description (exclusive minimum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range description
-			 * @example Only dates after 2017-01-15 and before or on 2017-01-17 are allowed.
-			 */
-			return UText::localize(
-				"Only dates after {{min_value}} and before or on {{max_value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		} elseif ($this->max_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype description (exclusive maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range description
-			 * @example Only dates after or on 2017-01-15 and before 2017-01-17 are allowed.
-			 */
-			return UText::localize(
-				"Only dates after or on {{min_value}} and before {{max_value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core date input range constraint modifier prototype description.
-		 * @placeholder min_value The minimum allowed value.
-		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input date modifier constraint range description
-		 * @example Only dates after or on 2017-01-15 and before or on 2017-01-17 are allowed.
-		 */
-		return UText::localize(
-			"Only dates after or on {{min_value}} and before or on {{max_value}} are allowed.", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		$min_value_string = UTime::stringifyDate($this->min_value, $text_options);
 		$max_value_string = UTime::stringifyDate($this->max_value, $text_options);
@@ -304,10 +184,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
 				 * @tags core prototype input date modifier constraint range message
-				 * @example The given date must be before or on 2017-01-15 or after or on 2017-01-17.
+				 * @example Only dates before or on 2017-01-15 or after or on 2017-01-17 are allowed.
 				 */
 				return UText::localize(
-					"The given date must be before or on {{min_value}} or after or on {{max_value}}.", 
+					"Only dates before or on {{min_value}} or after or on {{max_value}} are allowed.", 
 					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
@@ -318,10 +198,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
 				 * @tags core prototype input date modifier constraint range message
-				 * @example The given date must be before or on 2017-01-15 or after 2017-01-17.
+				 * @example Only dates before or on 2017-01-15 or after 2017-01-17 are allowed.
 				 */
 				return UText::localize(
-					"The given date must be before or on {{min_value}} or after {{max_value}}.", 
+					"Only dates before or on {{min_value}} or after {{max_value}} are allowed.", 
 					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
@@ -332,10 +212,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
 				 * @tags core prototype input date modifier constraint range message
-				 * @example The given date must be before 2017-01-15 or after or on 2017-01-17.
+				 * @example Only dates before 2017-01-15 or after or on 2017-01-17 are allowed.
 				 */
 				return UText::localize(
-					"The given date must be before {{min_value}} or after or on {{max_value}}.", 
+					"Only dates before {{min_value}} or after or on {{max_value}} are allowed.", 
 					'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
@@ -346,10 +226,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
 			 * @tags core prototype input date modifier constraint range message
-			 * @example The given date must be before 2017-01-15 or after 2017-01-17.
+			 * @example Only dates before 2017-01-15 or after 2017-01-17 are allowed.
 			 */
 			return UText::localize(
-				"The given date must be before {{min_value}} or after {{max_value}}.", 
+				"Only dates before {{min_value}} or after {{max_value}} are allowed.", 
 				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
@@ -360,10 +240,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
 			 * @tags core prototype input date modifier constraint range message
-			 * @example The given date must be after 2017-01-15 and before 2017-01-17.
+			 * @example Only dates after 2017-01-15 and before 2017-01-17 are allowed.
 			 */
 			return UText::localize(
-				"The given date must be after {{min_value}} and before {{max_value}}.", 
+				"Only dates after {{min_value}} and before {{max_value}} are allowed.", 
 				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
@@ -374,10 +254,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
 			 * @tags core prototype input date modifier constraint range message
-			 * @example The given date must be after 2017-01-15 and before or on 2017-01-17.
+			 * @example Only dates after 2017-01-15 and before or on 2017-01-17 are allowed.
 			 */
 			return UText::localize(
-				"The given date must be after {{min_value}} and before or on {{max_value}}.", 
+				"Only dates after {{min_value}} and before or on {{max_value}} are allowed.", 
 				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
@@ -388,10 +268,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
 			 * @tags core prototype input date modifier constraint range message
-			 * @example The given date must be after or on 2017-01-15 and before 2017-01-17.
+			 * @example Only dates after or on 2017-01-15 and before 2017-01-17 are allowed.
 			 */
 			return UText::localize(
-				"The given date must be after or on {{min_value}} and before {{max_value}}.", 
+				"Only dates after or on {{min_value}} and before {{max_value}} are allowed.", 
 				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
@@ -402,10 +282,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
 		 * @tags core prototype input date modifier constraint range message
-		 * @example The given date must be after or on 2017-01-15 and before or on 2017-01-17.
+		 * @example Only dates after or on 2017-01-15 and before or on 2017-01-17 are allowed.
 		 */
 		return UText::localize(
-			"The given date must be after or on {{min_value}} and before or on {{max_value}}.", 
+			"Only dates after or on {{min_value}} and before or on {{max_value}} are allowed.", 
 			'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
 				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 			]

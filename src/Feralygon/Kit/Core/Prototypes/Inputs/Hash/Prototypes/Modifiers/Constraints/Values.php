@@ -141,13 +141,13 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options) : string
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core hash input values constraint modifier prototype description (negate).
+			 * @description Core hash input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed hash values.
-			 * @tags core prototype input hash modifier constraint values description
+			 * @tags core prototype input hash modifier constraint values message
 			 * @example The following hashes are not allowed: "b9b183b8", "13bf50b8" and "ac5139b4".
 			 */
 			return UText::plocalize(
@@ -160,46 +160,15 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			);
 		}
 		/**
-		 * @description Core hash input values constraint modifier prototype description.
+		 * @description Core hash input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed hash values.
-		 * @tags core prototype input hash modifier constraint values description
+		 * @tags core prototype input hash modifier constraint values message
 		 * @example Only one of the following hashes is allowed: "b9b183b8", "13bf50b8" or "ac5139b4".
 		 */
 		return UText::plocalize(
 			"Only the following hash is allowed: {{values}}.",
 			"Only one of the following hashes is allowed: {{values}}.",
 			count($this->values), null,
-			'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options, [
-				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
-	}
-	
-	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : ?string
-	{
-		if ($this->negate) {
-			/**
-			 * @description Core hash input values constraint modifier prototype message (negate).
-			 * @placeholder values The list of disallowed hash values.
-			 * @tags core prototype input hash modifier constraint values message
-			 * @example The given hash cannot be "b9b183b8", "13bf50b8" nor "ac5139b4".
-			 */
-			return UText::localize(
-				"The given hash cannot be {{values}}.",
-				'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options, [
-					'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_NOR])]
-				]
-			);
-		}
-		/**
-		 * @description Core hash input values constraint modifier prototype message.
-		 * @placeholder values The list of allowed hash values.
-		 * @tags core prototype input hash modifier constraint values message
-		 * @example The given hash must be "b9b183b8", "13bf50b8" or "ac5139b4".
-		 */
-		return UText::localize(
-			"The given hash must be {{values}}.",
 			'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options, [
 				'parameters' => ['values' => UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]
