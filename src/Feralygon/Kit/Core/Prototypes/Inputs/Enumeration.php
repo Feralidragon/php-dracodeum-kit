@@ -9,7 +9,10 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs;
 
 use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
-use Feralygon\Kit\Core\Prototypes\Input\Interfaces\Information as IInformation;
+use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
+	Information as IInformation,
+	SpecificationData as ISpecificationData
+};
 use Feralygon\Kit\Core\Enumeration as CoreEnumeration;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -38,7 +41,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read bool $namify [default = false] <p>Set as an enumerated element name.</p>
  * @see \Feralygon\Kit\Core\Enumeration
  */
-class Enumeration extends Input implements IPrototypeProperties, IInformation
+class Enumeration extends Input implements IPrototypeProperties, IInformation, ISpecificationData
 {
 	//Private properties
 	/** @var string */
@@ -255,8 +258,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 		//initialize
 		$labels = [];
 		$enumeration = $this->enumeration;
-		$show_names = !$this->values_only && !$this->hide_names;
-		$show_values = !$this->names_only && !$this->hide_values;
+		$show_names = $this->canShowNames();
+		$show_values = $this->canShowValues();
 		
 		//labels
 		foreach ($this->getNamesValues() as $name => $value) {
@@ -314,8 +317,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		//initialize
-		$show_names = !$this->values_only && !$this->hide_names;
-		$show_values = !$this->names_only && !$this->hide_values;
+		$show_names = $this->canShowNames();
+		$show_values = $this->canShowValues();
 		
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
@@ -418,8 +421,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		//initialize
-		$show_names = !$this->values_only && !$this->hide_names;
-		$show_values = !$this->names_only && !$this->hide_values;
+		$show_names = $this->canShowNames();
+		$show_values = $this->canShowValues();
 		
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
@@ -520,7 +523,51 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 	
 	
 	
+	//Implemented public methods (core input prototype specification data interface)
+	/** {@inheritdoc} */
+	public function getSpecificationData()
+	{
+		$show_names = $this->canShowNames();
+		$show_values = $this->canShowValues();
+		if ($show_names && $show_values) {
+			$elements = [];
+			foreach ($this->getNamesValues() as $name => $value) {
+				$elements[] = ['name' => $name, 'value' => $value];
+			}
+			return ['elements' => $elements];
+		} elseif ($show_names) {
+			return ['names' => array_keys($this->getNamesValues())];
+		} elseif ($show_values) {
+			return ['values' => array_values($this->getNamesValues())];
+		}
+		return null;
+	}
+	
+	
+	
 	//Protected methods
+	/**
+	 * Check if names can be shown.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <samp>true</samp> if names can be shown.</p>
+	 */
+	protected function canShowNames() : bool
+	{
+		return !$this->values_only && !$this->hide_names;
+	}
+	
+	/**
+	 * Check if values can be shown.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <samp>true</samp> if values can be shown.</p>
+	 */
+	protected function canShowValues() : bool
+	{
+		return !$this->names_only && !$this->hide_values;
+	}
+	
 	/**
 	 * Get enumerated element names values.
 	 * 
@@ -569,8 +616,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation
 		//initialize
 		$descriptions = [];
 		$enumeration = $this->enumeration;
-		$show_names = !$this->values_only && !$this->hide_names;
-		$show_values = !$this->names_only && !$this->hide_values;
+		$show_names = $this->canShowNames();
+		$show_values = $this->canShowValues();
 		
 		//descriptions
 		foreach ($this->getNamesValues() as $name => $value) {

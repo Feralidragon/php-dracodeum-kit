@@ -11,6 +11,7 @@ use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Information as IInformation,
+	SpecificationData as ISpecificationData,
 	Modifiers as IModifiers
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
@@ -36,7 +37,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
  */
-class Text extends Input implements IPrototypeProperties, IInformation, IModifiers
+class Text extends Input implements IPrototypeProperties, IInformation, ISpecificationData, IModifiers
 {
 	//Private properties
 	/** @var bool */
@@ -168,6 +169,17 @@ class Text extends Input implements IPrototypeProperties, IInformation, IModifie
 		 * @tags core prototype input text message non-technical
 		 */
 		return UText::localize("The given value must be a text.", 'core.prototypes.inputs.text', $text_options);
+	}
+	
+	
+	
+	//Implemented public methods (core input prototype specification data interface)
+	/** {@inheritdoc} */
+	public function getSpecificationData()
+	{
+		return [
+			'unicode' => $this->unicode
+		];
 	}
 	
 	

@@ -12,6 +12,7 @@ use Feralygon\Kit\Core\Prototype\Interfaces\{
 	Initialization as IPrototypeInitialization,
 	Properties as IPrototypeProperties
 };
+use Feralygon\Kit\Core\Prototypes\Input\Interfaces\SpecificationData as ISpecificationData;
 use Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer\Exceptions;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -42,7 +43,7 @@ use Feralygon\Kit\Core\Utilities\{
  * If not set, the number of bits to use becomes system dependent.</p>
  * @see https://en.wikipedia.org/wiki/Integer_(computer_science)
  */
-class Integer extends Number implements IPrototypeInitialization, IPrototypeProperties
+class Integer extends Number implements IPrototypeInitialization, IPrototypeProperties, ISpecificationData
 {
 	//Public constants
 	/** Maximum supported number of bits (signed). */
@@ -142,6 +143,18 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	public static function getRequiredPropertyNames() : array
 	{
 		return [];
+	}
+	
+	
+	
+	//Implemented public methods (core input prototype specification data interface)
+	/** {@inheritdoc} */
+	public function getSpecificationData()
+	{
+		return [
+			'unsigned' => $this->unsigned,
+			'bits' => $this->bits
+		];
 	}
 	
 	
