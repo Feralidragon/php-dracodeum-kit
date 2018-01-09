@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
-	Stringification as IStringification
+	Stringification as IStringification,
+	SpecificationData as ISpecificationData
 };
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -32,7 +33,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time
  */
-class Values extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification
+class Values extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
 {
 	//Private properties
 	/** @var int[] */
@@ -215,6 +216,18 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	public function getString(TextOptions $text_options) : string
 	{
 		return UText::stringify($this->getValuesStrings($text_options), $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND | UText::STRING_NO_QUOTES]);
+	}
+	
+	
+	
+	//Implemented public methods (core input modifier prototype specification data interface)
+	/** {@inheritdoc} */
+	public function getSpecificationData()
+	{
+		return [
+			'negate' => $this->negate,
+			'values' => $this->values
+		];
 	}
 	
 	

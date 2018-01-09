@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
-	Stringification as IStringification
+	Stringification as IStringification,
+	SpecificationData as ISpecificationData
 };
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -31,7 +32,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification
+class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
 {
 	//Private properties
 	/** @var int|float */
@@ -198,5 +199,17 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			);
 		}
 		return UText::stringify($this->value, $text_options);
+	}
+	
+	
+	
+	//Implemented public methods (core input modifier prototype specification data interface)
+	/** {@inheritdoc} */
+	public function getSpecificationData()
+	{
+		return [
+			'exclusive' => $this->exclusive,
+			'value' => $this->value
+		];
 	}
 }
