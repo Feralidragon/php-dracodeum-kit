@@ -431,7 +431,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 * @description Core enumeration input prototype message (no element descriptions).
 			 * @tags core prototype input enumeration message
 			 */
-			return UText::localize("The given value must be an enumerated element.", 'core.prototypes.inputs.enumeration', $text_options);
+			return UText::localize("Only enumerated elements are allowed.", 'core.prototypes.inputs.enumeration', $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
@@ -441,13 +441,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 * @description Core enumeration input prototype message (end-user).
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags core prototype input enumeration message end-user
-			 * @example The given value must be one of the following:
+			 * @example Only the following is allowed:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST" or 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"The given value must be one of the following:\n{{descriptions}}",
+				"Only the following is allowed:\n{{descriptions}}",
 				'core.prototypes.inputs.enumeration', $text_options, [
 					'parameters' => ['descriptions' => $merged_descriptions]
 				]
@@ -460,13 +460,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 * @description Core enumeration input prototype message (with names and values).
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags core prototype input enumeration message non-end-user
-			 * @example The given value must be an enumerated element name or value, as one of the following:
+			 * @example Only enumerated element names or values are allowed, as follows:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST" or 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"The given value must be an enumerated element name or value, as one of the following:\n{{descriptions}}",
+				"Only enumerated element names or values are allowed, as follows:\n{{descriptions}}",
 				'core.prototypes.inputs.enumeration', $text_options, [
 					'parameters' => ['descriptions' => $merged_descriptions]
 				]
@@ -476,13 +476,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 * @description Core enumeration input prototype message (with names only).
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags core prototype input enumeration message non-end-user
-			 * @example The given value must be an enumerated element name, as one of the following:
+			 * @example Only enumerated element names are allowed, as follows:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST"): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"The given value must be an enumerated element name, as one of the following:\n{{descriptions}}",
+				"Only enumerated element names are allowed, as follows:\n{{descriptions}}",
 				'core.prototypes.inputs.enumeration', $text_options, [
 					'parameters' => ['descriptions' => $merged_descriptions]
 				]
@@ -492,13 +492,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 * @description Core enumeration input prototype message (with values only).
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags core prototype input enumeration message non-end-user
-			 * @example The given value must be an enumerated element value, as one of the following:
+			 * @example Only enumerated element values are allowed, as follows:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"The given value must be an enumerated element value, as one of the following:\n{{descriptions}}",
+				"Only enumerated element values are allowed, as follows:\n{{descriptions}}",
 				'core.prototypes.inputs.enumeration', $text_options, [
 					'parameters' => ['descriptions' => $merged_descriptions]
 				]
@@ -508,13 +508,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		 * @description Core enumeration input prototype message.
 		 * @placeholder descriptions The enumerated element descriptions.
 		 * @tags core prototype input enumeration message non-end-user
-		 * @example The given value must be an enumerated element, as one of the following:
+		 * @example Only enumerated elements are allowed, as follows:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
 		 *  &#8226; Bad Request: client error "Bad Request" HTTP status code.
 		 */
 		return UText::localize(
-			"The given value must be an enumerated element, as one of the following:\n{{descriptions}}",
+			"Only enumerated elements are allowed, as follows:\n{{descriptions}}",
 			'core.prototypes.inputs.enumeration', $text_options, [
 				'parameters' => ['descriptions' => $merged_descriptions]
 			]

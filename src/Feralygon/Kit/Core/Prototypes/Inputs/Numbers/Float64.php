@@ -114,7 +114,7 @@ class Float64 extends Number
 			 * @description Core float64 number input prototype message (end-user).
 			 * @tags core prototype input number float64 message end-user
 			 */
-			return UText::localize("The given value must be a real number.", 'core.prototypes.inputs.numbers.float64', $text_options);
+			return UText::localize("Only real numbers are allowed.", 'core.prototypes.inputs.numbers.float64', $text_options);
 		}
 		
 		//non-end-user
@@ -122,13 +122,13 @@ class Float64 extends Number
 		 * @description Core float64 number input prototype message.
 		 * @placeholder notations The supported float64 number notation entries.
 		 * @tags core prototype input number float64 message non-end-user
-		 * @example The given value must be a floating point IEEE 754 number of 64 bits, which may be given using any of the following notations:
+		 * @example Only floating point IEEE 754 numbers of 64 bits are allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
 		 *  &#8226; Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k").
 		 */
 		return UText::localize(
-			"The given value must be a floating point IEEE 754 number of 64 bits, which may be given using any of the following notations:\n{{notations}}", 
+			"Only floating point IEEE 754 numbers of 64 bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
 			'core.prototypes.inputs.numbers.float64', $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

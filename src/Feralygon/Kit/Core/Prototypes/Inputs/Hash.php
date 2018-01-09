@@ -130,10 +130,10 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @description Core hash input prototype message (end-user).
 			 * @placeholder label The hash input label.
 			 * @tags core prototype input hash message end-user
-			 * @example The given value must be a CRC32 hash, given in hexadecimal notation.
+			 * @example Only CRC32 hashes, given in hexadecimal notation, are allowed.
 			 */
 			return UText::localize(
-				"The given value must be a {{label}} hash, given in hexadecimal notation.", 
+				"Only {{label}} hashes, given in hexadecimal notation, are allowed.", 
 				'core.prototypes.inputs.hash', $text_options, [
 					'parameters' => ['label' => $this->getLabel($text_options, $info_options)]
 				]
@@ -146,14 +146,14 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		 * @placeholder label The hash input label.
 		 * @placeholder notations The supported hash notation entries.
 		 * @tags core prototype input hash message non-end-user
-		 * @example The given value must be a CRC32 hash, which may be given using any of the following notations:
+		 * @example Only CRC32 hashes are allowed, which may be given using any of the following notations:
 		 *  &#8226; Hexadecimal string (example: "a7fed3fa");
 		 *  &#8226; Base64 encoded string (example: "p/7T+g==");
 		 *  &#8226; URL-safe Base64 encoded string (example: "p_7T-g");
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"The given value must be a {{label}} hash, which may be given using any of the following notations:\n{{notations}}", 
+			"Only {{label}} hashes are allowed, which may be given using any of the following notations:\n{{notations}}", 
 			'core.prototypes.inputs.hash', $text_options, [
 				'parameters' => [
 					'label' => $this->getLabel($text_options, $info_options), 

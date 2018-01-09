@@ -104,7 +104,7 @@ class Date extends Input implements IInformation, IModifiers
 		 * @description Core date input prototype message.
 		 * @placeholder notations The supported date notation entries.
 		 * @tags core prototype input date message
-		 * @example The given value must be a date, which may be given using any of the following notations:
+		 * @example Only dates are allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 1484438400);
 		 *  &#8226; ISO 8601 (example: "2017-01-15");
 		 *  &#8226; Year, month and day (example: "2017-01-15");
@@ -114,7 +114,7 @@ class Date extends Input implements IInformation, IModifiers
 		 *  &#8226; Fixed date with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 -3 weeks").
 		 */
 		return UText::localize(
-			"The given value must be a date, which may be given using any of the following notations:\n{{notations}}", 
+			"Only dates are allowed, which may be given using any of the following notations:\n{{notations}}", 
 			'core.prototypes.inputs.date', $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

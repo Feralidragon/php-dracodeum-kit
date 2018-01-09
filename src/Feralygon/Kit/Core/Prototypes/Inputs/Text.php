@@ -160,7 +160,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISpecifi
 			 * @description Core text input prototype message (technical).
 			 * @tags core prototype input text message technical
 			 */
-			return UText::localize("The given value must be a string of characters.", 'core.prototypes.inputs.text', $text_options);
+			return UText::localize("Only strings of characters are allowed.", 'core.prototypes.inputs.text', $text_options);
 		}
 		
 		//non-technical
@@ -168,7 +168,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISpecifi
 		 * @description Core text input prototype message.
 		 * @tags core prototype input text message non-technical
 		 */
-		return UText::localize("The given value must be a text.", 'core.prototypes.inputs.text', $text_options);
+		return UText::localize("Only text is allowed.", 'core.prototypes.inputs.text', $text_options);
 	}
 	
 	

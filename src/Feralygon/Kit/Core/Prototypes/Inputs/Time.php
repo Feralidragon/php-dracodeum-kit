@@ -102,7 +102,7 @@ class Time extends Input implements IInformation, IModifiers
 		 * @description Core time input prototype message.
 		 * @placeholder notations The supported time notation entries.
 		 * @tags core prototype input time message
-		 * @example The given value must be a time, which may be given using any of the following notations:
+		 * @example Only times are allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 45900);
 		 *  &#8226; ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00");
 		 *  &#8226; Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5");
@@ -110,7 +110,7 @@ class Time extends Input implements IInformation, IModifiers
 		 *  &#8226; Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes").
 		 */
 		return UText::localize(
-			"The given value must be a time, which may be given using any of the following notations:\n{{notations}}", 
+			"Only times are allowed, which may be given using any of the following notations:\n{{notations}}", 
 			'core.prototypes.inputs.time', $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
