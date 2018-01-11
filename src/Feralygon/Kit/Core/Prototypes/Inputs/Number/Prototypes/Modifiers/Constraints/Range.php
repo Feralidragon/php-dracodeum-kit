@@ -43,6 +43,8 @@ class Range extends Constraints\Range
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
+		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
@@ -55,7 +57,7 @@ class Range extends Constraints\Range
 				return UText::localize(
 					"Only numbers lesser than or equal to {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
 					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			} elseif ($this->min_exclusive) {
@@ -69,7 +71,7 @@ class Range extends Constraints\Range
 				return UText::localize(
 					"Only numbers lesser than or equal to {{min_value}} or greater than {{max_value}} are allowed.", 
 					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			} elseif ($this->max_exclusive) {
@@ -83,7 +85,7 @@ class Range extends Constraints\Range
 				return UText::localize(
 					"Only numbers lesser than {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
 					'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			}
@@ -97,7 +99,7 @@ class Range extends Constraints\Range
 			return UText::localize(
 				"Only numbers lesser than {{min_value}} or greater than {{max_value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
@@ -111,7 +113,7 @@ class Range extends Constraints\Range
 			return UText::localize(
 				"Only numbers greater than {{min_value}} and lesser than {{max_value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->min_exclusive) {
@@ -125,7 +127,7 @@ class Range extends Constraints\Range
 			return UText::localize(
 				"Only numbers greater than {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->max_exclusive) {
@@ -139,7 +141,7 @@ class Range extends Constraints\Range
 			return UText::localize(
 				"Only numbers greater than or equal to {{min_value}} and lesser than {{max_value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		}
@@ -153,7 +155,7 @@ class Range extends Constraints\Range
 		return UText::localize(
 			"Only numbers greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 			]
 		);
 	}

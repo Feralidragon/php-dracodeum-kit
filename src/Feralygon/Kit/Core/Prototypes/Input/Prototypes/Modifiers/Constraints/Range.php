@@ -169,6 +169,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
+		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
@@ -181,7 +183,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				return UText::localize(
 					"Only values lesser than or equal to {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
 					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			} elseif ($this->min_exclusive) {
@@ -195,7 +197,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				return UText::localize(
 					"Only values lesser than or equal to {{min_value}} or greater than {{max_value}} are allowed.", 
 					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			} elseif ($this->max_exclusive) {
@@ -209,7 +211,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				return UText::localize(
 					"Only values lesser than {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
 					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
 			}
@@ -223,7 +225,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"Only values lesser than {{min_value}} or greater than {{max_value}} are allowed.", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
@@ -237,7 +239,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"Only values greater than {{min_value}} and lesser than {{max_value}} are allowed.", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->min_exclusive) {
@@ -251,7 +253,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"Only values greater than {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->max_exclusive) {
@@ -265,7 +267,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"Only values greater than or equal to {{min_value}} and lesser than {{max_value}} are allowed.", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		}
@@ -279,7 +281,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		return UText::localize(
 			"Only values greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
 			'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 			]
 		);
 	}
@@ -290,6 +292,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
+		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
+		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
 		if ($this->min_exclusive && $this->max_exclusive) {
 			/**
 			 * @description Core input range constraint modifier prototype string (exclusive minimum and maximum).
@@ -301,7 +305,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}} (exclusive)", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->min_exclusive) {
@@ -315,7 +319,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}}", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		} elseif ($this->max_exclusive) {
@@ -329,7 +333,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			return UText::localize(
 				"{{min_value}} to {{max_value}} (exclusive)", 
 				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
 		}
@@ -343,7 +347,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		return UText::localize(
 			"{{min_value}} to {{max_value}}", 
 			'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 			]
 		);
 	}
@@ -380,5 +384,18 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	protected function evaluateValue(&$value) : bool
 	{
 		return true;
+	}
+	
+	/**
+	 * Generate a string from a given value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text $text_options <p>The text options instance to use.</p>
+	 * @return string <p>The generated string from the given value.</p>
+	 */
+	protected function stringifyValue($value, TextOptions $text_options) : string
+	{
+		return UText::stringify($value, $text_options);
 	}
 }

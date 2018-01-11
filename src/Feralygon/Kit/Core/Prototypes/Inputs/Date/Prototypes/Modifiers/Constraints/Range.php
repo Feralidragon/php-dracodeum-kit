@@ -43,8 +43,8 @@ class Range extends Constraints\Range
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		$min_value_string = UTime::stringifyDate($this->min_value, $text_options);
-		$max_value_string = UTime::stringifyDate($this->max_value, $text_options);
+		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
+		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
@@ -160,69 +160,6 @@ class Range extends Constraints\Range
 		);
 	}
 	
-	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
-	{
-		$min_value_string = UTime::stringifyDate($this->min_value, $text_options);
-		$max_value_string = UTime::stringifyDate($this->max_value, $text_options);
-		if ($this->min_exclusive && $this->max_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype string (exclusive minimum and maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range string
-			 * @example 2017-01-15 (exclusive) to 2017-01-17 (exclusive)
-			 */
-			return UText::localize(
-				"{{min_value}} (exclusive) to {{max_value}} (exclusive)", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		} elseif ($this->min_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype string (exclusive minimum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range string
-			 * @example 2017-01-15 (exclusive) to 2017-01-17
-			 */
-			return UText::localize(
-				"{{min_value}} (exclusive) to {{max_value}}", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		} elseif ($this->max_exclusive) {
-			/**
-			 * @description Core date input range constraint modifier prototype string (exclusive maximum).
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint range string
-			 * @example 2017-01-15 to 2017-01-17 (exclusive)
-			 */
-			return UText::localize(
-				"{{min_value}} to {{max_value}} (exclusive)", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
-			);
-		}
-		/**
-		 * @description Core date input range constraint modifier prototype string.
-		 * @placeholder min_value The minimum allowed value.
-		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input date modifier constraint range string
-		 * @example 2017-01-15 to 2017-01-17
-		 */
-		return UText::localize(
-			"{{min_value}} to {{max_value}}", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-			]
-		);
-	}
-	
 	
 	
 	//Overridden protected methods
@@ -230,5 +167,11 @@ class Range extends Constraints\Range
 	protected function evaluateValue(&$value) : bool
 	{
 		return UTime::evaluateDate($value);
+	}
+	
+	/** {@inheritdoc} */
+	protected function stringifyValue($value, TextOptions $text_options) : string
+	{
+		return UTime::stringifyDate($value, $text_options);
 	}
 }
