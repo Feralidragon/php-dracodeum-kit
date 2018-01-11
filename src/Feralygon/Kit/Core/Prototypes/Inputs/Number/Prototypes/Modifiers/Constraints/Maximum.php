@@ -36,6 +36,7 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core number input maximum constraint modifier prototype message (exclusive).
@@ -46,7 +47,7 @@ class Maximum extends Constraints\Maximum
 			return UText::localize(
 				"Only numbers lesser than {{value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $this->value]
+					'parameters' => ['value' => $value_string]
 				]
 			);
 		}
@@ -59,7 +60,7 @@ class Maximum extends Constraints\Maximum
 		return UText::localize(
 			"Only numbers lesser than or equal to {{value}} are allowed.", 
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $this->value]
+				'parameters' => ['value' => $value_string]
 			]
 		);
 	}

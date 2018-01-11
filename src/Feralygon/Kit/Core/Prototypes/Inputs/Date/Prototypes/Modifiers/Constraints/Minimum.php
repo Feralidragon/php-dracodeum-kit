@@ -36,7 +36,7 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		$value_string = UTime::stringifyDate($this->value, $text_options);
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core date input minimum constraint modifier prototype message (exclusive).

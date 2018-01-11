@@ -116,6 +116,7 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core input maximum constraint modifier prototype message (exclusive).
@@ -126,7 +127,7 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 			return UText::localize(
 				"Only values lesser than {{value}} are allowed.", 
 				'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $this->value]
+					'parameters' => ['value' => $value_string]
 				]
 			);
 		}
@@ -139,7 +140,7 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 		return UText::localize(
 			"Only values lesser than or equal to {{value}} are allowed.", 
 			'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $this->value]
+				'parameters' => ['value' => $value_string]
 			]
 		);
 	}

@@ -36,7 +36,7 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		$value_string = UTime::stringifyTimestamp($this->value, $text_options);
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core timestamp input maximum constraint modifier prototype message (exclusive).

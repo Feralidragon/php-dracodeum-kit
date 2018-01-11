@@ -36,6 +36,7 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core number input minimum constraint modifier prototype message (exclusive).
@@ -46,7 +47,7 @@ class Minimum extends Constraints\Minimum
 			return UText::localize(
 				"Only numbers greater than {{value}} are allowed.", 
 				'core.prototypes.inputs.number.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $this->value]
+					'parameters' => ['value' => $value_string]
 				]
 			);
 		}
@@ -59,7 +60,7 @@ class Minimum extends Constraints\Minimum
 		return UText::localize(
 			"Only numbers greater than or equal to {{value}} are allowed.", 
 			'core.prototypes.inputs.number.prototypes.modifiers.constraints.minimum', $text_options, [
-				'parameters' => ['value' => $this->value]
+				'parameters' => ['value' => $value_string]
 			]
 		);
 	}
