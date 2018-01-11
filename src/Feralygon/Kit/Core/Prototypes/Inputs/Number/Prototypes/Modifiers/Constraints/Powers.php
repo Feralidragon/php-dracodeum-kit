@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
-	SpecificationData as ISpecificationData
+	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -32,7 +32,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Powers extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
+class Powers extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int[]|float[] */
@@ -189,9 +189,9 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	
 	
 	
-	//Implemented public methods (core input modifier prototype specification data interface)
+	//Implemented public methods (core input modifier prototype schema data interface)
 	/** {@inheritdoc} */
-	public function getSpecificationData()
+	public function getSchemaData()
 	{
 		return [
 			'negate' => $this->negate,

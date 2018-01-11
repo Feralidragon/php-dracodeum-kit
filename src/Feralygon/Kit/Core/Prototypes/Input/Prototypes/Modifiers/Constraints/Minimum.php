@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
-	SpecificationData as ISpecificationData
+	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -31,7 +31,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property mixed $value <p>The minimum allowed value to restrict to (inclusive).</p>
  * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  */
-class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
+class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var mixed */
@@ -171,9 +171,9 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	
 	
 	
-	//Implemented public methods (core input modifier prototype specification data interface)
+	//Implemented public methods (core input modifier prototype schema data interface)
 	/** {@inheritdoc} */
-	public function getSpecificationData()
+	public function getSchemaData()
 	{
 		return [
 			'exclusive' => $this->exclusive,

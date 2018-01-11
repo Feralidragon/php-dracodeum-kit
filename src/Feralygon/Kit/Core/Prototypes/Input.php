@@ -23,7 +23,7 @@ use Feralygon\Kit\Core\Components\Input\Components\Modifiers\{
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\ErrorInformation
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\ValueStringification
- * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\SpecificationData
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\SchemaData
  * @see \Feralygon\Kit\Core\Prototypes\Input\Interfaces\Modifiers
  */
 abstract class Input extends Prototype implements IFunctions

@@ -9,19 +9,19 @@ namespace Feralygon\Kit\Core\Components\Input\Structures;
 
 use Feralygon\Kit\Core\Structure;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
-use Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification as ModifierSpecification;
+use Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema as ModifierSchema;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core input component specification structure class.
+ * Core input component schema structure class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
- * @property-read \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification[] $modifiers [default = []] <p>The modifier specification instances.</p>
+ * @property-read \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []] <p>The modifier schema instances.</p>
  * @see \Feralygon\Kit\Core\Components\Input
  */
-class Specification extends Structure
+class Schema extends Structure
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */
@@ -57,7 +57,7 @@ class Specification extends Structure
 						if (is_array($value)) {
 							$value = array_values($value);
 							foreach ($value as $v) {
-								if (!is_object($v) || !UType::isA($v, ModifierSpecification::class)) {
+								if (!is_object($v) || !UType::isA($v, ModifierSchema::class)) {
 									return false;
 								}
 							}

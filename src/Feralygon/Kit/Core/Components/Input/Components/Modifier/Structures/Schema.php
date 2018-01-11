@@ -12,14 +12,14 @@ use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core input modifier component specification structure class.
+ * Core input modifier component schema structure class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
  * @see \Feralygon\Kit\Core\Components\Input\Components\Modifier
  */
-class Specification extends Structure
+class Schema extends Structure
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */

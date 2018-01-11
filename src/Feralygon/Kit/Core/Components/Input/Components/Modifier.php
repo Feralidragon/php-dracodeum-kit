@@ -213,21 +213,21 @@ abstract class Modifier extends Component
 	}
 	
 	/**
-	 * Get specification instance.
+	 * Get schema instance.
 	 * 
-	 * The returning specification describes this modifier by using a structure.
+	 * The returning schema describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification|null <p>The specification instance or <samp>null</samp> if none exists.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema|null <p>The schema instance or <samp>null</samp> if none exists.</p>
 	 */
-	public function getSpecification() : ?Structures\Specification
+	public function getSchema() : ?Structures\Schema
 	{
 		$name = $this->getName();
 		if (isset($name)) {
 			$prototype = $this->getPrototype();
-			return new Structures\Specification([
+			return new Structures\Schema([
 				'name' => $name,
-				'data' => $prototype instanceof PrototypeInterfaces\SpecificationData ? $prototype->getSpecificationData() : null
+				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
 			]);
 		}
 		return null;

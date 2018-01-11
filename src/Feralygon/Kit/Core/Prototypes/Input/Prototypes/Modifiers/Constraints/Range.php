@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
-	SpecificationData as ISpecificationData
+	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -34,7 +34,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be lesser than the maximum allowed value, but never equal.</p>
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
-class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
+class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var mixed */
@@ -354,9 +354,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (core input modifier prototype specification data interface)
+	//Implemented public methods (core input modifier prototype schema data interface)
 	/** {@inheritdoc} */
-	public function getSpecificationData()
+	public function getSchemaData()
 	{
 		return [
 			'negate' => $this->negate,

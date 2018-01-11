@@ -11,7 +11,7 @@ use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	SpecificationData as ISpecificationData,
+	SchemaData as ISchemaData,
 	Modifiers as IModifiers
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
@@ -37,7 +37,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
  */
-class Text extends Input implements IPrototypeProperties, IInformation, ISpecificationData, IModifiers
+class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
 	//Private properties
 	/** @var bool */
@@ -173,9 +173,9 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISpecifi
 	
 	
 	
-	//Implemented public methods (core input prototype specification data interface)
+	//Implemented public methods (core input prototype schema data interface)
 	/** {@inheritdoc} */
-	public function getSpecificationData()
+	public function getSchemaData()
 	{
 		return [
 			'unicode' => $this->unicode

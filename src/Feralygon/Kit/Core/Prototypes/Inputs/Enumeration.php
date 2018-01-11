@@ -11,7 +11,7 @@ use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	SpecificationData as ISpecificationData
+	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Enumeration as CoreEnumeration;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
@@ -41,7 +41,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read bool $namify [default = false] <p>Set as an enumerated element name.</p>
  * @see \Feralygon\Kit\Core\Enumeration
  */
-class Enumeration extends Input implements IPrototypeProperties, IInformation, ISpecificationData
+class Enumeration extends Input implements IPrototypeProperties, IInformation, ISchemaData
 {
 	//Private properties
 	/** @var string */
@@ -525,9 +525,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public methods (core input prototype specification data interface)
+	//Implemented public methods (core input prototype schema data interface)
 	/** {@inheritdoc} */
-	public function getSpecificationData()
+	public function getSchemaData()
 	{
 		$show_names = $this->canShowNames();
 		$show_values = $this->canShowValues();

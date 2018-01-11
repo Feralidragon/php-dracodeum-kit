@@ -8,24 +8,24 @@
 namespace Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces;
 
 /**
- * Core input modifier prototype specification data interface.
+ * Core input modifier prototype schema data interface.
  * 
- * This interface defines a method to retrieve the specification data from an input modifier prototype.
+ * This interface defines a method to retrieve the schema data from an input modifier prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier
  */
-interface SpecificationData
+interface SchemaData
 {
 	//Public methods
 	/**
-	 * Get specification data.
+	 * Get schema data.
 	 * 
 	 * The returning data is meant to characterize this modifier, such as, 
 	 * for example, returning some of its properties as <samp>name => value</samp> pairs.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The specification data.</p>
+	 * @return mixed <p>The schema data.</p>
 	 */
-	public function getSpecificationData();
+	public function getSchemaData();
 }

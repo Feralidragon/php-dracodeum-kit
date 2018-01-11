@@ -602,20 +602,20 @@ class Input extends Component
 	}
 	
 	/**
-	 * Get specification instance.
+	 * Get schema instance.
 	 * 
-	 * The returning specification describes this input by using a structure.
+	 * The returning schema describes this input by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Structures\Specification <p>The specification instance.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Structures\Schema <p>The schema instance.</p>
 	 */
-	public function getSpecification() : ?Structures\Specification
+	public function getSchema() : ?Structures\Schema
 	{
 		$prototype = $this->getPrototype();
-		return new Structures\Specification([
+		return new Structures\Schema([
 			'name' => $this->getName(),
-			'data' => $prototype instanceof PrototypeInterfaces\SpecificationData ? $prototype->getSpecificationData() : null,
-			'modifiers' => $this->getModifierSpecifications()
+			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
+			'modifiers' => $this->getModifierSchemas()
 		]);
 	}
 	
@@ -915,23 +915,23 @@ class Input extends Component
 	}
 	
 	/**
-	 * Get modifier specification instances.
+	 * Get modifier schema instances.
 	 * 
-	 * The returning specifications describe the modifiers from this input by using structures.
+	 * The returning schemas describe the modifiers from this input by using structures.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Specification[] <p>The modifier specification instances.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema[] <p>The modifier schema instances.</p>
 	 */
-	final public function getModifierSpecifications() : array
+	final public function getModifierSchemas() : array
 	{
-		$specifications = [];
+		$schemas = [];
 		foreach ($this->getModifiers() as $modifier) {
-			$specification = $modifier->getSpecification();
-			if (isset($specification)) {
-				$specifications[] = $specification;
+			$schema = $modifier->getSchema();
+			if (isset($schema)) {
+				$schemas[] = $schema;
 			}
 		}
-		return $specifications;
+		return $schemas;
 	}
 	
 	
