@@ -67,6 +67,7 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value) && !empty($value)) {
+							$value = array_values($value);
 							foreach ($value as &$v) {
 								if (!UType::evaluateNumber($v) || $v <= 0) {
 									return false;

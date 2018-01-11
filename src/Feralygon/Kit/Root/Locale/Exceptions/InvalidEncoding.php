@@ -56,6 +56,7 @@ class InvalidEncoding extends Exception
 				return UType::evaluateString($value);
 			case 'encodings':
 				if (is_array($value)) {
+					$value = array_values($value);
 					foreach ($value as &$v) {
 						if (!UType::evaluateString($v)) {
 							return false;

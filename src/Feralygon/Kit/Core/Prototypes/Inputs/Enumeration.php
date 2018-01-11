@@ -134,6 +134,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					->setMode('r')
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value)) {
+							$value = array_values($value);
 							foreach ($value as $v) {
 								if (!is_int($v) && !is_float($v) && !is_string($v)) {
 									return false;
@@ -155,6 +156,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					->setMode('r')
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value)) {
+							$value = array_values($value);
 							foreach ($value as $v) {
 								if (!is_int($v) && !is_float($v) && !is_string($v)) {
 									return false;

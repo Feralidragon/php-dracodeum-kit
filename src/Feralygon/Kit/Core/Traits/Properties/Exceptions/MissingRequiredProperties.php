@@ -50,6 +50,7 @@ class MissingRequiredProperties extends Exception
 		switch ($name) {
 			case 'names':
 				if (is_array($value) && !empty($value)) {
+					$value = array_values($value);
 					foreach ($value as &$v) {
 						if (!UType::evaluateString($v) || !UText::isIdentifier($v)) {
 							return false;

@@ -55,6 +55,7 @@ class Specification extends Structure
 					->setDefaultValue([])
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value)) {
+							$value = array_values($value);
 							foreach ($value as $v) {
 								if (!is_object($v) || !UType::isA($v, ModifierSpecification::class)) {
 									return false;

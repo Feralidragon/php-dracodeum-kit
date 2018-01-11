@@ -71,6 +71,7 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value) && !empty($value)) {
+							$value = array_values($value);
 							foreach ($value as &$v) {
 								if (!UType::evaluateNumber($v) || empty($v)) {
 									return false;

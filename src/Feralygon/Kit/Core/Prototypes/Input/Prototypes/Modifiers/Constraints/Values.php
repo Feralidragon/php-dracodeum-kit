@@ -60,6 +60,7 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
 						if (is_array($value) && !empty($value)) {
+							$value = array_values($value);
 							foreach ($value as &$v) {
 								if (!$this->evaluateValue($v)) {
 									return false;
