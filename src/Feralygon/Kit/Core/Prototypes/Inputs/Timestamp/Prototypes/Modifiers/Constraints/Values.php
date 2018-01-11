@@ -83,16 +83,6 @@ class Values extends Constraints\Values
 		);
 	}
 	
-	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
-	{
-		$strings = [];
-		foreach ($this->values as $value) {
-			$strings[] = UTime::stringifyTimestamp($value, $text_options);
-		}
-		return UText::stringify($strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND | UText::STRING_NO_QUOTES]);
-	}
-	
 	
 	
 	//Overridden protected methods
@@ -100,5 +90,11 @@ class Values extends Constraints\Values
 	protected function evaluateValue(&$value) : bool
 	{
 		return UTime::evaluateTimestamp($value);
+	}
+	
+	/** {@inheritdoc} */
+	protected function stringifyValue($value, TextOptions $text_options) : string
+	{
+		return UTime::stringifyTimestamp($value, $text_options);
 	}
 }

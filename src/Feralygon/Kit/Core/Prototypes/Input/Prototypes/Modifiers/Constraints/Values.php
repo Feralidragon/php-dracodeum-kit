@@ -180,7 +180,11 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->values, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND]);
+		$strings = [];
+		foreach ($this->values as $value) {
+			$strings[] = $this->stringifyValue($value, $text_options);
+		}
+		return UText::stringify($strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND | UText::STRING_NO_QUOTES]);
 	}
 	
 	
@@ -208,5 +212,18 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	protected function evaluateValue(&$value) : bool
 	{
 		return true;
+	}
+	
+	/**
+	 * Generate a string from a given value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text $text_options <p>The text options instance to use.</p>
+	 * @return string <p>The generated string from the given value.</p>
+	 */
+	protected function stringifyValue($value, TextOptions $text_options) : string
+	{
+		return UText::stringify($value, $text_options);
 	}
 }
