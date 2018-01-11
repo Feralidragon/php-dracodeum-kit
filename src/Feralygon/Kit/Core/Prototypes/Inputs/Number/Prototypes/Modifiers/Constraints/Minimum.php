@@ -7,15 +7,7 @@
 
 namespace Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
-use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
-	Information as IInformation,
-	Stringification as IStringification,
-	SpecificationData as ISpecificationData
-};
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
@@ -25,87 +17,12 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core number input minimum constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a number to a minimum value.
- * 
  * @since 1.0.0
- * @property int|float $value <p>The minimum allowed value to restrict to (inclusive).</p>
- * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
-class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISpecificationData
+class Minimum extends Constraints\Minimum
 {
-	//Private properties
-	/** @var int|float */
-	private $value;
-	
-	/** @var bool */
-	private $exclusive = false;
-	
-	
-	
-	//Implemented public methods
-	/** {@inheritdoc} */
-	public function checkValue($value) : bool
-	{
-		return $this->exclusive ? $value > $this->value : $value >= $this->value;
-	}
-	
-	
-	
-	//Implemented public methods (core prototype properties interface)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'value':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateNumber($value);
-					})
-					->setGetter(function () {
-						return $this->value;
-					})
-					->setSetter(function ($value) : void {
-						$this->value = $value;
-					})
-				;
-			case 'exclusive':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->exclusive;
-					})
-					->setSetter(function (bool $exclusive) : void {
-						$this->exclusive = $exclusive;
-					})
-				;
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (core prototype properties interface)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['value'];
-	}
-	
-	
-	
-	//Implemented public methods (core input modifier prototype name interface)
-	/** {@inheritdoc} */
-	public function getName() : string
-	{
-		return 'constraints.minimum';
-	}
-	
-	
-	
-	//Implemented public methods (core input modifier prototype information interface)
+	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -149,36 +66,10 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	
 	
 	
-	//Implemented public methods (core input modifier prototype stringification interface)
+	//Overridden protected methods
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	protected function evaluateValue(&$value) : bool
 	{
-		if ($this->exclusive) {
-			/**
-			 * @description Core number input minimum constraint modifier prototype string (exclusive).
-			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input number modifier constraint minimum string
-			 * @example 250 (exclusive)
-			 */
-			return UText::localize(
-				"{{value}} (exclusive)", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $this->value]
-				]
-			);
-		}
-		return UText::stringify($this->value, $text_options);
-	}
-	
-	
-	
-	//Implemented public methods (core input modifier prototype specification data interface)
-	/** {@inheritdoc} */
-	public function getSpecificationData()
-	{
-		return [
-			'exclusive' => $this->exclusive,
-			'value' => $this->value
-		];
+		return UType::evaluateNumber($value);
 	}
 }

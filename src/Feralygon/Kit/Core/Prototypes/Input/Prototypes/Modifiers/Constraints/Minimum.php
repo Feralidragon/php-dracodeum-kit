@@ -150,6 +150,7 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
+		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
 			 * @description Core input minimum constraint modifier prototype string (exclusive).
@@ -160,11 +161,11 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			return UText::localize(
 				"{{value}} (exclusive)", 
 				'core.prototypes.input.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $this->value]
+					'parameters' => ['value' => $value_string]
 				]
 			);
 		}
-		return UText::stringify($this->value, $text_options);
+		return $value_string;
 	}
 	
 	
@@ -192,5 +193,18 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	protected function evaluateValue(&$value) : bool
 	{
 		return true;
+	}
+	
+	/**
+	 * Generate a string from a given value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text $text_options <p>The text options instance to use.</p>
+	 * @return string <p>The generated string from the given value.</p>
+	 */
+	protected function stringifyValue($value, TextOptions $text_options) : string
+	{
+		return UText::stringify($value, $text_options);
 	}
 }
