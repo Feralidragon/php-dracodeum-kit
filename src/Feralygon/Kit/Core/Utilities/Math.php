@@ -110,7 +110,7 @@ final class Math extends Utility
 	 * Get a random integer or string value from a given set of weighted values.
 	 * 
 	 * The returning value is retrieved as one of the keys from the <var>$values_weights</var> parameter, 
-	 * which assigns each value to a weight as <code>value => weight</code> pairs, hence only an integer or string value can be returned.<br>
+	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, hence only an integer or string value can be returned.<br>
 	 * <br>
 	 * The weights represent a bias towards each specific value and should always be numeric, 
 	 * whereas the greater the weight relative the other values, the greater is the chance for its value to be returned.<br>
@@ -119,12 +119,12 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param int[]|float[] $values_weights <p>The values weights to get from, as <code>value => weight</code> pairs.<br>
+	 * @param int[]|float[] $values_weights <p>The values weights to get from, as <samp>value => weight</samp> pairs.<br>
 	 * Each weight must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $seed [default = null] <p>The seed value to generate with.<br>
 	 * If not set, an internally generated seed is used.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Math\Exceptions\WrandomInvalidValueWeight
-	 * @return int|string|null <p>A random integer or string value from the given set of weighted values or <samp>null</samp> if the given set is empty.</p>
+	 * @return int|string|null <p>A random integer or string value from the given set of weighted values or <code>null</code> if the given set is empty.</p>
 	 */
 	final public static function wrandom(array $values_weights, ?int $seed = null)
 	{
@@ -165,17 +165,17 @@ final class Math extends Utility
 	 * 
 	 * The returning number represents the given one in a human-readable format, 
 	 * by rounding it to the nearest most significant multiple, as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code>150</code> returns <samp><i>150</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>84290</code> returns <samp><i>84.29K</i></samp>, or <samp><i>84.29 thousand</i></samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>285000000</code> returns <samp><i>285M</i></samp>, or <samp><i>285 million</i></samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>5789482000</code> returns <samp><i>5.8B</i></samp>, or <samp><i>5.8 billion</i></samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>150</code> returns <samp>150</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <code>84290</code> returns <samp>84.29K</samp>, or <samp>84.29 thousand</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>285000000</code> returns <samp>285M</samp>, or <samp>285 million</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>5789482000</code> returns <samp>5.8B</samp>, or <samp>5.8 billion</samp> in long form.<br>
 	 * <br>
 	 * The short numeric scale is the one used, therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
 	 * @param int $number <p>The machine-readable number to retrieve from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Math\Options\Hnumber|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Math\Options\Hnumber|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable number from the given machine one.</p>
 	 */
 	final public static function hnumber(int $number, $text_options = null, $options = null) : string
@@ -258,10 +258,10 @@ final class Math extends Utility
 	 * 
 	 * The returning number represents the given one in a machine-readable format, 
 	 * by converting it as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code>150</code> returns <samp><i>150</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>84.29K</code> or <code>84.29 thousand</code> returns <samp><i>84290</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>285M</code> or <code>285 million</code> returns <samp><i>285000000</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>5.8B</code> or <code>5.8 billion</code> returns <samp><i>5800000000</i></samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>150</samp> returns <code>150</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>84.29K</samp> or <samp>84.29 thousand</samp> returns <code>84290</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>285M</samp> or <samp>285 million</samp> returns <code>285000000</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>5.8B</samp> or <samp>5.8 billion</samp> returns <code>5800000000</code>.<br>
 	 * <br>
 	 * The short numeric scale is the one used, therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
@@ -296,13 +296,13 @@ final class Math extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into multiples:<br>
 	 * &nbsp; &#8226; &nbsp; integers as powers of 10, such as: <code>1000</code> for thousands;<br>
-	 * &nbsp; &#8226; &nbsp; SI symbols, such as: <code>k</code> for thousands;<br>
-	 * &nbsp; &#8226; &nbsp; names in English, such as: <code>thousand</code> for thousands.
+	 * &nbsp; &#8226; &nbsp; SI symbol strings, such as: <code>"k"</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; name strings in English, such as: <code>"thousand"</code> for thousands.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a multiple.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{

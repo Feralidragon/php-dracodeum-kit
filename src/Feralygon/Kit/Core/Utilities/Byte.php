@@ -89,14 +89,14 @@ final class Byte extends Utility
 	 * 
 	 * The returning value represents the given one in a human-readable format and in bytes, 
 	 * by rounding it to the nearest most significant byte multiple, as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code>100</code> returns <samp><i>100 B</i></samp>, or <samp><i>100 bytes</i></samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>255000</code> returns <samp><i>255 kB</i></samp>, or <samp><i>255 kilobytes</i></samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>3752400</code> returns <samp><i>3.75 MB</i></samp>, or <samp><i>3.75 megabytes</i></samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>47958383032</code> returns <samp><i>47.96 GB</i></samp>, or <samp><i>47.96 gigabytes</i></samp> in long form.
+	 * &nbsp; &#8226; &nbsp; <code>100</code> returns <samp>100 B</samp>, or <samp>100 bytes</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>255000</code> returns <samp>255 kB</samp>, or <samp>255 kilobytes</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>3752400</code> returns <samp>3.75 MB</samp>, or <samp>3.75 megabytes</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>47958383032</code> returns <samp>47.96 GB</samp>, or <samp>47.96 gigabytes</samp> in long form.
 	 * 
 	 * @since 1.0.0
 	 * @param int $value <p>The machine-readable value to retrieve from, in bytes.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Byte\Options\Hvalue|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Byte\Options\Hvalue|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable value from the given machine one.</p>
 	 */
 	final public static function hvalue(int $value, $options = null) : string
@@ -130,10 +130,10 @@ final class Byte extends Utility
 	 * 
 	 * The returning value represents the given one in a machine-readable format and in bytes, 
 	 * by converting it as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code>100 B</code> or <code>100</code> or <code>100 bytes</code> returns <samp><i>100</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>255 kB</code> or <code>255k</code> or <code>255 kilobytes</code> returns <samp><i>255000</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>3.75 MB</code> or <code>3.75M</code> or <code>3.75 megabytes</code> returns <samp><i>3750000</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>47.96 GB</code> or <code>47.96G</code> or <code>47.96 gigabytes</code> returns <samp><i>47960000000</i></samp>.
+	 * &nbsp; &#8226; &nbsp; <samp>100 B</samp> or <samp>100</samp> or <samp>100 bytes</samp> returns <code>100</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>255 kB</samp> or <samp>255k</samp> or <samp>255 kilobytes</samp> returns <code>255000</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>3.75 MB</samp> or <samp>3.75M</samp> or <samp>3.75 megabytes</samp> returns <code>3750000</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>47.96 GB</samp> or <samp>47.96G</samp> or <samp>47.96 gigabytes</samp> returns <code>47960000000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param string $value <p>The human-readable value to retrieve from.</p>
@@ -166,13 +166,13 @@ final class Byte extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into multiples:<br>
 	 * &nbsp; &#8226; &nbsp; integers as powers of 10, such as: <code>1000</code> for kilobytes;<br>
-	 * &nbsp; &#8226; &nbsp; SI symbols, such as: <code>kB</code> or <code>k</code> for kilobytes;<br>
-	 * &nbsp; &#8226; &nbsp; SI names in English, such as: <code>kilobyte</code> or <code>kilobytes</code> for kilobytes.
+	 * &nbsp; &#8226; &nbsp; SI symbol strings, such as: <code>"kB"</code> or <code>"k"</code> for kilobytes;<br>
+	 * &nbsp; &#8226; &nbsp; SI name strings in English, such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a multiple.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{

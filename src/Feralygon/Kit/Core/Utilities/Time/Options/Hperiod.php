@@ -24,14 +24,14 @@ use Feralygon\Kit\Core\Utilities\{
  * If not set, a specific limit is automatically chosen and used, otherwise it must always be greater than <code>0</code>.</p>
  * @property string|float|null $min_multiple [default = null] <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of seconds, such as: <code>1</code>, <code>60</code>, <code>3600</code>, ...<br>
- * &nbsp; &#8226; &nbsp; a symbol, such as: <code>s</code>, <code>min</code>, <code>h</code>, ... <br>
- * &nbsp; &#8226; &nbsp; a label, such as: <code>second</code>, <code>minute</code>, <code>hour</code>, ...<br>
+ * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>s</samp>, <samp>min</samp>, <samp>h</samp>, ... <br>
+ * &nbsp; &#8226; &nbsp; a label, such as: <samp>second</samp>, <samp>minute</samp>, <samp>hour</samp>, ...<br>
  * <br>
  * If not set, a specific multiple is automatically chosen and used.</p>
  * @property string|float|null $max_multiple [default = null] <p>The maximum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of seconds, such as: <code>1</code>, <code>60</code>, <code>3600</code>, ...<br>
- * &nbsp; &#8226; &nbsp; a symbol, such as: <code>s</code>, <code>min</code>, <code>h</code>, ... <br>
- * &nbsp; &#8226; &nbsp; a label, such as: <code>second</code>, <code>minute</code>, <code>hour</code>, ...<br>
+ * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>s</samp>, <samp>min</samp>, <samp>h</samp>, ... <br>
+ * &nbsp; &#8226; &nbsp; a label, such as: <samp>second</samp>, <samp>minute</samp>, <samp>hour</samp>, ...<br>
  * <br>
  * If not set, the highest multiple supported is used.</p>
  * @see \Feralygon\Kit\Core\Utilities\Time

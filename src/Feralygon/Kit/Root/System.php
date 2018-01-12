@@ -73,7 +73,7 @@ final class System
 	 * Check if is library.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if is a library.</p>
+	 * @return bool <p>Boolean <code>true</code> if is a library.</p>
 	 */
 	final public static function isLibrary() : bool
 	{
@@ -124,7 +124,7 @@ final class System
 	 * Get hostname.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The hostname or <samp>null</samp> if none is set.</p>
+	 * @return string|null <p>The hostname or <code>null</code> if none is set.</p>
 	 */
 	final public static function getHostname() : ?string
 	{
@@ -136,7 +136,7 @@ final class System
 	 * Get IP address.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The IP address or <samp>null</samp> if none is set.</p>
+	 * @return string|null <p>The IP address or <code>null</code> if none is set.</p>
 	 */
 	final public static function getIpAddress() : ?string
 	{
@@ -174,7 +174,7 @@ final class System
 	 * @since 1.0.0
 	 * @param string $name <p>The command name to check for.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidCommandName
-	 * @return bool <p>Boolean <samp>true</samp> if has a command with the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if has a command with the given name.</p>
 	 */
 	final public static function hasCommand(string $name) : bool
 	{
@@ -208,7 +208,7 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The environment name to build for.</p>
-	 * @return \Feralygon\Kit\Root\System\Environment|null <p>The built environment instance for the given name or <samp>null</samp> if none was built.</p>
+	 * @return \Feralygon\Kit\Root\System\Environment|null <p>The built environment instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	final private static function buildEnvironment(string $name) : ?Environment
 	{

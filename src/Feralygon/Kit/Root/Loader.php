@@ -51,7 +51,7 @@ final class Loader
 	 * @since 1.0.0
 	 * @param string $vendor <p>The package vendor to check for.</p>
 	 * @param string $name <p>The package name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if has the package with the given vendor and name.</p>
+	 * @return bool <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
 	 */
 	final public static function hasPackage(string $vendor, string $name) : bool
 	{
@@ -122,7 +122,7 @@ final class Loader
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to get from.</p>
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package|null <p>The package instance from the given object or class or <samp>null</samp> if none is set.</p>
+	 * @return \Feralygon\Kit\Root\Loader\Objects\Package|null <p>The package instance from the given object or class or <code>null</code> if none is set.</p>
 	 */
 	final public static function getClassPackage($object_class) : ?Objects\Package
 	{

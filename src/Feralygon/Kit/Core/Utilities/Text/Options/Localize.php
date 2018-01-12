@@ -17,7 +17,7 @@ use Feralygon\Kit\Core\Utilities\{
  * Core text utility localize method options class.
  * 
  * @since 1.0.0
- * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, as <code>name => value</code> pairs.</p>
+ * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
  * @property int $string_flags [default = 0x00] <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> class stringification bitwise flags, 
  * which can be any combination of the following:<br><br>
  * &nbsp; &#8226; &nbsp; <code>STRING_NO_QUOTES</code> : Do not add quotes to strings in the returning string.<br><br>
@@ -34,8 +34,8 @@ use Feralygon\Kit\Core\Utilities\{
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code> : The placeholder to stringify for.<br>
  * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to stringify.<br>
  * <br>
- * Return: <samp><b>string|null</b></samp><br>
- * The stringified value for the given placeholder or <samp>null</samp> if no stringification occurred.
+ * Return: <code><b>string|null</b></code><br>
+ * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.
  * </p>
  * @see \Feralygon\Kit\Core\Utilities\Text
  */

@@ -61,14 +61,14 @@ final class Locale
 	 * Evaluate a given value as a language.
 	 * 
 	 * Only the following types and formats can be evaluated into languages:<br>
-	 * &nbsp; &#8226; &nbsp; ISO 639 codes, such as: <code>en</code> or <code>eng</code> for English;<br>
-	 * &nbsp; &#8226; &nbsp; ISO 639 codes with ISO 3166-1 country codes, such as: <code>en-US</code> or <code>eng-USA</code> for English from United States of America
-	 * (both underscores (<code>_</code>) and hyphens (<code>-</code>) are allowed, as well as any combination of code types).<br>
+	 * &nbsp; &#8226; &nbsp; ISO 639 code strings, such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
+	 * &nbsp; &#8226; &nbsp; ISO 639 code strings with ISO 3166-1 country codes, such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
+	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, as well as any combination of code types).<br>
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a language.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a language.</p>
 	 */
 	final public static function evaluateLanguage(&$value, bool $nullable = false) : bool
 	{
@@ -78,13 +78,13 @@ final class Locale
 	/**
 	 * Translate a given message.
 	 * 
-	 * Placeholders may optionally be set in the message as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
@@ -114,7 +114,7 @@ final class Locale
 	 * @since 1.0.0
 	 * @param string $message <p>The message to translate.</p>
 	 * @param string|null $context [default = null] <p>The message context to translate with.</p>
-	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The translation of the given message.</p>
 	 */
 	final public static function translate(string $message, ?string $context = null, $options = null) : string
@@ -145,13 +145,13 @@ final class Locale
 	/**
 	 * Translate a given plural message.
 	 * 
-	 * Placeholders may optionally be set in the message as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
@@ -184,7 +184,7 @@ final class Locale
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The message number placeholder to translate with.</p>
 	 * @param string|null $context [default = null] <p>The message context to translate with.</p>
-	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The translation of the given plural message.</p>
 	 */
 	final public static function ptranslate(string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null, $options = null) : string

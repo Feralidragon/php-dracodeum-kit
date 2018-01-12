@@ -23,7 +23,7 @@ abstract class Filter extends Modifier
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to process.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value was processed successfully.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value was processed successfully.</p>
 	 */
 	abstract public function processValue(&$value) : bool;
 }

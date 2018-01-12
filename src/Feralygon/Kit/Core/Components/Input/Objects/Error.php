@@ -41,8 +41,8 @@ final class Error
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Options\Text $text_options</b></code> : The text options instance to use.<br>
 	 * <br>
-	 * Return: <samp><b>string|null</b></samp><br>
-	 * The error message or <samp>null</samp> if no error is set.
+	 * Return: <code><b>string|null</b></code><br>
+	 * The error message or <code>null</code> if no error is set.
 	 * </p>
 	 */
 	final public function __construct($value, array $messengers = [])

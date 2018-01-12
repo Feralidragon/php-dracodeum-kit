@@ -60,7 +60,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if property is set for the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function __isset(string $name) : bool
 	{
@@ -100,7 +100,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if has property with the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
 	final public function has(string $name) : bool
 	{
@@ -175,7 +175,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if property is set for the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
@@ -258,7 +258,7 @@ trait Properties
 	 * Initialize a given set of properties with a given evaluator function.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties <p>The properties to initialize, as <code>name => value</code> pairs.</p>
+	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
 	 * @param callable $evaluator <p>The function to evaluate a given property value for a given name.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function (string $name, &$value) : ?bool</code><br>
@@ -267,15 +267,15 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to evaluate for.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The property value to evaluate (validate and sanitize).<br>
 	 * <br>
-	 * Return: <samp><b>bool|null</b></samp><br>
-	 * Boolean <samp>true</samp> if the property with the given name and value exists and is valid,
-	 * boolean <samp>false</samp> if it exists but is not valid, or <samp>null</samp> if it does not exist.
+	 * Return: <code><b>bool|null</b></code><br>
+	 * Boolean <code>true</code> if the property with the given name and value exists and is valid,
+	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.
 	 * </p>
 	 * @param string[] $required [default = []] <p>The required property names.</p>
 	 * @param string $mode [default = 'rw'] <p>The properties read and write mode to initialize with, which must be one the following:<br>
-	 * &nbsp; &#8226; &nbsp; <code>rw</code> : Allow properties to be both read from and written to.<br>
-	 * &nbsp; &#8226; &nbsp; <code>r</code> : Allow properties to be only read from.<br>
-	 * &nbsp; &#8226; &nbsp; <code>w</code> : Allow properties to be only written to.
+	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow properties to be both read from and written to.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow properties to be only read from.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow properties to be only written to.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertiesMode

@@ -28,7 +28,7 @@ final class Json extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $data <p>The data to encode.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Json\Options\Encode|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Json\Options\Encode|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Json\Exceptions\EncodeInvalidData
 	 * @return string <p>The given data encoded.</p>
 	 */
@@ -48,7 +48,7 @@ final class Json extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $data <p>The data to decode.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Json\Options\Decode|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Json\Options\Decode|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Json\Exceptions\DecodeInvalidData
 	 * @return mixed <p>The given data decoded.</p>
 	 */

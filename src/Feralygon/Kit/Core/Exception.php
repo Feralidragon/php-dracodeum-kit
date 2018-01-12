@@ -32,8 +32,8 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Exception\Options\Construct|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Exception\Options\Construct|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [], $options = null)
 	{
@@ -74,14 +74,14 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	/**
 	 * Get default message.
 	 * 
-	 * If set, placeholders must be exclusively composed by identifiers, set as <code>{{placeholder}}</code>.<br>
-	 * Identifiers are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) 
-	 * or underscore (<code>_</code>), and may only contain letters (<code>a-z</code> and <code>A-Z</code>), 
-	 * digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * If set, placeholders must be exclusively composed by identifiers, set as <samp>{{placeholder}}</samp>.<br>
+	 * Identifiers are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used with pointers to specific object properties or associative array values, within the set properties, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of chained pointers.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of chained pointers.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
@@ -111,8 +111,8 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to evaluate for.</p>
 	 * @param mixed $value [reference] <p>The property value to evaluate (validate and sanitize).</p>
-	 * @return bool|null <p>Boolean <samp>true</samp> if the property with the given name and value exists and is valid,
-	 * boolean <samp>false</samp> if it exists but is not valid, or <samp>null</samp> if it does not exist.</p>
+	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists and is valid,
+	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.</p>
 	 */
 	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
 	

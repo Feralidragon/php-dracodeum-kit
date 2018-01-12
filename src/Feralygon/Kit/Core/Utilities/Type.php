@@ -42,7 +42,7 @@ final class Type extends Utility
 	 * be set to <code>true</code> to get a more human-readable and visually appealing return.<br>
 	 * <br>
 	 * This function is similar to <code>var_export</code>, but it gives more control on the return, and it is modernized 
-	 * (arrays become <samp>[...]</samp> instead of the old syntax <samp>array(...)</samp>).
+	 * (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
@@ -128,16 +128,16 @@ final class Type extends Utility
 	 * Evaluate a given value as a boolean.
 	 * 
 	 * Only the following types and formats can be evaluated into booleans:<br>
-	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <samp>false</samp>, and <code>true</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <samp>false</samp>, and <code>1</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <samp>false</samp>, and <code>1.0</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings, as: <code>0</code>, <code>f</code>, <code>false</code>, <code>off</code> or <code>no</code> for boolean <samp>false</samp>, 
-	 * and <code>1</code>, <code>t</code>, <code>true</code>, <code>on</code> or <code>yes</code> for boolean <samp>true</samp>.
+	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; strings, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a boolean.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a boolean.</p>
 	 */
 	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
 	{
@@ -165,18 +165,18 @@ final class Type extends Utility
 	 * Coerce a given value into a boolean.
 	 * 
 	 * Only the following types and formats can be coerced into booleans:<br>
-	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <samp>false</samp>, and <code>true</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <samp>false</samp>, and <code>1</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <samp>false</samp>, and <code>1.0</code> for boolean <samp>true</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings, as: <code>0</code>, <code>f</code>, <code>false</code>, <code>off</code> or <code>no</code> for boolean <samp>false</samp>, 
-	 * and <code>1</code>, <code>t</code>, <code>true</code>, <code>on</code> or <code>yes</code> for boolean <samp>true</samp>.
+	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; strings, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\BooleanCoercionFailed
 	 * @return bool|null <p>The given value coerced into a boolean.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
 	{
@@ -190,19 +190,19 @@ final class Type extends Utility
 	 * Evaluate a given value as a number.
 	 * 
 	 * Only the following types and formats can be evaluated into numbers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000.45</code> or <code>123000,45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123k</code> or <code>123 thousand</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123kB</code> or <code>123 kilobytes</code> for <samp>123000</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a number.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a number.</p>
 	 */
 	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
 	{
@@ -245,21 +245,21 @@ final class Type extends Utility
 	 * Coerce a given value into a number.
 	 * 
 	 * Only the following types and formats can be coerced into numbers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000.45</code> or <code>123000,45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123k</code> or <code>123 thousand</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123kB</code> or <code>123 kilobytes</code> for <samp>123000</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\NumberCoercionFailed
 	 * @return int|float|null <p>The given value coerced into a number.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceNumber($value, bool $nullable = false)
 	{
@@ -273,19 +273,19 @@ final class Type extends Utility
 	 * Evaluate a given value as an integer.
 	 * 
 	 * Only the following types and formats can be evaluated into integers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; whole floats, such as: <code>123000.0</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123k</code> or <code>123 thousand</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123kB</code> or <code>123 kilobytes</code> for <samp>123000</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; whole floats, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an integer.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an integer.</p>
 	 */
 	final public static function evaluateInteger(&$value, bool $nullable = false) : bool
 	{
@@ -303,21 +303,21 @@ final class Type extends Utility
 	 * Coerce a given value into an integer.
 	 * 
 	 * Only the following types and formats can be coerced into integers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; whole floats, such as: <code>123000.0</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123k</code> or <code>123 thousand</code> for <samp>123000</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123kB</code> or <code>123 kilobytes</code> for <samp>123000</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; whole floats, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\IntegerCoercionFailed
 	 * @return int|null <p>The given value coerced into an integer.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceInteger($value, bool $nullable = false) : ?int
 	{
@@ -331,19 +331,19 @@ final class Type extends Utility
 	 * Evaluate a given value as a float.
 	 * 
 	 * Only the following types and formats can be evaluated into floats:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000.45</code> or <code>123000,45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123.45k</code> or <code>123.45 thousand</code> for <samp>123450.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123.45kB</code> or <code>123.45 kilobytes</code> for <samp>123450.0</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a float.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a float.</p>
 	 */
 	final public static function evaluateFloat(&$value, bool $nullable = false) : bool
 	{
@@ -360,21 +360,21 @@ final class Type extends Utility
 	 * Coerce a given value into a float.
 	 * 
 	 * Only the following types and formats can be coerced into floats:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>123000.45</code> or <code>123000,45</code> for <samp>123000.45</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>123e3</code> or <code>123E3</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>0360170</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>0x1e078</code> or <code>0x1E078</code> for <samp>123000.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>123.45k</code> or <code>123.45 thousand</code> for <samp>123450.0</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>123.45kB</code> or <code>123.45 kilobytes</code> for <samp>123450.0</samp>.
+	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\FloatCoercionFailed
 	 * @return float|null <p>The given value coerced into a float.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceFloat($value, bool $nullable = false) : ?float
 	{
@@ -392,7 +392,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a string.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a string.</p>
 	 */
 	final public static function evaluateString(&$value, bool $nullable = false) : bool
 	{
@@ -417,7 +417,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\StringCoercionFailed
 	 * @return string|null <p>The given value coerced into a string.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceString($value, bool $nullable = false) : ?string
 	{
@@ -436,7 +436,7 @@ final class Type extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a class.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a class.</p>
 	 */
 	final public static function evaluateClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -469,7 +469,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ClassCoercionFailed
 	 * @return string|null <p>The given value coerced into a class.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceClass($value, $base_object_class = null, bool $nullable = false) : ?string
 	{
@@ -489,7 +489,7 @@ final class Type extends Utility
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an object.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an object.</p>
 	 */
 	final public static function evaluateObject(&$value, $base_object_class = null, array $arguments = [], bool $nullable = false) : bool
 	{
@@ -524,7 +524,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ObjectCoercionFailed
 	 * @return object|null <p>The given value coerced into an object.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObject($value, $base_object_class = null, array $arguments = [], bool $nullable = false)
 	{
@@ -543,7 +543,7 @@ final class Type extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an object or class.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an object or class.</p>
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -577,7 +577,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ObjectClassCoercionFailed
 	 * @return object|string|null <p>The given value coerced into an object or class.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObjectClass($value, $base_object_class = null, bool $nullable = false)
 	{
@@ -606,7 +606,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to check.</p>
 	 * @param object|string $base_object_class <p>The base object or class to check against.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class extends from or 
+	 * @return bool <p>Boolean <code>true</code> if the given object or class extends from or 
 	 * is of the same class as the given base object or class.</p>
 	 */
 	final public static function isA($object_class, $base_object_class) : bool
@@ -620,7 +620,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object[]|string[] $objects_classes <p>The objects or classes to check.</p>
 	 * @param object|string $base_object_class <p>The base object or class to check against.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if all the given objects or classes extend from or
+	 * @return bool <p>Boolean <code>true</code> if all the given objects or classes extend from or
 	 * are of the same class as the given base object or class.</p>
 	 */
 	final public static function areA(array $objects_classes, $base_object_class) : bool
@@ -640,7 +640,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to check.</p>
 	 * @param object[]|string[] $base_objects_classes <p>The base objects or classes to check against.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class extends from or
+	 * @return bool <p>Boolean <code>true</code> if the given object or class extends from or
 	 * is of the same class as any of the given base objects or classes.</p>
 	 */
 	final public static function isAny($object_class, array $base_objects_classes) : bool
@@ -660,7 +660,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object[]|string[] $objects_classes <p>The objects or classes to check.</p>
 	 * @param object[]|string[] $base_objects_classes <p>The base objects or classes to check against.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given objects or classes extend from or
+	 * @return bool <p>Boolean <code>true</code> if the given objects or classes extend from or
 	 * are of the same class as any of the given base objects or classes.</p>
 	 */
 	final public static function areAny(array $objects_classes, array $base_objects_classes) : bool
@@ -700,7 +700,7 @@ final class Type extends Utility
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
 	 * @param object|string $object_class <p>The object or class to check.</p>
 	 * @param string $interface <p>The interface to check against.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class implements the given interface.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class implements the given interface.</p>
 	 */
 	final public static function implements($object_class, string $interface) : bool
 	{
@@ -716,7 +716,7 @@ final class Type extends Utility
 	 * @param string[] $interfaces <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class implements any of the given interfaces.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class implements any of the given interfaces.</p>
 	 */
 	final public static function implementsAny($object_class, array $interfaces) : bool
 	{
@@ -739,7 +739,7 @@ final class Type extends Utility
 	 * @param string[] $interfaces <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class implements all of the given interfaces.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class implements all of the given interfaces.</p>
 	 */
 	final public static function implementsAll($object_class, array $interfaces) : bool
 	{
@@ -758,7 +758,7 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given object or class is anonymous.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class is anonymous.</p>
 	 */
 	final public static function isAnonymous($object_class) : bool
 	{
@@ -768,7 +768,7 @@ final class Type extends Utility
 	/**
 	 * Retrieve class from a given object or class.
 	 * 
-	 * The leading backslash character <code>\</code> is never prepended to the returned class.
+	 * The leading backslash character <samp>\</samp> is never prepended to the returned class.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
@@ -805,7 +805,7 @@ final class Type extends Utility
 	/**
 	 * Retrieve namespace from a given object or class.
 	 * 
-	 * The returning namespace does not have the leading backslash character <code>\</code>, 
+	 * The returning namespace does not have the leading backslash character <samp>\</samp>, 
 	 * thus an empty namespace is returned for the global one.
 	 * 
 	 * @since 1.0.0
@@ -833,7 +833,7 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filepath from the given object or class or <samp>null</samp> if the class is not declared in any file.</p>
+	 * @return string <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filepath($object_class) : ?string
 	{
@@ -848,7 +848,7 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The directory from the given object or class or <samp>null</samp> if the class is not declared in any file.</p>
+	 * @return string <p>The directory from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function directory($object_class) : ?string
 	{
@@ -863,7 +863,7 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filename from the given object or class or <samp>null</samp> if the class is not declared in any file.</p>
+	 * @return string <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filename($object_class) : ?string
 	{

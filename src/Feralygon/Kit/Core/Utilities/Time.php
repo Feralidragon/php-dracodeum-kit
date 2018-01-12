@@ -146,7 +146,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into timestamps:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01 12:00:00</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01 12:00:00"</code> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -157,7 +157,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a timestamp.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a timestamp.</p>
 	 */
 	final public static function evaluateTimestamp(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -183,7 +183,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into timestamps:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01 12:00:00</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -192,7 +192,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\TimestampCoercionFailed
 	 * @return int|string|null <p>The given value coerced into a timestamp.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceTimestamp($value, ?string $format = null, bool $nullable = false)
 	{
@@ -211,7 +211,7 @@ final class Time extends Utility
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $timestamp <p>The timestamp to generate from, as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given timestamp.</p>
 	 */
 	final public static function stringifyTimestamp($timestamp, $text_options = null) : string
@@ -229,7 +229,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into dates:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01</code> for <samp>2017-01-01</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01"</code> for <samp>2017-01-01</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -240,7 +240,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a date.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a date.</p>
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -261,7 +261,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into dates:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2017-Jan-01</code> for <samp>2017-01-01</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -270,7 +270,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\DateCoercionFailed
 	 * @return int|string|null <p>The given value coerced into a date.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
 	{
@@ -289,7 +289,7 @@ final class Time extends Utility
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $date <p>The date to generate from, as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given date.</p>
 	 */
 	final public static function stringifyDate($date, $text_options = null) : string
@@ -307,7 +307,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into times:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2:05PM</code> for <samp>14:05:00</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2:05PM"</code> for <samp>14:05:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -318,7 +318,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a time.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a time.</p>
 	 */
 	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -339,7 +339,7 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into times:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>2:05PM</code> for <samp>14:05:00</samp>.
+	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -348,7 +348,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\TimeCoercionFailed
 	 * @return int|string|null <p>The given value coerced into a time.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
 	{
@@ -366,7 +366,7 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $time <p>The time to generate from, as supported by the PHP core <code>strtotime</code> function or as the number of seconds.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given time.</p>
 	 */
 	final public static function stringifyTime($time, $text_options = null) : string
@@ -383,18 +383,18 @@ final class Time extends Utility
 	 * Calculate how long ago it has been, in a human-readable format, since a given timestamp.
 	 * 
 	 * The returning string represents how long ago it has been since a given timestamp, in a human-readable format, as shown in the examples below, 
-	 * for a given timestamp set as <code>2017-01-01 12:00:00</code>:<br>
-	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 12:00:00</code> returns <samp><i>just now</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 11:06:23</code> returns <samp><i>5 minutes ago</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>2017-01-01 09:45:00</code> returns <samp><i>2 hours ago</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>2016-10-01 12:00:00</code> returns <samp><i>3 months ago</i></samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>2016-01-01 12:00:00</code> returns <samp><i>1 year ago</i></samp>.
+	 * for a given timestamp set as <samp>2017-01-01 12:00:00</samp>:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2017-01-01 12:00:00</samp> returns <samp>just now</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2017-01-01 11:06:23</samp> returns <samp>5 minutes ago</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2017-01-01 09:45:00</samp> returns <samp>2 hours ago</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2016-10-01 12:00:00</samp> returns <samp>3 months ago</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2016-01-01 12:00:00</samp> returns <samp>1 year ago</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $timestamp <p>The timestamp to calculate from, as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The calculated period on how long ago it has been, in a human-readable format, since the given timestamp.</p>
 	 */
 	final public static function ago($timestamp, $text_options = null) : string
@@ -494,10 +494,10 @@ final class Time extends Utility
 	 * 
 	 * The returning period represents the given one in a human-readable format, 
 	 * by rounding it to the nearest most significant time multiples, as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code>12</code> returns <samp><i>12 seconds</i></samp>, or <samp><i>12s</i></samp> in short form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>300.55</code> returns <samp><i>5 minutes and 55 milliseconds</i></samp>, or <samp><i>5min 55ms</i></samp> in short form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>7268</code> returns <samp><i>2 hours, 1 minute and 8 seconds</i></samp>, or <samp><i>2h 1min 8s</i></samp> in short form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>295500</code> returns <samp><i>3 days, 10 hours and 5 minutes</i></samp>, or <samp><i>3D 10h 5min</i></samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>12</code> returns <samp>12 seconds</samp>, or <samp>12s</samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>300.55</code> returns <samp>5 minutes and 55 milliseconds</samp>, or <samp>5min 55ms</samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>7268</code> returns <samp>2 hours, 1 minute and 8 seconds</samp>, or <samp>2h 1min 8s</samp> in short form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>295500</code> returns <samp>3 days, 10 hours and 5 minutes</samp>, or <samp>3D 10h 5min</samp> in short form.<br>
 	 * <br>
 	 * Whenever the short form is enabled with <var>$options->short = true</var>, the following symbols are used:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>Y</samp> : years<br>
@@ -513,8 +513,8 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param float $period <p>The machine-readable period to retrieve from, in seconds.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Hperiod|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Hperiod|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable period from the given machine one.</p>
 	 */
 	final public static function hperiod(float $period, $text_options = null, $options = null) : string
@@ -693,22 +693,22 @@ final class Time extends Utility
 	 * 
 	 * The returning period represents the given one in a machine-readable format and in seconds, 
 	 * by converting it as shown in the examples below:<br>
-	 * &nbsp; &#8226; &nbsp; <code><i>12 seconds</i></code> or <code><i>12s</i></code> returns <samp>12</samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code><i>5 minutes and 55 milliseconds</i></code> or <code><i>5min 55ms</i></code> returns <samp>300.55</samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code><i>2 hours, 1 minute and 8 seconds</i></code> or <code><i>2h 1min 8s</i></code> returns <samp>7268</samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code><i>3 days, 10 hours and 5 minutes</i></code> or <code><i>3D 10h 5min</i></code> returns <samp>295500</samp>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>12 seconds</samp> or <samp>12s</samp> returns <code>12</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>5 minutes and 55 milliseconds</samp> or <samp>5min 55ms</samp> returns <code>300.55</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>2 hours, 1 minute and 8 seconds</samp> or <samp>2h 1min 8s</samp> returns <code>7268</code>.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>3 days, 10 hours and 5 minutes</samp> or <samp>3D 10h 5min</samp> returns <code>295500</code>.<br>
 	 * <br>
 	 * Whenever the short form is used, the following symbols are recognized:<br>
-	 * &nbsp; &#8226; &nbsp; <code>Y</code> : years<br>
-	 * &nbsp; &#8226; &nbsp; <code>M</code> : months<br>
-	 * &nbsp; &#8226; &nbsp; <code>W</code> : weeks<br>
-	 * &nbsp; &#8226; &nbsp; <code>D</code> : days<br>
-	 * &nbsp; &#8226; &nbsp; <code>h</code> : hours<br>
-	 * &nbsp; &#8226; &nbsp; <code>min</code> : minutes<br>
-	 * &nbsp; &#8226; &nbsp; <code>s</code> : seconds<br>
-	 * &nbsp; &#8226; &nbsp; <code>ms</code> : milliseconds<br>
-	 * &nbsp; &#8226; &nbsp; <code>µs</code> : microseconds<br>
-	 * &nbsp; &#8226; &nbsp; <code>ns</code> : nanoseconds
+	 * &nbsp; &#8226; &nbsp; <samp>Y</samp> : years<br>
+	 * &nbsp; &#8226; &nbsp; <samp>M</samp> : months<br>
+	 * &nbsp; &#8226; &nbsp; <samp>W</samp> : weeks<br>
+	 * &nbsp; &#8226; &nbsp; <samp>D</samp> : days<br>
+	 * &nbsp; &#8226; &nbsp; <samp>h</samp> : hours<br>
+	 * &nbsp; &#8226; &nbsp; <samp>min</samp> : minutes<br>
+	 * &nbsp; &#8226; &nbsp; <samp>s</samp> : seconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>ms</samp> : milliseconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>µs</samp> : microseconds<br>
+	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
 	 * 
 	 * @since 1.0.0
 	 * @param string $period <p>The human-readable period to retrieve from.</p>
@@ -740,13 +740,13 @@ final class Time extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into multiples:<br>
 	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>3600</code> for hours;<br>
-	 * &nbsp; &#8226; &nbsp; symbols, such as: <code>h</code> for hours;<br>
-	 * &nbsp; &#8226; &nbsp; names in English, such as: <code>hour</code> or <code>hours</code> for hours.
+	 * &nbsp; &#8226; &nbsp; symbol strings, such as: <code>"h"</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; name strings in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a multiple.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
@@ -785,7 +785,7 @@ final class Time extends Utility
 	 * If not set, the current system time is used.</p>
 	 * @param int|float $interval [default = \Feralygon\Kit\Core\Enumerations\Time::T1_DAY] <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Generate|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Generate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateInvalidInterval
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateStartGreaterThanEnd
 	 * @return float[]|string[] <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>

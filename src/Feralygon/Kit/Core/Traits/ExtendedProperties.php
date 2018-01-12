@@ -63,7 +63,7 @@ trait ExtendedProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if property is set for the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function __isset(string $name) : bool
 	{
@@ -103,7 +103,7 @@ trait ExtendedProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if has property with the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
 	final public function has(string $name) : bool
 	{
@@ -171,7 +171,7 @@ trait ExtendedProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if property is set for the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
@@ -284,7 +284,7 @@ trait ExtendedProperties
 	 * Initialize a given set of properties with a given builder function.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties <p>The properties to initialize, as <code>name => value</code> pairs.</p>
+	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
 	 * @param callable $builder <p>The function to build a property instance for a given name.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function (string $name) : ?\Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property</code><br>
@@ -292,8 +292,8 @@ trait ExtendedProperties
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to build for.<br>
 	 * <br>
-	 * Return: <samp><b>\Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property|null</b></samp><br>
-	 * The built property instance for the given name or <samp>null</samp> if none was built.
+	 * Return: <code><b>\Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property|null</b></code><br>
+	 * The built property instance for the given name or <code>null</code> if none was built.
 	 * </p>
 	 * @param string[] $required [default = []] <p>The required property names.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertiesAlreadyInitialized

@@ -65,7 +65,7 @@ final class Property
 	 * or if either a getter or setter function is set.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if is initialized.</p>
+	 * @return bool <p>Boolean <code>true</code> if is initialized.</p>
 	 */
 	final public function isInitialized() : bool
 	{
@@ -88,10 +88,10 @@ final class Property
 	 * 
 	 * @since 1.0.0
 	 * @param string $mode <p>The read and write mode to set, which must be one the following:<br>
-	 * &nbsp; &#8226; &nbsp; <code>rw</code> : Allow this property to be both read from and written to (read-write).<br>
-	 * &nbsp; &#8226; &nbsp; <code>r</code> : Allow this property to be only read from (read-only).<br>
-	 * &nbsp; &#8226; &nbsp; <code>w</code> : Allow this property to be only written to (write-only).<br>
-	 * &nbsp; &#8226; &nbsp; <code>w-</code> : Allow this property to be only written to, and only once during instantiation (write-once).
+	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow this property to be both read from and written to (read-write).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only read from (read-only).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow this property to be only written to (write-only).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow this property to be only written to, and only once during instantiation (write-once).
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property\Exceptions\InvalidMode
 	 * @return $this <p>This instance, for chaining purposes.</p>
@@ -159,7 +159,7 @@ final class Property
 	 * Check if has default value.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if has default value.</p>
+	 * @return bool <p>Boolean <code>true</code> if has default value.</p>
 	 */
 	final public function hasDefaultValue() : bool
 	{
@@ -224,8 +224,8 @@ final class Property
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The value to evaluate (validate and sanitize).<br>
 	 * <br>
-	 * Return: <samp><b>bool</b></samp><br>
-	 * Boolean <samp>true</samp> if the given value is valid.
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given value is valid.
 	 * </p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */

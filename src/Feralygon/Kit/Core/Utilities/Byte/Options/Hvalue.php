@@ -22,14 +22,14 @@ use Feralygon\Kit\Core\Utilities\{
  * If not set, a specific precision is automatically chosen and used, otherwise it must always be greater than or equal to <code>0</code>.</p>
  * @property string|int|null $min_multiple [default = null] <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of bytes, such as: <code>1</code>, <code>1000</code>, <code>1000000</code>, ...<br>
- * &nbsp; &#8226; &nbsp; a symbol, such as: <code>B</code>, <code>KB</code> or <code>K</code>, <code>MB</code> or <code>M</code>, ... <br>
- * &nbsp; &#8226; &nbsp; a label, such as: <code>byte</code>, <code>kilobyte</code>, <code>megabyte</code>, ...<br>
+ * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>B</samp>, <samp>KB</samp> or <samp>K</samp>, <samp>MB</samp> or <samp>M</samp>, ... <br>
+ * &nbsp; &#8226; &nbsp; a label, such as: <samp>byte</samp>, <samp>kilobyte</samp>, <samp>megabyte</samp>, ...<br>
  * <br>
  * If not set, the lowest multiple supported is used.</p>
  * @property string|int|null $max_multiple [default = null] <p>The maximum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of bytes, such as: <code>1</code>, <code>1000</code>, <code>1000000</code>, ...<br>
- * &nbsp; &#8226; &nbsp; a symbol, such as: <code>B</code>, <code>KB</code> or <code>K</code>, <code>MB</code> or <code>M</code>, ... <br>
- * &nbsp; &#8226; &nbsp; a label, such as: <code>byte</code>, <code>kilobyte</code>, <code>megabyte</code>, ...<br>
+ * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>B</samp>, <samp>KB</samp> or <samp>K</samp>, <samp>MB</samp> or <samp>M</samp>, ... <br>
+ * &nbsp; &#8226; &nbsp; a label, such as: <samp>byte</samp>, <samp>kilobyte</samp>, <samp>megabyte</samp>, ...<br>
  * <br>
  * If not set, the highest multiple supported is used.</p>
  * @see \Feralygon\Kit\Core\Utilities\Byte

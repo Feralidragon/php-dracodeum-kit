@@ -19,7 +19,7 @@ use Feralygon\Kit\Root\Locale;
  * Root locale translate method options class.
  * 
  * @since 1.0.0
- * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, as <code>name => value</code> pairs.</p>
+ * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
  * @property int $info_scope [default = \Feralygon\Kit\Core\Enumerations\InfoScope::NONE] <p>The info scope to use.</p>
  * @property string|null $language [default = null] <p>The language ISO 639 code to translate the message to.<br>
  * If not set, the currently set locale language is used.</p>
@@ -39,8 +39,8 @@ use Feralygon\Kit\Root\Locale;
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code> : The placeholder to stringify for.<br>
  * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to stringify.<br>
  * <br>
- * Return: <samp><b>string|null</b></samp><br>
- * The stringified value for the given placeholder or <samp>null</samp> if no stringification occurred.
+ * Return: <code><b>string|null</b></code><br>
+ * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.
  * </p>
  * @see https://en.wikipedia.org/wiki/ISO_639
  * @see \Feralygon\Kit\Root\Locale

@@ -552,7 +552,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Check if names can be shown.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if names can be shown.</p>
+	 * @return bool <p>Boolean <code>true</code> if names can be shown.</p>
 	 */
 	protected function canShowNames() : bool
 	{
@@ -563,7 +563,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Check if values can be shown.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if values can be shown.</p>
+	 * @return bool <p>Boolean <code>true</code> if values can be shown.</p>
 	 */
 	protected function canShowValues() : bool
 	{

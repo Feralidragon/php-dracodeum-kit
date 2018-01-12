@@ -115,7 +115,7 @@ final class Os
 	 * Check if is Linux.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if is Linux.</p>
+	 * @return bool <p>Boolean <code>true</code> if is Linux.</p>
 	 */
 	final public function isLinux() : bool
 	{
@@ -126,7 +126,7 @@ final class Os
 	 * Check if is Windows.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if is Windows.</p>
+	 * @return bool <p>Boolean <code>true</code> if is Windows.</p>
 	 */
 	final public function isWindows() : bool
 	{
@@ -137,7 +137,7 @@ final class Os
 	 * Check if is Unix.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <samp>true</samp> if is Unix.</p>
+	 * @return bool <p>Boolean <code>true</code> if is Unix.</p>
 	 */
 	final public function isUnix() : bool
 	{

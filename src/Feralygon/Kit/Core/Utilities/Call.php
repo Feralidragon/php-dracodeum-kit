@@ -176,16 +176,16 @@ final class Call extends Utility
 	/**
 	 * Retrieve name from a given function.
 	 * 
-	 * If the given function is anonymous then <samp>null</samp> is returned.<br>
+	 * If the given function is anonymous then <code>null</code> is returned.<br>
 	 * If the given function belongs to a class and the <var>$full</var> parameter is passed as <code>true</code>, 
-	 * then a string in the format <samp>Class::name</samp> is returned.<br>
+	 * then a string in the format <code>Class::name</code> is returned.<br>
 	 * In every other case only the name itself is returned.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
 	 * @param bool $full [default = false] <p>Return the full name, including the class it's declared in.</p>
 	 * @param bool $short [default = false] <p>Return the short form of the class name instead of the full namespaced one.</p>
-	 * @return string|null <p>The name from the given function or <samp>null</samp> if the function has no name (anonymous).</p>
+	 * @return string|null <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
 	 */
 	final public static function name(callable $function, bool $full = false, bool $short = false) : ?string
 	{
@@ -217,8 +217,8 @@ final class Call extends Utility
 	 * The returning parameters from the given function are represented by their types, names and default values.<br>
 	 * The expected return format for each parameter is <samp>type name</samp> or <samp>type name = value</samp>.<br>
 	 * <br>
-	 * In parameters passed by reference, an additional <samp>&amp;</samp> is prepended.<br>
-	 * In variadic parameters, an additional <samp>...</samp> is also prepended.
+	 * In parameters passed by reference, an additional <code>&amp;</code> is prepended.<br>
+	 * In variadic parameters, an additional <code>...</code> is also prepended.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
@@ -538,7 +538,7 @@ final class Call extends Utility
 	 * @param callable $template <p>The template callable declaration to assert against.</p>
 	 * @param bool $throw_exception [default = false] <p>Throw an exception if the assertion fails.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\SignatureAssertionFailed
-	 * @return bool <p>Boolean <samp>true</samp> if the assertion succeeded with the given function against the given template.</p>
+	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function against the given template.</p>
 	 */
 	final public static function assertSignature(callable $function, callable $template, bool $throw_exception = false) : bool
 	{
@@ -566,7 +566,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string <p>The extension from the given function or <samp>null</samp> if the function does not belong to any extension.</p>
+	 * @return string <p>The extension from the given function or <code>null</code> if the function does not belong to any extension.</p>
 	 */
 	final public static function extension(callable $function) : ?string
 	{
@@ -581,7 +581,7 @@ final class Call extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into a callable.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(&$value, ?callable $template = null, bool $nullable = false) : bool
 	{
@@ -603,7 +603,7 @@ final class Call extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\CoercionFailed
 	 * @return callable|null <p>The given value coerced into a callable.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce($value, ?callable $template = null, bool $nullable = false) : ?callable
 	{
@@ -620,7 +620,7 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return string|null <p>The previous class from the current stack or <samp>null</samp> if the previous call in the stack was not called from a class.</p>
+	 * @return string|null <p>The previous class from the current stack or <code>null</code> if the previous call in the stack was not called from a class.</p>
 	 */
 	final public static function stackPreviousClass(int $offset = 0) : ?string
 	{
@@ -670,7 +670,7 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|null <p>The previous object from the current stack or <samp>null</samp> if the previous call in the stack was not called from an object.</p>
+	 * @return object|null <p>The previous object from the current stack or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
 	final public static function stackPreviousObject(int $offset = 0)
 	{
@@ -720,7 +720,7 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|string|null <p>The previous object or class from the current stack or <samp>null</samp> if the previous call in the stack was not called from an object nor a class.</p>
+	 * @return object|string|null <p>The previous object or class from the current stack or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
 	 */
 	final public static function stackPreviousObjectClass(int $offset = 0)
 	{

@@ -84,7 +84,7 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).
 	 * </p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is empty.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is empty.</p>
 	 */
 	final public static function empty(?string $string, bool $ignore_whitespace = false) : bool
 	{
@@ -100,8 +100,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\StringifyUnsupportedValueType
 	 * @return string <p>The generated string from the given value.</p>
 	 */
@@ -254,7 +254,7 @@ final class Text extends Utility
 	 * Slugify a given string.
 	 * 
 	 * The process of slugification of a given string consists in converting all of its characters into the closest ones in 
-	 * the ASCII alphanumeric range (<code>0-9</code>, <code>a-z</code> and <code>A-Z</code>), discarding all special characters and replacing word separator characters, 
+	 * the ASCII alphanumeric range (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), discarding all special characters and replacing word separator characters, 
 	 * such as spaces, underscores, commas, periods and others of a similar type, by a given delimiter.<br>
 	 * <br>
 	 * The returning string is also trimmed and converted to lowercase by omission.
@@ -315,8 +315,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Bulletify|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Bulletify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The bulletified string from the given one.</p>
 	 */
 	final public static function bulletify(string $string, $text_options = null, $options = null) : string
@@ -346,8 +346,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $strings <p>The strings to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
 	 * If <var>$options->merge</var> is set to <code>true</code>, a single merged string with all the given strings is returned instead, 
@@ -398,13 +398,13 @@ final class Text extends Utility
 	/**
 	 * Check if a given string is an identifier.
 	 * 
-	 * A given string is only considered to be an identifier as a word which starts with an ASCII letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and is exclusively composed by ASCII letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * A given string is only considered to be an identifier as a word which starts with an ASCII letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and is exclusively composed by ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
 	 * @param bool $extended [default = false] <p>Check as an extended identifier, in which dots may be used as delimiters between words to represent pointers.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is an identifier.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is an identifier.</p>
 	 */
 	final public static function isIdentifier(string $string, bool $extended = false) : bool
 	{
@@ -414,14 +414,14 @@ final class Text extends Utility
 	/**
 	 * Check if a given string matches a given wildcard.
 	 * 
-	 * In a given wildcard, the <code>*</code> character matches any number and type of characters, including no characters at all, 
+	 * In a given wildcard, the <samp>*</samp> character matches any number and type of characters, including no characters at all, 
 	 * and is also the only wildcard character recognized.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
 	 * @param string $wildcard <p>The wildcard to match against.</p>
 	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive matching.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string matches the given wildcard.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string matches the given wildcard.</p>
 	 */
 	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false) : bool
 	{
@@ -437,22 +437,22 @@ final class Text extends Utility
 	 * 
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * Any parameter given as neither a string nor a number is stringified.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to fill.</p>
-	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Fill|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Fill|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillPlaceholderMethodIdentifierNotFound
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillPlaceholderPropertyIdentifierNotFound
@@ -523,13 +523,13 @@ final class Text extends Utility
 	 * 
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * Any parameter given as neither a string nor a number is stringified.
@@ -539,9 +539,9 @@ final class Text extends Utility
 	 * @param string $string2 <p>The string plural form to fill.</p>
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The string number placeholder to fill with.</p>
-	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The given plural string filled with the given parameters.</p>
 	 */
 	final public static function pfill(string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters, $text_options = null, $options = null) : string
@@ -562,17 +562,17 @@ final class Text extends Utility
 	 * Check if a given string is a placeholder.
 	 * 
 	 * A given string is only considered to be a placeholder if its is exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * It may also have pointers to specific object properties or associative array values, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is a placeholder.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is a placeholder.</p>
 	 */
 	final public static function isPlaceholder(string $string) : bool
 	{
@@ -586,7 +586,7 @@ final class Text extends Utility
 	 * @param string $string <p>The string to check.</p>
 	 * @param string $placeholder <p>The placeholder to check for.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\InvalidPlaceholder
-	 * @return bool <p>Boolean <samp>true</samp> if the given string has the given placeholder.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string has the given placeholder.</p>
 	 */
 	final public static function hasPlaceholder(string $string, string $placeholder) : bool
 	{
@@ -602,7 +602,7 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
 	 * @param string[] $placeholders <p>The placeholders to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string has all the given placeholders.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string has all the given placeholders.</p>
 	 */
 	final public static function hasAllPlaceholders(string $string, array $placeholders) : bool
 	{
@@ -620,7 +620,7 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
 	 * @param string[] $placeholders <p>The placeholders to check for.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string has any of the given placeholders.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string has any of the given placeholders.</p>
 	 */
 	final public static function hasAnyPlaceholders(string $string, array $placeholders) : bool
 	{
@@ -635,13 +635,13 @@ final class Text extends Utility
 	/**
 	 * Get placeholders from a given string.
 	 * 
-	 * Placeholders must be present in the given string as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
@@ -676,9 +676,9 @@ final class Text extends Utility
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string $string <p>The string to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <code>field => pattern</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Parse|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
-	 * @return array|null <p>The parsed data from the given string, as <samp>field => value</samp> pairs, or <samp>null</samp> if no data could be parsed.</p>
+	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Parse|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return array|null <p>The parsed data from the given string, as <samp>field => value</samp> pairs, or <code>null</code> if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
 	{
@@ -698,13 +698,13 @@ final class Text extends Utility
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string[] $strings <p>The strings to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <code>field => pattern</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mparse|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mparse|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidString
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidFieldPattern
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidDelimiterPattern
 	 * @return array <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string,
-	 * or <samp>null</samp> per string if <var>$options->keep_nulls = true</var> and no data could be parsed from it.<br>
+	 * or <code>null</code> per string if <var>$options->keep_nulls = true</var> and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
 	final public static function mparse(array $strings, array $fields_patterns, $options = null) : array
@@ -975,7 +975,7 @@ final class Text extends Utility
 	 * @param string $string <p>The string to truncate.</p>
 	 * @param int $length <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Truncate|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Truncate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\TruncateInvalidLength
 	 * @return string <p>The given string truncated to the given length.</p>
 	 */
@@ -1072,7 +1072,7 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is multiline.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is multiline.</p>
 	 */
 	final public static function isMultiline(string $string) : bool
 	{
@@ -1083,15 +1083,15 @@ final class Text extends Utility
 	 * Check if a given string is in camel case notation.
 	 * 
 	 * A given string is only considered to be in camel case notation if it starts with a lowercase character 
-	 * from <code>a</code> to <code>z</code> and is only composed by ASCII alphanumeric characters (<code>0-9</code>, <code>a-z</code> and <code>A-Z</code>).<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
-	 * The strings <code>foo</code> and <code>fooBar</code> are two examples of camel case notation.
+	 * The strings <samp>foo</samp> and <samp>fooBar</samp> are two examples of camel case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in camel case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in camel case notation.</p>
 	 */
 	final public static function isCamelCase(string $string) : bool
 	{
@@ -1102,15 +1102,15 @@ final class Text extends Utility
 	 * Check if a given string is in pascal case notation.
 	 * 
 	 * A given string is only considered to be in pascal case notation if it starts with an uppercase character 
-	 * from <code>A</code> to <code>Z</code> and is only composed by ASCII alphanumeric characters (<code>0-9</code>, <code>a-z</code> and <code>A-Z</code>).<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
-	 * The strings <code>Foo</code> and <code>FooBar</code> are two examples of pascal case notation.
+	 * The strings <samp>Foo</samp> and <samp>FooBar</samp> are two examples of pascal case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in pascal case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in pascal case notation.</p>
 	 */
 	final public static function isPascalCase(string $string) : bool
 	{
@@ -1121,16 +1121,16 @@ final class Text extends Utility
 	 * Check if a given string is in snake case notation.
 	 * 
 	 * A given string is only considered to be in snake case notation if it starts with a lowercase character 
-	 * from <code>a</code> to <code>z</code> and is only composed by lowercase ASCII alphanumeric characters (<code>0-9</code> and <code>a-z</code>), 
-	 * with words delimited by a single underscore (<code>_</code>) between them.<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>a-z</samp>), 
+	 * with words delimited by a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
-	 * The strings <code>foo</code> and <code>foo_bar</code> are two examples of snake case notation.
+	 * The strings <samp>foo</samp> and <samp>foo_bar</samp> are two examples of snake case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in snake case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in snake case notation.</p>
 	 */
 	final public static function isSnakeCase(string $string) : bool
 	{
@@ -1141,15 +1141,15 @@ final class Text extends Utility
 	 * Check if a given string is in kebab case notation.
 	 * 
 	 * A given string is only considered to be in kebab case notation if it starts with a lowercase character 
-	 * from <code>a</code> to <code>z</code> and is only composed by lowercase ASCII alphanumeric characters (<code>0-9</code> and <code>a-z</code>), 
-	 * with words delimited by a single hyphen (<code>-</code>) between them.<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>a-z</samp>), 
+	 * with words delimited by a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
-	 * The strings <code>foo</code> and <code>foo-bar</code> are two examples of kebab case notation.
+	 * The strings <samp>foo</samp> and <samp>foo-bar</samp> are two examples of kebab case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in kebab case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in kebab case notation.</p>
 	 */
 	final public static function isKebabCase(string $string) : bool
 	{
@@ -1160,15 +1160,15 @@ final class Text extends Utility
 	 * Check if a given string is in macro case notation.
 	 * 
 	 * A given string is only considered to be in macro case notation if it starts with an uppercase character 
-	 * from <code>A</code> to <code>Z</code> and is only composed by uppercase ASCII alphanumeric characters (<code>0-9</code> and <code>A-Z</code>), 
-	 * with words delimited by a single underscore (<code>_</code>) between them.<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>A-Z</samp>), 
+	 * with words delimited by a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
-	 * The strings <code>FOO</code> and <code>FOO_BAR</code> are two examples of macro case notation.
+	 * The strings <samp>FOO</samp> and <samp>FOO_BAR</samp> are two examples of macro case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in macro case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in macro case notation.</p>
 	 */
 	final public static function isMacroCase(string $string) : bool
 	{
@@ -1179,15 +1179,15 @@ final class Text extends Utility
 	 * Check if a given string is in cobol case notation.
 	 * 
 	 * A given string is only considered to be in cobol case notation if it starts with an uppercase character 
-	 * from <code>A</code> to <code>Z</code> and is only composed by uppercase ASCII alphanumeric characters (<code>0-9</code> and <code>A-Z</code>), 
-	 * with words delimited by a single hyphen (<code>-</code>) between them.<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>A-Z</samp>), 
+	 * with words delimited by a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
-	 * The strings <code>FOO</code> and <code>FOO-BAR</code> are two examples of cobol case notation.
+	 * The strings <samp>FOO</samp> and <samp>FOO-BAR</samp> are two examples of cobol case notation.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>String to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given string is in cobol case notation.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string is in cobol case notation.</p>
 	 */
 	final public static function isCobolCase(string $string) : bool
 	{
@@ -1198,16 +1198,16 @@ final class Text extends Utility
 	 * Retrieve case notation from a given string.
 	 * 
 	 * The returning case notation from the given string is recognized by checking mostly the case of each character, and only 
-	 * strings exclusively composed by ASCII alphanumeric characters (<code>0-9</code>, <code>a-z</code> and <code>A-Z</code>), 
-	 * optionally with underscore (<code>_</code>) or hyphen (<code>-</code>) as delimiters, are considered.<br>
+	 * strings exclusively composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * optionally with underscore (<samp>_</samp>) or hyphen (<samp>-</samp>) as delimiters, are considered.<br>
 	 * <br>
 	 * The following are some examples of each notation:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> and <code>fooBar</code> are in camel case notation.<br>
-	 * &nbsp; &#8226; &nbsp; <code>Foo</code> and <code>FooBar</code> are in pascal case notation.<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> and <code>foo_bar</code> are in snake case notation.<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> and <code>foo-bar</code> are in kebab case notation.<br>
-	 * &nbsp; &#8226; &nbsp; <code>FOO</code> and <code>FOO_BAR</code> are in macro case notation.<br>
-	 * &nbsp; &#8226; &nbsp; <code>FOO</code> and <code>FOO-BAR</code> are in cobol case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> and <samp>fooBar</samp> are in camel case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>Foo</samp> and <samp>FooBar</samp> are in pascal case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> and <samp>foo_bar</samp> are in snake case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> and <samp>foo-bar</samp> are in kebab case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>FOO</samp> and <samp>FOO_BAR</samp> are in macro case notation.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>FOO</samp> and <samp>FOO-BAR</samp> are in cobol case notation.<br>
 	 * <br>
 	 * Some strings may become ambiguous such as <samp>foo</samp> which is simultaneously in snake, kebab and camel case notations, 
 	 * therefore the desambiguation is solved by performing the internal checks in the following order:<br>
@@ -1218,7 +1218,7 @@ final class Text extends Utility
 	 * 5 - Camel case notation check;<br>
 	 * 6 - Pascal case notation check.<br>
 	 * <br>
-	 * In other words, <code>foo</code> will be recognized to be in snake case notation only, since the snake case check 
+	 * In other words, <samp>foo</samp> will be recognized to be in snake case notation only, since the snake case check 
 	 * is performed before the kebab and camel case ones.
 	 * 
 	 * @since 1.0.0
@@ -1228,13 +1228,13 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to get from.</p>
 	 * @return string|null <p>The case notation of a given string as:<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_SNAKE</samp> for snake case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_KEBAB</samp> for kebab case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_MACRO</samp> for macro case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_COBOL</samp> for cobol case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_CAMEL</samp> for camel case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <samp>self::CASE_PASCAL</samp> for pascal case;<br>
-	 * or <samp>null</samp> if no notation was recognized.</p>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_SNAKE</code> for snake case;<br>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_KEBAB</code> for kebab case;<br>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_MACRO</code> for macro case;<br>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_COBOL</code> for cobol case;<br>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_CAMEL</code> for camel case;<br>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_PASCAL</code> for pascal case;<br>
+	 * or <code>null</code> if no notation was recognized.</p>
 	 */
 	final public static function caseNotation(string $string) : ?string
 	{
@@ -1266,7 +1266,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to camel case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to camel case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCamelCase(string $string) : ?string
 	{
@@ -1301,7 +1301,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to pascal case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to pascal case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toPascalCase(string $string) : ?string
 	{
@@ -1329,7 +1329,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to snake case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to snake case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toSnakeCase(string $string) : ?string
 	{
@@ -1360,7 +1360,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to kebab case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to kebab case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toKebabCase(string $string) : ?string
 	{
@@ -1391,7 +1391,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to macro case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to macro case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toMacroCase(string $string) : ?string
 	{
@@ -1422,7 +1422,7 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to cobol case notation or <samp>null</samp> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to cobol case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCobolCase(string $string) : ?string
 	{
@@ -1448,13 +1448,13 @@ final class Text extends Utility
 	 * the returning message is only actually translated depending on the given text options, in other words, 
 	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly demanded by the callee through text options.<br>
 	 * <br>
-	 * Placeholders may optionally be set in the message as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
@@ -1484,8 +1484,8 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @param string $message <p>The message to localize.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Localize|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Localize|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given message.</p>
 	 */
 	final public static function localize(string $message, ?string $context = null, $text_options = null, $options = null) : string
@@ -1516,13 +1516,13 @@ final class Text extends Utility
 	 * the returning message is only actually translated depending on the given text options, in other words, 
 	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly demanded by the callee through text options.<br>
 	 * <br>
-	 * Placeholders may optionally be set in the message as <code>{{placeholder}}</code>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<code>a-z</code> and <code>A-Z</code>) or underscore (<code>_</code>), 
-	 * and may only contain letters (<code>a-z</code> and <code>A-Z</code>), digits (<code>0-9</code>) and underscores (<code>_</code>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <code>{{object.property}}</code>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <code>{{object.method()}}</code>, the identifiers are interpreted as getter method calls, 
+	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
@@ -1555,8 +1555,8 @@ final class Text extends Utility
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The message number placeholder to localize with.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <code>name => value</code> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Plocalize|array|null $options [default = null] <p>Additional options, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Plocalize|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given plural message.</p>
 	 */
 	final public static function plocalize(string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null, $text_options = null, $options = null) : string

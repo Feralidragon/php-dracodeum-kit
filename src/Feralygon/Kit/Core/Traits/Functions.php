@@ -123,8 +123,8 @@ trait Functions
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The function name to retrieve the template for.<br>
 	 * <br>
-	 * Return: <samp><b>callable|null</b></samp><br>
-	 * The function template for the given name or <samp>null</samp> if none exists.
+	 * Return: <code><b>callable|null</b></code><br>
+	 * The function template for the given name or <code>null</code> if none exists.
 	 * </p>
 	 * @param bool $bindonce [default = false] <p>Set functions as bind-once.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionsAlreadyInitialized

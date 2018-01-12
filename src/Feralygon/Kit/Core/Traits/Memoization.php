@@ -55,7 +55,7 @@ trait Memoization
 	 * @param string $key <p>The memoization key to check.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to check from.</p>
 	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding to the given checked key.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if has the given memoized key.</p>
+	 * @return bool <p>Boolean <code>true</code> if has the given memoized key.</p>
 	 */
 	final protected function hasMemoizedKey(string $key, string $namespace = '', &$value = null) : bool
 	{
@@ -151,7 +151,7 @@ trait Memoization
 	 * @since 1.0.0
 	 * @param string $key <p>The memoized key to delete.</p>
 	 * @param string $namespace [default = ''] <p>The memoized namespace to delete from.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given key existed and was deleted.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
 	 */
 	final protected function deleteMemoizedKey(string $key, string $namespace = '') : bool
 	{
@@ -184,7 +184,7 @@ trait Memoization
 	 * Set memoization policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ trait Memoization
 	 * @param string $namespace [default = ''] <p>The namespace to memoize into.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $policy_options [default = null] <p>The memoization policy options to use, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $policy_options [default = null] <p>The memoization policy options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return mixed <p>The memoized value returned from the given function.</p>
 	 */
 	final protected static function memoize(callable $function, ?string $key = null, string $namespace = '', bool $local = false, $policy_options = null)
@@ -289,7 +289,7 @@ trait Memoization
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
 	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding to the given checked key.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if has the given memoized static key.</p>
+	 * @return bool <p>Boolean <code>true</code> if has the given memoized static key.</p>
 	 */
 	final protected static function hasMemoizedStaticKey(string $key, string $namespace = '', bool $local = false, &$value = null) : bool
 	{
@@ -393,7 +393,7 @@ trait Memoization
 	 * @param string $namespace [default = ''] <p>The memoized namespace to delete from.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given key existed and was deleted.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
 	 */
 	final protected static function deleteMemoizedStaticKey(string $key, string $namespace = '', bool $local = false) : bool
 	{
@@ -430,7 +430,7 @@ trait Memoization
 	 * Set memoization static policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <code>name => value</code> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>

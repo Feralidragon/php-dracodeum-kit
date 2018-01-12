@@ -157,11 +157,11 @@ final class Data extends Utility
 	 * Check if a given array is associative.
 	 * 
 	 * The given array is only considered to be associative when it's not empty and 
-	 * its keys are not consecutive integers starting from <samp>0</samp>.
+	 * its keys are not consecutive integers starting from <code>0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to check.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given array is associative.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given array is associative.</p>
 	 */
 	final public static function isAssociative(array $array) : bool
 	{
@@ -176,7 +176,7 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to transform.</p>
-	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, if set to <samp>true</samp>, 
+	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, if set to <code>true</code>, 
 	 * indicates that the generated key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\KeyfyUnsupportedValueType
 	 * @return string <p>An unique key from the given value.</p>
@@ -1203,10 +1203,10 @@ final class Data extends Utility
 	/**
 	 * Check if a given array has a given path.
 	 * 
-	 * A path is recognized as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> is equivalent to <code>$array['foo']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar</code> is equivalent to <code>$array['foo']['bar']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar.123</code> is equivalent to <code>$array['foo']['bar'][123]</code>.
+	 * A path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> is equivalent to <code>$array['foo']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to check in.</p>
@@ -1214,7 +1214,7 @@ final class Data extends Utility
 	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @return bool <p>Boolean <samp>true</samp> if the given array has the given path.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given array has the given path.</p>
 	 */
 	final public static function has(array $array, string $path, string $delimiter = '.') : bool
 	{
@@ -1237,10 +1237,10 @@ final class Data extends Utility
 	/**
 	 * Get value from a given array at a given path.
 	 * 
-	 * A path is recognized as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> is equivalent to <code>$array['foo']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar</code> is equivalent to <code>$array['foo']['bar']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar.123</code> is equivalent to <code>$array['foo']['bar'][123]</code>.
+	 * A path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> is equivalent to <code>$array['foo']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to get from.</p>
@@ -1272,10 +1272,10 @@ final class Data extends Utility
 	/**
 	 * Set value in a given array at a given path.
 	 * 
-	 * A path is recognized as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> is equivalent to <code>$array['foo']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar</code> is equivalent to <code>$array['foo']['bar']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar.123</code> is equivalent to <code>$array['foo']['bar'][123]</code>.
+	 * A path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> is equivalent to <code>$array['foo']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array [reference] <p>The array to set in.</p>
@@ -1309,10 +1309,10 @@ final class Data extends Utility
 	/**
 	 * Delete a given path from a given array.
 	 * 
-	 * A path is recognized as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> is equivalent to <code>$array['foo']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar</code> is equivalent to <code>$array['foo']['bar']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar.123</code> is equivalent to <code>$array['foo']['bar'][123]</code>.
+	 * A path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> is equivalent to <code>$array['foo']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array [reference] <p>The array to delete from.</p>
@@ -1364,10 +1364,10 @@ final class Data extends Utility
 	 * Wrap a given array into a single dimensional pathed one.
 	 * 
 	 * The returning array is a single dimensional one of non-array values with all the nested keys set as paths.<br>
-	 * Each path is set as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>$array['foo']</code> is converted to <code>foo</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar']</code> is converted to <code>foo.bar</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar'][123]</code> is converted to <code>foo.bar.123</code>.
+	 * Each path is set as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <code>$array['foo']</code> is converted to <samp>foo</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar']</code> is converted to <samp>foo.bar</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar'][123]</code> is converted to <samp>foo.bar.123</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to wrap.</p>
@@ -1401,10 +1401,10 @@ final class Data extends Utility
 	 * Unwrap a given array into a multiple dimensional one.
 	 * 
 	 * The returning array is a multiple dimensional one with all the paths broken down into nested keys.<br>
-	 * Each path is recognized as <code>key1 + delimiter + key2 + delimiter + ...</code>, like so:<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo</code> is converted to <code>$array['foo']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar</code> is converted to <code>$array['foo']['bar']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; <code>foo.bar.123</code> is converted to <code>$array['foo']['bar'][123]</code>.
+	 * Each path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> is converted to <code>$array['foo']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is converted to <code>$array['foo']['bar']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is converted to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to unwrap.</p>
@@ -1457,7 +1457,7 @@ final class Data extends Utility
 	 * The order of these keys also establish the order of the coalesce operation.
 	 * </p>
 	 * @param int|string|null $coalesced_key [reference output] [default = null] <p>The coalesced key corresponding to the returned value.</p>
-	 * @return mixed <p>The coalesced value from the given array or <samp>null</samp> if no value is set.</p>
+	 * @return mixed <p>The coalesced value from the given array or <code>null</code> if no value is set.</p>
 	 */
 	final public static function coalesce(array $array, array $keys = [], &$coalesced_key = null)
 	{

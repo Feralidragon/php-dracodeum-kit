@@ -33,8 +33,8 @@ use Feralygon\Kit\Core\Utilities\{
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code> : The placeholder to stringify for.<br>
  * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to stringify.<br>
  * <br>
- * Return: <samp><b>string|null</b></samp><br>
- * The stringified value for the given placeholder or <samp>null</samp> if no stringification occurred.
+ * Return: <code><b>string|null</b></code><br>
+ * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.
  * </p>
  * @see \Feralygon\Kit\Core\Utilities\Text
  */

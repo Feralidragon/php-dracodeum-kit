@@ -208,7 +208,7 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	protected function evaluateValue(&$value) : bool
 	{

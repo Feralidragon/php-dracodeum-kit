@@ -94,8 +94,8 @@ abstract class Component implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototype|string|null $prototype [default = null] <p>The prototype instance, class or name.<br>
 	 * If not set, the base prototype class is used.</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties, as <code>name => value</code> pairs.</p>
-	 * @param array $properties [default = []] <p>The properties, as <code>name => value</code> pairs.</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeBaseClass
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\PrototypeNameNotFound
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\InvalidPrototypeClass
@@ -170,22 +170,22 @@ abstract class Component implements \ArrayAccess
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function ($prototype, array $prototype_properties, array $properties) : \Feralygon\Kit\Core\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Prototype|string $prototype</b></code> : The prototype instance, class or name to build with.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <code>name => value</code> pairs.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <code>name => value</code> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <samp><b>\Feralygon\Kit\Core\Component</b></samp><br>
+	 * Return: <code><b>\Feralygon\Kit\Core\Component</b></code><br>
 	 * The built instance.
 	 * </p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <samp>true</samp> if the given value is successfully evaluated into an instance.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(&$value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : bool
 	{
@@ -229,24 +229,24 @@ abstract class Component implements \ArrayAccess
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <code>name => value</code> pairs.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <code>name => value</code> pairs.</p>
+	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function ($prototype, array $prototype_properties, array $properties) : \Feralygon\Kit\Core\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Prototype|string $prototype</b></code> : The prototype instance, class or name to build with.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <code>name => value</code> pairs.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <code>name => value</code> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : The prototype properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <samp><b>\Feralygon\Kit\Core\Component</b></samp><br>
+	 * Return: <code><b>\Feralygon\Kit\Core\Component</b></code><br>
 	 * The built instance.
 	 * </p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Component\Exceptions\CoercionFailed
 	 * @return static|null <p>The given value coerced into an instance.<br>
-	 * If nullable, <samp>null</samp> may also be returned.</p>
+	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce($value, array $prototype_properties = [], array $properties = [], ?callable $builder = null, bool $nullable = false) : ?Component
 	{
