@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs;
 use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Information as IInformation,
+	ValueStringification as IValueStringification,
 	Modifiers as IModifiers
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
@@ -43,7 +44,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Format [modifier, name = 'filters.format']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Iso8601 [modifier, name = 'filters.iso8601']
  */
-class Time extends Input implements IInformation, IModifiers
+class Time extends Input implements IInformation, IValueStringification, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -117,6 +118,20 @@ class Time extends Input implements IInformation, IModifiers
 				]
 			]
 		);
+	}
+	
+	
+	
+	//Implemented public methods (core input prototype value stringification interface)
+	/** {@inheritdoc} */
+	public function stringifyValue($value, TextOptions $text_options) : string
+	{
+		if (is_int($value)) {
+			return UTime::stringifyTime($value, $text_options);
+		} elseif (is_string($value)) {
+			return $value;
+		}
+		return UText::stringify($value, $text_options);
 	}
 	
 	
