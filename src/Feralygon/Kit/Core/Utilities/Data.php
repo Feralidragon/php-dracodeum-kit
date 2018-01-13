@@ -1470,4 +1470,85 @@ final class Data extends Utility
 		}
 		return null;
 	}
+	
+	/**
+	 * Evaluate a given value as an array.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (&$value) : bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element value is valid.
+	 * </p>
+	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an array.</p>
+	 */
+	final public static function evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false) : bool
+	{
+		if (!isset($value)) {
+			return $nullable;
+		} elseif (is_array($value)) {
+			//validate
+			if (($non_empty && empty($value)) || ($non_associative && self::isAssociative($value))) {
+				return false;
+			}
+			
+			//evaluator
+			if (isset($evaluator)) {
+				Call::assertSignature($evaluator, function (&$value) : bool {}, true);
+				$evaluator = \Closure::fromCallable($evaluator);
+				$array = $value;
+				foreach ($array as &$v) {
+					if (!$evaluator($v)) {
+						return false;
+					}
+				}
+				unset($v);
+				$value = $array;
+				unset($array);
+			}
+			
+			//return
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Coerce a given value as an array.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (&$value) : bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element value is valid.
+	 * </p>
+	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\CoercionFailed
+	 * @return array|null <p>The given value coerced into an array.<br>
+	 * If nullable, <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false) : ?array
+	{
+		if (!self::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable)) {
+			throw new Exceptions\CoercionFailed(['value' => $value, 'non_associative' => $non_associative, 'non_empty' => $non_empty]);
+		}
+		return $value;
+	}
 }
