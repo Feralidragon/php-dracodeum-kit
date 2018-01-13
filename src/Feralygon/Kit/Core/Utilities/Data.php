@@ -1478,13 +1478,14 @@ final class Data extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * The expected function signature is represented as:<br><br>
-	 * <code>function (&$value) : bool</code><br>
+	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : The array element key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element value is valid.
+	 * Boolean <code>true</code> if the given array element is valid.
 	 * </p>
 	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
@@ -1503,15 +1504,16 @@ final class Data extends Utility
 			
 			//evaluator
 			if (isset($evaluator)) {
-				Call::assertSignature($evaluator, function (&$value) : bool {}, true);
+				Call::assertSignature($evaluator, function (&$key, &$value) : bool {}, true);
 				$evaluator = \Closure::fromCallable($evaluator);
-				$array = $value;
-				foreach ($array as &$v) {
-					if (!$evaluator($v)) {
+				$array = [];
+				foreach ($value as $k => $v) {
+					if ($evaluator($k, $v)) {
+						$array[$k] = $v;
+					} else {
 						return false;
 					}
 				}
-				unset($v);
 				$value = $array;
 				unset($array);
 			}
@@ -1529,13 +1531,14 @@ final class Data extends Utility
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * The expected function signature is represented as:<br><br>
-	 * <code>function (&$value) : bool</code><br>
+	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : The array element key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element value is valid.
+	 * Boolean <code>true</code> if the given array element is valid.
 	 * </p>
 	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
