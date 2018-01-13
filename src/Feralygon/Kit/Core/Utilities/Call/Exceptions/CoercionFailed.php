@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Core\Utilities\Call\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Call\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core call utility coercion failed exception class.
@@ -21,9 +18,7 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read \Closure|null $template [default = null] <p>The template.</p>
- * @property-read string|null $template_signature [default = auto] <p>The template signature.<br>
- * If not set, it is automatically generated from the given <var>$template</var> property above.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class CoercionFailed extends Exception implements ICoercion
 {
@@ -31,8 +26,11 @@ class CoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Coercion failed with value {{value}}.\n" . 
-			($this->isset('template_signature') ? "HINT: Only a callable with the following signature is allowed: {{template_signature}}." : "HINT: Only a callable is allowed.");
+		$message = "Coercion failed with value {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -53,15 +51,21 @@ class CoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'template':
-				return UCall::evaluate($value, null, true);
-			case 'template_signature':
-				if (!isset($value) && $this->isset('template')) {
-					$value = UCall::signature($this->get('template'));
-					return true;
-				}
+			case 'hint_message':
 				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

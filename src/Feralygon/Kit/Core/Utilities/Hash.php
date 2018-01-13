@@ -33,32 +33,16 @@ final class Hash extends Utility
 	 * @param int $bits <p>The number of bits to evaluate with.<br>
 	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @throws \Feralygon\Kit\Core\Utilities\Hash\Exceptions\InvalidBits
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a hash.</p>
 	 */
 	final public static function evaluate(&$value, int $bits, bool $nullable = false) : bool
 	{
-		//validate
-		if ($bits <= 0 || $bits % 8 !== 0) {
-			throw new Exceptions\InvalidBits(['bits' => $bits]);
-		}
-		
-		//evaluate
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (!is_string($value)) {
+		try {
+			$value = self::coerce($value, $bits, $nullable);
+		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
-		} elseif (strlen($value) === $bits / 4 && preg_match('/^[\da-f]+$/i', $value)) {
-			$value = strtolower($value);
-			return true;
-		} elseif (strlen(rtrim($value, '=')) === (int)ceil($bits / 6) && preg_match('/^[\w\-+\/]+\={0,2}$/', $value)) {
-			$value = bin2hex(Base64::decode($value));
-			return true;
-		} elseif (strlen($value) === $bits / 8) {
-			$value = bin2hex($value);
-			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -86,10 +70,34 @@ final class Hash extends Utility
 			throw new Exceptions\InvalidBits(['bits' => $bits]);
 		}
 		
-		//evaluate
-		if (!self::evaluate($value, $bits, $nullable)) {
-			throw new Exceptions\CoercionFailed(['value' => $value, 'bits' => $bits]);
+		//coerce
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		} elseif (is_string($value)) {
+			if (strlen($value) === $bits / 4 && preg_match('/^[\da-f]+$/i', $value)) {
+				return strtolower($value);
+			} elseif (strlen(rtrim($value, '=')) === (int)ceil($bits / 6) && preg_match('/^[\w\-+\/]+\={0,2}$/', $value)) {
+				return bin2hex(Base64::decode($value));
+			} elseif (strlen($value) === $bits / 8) {
+				return bin2hex($value);
+			}
 		}
-		return $value;
+		throw new Exceptions\CoercionFailed([
+			'value' => $value, 
+			'hint_message' => Text::pfill(
+				"Only a hash value of {{bits}} bit is allowed, for which only the following types and formats can be coerced into such:\n" . 
+					" - a hexadecimal notation string;\n" . 
+					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
+					" - a raw binary string.",
+				"Only a hash value of {{bits}} bits is allowed, for which only the following types and formats can be coerced into such:\n" . 
+					" - a hexadecimal notation string;\n" . 
+					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
+					" - a raw binary string.",
+				$bits, 'bits'
+			)
+		]);
 	}
 }

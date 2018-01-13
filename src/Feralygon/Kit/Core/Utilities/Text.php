@@ -539,12 +539,12 @@ final class Text extends Utility
 	 * @param string $string2 <p>The string plural form to fill.</p>
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The string number placeholder to fill with.</p>
-	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * @param array $parameters [default = []] <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The given plural string filled with the given parameters.</p>
 	 */
-	final public static function pfill(string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters, $text_options = null, $options = null) : string
+	final public static function pfill(string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [], $text_options = null, $options = null) : string
 	{
 		$text_options = TextOptions::load($text_options);
 		$options = Options\Pfill::load($options);

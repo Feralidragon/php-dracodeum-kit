@@ -14,11 +14,11 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 /**
  * Core hash utility coercion failed exception class.
  * 
- * This exception is thrown from the hash utility whenever the coercion has failed with a given value for a given number of bits.
+ * This exception is thrown from the hash utility whenever the coercion has failed with a given value.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read int $bits <p>The number of bits.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class CoercionFailed extends Exception implements ICoercion
 {
@@ -26,9 +26,11 @@ class CoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return $this->get('bits') === 1
-			? "Coercion failed with value {{value}} for {{bits}} bit."
-			: "Coercion failed with value {{value}} for {{bits}} bits.";
+		$message = "Coercion failed with value {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -37,7 +39,7 @@ class CoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['value', 'bits'];
+		return ['value'];
 	}
 	
 	
@@ -49,9 +51,21 @@ class CoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'bits':
-				return UType::evaluateInteger($value);
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

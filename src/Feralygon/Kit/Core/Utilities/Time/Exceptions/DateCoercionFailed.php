@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Time\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core time utility date coercion failed exception class.
@@ -17,6 +18,7 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class DateCoercionFailed extends Exception implements ICoercion
 {
@@ -24,10 +26,11 @@ class DateCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Date coercion failed with value {{value}}.\n" . 
-			"HINT: Only the following types and formats can be coerced into dates:\n" . 
-			" - numbers in seconds since 1970-01-01, such as: 1483228800 for \"2017-01-01\";\n" . 
-			" - strings as supported by the PHP core \"strtotime\" function, such as: \"2017-Jan-01\" for \"2017-01-01\".";
+		$message = "Date coercion failed with value {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -48,7 +51,21 @@ class DateCoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

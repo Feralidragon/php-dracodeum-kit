@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core type utility boolean coercion failed exception class.
@@ -17,6 +18,7 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class BooleanCoercionFailed extends Exception implements ICoercion
 {
@@ -24,12 +26,11 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Boolean coercion failed with value {{value}}.\n" . 
-			"HINT: Only the following types and formats can be coerced into booleans:\n" . 
-			" - booleans, as: false for boolean false, and true for boolean true;\n" . 
-			" - integers, as: 0 for boolean false, and 1 for boolean true;\n" . 
-			" - floats, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
-			" - strings, as: \"0\", \"f\", \"false\", \"off\" or \"no\" for boolean false, and \"1\", \"t\", \"true\", \"on\" or \"yes\" for boolean true.";
+		$message = "Boolean coercion failed with value {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -50,7 +51,21 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

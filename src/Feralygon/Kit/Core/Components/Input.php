@@ -949,12 +949,12 @@ class Input extends Component
 	 */
 	final public static function evaluateValue(&$value, $prototype, array $prototype_properties = [], array $properties = []) : bool
 	{
-		$input = new static($prototype, $prototype_properties, $properties);
-		if ($input->setValue($value)) {
-			$value = $input->getValue();
-			return true;
+		try {
+			$value = static::coerceValue($value, $prototype, $prototype_properties, $properties);
+		} catch (Exceptions\ValueCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -965,6 +965,7 @@ class Input extends Component
 	 * @param \Feralygon\Kit\Core\Prototypes\Input|string $prototype <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\ValueCoercionFailed
 	 * @return mixed <p>The given value coerced with the given prototype.</p>
 	 */
 	final public static function coerceValue($value, $prototype, array $prototype_properties = [], array $properties = [])

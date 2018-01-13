@@ -144,9 +144,9 @@ final class Time extends Utility
 	/**
 	 * Evaluate a given value as a timestamp.
 	 * 
-	 * Only the following types and formats can be evaluated into timestamps:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01 12:00:00"</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * Only the following types and formats can be evaluated into a timestamp:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01 12:00:00"</code> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -161,18 +161,9 @@ final class Time extends Utility
 	 */
 	final public static function evaluateTimestamp(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
-		//nullable
-		if (!isset($value)) {
-			return $nullable;
-		}
-		
-		//timestamp
 		try {
-			$value = self::timestamp($value);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-		} catch (Exceptions\InvalidTimestamp $exception) {
+			$value = self::coerceTimestamp($value, $format, $nullable);
+		} catch (Exceptions\TimestampCoercionFailed $exception) {
 			return false;
 		}
 		return true;
@@ -181,9 +172,9 @@ final class Time extends Utility
 	/**
 	 * Coerce a given value into a timestamp.
 	 * 
-	 * Only the following types and formats can be coerced into timestamps:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
+	 * Only the following types and formats can be coerced into a timestamp:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -196,8 +187,27 @@ final class Time extends Utility
 	 */
 	final public static function coerceTimestamp($value, ?string $format = null, bool $nullable = false)
 	{
-		if (!self::evaluateTimestamp($value, $format, $nullable)) {
-			throw new Exceptions\TimestampCoercionFailed(['value' => $value]);
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\TimestampCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
+		//coerce
+		try {
+			$value = self::timestamp($value);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+		} catch (Exceptions\InvalidTimestamp $exception) {
+			throw new Exceptions\TimestampCoercionFailed([
+				'value' => $value,
+				'hint_message' => "Only the following types and formats can be coerced into a timestamp:\n" . 
+					" - a number in seconds since 1970-01-01 00:00:00 UTC, such as: 1483268400 for \"2017-01-01 12:00:00\";\n" . 
+					" - a string as supported by the PHP core \"strtotime\" function, such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\"."
+			]);
 		}
 		return $value;
 	}
@@ -227,9 +237,9 @@ final class Time extends Utility
 	/**
 	 * Evaluate a given value as a date.
 	 * 
-	 * Only the following types and formats can be evaluated into dates:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01"</code> for <samp>2017-01-01</samp>.
+	 * Only the following types and formats can be evaluated into a date:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01"</code> for <samp>2017-01-01</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -244,24 +254,20 @@ final class Time extends Utility
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (self::evaluateTimestamp($value)) {
-			$value = (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-			return true;
+		try {
+			$value = self::coerceDate($value, $format, $nullable);
+		} catch (Exceptions\DateCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into a date.
 	 * 
-	 * Only the following types and formats can be coerced into dates:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>.
+	 * Only the following types and formats can be coerced into a date:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01, such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -274,8 +280,27 @@ final class Time extends Utility
 	 */
 	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
 	{
-		if (!self::evaluateDate($value, $format, $nullable)) {
-			throw new Exceptions\DateCoercionFailed(['value' => $value]);
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\DateCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
+		//coerce
+		try {
+			$value = (int)(floor(self::timestamp($value) / ETime::T1_DAY) * ETime::T1_DAY);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+		} catch (Exceptions\InvalidTimestamp $exception) {
+			throw new Exceptions\DateCoercionFailed([
+				'value' => $value,
+				'hint_message' => "Only the following types and formats can be coerced into a date:\n" . 
+					" - a number in seconds since 1970-01-01, such as: 1483228800 for \"2017-01-01\";\n" . 
+					" - a string as supported by the PHP core \"strtotime\" function, such as: \"2017-Jan-01\" for \"2017-01-01\"."
+			]);
 		}
 		return $value;
 	}
@@ -305,9 +330,9 @@ final class Time extends Utility
 	/**
 	 * Evaluate a given value as a time.
 	 * 
-	 * Only the following types and formats can be evaluated into times:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <code>"2:05PM"</code> for <samp>14:05:00</samp>.
+	 * Only the following types and formats can be evaluated into a time:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <code>"2:05PM"</code> for <samp>14:05:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -322,24 +347,20 @@ final class Time extends Utility
 	 */
 	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (self::evaluateTimestamp($value)) {
-			$value -= (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-			return true;
+		try {
+			$value = self::coerceTime($value, $format, $nullable);
+		} catch (Exceptions\TimeCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into a time.
 	 * 
-	 * Only the following types and formats can be coerced into times:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
-	 * &nbsp; &#8226; &nbsp; strings as supported by the PHP core <code>strtotime</code> function, such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>.
+	 * Only the following types and formats can be coerced into a time:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds, such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -352,8 +373,28 @@ final class Time extends Utility
 	 */
 	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
 	{
-		if (!self::evaluateTime($value, $format, $nullable)) {
-			throw new Exceptions\TimeCoercionFailed(['value' => $value]);
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\TimeCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
+		//coerce
+		try {
+			$value = self::timestamp($value);
+			$value -= (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
+			if (isset($format)) {
+				$value = date($format, $value);
+			}
+		} catch (Exceptions\InvalidTimestamp $exception) {
+			throw new Exceptions\TimeCoercionFailed([
+				'value' => $value,
+				'hint_message' => "Only the following types and formats can be coerced into a time:\n" . 
+					" - a number in seconds, such as: 50700 for \"14:05:00\";\n" . 
+					" - a string as supported by the PHP core \"strtotime\" function, such as: \"2:05PM\" for \"14:05:00\"."
+			]);
 		}
 		return $value;
 	}

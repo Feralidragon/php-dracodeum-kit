@@ -18,8 +18,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read bool $non_associative [default = false] <p>Non-associative array restriction.</p>
- * @property-read bool $non_empty [default = false] <p>Non-empty array restriction.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class CoercionFailed extends Exception implements ICoercion
 {
@@ -28,12 +27,8 @@ class CoercionFailed extends Exception implements ICoercion
 	public function getDefaultMessage() : string
 	{
 		$message = "Coercion failed with value {{value}}.";
-		if ($this->is('non_associative') && $this->is('non_empty')) {
-			$message .= "\nHINT: Only a non-associative and non-empty array is allowed.";
-		} elseif ($this->is('non_associative')) {
-			$message .= "\nHINT: Only a non-associative array is allowed.";
-		} elseif ($this->is('non_empty')) {
-			$message .= "\nHINT: Only a non-empty array is allowed.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
 		}
 		return $message;
 	}
@@ -56,12 +51,21 @@ class CoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'non_associative':
-				//no break
-			case 'non_empty':
-				$value = $value ?? false;
-				return UType::evaluateBoolean($value);
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

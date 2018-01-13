@@ -127,11 +127,11 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as a boolean.
 	 * 
-	 * Only the following types and formats can be evaluated into booleans:<br>
-	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; strings, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * Only the following types and formats can be evaluated into a boolean:<br>
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
@@ -141,34 +141,22 @@ final class Type extends Utility
 	 */
 	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (is_bool($value)) {
-			return true;
-		} elseif (is_int($value) && ($value === 0 || $value === 1)) {
-			$value = $value === 1;
-			return true;
-		} elseif (is_float($value) && ($value === 0.0 || $value === 1.0)) {
-			$value = $value === 1.0;
-			return true;
-		} elseif (is_string($value)) {
-			$v = strtolower($value);
-			if (in_array($v, ['0', '1', 'f', 't', 'false', 'true', 'off', 'on', 'no', 'yes'], true)) {
-				$value = in_array($v, ['1', 't', 'true', 'on', 'yes'], true);
-				return true;
-			}
+		try {
+			$value = self::coerceBoolean($value, $nullable);
+		} catch (Exceptions\BooleanCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into a boolean.
 	 * 
-	 * Only the following types and formats can be coerced into booleans:<br>
-	 * &nbsp; &#8226; &nbsp; booleans, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; integers, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; strings, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * Only the following types and formats can be coerced into a boolean:<br>
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
@@ -180,24 +168,45 @@ final class Type extends Utility
 	 */
 	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
 	{
-		if (!self::evaluateBoolean($value, $nullable)) {
-			throw new Exceptions\BooleanCoercionFailed(['value' => $value]);
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\BooleanCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		} elseif (is_bool($value)) {
+			return $value;
+		} elseif (is_int($value) && ($value === 0 || $value === 1)) {
+			return $value === 1;
+		} elseif (is_float($value) && ($value === 0.0 || $value === 1.0)) {
+			return $value === 1.0;
+		} elseif (is_string($value)) {
+			$value = strtolower($value);
+			if (in_array($value, ['0', '1', 'f', 't', 'false', 'true', 'off', 'on', 'no', 'yes'], true)) {
+				return in_array($value, ['1', 't', 'true', 'on', 'yes'], true);
+			}
 		}
-		return $value;
+		throw new Exceptions\BooleanCoercionFailed([
+			'value' => $value,
+			'hint_message' => "Only the following types and formats can be coerced into a boolean:\n" . 
+				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
+				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
+				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
+				" - a string, as: \"0\", \"f\", \"false\", \"off\" or \"no\" for boolean false, and \"1\", \"t\", \"true\", \"on\" or \"yes\" for boolean true."
+		]);
 	}
 	
 	/**
 	 * Evaluate a given value as a number.
 	 * 
-	 * Only the following types and formats can be evaluated into numbers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * Only the following types and formats can be evaluated into a number:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -206,53 +215,26 @@ final class Type extends Utility
 	 */
 	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (is_int($value)) {
-			return true;
-		} elseif (is_float($value)) {
-			if ($value === floor($value)) {
-				$value = (int)$value;
-			}
-			return true;
-		} elseif (is_string($value)) {
-			//numeric
-			$v = str_replace(',', '.', $value);
-			if (is_numeric($v) || preg_match('/^0x[\da-f]{1,16}$/i', $v)) {
-				$value = strpos($v, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $v) ? (float)$v : intval($v, 0);
-				if (is_float($value) && $value === floor($value)) {
-					$value = (int)$value;
-				}
-				return true;
-			}
-				
-			//human-readable
-			try {
-				$value = Math::mnumber($value);
-				return true;
-			} catch (Math\Exceptions\Mnumber $exception) {}
-				
-			//human-readable (bytes)
-			try {
-				$value = Byte::mvalue($value);
-				return true;
-			} catch (Byte\Exceptions\Mvalue $exception) {}
+		try {
+			$value = self::coerceNumber($value, $nullable);
+		} catch (Exceptions\NumberCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into a number.
 	 * 
-	 * Only the following types and formats can be coerced into numbers:<br>
-	 * &nbsp; &#8226; &nbsp; integers, such as: <code>123000</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; floats, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; numeric strings in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; human-readable numeric strings in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * Only the following types and formats can be coerced into a number:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -263,10 +245,48 @@ final class Type extends Utility
 	 */
 	final public static function coerceNumber($value, bool $nullable = false)
 	{
-		if (!self::evaluateNumber($value, $nullable)) {
-			throw new Exceptions\NumberCoercionFailed(['value' => $value]);
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\NumberCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		} elseif (is_int($value)) {
+			return $value;
+		} elseif (is_float($value)) {
+			return $value === floor($value) ? (int)$value : $value;
+		} elseif (is_string($value)) {
+			//numeric
+			$v = str_replace(',', '.', $value);
+			if (is_numeric($v) || preg_match('/^0x[\da-f]{1,16}$/i', $v)) {
+				$value = strpos($v, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $v) ? (float)$v : intval($v, 0);
+				if (is_float($value) && $value === floor($value)) {
+					$value = (int)$value;
+				}
+				return $value;
+			}
+				
+			//human-readable
+			try {
+				return Math::mnumber($value);
+			} catch (Math\Exceptions\Mnumber $exception) {}
+				
+			//human-readable (bytes)
+			try {
+				return Byte::mvalue($value);
+			} catch (Byte\Exceptions\Mvalue $exception) {}
 		}
-		return $value;
+		throw new Exceptions\NumberCoercionFailed([
+			'value' => $value,
+			'hint_message' => "Only the following types and formats can be coerced into a number:\n" . 
+				" - an integer, such as: 123000 for 123000;\n" . 
+				" - a float, such as: 123000.45 for 123000.45;\n" . 
+				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
+				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
+				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
+				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000;\n" . 
+				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000."
+		]);
 	}
 	
 	/**
