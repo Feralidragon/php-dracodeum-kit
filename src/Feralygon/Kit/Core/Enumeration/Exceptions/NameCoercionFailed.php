@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Enumeration\Exceptions;
 
 use Feralygon\Kit\Core\Enumeration\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core enumeration name coercion failed exception class.
@@ -17,6 +18,7 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class NameCoercionFailed extends Exception implements ICoercion
 {
@@ -24,8 +26,11 @@ class NameCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Name coercion failed with value {{value}} in enumeration {{enumeration}}.\n" . 
-			"HINT: Only enumerated elements can be evaluated into enumerated element names.";
+		$message = "Name coercion failed with value {{value}} in enumeration {{enumeration}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -46,7 +51,18 @@ class NameCoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
+	}
+	
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

@@ -553,7 +553,7 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as an object.
 	 * 
-	 * Only class strings and objects can be evaluated into objects.
+	 * Only a class string or object can be evaluated into an object.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -564,20 +564,9 @@ final class Type extends Utility
 	 */
 	final public static function evaluateObject(&$value, $base_object_class = null, array $arguments = [], bool $nullable = false) : bool
 	{
-		//nullable
-		if (!isset($value)) {
-			return $nullable;
-		}
-		
-		//object
 		try {
-			$class = self::class($value);
-			if (isset($base_object_class) && !self::isA($class, $base_object_class)) {
-				return false;
-			} elseif (!is_object($value)) {
-				$value = self::construct($class, $arguments);
-			}
-		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
+			$value = self::coerceObject($value, $base_object_class, $arguments, $nullable);
+		} catch (Exceptions\ObjectCoercionFailed $exception) {
 			return false;
 		}
 		return true;
@@ -586,7 +575,7 @@ final class Type extends Utility
 	/**
 	 * Coerce a given value into an object.
 	 * 
-	 * Only class strings and objects can be coerced into objects.
+	 * Only a class string or object can be coerced into an object.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -599,8 +588,47 @@ final class Type extends Utility
 	 */
 	final public static function coerceObject($value, $base_object_class = null, array $arguments = [], bool $nullable = false)
 	{
-		if (!self::evaluateObject($value, $base_object_class, $arguments, $nullable)) {
-			throw new Exceptions\ObjectCoercionFailed(['value' => $value, 'base_object_class' => $base_object_class]);
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\ObjectCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
+		//coerce
+		$base_class = isset($base_object_class) ? self::class($base_object_class) : null;
+		try {
+			$class = self::class($value);
+			if (isset($base_class) && !self::isA($class, $base_class)) {
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'hint_message' => Text::fill(
+						"Only an object which is or extends from {{base_class}} is allowed.",
+						['base_class' => Text::stringify($base_class)]
+					)
+				]);
+			} elseif (!is_object($value)) {
+				try {
+					$value = self::construct($class, $arguments);
+				} catch (\Exception $exception) {
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'hint_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}}, with the following message: {{message}}", [
+								'class' => Text::stringify($class),
+								'exception' => Text::stringify($exception),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
+			throw new Exceptions\ObjectCoercionFailed([
+				'value' => $value,
+				'hint_message' => "Only a class string or object can be coerced into an object."
+			]);
 		}
 		return $value;
 	}
@@ -608,7 +636,7 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as an object or class.
 	 * 
-	 * Only class strings and objects can be coerced into objects and classes.
+	 * Only a class string or object can be coerced into an object or class.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -618,20 +646,9 @@ final class Type extends Utility
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
-		//nullable
-		if (!isset($value)) {
-			return $nullable;
-		}
-		
-		//object or class
 		try {
-			$class = self::class($value);
-			if (isset($base_object_class) && !self::isA($class, $base_object_class)) {
-				return false;
-			} elseif (is_string($value)) {
-				$value = $class;
-			}
-		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
+			$value = self::coerceObjectClass($value, $base_object_class, $nullable);
+		} catch (Exceptions\ObjectClassCoercionFailed $exception) {
 			return false;
 		}
 		return true;
@@ -640,7 +657,7 @@ final class Type extends Utility
 	/**
 	 * Coerce a given value into an object or class.
 	 * 
-	 * Only class strings and objects can be coerced into objects and classes.
+	 * Only a class string or object can be coerced into an object or class.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -652,8 +669,32 @@ final class Type extends Utility
 	 */
 	final public static function coerceObjectClass($value, $base_object_class = null, bool $nullable = false)
 	{
-		if (!self::evaluateObjectClass($value, $base_object_class, $nullable)) {
-			throw new Exceptions\ObjectClassCoercionFailed(['value' => $value, 'base_object_class' => $base_object_class]);
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\ObjectClassCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
+		//coerce
+		$base_class = isset($base_object_class) ? self::class($base_object_class) : null;
+		try {
+			$class = self::class($value);
+			if (isset($base_class) && !self::isA($class, $base_class)) {
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'hint_message' => Text::fill(
+						"Only a class or object which is or extends from {{base_class}} is allowed.",
+						['base_class' => Text::stringify($base_class)]
+					)
+				]);
+			}
+		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
+			throw new Exceptions\ObjectClassCoercionFailed([
+				'value' => $value,
+				'hint_message' => "Only a class string or object can be coerced into an object or class."
+			]);
 		}
 		return $value;
 	}

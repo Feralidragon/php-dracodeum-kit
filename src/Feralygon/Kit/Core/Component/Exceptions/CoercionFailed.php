@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Core\Component\Exceptions;
 
-use Feralygon\Kit\Core\Component;
 use Feralygon\Kit\Core\Component\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
 use Feralygon\Kit\Core\Utilities\{
@@ -22,8 +21,8 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read string $component <p>The component class.</p>
  * @property-read string|null $error_message [default = null] <p>The error message.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class CoercionFailed extends Exception implements ICoercion
 {
@@ -31,9 +30,13 @@ class CoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return $this->isset('error_message')
+		$message = $this->isset('error_message')
 			? "Coercion failed with value {{value}} using component {{component}}, with the following error: {{error_message}}"
 			: "Coercion failed with value {{value}} using component {{component}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -54,9 +57,9 @@ class CoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'component':
-				return UType::evaluateClass($value, Component::class);
 			case 'error_message':
+				//no break
+			case 'hint_message':
 				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
@@ -67,6 +70,8 @@ class CoercionFailed extends Exception implements ICoercion
 	{
 		if ($placeholder === 'error_message') {
 			return UText::uncapitalize($value, true);
+		} elseif ($placeholder === 'hint_message') {
+			return $value;
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}

@@ -162,7 +162,7 @@ abstract class Enumeration
 	/**
 	 * Evaluate a given value as an enumerated element value.
 	 * 
-	 * Only enumerated elements can be evaluated into enumerated element values.
+	 * Only an enumerated element can be evaluated into an enumerated element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -171,19 +171,18 @@ abstract class Enumeration
 	 */
 	final public static function evaluateValue(&$value, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif ((is_scalar($value) && static::hasValue($value)) || (is_string($value) && static::hasName($value))) {
-			$value = static::getValue($value);
-			return true;
+		try {
+			$value = self::coerceValue($value, $nullable);
+		} catch (Exceptions\ValueCoercionFailed $exception) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into an enumerated element value.
 	 * 
-	 * Only enumerated elements can be coerced into enumerated element values.
+	 * Only an enumerated element can be coerced into an enumerated element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -194,16 +193,25 @@ abstract class Enumeration
 	 */
 	final public static function coerceValue($value, bool $nullable = false)
 	{
-		if (!static::evaluateValue($value, $nullable)) {
-			throw new Exceptions\ValueCoercionFailed(['enumeration' => static::class, 'value' => $value]);
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\ValueCoercionFailed(['enumeration' => static::class, 'value' => $value, 'hint_message' => "A null value is not allowed."]);
+		} elseif ((is_string($value) && static::hasName($value)) || ((is_int($value) || is_float($value) || is_string($value)) && static::hasValue($value))) {
+			return static::getValue($value);
 		}
-		return $value;
+		throw new Exceptions\ValueCoercionFailed([
+			'enumeration' => static::class,
+			'value' => $value,
+			'hint_message' => "Only an enumerated element can be coerced into an enumerated element value."
+		]);
 	}
 	
 	/**
 	 * Evaluate a given value as an enumerated element name.
 	 * 
-	 * Only enumerated elements can be evaluated into enumerated element names.
+	 * Only an enumerated element can be evaluated into an enumerated element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -212,19 +220,18 @@ abstract class Enumeration
 	 */
 	final public static function evaluateName(&$value, bool $nullable = false) : bool
 	{
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (is_scalar($value) && static::hasValue($value)) {
-			$value = static::getName($value);
-			return true;
+		try {
+			$value = self::coerceName($value, $nullable);
+		} catch (Exceptions\NameCoercionFailed $exception) {
+			return false;
 		}
-		return is_string($value) && static::hasName($value);
+		return true;
 	}
 	
 	/**
 	 * Coerce a given value into an enumerated element name.
 	 * 
-	 * Only enumerated elements can be coerced into enumerated element names.
+	 * Only an enumerated element can be coerced into an enumerated element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -235,10 +242,21 @@ abstract class Enumeration
 	 */
 	final public static function coerceName($value, bool $nullable = false) : ?string
 	{
-		if (!static::evaluateName($value, $nullable)) {
-			throw new Exceptions\NameCoercionFailed(['enumeration' => static::class, 'value' => $value]);
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\NameCoercionFailed(['enumeration' => static::class, 'value' => $value, 'hint_message' => "A null value is not allowed."]);
+		} elseif (is_string($value) && static::hasName($value)) {
+			return $value;
+		} elseif ((is_int($value) || is_float($value) || is_string($value)) && static::hasValue($value)) {
+			return static::getName($value);
 		}
-		return $value;
+		throw new Exceptions\NameCoercionFailed([
+			'enumeration' => static::class,
+			'value' => $value,
+			'hint_message' => "Only an enumerated element can be coerced into an enumerated element name."
+		]);
 	}
 	
 	/**

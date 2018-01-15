@@ -15,7 +15,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * Core component exception class.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Core\Component $component <p>The component instance.</p>
+ * @property-read \Feralygon\Kit\Core\Component|string $component <p>The component instance or class.</p>
  * @see \Feralygon\Kit\Core\Component
  */
 abstract class Exception extends Core\Exception
@@ -35,7 +35,7 @@ abstract class Exception extends Core\Exception
 	{
 		switch ($name) {
 			case 'component':
-				return is_object($value) && UType::isA($value, Component::class);
+				return UType::evaluateObjectClass($value, Component::class);
 		}
 		return null;
 	}

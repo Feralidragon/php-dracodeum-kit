@@ -18,7 +18,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read object|string|null $base_object_class [default = null] <p>The base object or class.</p>
+ * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class ObjectCoercionFailed extends Exception implements ICoercion
 {
@@ -26,11 +26,11 @@ class ObjectCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Object coercion failed with value {{value}}.\n" . 
-			($this->isset('base_object_class')
-				? "HINT: Only class strings and objects can be coerced into objects, and they must be or extend from {{base_object_class}}."
-				: "HINT: Only class strings and objects can be coerced into objects."
-			);
+		$message = "Object coercion failed with value {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -51,9 +51,21 @@ class ObjectCoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'base_object_class':
-				return UType::evaluateObjectClass($value, null, true);
+			case 'hint_message':
+				return UType::evaluateString($value, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message') {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }
