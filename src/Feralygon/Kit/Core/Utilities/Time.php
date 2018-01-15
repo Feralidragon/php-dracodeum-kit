@@ -779,10 +779,10 @@ final class Time extends Utility
 	/**
 	 * Evaluate a given value as a multiple.
 	 * 
-	 * Only the following types and formats can be evaluated into multiples:<br>
-	 * &nbsp; &#8226; &nbsp; numbers in seconds, such as: <code>3600</code> for hours;<br>
-	 * &nbsp; &#8226; &nbsp; symbol strings, such as: <code>"h"</code> for hours;<br>
-	 * &nbsp; &#8226; &nbsp; name strings in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
+	 * Only the following types and formats can be evaluated into a multiple:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds, such as: <code>3600</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>

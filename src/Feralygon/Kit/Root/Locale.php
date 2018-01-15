@@ -60,9 +60,9 @@ final class Locale
 	/**
 	 * Evaluate a given value as a language.
 	 * 
-	 * Only the following types and formats can be evaluated into languages:<br>
-	 * &nbsp; &#8226; &nbsp; ISO 639 code strings, such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
-	 * &nbsp; &#8226; &nbsp; ISO 639 code strings with ISO 3166-1 country codes, such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
+	 * Only the following types and formats can be evaluated into a language:<br>
+	 * &nbsp; &#8226; &nbsp; an ISO 639 code string, such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
+	 * &nbsp; &#8226; &nbsp; an ISO 639 code string with an ISO 3166-1 country code, such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
 	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, as well as any combination of code types).<br>
 	 * 
 	 * @since 1.0.0

@@ -294,10 +294,10 @@ final class Math extends Utility
 	/**
 	 * Evaluate a given value as a multiple.
 	 * 
-	 * Only the following types and formats can be evaluated into multiples:<br>
-	 * &nbsp; &#8226; &nbsp; integers as powers of 10, such as: <code>1000</code> for thousands;<br>
-	 * &nbsp; &#8226; &nbsp; SI symbol strings, such as: <code>"k"</code> for thousands;<br>
-	 * &nbsp; &#8226; &nbsp; name strings in English, such as: <code>"thousand"</code> for thousands.
+	 * Only the following types and formats can be evaluated into a multiple:<br>
+	 * &nbsp; &#8226; &nbsp; an integer as a power of 10, such as: <code>1000</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; an SI symbol string, such as: <code>"k"</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"thousand"</code> for thousands.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
