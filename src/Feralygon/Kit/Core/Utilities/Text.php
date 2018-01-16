@@ -177,10 +177,10 @@ final class Text extends Utility
 			foreach ($value as $k => $v) {
 				$v_string = self::stringify($v, $text_options, $options);
 				if ($is_associative) {
-					if (!($options->flags & self::STRING_NO_QUOTES) && preg_match('/[\s:="{}\[\],]/', $k)) {
+					if (!($options->flags & self::STRING_NO_QUOTES) && ($is_none || preg_match('/[\s:="{}\[\],]/', $k))) {
 						$k = "\"{$k}\"";
 					}
-					$v_string = $is_none ? "{$k} = {$v_string}" : "{$k}: {$v_string}";
+					$v_string = "{$k}: {$v_string}";
 				}
 				$strings[] = $v_string;
 				unset($v_string);
