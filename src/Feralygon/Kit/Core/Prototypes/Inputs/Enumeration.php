@@ -19,6 +19,7 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -133,16 +134,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				return $this->createProperty()
 					->setMode('r')
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value)) {
-							$value = array_values($value);
-							foreach ($value as $v) {
-								if (!is_int($v) && !is_float($v) && !is_string($v)) {
-									return false;
-								}
-							}
-							return true;
-						}
-						return false;
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							return is_int($value) || is_float($value) || is_string($value);
+						}, true);
 					})
 					->setGetter(function () : array {
 						return $this->values;
@@ -155,16 +149,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				return $this->createProperty()
 					->setMode('r')
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value)) {
-							$value = array_values($value);
-							foreach ($value as $v) {
-								if (!is_int($v) && !is_float($v) && !is_string($v)) {
-									return false;
-								}
-							}
-							return true;
-						}
-						return false;
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							return is_int($value) || is_float($value) || is_string($value);
+						}, true);
 					})
 					->setGetter(function () : array {
 						return $this->non_values;

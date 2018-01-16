@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property\Exceptio
 
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property\Exception;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -56,17 +57,9 @@ class InvalidMode extends Exception
 				return true;
 			case 'modes':
 				$value = $value ?? [];
-				if (is_array($value)) {
-					$value = array_values($value);
-					foreach ($value as &$v) {
-						if (!UType::evaluateString($v)) {
-							return false;
-						}
-					}
-					unset($v);
-					return true;
-				}
-				return false;
+				return UData::evaluate($value, function (&$key, &$value) : bool {
+					return UType::evaluateString($value);
+				}, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

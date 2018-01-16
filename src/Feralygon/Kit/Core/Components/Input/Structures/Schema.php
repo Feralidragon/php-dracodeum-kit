@@ -10,7 +10,10 @@ namespace Feralygon\Kit\Core\Components\Input\Structures;
 use Feralygon\Kit\Core\Structure;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema as ModifierSchema;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
+	Type as UType
+};
 
 /**
  * Core input component schema structure class.
@@ -54,16 +57,9 @@ class Schema extends Structure
 					->setMode('r')
 					->setDefaultValue([])
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value)) {
-							$value = array_values($value);
-							foreach ($value as $v) {
-								if (!is_object($v) || !UType::isA($v, ModifierSchema::class)) {
-									return false;
-								}
-							}
-							return true;
-						}
-						return false;
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							return is_object($value) && UType::isA($value, ModifierSchema::class);
+						}, true);
 					})
 				;
 		}

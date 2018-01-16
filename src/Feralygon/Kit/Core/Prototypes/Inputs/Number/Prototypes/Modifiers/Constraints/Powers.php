@@ -18,6 +18,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -66,17 +67,9 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 			case 'powers':
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value) && !empty($value)) {
-							$value = array_values($value);
-							foreach ($value as &$v) {
-								if (!UType::evaluateNumber($v) || $v <= 0) {
-									return false;
-								}
-							}
-							unset($v);
-							return true;
-						}
-						return false;
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							return UType::evaluateNumber($value) && $value > 0;
+						}, true, true);
 					})
 					->setGetter(function () : array {
 						return $this->powers;

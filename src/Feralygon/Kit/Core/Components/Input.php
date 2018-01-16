@@ -26,6 +26,7 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Core\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -88,10 +89,10 @@ class Input extends Component
 	
 	
 	
-	//Implemented protected methods (core component initialization trait)
-	protected function initialize() : void
+	//Implemented protected methods (core component prototype initialization trait)
+	protected function initializePrototype(ComponentPrototype $prototype) : void
 	{
-		$this->getPrototype()
+		$prototype
 			->bind('createConstraint', [$this, 'createConstraint'])
 			->bind('createFilter', [$this, 'createFilter'])
 		;
@@ -130,19 +131,16 @@ class Input extends Component
 				return $this->createProperty()
 					->setMode('w-')
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value)) {
-							foreach ($value as $k => $v) {
-								if (is_string($k) && is_array($v)) {
-									$this->addModifier($k, $v);
-								} elseif (is_int($k) && (is_string($v) || is_object($v))) {
-									$this->addModifier($v);
-								} else {
-									return false;
-								}
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							if (is_string($key) && is_array($value)) {
+								$this->addModifier($key, $value);
+								return true;
+							} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+								$this->addModifier($value);
+								return true;
 							}
-							return true;
-						}
-						return false;
+							return false;
+						});
 					})
 				;
 		}

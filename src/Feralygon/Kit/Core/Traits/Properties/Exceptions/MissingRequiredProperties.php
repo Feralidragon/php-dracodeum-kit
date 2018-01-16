@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Properties\Exception;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -49,16 +50,9 @@ class MissingRequiredProperties extends Exception
 	{
 		switch ($name) {
 			case 'names':
-				if (is_array($value) && !empty($value)) {
-					$value = array_values($value);
-					foreach ($value as &$v) {
-						if (!UType::evaluateString($v) || !UText::isIdentifier($v)) {
-							return false;
-						}
-					}
-					return true;
-				}
-				return false;
+				return UData::evaluate($value, function (&$key, &$value) : bool {
+					return UType::evaluateString($value) && UText::isIdentifier($value);
+				}, true, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

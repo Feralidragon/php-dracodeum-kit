@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Root\Locale\Exceptions;
 
 use Feralygon\Kit\Root\Locale\Exception;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -55,17 +56,9 @@ class InvalidEncoding extends Exception
 			case 'encoding':
 				return UType::evaluateString($value);
 			case 'encodings':
-				if (is_array($value)) {
-					$value = array_values($value);
-					foreach ($value as &$v) {
-						if (!UType::evaluateString($v)) {
-							return false;
-						}
-					}
-					unset($v);
-					return true;
-				}
-				return false;
+				return UData::evaluate($value, function (&$key, &$value) : bool {
+					return UType::evaluateString($value);
+				}, true);
 		}
 		return null;
 	}

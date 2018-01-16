@@ -18,6 +18,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -70,17 +71,9 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 			case 'multiples':
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
-						if (is_array($value) && !empty($value)) {
-							$value = array_values($value);
-							foreach ($value as &$v) {
-								if (!UType::evaluateNumber($v) || empty($v)) {
-									return false;
-								}
-							}
-							unset($v);
-							return true;
-						}
-						return false;
+						return UData::evaluate($value, function (&$key, &$value) : bool {
+							return UType::evaluateNumber($value) && !empty($value);
+						}, true, true);
 					})
 					->setGetter(function () : array {
 						return $this->multiples;
