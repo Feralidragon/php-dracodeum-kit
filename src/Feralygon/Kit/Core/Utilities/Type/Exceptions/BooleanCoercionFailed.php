@@ -63,7 +63,7 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'hint_message') {
+		if ($placeholder === 'hint_message' && isset($value)) {
 			return $value;
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
