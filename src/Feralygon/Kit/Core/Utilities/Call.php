@@ -529,18 +529,19 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Assert a given function against a given template.
+	 * Assert a given function against a given template, under a given name.
 	 * 
 	 * This assertion is only performed in a debug environment.
 	 * 
 	 * @since 1.0.0
+	 * @param string $name <p>The name to assert under.</p>
 	 * @param callable $function <p>The function to assert.</p>
 	 * @param callable $template <p>The template callable declaration to assert against.</p>
 	 * @param bool $throw_exception [default = false] <p>Throw an exception if the assertion fails.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\SignatureAssertionFailed
-	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function against the given template.</p>
+	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function against the given template, under the given name.</p>
 	 */
-	final public static function assertSignature(callable $function, callable $template, bool $throw_exception = false) : bool
+	final public static function assertSignature(string $name, callable $function, callable $template, bool $throw_exception = false) : bool
 	{
 		if (System::getEnvironment()->isDebug()) {
 			$function_signature = self::signature($function);
@@ -548,6 +549,7 @@ final class Call extends Utility
 			if ($function_signature !== $template_signature) {
 				if ($throw_exception) {
 					throw new Exceptions\SignatureAssertionFailed([
+						'name' => $name,
 						'function' => $function,
 						'template' => $template,
 						'object_class' => self::stackPreviousObjectClass(),

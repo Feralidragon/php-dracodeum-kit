@@ -1538,7 +1538,7 @@ final class Data extends Utility
 			} elseif ($non_associative && self::isAssociative($value)) {
 				throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "An associative array value is not allowed."]);
 			} elseif (isset($evaluator)) {
-				Call::assertSignature($evaluator, function (&$key, &$value) : bool {}, true);
+				Call::assertSignature('evaluator', $evaluator, function (&$key, &$value) : bool {}, true);
 				$evaluator = \Closure::fromCallable($evaluator);
 				$array = [];
 				foreach ($value as $k => $v) {

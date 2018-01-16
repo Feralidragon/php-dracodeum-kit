@@ -20,6 +20,7 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from the call utility whenever the signature assertion between a given function and a given template has failed.
  * 
  * @since 1.0.0
+ * @property-read string $name <p>The name.</p>
  * @property-read \Closure $function <p>The function.</p>
  * @property-read \Closure $template <p>The template.</p>
  * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
@@ -38,8 +39,8 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 		$message = "";
 		if ($this->isset('object_class')) {
 			$message = is_object($this->get('object_class'))
-				? "Assertion failed in object {{object_class}} with function signature {{function_signature}}."
-				: "Assertion failed in class {{object_class}} with function signature {{function_signature}}.";
+				? "Assertion {{name}} failed in object {{object_class}} with function signature {{function_signature}}."
+				: "Assertion {{name}} failed in class {{object_class}} with function signature {{function_signature}}.";
 		} else {
 			$message = "Assertion failed with function signature {{function_signature}}.";
 		}
@@ -55,7 +56,7 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['function', 'template'];
+		return ['name', 'function', 'template'];
 	}
 	
 	
@@ -65,6 +66,8 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
+			case 'name':
+				return UType::evaluateString($value);
 			case 'function':
 				//no break
 			case 'template':

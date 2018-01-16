@@ -301,7 +301,7 @@ trait Properties
 		}
 		
 		//evaluator
-		UCall::assertSignature($evaluator, function (string $name, &$value) : ?bool {}, true);
+		UCall::assertSignature('evaluator', $evaluator, function (string $name, &$value) : ?bool {}, true);
 		$this->properties_evaluator = \Closure::fromCallable($evaluator);
 		
 		//initialize

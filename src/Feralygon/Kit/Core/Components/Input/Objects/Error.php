@@ -54,7 +54,7 @@ final class Error
 		if (!empty($messengers)) {
 			$template = function (TextOptions $text_options) : ?string {};
 			foreach ($messengers as &$messenger) {
-				UCall::assertSignature($messenger, $template, true);
+				UCall::assertSignature('messenger', $messenger, $template, true);
 				$messenger = \Closure::fromCallable($messenger);
 				unset($messenger);
 			}
