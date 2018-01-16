@@ -70,6 +70,7 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Core\Prototype
  * @see \Feralygon\Kit\Core\Component\Traits\Properties
  * @see \Feralygon\Kit\Core\Component\Traits\Initialization
+ * @see \Feralygon\Kit\Core\Component\Traits\PrototypeInitialization
  * @see \Feralygon\Kit\Core\Component\Traits\Prototypes
  */
 abstract class Component implements \ArrayAccess
@@ -78,6 +79,7 @@ abstract class Component implements \ArrayAccess
 	use TExtendedPropertiesArrayAccess;
 	use Traits\Properties;
 	use Traits\Initialization;
+	use Traits\PrototypeInitialization;
 	use Traits\Prototypes;
 	
 	
@@ -133,12 +135,12 @@ abstract class Component implements \ArrayAccess
 		
 		//prototype instantiation
 		if (is_string($prototype)) {
-			$this->prototype = new $prototype($prototype_properties);
+			$prototype = new $prototype($prototype_properties);
 		} elseif (!empty($prototype_properties)) {
 			throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
-		} else {
-			$this->prototype = $prototype;
 		}
+		$this->initializePrototype($prototype);
+		$this->prototype = $prototype;
 		
 		//properties
 		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'buildProperty']), $this->getRequiredPropertyNames());
