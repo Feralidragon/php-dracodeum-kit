@@ -32,11 +32,7 @@ class Constraint extends Modifier
 	/** {@inheritdoc} */
 	protected function getDefaultErrorMessage(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Default core input constraint modifier component default error message.
-		 * @tags core component input modifier constraint error message default
-		 */
-		return UText::localize("The given value is not allowed.", 'core.components.input.components.modifiers.constraint', $text_options);
+		return UText::localize("The given value is not allowed.", self::class, $text_options);
 	}
 	
 	

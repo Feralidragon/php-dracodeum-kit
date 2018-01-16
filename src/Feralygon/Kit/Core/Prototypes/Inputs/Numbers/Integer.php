@@ -180,35 +180,24 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			if (isset($this->bits)) {
 				if ($this->unsigned) {
 					/**
-					 * @description Core integer number input prototype label (unsigned with bits).
 					 * @placeholder bits The number of bits.
-					 * @tags core prototype input number integer label non-end-user
+					 * @tags non-end-user
 					 * @example Unsigned integer (32 bits)
 					 */
-					return UText::plocalize("Unsigned integer ({{bits}} bit)", "Unsigned integer ({{bits}} bits)", $this->bits, 'bits', 'core.prototypes.inputs.numbers.integer', $text_options);
+					return UText::plocalize("Unsigned integer ({{bits}} bit)", "Unsigned integer ({{bits}} bits)", $this->bits, 'bits', self::class, $text_options);
 				}
 				/**
-				 * @description Core integer number input prototype label (with bits).
 				 * @placeholder bits The number of bits.
-				 * @tags core prototype input number integer label non-end-user
+				 * @tags non-end-user
 				 * @example Integer (32 bits)
 				 */
-				return UText::plocalize("Integer ({{bits}} bit)", "Integer ({{bits}} bits)", $this->bits, 'bits', 'core.prototypes.inputs.numbers.integer', $text_options);
+				return UText::plocalize("Integer ({{bits}} bit)", "Integer ({{bits}} bits)", $this->bits, 'bits', self::class, $text_options);
 			} elseif ($this->unsigned) {
-				/**
-				 * @description Core integer number input prototype label (unsigned).
-				 * @tags core prototype input number integer label non-end-user
-				 */
-				return UText::localize("Unsigned integer", 'core.prototypes.inputs.numbers.integer', $text_options);
+				/** @tags non-end-user */
+				return UText::localize("Unsigned integer", self::class, $text_options);
 			}
 		}
-		
-		//label
-		/**
-		 * @description Core integer number input prototype label.
-		 * @tags core prototype input number integer label
-		 */
-		return UText::localize("Integer", 'core.prototypes.inputs.numbers.integer', $text_options);
+		return UText::localize("Integer", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -218,51 +207,44 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			if (isset($this->minimum) && isset($this->maximum)) {
 				/**
-				 * @description Core integer number input prototype description (end-user, with minimum and maximum).
 				 * @placeholder minimum The minimum integer number.
 				 * @placeholder maximum The maximum integer number.
-				 * @tags core prototype input number integer description end-user
+				 * @tags end-user
 				 * @example An integer number between -128 and 127.
 				 */
-				return UText::localize("An integer number between {{minimum}} and {{maximum}}.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("An integer number between {{minimum}} and {{maximum}}.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum, 'maximum' => $this->maximum]
 				]);
 			} elseif (isset($this->minimum)) {
 				/**
-				 * @description Core integer number input prototype description (end-user, with minimum).
 				 * @placeholder minimum The minimum integer number.
-				 * @tags core prototype input number integer description end-user
+				 * @tags end-user
 				 * @example An integer number greater than or equal to -128.
 				 */
-				return UText::localize("An integer number greater than or equal to {{minimum}}.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("An integer number greater than or equal to {{minimum}}.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum]
 				]);
 			} elseif (isset($this->maximum)) {
 				/**
-				 * @description Core integer number input prototype description (end-user, with maximum).
 				 * @placeholder maximum The maximum integer number.
-				 * @tags core prototype input number integer description end-user
+				 * @tags end-user
 				 * @example An integer number lesser than or equal to 127.
 				 */
-				return UText::localize("An integer number lesser than or equal to {{maximum}}.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("An integer number lesser than or equal to {{maximum}}.", self::class, $text_options, [
 					'parameters' => ['maximum' => $this->maximum]
 				]);
 			}
-			/**
-			 * @description Core integer number input prototype description (end-user).
-			 * @tags core prototype input number integer description end-user
-			 */
-			return UText::localize("An integer number.", 'core.prototypes.inputs.numbers.integer', $text_options);
+			/** @tags end-user */
+			return UText::localize("An integer number.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		if (isset($this->bits)) {
 			if ($this->unsigned) {
 				/**
-				 * @description Core integer number input prototype description (unsigned with bits).
 				 * @placeholder bits The number of bits.
 				 * @placeholder notations The supported integer number notation entries.
-				 * @tags core prototype input number integer description non-end-user
+				 * @tags non-end-user
 				 * @example An unsigned integer number of 32 bits, which may be given using any of the following notations:
 				 *  &#8226; Standard (examples: "64", "85", "125");
 				 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -273,8 +255,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				return UText::plocalize(
 					"An unsigned integer number of {{bits}} bit, which may be given using any of the following notations:\n{{notations}}", 
 					"An unsigned integer number of {{bits}} bits, which may be given using any of the following notations:\n{{notations}}", 
-					$this->bits, 'bits', 
-					'core.prototypes.inputs.numbers.integer', $text_options, [
+					$this->bits, 'bits', self::class, $text_options, [
 						'parameters' => [
 							'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 						]
@@ -282,10 +263,9 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				);
 			}
 			/**
-			 * @description Core integer number input prototype description (with bits).
 			 * @placeholder bits The number of bits.
 			 * @placeholder notations The supported integer number notation entries.
-			 * @tags core prototype input number integer description non-end-user
+			 * @tags non-end-user
 			 * @example An integer number of 32 bits, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -296,8 +276,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			return UText::plocalize(
 				"An integer number of {{bits}} bit, which may be given using any of the following notations:\n{{notations}}", 
 				"An integer number of {{bits}} bits, which may be given using any of the following notations:\n{{notations}}", 
-				$this->bits, 'bits', 
-				'core.prototypes.inputs.numbers.integer', $text_options, [
+				$this->bits, 'bits', self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 					]
@@ -305,9 +284,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			);
 		} elseif ($this->unsigned) {
 			/**
-			 * @description Core integer number input prototype description (unsigned).
 			 * @placeholder notations The supported integer number notation entries.
-			 * @tags core prototype input number integer description non-end-user
+			 * @tags non-end-user
 			 * @example An unsigned integer number, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -317,7 +295,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			return UText::localize(
 				"An unsigned integer number, which may be given using any of the following notations:\n{{notations}}", 
-				'core.prototypes.inputs.numbers.integer', $text_options, [
+				self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 					]
@@ -325,9 +303,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			);
 		}
 		/**
-		 * @description Core integer number input prototype description.
 		 * @placeholder notations The supported integer number notation entries.
-		 * @tags core prototype input number integer description non-end-user
+		 * @tags non-end-user
 		 * @example An integer number, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "64", "85", "125");
 		 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -337,7 +314,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		 */
 		return UText::localize(
 			"An integer number, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.numbers.integer', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -352,51 +329,43 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			if (isset($this->minimum) && isset($this->maximum)) {
 				/**
-				 * @description Core integer number input prototype message (end-user, with minimum and maximum).
 				 * @placeholder minimum The minimum integer number.
 				 * @placeholder maximum The maximum integer number.
-				 * @tags core prototype input number integer message end-user
+				 * @tags end-user
 				 * @example Only integer numbers between -128 and 127 are allowed.
 				 */
-				return UText::localize("Only integer numbers between {{minimum}} and {{maximum}} are allowed.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("Only integer numbers between {{minimum}} and {{maximum}} are allowed.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum, 'maximum' => $this->maximum]
 				]);
 			} elseif (isset($this->minimum)) {
 				/**
-				 * @description Core integer number input prototype message (end-user, with minimum).
 				 * @placeholder minimum The minimum integer number.
-				 * @tags core prototype input number integer message end-user
+				 * @tags end-user
 				 * @example Only integer numbers greater than or equal to -128 are allowed.
 				 */
-				return UText::localize("Only integer numbers greater than or equal to {{minimum}} are allowed.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("Only integer numbers greater than or equal to {{minimum}} are allowed.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum]
 				]);
 			} elseif (isset($this->maximum)) {
 				/**
-				 * @description Core integer number input prototype message (end-user, with maximum).
 				 * @placeholder maximum The maximum integer number.
-				 * @tags core prototype input number integer message end-user
+				 * @tags end-user
 				 * @example Only integer numbers lesser than or equal to 127 are allowed.
 				 */
-				return UText::localize("Only integer numbers lesser than or equal to {{maximum}} are allowed.", 'core.prototypes.inputs.numbers.integer', $text_options, [
+				return UText::localize("Only integer numbers lesser than or equal to {{maximum}} are allowed.", self::class, $text_options, [
 					'parameters' => ['maximum' => $this->maximum]
 				]);
 			}
-			/**
-			 * @description Core integer number input prototype message (end-user).
-			 * @tags core prototype input number integer message end-user
-			 * @example Only integer numbers are allowed.
-			 */
-			return UText::localize("Only integer numbers are allowed.", 'core.prototypes.inputs.numbers.integer', $text_options);
+			/** @tags end-user */
+			return UText::localize("Only integer numbers are allowed.", self::class, $text_options);
 			
 		//bits
 		} elseif (isset($this->bits)) {
 			if ($this->unsigned) {
 				/**
-				 * @description Core integer number input prototype message (unsigned with bits).
 				 * @placeholder bits The number of bits.
 				 * @placeholder notations The supported integer number notation entries.
-				 * @tags core prototype input number integer message non-end-user
+				 * @tags non-end-user
 				 * @example Only unsigned integer numbers of 32 bits are allowed, which may be given using any of the following notations:
 				 *  &#8226; Standard (examples: "64", "85", "125");
 				 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -407,7 +376,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				return UText::plocalize(
 					"Only unsigned integer numbers of {{bits}} bit are allowed, which may be given using any of the following notations:\n{{notations}}", 
 					"Only unsigned integer numbers of {{bits}} bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
-					$this->bits, 'bits', 'core.prototypes.inputs.numbers.integer', $text_options, [
+					$this->bits, 'bits', self::class, $text_options, [
 						'parameters' => [
 							'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 						]
@@ -415,10 +384,9 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				);
 			}
 			/**
-			 * @description Core integer number input prototype message (with bits).
 			 * @placeholder bits The number of bits.
 			 * @placeholder notations The supported integer number notation entries.
-			 * @tags core prototype input number integer message non-end-user
+			 * @tags non-end-user
 			 * @example Only integer numbers of 32 bits are allowed, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -429,7 +397,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			return UText::plocalize(
 				"Only integer numbers of {{bits}} bit are allowed, which may be given using any of the following notations:\n{{notations}}", 
 				"Only integer numbers of {{bits}} bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
-				$this->bits, 'bits', 'core.prototypes.inputs.numbers.integer', $text_options, [
+				$this->bits, 'bits', self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 					]
@@ -439,9 +407,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		//unsigned
 		} elseif ($this->unsigned) {
 			/**
-			 * @description Core integer number input prototype message (unsigned).
 			 * @placeholder notations The supported integer number notation entries.
-			 * @tags core prototype input number integer message non-end-user
+			 * @tags non-end-user
 			 * @example Only unsigned integer numbers are allowed, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -451,7 +418,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			return UText::localize(
 				"Only unsigned integer numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
-				'core.prototypes.inputs.numbers.integer', $text_options, [
+				self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 					]
@@ -461,9 +428,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		
 		//non-end-user
 		/**
-		 * @description Core integer number input prototype message.
 		 * @placeholder notations The supported integer number notation entries.
-		 * @tags core prototype input number integer message non-end-user
+		 * @tags non-end-user
 		 * @example Only integer numbers are allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "64", "85", "125");
 		 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
@@ -473,7 +439,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		 */
 		return UText::localize(
 			"Only integer numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.numbers.integer', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -507,23 +473,23 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core integer number input prototype standard notation string.
+			 * @description Standard notation string.
 			 * @placeholder examples The list of integer number examples in standard notation.
-			 * @tags core prototype input number integer notation string non-end-user
+			 * @tags non-end-user
 			 * @example Standard (examples: "64", "85", "125")
 			 */
-			$strings[] = UText::localize("Standard (examples: {{examples}})", 'core.prototypes.inputs.numbers.integer', $text_options, [
+			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
 					'examples' => UText::stringify(array_map('strval', $examples), $example_text_options)]
 				]
 			);
 			/**
-			 * @description Core integer number input prototype exponential notation string.
+			 * @description Exponential notation string.
 			 * @placeholder examples The list of integer number examples in exponential notation.
-			 * @tags core prototype input number integer notation string non-end-user
+			 * @tags non-end-user
 			 * @example Exponential string (examples: "6.4e1", "0.85e2", "1.25e2")
 			 */
-			$strings[] = UText::localize("Exponential string (examples: {{examples}})", 'core.prototypes.inputs.numbers.integer', $text_options, [
+			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
 					'examples' => UText::stringify(array_map(function ($i, $n) {
 						return round($n / 10 ** ($i + 2), 3) . 'e' . ($i + 2);
@@ -531,12 +497,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				]
 			);
 			/**
-			 * @description Core integer number input prototype octal notation string.
+			 * @description Octal notation string.
 			 * @placeholder examples The list of integer number examples in octal notation.
-			 * @tags core prototype input number integer notation string non-end-user
+			 * @tags non-end-user
 			 * @example Octal string (examples: "0100", "0125", "0175")
 			 */
-			$strings[] = UText::localize("Octal string (examples: {{examples}})", 'core.prototypes.inputs.numbers.integer', $text_options, [
+			$strings[] = UText::localize("Octal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
 					'examples' => UText::stringify(array_map(function ($n) {
 						return '0' . decoct($n);
@@ -544,12 +510,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				]
 			);
 			/**
-			 * @description Core integer number input prototype hexadecimal notation string.
+			 * @description Hexadecimal notation string.
 			 * @placeholder examples The list of integer number examples in hexadecimal notation.
-			 * @tags core prototype input number integer notation string non-end-user
+			 * @tags non-end-user
 			 * @example Hexadecimal string (examples: "0x40", "0x55", "0x7d")
 			 */
-			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", 'core.prototypes.inputs.numbers.integer', $text_options, [
+			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
 					'examples' => UText::stringify(array_map(function ($n) {
 						return '0x' . dechex($n);
@@ -557,12 +523,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				]
 			);
 			/**
-			 * @description Core integer number input prototype human-readable notation string.
+			 * @description Human-readable notation string.
 			 * @placeholder examples The list of integer number examples in human-readable notation.
-			 * @tags core prototype input number integer notation string non-end-user
+			 * @tags non-end-user
 			 * @example Human-readable string in English (examples: "0.064 thousand", "0.085k", "0.125 k")
 			 */
-			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", 'core.prototypes.inputs.numbers.integer', $text_options, [
+			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
 					'examples' => UText::stringify(array_map(function ($i, $n) {
 						return UMath::hnumber($n, null, ['long' => $i % 2 !== 0]);

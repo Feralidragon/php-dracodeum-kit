@@ -290,13 +290,12 @@ class Input extends Component
 						$modifier_string = $modifier->getString($text_options);
 						if (isset($modifier_string)) {
 							/**
-							 * @description Core input component modifier label with string.
+							 * @description Modifier label with string.
 							 * @placeholder label The modifier label.
 							 * @placeholder string The modifier string.
-							 * @tags core component input label
 							 * @example Allowed values: "a", "b" and "c"
 							 */
-							$modifier_labels[] = UText::localize("{{label}}: {{string}}", 'core.components.input', $text_options, [
+							$modifier_labels[] = UText::localize("{{label}}: {{string}}", self::class, $text_options, [
 								'parameters' => ['label' => $modifier_label, 'string' => $modifier_string]
 							]);
 						} else {
@@ -326,11 +325,8 @@ class Input extends Component
 	{
 		$text_options = TextOptions::load($text_options);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
-			/**
-			 * @description Default core input component null label.
-			 * @tags core component input null label default non-end-user
-			 */
-			return UText::localize("Null", 'core.components.input', $text_options);
+			/** @tags non-end-user */
+			return UText::localize("Null", self::class, $text_options);
 		}
 		return null;
 	}
@@ -396,17 +392,11 @@ class Input extends Component
 	{
 		$text_options = TextOptions::load($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Default core input component null description (end-user).
-			 * @tags core component input null description default end-user
-			 */
-			return UText::localize("Alternatively, it may also be empty.", 'core.components.input', $text_options);
+			/** @tags end-user */
+			return UText::localize("Alternatively, it may also be empty.", self::class, $text_options);
 		}
-		/**
-		 * @description Default core input component null description.
-		 * @tags core component input null description default non-end-user
-		 */
-		return UText::localize("Alternatively, it may also be null.", 'core.components.input', $text_options);
+		/** @tags non-end-user */
+		return UText::localize("Alternatively, it may also be null.", self::class, $text_options);
 	}
 	
 	/**
@@ -472,17 +462,11 @@ class Input extends Component
 	{
 		$text_options = TextOptions::load($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Default core input component null message (end-user).
-			 * @tags core component input null message default end-user
-			 */
-			return UText::localize("Alternatively, an empty value may also be given.", 'core.components.input', $text_options);
+			/** @tags end-user */
+			return UText::localize("Alternatively, an empty value may also be given.", self::class, $text_options);
 		}
-		/**
-		 * @description Default core input component null message.
-		 * @tags core component input null message default non-end-user
-		 */
-		return UText::localize("Alternatively, a null value may also be given.", 'core.components.input', $text_options);
+		/** @tags non-end-user */
+		return UText::localize("Alternatively, a null value may also be given.", self::class, $text_options);
 	}
 	
 	/**
@@ -535,11 +519,7 @@ class Input extends Component
 	 */
 	public function getDefaultErrorMessage($text_options = null) : string
 	{
-		/**
-		 * @description Default core input component error message.
-		 * @tags core component input error message default
-		 */
-		return UText::localize("The given value is invalid.", 'core.components.input', $text_options);
+		return UText::localize("The given value is invalid.", self::class, $text_options);
 	}
 	
 	/**

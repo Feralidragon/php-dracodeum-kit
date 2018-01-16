@@ -111,26 +111,9 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core input values constraint modifier prototype label (negate).
-			 * @tags core prototype input modifier constraint values label
-			 */
-			return UText::plocalize(
-				"Disallowed value", "Disallowed values",
-				count($this->values), null,
-				'core.prototypes.input.prototypes.modifiers.constraints.values', $text_options
-			);
-		}
-		/**
-		 * @description Core input values constraint modifier prototype label.
-		 * @tags core prototype input modifier constraint values label
-		 */
-		return UText::plocalize(
-			"Allowed value", "Allowed values",
-			count($this->values), null,
-			'core.prototypes.input.prototypes.modifiers.constraints.values', $text_options
-		);
+		return $this->negate
+			? UText::plocalize("Disallowed value", "Disallowed values", count($this->values), null, self::class, $text_options)
+			: UText::plocalize("Allowed value", "Allowed values", count($this->values), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -138,31 +121,25 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed values.
-			 * @tags core prototype input modifier constraint values message
 			 * @example The following values are not allowed: "foo", "bar" and "abc".
 			 */
 			return UText::plocalize(
 				"The following value is not allowed: {{values}}.",
 				"The following values are not allowed: {{values}}.",
-				count($this->values), null,
-				'core.prototypes.input.prototypes.modifiers.constraints.values', $text_options, [
+				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
 		/**
-		 * @description Core input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed values.
-		 * @tags core prototype input modifier constraint values message
 		 * @example Only the following values are allowed: "foo", "bar" and "abc".
 		 */
 		return UText::plocalize(
 			"Only the following value is allowed: {{values}}.",
 			"Only the following values are allowed: {{values}}.",
-			count($this->values), null,
-			'core.prototypes.input.prototypes.modifiers.constraints.values', $text_options, [
+			count($this->values), null, self::class, $text_options, [
 				'parameters' => ['values' => $this->getString($text_options)]
 			]
 		);

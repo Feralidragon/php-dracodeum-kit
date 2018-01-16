@@ -26,18 +26,9 @@ class Range extends Constraints\Range
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core time input range constraint modifier prototype label (negate).
-			 * @tags core prototype input time modifier constraint range label
-			 */
-			return UText::localize("Disallowed times range", 'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options);
-		}
-		/**
-		 * @description Core time input range constraint modifier prototype label.
-		 * @tags core prototype input time modifier constraint range label
-		 */
-		return UText::localize("Allowed times range", 'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options);
+		return $this->negate
+			? UText::localize("Disallowed times range", self::class, $text_options)
+			: UText::localize("Allowed times range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -48,115 +39,83 @@ class Range extends Constraints\Range
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @description Core time input range constraint modifier prototype message (negate exclusive minimum and maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input time modifier constraint range message
 				 * @example Only times before or at 12:45:00 or after or at 17:20:00 are allowed.
 				 */
 				return UText::localize(
 					"Only times before or at {{min_value}} or after or at {{max_value}} are allowed.", 
-					'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @description Core time input range constraint modifier prototype message (negate exclusive minimum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input time modifier constraint range message
 				 * @example Only times before or at 12:45:00 or after 17:20:00 are allowed.
 				 */
 				return UText::localize(
 					"Only times before or at {{min_value}} or after {{max_value}} are allowed.", 
-					'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @description Core time input range constraint modifier prototype message (negate exclusive maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input time modifier constraint range message
 				 * @example Only times before 12:45:00 or after or at 17:20:00 are allowed.
 				 */
 				return UText::localize(
 					"Only times before {{min_value}} or after or at {{max_value}} are allowed.", 
-					'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			}
 			/**
-			 * @description Core time input range constraint modifier prototype message (negate).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint range message
 			 * @example Only times before 12:45:00 or after 17:20:00 are allowed.
 			 */
 			return UText::localize(
 				"Only times before {{min_value}} or after {{max_value}} are allowed.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
-			 * @description Core time input range constraint modifier prototype message (exclusive minimum and maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint range message
 			 * @example Only times after 12:45:00 and before 17:20:00 are allowed.
 			 */
 			return UText::localize(
 				"Only times after {{min_value}} and before {{max_value}} are allowed.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
-			 * @description Core time input range constraint modifier prototype message (exclusive minimum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint range message
 			 * @example Only times after 12:45:00 and before or at 17:20:00 are allowed.
 			 */
 			return UText::localize(
 				"Only times after {{min_value}} and before or at {{max_value}} are allowed.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
-			 * @description Core time input range constraint modifier prototype message (exclusive maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input time modifier constraint range message
 			 * @example Only times after or at 12:45:00 and before 17:20:00 are allowed.
 			 */
 			return UText::localize(
 				"Only times after or at {{min_value}} and before {{max_value}} are allowed.", 
-				'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
-		 * @description Core time input range constraint modifier prototype message.
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input time modifier constraint range message
 		 * @example Only times after or at 12:45:00 and before or at 17:20:00 are allowed.
 		 */
 		return UText::localize(
 			"Only times after or at {{min_value}} and before or at {{max_value}} are allowed.", 
-			'core.prototypes.inputs.time.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-			]
+			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}
 	

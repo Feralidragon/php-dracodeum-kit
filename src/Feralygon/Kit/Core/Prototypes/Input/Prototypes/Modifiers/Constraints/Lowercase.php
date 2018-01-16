@@ -91,21 +91,13 @@ class Lowercase extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core input lowercase constraint modifier prototype label.
-		 * @tags core prototype input modifier constraint lowercase label
-		 */
-		return UText::localize("Lowercase only", 'core.prototypes.input.prototypes.modifiers.constraints.lowercase', $text_options);
+		return UText::localize("Lowercase only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core input lowercase constraint modifier prototype message.
-		 * @tags core prototype input modifier constraint lowercase message
-		 */
-		return UText::localize("Only values in lowercase are allowed.", 'core.prototypes.input.prototypes.modifiers.constraints.lowercase', $text_options);
+		return UText::localize("Only values in lowercase are allowed.", self::class, $text_options);
 	}
 	
 	

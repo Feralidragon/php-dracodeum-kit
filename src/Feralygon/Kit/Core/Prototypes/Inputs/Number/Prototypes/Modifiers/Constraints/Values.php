@@ -26,26 +26,9 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core number input values constraint modifier prototype label (negate).
-			 * @tags core prototype input number modifier constraint values label
-			 */
-			return UText::plocalize(
-				"Disallowed number", "Disallowed numbers",
-				count($this->values), null,
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options
-			);
-		}
-		/**
-		 * @description Core number input values constraint modifier prototype label.
-		 * @tags core prototype input number modifier constraint values label
-		 */
-		return UText::plocalize(
-			"Allowed number", "Allowed numbers",
-			count($this->values), null,
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options
-		);
+		return $this->negate
+			? UText::plocalize("Disallowed number", "Disallowed numbers", count($this->values), null, self::class, $text_options)
+			: UText::plocalize("Allowed number", "Allowed numbers", count($this->values), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -53,31 +36,25 @@ class Values extends Constraints\Values
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core number input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed number values.
-			 * @tags core prototype input number modifier constraint values message
 			 * @example The following numbers are not allowed: 3, 8 and 27.
 			 */
 			return UText::plocalize(
 				"The following number is not allowed: {{values}}.",
 				"The following numbers are not allowed: {{values}}.",
-				count($this->values), null,
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options, [
+				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
 		/**
-		 * @description Core number input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed number values.
-		 * @tags core prototype input number modifier constraint values message
 		 * @example Only the following numbers are allowed: 3, 8 and 27.
 		 */
 		return UText::plocalize(
 			"Only the following number is allowed: {{values}}.",
 			"Only the following numbers are allowed: {{values}}.",
-			count($this->values), null,
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.values', $text_options, [
+			count($this->values), null, self::class, $text_options, [
 				'parameters' => ['values' => $this->getString($text_options)]
 			]
 		);

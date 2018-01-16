@@ -118,26 +118,9 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core number input powers constraint modifier prototype label (negate).
-			 * @tags core prototype input number modifier constraint powers label
-			 */
-			return UText::plocalize(
-				"Disallowed power", "Disallowed powers",
-				count($this->powers), null,
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.powers', $text_options
-			);
-		}
-		/**
-		 * @description Core number input powers constraint modifier prototype label.
-		 * @tags core prototype input number modifier constraint powers label
-		 */
-		return UText::plocalize(
-			"Allowed power", "Allowed powers",
-			count($this->powers), null,
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.powers', $text_options
-		);
+		return $this->negate
+			? UText::plocalize("Disallowed power", "Disallowed powers", count($this->powers), null, self::class, $text_options)
+			: UText::plocalize("Allowed power", "Allowed powers", count($this->powers), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -145,27 +128,23 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core number input powers constraint modifier prototype message (negate).
 			 * @placeholder powers The list of disallowed powers.
-			 * @tags core prototype input number modifier constraint powers message
 			 * @example Powers of 2, 3 and 5 are not allowed.
 			 */
 			return UText::localize(
 				"Powers of {{powers}} are not allowed.",
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.powers', $text_options, [
+				self::class, $text_options, [
 					'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND])]
 				]
 			);
 		}
 		/**
-		 * @description Core number input powers constraint modifier prototype message.
 		 * @placeholder powers The list of allowed powers.
-		 * @tags core prototype input number modifier constraint powers message
 		 * @example Only powers of 2, 3 or 5 are allowed.
 		 */
 		return UText::localize(
 			"Only powers of {{powers}} are allowed.",
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.powers', $text_options, [
+			self::class, $text_options, [
 				'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]
 		);

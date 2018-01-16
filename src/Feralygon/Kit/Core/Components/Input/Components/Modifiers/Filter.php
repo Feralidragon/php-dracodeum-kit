@@ -32,11 +32,7 @@ class Filter extends Modifier
 	/** {@inheritdoc} */
 	protected function getDefaultErrorMessage(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Default core input filter modifier component default error message.
-		 * @tags core component input modifier filter error message default
-		 */
-		return UText::localize("The given value failed to be processed.", 'core.components.input.components.modifiers.filter', $text_options);
+		return UText::localize("The given value failed to be processed.", self::class, $text_options);
 	}
 	
 	

@@ -26,11 +26,7 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core date input maximum constraint modifier prototype label.
-		 * @tags core prototype input date modifier constraint maximum label
-		 */
-		return UText::localize("Maximum allowed date", 'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options);
+		return UText::localize("Maximum allowed date", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -39,30 +35,16 @@ class Maximum extends Constraints\Maximum
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core date input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input date modifier constraint maximum message
 			 * @example Only dates before 2017-01-17 are allowed.
 			 */
-			return UText::localize(
-				"Only dates before {{value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
+			return UText::localize("Only dates before {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
-		 * @description Core date input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input date modifier constraint maximum message
 		 * @example Only dates before or on 2017-01-17 are allowed.
 		 */
-		return UText::localize(
-			"Only dates before or on {{value}} are allowed.", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
+		return UText::localize("Only dates before or on {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

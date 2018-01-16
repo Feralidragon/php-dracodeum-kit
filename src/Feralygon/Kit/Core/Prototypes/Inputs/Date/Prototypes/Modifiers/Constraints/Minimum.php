@@ -26,11 +26,7 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core date input minimum constraint modifier prototype label.
-		 * @tags core prototype input date modifier constraint minimum label
-		 */
-		return UText::localize("Minimum allowed date", 'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options);
+		return UText::localize("Minimum allowed date", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -39,30 +35,16 @@ class Minimum extends Constraints\Minimum
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core date input minimum constraint modifier prototype message (exclusive).
 			 * @placeholder value The minimum allowed value.
-			 * @tags core prototype input date modifier constraint minimum message
 			 * @example Only dates after 2017-01-15 are allowed.
 			 */
-			return UText::localize(
-				"Only dates after {{value}} are allowed.", 
-				'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
+			return UText::localize("Only dates after {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
-		 * @description Core date input minimum constraint modifier prototype message.
 		 * @placeholder value The minimum allowed value.
-		 * @tags core prototype input date modifier constraint minimum message
 		 * @example Only dates after or on 2017-01-15 are allowed.
 		 */
-		return UText::localize(
-			"Only dates after or on {{value}} are allowed.", 
-			'core.prototypes.inputs.date.prototypes.modifiers.constraints.minimum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
+		return UText::localize("Only dates after or on {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

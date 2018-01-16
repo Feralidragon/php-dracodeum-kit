@@ -231,12 +231,10 @@ class Time extends Enumeration
 		$label = static::retrieveLabel($name, $text_options);
 		if (isset($label)) {
 			/**
-			 * @description Core time enumeration description.
 			 * @placeholder time The human-readable time.
-			 * @tags core enumeration time description
 			 * @example Time in seconds equivalent to 2 hours.
 			 */
-			return UText::localize("Time in seconds equivalent to {{time}}.", 'core.enumerations.time', $text_options, ['parameters' => ['time' => $label]]);
+			return UText::localize("Time in seconds equivalent to {{time}}.", self::class, $text_options, ['parameters' => ['time' => $label]]);
 		}
 		return null;
 	}

@@ -29,45 +29,17 @@ class Values extends Constraints\Values
 	{
 		if ($this->negate) {
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-				/**
-				 * @description Core text input values constraint modifier prototype label (negate, technical).
-				 * @tags core prototype input text modifier constraint values label technical
-				 */
-				return UText::plocalize(
-					"Disallowed string", "Disallowed strings",
-					count($this->values), null,
-					'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options
-				);
+				/** @tags technical */
+				return UText::plocalize("Disallowed string", "Disallowed strings", count($this->values), null, self::class, $text_options);
 			}
-			/**
-			 * @description Core text input values constraint modifier prototype label (negate).
-			 * @tags core prototype input text modifier constraint values label non-technical
-			 */
-			return UText::plocalize(
-				"Disallowed text", "Disallowed texts",
-				count($this->values), null,
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options
-			);
+			/** @tags non-technical */
+			return UText::plocalize("Disallowed text", "Disallowed texts", count($this->values), null, self::class, $text_options);
 		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core text input values constraint modifier prototype label (technical).
-			 * @tags core prototype input text modifier constraint values label technical
-			 */
-			return UText::plocalize(
-				"Allowed string", "Allowed strings",
-				count($this->values), null,
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options
-			);
+			/** @tags technical */
+			return UText::plocalize("Allowed string", "Allowed strings", count($this->values), null, self::class, $text_options);
 		}
-		/**
-		 * @description Core text input values constraint modifier prototype label.
-		 * @tags core prototype input text modifier constraint values label non-technical
-		 */
-		return UText::plocalize(
-			"Allowed text", "Allowed texts",
-			count($this->values), null,
-			'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options
-		);
+		/** @tags non-technical */
+		return UText::plocalize("Allowed text", "Allowed texts", count($this->values), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -76,61 +48,53 @@ class Values extends Constraints\Values
 		if ($this->negate) {
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 				/**
-				 * @description Core text input values constraint modifier prototype message (negate, technical).
 				 * @placeholder values The list of disallowed text values.
-				 * @tags core prototype input text modifier constraint values message technical
+				 * @tags technical
 				 * @example The following strings are not allowed: "foo", "bar" and "abc".
 				 */
 				return UText::plocalize(
 					"The following string is not allowed: {{values}}.",
 					"The following strings are not allowed: {{values}}.",
-					count($this->values), null,
-					'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
+					count($this->values), null, self::class, $text_options, [
 						'parameters' => ['values' => $this->getString($text_options)]
 					]
 				);
 			}
 			/**
-			 * @description Core text input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed text values.
-			 * @tags core prototype input text modifier constraint values message non-technical
+			 * @tags non-technical
 			 * @example The following texts are not allowed: "foo", "bar" and "abc".
 			 */
 			return UText::plocalize(
 				"The following text is not allowed: {{values}}.",
 				"The following texts are not allowed: {{values}}.",
-				count($this->values), null,
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
+				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/**
-			 * @description Core text input values constraint modifier prototype message (technical).
 			 * @placeholder values The list of allowed text values.
-			 * @tags core prototype input text modifier constraint values message technical
+			 * @tags technical
 			 * @example Only the following strings are allowed: "foo", "bar" and "abc".
 			 */
 			return UText::plocalize(
 				"Only the following string is allowed: {{values}}.",
 				"Only the following strings are allowed: {{values}}.",
-				count($this->values), null,
-				'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
+				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
 		/**
-		 * @description Core text input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed text values.
-		 * @tags core prototype input text modifier constraint values message non-technical
+		 * @tags non-technical
 		 * @example Only the following texts are allowed: "foo", "bar" and "abc".
 		 */
 		return UText::plocalize(
 			"Only the following text is allowed: {{values}}.",
 			"Only the following texts are allowed: {{values}}.",
-			count($this->values), null,
-			'core.prototypes.inputs.text.prototypes.modifiers.constraints.values', $text_options, [
+			count($this->values), null, self::class, $text_options, [
 				'parameters' => ['values' => $this->getString($text_options)]
 			]
 		);

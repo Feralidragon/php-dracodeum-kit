@@ -47,30 +47,15 @@ class Float64 extends Number
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
-		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Core float64 number input prototype label (end-user).
-			 * @tags core prototype input number float64 label end-user
-			 */
-			return UText::localize("Real number", 'core.prototypes.inputs.numbers.float64', $text_options);
+			/** @tags end-user */
+			return UText::localize("Real number", self::class, $text_options);
+		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
+			/** @tags technical */
+			return UText::localize("Float", self::class, $text_options);
 		}
-		
-		//technical
-		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core float64 number input prototype label (technical).
-			 * @tags core prototype input number float64 label non-end-user
-			 */
-			return UText::localize("Float", 'core.prototypes.inputs.numbers.float64', $text_options);
-		}
-		
-		//label
-		/**
-		 * @description Core float64 number input prototype label.
-		 * @tags core prototype input number float64 label non-end-user non-technical
-		 */
-		return UText::localize("Float (64 bits)", 'core.prototypes.inputs.numbers.float64', $text_options);
+		/** @tags non-end-user non-technical */
+		return UText::localize("Float (64 bits)", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -78,18 +63,14 @@ class Float64 extends Number
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Core float64 number input prototype description (end-user).
-			 * @tags core prototype input number float64 description end-user
-			 */
-			return UText::localize("A real number.", 'core.prototypes.inputs.numbers.float64', $text_options);
+			/** @tags end-user */
+			return UText::localize("A real number.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		/**
-		 * @description Core float64 number input prototype description.
 		 * @placeholder notations The supported float64 number notation entries.
-		 * @tags core prototype input number float64 description non-end-user
+		 * @tags non-end-user
 		 * @example A floating point IEEE 754 number of 64 bits, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
@@ -97,7 +78,7 @@ class Float64 extends Number
 		 */
 		return UText::localize(
 			"A floating point IEEE 754 number of 64 bits, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.numbers.float64', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -110,18 +91,14 @@ class Float64 extends Number
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Core float64 number input prototype message (end-user).
-			 * @tags core prototype input number float64 message end-user
-			 */
-			return UText::localize("Only real numbers are allowed.", 'core.prototypes.inputs.numbers.float64', $text_options);
+			/** @tags end-user */
+			return UText::localize("Only real numbers are allowed.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		/**
-		 * @description Core float64 number input prototype message.
 		 * @placeholder notations The supported float64 number notation entries.
-		 * @tags core prototype input number float64 message non-end-user
+		 * @tags non-end-user
 		 * @example Only floating point IEEE 754 numbers of 64 bits are allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
@@ -129,7 +106,7 @@ class Float64 extends Number
 		 */
 		return UText::localize(
 			"Only floating point IEEE 754 numbers of 64 bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.numbers.float64', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -151,30 +128,30 @@ class Float64 extends Number
 		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core float64 number input prototype standard notation string.
+			 * @description Standard notation string.
 			 * @placeholder examples The list of float64 number examples in standard notation.
-			 * @tags core prototype input number float64 notation string non-end-user
+			 * @tags non-end-user
 			 * @example Standard (examples: "1000", "45.75", "-9553.5")
 			 */
-			$strings[] = UText::localize("Standard (examples: {{examples}})", 'core.prototypes.inputs.numbers.float64', $text_options, [
+			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1000', '45.75', '-9553.5'], $example_text_options)]
 			]);
 			/**
-			 * @description Core float64 number input prototype exponential notation string.
+			 * @description Exponential notation string.
 			 * @placeholder examples The list of float64 number examples in exponential notation.
-			 * @tags core prototype input number float64 notation string non-end-user
+			 * @tags non-end-user
 			 * @example Exponential string (examples: "1e3", "4575E-2", "-9.5535e3")
 			 */
-			$strings[] = UText::localize("Exponential string (examples: {{examples}})", 'core.prototypes.inputs.numbers.float64', $text_options, [
+			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1e3', '4575E-2', '-9.5535e3'], $example_text_options)]
 			]);
 			/**
-			 * @description Core float64 number input prototype human-readable notation string.
+			 * @description Human-readable notation string.
 			 * @placeholder examples The list of float64 number examples in human-readable notation.
-			 * @tags core prototype input number float64 notation string non-end-user
+			 * @tags non-end-user
 			 * @example Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k")
 			 */
-			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", 'core.prototypes.inputs.numbers.float64', $text_options, [
+			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1 thousand', '0.04575k', '-9.5535 k'], $example_text_options)]
 			]);
 		}

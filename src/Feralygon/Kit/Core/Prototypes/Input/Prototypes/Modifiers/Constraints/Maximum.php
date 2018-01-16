@@ -106,11 +106,7 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core input maximum constraint modifier prototype label.
-		 * @tags core prototype input modifier constraint maximum label
-		 */
-		return UText::localize("Maximum allowed value", 'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options);
+		return UText::localize("Maximum allowed value", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -119,30 +115,16 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input modifier constraint maximum message
 			 * @example Only values lesser than 250 are allowed.
 			 */
-			return UText::localize(
-				"Only values lesser than {{value}} are allowed.", 
-				'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
+			return UText::localize("Only values lesser than {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
-		 * @description Core input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input modifier constraint maximum message
 		 * @example Only values lesser than or equal to 250 are allowed.
 		 */
-		return UText::localize(
-			"Only values lesser than or equal to {{value}} are allowed.", 
-			'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
+		return UText::localize("Only values lesser than or equal to {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	
@@ -154,17 +136,10 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core input maximum constraint modifier prototype string (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input modifier constraint maximum string
 			 * @example 250 (exclusive)
 			 */
-			return UText::localize(
-				"{{value}} (exclusive)", 
-				'core.prototypes.input.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
+			return UText::localize("{{value}} (exclusive)", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		return $value_string;
 	}

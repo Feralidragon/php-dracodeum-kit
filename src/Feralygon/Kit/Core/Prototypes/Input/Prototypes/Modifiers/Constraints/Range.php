@@ -152,18 +152,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core input range constraint modifier prototype label (negate).
-			 * @tags core prototype input modifier constraint range label
-			 */
-			return UText::localize("Disallowed values range", 'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options);
-		}
-		/**
-		 * @description Core input range constraint modifier prototype label.
-		 * @tags core prototype input modifier constraint range label
-		 */
-		return UText::localize("Allowed values range", 'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options);
+		return $this->negate
+			? UText::localize("Disallowed values range", self::class, $text_options)
+			: UText::localize("Allowed values range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -174,115 +165,83 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @description Core input range constraint modifier prototype message (negate exclusive minimum and maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input modifier constraint range message
 				 * @example Only values lesser than or equal to 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
 					"Only values lesser than or equal to {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
-					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @description Core input range constraint modifier prototype message (negate exclusive minimum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input modifier constraint range message
 				 * @example Only values lesser than or equal to 100 or greater than 250 are allowed.
 				 */
 				return UText::localize(
 					"Only values lesser than or equal to {{min_value}} or greater than {{max_value}} are allowed.", 
-					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @description Core input range constraint modifier prototype message (negate exclusive maximum).
 				 * @placeholder min_value The minimum allowed value.
 				 * @placeholder max_value The maximum allowed value.
-				 * @tags core prototype input modifier constraint range message
 				 * @example Only values lesser than 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
 					"Only values lesser than {{min_value}} or greater than or equal to {{max_value}} are allowed.", 
-					'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-					]
+					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			}
 			/**
-			 * @description Core input range constraint modifier prototype message (negate).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range message
 			 * @example Only values lesser than 100 or greater than 250 are allowed.
 			 */
 			return UText::localize(
 				"Only values lesser than {{min_value}} or greater than {{max_value}} are allowed.", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype message (exclusive minimum and maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range message
 			 * @example Only values greater than 100 and lesser than 250 are allowed.
 			 */
 			return UText::localize(
 				"Only values greater than {{min_value}} and lesser than {{max_value}} are allowed.", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype message (exclusive minimum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range message
 			 * @example Only values greater than 100 and lesser than or equal to 250 are allowed.
 			 */
 			return UText::localize(
 				"Only values greater than {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype message (exclusive maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range message
 			 * @example Only values greater than or equal to 100 and lesser than 250 are allowed.
 			 */
 			return UText::localize(
 				"Only values greater than or equal to {{min_value}} and lesser than {{max_value}} are allowed.", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
-		 * @description Core input range constraint modifier prototype message.
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input modifier constraint range message
 		 * @example Only values greater than or equal to 100 and lesser than or equal to 250 are allowed.
 		 */
 		return UText::localize(
 			"Only values greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} are allowed.", 
-			'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-			]
+			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}
 	
@@ -296,59 +255,43 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
 		if ($this->min_exclusive && $this->max_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype string (exclusive minimum and maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range string
 			 * @example 100 (exclusive) to 250 (exclusive)
 			 */
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}} (exclusive)", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype string (exclusive minimum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range string
 			 * @example 100 (exclusive) to 250
 			 */
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}}", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
-			 * @description Core input range constraint modifier prototype string (exclusive maximum).
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @tags core prototype input modifier constraint range string
 			 * @example 100 to 250 (exclusive)
 			 */
 			return UText::localize(
 				"{{min_value}} to {{max_value}} (exclusive)", 
-				'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-				]
+				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
-		 * @description Core input range constraint modifier prototype string.
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @tags core prototype input modifier constraint range string
 		 * @example 100 to 250
 		 */
 		return UText::localize(
 			"{{min_value}} to {{max_value}}", 
-			'core.prototypes.input.prototypes.modifiers.constraints.range', $text_options, [
-				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
-			]
+			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}
 	

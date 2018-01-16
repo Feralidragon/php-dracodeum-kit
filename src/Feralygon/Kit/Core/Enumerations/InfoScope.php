@@ -38,23 +38,14 @@ class InfoScope extends Enumeration
 	{
 		switch ($name) {
 			case 'NONE':
-				/**
-				 * @description Core info scope enumeration "NONE" label.
-				 * @tags core enumeration info scope label
-				 */
-				return UText::localize("None", 'core.enumerations.info_scope', $text_options);
+				/** @description "NONE" label. */
+				return UText::localize("None", self::class, $text_options);
 			case 'TECHNICAL':
-				/**
-				 * @description Core info scope enumeration "TECHNICAL" label.
-				 * @tags core enumeration info scope label
-				 */
-				return UText::localize("Technical", 'core.enumerations.info_scope', $text_options);
+				/** @description "TECHNICAL" label. */
+				return UText::localize("Technical", self::class, $text_options);
 			case 'ENDUSER':
-				/**
-				 * @description Core info scope enumeration "ENDUSER" label.
-				 * @tags core enumeration info scope label
-				 */
-				return UText::localize("End-user", 'core.enumerations.info_scope', $text_options);
+				/** @description "ENDUSER" label. */
+				return UText::localize("End-user", self::class, $text_options);
 		}
 		return null;
 	}
@@ -64,23 +55,14 @@ class InfoScope extends Enumeration
 	{
 		switch ($name) {
 			case 'NONE':
-				/**
-				 * @description Core info scope enumeration "NONE" description.
-				 * @tags core enumeration info scope description
-				 */
-				return UText::localize("No info scope specified.", 'core.enumerations.info_scope', $text_options);
+				/** @description "NONE" description. */
+				return UText::localize("No info scope specified.", self::class, $text_options);
 			case 'TECHNICAL':
-				/**
-				 * @description Core info scope enumeration "TECHNICAL" description.
-				 * @tags core enumeration info scope description
-				 */
-				return UText::localize("Technical info scope, for the developer creating the application.", 'core.enumerations.info_scope', $text_options);
+				/** @description "TECHNICAL" description. */
+				return UText::localize("Technical info scope, for the developer creating the application.", self::class, $text_options);
 			case 'ENDUSER':
-				/**
-				 * @description Core info scope enumeration "ENDUSER" description.
-				 * @tags core enumeration info scope description
-				 */
-				return UText::localize("End-user info scope, for the user interacting with the application.", 'core.enumerations.info_scope', $text_options);
+				/** @description "ENDUSER" description. */
+				return UText::localize("End-user info scope, for the user interacting with the application.", self::class, $text_options);
 		}
 		return null;
 	}

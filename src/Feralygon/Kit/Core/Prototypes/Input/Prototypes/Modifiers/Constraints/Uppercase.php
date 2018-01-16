@@ -91,21 +91,13 @@ class Uppercase extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core input uppercase constraint modifier prototype label.
-		 * @tags core prototype input modifier constraint uppercase label
-		 */
-		return UText::localize("Uppercase only", 'core.prototypes.input.prototypes.modifiers.constraints.uppercase', $text_options);
+		return UText::localize("Uppercase only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core input uppercase constraint modifier prototype message.
-		 * @tags core prototype input modifier constraint uppercase message
-		 */
-		return UText::localize("Only values in uppercase are allowed.", 'core.prototypes.input.prototypes.modifiers.constraints.uppercase', $text_options);
+		return UText::localize("Only values in uppercase are allowed.", self::class, $text_options);
 	}
 	
 	

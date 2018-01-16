@@ -26,11 +26,7 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		/**
-		 * @description Core number input maximum constraint modifier prototype label.
-		 * @tags core prototype input number modifier constraint maximum label
-		 */
-		return UText::localize("Maximum allowed number", 'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options);
+		return UText::localize("Maximum allowed number", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -39,30 +35,16 @@ class Maximum extends Constraints\Maximum
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @description Core number input maximum constraint modifier prototype message (exclusive).
 			 * @placeholder value The maximum allowed value.
-			 * @tags core prototype input number modifier constraint maximum message
 			 * @example Only numbers lesser than 250 are allowed.
 			 */
-			return UText::localize(
-				"Only numbers lesser than {{value}} are allowed.", 
-				'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
-			);
+			return UText::localize("Only numbers lesser than {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
-		 * @description Core number input maximum constraint modifier prototype message.
 		 * @placeholder value The maximum allowed value.
-		 * @tags core prototype input number modifier constraint maximum message
 		 * @example Only numbers lesser than or equal to 250 are allowed.
 		 */
-		return UText::localize(
-			"Only numbers lesser than or equal to {{value}} are allowed.", 
-			'core.prototypes.inputs.number.prototypes.modifiers.constraints.maximum', $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
-		);
+		return UText::localize("Only numbers lesser than or equal to {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

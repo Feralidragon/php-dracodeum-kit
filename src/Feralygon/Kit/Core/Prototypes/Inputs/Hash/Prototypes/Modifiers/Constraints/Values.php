@@ -26,26 +26,9 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		if ($this->negate) {
-			/**
-			 * @description Core hash input values constraint modifier prototype label (negate).
-			 * @tags core prototype input hash modifier constraint values label
-			 */
-			return UText::plocalize(
-				"Disallowed hash", "Disallowed hashes",
-				count($this->values), null,
-				'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options
-			);
-		}
-		/**
-		 * @description Core hash input values constraint modifier prototype label.
-		 * @tags core prototype input hash modifier constraint values label
-		 */
-		return UText::plocalize(
-			"Allowed hash", "Allowed hashes",
-			count($this->values), null,
-			'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options
-		);
+		return $this->negate
+			? UText::plocalize("Disallowed hash", "Disallowed hashes", count($this->values), null, self::class, $text_options)
+			: UText::plocalize("Allowed hash", "Allowed hashes", count($this->values), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -53,31 +36,25 @@ class Values extends Constraints\Values
 	{
 		if ($this->negate) {
 			/**
-			 * @description Core hash input values constraint modifier prototype message (negate).
 			 * @placeholder values The list of disallowed hash values.
-			 * @tags core prototype input hash modifier constraint values message
 			 * @example The following hashes are not allowed: "b9b183b8", "13bf50b8" and "ac5139b4".
 			 */
 			return UText::plocalize(
 				"The following hash is not allowed: {{values}}.",
 				"The following hashes are not allowed: {{values}}.",
-				count($this->values), null,
-				'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options, [
+				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
 		/**
-		 * @description Core hash input values constraint modifier prototype message.
 		 * @placeholder values The list of allowed hash values.
-		 * @tags core prototype input hash modifier constraint values message
 		 * @example Only the following hashes are allowed: "b9b183b8", "13bf50b8" and "ac5139b4".
 		 */
 		return UText::plocalize(
 			"Only the following hash is allowed: {{values}}.",
 			"Only the following hashes are allowed: {{values}}.",
-			count($this->values), null,
-			'core.prototypes.inputs.hash.prototypes.modifiers.constraints.values', $text_options, [
+			count($this->values), null, self::class, $text_options, [
 				'parameters' => ['values' => $this->getString($text_options)]
 			]
 		);
