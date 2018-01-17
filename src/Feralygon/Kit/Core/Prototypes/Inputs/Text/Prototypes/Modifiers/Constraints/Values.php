@@ -27,17 +27,26 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
+		//negate
 		if ($this->negate) {
+			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 				/** @tags technical */
 				return UText::plocalize("Disallowed string", "Disallowed strings", count($this->values), null, self::class, $text_options);
 			}
+			
+			//non-technical
 			/** @tags non-technical */
 			return UText::plocalize("Disallowed text", "Disallowed texts", count($this->values), null, self::class, $text_options);
-		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
+		}
+		
+		//technical
+		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
 			return UText::plocalize("Allowed string", "Allowed strings", count($this->values), null, self::class, $text_options);
 		}
+		
+		//non-technical
 		/** @tags non-technical */
 		return UText::plocalize("Allowed text", "Allowed texts", count($this->values), null, self::class, $text_options);
 	}
@@ -45,7 +54,9 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		//negate
 		if ($this->negate) {
+			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 				/**
 				 * @placeholder values The list of disallowed text values.
@@ -60,6 +71,8 @@ class Values extends Constraints\Values
 					]
 				);
 			}
+			
+			//non-technical
 			/**
 			 * @placeholder values The list of disallowed text values.
 			 * @tags non-technical
@@ -72,7 +85,10 @@ class Values extends Constraints\Values
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
-		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
+		}
+		
+		//technical
+		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/**
 			 * @placeholder values The list of allowed text values.
 			 * @tags technical
@@ -86,6 +102,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//non-technical
 		/**
 		 * @placeholder values The list of allowed text values.
 		 * @tags non-technical

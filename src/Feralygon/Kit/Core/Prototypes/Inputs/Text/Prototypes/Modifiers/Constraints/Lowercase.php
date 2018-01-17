@@ -24,10 +24,13 @@ class Lowercase extends Constraints\Lowercase
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
 			return UText::localize("Only strings in lowercase are allowed.", self::class, $text_options);
 		}
+		
+		//non-technical
 		/** @tags non-technical */
 		return UText::localize("Only text in lowercase is allowed.", self::class, $text_options);
 	}
