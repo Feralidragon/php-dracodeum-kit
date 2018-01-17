@@ -36,6 +36,8 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Lowercase [modifier, name = 'constraints.lowercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
@@ -175,6 +177,10 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+			case 'constraints.lowercase':
+				return $this->createConstraint(Constraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'constraints.uppercase':
+				return $this->createConstraint(Constraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 		}
 		return null;
 	}
