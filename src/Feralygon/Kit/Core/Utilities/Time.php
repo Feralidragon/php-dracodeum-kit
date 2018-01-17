@@ -450,10 +450,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in years.
 			 * @placeholder number The number of years.
-			 * @tags core utility time ago
 			 * @example 3 years ago
 			 */
-			return Text::plocalize("{{number}} year ago", "{{number}} years ago", (int)($period / ETime::T1_YEAR), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} year ago", "{{number}} years ago", (int)($period / ETime::T1_YEAR), 'number', self::class, $text_options);
 		}
 		
 		//months
@@ -461,10 +460,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in months.
 			 * @placeholder number The number of months.
-			 * @tags core utility time ago
 			 * @example 3 months ago
 			 */
-			return Text::plocalize("{{number}} month ago", "{{number}} months ago", (int)($period / ETime::T1_MONTH), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} month ago", "{{number}} months ago", (int)($period / ETime::T1_MONTH), 'number', self::class, $text_options);
 		}
 		
 		//weeks
@@ -472,10 +470,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in weeks.
 			 * @placeholder number The number of weeks.
-			 * @tags core utility time ago
 			 * @example 3 weeks ago
 			 */
-			return Text::plocalize("{{number}} week ago", "{{number}} weeks ago", (int)($period / ETime::T1_WEEK), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} week ago", "{{number}} weeks ago", (int)($period / ETime::T1_WEEK), 'number', self::class, $text_options);
 		}
 		
 		//days
@@ -483,10 +480,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in days.
 			 * @placeholder number The number of days.
-			 * @tags core utility time ago
 			 * @example 3 days ago
 			 */
-			return Text::plocalize("{{number}} day ago", "{{number}} days ago", (int)($period / ETime::T1_DAY), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} day ago", "{{number}} days ago", (int)($period / ETime::T1_DAY), 'number', self::class, $text_options);
 		}
 		
 		//hours
@@ -494,10 +490,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in hours.
 			 * @placeholder number The number of hours.
-			 * @tags core utility time ago
 			 * @example 3 hours ago
 			 */
-			return Text::plocalize("{{number}} hour ago", "{{number}} hours ago", (int)($period / ETime::T1_HOUR), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} hour ago", "{{number}} hours ago", (int)($period / ETime::T1_HOUR), 'number', self::class, $text_options);
 		}
 		
 		//minutes
@@ -505,10 +500,9 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in minutes.
 			 * @placeholder number The number of minutes.
-			 * @tags core utility time ago
 			 * @example 3 minutes ago
 			 */
-			return Text::plocalize("{{number}} minute ago", "{{number}} minutes ago", (int)($period / ETime::T1_MINUTE), 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} minute ago", "{{number}} minutes ago", (int)($period / ETime::T1_MINUTE), 'number', self::class, $text_options);
 		}
 		
 		//seconds
@@ -516,18 +510,14 @@ final class Time extends Utility
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in seconds.
 			 * @placeholder number The number of seconds.
-			 * @tags core utility time ago
 			 * @example 3 seconds ago
 			 */
-			return Text::plocalize("{{number}} second ago", "{{number}} seconds ago", $period, 'number', 'core.utilities.time', $text_options);
+			return Text::plocalize("{{number}} second ago", "{{number}} seconds ago", $period, 'number', self::class, $text_options);
 		}
 		
 		//just now
-		/**
-		 * @description Human-readable time, on how long ago it has been, just now.
-		 * @tags core utility time ago
-		 */
-		return Text::localize("just now", 'core.utilities.time', $text_options);
+		/** @description Human-readable time, on how long ago it has been, just now. */
+		return Text::localize("just now", self::class, $text_options);
 	}
 	
 	/**
@@ -602,91 +592,81 @@ final class Time extends Utility
 							/**
 							 * @description Human-readable time scaled in nanoseconds.
 							 * @placeholder number The number of nanoseconds.
-							 * @tags core utility time hperiod
 							 * @example 3 nanoseconds
 							 */
-							$part = Text::plocalize("{{number}} nanosecond", "{{number}} nanoseconds", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} nanosecond", "{{number}} nanoseconds", $number, 'number', self::class, $text_options);
 							break;
 						case 'µs':
 							/**
 							 * @description Human-readable time scaled in microseconds.
 							 * @placeholder number The number of microseconds.
-							 * @tags core utility time hperiod
 							 * @example 3 microseconds
 							 */
-							$part = Text::plocalize("{{number}} microsecond", "{{number}} microseconds", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} microsecond", "{{number}} microseconds", $number, 'number', self::class, $text_options);
 							break;
 						case 'ms':
 							/**
 							 * @description Human-readable time scaled in milliseconds.
 							 * @placeholder number The number of milliseconds.
-							 * @tags core utility time hperiod
 							 * @example 3 milliseconds
 							 */
-							$part = Text::plocalize("{{number}} millisecond", "{{number}} milliseconds", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} millisecond", "{{number}} milliseconds", $number, 'number', self::class, $text_options);
 							break;
 						case 's':
 							/**
 							 * @description Human-readable time scaled in seconds.
 							 * @placeholder number The number of seconds.
-							 * @tags core utility time hperiod
 							 * @example 3 seconds
 							 */
-							$part = Text::plocalize("{{number}} second", "{{number}} seconds", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} second", "{{number}} seconds", $number, 'number', self::class, $text_options);
 							break;
 						case 'min':
 							/**
 							 * @description Human-readable time scaled in minutes.
 							 * @placeholder number The number of minutes.
-							 * @tags core utility time hperiod
 							 * @example 3 minutes
 							 */
-							$part = Text::plocalize("{{number}} minute", "{{number}} minutes", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} minute", "{{number}} minutes", $number, 'number', self::class, $text_options);
 							break;
 						case 'h':
 							/**
 							 * @description Human-readable time scaled in hours.
 							 * @placeholder number The number of hours.
-							 * @tags core utility time hperiod
 							 * @example 3 hours
 							 */
-							$part = Text::plocalize("{{number}} hour", "{{number}} hours", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} hour", "{{number}} hours", $number, 'number', self::class, $text_options);
 							break;
 						case 'D':
 							/**
 							 * @description Human-readable time scaled in days.
 							 * @placeholder number The number of days.
-							 * @tags core utility time hperiod
 							 * @example 3 days
 							 */
-							$part = Text::plocalize("{{number}} day", "{{number}} days", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} day", "{{number}} days", $number, 'number', self::class, $text_options);
 							break;
 						case 'W':
 							/**
 							 * @description Human-readable time scaled in weeks.
 							 * @placeholder number The number of weeks.
-							 * @tags core utility time hperiod
 							 * @example 3 weeks
 							 */
-							$part = Text::plocalize("{{number}} week", "{{number}} weeks", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} week", "{{number}} weeks", $number, 'number', self::class, $text_options);
 							break;
 						case 'M':
 							/**
 							 * @description Human-readable time scaled in months.
 							 * @placeholder number The number of months.
-							 * @tags core utility time hperiod
 							 * @example 3 months
 							 */
-							$part = Text::plocalize("{{number}} month", "{{number}} months", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} month", "{{number}} months", $number, 'number', self::class, $text_options);
 							break;
 						case 'Y':
 							/**
 							 * @description Human-readable time scaled in years.
 							 * @placeholder number The number of years.
-							 * @tags core utility time hperiod
 							 * @example 3 years
 							 */
-							$part = Text::plocalize("{{number}} year", "{{number}} years", $number, 'number', 'core.utilities.time', $text_options);
+							$part = Text::plocalize("{{number}} year", "{{number}} years", $number, 'number', self::class, $text_options);
 							break;
 						default:
 							$part = $number === 1.0 ? "{$number} {$row['singular']}" : "{$number} {$row['plural']}";
@@ -721,10 +701,9 @@ final class Time extends Utility
 		 * @description Usage of the "and" conjunction in a full human-readable time.
 		 * @placeholder list The comma separated list of parts from the human-readable time.
 		 * @placeholder last The last part from the human-readable time.
-		 * @tags core utility time hperiod
 		 * @example 1 day, 12 hours and 35 minutes
 		 */
-		return Text::localize("{{list}} and {{last}}", 'core.utilities.time', $text_options, [
+		return Text::localize("{{list}} and {{last}}", self::class, $text_options, [
 			'parameters' => ['list' => $parts_list, 'last' => $last_part]
 		]);
 	}

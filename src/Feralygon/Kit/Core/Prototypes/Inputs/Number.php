@@ -64,11 +64,7 @@ class Number extends Input implements IInformation, IModifiers
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
-		/**
-		 * @description Core number input prototype label.
-		 * @tags core prototype input number label
-		 */
-		return UText::localize("Number", 'core.prototypes.inputs.number', $text_options);
+		return UText::localize("Number", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -76,18 +72,14 @@ class Number extends Input implements IInformation, IModifiers
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Core number input prototype description (end-user).
-			 * @tags core prototype input number description end-user
-			 */
-			return UText::localize("A number.", 'core.prototypes.inputs.number', $text_options);
+			/** @tags end-user */
+			return UText::localize("A number.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		/**
-		 * @description Core number input prototype description.
 		 * @placeholder notations The supported number notation entries.
-		 * @tags core prototype input number description non-end-user
+		 * @tags non-end-user
 		 * @example A number, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
@@ -97,7 +89,7 @@ class Number extends Input implements IInformation, IModifiers
 		 */
 		return UText::localize(
 			"A number, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.number', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -110,18 +102,14 @@ class Number extends Input implements IInformation, IModifiers
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @description Core number input prototype message (end-user).
-			 * @tags core prototype input number message end-user
-			 */
-			return UText::localize("Only numbers are allowed.", 'core.prototypes.inputs.number', $text_options);
+			/** @tags end-user */
+			return UText::localize("Only numbers are allowed.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		/**
-		 * @description Core number input prototype message.
 		 * @placeholder notations The supported number notation entries.
-		 * @tags core prototype input number message non-end-user
+		 * @tags non-end-user
 		 * @example Only numbers are allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
@@ -131,7 +119,7 @@ class Number extends Input implements IInformation, IModifiers
 		 */
 		return UText::localize(
 			"Only numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.number', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -198,48 +186,48 @@ class Number extends Input implements IInformation, IModifiers
 		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core number input prototype standard notation string.
+			 * @description Standard notation string.
 			 * @placeholder examples The list of number examples in standard notation.
-			 * @tags core prototype input number notation string non-end-user
+			 * @tags non-end-user
 			 * @example Standard (examples: "1000", "45.75", "-9553.5")
 			 */
-			$strings[] = UText::localize("Standard (examples: {{examples}})", 'core.prototypes.inputs.number', $text_options, [
+			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1000', '45.75', '-9553.5'], $example_text_options)]
 			]);
 			/**
-			 * @description Core number input prototype exponential notation string.
+			 * @description Exponential notation string.
 			 * @placeholder examples The list of number examples in exponential notation.
-			 * @tags core prototype input number notation string non-end-user
+			 * @tags non-end-user
 			 * @example Exponential string (examples: "1e3", "4575E-2", "-9.5535e3")
 			 */
-			$strings[] = UText::localize("Exponential string (examples: {{examples}})", 'core.prototypes.inputs.number', $text_options, [
+			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1e3', '4575E-2', '-9.5535e3'], $example_text_options)]
 			]);
 			/**
-			 * @description Core number input prototype octal notation string.
+			 * @description Octal notation string.
 			 * @placeholder examples The list of number examples in octal notation.
-			 * @tags core prototype input number notation string non-end-user
+			 * @tags non-end-user
 			 * @example Octal string (examples: "01750", "055", "022521")
 			 */
-			$strings[] = UText::localize("Octal string (examples: {{examples}})", 'core.prototypes.inputs.number', $text_options, [
+			$strings[] = UText::localize("Octal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['01750', '055', '022521'], $example_text_options)]
 			]);
 			/**
-			 * @description Core number input prototype hexadecimal notation string.
+			 * @description Hexadecimal notation string.
 			 * @placeholder examples The list of number examples in hexadecimal notation.
-			 * @tags core prototype input number notation string non-end-user
+			 * @tags non-end-user
 			 * @example Hexadecimal string (examples: "0x03e8", "0x2D", "0x2551")
 			 */
-			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", 'core.prototypes.inputs.number', $text_options, [
+			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['0x03e8', '0x2D', '0x2551'], $example_text_options)]
 			]);
 			/**
-			 * @description Core number input prototype human-readable notation string.
+			 * @description Human-readable notation string.
 			 * @placeholder examples The list of number examples in human-readable notation.
-			 * @tags core prototype input number notation string non-end-user
+			 * @tags non-end-user
 			 * @example Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k")
 			 */
-			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", 'core.prototypes.inputs.number', $text_options, [
+			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['1 thousand', '0.04575k', '-9.5535 k'], $example_text_options)]
 			]);
 		}

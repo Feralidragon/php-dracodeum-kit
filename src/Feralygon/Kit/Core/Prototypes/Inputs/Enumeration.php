@@ -254,13 +254,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		foreach ($this->getNamesValues() as $name => $value) {
 			if ($show_names || $show_values) {
 				/**
-				 * @description Core enumeration input prototype enumerated element label.
+				 * @description Enumerated element label.
 				 * @placeholder label The enumerated element label.
 				 * @placeholder name_value The enumerated element name and value.
-				 * @tags core prototype input enumeration label
 				 * @example Not Modified: "NOT_MODIFIED" or 304
 				 */
-				$labels[] = UText::localize("{{label}}: {{name_value}}", 'core.prototypes.inputs.enumeration', $text_options, [
+				$labels[] = UText::localize("{{label}}: {{name_value}}", self::class, $text_options, [
 					'parameters' => [
 						'label' => $enumeration::getNameLabel($name, $text_options),
 						'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value])
@@ -274,11 +273,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		
 		//no labels
 		if (empty($labels)) {
-			/**
-			 * @description Core enumeration input prototype label (no element labels).
-			 * @tags core prototype input enumeration label
-			 */
-			return UText::localize("Enumeration", 'core.prototypes.inputs.enumeration', $text_options);
+			return UText::localize("Enumeration", self::class, $text_options);
 		}
 		
 		//end-user
@@ -288,16 +283,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		
 		//non-end-user
 		/**
-		 * @description Core enumeration input prototype label.
 		 * @placeholder labels The enumerated element labels.
-		 * @tags core prototype input enumeration label non-end-user
+		 * @tags non-end-user
 		 * @example Enumeration {
 		 *    OK: "OK" or 200
 		 *    Not Modified: "NOT_MODIFIED" or 304
 		 *    Bad Request: "BAD_REQUEST" or 400
 		 * }
 		 */
-		return UText::localize("Enumeration {\n{{labels}}\n}", 'core.prototypes.inputs.enumeration', $text_options, [
+		return UText::localize("Enumeration {\n{{labels}}\n}", self::class, $text_options, [
 			'parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]
 		]);
 	}
@@ -312,20 +306,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
 		if (empty($names_descriptions)) {
-			/**
-			 * @description Core enumeration input prototype description (no element descriptions).
-			 * @tags core prototype input enumeration description
-			 */
-			return UText::localize("An enumerated element.", 'core.prototypes.inputs.enumeration', $text_options);
+			return UText::localize("An enumerated element.", self::class, $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @description Core enumeration input prototype description (end-user).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration description end-user
+			 * @tags end-user
 			 * @example One of the following:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
@@ -333,18 +322,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"One of the following:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 	
 		//non-end-user
 		if ($show_names && $show_values) {
 			/**
-			 * @description Core enumeration input prototype description (with names and values).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration description non-end-user
+			 * @tags non-end-user
 			 * @example An enumerated element name or value, as one of the following:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
@@ -352,15 +338,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"An enumerated element name or value, as one of the following:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_names) {
 			/**
-			 * @description Core enumeration input prototype description (with names only).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration description non-end-user
+			 * @tags non-end-user
 			 * @example An enumerated element name, as one of the following:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
@@ -368,15 +351,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"An enumerated element name, as one of the following:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_values) {
 			/**
-			 * @description Core enumeration input prototype description (with values only).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration description non-end-user
+			 * @tags non-end-user
 			 * @example An enumerated element value, as one of the following:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
@@ -384,15 +364,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"An enumerated element value, as one of the following:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 		/**
-		 * @description Core enumeration input prototype description.
 		 * @placeholder descriptions The enumerated element descriptions.
-		 * @tags core prototype input enumeration description non-end-user
+		 * @tags non-end-user
 		 * @example An enumerated element, as one of the following:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
@@ -400,9 +377,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		 */
 		return UText::localize(
 			"An enumerated element, as one of the following:\n{{descriptions}}",
-			'core.prototypes.inputs.enumeration', $text_options, [
-				'parameters' => ['descriptions' => $merged_descriptions]
-			]
+			self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 		);
 	}
 	
@@ -416,20 +391,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
 		if (empty($names_descriptions)) {
-			/**
-			 * @description Core enumeration input prototype message (no element descriptions).
-			 * @tags core prototype input enumeration message
-			 */
-			return UText::localize("Only enumerated elements are allowed.", 'core.prototypes.inputs.enumeration', $text_options);
+			return UText::localize("Only enumerated elements are allowed.", self::class, $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @description Core enumeration input prototype message (end-user).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration message end-user
+			 * @tags end-user
 			 * @example Only the following is allowed:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
@@ -437,18 +407,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"Only the following is allowed:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 	
 		//non-end-user
 		if ($show_names && $show_values) {
 			/**
-			 * @description Core enumeration input prototype message (with names and values).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration message non-end-user
+			 * @tags non-end-user
 			 * @example Only enumerated element names or values are allowed, as follows:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
@@ -456,15 +423,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"Only enumerated element names or values are allowed, as follows:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_names) {
 			/**
-			 * @description Core enumeration input prototype message (with names only).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration message non-end-user
+			 * @tags non-end-user
 			 * @example Only enumerated element names are allowed, as follows:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
@@ -472,15 +436,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"Only enumerated element names are allowed, as follows:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_values) {
 			/**
-			 * @description Core enumeration input prototype message (with values only).
 			 * @placeholder descriptions The enumerated element descriptions.
-			 * @tags core prototype input enumeration message non-end-user
+			 * @tags non-end-user
 			 * @example Only enumerated element values are allowed, as follows:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
@@ -488,15 +449,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			 */
 			return UText::localize(
 				"Only enumerated element values are allowed, as follows:\n{{descriptions}}",
-				'core.prototypes.inputs.enumeration', $text_options, [
-					'parameters' => ['descriptions' => $merged_descriptions]
-				]
+				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 		/**
-		 * @description Core enumeration input prototype message.
 		 * @placeholder descriptions The enumerated element descriptions.
-		 * @tags core prototype input enumeration message non-end-user
+		 * @tags non-end-user
 		 * @example Only enumerated elements are allowed, as follows:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
@@ -504,9 +462,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		 */
 		return UText::localize(
 			"Only enumerated elements are allowed, as follows:\n{{descriptions}}",
-			'core.prototypes.inputs.enumeration', $text_options, [
-				'parameters' => ['descriptions' => $merged_descriptions]
-			]
+			self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 		);
 	}
 	
@@ -615,16 +571,15 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				$description = UText::uncapitalize($description, true);
 				if ($show_names || $show_values) {
 					/**
-					 * @description Core enumeration input prototype enumerated element description (with name and value).
+					 * @description Enumerated element description (with name and value).
 					 * @placeholder label The enumerated element label.
 					 * @placeholder name_value The enumerated element name and value.
 					 * @placeholder description The enumerated element description.
-					 * @tags core prototype input enumeration description
 					 * @example Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 					 */
 					$descriptions[$name] = UText::localize(
 						"{{label}} (given as {{name_value}}): {{description}}", 
-						'core.prototypes.inputs.enumeration', $text_options, [
+						self::class, $text_options, [
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
 								'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value]),
@@ -635,30 +590,31 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					);
 				} else {
 					/**
-					 * @description Core enumeration input prototype enumerated element description.
+					 * @description Enumerated element description.
 					 * @placeholder label The enumerated element label.
 					 * @placeholder description The enumerated element description.
-					 * @tags core prototype input enumeration description
 					 * @example Not Modified: redirection "Not Modified" HTTP status code.
 					 */
-					$descriptions[$name] = UText::localize("{{label}}: {{description}}", 'core.prototypes.inputs.enumeration', $text_options, [
-						'parameters' => [
-							'label' => $enumeration::getNameLabel($name, $text_options),
-							'description' => $description
+					$descriptions[$name] = UText::localize(
+						"{{label}}: {{description}}", 
+						self::class, $text_options, [
+							'parameters' => [
+								'label' => $enumeration::getNameLabel($name, $text_options),
+								'description' => $description
+							]
 						]
-					]);
+					);
 				}
 			} else {
 				/**
-				 * @description Core enumeration input prototype enumerated element description (no description).
+				 * @description Enumerated element description (no description).
 				 * @placeholder label The enumerated element label.
 				 * @placeholder name_value The enumerated element name and value.
-				 * @tags core prototype input enumeration description
 				 * @example Not Modified: given as "NOT_MODIFIED" or 304.
 				 */
 				$descriptions[$name] = UText::localize(
 					"{{label}}: given as {{name_value}}.", 
-					'core.prototypes.inputs.enumeration', $text_options, [
+					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
 							'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value])

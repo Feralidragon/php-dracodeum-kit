@@ -50,26 +50,20 @@ class Boolean extends Input implements IInformation
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
-		/**
-		 * @description Core boolean input prototype label.
-		 * @tags core prototype input boolean label
-		 */
-		return UText::localize("Boolean", 'core.prototypes.inputs.boolean', $text_options);
+		return UText::localize("Boolean", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core boolean input prototype description.
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
 		 * @placeholder values.true The list of possible allowed values which evaluate to boolean true.
-		 * @tags core prototype input boolean description
 		 * @example A boolean, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
 		 */
 		return UText::localize(
 			"A boolean, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.",
-			'core.prototypes.inputs.boolean', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'values' => [
 						'false' => $this->getFalseValueStrings($text_options), 
@@ -85,15 +79,13 @@ class Boolean extends Input implements IInformation
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core boolean input prototype message.
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
 		 * @placeholder values.true The list of possible allowed values which evaluate to boolean true.
-		 * @tags core prototype input boolean message
 		 * @example Only booleans are allowed, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
 		 */
 		return UText::localize(
 			"Only booleans are allowed, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.", 
-			'core.prototypes.inputs.boolean', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'values' => [
 						'false' => $this->getFalseValueStrings($text_options), 

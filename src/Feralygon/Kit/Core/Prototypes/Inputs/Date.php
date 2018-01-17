@@ -65,20 +65,14 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
-		/**
-		 * @description Core date input prototype label.
-		 * @tags core prototype input date label
-		 */
-		return UText::localize("Date", 'core.prototypes.inputs.date', $text_options);
+		return UText::localize("Date", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core date input prototype description.
 		 * @placeholder notations The supported date notation entries.
-		 * @tags core prototype input date description
 		 * @example A date, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 1484438400);
 		 *  &#8226; ISO 8601 (example: "2017-01-15");
@@ -90,7 +84,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 */
 		return UText::localize(
 			"A date, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.date', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -102,9 +96,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core date input prototype message.
 		 * @placeholder notations The supported date notation entries.
-		 * @tags core prototype input date message
 		 * @example Only dates are allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 1484438400);
 		 *  &#8226; ISO 8601 (example: "2017-01-15");
@@ -116,7 +108,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 */
 		return UText::localize(
 			"Only dates are allowed, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.date', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -185,68 +177,64 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core date input prototype Unix timestamp notation string.
+			 * @description Unix timestamp notation string.
 			 * @placeholder example The date example in Unix timestamp notation.
-			 * @tags core prototype input date notation string non-end-user
+			 * @tags non-end-user
 			 * @example Unix timestamp (example: 1484438400)
 			 */
-			$strings[] = UText::localize("Unix timestamp (example: {{example}})", 'core.prototypes.inputs.date', $text_options, [
+			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => 1484438400]
 			]);
 			/**
-			 * @description Core date input prototype ISO 8601 notation string.
+			 * @description ISO 8601 notation string.
 			 * @placeholder example The date example in ISO 8601 notation.
-			 * @tags core prototype input date notation string non-end-user
+			 * @tags non-end-user
 			 * @example ISO 8601 (example: "2017-01-15")
 			 */
-			$strings[] = UText::localize("ISO 8601 (example: {{example}})", 'core.prototypes.inputs.date', $text_options, [
+			$strings[] = UText::localize("ISO 8601 (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => '2017-01-15']
 			]);
 		}
 		/**
-		 * @description Core date input prototype year, month and day notation string.
+		 * @description Year, month and day notation string.
 		 * @placeholder example The date example in year, month and day notation.
-		 * @tags core prototype input date notation string
 		 * @example Year, month and day (example: "2017-01-15")
 		 */
-		$strings[] = UText::localize("Year, month and day (example: {{example}})", 'core.prototypes.inputs.date', $text_options, [
+		$strings[] = UText::localize("Year, month and day (example: {{example}})", self::class, $text_options, [
 			'parameters' => ['example' => '2017-01-15']
 		]);
 		/**
-		 * @description Core date input prototype American month, day and year notation string.
+		 * @description American month, day and year notation string.
 		 * @placeholder example The date example in American month, day and year notation.
-		 * @tags core prototype input date notation string
 		 * @example American month, day and year (example: "1/15/17")
 		 */
-		$strings[] = UText::localize("American month, day and year (example: {{example}})", 'core.prototypes.inputs.date', $text_options, [
+		$strings[] = UText::localize("American month, day and year (example: {{example}})", self::class, $text_options, [
 			'parameters' => ['example' => '1/15/17']
 		]);
 		/**
-		 * @description Core date input prototype day, month and year in English notation string.
+		 * @description Day, month and year in English notation string.
 		 * @placeholder example The date example in day, month and year in English notation.
-		 * @tags core prototype input date notation string
 		 * @example Day, month and year in English (example: "15 January 2017")
 		 */
-		$strings[] = UText::localize("Day, month and year in English (example: {{example}})", 'core.prototypes.inputs.date', $text_options, [
+		$strings[] = UText::localize("Day, month and year in English (example: {{example}})", self::class, $text_options, [
 			'parameters' => ['example' => '15 January 2017']
 		]);
 		/**
-		 * @description Core date input prototype relative time interval in English notation string.
+		 * @description Relative time interval in English notation string.
 		 * @placeholder examples The list of date examples in relative time interval in English notation.
-		 * @tags core prototype input date notation string
 		 * @example Relative time interval in English (examples: "today", "yesterday", "next Wednesday", "8 days ago")
 		 */
-		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", 'core.prototypes.inputs.date', $text_options, [
+		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
 			'parameters' => ['examples' => UText::stringify(['today', 'yesterday', 'next Wednesday', '8 days ago'], $example_text_options)]
 		]);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core date input prototype fixed date with time interval in English notation string.
+			 * @description Fixed date with time interval in English notation string.
 			 * @placeholder examples The list of date examples in fixed date with time interval in English notation.
-			 * @tags core prototype input date notation string non-end-user
+			 * @tags non-end-user
 			 * @example Fixed date with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 -3 weeks")
 			 */
-			$strings[] = UText::localize("Fixed date with time interval in English (examples: {{examples}})", 'core.prototypes.inputs.date', $text_options, [
+			$strings[] = UText::localize("Fixed date with time interval in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['2017-01-15 +5 days', '1/15/17 -3 weeks'], $example_text_options)]
 			]);
 		}

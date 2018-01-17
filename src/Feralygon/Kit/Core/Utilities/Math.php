@@ -211,42 +211,37 @@ final class Math extends Utility
 					/**
 					 * @description Human-readable number scaled in thousands.
 					 * @placeholder number The number in thousands.
-					 * @tags core utility math hnumber
 					 * @example 3 thousand
 					 */
-					return Text::plocalize("{{number}} thousand", "{{number}} thousand", $n, 'number', 'core.utilities.math', $text_options);
+					return Text::plocalize("{{number}} thousand", "{{number}} thousand", $n, 'number', self::class, $text_options);
 				case 'M':
 					/**
 					 * @description Human-readable number scaled in millions.
 					 * @placeholder number The number in millions.
-					 * @tags core utility math hnumber
 					 * @example 3 million
 					 */
-					return Text::plocalize("{{number}} million", "{{number}} million", $n, 'number', 'core.utilities.math', $text_options);
+					return Text::plocalize("{{number}} million", "{{number}} million", $n, 'number', self::class, $text_options);
 				case 'B':
 					/**
 					 * @description Human-readable number scaled in billions.
 					 * @placeholder number The number in billions.
-					 * @tags core utility math hnumber
 					 * @example 3 billion
 					 */
-					return Text::plocalize("{{number}} billion", "{{number}} billion", $n, 'number', 'core.utilities.math', $text_options);
+					return Text::plocalize("{{number}} billion", "{{number}} billion", $n, 'number', self::class, $text_options);
 				case 'T':
 					/**
 					 * @description Human-readable number scaled in trillions.
 					 * @placeholder number The number in trillions.
-					 * @tags core utility math hnumber
 					 * @example 3 trillion
 					 */
-					return Text::plocalize("{{number}} trillion", "{{number}} trillion", $n, 'number', 'core.utilities.math', $text_options);
+					return Text::plocalize("{{number}} trillion", "{{number}} trillion", $n, 'number', self::class, $text_options);
 				case 'Q':
 					/**
 					 * @description Human-readable number scaled in quadrillions.
 					 * @placeholder number The number in quadrillions.
-					 * @tags core utility math hnumber
 					 * @example 3 quadrillion
 					 */
-					return Text::plocalize("{{number}} quadrillion", "{{number}} quadrillion", $n, 'number', 'core.utilities.math', $text_options);
+					return Text::plocalize("{{number}} quadrillion", "{{number}} quadrillion", $n, 'number', self::class, $text_options);
 			}
 			return $n . ($multiple_row['label'] === '' ? '' : " {$multiple_row['label']}");
 		}

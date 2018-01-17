@@ -116,19 +116,13 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core text input prototype label (technical).
-			 * @tags core prototype input text label technical
-			 */
-			return UText::localize("String", 'core.prototypes.inputs.text', $text_options);
+			/** @tags technical */
+			return UText::localize("String", self::class, $text_options);
 		}
 		
 		//non-technical
-		/**
-		 * @description Core text input prototype label.
-		 * @tags core prototype input text label non-technical
-		 */
-		return UText::localize("Text", 'core.prototypes.inputs.text', $text_options);
+		/** @tags non-technical */
+		return UText::localize("Text", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -136,19 +130,13 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core text input prototype description (technical).
-			 * @tags core prototype input text description technical
-			 */
-			return UText::localize("A string of characters.", 'core.prototypes.inputs.text', $text_options);
+			/** @tags technical */
+			return UText::localize("A string of characters.", self::class, $text_options);
 		}
 		
 		//non-technical
-		/**
-		 * @description Core text input prototype description.
-		 * @tags core prototype input text description non-technical
-		 */
-		return UText::localize("A text.", 'core.prototypes.inputs.text', $text_options);
+		/** @tags non-technical */
+		return UText::localize("A text.", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -156,19 +144,13 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
-			/**
-			 * @description Core text input prototype message (technical).
-			 * @tags core prototype input text message technical
-			 */
-			return UText::localize("Only strings of characters are allowed.", 'core.prototypes.inputs.text', $text_options);
+			/** @tags technical */
+			return UText::localize("Only strings of characters are allowed.", self::class, $text_options);
 		}
 		
 		//non-technical
-		/**
-		 * @description Core text input prototype message.
-		 * @tags core prototype input text message non-technical
-		 */
-		return UText::localize("Only text is allowed.", 'core.prototypes.inputs.text', $text_options);
+		/** @tags non-technical */
+		return UText::localize("Only text is allowed.", self::class, $text_options);
 	}
 	
 	

@@ -65,20 +65,14 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
-		/**
-		 * @description Core time input prototype label.
-		 * @tags core prototype input time label
-		 */
-		return UText::localize("Time", 'core.prototypes.inputs.time', $text_options);
+		return UText::localize("Time", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core time input prototype description.
 		 * @placeholder notations The supported time notation entries.
-		 * @tags core prototype input time description
 		 * @example A time, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 45900);
 		 *  &#8226; ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00");
@@ -88,7 +82,7 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 */
 		return UText::localize(
 			"A time, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.time', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -100,9 +94,7 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
 	{
 		/**
-		 * @description Core time input prototype message.
 		 * @placeholder notations The supported time notation entries.
-		 * @tags core prototype input time message
 		 * @example Only times are allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 45900);
 		 *  &#8226; ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00");
@@ -112,7 +104,7 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 */
 		return UText::localize(
 			"Only times are allowed, which may be given using any of the following notations:\n{{notations}}", 
-			'core.prototypes.inputs.time', $text_options, [
+			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
 				]
@@ -181,50 +173,48 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core time input prototype Unix timestamp notation string.
+			 * @description Unix timestamp notation string.
 			 * @placeholder example The time example in Unix timestamp notation.
-			 * @tags core prototype input time notation string non-end-user
+			 * @tags non-end-user
 			 * @example Unix timestamp (example: 45900)
 			 */
-			$strings[] = UText::localize("Unix timestamp (example: {{example}})", 'core.prototypes.inputs.time', $text_options, [
+			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => 45900]
 			]);
 			/**
-			 * @description Core time input prototype ISO 8601 notation string.
+			 * @description ISO 8601 notation string.
 			 * @placeholder examples The list of time examples in ISO 8601 notation.
-			 * @tags core prototype input time notation string non-end-user
+			 * @tags non-end-user
 			 * @example ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00")
 			 */
-			$strings[] = UText::localize("ISO 8601 (examples: {{examples}})", 'core.prototypes.inputs.time', $text_options, [
+			$strings[] = UText::localize("ISO 8601 (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['12:45:00', '12:45', '13:45:00+01:00'], $example_text_options)]
 			]);
 		}
 		/**
-		 * @description Core time input prototype hours, minutes and seconds (optionally with timezone) notation string.
+		 * @description Hours, minutes and seconds (optionally with timezone) notation string.
 		 * @placeholder examples The list of time examples in hours, minutes and seconds (optionally with timezone) notation.
-		 * @tags core prototype input time notation string
 		 * @example Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5")
 		 */
-		$strings[] = UText::localize("Hours, minutes and seconds, optionally with timezone (examples: {{examples}})", 'core.prototypes.inputs.time', $text_options, [
+		$strings[] = UText::localize("Hours, minutes and seconds, optionally with timezone (examples: {{examples}})", self::class, $text_options, [
 			'parameters' => ['examples' => UText::stringify(['12:45:00', '12:45AM', '07:45:00 GMT-5'], $example_text_options)]
 		]);
 		/**
-		 * @description Core time input prototype relative time interval in English notation string.
+		 * @description Relative time interval in English notation string.
 		 * @placeholder examples The list of time examples in relative time interval in English notation.
-		 * @tags core prototype input time notation string
 		 * @example Relative time interval in English (examples: "now", "8 hours ago")
 		 */
-		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", 'core.prototypes.inputs.time', $text_options, [
+		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
 			'parameters' => ['examples' => UText::stringify(['now', '8 hours ago'], $example_text_options)]
 		]);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
-			 * @description Core time input prototype fixed time with time interval in English notation string.
+			 * @description Fixed time with time interval in English notation string.
 			 * @placeholder examples The list of time examples in fixed time with time interval in English notation.
-			 * @tags core prototype input time notation string non-end-user
+			 * @tags non-end-user
 			 * @example Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes")
 			 */
-			$strings[] = UText::localize("Fixed time with time interval in English (examples: {{examples}})", 'core.prototypes.inputs.time', $text_options, [
+			$strings[] = UText::localize("Fixed time with time interval in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => ['examples' => UText::stringify(['12:45:00 +5 hours', '12:45AM -15 minutes'], $example_text_options)]
 			]);
 		}

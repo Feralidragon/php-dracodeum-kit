@@ -132,15 +132,15 @@ final class Text extends Utility
 				if ($value) {
 					/**
 					 * @description Affirmative expression, as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
-					 * @tags core utility text stringify end-user
+					 * @tags end-user
 					 */
-					$string = self::localize("yes", 'core.utilities.text', $text_options);
+					$string = self::localize("yes", self::class, $text_options);
 				} else {
 					/**
 					 * @description Negative expression, as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
-					 * @tags core utility text stringify end-user
+					 * @tags end-user
 					 */
-					$string = self::localize("no", 'core.utilities.text', $text_options);
+					$string = self::localize("no", self::class, $text_options);
 				}
 			} else {
 				$string = $value ? 'true' : 'false';
@@ -204,10 +204,9 @@ final class Text extends Utility
 						 * @description Usage of the "or" conjunction in a list, like so: "w, x, y or z".
 						 * @placeholder list The comma separated list of elements.
 						 * @placeholder last The last element of the list.
-						 * @tags core utility text stringify
 						 * @example "foo", "bar" or "zen"
 						 */
-						$string = self::localize("{{list}} or {{last}}", 'core.utilities.text', $text_options, [
+						$string = self::localize("{{list}} or {{last}}", self::class, $text_options, [
 							'parameters' => ['list' => $list_string, 'last' => $last_string]
 						]);
 					} elseif ($options->flags & self::STRING_NONASSOC_CONJUNCTION_NOR) {
@@ -215,10 +214,9 @@ final class Text extends Utility
 						 * @description Usage of the "nor" conjunction in a list, like so: "w, x, y nor z".
 						 * @placeholder list The comma separated list of elements.
 						 * @placeholder last The last element of the list.
-						 * @tags core utility text stringify
 						 * @example "foo", "bar" nor "zen"
 						 */
-						$string = self::localize("{{list}} nor {{last}}", 'core.utilities.text', $text_options, [
+						$string = self::localize("{{list}} nor {{last}}", self::class, $text_options, [
 							'parameters' => ['list' => $list_string, 'last' => $last_string]
 						]);
 					} elseif ($options->flags & self::STRING_NONASSOC_CONJUNCTION_AND) {
@@ -226,10 +224,9 @@ final class Text extends Utility
 						 * @description Usage of the "and" conjunction in a list, like so: "w, x, y and z".
 						 * @placeholder list The comma separated list of elements.
 						 * @placeholder last The last element of the list.
-						 * @tags core utility text stringify
 						 * @example "foo", "bar" and "zen"
 						 */
-						$string = self::localize("{{list}} and {{last}}", 'core.utilities.text', $text_options, [
+						$string = self::localize("{{list}} and {{last}}", self::class, $text_options, [
 							'parameters' => ['list' => $list_string, 'last' => $last_string]
 						]);
 					}
@@ -330,10 +327,9 @@ final class Text extends Utility
 		 * @description Text bulletification.
 		 * @placeholder bullet The bullet character.
 		 * @placeholder text The text to prepend the bullet to.
-		 * @tags core utility text bulletify
 		 * @example  &#8226; this is a bullet point;
 		 */
-		return self::localize(" {{bullet}} {{text}}", 'core.utilities.text', $text_options, [
+		return self::localize(" {{bullet}} {{text}}", self::class, $text_options, [
 			'parameters' => ['bullet' => $options->bullet, 'text' => $string]
 		]);
 	}
@@ -374,18 +370,16 @@ final class Text extends Utility
 					/**
 					 * @description Bullet point text punctuation with period.
 					 * @placeholder text The text to punctuate.
-					 * @tags core utility text mbulletify
 					 * @example  &#8226; this is the last bullet point.
 					 */
-					$string = self::localize("{{text}}.", 'core.utilities.text', $text_options, ['parameters' => ['text' => $string]]);
+					$string = self::localize("{{text}}.", self::class, $text_options, ['parameters' => ['text' => $string]]);
 				} else {
 					/**
 					 * @description Bullet point text punctuation with semicolon.
 					 * @placeholder text The text to punctuate.
-					 * @tags core utility text mbulletify
 					 * @example  &#8226; this is a bullet point;
 					 */
-					$string = self::localize("{{text}};", 'core.utilities.text', $text_options, ['parameters' => ['text' => $string]]);
+					$string = self::localize("{{text}};", self::class, $text_options, ['parameters' => ['text' => $string]]);
 				}
 			}
 			unset($string);
