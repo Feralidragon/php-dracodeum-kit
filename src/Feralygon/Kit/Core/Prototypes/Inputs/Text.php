@@ -206,6 +206,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
 	{
 		switch ($name) {
+			//constraints
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
@@ -222,6 +223,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(InputConstraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.uppercase':
 				return $this->createConstraint(InputConstraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			
+			//filters
 			case 'filters.lowercase':
 				return $this->createFilter(InputFilters\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'filters.uppercase':

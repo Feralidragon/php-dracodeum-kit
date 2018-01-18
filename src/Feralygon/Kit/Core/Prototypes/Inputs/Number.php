@@ -134,6 +134,7 @@ class Number extends Input implements IInformation, IModifiers
 	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
 	{
 		switch ($name) {
+			//constraints
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':

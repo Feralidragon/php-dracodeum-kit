@@ -137,6 +137,7 @@ class Timestamp extends Input implements IInformation, IValueStringification, IM
 	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
 	{
 		switch ($name) {
+			//constraints
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
@@ -149,6 +150,8 @@ class Timestamp extends Input implements IInformation, IValueStringification, IM
 				return $this->createConstraint(Constraints\Range::class, $prototype_properties, $properties);
 			case 'constraints.non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties);
+			
+			//filters
 			case 'filters.format':
 				return $this->createFilter(Filters\Format::class, $prototype_properties, $properties);
 			case 'filters.iso8601':
