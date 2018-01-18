@@ -16,7 +16,10 @@ use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
 use Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
-use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints as InputConstraints;
+use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\{
+	Constraints as InputConstraints,
+	Filters as InputFilters
+};
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
@@ -44,6 +47,8 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange [modifier, name = 'constraints.length_range']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase [modifier, name = 'constraints.lowercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase [modifier, name = 'filters.lowercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase [modifier, name = 'filters.uppercase']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
@@ -217,6 +222,10 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(InputConstraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.uppercase':
 				return $this->createConstraint(InputConstraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'filters.lowercase':
+				return $this->createFilter(InputFilters\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'filters.uppercase':
+				return $this->createFilter(InputFilters\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 		}
 		return null;
 	}
