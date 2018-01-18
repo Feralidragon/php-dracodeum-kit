@@ -44,6 +44,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\NonEmpty [modifier, name = 'constraints.non_empty']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Length [modifier, name = 'constraints.length']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\MinLength [modifier, name = 'constraints.min_length']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\MaxLength [modifier, name = 'constraints.max_length']
@@ -215,6 +216,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+			case 'constraints.non_empty':
+				return $this->createConstraint(Constraints\NonEmpty::class, $prototype_properties, $properties);
 			case 'constraints.length':
 				return $this->createConstraint(InputConstraints\Length::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.min_length':
