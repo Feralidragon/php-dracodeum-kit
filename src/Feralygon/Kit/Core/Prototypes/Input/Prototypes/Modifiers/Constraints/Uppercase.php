@@ -97,7 +97,7 @@ class Uppercase extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		return UText::localize("Only values in uppercase are allowed.", self::class, $text_options);
+		return UText::localize("Only uppercase is allowed.", self::class, $text_options);
 	}
 	
 	

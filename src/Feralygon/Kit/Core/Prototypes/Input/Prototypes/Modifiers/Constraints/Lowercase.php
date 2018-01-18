@@ -97,7 +97,7 @@ class Lowercase extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		return UText::localize("Only values in lowercase are allowed.", self::class, $text_options);
+		return UText::localize("Only lowercase is allowed.", self::class, $text_options);
 	}
 	
 	

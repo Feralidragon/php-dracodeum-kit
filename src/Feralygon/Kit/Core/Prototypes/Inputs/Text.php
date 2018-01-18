@@ -16,6 +16,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
 use Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints as InputConstraints;
 use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
@@ -36,8 +37,8 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Lowercase [modifier, name = 'constraints.lowercase']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase [modifier, name = 'constraints.lowercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
@@ -178,9 +179,9 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 			case 'constraints.non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
 			case 'constraints.lowercase':
-				return $this->createConstraint(Constraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+				return $this->createConstraint(InputConstraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.uppercase':
-				return $this->createConstraint(Constraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+				return $this->createConstraint(InputConstraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 		}
 		return null;
 	}
