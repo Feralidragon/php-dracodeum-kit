@@ -54,6 +54,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical [modifier, name = 'constraints.alphabetical']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical [modifier, name = 'constraints.numerical']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical [modifier, name = 'constraints.alphanumerical']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Identifier [modifier, name = 'constraints.identifier']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase [modifier, name = 'filters.lowercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase [modifier, name = 'filters.uppercase']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate [modifier, name = 'filters.truncate']
@@ -239,6 +240,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(Constraints\Numerical::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.alphanumerical':
 				return $this->createConstraint(Constraints\Alphanumerical::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'constraints.identifier':
+				return $this->createConstraint(Constraints\Identifier::class, $prototype_properties, $properties);
 			
 			//filters
 			case 'filters.lowercase':
