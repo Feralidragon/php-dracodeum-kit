@@ -39,8 +39,8 @@ class Range extends Constraints\Range
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only dates before or on 2017-01-15 or after or on 2017-01-17 are allowed.
 				 */
 				return UText::localize(
@@ -49,8 +49,8 @@ class Range extends Constraints\Range
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only dates before or on 2017-01-15 or after 2017-01-17 are allowed.
 				 */
 				return UText::localize(
@@ -59,8 +59,8 @@ class Range extends Constraints\Range
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only dates before 2017-01-15 or after or on 2017-01-17 are allowed.
 				 */
 				return UText::localize(
@@ -69,8 +69,8 @@ class Range extends Constraints\Range
 				);
 			}
 			/**
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
+			 * @placeholder min_value The minimum disallowed value.
+			 * @placeholder max_value The maximum disallowed value.
 			 * @example Only dates before 2017-01-15 or after 2017-01-17 are allowed.
 			 */
 			return UText::localize(

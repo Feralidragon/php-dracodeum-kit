@@ -39,8 +39,8 @@ class Range extends Constraints\Range
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only times before or at 12:45:00 or after or at 17:20:00 are allowed.
 				 */
 				return UText::localize(
@@ -49,8 +49,8 @@ class Range extends Constraints\Range
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only times before or at 12:45:00 or after 17:20:00 are allowed.
 				 */
 				return UText::localize(
@@ -59,8 +59,8 @@ class Range extends Constraints\Range
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only times before 12:45:00 or after or at 17:20:00 are allowed.
 				 */
 				return UText::localize(
@@ -69,8 +69,8 @@ class Range extends Constraints\Range
 				);
 			}
 			/**
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
+			 * @placeholder min_value The minimum disallowed value.
+			 * @placeholder max_value The maximum disallowed value.
 			 * @example Only times before 12:45:00 or after 17:20:00 are allowed.
 			 */
 			return UText::localize(

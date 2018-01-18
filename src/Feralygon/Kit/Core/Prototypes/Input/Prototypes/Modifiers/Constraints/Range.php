@@ -165,8 +165,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		if ($this->negate) {
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only values lesser than or equal to 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
@@ -175,8 +175,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			} elseif ($this->min_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only values lesser than or equal to 100 or greater than 250 are allowed.
 				 */
 				return UText::localize(
@@ -185,8 +185,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			} elseif ($this->max_exclusive) {
 				/**
-				 * @placeholder min_value The minimum allowed value.
-				 * @placeholder max_value The maximum allowed value.
+				 * @placeholder min_value The minimum disallowed value.
+				 * @placeholder max_value The maximum disallowed value.
 				 * @example Only values lesser than 100 or greater than or equal to 250 are allowed.
 				 */
 				return UText::localize(
@@ -195,8 +195,8 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				);
 			}
 			/**
-			 * @placeholder min_value The minimum allowed value.
-			 * @placeholder max_value The maximum allowed value.
+			 * @placeholder min_value The minimum disallowed value.
+			 * @placeholder max_value The maximum disallowed value.
 			 * @example Only values lesser than 100 or greater than 250 are allowed.
 			 */
 			return UText::localize(
