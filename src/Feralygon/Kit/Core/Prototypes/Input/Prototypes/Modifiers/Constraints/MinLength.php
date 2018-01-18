@@ -127,11 +127,11 @@ class MinLength extends Constraint implements IPrototypeProperties, IName, IPrio
 	{
 		/**
 		 * @placeholder length The minimum allowed length.
-		 * @example Only values with a minimum of 10 characters are allowed.
+		 * @example Only a minimum of 10 characters are allowed.
 		 */
 		return UText::plocalize(
-			"Only values with a minimum of {{length}} character are allowed.",
-			"Only values with a minimum of {{length}} characters are allowed.",
+			"Only a minimum of {{length}} character is allowed.",
+			"Only a minimum of {{length}} characters are allowed.",
 			$this->length, 'length', self::class, $text_options
 		);
 	}

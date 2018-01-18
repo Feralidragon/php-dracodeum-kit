@@ -127,11 +127,11 @@ class Length extends Constraint implements IPrototypeProperties, IName, IPriorit
 	{
 		/**
 		 * @placeholder length The allowed length.
-		 * @example Only values with exactly 10 characters are allowed.
+		 * @example Only exactly 10 characters are allowed.
 		 */
 		return UText::plocalize(
-			"Only values with exactly {{length}} character are allowed.",
-			"Only values with exactly {{length}} characters are allowed.",
+			"Only exactly {{length}} character is allowed.",
+			"Only exactly {{length}} characters are allowed.",
 			$this->length, 'length', self::class, $text_options
 		);
 	}
