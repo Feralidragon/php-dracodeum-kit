@@ -51,6 +51,9 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange [modifier, name = 'constraints.length_range']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase [modifier, name = 'constraints.lowercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical [modifier, name = 'constraints.alphabetical']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical [modifier, name = 'constraints.numerical']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical [modifier, name = 'constraints.alphanumerical']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase [modifier, name = 'filters.lowercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase [modifier, name = 'filters.uppercase']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate [modifier, name = 'filters.truncate']
@@ -230,6 +233,12 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createConstraint(InputConstraints\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'constraints.uppercase':
 				return $this->createConstraint(InputConstraints\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'constraints.alphabetical':
+				return $this->createConstraint(Constraints\Alphabetical::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'constraints.numerical':
+				return $this->createConstraint(Constraints\Numerical::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'constraints.alphanumerical':
+				return $this->createConstraint(Constraints\Alphanumerical::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			
 			//filters
 			case 'filters.lowercase':
