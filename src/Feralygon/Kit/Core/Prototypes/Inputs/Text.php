@@ -34,6 +34,7 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property-read bool $unicode [default = false] <p>Set as Unicode text.</p>
+ * @property-read bool $trim [default = false] <p>Trim the given text or string from whitespace.</p>
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
@@ -49,6 +50,9 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	//Private properties
 	/** @var bool */
 	private $unicode = false;
+	
+	/** @var bool */
+	private $trim = false;
 	
 	
 	
@@ -78,6 +82,11 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 			}
 		}
 		
+		//trim
+		if ($this->trim) {
+			$value = trim($value);
+		}
+		
 		//return
 		return true;
 	}
@@ -100,6 +109,19 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 					})
 					->setSetter(function (bool $unicode) : void {
 						$this->unicode = $unicode;
+					})
+				;
+			case 'trim':
+				return $this->createProperty()
+					->setMode('r')
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateBoolean($value);
+					})
+					->setGetter(function () : bool {
+						return $this->trim;
+					})
+					->setSetter(function (bool $trim) : void {
+						$this->trim = $trim;
 					})
 				;
 		}
@@ -167,7 +189,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	public function getSchemaData()
 	{
 		return [
-			'unicode' => $this->unicode
+			'unicode' => $this->unicode,
+			'trim' => $this->trim
 		];
 	}
 	
