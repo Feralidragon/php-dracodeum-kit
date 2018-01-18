@@ -15,7 +15,10 @@ use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Modifiers as IModifiers
 };
 use Feralygon\Kit\Core\Components\Input\Components\Modifier;
-use Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\{
+	Constraints,
+	Filters
+};
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\{
 	Constraints as InputConstraints,
 	Filters as InputFilters
@@ -49,6 +52,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase [modifier, name = 'constraints.uppercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase [modifier, name = 'filters.lowercase']
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase [modifier, name = 'filters.uppercase']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate [modifier, name = 'filters.truncate']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
@@ -229,6 +233,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				return $this->createFilter(InputFilters\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 			case 'filters.uppercase':
 				return $this->createFilter(InputFilters\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
+			case 'filters.truncate':
+				return $this->createFilter(Filters\Truncate::class, $prototype_properties + ['unicode' => $this->unicode], $properties);
 		}
 		return null;
 	}
