@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core text input alphabetical constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a text or string to alphabetical characters.
+ * This constraint prototype restricts a text or string to alphabetical characters.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false] <p>Check as an Unicode text or string.</p>

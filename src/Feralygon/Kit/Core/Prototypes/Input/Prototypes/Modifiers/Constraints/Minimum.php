@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input minimum constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to a minimum value.
+ * This constraint prototype restricts a value to a minimum value.
  * 
  * @since 1.0.0
  * @property mixed $value <p>The minimum allowed value to restrict to (inclusive).</p>

@@ -18,7 +18,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core hash input Base64 filter modifier prototype class.
  * 
- * This input filter modifier prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
+ * This filter prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
  * 
  * @since 1.0.0
  * @property bool $url_safe [default = false] <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) get replaced by hyphens (-) and underscores (_) respectively, 

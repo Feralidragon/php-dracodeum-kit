@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core text input identifier constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a text or string to an identifier format.
+ * This constraint prototype restricts a text or string to an identifier format.
  * 
  * @since 1.0.0
  * @property bool $extended [default = false] <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>

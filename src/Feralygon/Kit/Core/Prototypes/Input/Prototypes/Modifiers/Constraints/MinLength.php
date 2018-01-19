@@ -26,7 +26,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input minimum length constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to a minimum length.
+ * This constraint prototype restricts a value to a minimum length.
  * 
  * @since 1.0.0
  * @property int $length <p>The minimum length to restrict to.<br>

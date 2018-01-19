@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input lowercase constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to lowercase.
+ * This constraint prototype restricts a value to lowercase.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false] <p>Check as an Unicode value.</p>

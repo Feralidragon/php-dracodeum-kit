@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input maximum constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to a maximum value.
+ * This constraint prototype restricts a value to a maximum value.
  * 
  * @since 1.0.0
  * @property mixed $value <p>The maximum allowed value to restrict to (inclusive).</p>

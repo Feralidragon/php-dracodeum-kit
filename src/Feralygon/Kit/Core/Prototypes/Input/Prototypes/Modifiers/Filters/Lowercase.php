@@ -22,7 +22,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input lowercase filter modifier prototype class.
  * 
- * This input filter modifier prototype converts a value to lowercase.
+ * This filter prototype converts a value to lowercase.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false] <p>Convert as an Unicode value.</p>

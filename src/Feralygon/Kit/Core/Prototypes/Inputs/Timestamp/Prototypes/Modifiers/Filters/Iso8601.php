@@ -12,7 +12,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter;
 /**
  * Core timestamp input ISO-8601 filter modifier prototype class.
  * 
- * This input filter modifier prototype converts a timestamp, as an Unix timestamp, into a string using an ISO-8601 format.
+ * This filter prototype converts a timestamp, as an Unix timestamp, into a string using an ISO-8601 format.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/ISO_8601

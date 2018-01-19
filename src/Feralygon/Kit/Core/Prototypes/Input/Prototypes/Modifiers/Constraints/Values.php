@@ -26,7 +26,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input values constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to a set of allowed values.
+ * This constraint prototype restricts a value to a set of allowed values.
  * 
  * @since 1.0.0
  * @property array $values <p>The allowed values to restrict to.</p>

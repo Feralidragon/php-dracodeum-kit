@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input range constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a value to a range of values.
+ * This constraint prototype restricts a value to a range of values.
  * 
  * @since 1.0.0
  * @property mixed $min_value <p>The minimum allowed value to restrict to (inclusive).</p>

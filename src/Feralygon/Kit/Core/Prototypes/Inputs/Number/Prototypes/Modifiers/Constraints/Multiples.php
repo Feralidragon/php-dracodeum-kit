@@ -26,7 +26,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core number input multiples constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a number to a set of allowed multiples.
+ * This constraint prototype restricts a number to a set of allowed multiples.
  * 
  * @since 1.0.0
  * @property int[]|float[] $multiples <p>The allowed multiples to restrict to.</p>

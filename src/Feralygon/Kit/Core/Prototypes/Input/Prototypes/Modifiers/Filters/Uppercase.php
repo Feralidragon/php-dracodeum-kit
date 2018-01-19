@@ -22,7 +22,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input uppercase filter modifier prototype class.
  * 
- * This input filter modifier prototype converts a value to uppercase.
+ * This filter prototype converts a value to uppercase.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false] <p>Convert as an Unicode value.</p>

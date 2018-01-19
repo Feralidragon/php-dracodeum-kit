@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core input truncate filter modifier prototype class.
  * 
- * This input filter modifier prototype truncates a value to a specific length.
+ * This filter prototype truncates a value to a specific length.
  * 
  * @since 1.0.0
  * @property int $length <p>The length to truncate to.<br>

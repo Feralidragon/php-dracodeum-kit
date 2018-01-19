@@ -26,7 +26,7 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core number input powers constraint modifier prototype class.
  * 
- * This input constraint modifier prototype restricts a number to a set of allowed powers.
+ * This constraint prototype restricts a number to a set of allowed powers.
  * 
  * @since 1.0.0
  * @property int[]|float[] $powers <p>The allowed powers to restrict to.</p>

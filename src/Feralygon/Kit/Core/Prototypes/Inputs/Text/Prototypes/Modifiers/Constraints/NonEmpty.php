@@ -19,7 +19,7 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
 /**
  * Core text input non-empty constraint modifier prototype class.
  * 
- * This input constraint modifier prototype prevents a text or string from being empty.
+ * This constraint prototype prevents a text or string from being empty.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text
