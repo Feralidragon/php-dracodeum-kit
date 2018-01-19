@@ -32,8 +32,8 @@ final class Time extends Utility
 		'singular' => "year",
 		'plural' => "years",
 		'precision' => 0,
-		'limit' => 3,
-		'min_multiple' => 'D'
+		'limit' => 2,
+		'min_multiple' => 'M'
 	], [
 		'time' => ETime::T1_MONTH,
 		'symbol' => 'M',
@@ -41,7 +41,7 @@ final class Time extends Utility
 		'plural' => "months",
 		'precision' => 0,
 		'limit' => 2,
-		'min_multiple' => 'D'
+		'min_multiple' => 'W'
 	], [
 		'time' => ETime::T1_WEEK,
 		'symbol' => 'W',
@@ -56,16 +56,16 @@ final class Time extends Utility
 		'singular' => "day",
 		'plural' => "days",
 		'precision' => 0,
-		'limit' => 3,
-		'min_multiple' => 'min'
+		'limit' => 2,
+		'min_multiple' => 'h'
 	], [
 		'time' => ETime::T1_HOUR,
 		'symbol' => 'h',
 		'singular' => "hour",
 		'plural' => "hours",
 		'precision' => 0,
-		'limit' => 3,
-		'min_multiple' => 's'
+		'limit' => 2,
+		'min_multiple' => 'min'
 	], [
 		'time' => ETime::T1_MINUTE,
 		'symbol' => 'min',
@@ -573,9 +573,11 @@ final class Time extends Utility
 					$limit = $row['limit'];
 				}
 				if (!isset($min_multiple)) {
-					$min_multiple = $row['min_multiple'];
+					$min_multiple = self::coerceMultiple($row['min_multiple']);
 				}
 			}
+			
+			//last
 			$is_last = (isset($limit) && (count($parts) + 1) >= $limit && $period >= $row['time']) || (isset($min_multiple) && $row['time'] <= $min_multiple);
 			if (!$is_last && $period < $row['time']) {
 				continue;
@@ -770,6 +772,39 @@ final class Time extends Utility
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
+		try {
+			$value = self::coerceMultiple($value, $nullable);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into a multiple.
+	 * 
+	 * Only the following types and formats can be coerced into a multiple:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds, such as: <code>3600</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\MultipleCoercionFailed
+	 * @return int|float|null <p>The given value coerced into a multiple.<br>
+	 * If nullable, <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceMultiple($value, bool $nullable = false)
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\MultipleCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+		}
+		
 		//multiples
 		if (empty(self::$multiples)) {
 			foreach (self::MULTIPLES_TABLE as $row) {
@@ -779,14 +814,17 @@ final class Time extends Utility
 			}
 		}
 		
-		//evaluate
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (!is_scalar($value) || is_bool($value) || !isset(self::$multiples[(string)$value])) {
-			return false;
+		//coerce
+		if ((is_int($value) || is_float($value) || is_string($value)) && isset(self::$multiples[(string)$value])) {
+			return self::$multiples[(string)$value];
 		}
-		$value = self::$multiples[(string)$value];
-		return true;
+		throw new Exceptions\MultipleCoercionFailed([
+			'value' => $value,
+			'hint_message' => "Only the following types and formats can be coerced into a multiple:\n" . 
+				" - a number in seconds, such as: 3600 for hours;\n" . 
+				" - a symbol string, such as: \"h\" for hours;\n" . 
+				" - a name string in English, such as: \"hour\" or \"hours\" for hours."
+		]);
 	}
 	
 	/**

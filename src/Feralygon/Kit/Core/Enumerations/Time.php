@@ -187,16 +187,31 @@ class Time extends Enumeration
 	public const T2_MONTHS = 5270400;
 	
 	/** Time in seconds equivalent to: 3 months. */
-	public const T3_MONTHS = 7948800;
+	public const T3_MONTHS = 7905600;
 	
 	/** Time in seconds equivalent to: 4 months. */
-	public const T4_MONTHS = 10368000;
+	public const T4_MONTHS = 10540800;
 	
 	/** Time in seconds equivalent to: 5 months. */
-	public const T5_MONTHS = 12960000;
+	public const T5_MONTHS = 13176000;
 	
 	/** Time in seconds equivalent to: 6 months. */
 	public const T6_MONTHS = 15811200;
+	
+	/** Time in seconds equivalent to: 7 months. */
+	public const T7_MONTHS = 18446400;
+	
+	/** Time in seconds equivalent to: 8 months. */
+	public const T8_MONTHS = 21081600;
+	
+	/** Time in seconds equivalent to: 9 months. */
+	public const T9_MONTHS = 23716800;
+	
+	/** Time in seconds equivalent to: 10 months. */
+	public const T10_MONTHS = 26352000;
+	
+	/** Time in seconds equivalent to: 11 months. */
+	public const T11_MONTHS = 28987200;
 
 	/** Time in seconds equivalent to: 1 year. */
 	public const T1_YEAR = 31536000;
@@ -222,7 +237,7 @@ class Time extends Enumeration
 	/** {@inheritdoc} */
 	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
 	{
-		return UTime::hperiod(static::getNameValue($name), $text_options);
+		return UTime::hperiod(static::getNameValue($name), $text_options, ['limit' => 1]);
 	}
 	
 	/** {@inheritdoc} */
