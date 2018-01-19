@@ -42,7 +42,7 @@ class Numerical extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (bool)preg_match($this->unicode ? '/^\pN*$/u' : '/^[0-9]*$/', $value);
+		return (bool)preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
 	}
 	
 	
