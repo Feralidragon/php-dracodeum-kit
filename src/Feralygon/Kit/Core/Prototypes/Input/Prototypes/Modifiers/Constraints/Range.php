@@ -31,7 +31,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property mixed $min_value <p>The minimum allowed value to restrict to (inclusive).</p>
  * @property mixed $max_value <p>The maximum allowed value to restrict to (inclusive).</p>
  * @property bool $min_exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be lesser than the maximum allowed value, but never equal.</p>
+ * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
@@ -167,80 +167,80 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only a value lesser than or equal to 100 or greater than or equal to 250 is allowed.
+				 * @example Only a value less than or equal to 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value lesser than or equal to {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
+					"Only a value less than or equal to {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only a value lesser than or equal to 100 or greater than 250 is allowed.
+				 * @example Only a value less than or equal to 100 or greater than 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value lesser than or equal to {{min_value}} or greater than {{max_value}} is allowed.", 
+					"Only a value less than or equal to {{min_value}} or greater than {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only a value lesser than 100 or greater than or equal to 250 is allowed.
+				 * @example Only a value less than 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value lesser than {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
+					"Only a value less than {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			}
 			/**
 			 * @placeholder min_value The minimum disallowed value.
 			 * @placeholder max_value The maximum disallowed value.
-			 * @example Only a value lesser than 100 or greater than 250 is allowed.
+			 * @example Only a value less than 100 or greater than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value lesser than {{min_value}} or greater than {{max_value}} is allowed.", 
+				"Only a value less than {{min_value}} or greater than {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only a value greater than 100 and lesser than 250 is allowed.
+			 * @example Only a value greater than 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than {{min_value}} and lesser than {{max_value}} is allowed.", 
+				"Only a value greater than {{min_value}} and less than {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only a value greater than 100 and lesser than or equal to 250 is allowed.
+			 * @example Only a value greater than 100 and less than or equal to 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than {{min_value}} and lesser than or equal to {{max_value}} is allowed.", 
+				"Only a value greater than {{min_value}} and less than or equal to {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only a value greater than or equal to 100 and lesser than 250 is allowed.
+			 * @example Only a value greater than or equal to 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than or equal to {{min_value}} and lesser than {{max_value}} is allowed.", 
+				"Only a value greater than or equal to {{min_value}} and less than {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @example Only a value greater than or equal to 100 and lesser than or equal to 250 is allowed.
+		 * @example Only a value greater than or equal to 100 and less than or equal to 250 is allowed.
 		 */
 		return UText::localize(
-			"Only a value greater than or equal to {{min_value}} and lesser than or equal to {{max_value}} is allowed.", 
+			"Only a value greater than or equal to {{min_value}} and less than or equal to {{max_value}} is allowed.", 
 			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}

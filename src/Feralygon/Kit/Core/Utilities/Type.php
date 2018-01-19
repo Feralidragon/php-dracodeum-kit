@@ -924,7 +924,7 @@ final class Type extends Utility
 	 * @see https://php.net/manual/en/language.namespaces.php
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
 	 * @param int|null $depth [default = null] <p>The depth limit to retrieve with.<br>
-	 * If set to a number lesser than <code>0</code>, the limit is applied backwards (starting at the end of the namespace).<br>
+	 * If set to a number less than <code>0</code>, the limit is applied backwards (starting at the end of the namespace).<br>
 	 * If not set, no limit is applied.</p>
 	 * @return string <p>The namespace from the given object or class.</p>
 	 */

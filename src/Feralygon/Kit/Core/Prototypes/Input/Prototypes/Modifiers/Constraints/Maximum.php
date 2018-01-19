@@ -29,7 +29,7 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property mixed $value <p>The maximum allowed value to restrict to (inclusive).</p>
- * @property bool $exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be lesser than the maximum allowed value, but never equal.</p>
+ * @property bool $exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  */
 class Maximum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -116,15 +116,15 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only a value lesser than 250 is allowed.
+			 * @example Only a value less than 250 is allowed.
 			 */
-			return UText::localize("Only a value lesser than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a value less than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only a value lesser than or equal to 250 is allowed.
+		 * @example Only a value less than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only a value lesser than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a value less than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

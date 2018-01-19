@@ -228,9 +228,9 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				/**
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
-				 * @example An integer number lesser than or equal to 127.
+				 * @example An integer number less than or equal to 127.
 				 */
-				return UText::localize("An integer number lesser than or equal to {{maximum}}.", self::class, $text_options, [
+				return UText::localize("An integer number less than or equal to {{maximum}}.", self::class, $text_options, [
 					'parameters' => ['maximum' => $this->maximum]
 				]);
 			}
@@ -350,9 +350,9 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				/**
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
-				 * @example Only an integer number lesser than or equal to 127 is allowed.
+				 * @example Only an integer number less than or equal to 127 is allowed.
 				 */
-				return UText::localize("Only an integer number lesser than or equal to {{maximum}} is allowed.", self::class, $text_options, [
+				return UText::localize("Only an integer number less than or equal to {{maximum}} is allowed.", self::class, $text_options, [
 					'parameters' => ['maximum' => $this->maximum]
 				]);
 			}
