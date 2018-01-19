@@ -97,7 +97,7 @@ class Timestamp extends Input implements IInformation, IValueStringification, IM
 	{
 		/**
 		 * @placeholder notations The supported timestamp notation entries.
-		 * @example Only timestamps are allowed, which may be given using any of the following notations:
+		 * @example Only a timestamp is allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 1484484300);
 		 *  &#8226; ISO 8601 (examples: "2017-01-15", "2017-01-15T12:45:00", "2017-01-15T13:45:00+01:00");
 		 *  &#8226; Year, month and day, optionally with time and timezone (examples: "2017-01-15", "2017-01-15 12:45:00", "2017-01-15 07:45:00 GMT-5");
@@ -107,7 +107,7 @@ class Timestamp extends Input implements IInformation, IValueStringification, IM
 		 *  &#8226; Fixed timestamp with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 12:45:00 -3 hours").
 		 */
 		return UText::localize(
-			"Only timestamps are allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only a timestamp is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

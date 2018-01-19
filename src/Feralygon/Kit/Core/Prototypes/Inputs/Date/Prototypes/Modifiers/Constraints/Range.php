@@ -41,80 +41,80 @@ class Range extends Constraints\Range
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only dates before or on 2017-01-15 or after or on 2017-01-17 are allowed.
+				 * @example Only a date before or on 2017-01-15 or after or on 2017-01-17 is allowed.
 				 */
 				return UText::localize(
-					"Only dates before or on {{min_value}} or after or on {{max_value}} are allowed.", 
+					"Only a date before or on {{min_value}} or after or on {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only dates before or on 2017-01-15 or after 2017-01-17 are allowed.
+				 * @example Only a date before or on 2017-01-15 or after 2017-01-17 is allowed.
 				 */
 				return UText::localize(
-					"Only dates before or on {{min_value}} or after {{max_value}} are allowed.", 
+					"Only a date before or on {{min_value}} or after {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only dates before 2017-01-15 or after or on 2017-01-17 are allowed.
+				 * @example Only a date before 2017-01-15 or after or on 2017-01-17 is allowed.
 				 */
 				return UText::localize(
-					"Only dates before {{min_value}} or after or on {{max_value}} are allowed.", 
+					"Only a date before {{min_value}} or after or on {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			}
 			/**
 			 * @placeholder min_value The minimum disallowed value.
 			 * @placeholder max_value The maximum disallowed value.
-			 * @example Only dates before 2017-01-15 or after 2017-01-17 are allowed.
+			 * @example Only a date before 2017-01-15 or after 2017-01-17 is allowed.
 			 */
 			return UText::localize(
-				"Only dates before {{min_value}} or after {{max_value}} are allowed.", 
+				"Only a date before {{min_value}} or after {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only dates after 2017-01-15 and before 2017-01-17 are allowed.
+			 * @example Only a date after 2017-01-15 and before 2017-01-17 is allowed.
 			 */
 			return UText::localize(
-				"Only dates after {{min_value}} and before {{max_value}} are allowed.", 
+				"Only a date after {{min_value}} and before {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only dates after 2017-01-15 and before or on 2017-01-17 are allowed.
+			 * @example Only a date after 2017-01-15 and before or on 2017-01-17 is allowed.
 			 */
 			return UText::localize(
-				"Only dates after {{min_value}} and before or on {{max_value}} are allowed.", 
+				"Only a date after {{min_value}} and before or on {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only dates after or on 2017-01-15 and before 2017-01-17 are allowed.
+			 * @example Only a date after or on 2017-01-15 and before 2017-01-17 is allowed.
 			 */
 			return UText::localize(
-				"Only dates after or on {{min_value}} and before {{max_value}} are allowed.", 
+				"Only a date after or on {{min_value}} and before {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @example Only dates after or on 2017-01-15 and before or on 2017-01-17 are allowed.
+		 * @example Only a date after or on 2017-01-15 and before or on 2017-01-17 is allowed.
 		 */
 		return UText::localize(
-			"Only dates after or on {{min_value}} and before or on {{max_value}} are allowed.", 
+			"Only a date after or on {{min_value}} and before or on {{max_value}} is allowed.", 
 			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}

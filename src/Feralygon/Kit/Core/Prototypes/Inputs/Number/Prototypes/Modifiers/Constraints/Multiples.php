@@ -133,21 +133,21 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 		if ($this->negate) {
 			/**
 			 * @placeholder multiples The list of disallowed multiples.
-			 * @example Multiples of 2, 3 and 5 are not allowed.
+			 * @example A multiple of 2, 3 or 5 is not allowed.
 			 */
 			return UText::localize(
-				"Multiples of {{multiples}} are not allowed.",
+				"A multiple of {{multiples}} is not allowed.",
 				self::class, $text_options, [
-					'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND])]
+					'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 				]
 			);
 		}
 		/**
 		 * @placeholder multiples The list of allowed multiples.
-		 * @example Only multiples of 2, 3 or 5 are allowed.
+		 * @example Only a multiple of 2, 3 or 5 is allowed.
 		 */
 		return UText::localize(
-			"Only multiples of {{multiples}} are allowed.",
+			"Only a multiple of {{multiples}} is allowed.",
 			self::class, $text_options, [
 				'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]

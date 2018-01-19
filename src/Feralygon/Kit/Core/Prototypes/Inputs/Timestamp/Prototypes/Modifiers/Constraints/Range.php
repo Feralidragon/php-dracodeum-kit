@@ -41,80 +41,80 @@ class Range extends Constraints\Range
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only timestamps before or on 2017-01-15 12:45:00 or after or on 2017-01-17 17:20:00 are allowed.
+				 * @example Only a timestamp before or on 2017-01-15 12:45:00 or after or on 2017-01-17 17:20:00 is allowed.
 				 */
 				return UText::localize(
-					"Only timestamps before or on {{min_value}} or after or on {{max_value}} are allowed.", 
+					"Only a timestamp before or on {{min_value}} or after or on {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only timestamps before or on 2017-01-15 12:45:00 or after 2017-01-17 17:20:00 are allowed.
+				 * @example Only a timestamp before or on 2017-01-15 12:45:00 or after 2017-01-17 17:20:00 is allowed.
 				 */
 				return UText::localize(
-					"Only timestamps before or on {{min_value}} or after {{max_value}} are allowed.", 
+					"Only a timestamp before or on {{min_value}} or after {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
-				 * @example Only timestamps before 2017-01-15 12:45:00 or after or on 2017-01-17 17:20:00 are allowed.
+				 * @example Only a timestamp before 2017-01-15 12:45:00 or after or on 2017-01-17 17:20:00 is allowed.
 				 */
 				return UText::localize(
-					"Only timestamps before {{min_value}} or after or on {{max_value}} are allowed.", 
+					"Only a timestamp before {{min_value}} or after or on {{max_value}} is allowed.", 
 					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 				);
 			}
 			/**
 			 * @placeholder min_value The minimum disallowed value.
 			 * @placeholder max_value The maximum disallowed value.
-			 * @example Only timestamps before 2017-01-15 12:45:00 or after 2017-01-17 17:20:00 are allowed.
+			 * @example Only a timestamp before 2017-01-15 12:45:00 or after 2017-01-17 17:20:00 is allowed.
 			 */
 			return UText::localize(
-				"Only timestamps before {{min_value}} or after {{max_value}} are allowed.", 
+				"Only a timestamp before {{min_value}} or after {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only timestamps after 2017-01-15 12:45:00 and before 2017-01-17 17:20:00 are allowed.
+			 * @example Only a timestamp after 2017-01-15 12:45:00 and before 2017-01-17 17:20:00 is allowed.
 			 */
 			return UText::localize(
-				"Only timestamps after {{min_value}} and before {{max_value}} are allowed.", 
+				"Only a timestamp after {{min_value}} and before {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only timestamps after 2017-01-15 12:45:00 and before or on 2017-01-17 17:20:00 are allowed.
+			 * @example Only a timestamp after 2017-01-15 12:45:00 and before or on 2017-01-17 17:20:00 is allowed.
 			 */
 			return UText::localize(
-				"Only timestamps after {{min_value}} and before or on {{max_value}} are allowed.", 
+				"Only a timestamp after {{min_value}} and before or on {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
-			 * @example Only timestamps after or on 2017-01-15 12:45:00 and before 2017-01-17 17:20:00 are allowed.
+			 * @example Only a timestamp after or on 2017-01-15 12:45:00 and before 2017-01-17 17:20:00 is allowed.
 			 */
 			return UText::localize(
-				"Only timestamps after or on {{min_value}} and before {{max_value}} are allowed.", 
+				"Only a timestamp after or on {{min_value}} and before {{max_value}} is allowed.", 
 				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 			);
 		}
 		/**
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.
-		 * @example Only timestamps after or on 2017-01-15 12:45:00 and before or on 2017-01-17 17:20:00 are allowed.
+		 * @example Only a timestamp after or on 2017-01-15 12:45:00 and before or on 2017-01-17 17:20:00 is allowed.
 		 */
 		return UText::localize(
-			"Only timestamps after or on {{min_value}} and before or on {{max_value}} are allowed.", 
+			"Only a timestamp after or on {{min_value}} and before or on {{max_value}} is allowed.", 
 			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
 		);
 	}

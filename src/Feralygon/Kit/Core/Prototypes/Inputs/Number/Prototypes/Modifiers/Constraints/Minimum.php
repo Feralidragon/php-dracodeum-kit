@@ -36,15 +36,15 @@ class Minimum extends Constraints\Minimum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The minimum allowed value.
-			 * @example Only numbers greater than 250 are allowed.
+			 * @example Only a number greater than 250 is allowed.
 			 */
-			return UText::localize("Only numbers greater than {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a number greater than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
-		 * @example Only numbers greater than or equal to 250 are allowed.
+		 * @example Only a number greater than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only numbers greater than or equal to {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a number greater than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

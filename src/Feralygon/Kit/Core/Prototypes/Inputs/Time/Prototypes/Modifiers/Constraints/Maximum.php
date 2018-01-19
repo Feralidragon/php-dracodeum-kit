@@ -36,15 +36,15 @@ class Maximum extends Constraints\Maximum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only times before 17:20:00 are allowed.
+			 * @example Only a time before 17:20:00 is allowed.
 			 */
-			return UText::localize("Only times before {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a time before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only times before or at 17:20:00 are allowed.
+		 * @example Only a time before or at 17:20:00 is allowed.
 		 */
-		return UText::localize("Only times before or at {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a time before or at {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

@@ -116,15 +116,15 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only values lesser than 250 are allowed.
+			 * @example Only a value lesser than 250 is allowed.
 			 */
-			return UText::localize("Only values lesser than {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a value lesser than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only values lesser than or equal to 250 are allowed.
+		 * @example Only a value lesser than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only values lesser than or equal to {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a value lesser than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

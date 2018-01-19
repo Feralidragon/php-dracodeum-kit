@@ -332,32 +332,32 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 * @placeholder minimum The minimum integer number.
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
-				 * @example Only integer numbers between -128 and 127 are allowed.
+				 * @example Only an integer number between -128 and 127 is allowed.
 				 */
-				return UText::localize("Only integer numbers between {{minimum}} and {{maximum}} are allowed.", self::class, $text_options, [
+				return UText::localize("Only an integer number between {{minimum}} and {{maximum}} is allowed.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum, 'maximum' => $this->maximum]
 				]);
 			} elseif (isset($this->minimum)) {
 				/**
 				 * @placeholder minimum The minimum integer number.
 				 * @tags end-user
-				 * @example Only integer numbers greater than or equal to -128 are allowed.
+				 * @example Only an integer number greater than or equal to -128 is allowed.
 				 */
-				return UText::localize("Only integer numbers greater than or equal to {{minimum}} are allowed.", self::class, $text_options, [
+				return UText::localize("Only an integer number greater than or equal to {{minimum}} is allowed.", self::class, $text_options, [
 					'parameters' => ['minimum' => $this->minimum]
 				]);
 			} elseif (isset($this->maximum)) {
 				/**
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
-				 * @example Only integer numbers lesser than or equal to 127 are allowed.
+				 * @example Only an integer number lesser than or equal to 127 is allowed.
 				 */
-				return UText::localize("Only integer numbers lesser than or equal to {{maximum}} are allowed.", self::class, $text_options, [
+				return UText::localize("Only an integer number lesser than or equal to {{maximum}} is allowed.", self::class, $text_options, [
 					'parameters' => ['maximum' => $this->maximum]
 				]);
 			}
 			/** @tags end-user */
-			return UText::localize("Only integer numbers are allowed.", self::class, $text_options);
+			return UText::localize("Only an integer number is allowed.", self::class, $text_options);
 			
 		//bits
 		} elseif (isset($this->bits)) {
@@ -366,7 +366,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 * @placeholder bits The number of bits.
 				 * @placeholder notations The supported integer number notation entries.
 				 * @tags non-end-user
-				 * @example Only unsigned integer numbers of 32 bits are allowed, which may be given using any of the following notations:
+				 * @example Only an unsigned integer number of 32 bits is allowed, which may be given using any of the following notations:
 				 *  &#8226; Standard (examples: "64", "85", "125");
 				 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
 				 *  &#8226; Octal string (examples: "0100", "0125", "0175");
@@ -374,8 +374,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 *  &#8226; Human-readable string in English (examples: "0.064 thousand", "0.085k", "0.125 k").
 				 */
 				return UText::plocalize(
-					"Only unsigned integer numbers of {{bits}} bit are allowed, which may be given using any of the following notations:\n{{notations}}", 
-					"Only unsigned integer numbers of {{bits}} bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
+					"Only an unsigned integer number of {{bits}} bit is allowed, which may be given using any of the following notations:\n{{notations}}", 
+					"Only an unsigned integer number of {{bits}} bits is allowed, which may be given using any of the following notations:\n{{notations}}", 
 					$this->bits, 'bits', self::class, $text_options, [
 						'parameters' => [
 							'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
@@ -387,7 +387,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 * @placeholder bits The number of bits.
 			 * @placeholder notations The supported integer number notation entries.
 			 * @tags non-end-user
-			 * @example Only integer numbers of 32 bits are allowed, which may be given using any of the following notations:
+			 * @example Only an integer number of 32 bits is allowed, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
 			 *  &#8226; Octal string (examples: "0100", "0125", "0175");
@@ -395,8 +395,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 *  &#8226; Human-readable string in English (examples: "0.064 thousand", "0.085k", "0.125 k").
 			 */
 			return UText::plocalize(
-				"Only integer numbers of {{bits}} bit are allowed, which may be given using any of the following notations:\n{{notations}}", 
-				"Only integer numbers of {{bits}} bits are allowed, which may be given using any of the following notations:\n{{notations}}", 
+				"Only an integer number of {{bits}} bit is allowed, which may be given using any of the following notations:\n{{notations}}", 
+				"Only an integer number of {{bits}} bits is allowed, which may be given using any of the following notations:\n{{notations}}", 
 				$this->bits, 'bits', self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
@@ -409,7 +409,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			/**
 			 * @placeholder notations The supported integer number notation entries.
 			 * @tags non-end-user
-			 * @example Only unsigned integer numbers are allowed, which may be given using any of the following notations:
+			 * @example Only an unsigned integer number is allowed, which may be given using any of the following notations:
 			 *  &#8226; Standard (examples: "64", "85", "125");
 			 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
 			 *  &#8226; Octal string (examples: "0100", "0125", "0175");
@@ -417,7 +417,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 *  &#8226; Human-readable string in English (examples: "0.064 thousand", "0.085k", "0.125 k").
 			 */
 			return UText::localize(
-				"Only unsigned integer numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
+				"Only an unsigned integer number is allowed, which may be given using any of the following notations:\n{{notations}}", 
 				self::class, $text_options, [
 					'parameters' => [
 						'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
@@ -430,7 +430,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		/**
 		 * @placeholder notations The supported integer number notation entries.
 		 * @tags non-end-user
-		 * @example Only integer numbers are allowed, which may be given using any of the following notations:
+		 * @example Only an integer number is allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "64", "85", "125");
 		 *  &#8226; Exponential string (examples: "6.4e1", "0.85e2", "1.25e2");
 		 *  &#8226; Octal string (examples: "0100", "0125", "0175");
@@ -438,7 +438,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		 *  &#8226; Human-readable string in English (examples: "0.064 thousand", "0.085k", "0.125 k").
 		 */
 		return UText::localize(
-			"Only integer numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only an integer number is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

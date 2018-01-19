@@ -57,11 +57,11 @@ class NonEmpty extends Constraint implements IName, IInformation
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("Empty strings are not allowed.", self::class, $text_options);
+			return UText::localize("An empty string is not allowed.", self::class, $text_options);
 		}
 		
 		//non-technical
 		/** @tags non-technical */
-		return UText::localize("Empty text is not allowed.", self::class, $text_options);
+		return UText::localize("An empty text is not allowed.", self::class, $text_options);
 	}
 }

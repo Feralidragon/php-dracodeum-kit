@@ -36,15 +36,15 @@ class Maximum extends Constraints\Maximum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only timestamps before 2017-01-17 17:20:00 are allowed.
+			 * @example Only a timestamp before 2017-01-17 17:20:00 is allowed.
 			 */
-			return UText::localize("Only timestamps before {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a timestamp before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only timestamps before or on 2017-01-17 17:20:00 are allowed.
+		 * @example Only a timestamp before or on 2017-01-17 17:20:00 is allowed.
 		 */
-		return UText::localize("Only timestamps before or on {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a timestamp before or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

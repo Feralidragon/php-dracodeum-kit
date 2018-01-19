@@ -36,15 +36,15 @@ class Minimum extends Constraints\Minimum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The minimum allowed value.
-			 * @example Only timestamps after 2017-01-15 12:45:00 are allowed.
+			 * @example Only a timestamp after 2017-01-15 12:45:00 is allowed.
 			 */
-			return UText::localize("Only timestamps after {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a timestamp after {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
-		 * @example Only timestamps after or on 2017-01-15 12:45:00 are allowed.
+		 * @example Only a timestamp after or on 2017-01-15 12:45:00 is allowed.
 		 */
-		return UText::localize("Only timestamps after or on {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a timestamp after or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

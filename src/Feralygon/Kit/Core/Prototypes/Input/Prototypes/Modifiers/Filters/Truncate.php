@@ -192,11 +192,11 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 	{
 		/**
 		 * @placeholder length The truncated length.
-		 * @example Values are truncated to 100 characters.
+		 * @example The value is truncated to 100 characters.
 		 */
 		return UText::plocalize(
-			"Values are truncated to {{length}} character.",
-			"Values are truncated to {{length}} characters.",
+			"The value is truncated to {{length}} character.",
+			"The value is truncated to {{length}} characters.",
 			$this->length, 'length', self::class, $text_options
 		);
 	}

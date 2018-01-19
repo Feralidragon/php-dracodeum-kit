@@ -81,10 +81,10 @@ class Boolean extends Input implements IInformation
 		/**
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
 		 * @placeholder values.true The list of possible allowed values which evaluate to boolean true.
-		 * @example Only booleans are allowed, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
+		 * @example Only a boolean is allowed, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
 		 */
 		return UText::localize(
-			"Only booleans are allowed, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.", 
+			"Only a boolean is allowed, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.", 
 			self::class, $text_options, [
 				'parameters' => [
 					'values' => [

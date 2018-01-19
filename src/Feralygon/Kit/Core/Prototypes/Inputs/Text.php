@@ -188,7 +188,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("Only strings of characters are allowed.", self::class, $text_options);
+			return UText::localize("Only a string of characters is allowed.", self::class, $text_options);
 		}
 		
 		//non-technical

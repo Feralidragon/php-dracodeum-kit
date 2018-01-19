@@ -103,14 +103,14 @@ class Number extends Input implements IInformation, IModifiers
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("Only numbers are allowed.", self::class, $text_options);
+			return UText::localize("Only a number is allowed.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		/**
 		 * @placeholder notations The supported number notation entries.
 		 * @tags non-end-user
-		 * @example Only numbers are allowed, which may be given using any of the following notations:
+		 * @example Only a number is allowed, which may be given using any of the following notations:
 		 *  &#8226; Standard (examples: "1000", "45.75", "-9553.5");
 		 *  &#8226; Exponential string (examples: "1e3", "4575E-2", "-9.5535e3");
 		 *  &#8226; Octal string (examples: "01750", "055", "022521");
@@ -118,7 +118,7 @@ class Number extends Input implements IInformation, IModifiers
 		 *  &#8226; Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k").
 		 */
 		return UText::localize(
-			"Only numbers are allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only a number is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

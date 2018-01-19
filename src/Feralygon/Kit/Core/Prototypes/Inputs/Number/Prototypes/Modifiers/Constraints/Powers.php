@@ -129,21 +129,21 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 		if ($this->negate) {
 			/**
 			 * @placeholder powers The list of disallowed powers.
-			 * @example Powers of 2, 3 and 5 are not allowed.
+			 * @example A power of 2, 3 or 5 is not allowed.
 			 */
 			return UText::localize(
-				"Powers of {{powers}} are not allowed.",
+				"A power of {{powers}} is not allowed.",
 				self::class, $text_options, [
-					'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND])]
+					'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 				]
 			);
 		}
 		/**
 		 * @placeholder powers The list of allowed powers.
-		 * @example Only powers of 2, 3 or 5 are allowed.
+		 * @example Only a power of 2, 3 or 5 is allowed.
 		 */
 		return UText::localize(
-			"Only powers of {{powers}} are allowed.",
+			"Only a power of {{powers}} is allowed.",
 			self::class, $text_options, [
 				'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
 			]

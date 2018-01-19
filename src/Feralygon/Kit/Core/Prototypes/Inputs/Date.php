@@ -97,7 +97,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	{
 		/**
 		 * @placeholder notations The supported date notation entries.
-		 * @example Only dates are allowed, which may be given using any of the following notations:
+		 * @example Only a date is allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 1484438400);
 		 *  &#8226; ISO 8601 (example: "2017-01-15");
 		 *  &#8226; Year, month and day (example: "2017-01-15");
@@ -107,7 +107,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 *  &#8226; Fixed date with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 -3 weeks").
 		 */
 		return UText::localize(
-			"Only dates are allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only a date is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])

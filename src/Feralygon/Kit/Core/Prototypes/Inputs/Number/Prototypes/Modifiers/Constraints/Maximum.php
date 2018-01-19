@@ -36,15 +36,15 @@ class Maximum extends Constraints\Maximum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only numbers lesser than 250 are allowed.
+			 * @example Only a number lesser than 250 is allowed.
 			 */
-			return UText::localize("Only numbers lesser than {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a number lesser than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only numbers lesser than or equal to 250 are allowed.
+		 * @example Only a number lesser than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only numbers lesser than or equal to {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a number lesser than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

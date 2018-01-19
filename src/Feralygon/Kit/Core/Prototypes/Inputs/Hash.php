@@ -121,10 +121,10 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			/**
 			 * @placeholder label The hash input label.
 			 * @tags end-user
-			 * @example Only CRC32 hashes, given in hexadecimal notation, are allowed.
+			 * @example Only a CRC32 hash, given in hexadecimal notation, is allowed.
 			 */
 			return UText::localize(
-				"Only {{label}} hashes, given in hexadecimal notation, are allowed.", 
+				"Only a {{label}} hash, given in hexadecimal notation, is allowed.", 
 				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
 			);
 		}
@@ -134,14 +134,14 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		 * @placeholder label The hash input label.
 		 * @placeholder notations The supported hash notation entries.
 		 * @tags non-end-user
-		 * @example Only CRC32 hashes are allowed, which may be given using any of the following notations:
+		 * @example Only a CRC32 hash is allowed, which may be given using any of the following notations:
 		 *  &#8226; Hexadecimal string (example: "a7fed3fa");
 		 *  &#8226; Base64 encoded string (example: "p/7T+g==");
 		 *  &#8226; URL-safe Base64 encoded string (example: "p_7T-g");
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"Only {{label}} hashes are allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'label' => $this->getLabel($text_options, $info_options), 

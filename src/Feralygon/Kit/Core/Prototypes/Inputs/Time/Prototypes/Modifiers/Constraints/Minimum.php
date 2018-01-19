@@ -36,15 +36,15 @@ class Minimum extends Constraints\Minimum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The minimum allowed value.
-			 * @example Only times after 12:45:00 are allowed.
+			 * @example Only a time after 12:45:00 is allowed.
 			 */
-			return UText::localize("Only times after {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a time after {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
-		 * @example Only times after or at 12:45:00 are allowed.
+		 * @example Only a time after or at 12:45:00 is allowed.
 		 */
-		return UText::localize("Only times after or at {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a time after or at {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

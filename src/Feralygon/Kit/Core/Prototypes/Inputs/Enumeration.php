@@ -391,7 +391,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
 		if (empty($names_descriptions)) {
-			return UText::localize("Only enumerated elements are allowed.", self::class, $text_options);
+			return UText::localize("Only an enumerated element is allowed.", self::class, $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
@@ -416,52 +416,52 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			/**
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags non-end-user
-			 * @example Only enumerated element names or values are allowed, as follows:
+			 * @example Only an enumerated element name or value is allowed, as follows:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST" or 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only enumerated element names or values are allowed, as follows:\n{{descriptions}}",
+				"Only an enumerated element name or value is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_names) {
 			/**
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags non-end-user
-			 * @example Only enumerated element names are allowed, as follows:
+			 * @example Only an enumerated element name is allowed, as follows:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST"): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only enumerated element names are allowed, as follows:\n{{descriptions}}",
+				"Only an enumerated element name is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_values) {
 			/**
 			 * @placeholder descriptions The enumerated element descriptions.
 			 * @tags non-end-user
-			 * @example Only enumerated element values are allowed, as follows:
+			 * @example Only an enumerated element value is allowed, as follows:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only enumerated element values are allowed, as follows:\n{{descriptions}}",
+				"Only an enumerated element value is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 		/**
 		 * @placeholder descriptions The enumerated element descriptions.
 		 * @tags non-end-user
-		 * @example Only enumerated elements are allowed, as follows:
+		 * @example Only an enumerated element is allowed, as follows:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
 		 *  &#8226; Bad Request: client error "Bad Request" HTTP status code.
 		 */
 		return UText::localize(
-			"Only enumerated elements are allowed, as follows:\n{{descriptions}}",
+			"Only an enumerated element is allowed, as follows:\n{{descriptions}}",
 			self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 		);
 	}

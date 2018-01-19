@@ -36,15 +36,15 @@ class Maximum extends Constraints\Maximum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only dates before 2017-01-17 are allowed.
+			 * @example Only a date before 2017-01-17 is allowed.
 			 */
-			return UText::localize("Only dates before {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a date before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only dates before or on 2017-01-17 are allowed.
+		 * @example Only a date before or on 2017-01-17 is allowed.
 		 */
-		return UText::localize("Only dates before or on {{value}} are allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a date before or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	

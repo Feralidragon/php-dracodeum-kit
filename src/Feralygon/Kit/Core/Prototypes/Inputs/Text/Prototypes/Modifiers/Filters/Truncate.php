@@ -29,11 +29,11 @@ class Truncate extends Filters\Truncate
 			/**
 			 * @placeholder length The truncated length.
 			 * @tags technical
-			 * @example Strings are truncated to 100 characters.
+			 * @example The string is truncated to 100 characters.
 			 */
 			return UText::plocalize(
-				"Strings are truncated to {{length}} character.",
-				"Strings are truncated to {{length}} characters.",
+				"The string is truncated to {{length}} character.",
+				"The string is truncated to {{length}} characters.",
 				$this->length, 'length', self::class, $text_options
 			);
 		}
@@ -42,11 +42,11 @@ class Truncate extends Filters\Truncate
 		/**
 		 * @placeholder length The truncated length.
 		 * @tags non-technical
-		 * @example Text is truncated to 100 characters.
+		 * @example The text is truncated to 100 characters.
 		 */
 		return UText::plocalize(
-			"Text is truncated to {{length}} character.",
-			"Text is truncated to {{length}} characters.",
+			"The text is truncated to {{length}} character.",
+			"The text is truncated to {{length}} characters.",
 			$this->length, 'length', self::class, $text_options
 		);
 	}
