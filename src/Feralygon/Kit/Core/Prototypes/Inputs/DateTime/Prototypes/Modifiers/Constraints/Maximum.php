@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Prototypes\Inputs\Timestamp\Prototypes\Modifiers\Constraints;
+namespace Feralygon\Kit\Core\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -15,10 +15,10 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core timestamp input maximum constraint modifier prototype class.
+ * Core date and time input maximum constraint modifier prototype class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Timestamp
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\DateTime
  */
 class Maximum extends Constraints\Maximum
 {
@@ -26,7 +26,7 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		return UText::localize("Maximum allowed timestamp", self::class, $text_options);
+		return UText::localize("Maximum allowed date and time", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -36,15 +36,15 @@ class Maximum extends Constraints\Maximum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
-			 * @example Only a timestamp before 2017-01-17 17:20:00 is allowed.
+			 * @example Only a date and time before 2017-01-17 17:20:00 is allowed.
 			 */
-			return UText::localize("Only a timestamp before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a date and time before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
-		 * @example Only a timestamp before or on 2017-01-17 17:20:00 is allowed.
+		 * @example Only a date and time before or on 2017-01-17 17:20:00 is allowed.
 		 */
-		return UText::localize("Only a timestamp before or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a date and time before or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	
@@ -53,12 +53,12 @@ class Maximum extends Constraints\Maximum
 	/** {@inheritdoc} */
 	protected function evaluateValue(&$value) : bool
 	{
-		return UTime::evaluateTimestamp($value);
+		return UTime::evaluateDateTime($value);
 	}
 	
 	/** {@inheritdoc} */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UTime::stringifyTimestamp($value, $text_options);
+		return UTime::stringifyDateTime($value, $text_options);
 	}
 }

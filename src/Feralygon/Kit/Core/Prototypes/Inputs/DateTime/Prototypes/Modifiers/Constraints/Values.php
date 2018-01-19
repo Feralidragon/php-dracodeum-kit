@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Prototypes\Inputs\Timestamp\Prototypes\Modifiers\Constraints;
+namespace Feralygon\Kit\Core\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -15,10 +15,10 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core timestamp input values constraint modifier prototype class.
+ * Core date and time input values constraint modifier prototype class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Timestamp
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\DateTime
  */
 class Values extends Constraints\Values
 {	
@@ -27,8 +27,8 @@ class Values extends Constraints\Values
 	public function getLabel(TextOptions $text_options) : string
 	{
 		return $this->negate
-			? UText::plocalize("Disallowed timestamp", "Disallowed timestamps", count($this->values), null, self::class, $text_options)
-			: UText::plocalize("Allowed timestamp", "Allowed timestamps", count($this->values), null, self::class, $text_options);
+			? UText::plocalize("Disallowed date and time", "Disallowed dates and times", count($this->values), null, self::class, $text_options)
+			: UText::plocalize("Allowed date and time", "Allowed dates and times", count($this->values), null, self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -36,24 +36,24 @@ class Values extends Constraints\Values
 	{
 		if ($this->negate) {
 			/**
-			 * @placeholder values The list of disallowed timestamp values.
-			 * @example The following timestamps are not allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
+			 * @placeholder values The list of disallowed date and time values.
+			 * @example The following dates and times are not allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
 			 */
 			return UText::plocalize(
-				"The following timestamp is not allowed: {{values}}.",
-				"The following timestamps are not allowed: {{values}}.",
+				"The following date and time is not allowed: {{values}}.",
+				"The following dates and times are not allowed: {{values}}.",
 				count($this->values), null, self::class, $text_options, [
 					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
 		/**
-		 * @placeholder values The list of allowed timestamp values.
-		 * @example Only the following timestamps are allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
+		 * @placeholder values The list of allowed date and time values.
+		 * @example Only the following dates and times are allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
 		 */
 		return UText::plocalize(
-			"Only the following timestamp is allowed: {{values}}.",
-			"Only the following timestamps are allowed: {{values}}.",
+			"Only the following date and time is allowed: {{values}}.",
+			"Only the following dates and times are allowed: {{values}}.",
 			count($this->values), null, self::class, $text_options, [
 				'parameters' => ['values' => $this->getString($text_options)]
 			]
@@ -66,12 +66,12 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	protected function evaluateValue(&$value) : bool
 	{
-		return UTime::evaluateTimestamp($value);
+		return UTime::evaluateDateTime($value);
 	}
 	
 	/** {@inheritdoc} */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UTime::stringifyTimestamp($value, $text_options);
+		return UTime::stringifyDateTime($value, $text_options);
 	}
 }

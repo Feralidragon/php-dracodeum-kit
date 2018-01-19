@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Prototypes\Inputs\Timestamp\Prototypes\Modifiers\Constraints;
+namespace Feralygon\Kit\Core\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
@@ -15,10 +15,10 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core timestamp input minimum constraint modifier prototype class.
+ * Core date and time input minimum constraint modifier prototype class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Timestamp
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\DateTime
  */
 class Minimum extends Constraints\Minimum
 {
@@ -26,7 +26,7 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		return UText::localize("Minimum allowed timestamp", self::class, $text_options);
+		return UText::localize("Minimum allowed date and time", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -36,15 +36,15 @@ class Minimum extends Constraints\Minimum
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The minimum allowed value.
-			 * @example Only a timestamp after 2017-01-15 12:45:00 is allowed.
+			 * @example Only a date and time after 2017-01-15 12:45:00 is allowed.
 			 */
-			return UText::localize("Only a timestamp after {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize("Only a date and time after {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
-		 * @example Only a timestamp after or on 2017-01-15 12:45:00 is allowed.
+		 * @example Only a date and time after or on 2017-01-15 12:45:00 is allowed.
 		 */
-		return UText::localize("Only a timestamp after or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize("Only a date and time after or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
 	}
 	
 	
@@ -53,12 +53,12 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	protected function evaluateValue(&$value) : bool
 	{
-		return UTime::evaluateTimestamp($value);
+		return UTime::evaluateDateTime($value);
 	}
 	
 	/** {@inheritdoc} */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UTime::stringifyTimestamp($value, $text_options);
+		return UTime::stringifyDateTime($value, $text_options);
 	}
 }

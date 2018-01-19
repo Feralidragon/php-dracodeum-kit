@@ -12,21 +12,21 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core time utility timestamp coercion failed exception class.
+ * Core time utility date and time coercion failed exception class.
  * 
- * This exception is thrown from the time utility whenever the coercion into a timestamp has failed with a given value.
+ * This exception is thrown from the time utility whenever the coercion into a date and time has failed with a given value.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
  * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
-class TimestampCoercionFailed extends Exception implements ICoercion
+class DateTimeCoercionFailed extends Exception implements ICoercion
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		$message = "Timestamp coercion failed with value {{value}}.";
+		$message = "Date and time coercion failed with value {{value}}.";
 		if ($this->isset('hint_message')) {
 			$message .= "\nHINT: {{hint_message}}";
 		}

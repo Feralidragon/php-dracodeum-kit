@@ -51,11 +51,11 @@ use Feralygon\Kit\Core\Utilities\{
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number [prototype, name = 'number']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Float64 [prototype, name = 'float64' or 'float' or 'double']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer [prototype, name = 'integer' or 'int' or 'uint' or 'int64' or 'uint63' or 'int32' or 'uint32' or 'uint31' or 'int16' or 'uint16' or 'uint15' or 'int8' or 'uint8' or 'uint7']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Enumeration [prototype, name = 'enumeration' or 'enum']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text [prototype, name = 'text' or 'string']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Timestamp [prototype, name = 'timestamp' or 'datetime']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date [prototype, name = 'date']
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time [prototype, name = 'time']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Enumeration [prototype, name = 'enumeration' or 'enum']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\DateTime [prototype, name = 'datetime' or 'timestamp']
  */
 class Input extends Component
 {
@@ -204,22 +204,22 @@ class Input extends Component
 				return new Prototypes\Numbers\Integer(['unsigned' => true, 'bits' => 8] + $properties);
 			case 'uint7':
 				return new Prototypes\Numbers\Integer(['unsigned' => true, 'bits' => 7] + $properties);
-			case 'text':
-				//no break
-			case 'string':
-				return new Prototypes\Text($properties);
-			case 'timestamp':
-				//no break
-			case 'datetime':
-				return new Prototypes\Timestamp($properties);
-			case 'date':
-				return new Prototypes\Date($properties);
-			case 'time':
-				return new Prototypes\Time($properties);
 			case 'enumeration':
 				//no break
 			case 'enum':
 				return new Prototypes\Enumeration($properties);
+			case 'text':
+				//no break
+			case 'string':
+				return new Prototypes\Text($properties);
+			case 'date':
+				return new Prototypes\Date($properties);
+			case 'time':
+				return new Prototypes\Time($properties);
+			case 'datetime':
+				//no break
+			case 'timestamp':
+				return new Prototypes\DateTime($properties);
 		}
 		return null;
 	}

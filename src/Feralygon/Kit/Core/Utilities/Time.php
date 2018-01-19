@@ -142,9 +142,9 @@ final class Time extends Utility
 	}
 	
 	/**
-	 * Evaluate a given value as a timestamp.
+	 * Evaluate a given value as a date and time.
 	 * 
-	 * Only the following types and formats can be evaluated into a timestamp:<br>
+	 * Only the following types and formats can be evaluated into a date and time:<br>
 	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <code>"2017-Jan-01 12:00:00"</code> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
@@ -157,22 +157,22 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to evaluate into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a timestamp.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a date and time.</p>
 	 */
-	final public static function evaluateTimestamp(&$value, ?string $format = null, bool $nullable = false) : bool
+	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
 		try {
-			$value = self::coerceTimestamp($value, $format, $nullable);
-		} catch (Exceptions\TimestampCoercionFailed $exception) {
+			$value = self::coerceDateTime($value, $format, $nullable);
+		} catch (Exceptions\DateTimeCoercionFailed $exception) {
 			return false;
 		}
 		return true;
 	}
 	
 	/**
-	 * Coerce a given value into a timestamp.
+	 * Coerce a given value into a date and time.
 	 * 
-	 * Only the following types and formats can be coerced into a timestamp:<br>
+	 * Only the following types and formats can be coerced into a date and time:<br>
 	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP core <code>strtotime</code> function, such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
@@ -181,18 +181,18 @@ final class Time extends Utility
 	 * @param string|null $format [default = null] <p>The format to coerce into, as supported by the PHP core <code>date</code> function.<br>
 	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\TimestampCoercionFailed
-	 * @return int|string|null <p>The given value coerced into a timestamp.<br>
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\DateTimeCoercionFailed
+	 * @return int|string|null <p>The given value coerced into a date and time.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceTimestamp($value, ?string $format = null, bool $nullable = false)
+	final public static function coerceDateTime($value, ?string $format = null, bool $nullable = false)
 	{
 		//nullable
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\TimestampCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\DateTimeCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
 		}
 		
 		//coerce
@@ -202,9 +202,9 @@ final class Time extends Utility
 				$value = date($format, $value);
 			}
 		} catch (Exceptions\InvalidTimestamp $exception) {
-			throw new Exceptions\TimestampCoercionFailed([
+			throw new Exceptions\DateTimeCoercionFailed([
 				'value' => $value,
-				'hint_message' => "Only the following types and formats can be coerced into a timestamp:\n" . 
+				'hint_message' => "Only the following types and formats can be coerced into a date and time:\n" . 
 					" - a number in seconds since 1970-01-01 00:00:00 UTC, such as: 1483268400 for \"2017-01-01 12:00:00\";\n" . 
 					" - a string as supported by the PHP core \"strtotime\" function, such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\"."
 			]);
@@ -213,25 +213,25 @@ final class Time extends Utility
 	}
 	
 	/**
-	 * Generate a string from a given timestamp.
+	 * Generate a string from a given date and time.
 	 * 
-	 * The returning string represents the given timestamp in order to be shown or printed out in messages.
+	 * The returning string represents the given date and time in order to be shown or printed out in messages.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $timestamp <p>The timestamp to generate from, as supported by the PHP core <code>strtotime</code> function 
+	 * @param int|float|string $datetime <p>The date and time to generate from, as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
 	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The generated string from the given timestamp.</p>
+	 * @return string <p>The generated string from the given date and time.</p>
 	 */
-	final public static function stringifyTimestamp($timestamp, $text_options = null) : string
+	final public static function stringifyDateTime($datetime, $text_options = null) : string
 	{
 		$text_options = TextOptions::load($text_options);
 		$format = 'Y-m-d H:i:s e';
 		
-		//TODO: use Localization to retrieve the correct timestamp format
+		//TODO: use Localization to retrieve the correct date and time format
 		
-		return self::coerceTimestamp($timestamp, $format);
+		return self::coerceDateTime($datetime, $format);
 	}
 	
 	/**
