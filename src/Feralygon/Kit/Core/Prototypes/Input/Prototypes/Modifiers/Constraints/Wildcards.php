@@ -189,7 +189,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			/**
 			 * @placeholder wildcards The list of allowed wildcard matches.
 			 * @tags end-user
-			 * @example Only the following wildcard matches are allowed: "*foo", "bar*" and "*abc*".
+			 * @example Only the following matches are allowed: "*foo", "bar*" and "*abc*".
 			 */
 			$message = UText::plocalize(
 				"Only the following match is allowed: {{wildcards}}.",
