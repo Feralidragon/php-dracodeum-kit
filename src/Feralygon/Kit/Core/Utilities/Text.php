@@ -427,6 +427,28 @@ final class Text extends Utility
 	}
 	
 	/**
+	 * Check if a given string matches any of the given wildcards.
+	 * 
+	 * In any given wildcard, the <samp>*</samp> character matches any number and type of characters, including no characters at all, 
+	 * and is also the only wildcard character recognized.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string <p>The string to check.</p>
+	 * @param string[] $wildcards <p>The wildcards to match against.</p>
+	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive matching.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
+	 */
+	final public static function isAnyWildcardMatch(string $string, array $wildcards, bool $insensitive = false) : bool
+	{
+		foreach ($wildcards as $wildcard) {
+			if (self::isWildcardMatch($string, $wildcard, $insensitive)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Fill a given string with given parameters.
 	 * 
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters.<br>
