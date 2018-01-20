@@ -165,8 +165,8 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	public function getSchemaData()
 	{
 		return [
-			'negate' => $this->negate,
-			'values' => $this->values
+			'values' => $this->values,
+			'negate' => $this->negate
 		];
 	}
 	

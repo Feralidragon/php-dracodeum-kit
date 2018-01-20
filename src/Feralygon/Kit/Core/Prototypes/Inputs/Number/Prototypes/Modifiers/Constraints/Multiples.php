@@ -170,8 +170,8 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	public function getSchemaData()
 	{
 		return [
-			'negate' => $this->negate,
-			'multiples' => $this->multiples
+			'multiples' => $this->multiples,
+			'negate' => $this->negate
 		];
 	}
 }

@@ -302,15 +302,15 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	public function getSchemaData()
 	{
 		return [
-			'negate' => $this->negate,
 			'minimum' => [
-				'exclusive' => $this->min_exclusive,
-				'value' => $this->min_value
+				'value' => $this->min_value,
+				'exclusive' => $this->min_exclusive
 			],
 			'maximum' => [
-				'exclusive' => $this->max_exclusive,
-				'value' => $this->max_value
-			]
+				'value' => $this->max_value,
+				'exclusive' => $this->max_exclusive
+			],
+			'negate' => $this->negate
 		];
 	}
 	

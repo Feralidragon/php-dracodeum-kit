@@ -178,13 +178,13 @@ class LengthRange extends Constraint implements IPrototypeProperties, IName, IPr
 	public function getSchemaData()
 	{
 		return [
-			'unicode' => $this->unicode,
 			'minimum' => [
 				'length' => $this->min_length
 			],
 			'maximum' => [
 				'length' => $this->max_length
-			]
+			],
+			'unicode' => $this->unicode
 		];
 	}
 }

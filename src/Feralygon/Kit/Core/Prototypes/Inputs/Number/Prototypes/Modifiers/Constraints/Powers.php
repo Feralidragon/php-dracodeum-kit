@@ -166,8 +166,8 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	public function getSchemaData()
 	{
 		return [
-			'negate' => $this->negate,
-			'powers' => $this->powers
+			'powers' => $this->powers,
+			'negate' => $this->negate
 		];
 	}
 }

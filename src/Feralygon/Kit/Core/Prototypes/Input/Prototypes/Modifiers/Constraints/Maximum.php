@@ -151,8 +151,8 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	public function getSchemaData()
 	{
 		return [
-			'exclusive' => $this->exclusive,
-			'value' => $this->value
+			'value' => $this->value,
+			'exclusive' => $this->exclusive
 		];
 	}
 	

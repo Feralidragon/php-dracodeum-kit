@@ -152,8 +152,8 @@ class MaxLength extends Constraint implements IPrototypeProperties, IName, IPrio
 	public function getSchemaData()
 	{
 		return [
-			'unicode' => $this->unicode,
-			'length' => $this->length
+			'length' => $this->length,
+			'unicode' => $this->unicode
 		];
 	}
 }

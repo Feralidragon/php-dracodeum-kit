@@ -152,8 +152,8 @@ class Length extends Constraint implements IPrototypeProperties, IName, IPriorit
 	public function getSchemaData()
 	{
 		return [
-			'unicode' => $this->unicode,
-			'length' => $this->length
+			'length' => $this->length,
+			'unicode' => $this->unicode
 		];
 	}
 }
