@@ -24,7 +24,7 @@ class GenerateInvalidInterval extends Generate
 	public function getDefaultMessage() : string
 	{
 		return "Invalid interval {{interval}}.\n" . 
-			"HINT: Only values greater than 0 are allowed.";
+			"HINT: Only a value greater than 0 is allowed.";
 	}
 	
 	

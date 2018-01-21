@@ -25,7 +25,7 @@ class InvalidStackOffset extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid stack offset {{offset}}.\n" . 
-			"HINT: Only values greater than or equal to 0 are allowed.";
+			"HINT: Only a value greater than or equal to 0 is allowed.";
 	}
 	
 	

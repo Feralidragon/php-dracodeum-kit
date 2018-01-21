@@ -25,7 +25,7 @@ class MparseInvalidFieldPattern extends Mparse
 	public function getDefaultMessage() : string
 	{
 		return "Invalid pattern {{pattern}} for field {{field}}.\n" . 
-			"HINT: Only valid regular expressions are allowed.";
+			"HINT: Only a valid regular expression is allowed.";
 	}
 	
 	

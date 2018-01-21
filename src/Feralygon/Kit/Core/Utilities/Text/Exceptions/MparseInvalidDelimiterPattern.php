@@ -24,7 +24,7 @@ class MparseInvalidDelimiterPattern extends Mparse
 	public function getDefaultMessage() : string
 	{
 		return "Invalid delimiter pattern {{pattern}}.\n" . 
-			"HINT: Only valid regular expressions are allowed.";
+			"HINT: Only a valid regular expression is allowed.";
 	}
 	
 	

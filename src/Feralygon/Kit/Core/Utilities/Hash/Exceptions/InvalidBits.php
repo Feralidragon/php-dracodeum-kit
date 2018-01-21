@@ -25,7 +25,7 @@ class InvalidBits extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid bits {{bits}}.\n" . 
-			"HINT: Only multiples of 8 and values greater than 0 are allowed.";
+			"HINT: Only a multiple of 8 and a value greater than 0 is allowed.";
 	}
 	
 	

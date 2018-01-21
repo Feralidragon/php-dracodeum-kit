@@ -25,7 +25,7 @@ class InvalidDepth extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid depth {{depth}}.\n" . 
-			"HINT: Only null or values greater than or equal to 0 are allowed.";
+			"HINT: Only null or a value greater than or equal to 0 is allowed.";
 	}
 	
 	

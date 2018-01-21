@@ -24,7 +24,7 @@ class IndentateInvalidLevel extends Indentate
 	public function getDefaultMessage() : string
 	{
 		return "Invalid level {{level}}.\n" . 
-			"HINT: Only values greater than or equal to 0 are allowed.";
+			"HINT: Only a value greater than or equal to 0 is allowed.";
 	}
 	
 	

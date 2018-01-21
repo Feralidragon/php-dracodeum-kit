@@ -25,7 +25,7 @@ class WrandomInvalidValueWeight extends Wrandom
 	public function getDefaultMessage() : string
 	{
 		return "Invalid weight {{weight}} for value {{value}}.\n" . 
-			"HINT: Only weights greater than or equal to 0 are allowed.";
+			"HINT: Only a weight greater than or equal to 0 is allowed.";
 	}
 	
 	

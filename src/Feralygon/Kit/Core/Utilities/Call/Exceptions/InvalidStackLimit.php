@@ -25,7 +25,7 @@ class InvalidStackLimit extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid stack limit {{limit}}.\n" . 
-			"HINT: Only null or values greater than 0 are allowed.";
+			"HINT: Only null or a value greater than 0 is allowed.";
 	}
 	
 	

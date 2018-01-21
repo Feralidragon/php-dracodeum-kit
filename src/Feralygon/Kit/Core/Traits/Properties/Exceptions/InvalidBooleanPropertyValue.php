@@ -21,6 +21,6 @@ class InvalidBooleanPropertyValue extends InvalidPropertyValue
 	public function getDefaultMessage() : string
 	{
 		return "Invalid boolean value {{value}} for property {{name}} in object {{object}}.\n" . 
-			"HINT: Only boolean values are allowed.";
+			"HINT: Only a boolean value is allowed.";
 	}
 }
