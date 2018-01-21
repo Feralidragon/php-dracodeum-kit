@@ -21,22 +21,30 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
+ * @property-read string|null $error_code [default = null] <p>The error code.</p>
  * @property-read string|null $error_message [default = null] <p>The error message.</p>
- * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class CoercionFailed extends Exception implements ICoercion
 {
+	//Public constants
+	/** Null error code. */
+	public const ERROR_CODE_NULL = 'NULL';
+	
+	/** Invalid type error code. */
+	public const ERROR_CODE_INVALID_TYPE = 'INVALID_TYPE';
+	
+	/** Build exception error code. */
+	public const ERROR_CODE_BUILD_EXCEPTION = 'BUILD_EXCEPTION';
+	
+	
+	
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		$message = $this->isset('error_message')
+		return $this->isset('error_message')
 			? "Coercion failed with value {{value}} using component {{component}}, with the following error: {{error_message}}"
 			: "Coercion failed with value {{value}} using component {{component}}.";
-		if ($this->isset('hint_message')) {
-			$message .= "\nHINT: {{hint_message}}";
-		}
-		return $message;
 	}
 	
 	
@@ -57,9 +65,13 @@ class CoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
+			case 'error_code':
+				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_INVALID_TYPE,
+					self::ERROR_CODE_BUILD_EXCEPTION
+				], true));
 			case 'error_message':
-				//no break
-			case 'hint_message':
 				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
@@ -70,8 +82,6 @@ class CoercionFailed extends Exception implements ICoercion
 	{
 		if ($placeholder === 'error_message' && isset($value)) {
 			return UText::uncapitalize($value, true);
-		} elseif ($placeholder === 'hint_message' && isset($value)) {
-			return $value;
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}

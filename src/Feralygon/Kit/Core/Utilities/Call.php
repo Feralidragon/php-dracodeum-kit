@@ -612,20 +612,28 @@ final class Call extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
-		} elseif (is_callable($value)) {
-			if (isset($template) && self::signature($value) !== self::signature($template)) {
-				throw new Exceptions\CoercionFailed([
-					'value' => $value, 
-					'hint_message' => Text::fill(
-						"Only a callable value with the following signature is allowed: {{template_signature}}.",
-						['template_signature' => self::signature($template)]
-					)
-				]);
-			}
-			return \Closure::fromCallable($value);
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_callable($value)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a callable value is allowed."
+			]);
+		} elseif (isset($template) && self::signature($value) !== self::signature($template)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,
+				'error_message' => Text::fill(
+					"Only a callable value with the following signature is allowed: {{template_signature}}.",
+					['template_signature' => self::signature($template)]
+				)
+			]);
 		}
-		throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "Only a callable value is allowed."]);
+		return \Closure::fromCallable($value);
 	}
 	
 	/**

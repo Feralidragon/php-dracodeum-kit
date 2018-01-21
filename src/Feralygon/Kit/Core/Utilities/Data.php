@@ -1531,33 +1531,49 @@ final class Data extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
-		} elseif (is_array($value)) {
-			if ($non_empty && empty($value)) {
-				throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "An empty array value is not allowed."]);
-			} elseif ($non_associative && self::isAssociative($value)) {
-				throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "An associative array value is not allowed."]);
-			} elseif (isset($evaluator)) {
-				Call::assertSignature('evaluator', $evaluator, function (&$key, &$value) : bool {}, true);
-				$evaluator = \Closure::fromCallable($evaluator);
-				$array = [];
-				foreach ($value as $k => $v) {
-					if ($evaluator($k, $v)) {
-						$array[$k] = $v;
-					} else {
-						throw new Exceptions\CoercionFailed([
-							'value' => $value, 
-							'hint_message' => Text::fill(
-								"The array value element at key {{key}} with value {{value}} is not valid.",
-								['key' => Text::stringify($k), 'value' => Text::stringify($v)]
-							)
-						]);
-					}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_array($value)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only an array value is allowed."
+			]);
+		} elseif ($non_empty && empty($value)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_EMPTY,
+				'error_message' => "An empty array value is not allowed."
+			]);
+		} elseif ($non_associative && self::isAssociative($value)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_ASSOCIATIVE,
+				'error_message' => "An associative array value is not allowed."
+			]);
+		} elseif (isset($evaluator)) {
+			Call::assertSignature('evaluator', $evaluator, function (&$key, &$value) : bool {}, true);
+			$evaluator = \Closure::fromCallable($evaluator);
+			$array = [];
+			foreach ($value as $k => $v) {
+				if ($evaluator($k, $v)) {
+					$array[$k] = $v;
+				} else {
+					throw new Exceptions\CoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_ELEMENT,
+						'error_message' => Text::fill(
+							"The array value element at key {{key}} with value {{value}} is not valid.",
+							['key' => Text::stringify($k), 'value' => Text::stringify($v)]
+						)
+					]);
 				}
-				return $array;
 			}
-			return $value;
+			return $array;
 		}
-		throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "Only an array value is allowed."]);
+		return $value;
 	}
 }

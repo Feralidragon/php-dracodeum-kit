@@ -233,14 +233,20 @@ abstract class Component implements \ArrayAccess
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'component' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
 		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,
-				'hint_message' => "Only a component instance, prototype instance, class or name can be coerced into an instance."
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a component instance, prototype instance, class or name can be coerced into an instance."
 			]);
 		} elseif (is_object($value)) {
 			$prototype_properties = [];
@@ -252,7 +258,12 @@ abstract class Component implements \ArrayAccess
 			try {
 				return UType::coerceObject($builder($value, $prototype_properties, $properties), static::class);
 			} catch (UTypeExceptions\ObjectCoercionFailed $exception) {
-				throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
+				throw new Exceptions\CoercionFailed([
+					'value' => $value,
+					'component' => static::class,
+					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+					'error_message' => $exception->getMessage()
+				]);
 			}
 		}
 		
@@ -260,9 +271,17 @@ abstract class Component implements \ArrayAccess
 		try {
 			return new static($value, $prototype_properties, $properties);
 		} catch (\Exception $exception) {
-			throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class, 'error_message' => $exception->getMessage()]);
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'component' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
 		}
-		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+		throw new Exceptions\CoercionFailed([
+			'value' => $value,
+			'component' => static::class
+		]);
 	}
 	
 	

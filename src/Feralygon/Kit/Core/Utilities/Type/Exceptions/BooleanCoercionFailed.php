@@ -9,7 +9,10 @@ namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * Core type utility boolean coercion failed exception class.
@@ -18,19 +21,27 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
- * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
+ * @property-read string|null $error_code [default = null] <p>The error code.</p>
+ * @property-read string|null $error_message [default = null] <p>The error message.</p>
  */
 class BooleanCoercionFailed extends Exception implements ICoercion
 {
+	//Public constants
+	/** Null error code. */
+	public const ERROR_CODE_NULL = 'NULL';
+	
+	/** Invalid error code. */
+	public const ERROR_CODE_INVALID = 'INVALID';
+	
+	
+	
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		$message = "Boolean coercion failed with value {{value}}.";
-		if ($this->isset('hint_message')) {
-			$message .= "\nHINT: {{hint_message}}";
-		}
-		return $message;
+		return $this->isset('error_message')
+			? "Boolean coercion failed with value {{value}}, with the following error: {{error_message}}"
+			: "Boolean coercion failed with value {{value}}.";
 	}
 	
 	
@@ -51,7 +62,12 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 		switch ($name) {
 			case 'value':
 				return true;
-			case 'hint_message':
+			case 'error_code':
+				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_INVALID
+				], true));
+			case 'error_message':
 				return UType::evaluateString($value, true);
 		}
 		return null;
@@ -63,8 +79,8 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'hint_message' && isset($value)) {
-			return $value;
+		if ($placeholder === 'error_message' && isset($value)) {
+			return UText::uncapitalize($value, true);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}

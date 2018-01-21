@@ -172,7 +172,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\BooleanCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\BooleanCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (is_bool($value)) {
 			return $value;
 		} elseif (is_int($value) && ($value === 0 || $value === 1)) {
@@ -187,7 +191,8 @@ final class Type extends Utility
 		}
 		throw new Exceptions\BooleanCoercionFailed([
 			'value' => $value,
-			'hint_message' => "Only the following types and formats can be coerced into a boolean:\n" . 
+			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a boolean:\n" . 
 				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
 				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
 				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
@@ -249,7 +254,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\NumberCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\NumberCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (is_int($value)) {
 			return $value;
 		} elseif (is_float($value)) {
@@ -277,7 +286,8 @@ final class Type extends Utility
 		}
 		throw new Exceptions\NumberCoercionFailed([
 			'value' => $value,
-			'hint_message' => "Only the following types and formats can be coerced into a number:\n" . 
+			'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a number:\n" . 
 				" - an integer, such as: 123000 for 123000;\n" . 
 				" - a float, such as: 123000.45 for 123000.45;\n" . 
 				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
@@ -343,13 +353,18 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\IntegerCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\IntegerCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (self::evaluateNumber($value) && is_int($value)) {
 			return $value;
 		}
 		throw new Exceptions\IntegerCoercionFailed([
 			'value' => $value,
-			'hint_message' => "Only the following types and formats can be coerced into an integer:\n" . 
+			'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into an integer:\n" . 
 				" - an integer, such as: 123000 for 123000;\n" . 
 				" - a whole float, such as: 123000.0 for 123000;\n" . 
 				" - a numeric string, such as: \"123000\" for 123000;\n" . 
@@ -415,13 +430,18 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\FloatCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\FloatCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (self::evaluateNumber($value)) {
 			return (float)$value;
 		}
 		throw new Exceptions\FloatCoercionFailed([
 			'value' => $value,
-			'hint_message' => "Only the following types and formats can be coerced into a float:\n" . 
+			'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a float:\n" . 
 				" - an integer, such as: 123000 for 123000.0;\n" . 
 				" - a float, such as: 123000.45 for 123000.45;\n" . 
 				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
@@ -471,7 +491,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\StringCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\StringCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		} elseif (is_string($value)) {
 			return $value;
 		} elseif (is_int($value) || is_float($value)) {
@@ -479,7 +503,8 @@ final class Type extends Utility
 		}
 		throw new Exceptions\StringCoercionFailed([
 			'value' => $value,
-			'hint_message' => "Only a string, integer or float can be coerced into a string."
+			'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only a string, integer or float can be coerced into a string."
 		]);
 	}
 	
@@ -524,7 +549,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\ClassCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		}
 		
 		//coerce
@@ -534,7 +563,8 @@ final class Type extends Utility
 			if (isset($base_class) && !self::isA($class, $base_class)) {
 				throw new Exceptions\ClassCoercionFailed([
 					'value' => $value,
-					'hint_message' => Text::fill(
+					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
 						"Only a class which is or extends from {{base_class}} is allowed.",
 						['base_class' => Text::stringify($base_class)]
 					)
@@ -544,7 +574,8 @@ final class Type extends Utility
 		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
 			throw new Exceptions\ClassCoercionFailed([
 				'value' => $value,
-				'hint_message' => "Only a class string or object can be coerced into a class."
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into a class."
 			]);
 		}
 		return $value;
@@ -593,7 +624,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\ObjectCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\ObjectCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		}
 		
 		//coerce
@@ -603,7 +638,8 @@ final class Type extends Utility
 			if (isset($base_class) && !self::isA($class, $base_class)) {
 				throw new Exceptions\ObjectCoercionFailed([
 					'value' => $value,
-					'hint_message' => Text::fill(
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
 						"Only an object which is or extends from {{base_class}} is allowed.",
 						['base_class' => Text::stringify($base_class)]
 					)
@@ -614,7 +650,8 @@ final class Type extends Utility
 				} catch (\Exception $exception) {
 					throw new Exceptions\ObjectCoercionFailed([
 						'value' => $value,
-						'hint_message' => Text::fill(
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
 							"An exception {{exception}} was thrown while instantiating class {{class}}, with the following message: {{message}}", [
 								'class' => Text::stringify($class),
 								'exception' => Text::stringify($exception),
@@ -627,7 +664,8 @@ final class Type extends Utility
 		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
 			throw new Exceptions\ObjectCoercionFailed([
 				'value' => $value,
-				'hint_message' => "Only a class string or object can be coerced into an object."
+				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into an object."
 			]);
 		}
 		return $value;
@@ -674,7 +712,11 @@ final class Type extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\ObjectClassCoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\ObjectClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
 		}
 		
 		//coerce
@@ -684,7 +726,8 @@ final class Type extends Utility
 			if (isset($base_class) && !self::isA($class, $base_class)) {
 				throw new Exceptions\ObjectClassCoercionFailed([
 					'value' => $value,
-					'hint_message' => Text::fill(
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
 						"Only a class or object which is or extends from {{base_class}} is allowed.",
 						['base_class' => Text::stringify($base_class)]
 					)
@@ -693,7 +736,8 @@ final class Type extends Utility
 		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
 			throw new Exceptions\ObjectClassCoercionFailed([
 				'value' => $value,
-				'hint_message' => "Only a class string or object can be coerced into an object or class."
+				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into an object or class."
 			]);
 		}
 		return $value;

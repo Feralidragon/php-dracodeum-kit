@@ -75,19 +75,28 @@ final class Hash extends Utility
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\CoercionFailed(['value' => $value, 'hint_message' => "A null value is not allowed."]);
-		} elseif (is_string($value)) {
-			if (strlen($value) === $bits / 4 && preg_match('/^[\da-f]+$/i', $value)) {
-				return strtolower($value);
-			} elseif (strlen(rtrim($value, '=')) === (int)ceil($bits / 6) && preg_match('/^[\w\-+\/]+\={0,2}$/', $value)) {
-				return bin2hex(Base64::decode($value));
-			} elseif (strlen($value) === $bits / 8) {
-				return bin2hex($value);
-			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_string($value)) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a hash value given as a string is allowed."
+			]);
+		} elseif (strlen($value) === $bits / 4 && preg_match('/^[\da-f]+$/i', $value)) {
+			return strtolower($value);
+		} elseif (strlen(rtrim($value, '=')) === (int)ceil($bits / 6) && preg_match('/^[\w\-+\/]+\={0,2}$/', $value)) {
+			return bin2hex(Base64::decode($value));
+		} elseif (strlen($value) === $bits / 8) {
+			return bin2hex($value);
 		}
 		throw new Exceptions\CoercionFailed([
-			'value' => $value, 
-			'hint_message' => Text::pfill(
+			'value' => $value,
+			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => Text::pfill(
 				"Only a hash value of {{bits}} bit is allowed, for which only the following types and formats can be coerced into such:\n" . 
 					" - a hexadecimal notation string;\n" . 
 					" - a Base64 or an URL-safe Base64 encoded string;\n" . 

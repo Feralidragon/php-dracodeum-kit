@@ -162,7 +162,7 @@ abstract class Enumeration
 	/**
 	 * Evaluate a given value as an enumerated element value.
 	 * 
-	 * Only an enumerated element can be evaluated into an enumerated element value.
+	 * Only an enumerated element given as an integer, float or string can be evaluated into an enumerated element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -182,7 +182,7 @@ abstract class Enumeration
 	/**
 	 * Coerce a given value into an enumerated element value.
 	 * 
-	 * Only an enumerated element can be coerced into an enumerated element value.
+	 * Only an enumerated element given as an integer, float or string can be coerced into an enumerated element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -197,21 +197,34 @@ abstract class Enumeration
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\ValueCoercionFailed(['enumeration' => static::class, 'value' => $value, 'hint_message' => "A null value is not allowed."]);
-		} elseif ((is_string($value) && static::hasName($value)) || ((is_int($value) || is_float($value) || is_string($value)) && static::hasValue($value))) {
+			throw new Exceptions\ValueCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_int($value) && !is_float($value) && !is_string($value)) {
+			throw new Exceptions\ValueCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only an enumerated element given as an integer, float or string can be coerced into an enumerated element value."
+			]);
+		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
 			return static::getValue($value);
 		}
 		throw new Exceptions\ValueCoercionFailed([
 			'enumeration' => static::class,
 			'value' => $value,
-			'hint_message' => "Only an enumerated element can be coerced into an enumerated element value."
+			'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NOT_FOUND,
+			'error_message' => "No such enumerated element has been found."
 		]);
 	}
 	
 	/**
 	 * Evaluate a given value as an enumerated element name.
 	 * 
-	 * Only an enumerated element can be evaluated into an enumerated element name.
+	 * Only an enumerated element given as an integer, float or string can be evaluated into an enumerated element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -231,7 +244,7 @@ abstract class Enumeration
 	/**
 	 * Coerce a given value into an enumerated element name.
 	 * 
-	 * Only an enumerated element can be coerced into an enumerated element name.
+	 * Only an enumerated element given as an integer, float or string can be coerced into an enumerated element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -246,16 +259,29 @@ abstract class Enumeration
 			if ($nullable) {
 				return null;
 			}
-			throw new Exceptions\NameCoercionFailed(['enumeration' => static::class, 'value' => $value, 'hint_message' => "A null value is not allowed."]);
+			throw new Exceptions\NameCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_int($value) && !is_float($value) && !is_string($value)) {
+			throw new Exceptions\NameCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only an enumerated element given as an integer, float or string can be coerced into an enumerated element name."
+			]);
 		} elseif (is_string($value) && static::hasName($value)) {
 			return $value;
-		} elseif ((is_int($value) || is_float($value) || is_string($value)) && static::hasValue($value)) {
+		} elseif (static::hasValue($value)) {
 			return static::getName($value);
 		}
 		throw new Exceptions\NameCoercionFailed([
 			'enumeration' => static::class,
 			'value' => $value,
-			'hint_message' => "Only an enumerated element can be coerced into an enumerated element name."
+			'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NOT_FOUND,
+			'error_message' => "No such enumerated element has been found."
 		]);
 	}
 	
