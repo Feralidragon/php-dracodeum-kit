@@ -26,6 +26,6 @@ class Mparse extends Parse
 				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 		}
-		return parent::evaluate($name, $value);
+		return parent::evaluateProperty($name, $value);
 	}
 }

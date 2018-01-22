@@ -19,27 +19,24 @@ use Feralygon\Kit\Root\Locale;
 /**
  * Core text utility class.
  * 
- * This utility implements a set of methods used to manipulate and retrieve information from text or strings.
+ * This utility implements a set of methods used to manipulate and retrieve information from text and strings.
  * 
  * @since 1.0.0
  */
 final class Text extends Utility
 {
 	//Public constants
-	/** Do not quote strings during stringification (flag). */
-	public const STRING_NO_QUOTES = 0x01;
+	/** Convert non-associative arrays into comma-separated lists during stringification. */
+	public const STRING_NONASSOC_MODE_COMMA_LIST = 'COMMA_LIST';
 	
-	/** Always prepend the type for every value during stringification (flag). */
-	public const STRING_PREPEND_TYPE = 0x02;
+	/** Convert non-associative arrays into comma-separated lists, with an "and" conjunction for the last two elements, during stringification. */
+	public const STRING_NONASSOC_MODE_COMMA_LIST_AND = 'COMMA_LIST_AND';
 	
-	/** "Or" conjunction for non-associative arrays during stringification (flag). */
-	public const STRING_NONASSOC_CONJUNCTION_OR = 0x04;
+	/** Convert non-associative arrays into comma-separated lists, with an "or" conjunction for the last two elements, during stringification. */
+	public const STRING_NONASSOC_MODE_COMMA_LIST_OR = 'COMMA_LIST_OR';
 	
-	/** "Nor" conjunction for non-associative arrays during stringification (flag). */
-	public const STRING_NONASSOC_CONJUNCTION_NOR = 0x08;
-	
-	/** "And" conjunction for non-associative arrays during stringification (flag). */
-	public const STRING_NONASSOC_CONJUNCTION_AND = 0x10;
+	/** Convert non-associative arrays into comma-separated lists, with a "nor" conjunction for the last two elements, during stringification. */
+	public const STRING_NONASSOC_MODE_COMMA_LIST_NOR = 'COMMA_LIST_NOR';
 	
 	/** Capitalize first word during unslugification (flag). */
 	public const UNSLUG_CAPITALIZE_FIRST = 0x01;
@@ -95,8 +92,8 @@ final class Text extends Utility
 	 * Generate a string from a given value.
 	 * 
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
-	 * Scalar values retain their full representation, while objects are represented only by their class names at most, and resources by their ids, 
-	 * and arrays are represented as lists or structures depending on whether they are associative or not.
+	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, resources by their ids, 
+	 * and arrays as lists or structures depending on whether or not they are associative.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
@@ -110,137 +107,167 @@ final class Text extends Utility
 		//initialize
 		$text_options = TextOptions::load($text_options);
 		$options = Options\Stringify::load($options);
-		$is_none = $text_options->info_scope === EInfoScope::NONE;
 		$is_technical = $text_options->info_scope === EInfoScope::TECHNICAL;
 		$is_enduser = $text_options->info_scope === EInfoScope::ENDUSER;
+		$prepend_type = !$is_enduser && $options->prepend_type;
 		
 		//null
 		if (!isset($value)) {
-			return $is_enduser ? '' : '(null)';
-		}
-		
-		//integer or float
-		if (is_int($value) || is_float($value)) {
-			$string = (string)$value;
-			return ($options->flags & self::STRING_PREPEND_TYPE) ? (is_int($value) ? "(integer){$string}" : "(float){$string}") : $string;
+			if ($is_enduser) {
+				/**
+				 * @description Null value expression, as a text representation of NULL for the end-user.
+				 * @tags end-user
+				 */
+				return self::localize("NULL", self::class, $text_options);
+			}
+			return 'NULL';
 		}
 		
 		//boolean
 		if (is_bool($value)) {
-			$string = '';
 			if ($is_enduser) {
 				if ($value) {
 					/**
 					 * @description Affirmative expression, as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
 					 * @tags end-user
 					 */
-					$string = self::localize("yes", self::class, $text_options);
-				} else {
-					/**
-					 * @description Negative expression, as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
-					 * @tags end-user
-					 */
-					$string = self::localize("no", self::class, $text_options);
+					return self::localize("YES", self::class, $text_options);
 				}
-			} else {
-				$string = $value ? 'true' : 'false';
+				/**
+				 * @description Negative expression, as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
+				 * @tags end-user
+				 */
+				return self::localize("NO", self::class, $text_options);
 			}
-			return ($options->flags & self::STRING_PREPEND_TYPE) ? "(boolean){$string}" : $string;
+			$string = $value ? 'TRUE' : 'FALSE';
+			return $prepend_type ? '(boolean)' . strtolower($string) : $string;
+		}
+		
+		//integer or float
+		if (is_int($value) || is_float($value)) {
+			$string = (string)$value;
+			return $prepend_type ? (is_int($value) ? "(integer){$string}" : "(float){$string}") : $string;
 		}
 		
 		//string
 		if (is_string($value)) {
-			$string = ($options->flags & self::STRING_NO_QUOTES) ? $value : "\"{$value}\"";
-			return ($options->flags & self::STRING_PREPEND_TYPE) ? "(string){$string}" : $string;
+			$string = $value;
+			if ($prepend_type || $options->quote_strings) {
+				$string = $is_enduser ? "\u{201c}{$string}\u{201d}" : "\"{$string}\"";
+			}
+			return $prepend_type ? "(string){$string}" : $string;
 		}
 		
 		//object
 		if (is_object($value)) {
-			return '(object)' . ($is_enduser || $is_technical ? crc32(get_class($value)) : get_class($value));
+			if ($is_enduser) {
+				/**
+				 * @description An internal object expression, as a text representation of an object for the end-user, for whom only its id may be relevant for bug reporting purposes.
+				 * @tags end-user
+				 * @example OBJECT(294828143)
+				 */
+				return self::localize("OBJECT({{id}})", self::class, $text_options, ['parameters' => ['id' => crc32(get_class($value))]]);
+			} elseif ($is_technical) {
+				return self::fill("OBJECT({{id}})", ['id' => crc32(get_class($value))]);
+			}
+			return ($prepend_type ? '(object)' : 'instance of ') . get_class($value);
 		}
 		
 		//resource
 		if (is_resource($value)) {
-			return '(resource)#' . (int)$value;
+			$resource_id = (int)$value;
+			if ($is_enduser) {
+				/**
+				 * @description An internal resource expression, as a text representation of a resource for the end-user, for whom only its id may be relevant for bug reporting purposes.
+				 * @tags end-user
+				 * @example RESOURCE(32)
+				 */
+				return self::localize("RESOURCE({{id}})", self::class, $text_options, ['parameters' => ['id' => $resource_id]]);
+			} elseif ($is_technical) {
+				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
+			}
+			return ($prepend_type ? '(resource)#' : 'resource #') . $resource_id;
 		}
 		
 		//array
 		if (is_array($value)) {
-			//empty
-			if (empty($value)) {
-				return ($options->flags & self::STRING_PREPEND_TYPE) ? '(array)[]' : ($is_none ? '[]' : '');
-			}
-			
 			//strings
 			$strings = [];
 			$is_associative = Data::isAssociative($value);
 			foreach ($value as $k => $v) {
 				$v_string = self::stringify($v, $text_options, $options);
 				if ($is_associative) {
-					if (!($options->flags & self::STRING_NO_QUOTES) && ($is_none || preg_match('/[\s:="{}\[\],]/', $k))) {
-						$k = "\"{$k}\"";
-					}
-					$v_string = "{$k}: {$v_string}";
+					$v_string = self::stringify($k, $text_options, $options) . ": {$v_string}";
 				}
 				$strings[] = $v_string;
 				unset($v_string);
 			}
 			
-			//string
-			$string = '';
+			//associative
 			if ($is_associative) {
-				$string = "\n" . self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ') . "\n";
-				if (!$is_enduser || ($options->flags & self::STRING_PREPEND_TYPE)) {
-					$string = "{{$string}}";
+				$string = self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ');
+				if (!$is_enduser) {
+					$string = "{\n{$string}\n}";
 				}
-			} elseif ($options->flags & (self::STRING_NONASSOC_CONJUNCTION_OR | self::STRING_NONASSOC_CONJUNCTION_NOR | self::STRING_NONASSOC_CONJUNCTION_AND)) {
+				return $prepend_type ? "(array){$string}" : $string;
+			}
+			
+			//non-associative (initialize)
+			$non_assoc_mode = $options->non_assoc_mode;
+			if (!isset($non_assoc_mode) && $is_enduser) {
+				$non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST;
+			}
+			if (empty($value)) {
+				return isset($non_assoc_mode) ? '' : ($prepend_type ? '(array)[]' : '[]');
+			}
+			
+			//non-associative (with mode)
+			if (isset($non_assoc_mode)) {
 				$last_string = array_pop($strings);
 				if (empty($strings)) {
-					$string = $last_string;
-				} else {
-					$list_string = implode(', ', $strings);
-					if ($options->flags & self::STRING_NONASSOC_CONJUNCTION_OR) {
-						/**
-						 * @description Usage of the "or" conjunction in a list, like so: "w, x, y or z".
-						 * @placeholder list The comma separated list of elements.
-						 * @placeholder last The last element of the list.
-						 * @example "foo", "bar" or "zen"
-						 */
-						$string = self::localize("{{list}} or {{last}}", self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]);
-					} elseif ($options->flags & self::STRING_NONASSOC_CONJUNCTION_NOR) {
-						/**
-						 * @description Usage of the "nor" conjunction in a list, like so: "w, x, y nor z".
-						 * @placeholder list The comma separated list of elements.
-						 * @placeholder last The last element of the list.
-						 * @example "foo", "bar" nor "zen"
-						 */
-						$string = self::localize("{{list}} nor {{last}}", self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]);
-					} elseif ($options->flags & self::STRING_NONASSOC_CONJUNCTION_AND) {
-						/**
-						 * @description Usage of the "and" conjunction in a list, like so: "w, x, y and z".
-						 * @placeholder list The comma separated list of elements.
-						 * @placeholder last The last element of the list.
-						 * @example "foo", "bar" and "zen"
-						 */
-						$string = self::localize("{{list}} and {{last}}", self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]);
-					}
+					return $last_string;
 				}
-				if ($options->flags & self::STRING_PREPEND_TYPE) {
-					$string = "[{$string}]";
+				$list_string = implode(', ', $strings);
+				if ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_AND) {
+					/**
+					 * @description Usage of the "and" conjunction in a list, like so: "w, x, y and z".
+					 * @placeholder list The comma separated list of elements.
+					 * @placeholder last The last element of the list.
+					 * @example "foo", "bar" and "zen"
+					 */
+					return self::localize("{{list}} and {{last}}", self::class, $text_options, [
+						'parameters' => ['list' => $list_string, 'last' => $last_string]
+					]);
+				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_OR) {
+					/**
+					 * @description Usage of the "or" conjunction in a list, like so: "w, x, y or z".
+					 * @placeholder list The comma separated list of elements.
+					 * @placeholder last The last element of the list.
+					 * @example "foo", "bar" or "zen"
+					 */
+					return self::localize("{{list}} or {{last}}", self::class, $text_options, [
+						'parameters' => ['list' => $list_string, 'last' => $last_string]
+					]);
+				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_NOR) {
+					/**
+					 * @description Usage of the "nor" conjunction in a list, like so: "w, x, y nor z".
+					 * @placeholder list The comma separated list of elements.
+					 * @placeholder last The last element of the list.
+					 * @example "foo", "bar" nor "zen"
+					 */
+					return self::localize("{{list}} nor {{last}}", self::class, $text_options, [
+						'parameters' => ['list' => $list_string, 'last' => $last_string]
+					]);
 				}
-			} else {
-				$string = implode(', ', $strings);
-				if (!$is_enduser || ($options->flags & self::STRING_PREPEND_TYPE)) {
-					$string = "[{$string}]";
-				}
+				return "{$list_string}, {$last_string}";
 			}
-			return ($options->flags & self::STRING_PREPEND_TYPE) ? "(array){$string}" : $string;
+			
+			//non-associative
+			$string = implode(', ', $strings);
+			if (!$is_enduser) {
+				$string = "[{$string}]";
+			}
+			return $prepend_type ? "(array){$string}" : $string;
 		}
 		
 		//exception
