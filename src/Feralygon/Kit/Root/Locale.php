@@ -88,7 +88,7 @@ final class Locale
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
-	 * Any parameter given as neither a string nor a number is stringified.<br>
+	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
 	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
@@ -155,7 +155,7 @@ final class Locale
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
-	 * Any parameter given as neither a string nor a number is stringified.<br>
+	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
 	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
