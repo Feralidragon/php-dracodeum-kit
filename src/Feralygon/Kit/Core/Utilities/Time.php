@@ -237,7 +237,7 @@ final class Time extends Utility
 	 */
 	final public static function stringifyDateTime($datetime, $text_options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d H:i:s e';
 		
 		//TODO: use Localization to retrieve the correct date and time format
@@ -341,7 +341,7 @@ final class Time extends Utility
 	 */
 	final public static function stringifyDate($date, $text_options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d';
 		
 		//TODO: use Localization to retrieve the correct date format
@@ -445,7 +445,7 @@ final class Time extends Utility
 	 */
 	final public static function stringifyTime($time, $text_options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		$format = 'H:i:s e';
 		
 		//TODO: use Localization to retrieve the correct time format
@@ -475,7 +475,7 @@ final class Time extends Utility
 	{
 		//initialize
 		$timestamp = self::timestamp($timestamp);
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		$period = max(0, time() - $timestamp);
 		
 		//years
@@ -584,8 +584,8 @@ final class Time extends Utility
 	final public static function hperiod(float $period, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Hperiod::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Hperiod::coerce($options);
 		$precision = $options->precision;
 		$limit = $options->limit;
 		$min_multiple = $options->min_multiple;
@@ -913,7 +913,7 @@ final class Time extends Utility
 		if ($start > $end) {
 			throw new Exceptions\GenerateStartGreaterThanEnd(['start' => $start, 'end' => $end]);
 		}
-		$options = Options\Generate::load($options);
+		$options = Options\Generate::coerce($options);
 		
 		//values
 		$values = [];

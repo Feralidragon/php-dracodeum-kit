@@ -250,7 +250,7 @@ class Input extends Component
 	public function getValueString($text_options = null) : string
 	{
 		$value = $this->getValue();
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
 		return isset($value) && $prototype instanceof PrototypeInterfaces\ValueStringification ? $prototype->stringifyValue($value, $text_options) : UText::stringify($value, $text_options);
 	}
@@ -266,8 +266,8 @@ class Input extends Component
 	public function getLabel($text_options = null, $info_options = null) : string
 	{
 		//label
-		$text_options = TextOptions::load($text_options);
-		$info_options = Options\Info::load($info_options);
+		$text_options = TextOptions::coerce($text_options);
+		$info_options = Options\Info::coerce($info_options);
 		$prototype = $this->getPrototype();
 		$label = $prototype instanceof PrototypeInterfaces\Information ? $prototype->getLabel($text_options, $info_options) : UText::unslugify($this->getName(), UText::UNSLUG_CAPITALIZE_FIRST);
 		
@@ -323,7 +323,7 @@ class Input extends Component
 	 */
 	public function getDefaultNullLabel($text_options = null) : ?string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/** @tags non-end-user */
 			return UText::localize("Null", self::class, $text_options);
@@ -342,8 +342,8 @@ class Input extends Component
 	public function getDescription($text_options = null, $info_options = null) : ?string
 	{
 		//description
-		$text_options = TextOptions::load($text_options);
-		$info_options = Options\Info::load($info_options);
+		$text_options = TextOptions::coerce($text_options);
+		$info_options = Options\Info::coerce($info_options);
 		$prototype = $this->getPrototype();
 		$description = $prototype instanceof PrototypeInterfaces\Information ? $prototype->getDescription($text_options, $info_options) : null;
 		
@@ -390,7 +390,7 @@ class Input extends Component
 	 */
 	public function getDefaultNullDescription($text_options = null) : ?string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, it may also be empty.", self::class, $text_options);
@@ -412,8 +412,8 @@ class Input extends Component
 	public function getMessage($text_options = null, $info_options = null) : ?string
 	{
 		//message
-		$text_options = TextOptions::load($text_options);
-		$info_options = Options\Info::load($info_options);
+		$text_options = TextOptions::coerce($text_options);
+		$info_options = Options\Info::coerce($info_options);
 		$prototype = $this->getPrototype();
 		$message = $prototype instanceof PrototypeInterfaces\Information ? $prototype->getMessage($text_options, $info_options) : null;
 		
@@ -460,7 +460,7 @@ class Input extends Component
 	 */
 	public function getDefaultNullMessage($text_options = null) : ?string
 	{
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, an empty value may also be given.", self::class, $text_options);
@@ -484,7 +484,7 @@ class Input extends Component
 		if (!isset($this->error)) {
 			return null;
 		}
-		$text_options = TextOptions::load($text_options);
+		$text_options = TextOptions::coerce($text_options);
 		
 		//messages
 		$messages = [];
@@ -503,7 +503,7 @@ class Input extends Component
 		if ($prototype instanceof PrototypeInterfaces\ErrorInformation) {
 			return $prototype->getErrorMessage($text_options);
 		} elseif ($prototype instanceof PrototypeInterfaces\Information) {
-			return $prototype->getMessage($text_options, Options\Info::load());
+			return $prototype->getMessage($text_options, new Options\Info());
 		}
 		
 		//default

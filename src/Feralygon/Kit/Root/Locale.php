@@ -120,7 +120,7 @@ final class Locale
 	final public static function translate(string $message, ?string $context = null, $options = null) : string
 	{
 		//initialize
-		$options = Options\Translate::load($options);
+		$options = Options\Translate::coerce($options);
 		
 		
 		//TODO: implement the actual translation
@@ -190,7 +190,7 @@ final class Locale
 	final public static function ptranslate(string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null, $options = null) : string
 	{
 		//initialize
-		$options = Options\Ptranslate::load($options);
+		$options = Options\Ptranslate::coerce($options);
 		$parameters = $options->parameters;
 		$message = abs($number) === 1.0 ? $message1 : $message2;
 		if ($number === floor($number)) {

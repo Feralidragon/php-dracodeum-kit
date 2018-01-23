@@ -190,7 +190,7 @@ trait Memoization
 	 */
 	final protected function setMemoizationPolicyOptions($options, string $namespace = '') : void
 	{
-		$this->memoize_policy_options[$this->memoize_selector][$namespace] = Options\Policy::load($options);
+		$this->memoize_policy_options[$this->memoize_selector][$namespace] = Options\Policy::coerce($options);
 	}
 	
 	
@@ -438,6 +438,6 @@ trait Memoization
 	 */
 	final protected static function setMemoizationStaticPolicyOptions($options, string $namespace = '', bool $local = false) : void
 	{
-		self::$memoize_static_policy_options[$local ? static::class : self::class][self::$memoize_static_selector][$namespace] = Options\Policy::load($options);
+		self::$memoize_static_policy_options[$local ? static::class : self::class][self::$memoize_static_selector][$namespace] = Options\Policy::coerce($options);
 	}
 }

@@ -326,7 +326,7 @@ abstract class Enumeration
 		if (!static::hasName($name)) {
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
-		return static::retrieveLabel($name, TextOptions::load($text_options)) ?? UText::unslugify(strtolower($name), UText::UNSLUG_CAPITALIZE_ALL);
+		return static::retrieveLabel($name, TextOptions::coerce($text_options)) ?? UText::unslugify(strtolower($name), UText::UNSLUG_CAPITALIZE_ALL);
 	}
 	
 	/**
@@ -369,7 +369,7 @@ abstract class Enumeration
 		if (!static::hasName($name)) {
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
-		return static::retrieveDescription($name, TextOptions::load($text_options)) ?? null;
+		return static::retrieveDescription($name, TextOptions::coerce($text_options)) ?? null;
 	}
 	
 	/**

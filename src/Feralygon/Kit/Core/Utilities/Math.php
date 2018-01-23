@@ -181,8 +181,8 @@ final class Math extends Utility
 	final public static function hnumber(int $number, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Hnumber::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Hnumber::coerce($options);
 		$precision = $options->precision;
 		$negative = $number < 0;
 		$number = abs($number);

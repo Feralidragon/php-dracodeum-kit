@@ -34,7 +34,7 @@ final class Json extends Utility
 	 */
 	final public static function encode($data, $options = null) : string
 	{
-		$options = Options\Encode::load($options);
+		$options = Options\Encode::coerce($options);
 		$encoded_data = isset($options->depth) ? json_encode($data, $options->flags, $options->depth) : json_encode($data, $options->flags);
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
@@ -54,7 +54,7 @@ final class Json extends Utility
 	 */
 	final public static function decode(string $data, $options = null)
 	{
-		$options = Options\Decode::load($options);
+		$options = Options\Decode::coerce($options);
 		$decoded_data = isset($options->depth) ? json_decode($data, $options->associative, $options->depth, $options->flags) : json_decode($data, $options->associative);
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {

@@ -105,8 +105,8 @@ final class Text extends Utility
 	final public static function stringify($value, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Stringify::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Stringify::coerce($options);
 		$is_technical = $text_options->info_scope === EInfoScope::TECHNICAL;
 		$is_enduser = $text_options->info_scope === EInfoScope::ENDUSER;
 		$prepend_type = !$is_enduser && $options->prepend_type;
@@ -191,13 +191,21 @@ final class Text extends Utility
 		
 		//array
 		if (is_array($value)) {
+			//initialize
+			$is_associative = Data::isAssociative($value);
+			$assoc_options = null;
+			if ($is_associative) {
+				$assoc_options = Options\Stringify::coerce($options, true);
+				$assoc_options->prepend_type = false;
+				$assoc_options->quote_strings = $options->prepend_type;
+			}
+			
 			//strings
 			$strings = [];
-			$is_associative = Data::isAssociative($value);
 			foreach ($value as $k => $v) {
 				$v_string = self::stringify($v, $text_options, $options);
 				if ($is_associative) {
-					$v_string = self::stringify($k, $text_options, $options) . ": {$v_string}";
+					$v_string = self::stringify($k, $text_options, $assoc_options) . ": {$v_string}";
 				}
 				$strings[] = $v_string;
 				unset($v_string);
@@ -346,8 +354,8 @@ final class Text extends Utility
 	final public static function bulletify(string $string, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Bulletify::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Bulletify::coerce($options);
 		
 		//bulletify
 		/**
@@ -379,8 +387,8 @@ final class Text extends Utility
 	final public static function mbulletify(array $strings, $text_options = null, $options = null)
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Mbulletify::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Mbulletify::coerce($options);
 		
 		//bulletify
 		foreach ($strings as &$string) {
@@ -507,8 +515,8 @@ final class Text extends Utility
 	final public static function fill(string $string, array $parameters, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Fill::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Fill::coerce($options);
 		
 		//tokenize
 		$f_string = '';
@@ -589,8 +597,8 @@ final class Text extends Utility
 	 */
 	final public static function pfill(string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [], $text_options = null, $options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Pfill::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Pfill::coerce($options);
 		$string = abs($number) === 1.0 ? $string1 : $string2;
 		if ($number === floor($number)) {
 			$number = (int)$number;
@@ -725,7 +733,7 @@ final class Text extends Utility
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
 	{
-		return self::mparse([$string], $fields_patterns, Options\Parse::load($options))[0] ?? null;
+		return self::mparse([$string], $fields_patterns, Options\Parse::coerce($options))[0] ?? null;
 	}
 	
 	/**
@@ -753,7 +761,7 @@ final class Text extends Utility
 	final public static function mparse(array $strings, array $fields_patterns, $options = null) : array
 	{
 		//initialize
-		$options = Options\Mparse::load($options);
+		$options = Options\Mparse::coerce($options);
 		$pattern_delimiter = $options->pattern_delimiter;
 		$delimiter_pattern = $options->delimiter_pattern;
 		$pattern_modifiers = $options->pattern_modifiers;
@@ -1025,7 +1033,7 @@ final class Text extends Utility
 	final public static function truncate(string $string, int $length, $options = null) : string
 	{
 		//initialize
-		$options = Options\Truncate::load($options);
+		$options = Options\Truncate::coerce($options);
 		$unicode = $options->unicode;
 		$end_string = '';
 		if ($length < 0) {
@@ -1533,8 +1541,8 @@ final class Text extends Utility
 	 */
 	final public static function localize(string $message, ?string $context = null, $text_options = null, $options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Localize::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Localize::coerce($options);
 		if ($text_options->translate) {
 			return Locale::translate($message, $context, [
 				'parameters' => $options->parameters,
@@ -1604,8 +1612,8 @@ final class Text extends Utility
 	 */
 	final public static function plocalize(string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null, $text_options = null, $options = null) : string
 	{
-		$text_options = TextOptions::load($text_options);
-		$options = Options\Plocalize::load($options);
+		$text_options = TextOptions::coerce($text_options);
+		$options = Options\Plocalize::coerce($options);
 		if ($text_options->translate) {
 			return Locale::ptranslate($message1, $message2, $number, $number_placeholder, $context, [
 				'parameters' => $options->parameters,

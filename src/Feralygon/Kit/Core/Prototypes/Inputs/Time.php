@@ -170,7 +170,7 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	{
 		//initialize
 		$strings = [];
-		$example_text_options = TextOptions::load($text_options, true);
+		$example_text_options = TextOptions::coerce($text_options, true);
 		$example_text_options->info_scope = EInfoScope::ENDUSER;
 		
 		//strings

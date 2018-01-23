@@ -38,7 +38,7 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	final public function __construct(array $properties = [], $options = null)
 	{
 		//initialize
-		$options = Options\Construct::load($options);
+		$options = Options\Construct::coerce($options);
 		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'evaluateProperty']), $this->getRequiredPropertyNames(), 'r');
 		
 		//message

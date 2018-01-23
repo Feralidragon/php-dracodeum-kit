@@ -122,7 +122,7 @@ class Float64 extends Number
 	{
 		//initialize
 		$strings = [];
-		$example_text_options = TextOptions::load($text_options, true);
+		$example_text_options = TextOptions::coerce($text_options, true);
 		$example_text_options->info_scope = EInfoScope::ENDUSER;
 		
 		//strings

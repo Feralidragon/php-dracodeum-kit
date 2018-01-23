@@ -102,7 +102,7 @@ final class Byte extends Utility
 	final public static function hvalue(int $value, $options = null) : string
 	{
 		//initialize
-		$options = Options\Hvalue::load($options);
+		$options = Options\Hvalue::coerce($options);
 		$precision = $options->precision;
 		$sign = $value >= 0 ? '' : '-';
 		$value = abs($value);
