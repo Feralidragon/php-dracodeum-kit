@@ -133,7 +133,7 @@ final class Locale
 				'translate' => true,
 				'language' => $options->language
 			], [
-				'string_flags' => $options->string_flags,
+				'string_options' => $options->string_options,
 				'stringifier' => $options->stringifier
 			]);
 		}
@@ -210,7 +210,7 @@ final class Locale
 			'translate' => true,
 			'language' => $options->language
 		], [
-			'string_flags' => $options->string_flags,
+			'string_options' => $options->string_options,
 			'stringifier' => $options->stringifier
 		]);
 		

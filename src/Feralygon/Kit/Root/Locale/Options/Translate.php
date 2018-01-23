@@ -9,10 +9,8 @@ namespace Feralygon\Kit\Root\Locale\Options;
 
 use Feralygon\Kit\Core\Options;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text\Options\Stringify as StringOptions;
+use Feralygon\Kit\Core\Utilities\Call as UCall;
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -23,14 +21,8 @@ use Feralygon\Kit\Root\Locale;
  * @property int $info_scope [default = \Feralygon\Kit\Core\Enumerations\InfoScope::NONE] <p>The info scope to use.</p>
  * @property string|null $language [default = null] <p>The language ISO 639 code to translate the message to.<br>
  * If not set, the currently set locale language is used.</p>
- * @property int $string_flags [default = 0x00] <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> class stringification bitwise flags, 
- * which can be any combination of the following:<br><br>
- * &nbsp; &#8226; &nbsp; <code>STRING_NO_QUOTES</code> : Do not add quotes to strings in the returning string.<br><br>
- * &nbsp; &#8226; &nbsp; <code>STRING_PREPEND_TYPE</code> : Always prepend the type for every value in the returning string.<br><br>
- * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_CONJUNCTION_OR</code> : Use an "or" conjunction in the returning string for non-associative arrays.<br><br>
- * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_CONJUNCTION_NOR</code> : Use a "nor" conjunction in the returning string for non-associative arrays.<br><br>
- * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_CONJUNCTION_AND</code> : Use an "and" conjunction in the returning string for non-associative arrays.
- * </p>
+ * @property \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $string_options [default = null] <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> stringification method options, 
+ * as an instance or <samp>name => value</samp> pairs.</p>
  * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value for a given placeholder.<br>
  * The expected function signature is represented as:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
@@ -60,9 +52,8 @@ class Translate extends Options
 				return EInfoScope::evaluateValue($value);
 			case 'language':
 				return Locale::evaluateLanguage($value, true);
-			case 'string_flags':
-				$value = $value ?? 0x00;
-				return UType::evaluateInteger($value);
+			case 'string_options':
+				return StringOptions::evaluate($value);
 			case 'stringifier':
 				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true);
 		}

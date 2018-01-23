@@ -381,7 +381,7 @@ final class Text extends Utility
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
-	 * If <var>$options->merge</var> is set to <code>true</code>, a single merged string with all the given strings is returned instead, 
+	 * If <var>$options->merge</var> is set to boolean <code>true</code>, a single merged string with all the given strings is returned instead, 
 	 * with each string in a new line.</p>
 	 */
 	final public static function mbulletify(array $strings, $text_options = null, $options = null)
@@ -486,7 +486,7 @@ final class Text extends Utility
 	/**
 	 * Fill a given string with given parameters.
 	 * 
-	 * The process of filling a given string consists in replacing its placeholders by the given parameters.<br>
+	 * The process of filling a given string consists in replacing its placeholders by the given parameters, with each parameter being stringified.<br>
 	 * <br>
 	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
@@ -495,9 +495,7 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.<br>
-	 * <br>
-	 * Any parameter given as neither a string nor a number is stringified.
+	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to fill.</p>
@@ -556,7 +554,7 @@ final class Text extends Utility
 					$pointer_string = ($options->stringifier)($token, $pointer);
 				}
 				if (!isset($pointer_string)) {
-					$pointer_string = is_string($pointer) ? $pointer : (is_numeric($pointer) ? (string)$pointer : self::stringify($pointer, $text_options, ['flags' => $options->string_flags]));
+					$pointer_string = self::stringify($pointer, $text_options, $options->string_options);
 				}
 				
 				//finish
@@ -572,7 +570,7 @@ final class Text extends Utility
 	/**
 	 * Fill a given plural string with given parameters.
 	 * 
-	 * The process of filling a given string consists in replacing its placeholders by the given parameters.<br>
+	 * The process of filling a given string consists in replacing its placeholders by the given parameters, with each parameter being stringified.<br>
 	 * <br>
 	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
@@ -581,9 +579,7 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.<br>
-	 * <br>
-	 * Any parameter given as neither a string nor a number is stringified.
+	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string1 <p>The string singular form to fill.</p>
@@ -1509,7 +1505,7 @@ final class Text extends Utility
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
-	 * Any parameter given as neither a string nor a number is stringified.<br>
+	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
 	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
@@ -1547,13 +1543,13 @@ final class Text extends Utility
 			return Locale::translate($message, $context, [
 				'parameters' => $options->parameters,
 				'info_scope' => $text_options->info_scope,
-				'string_flags' => $options->string_flags,
+				'string_options' => $options->string_options,
 				'stringifier' => $options->stringifier,
 				'language' => $text_options->language
 			]);
 		} elseif (!empty($options->parameters)) {
 			return self::fill($message, $options->parameters, ['info_scope' => $text_options->info_scope], [
-				'string_flags' => $options->string_flags,
+				'string_options' => $options->string_options,
 				'stringifier' => $options->stringifier
 			]);
 		}
@@ -1577,7 +1573,7 @@ final class Text extends Utility
 	 * but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
-	 * Any parameter given as neither a string nor a number is stringified.<br>
+	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
 	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
@@ -1618,13 +1614,13 @@ final class Text extends Utility
 			return Locale::ptranslate($message1, $message2, $number, $number_placeholder, $context, [
 				'parameters' => $options->parameters,
 				'info_scope' => $text_options->info_scope,
-				'string_flags' => $options->string_flags,
+				'string_options' => $options->string_options,
 				'stringifier' => $options->stringifier,
 				'language' => $text_options->language
 			]);
 		} elseif (isset($number_placeholder) || !empty($options->parameters)) {
 			return self::pfill($message1, $message2, $number, $number_placeholder, $options->parameters, ['info_scope' => $text_options->info_scope], [
-				'string_flags' => $options->string_flags,
+				'string_options' => $options->string_options,
 				'stringifier' => $options->stringifier
 			]);
 		}
