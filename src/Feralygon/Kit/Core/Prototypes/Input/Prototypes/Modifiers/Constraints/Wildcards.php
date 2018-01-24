@@ -52,7 +52,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return UText::isAnyWildcardMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
+		return UText::isAnyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
 	}
 	
 	

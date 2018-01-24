@@ -462,7 +462,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Check if a given string matches any of the given wildcards.
+	 * Check if a given string matches any given wildcards.
 	 * 
 	 * In any given wildcard, the <samp>*</samp> character matches any number and type of characters, including no characters at all, 
 	 * and is also the only wildcard character recognized.
@@ -473,7 +473,7 @@ final class Text extends Utility
 	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive matching.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
 	 */
-	final public static function isAnyWildcardMatch(string $string, array $wildcards, bool $insensitive = false) : bool
+	final public static function isAnyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false) : bool
 	{
 		foreach ($wildcards as $wildcard) {
 			if (self::isWildcardMatch($string, $wildcard, $insensitive)) {
