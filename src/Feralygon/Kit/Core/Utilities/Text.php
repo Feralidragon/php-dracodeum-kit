@@ -170,7 +170,8 @@ final class Text extends Utility
 			} elseif ($is_technical) {
 				return self::fill("OBJECT({{id}})", ['id' => crc32(get_class($value))]);
 			}
-			return ($prepend_type ? '(object)' : 'instance of ') . get_class($value);
+			$class = get_class($value);
+			return $prepend_type ? "(object){$class}" : "object({$class})";
 		}
 		
 		//resource
@@ -186,7 +187,7 @@ final class Text extends Utility
 			} elseif ($is_technical) {
 				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
 			}
-			return ($prepend_type ? '(resource)#' : 'resource #') . $resource_id;
+			return $prepend_type ? "(resource)#{$resource_id}" : "resource({$resource_id})";
 		}
 		
 		//array
