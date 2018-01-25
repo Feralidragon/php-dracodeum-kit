@@ -419,7 +419,7 @@ class HttpStatus extends Enumeration
 		}
 		
 		//description
-		$label = UText::stringify($label, $text_options);
+		$label = UText::stringify($label, $text_options, ['quote_strings' => true]);
 		if ($value <= 199) {
 			/**
 			 * @description Informational status code description.
