@@ -15,7 +15,7 @@ use Feralygon\Kit\Core\Enumeration\Exception;
  * This exception is thrown from an enumeration whenever a given value is not found.
  * 
  * @since 1.0.0
- * @property-read mixed $value <p>The value.</p>
+ * @property-read int|float|string $value <p>The value.</p>
  */
 class ValueNotFound extends Exception
 {
@@ -43,7 +43,7 @@ class ValueNotFound extends Exception
 	{
 		switch ($name) {
 			case 'value':
-				return true;
+				return is_int($value) || is_float($value) || is_string($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

@@ -24,21 +24,21 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * This class is the base to be extended from when creating a component.<br>
  * <br>
  * A component is an object which represents a specific functional part of an application and is expected to have several different implementations from the developer.<br>
- * Examples of this kind of object are inputs, outputs, tables, parameters, kernels, filters, constraints, models, controllers, handlers, etc, 
+ * Examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, controllers, handlers, entities, etc, 
  * all of which are expected to end up having tens or even hundreds of different implementations over time, each one representing a specific input, output, table, etc, respectively.<br>
  * <br>
- * Usually, this would be achieved by extending the base class, and implementing all the methods declared as abstract or through multiple interfaces recognized by the base class, 
+ * Usually, this would be achieved by extending the base class, and implementing all the methods declared as abstract, or through one or more interfaces recognized by the base class, 
  * or even overriding existing methods.<br>
- * This has several issues however, such as having internal code of the base class mixed with the actual methods meant to implement a component,  
- * and it becomes unclear what each method is intended to do and how to extend and implement it, specially in relatively complex components, 
+ * Each one of them has several issues however, such as having internal code of the base class mixed with the actual methods meant to implement a component,  
+ * and it becomes unclear what each method is intended to do and how to extend and implement it, especially in relatively complex components, 
  * while overriding would certainly end up accidentally breaking the base code of the base class in some given way.<br>
  * <br>
  * Interfaces, the ideal way of defining methods for implementation, only allow public methods to be defined, 
  * and many of the methods of a component are actually meant to be implemented as protected, given that they should not become visible when the component is used.<br>
- * After all, interfaces are meant to establish contracts usable from any scope between multiple classes, and not for specific implementations within the scope of a single one.<br>
+ * Furthermore, the overusage of interfaces leads to classes completely loosing their own identity, or never having one in the first place, potentially violating the Single Responsibility Principle.<br>
  * <br>
  * In summary, it makes code much harder to read and maintain, and it's very error prone as it doesn't properly and cleanly isolate internal code from 
- * what the developer actually intends and is supposed to define and customize.<br>
+ * what the developer actually intends and is supposed to define and customize, and becomes highly unflexible for extension.<br>
  * <br>
  * Therefore, the implementation of a component is not done by extending the component itself, nor through interfaces, a <b>prototype</b> is used instead.<br>
  * A prototype is an object which represents a specific implementation or set of definitions of a component.<br>
