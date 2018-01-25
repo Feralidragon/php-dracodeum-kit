@@ -7,10 +7,7 @@
 
 namespace Feralygon\Kit\Core\Utilities\Json\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core JSON utility encode method invalid data exception class.
@@ -67,9 +64,7 @@ class EncodeInvalidData extends Encode
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'data') {
-			return UText::stringify($value, null, ['prepend_type' => true]);
-		} elseif ($placeholder === 'error_message' && is_string($value)) {
+		if ($placeholder === 'error_message' && is_string($value)) {
 			return $value;
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);

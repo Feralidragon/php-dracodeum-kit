@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Root\System\Exceptions;
 
 use Feralygon\Kit\Root\System\Exception;
-use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Root system invalid environment exception class.
@@ -48,17 +47,5 @@ class InvalidEnvironment extends Exception
 				return true;
 		}
 		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
-	{
-		if ($placeholder === 'environment' && !is_string($value)) {
-			return UText::stringify($value, null, ['prepend_type' => true]);
-		}
-		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Text as UText;
-
 /**
  * Core text utility mparse method invalid string exception class.
  * 
@@ -46,17 +44,5 @@ class MparseInvalidString extends Mparse
 				return true;
 		}
 		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
-	{
-		if ($placeholder === 'string' && !is_string($value)) {
-			return UText::stringify($value, null, ['prepend_type' => true]);
-		}
-		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

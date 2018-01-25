@@ -129,6 +129,6 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		return UText::stringify($value, null, ['quote_strings' => true]);
+		return UText::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
 	}
 }
