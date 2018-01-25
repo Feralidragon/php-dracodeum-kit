@@ -566,7 +566,7 @@ final class Type extends Utility
 					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
 						"Only a class which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class)]
+						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
 					)
 				]);
 			}
@@ -641,7 +641,7 @@ final class Type extends Utility
 					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
 						"Only an object which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class)]
+						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
 					)
 				]);
 			} elseif (!is_object($value)) {
@@ -653,8 +653,8 @@ final class Type extends Utility
 						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
 						'error_message' => Text::fill(
 							"An exception {{exception}} was thrown while instantiating class {{class}}, with the following message: {{message}}", [
-								'class' => Text::stringify($class),
-								'exception' => Text::stringify($exception),
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => $exception,
 								'message' => Text::uncapitalize($exception->getMessage(), true)
 							]
 						)
@@ -729,7 +729,7 @@ final class Type extends Utility
 					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
 						"Only a class or object which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class)]
+						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
 					)
 				]);
 			}

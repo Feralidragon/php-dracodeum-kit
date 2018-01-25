@@ -79,7 +79,9 @@ class StringCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'error_message' && isset($value)) {
+		if ($placeholder === 'value') {
+			return UText::stringify($value, null, ['prepend_type' => true]);
+		} elseif ($placeholder === 'error_message' && is_string($value)) {
 			return UText::uncapitalize($value, true);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);

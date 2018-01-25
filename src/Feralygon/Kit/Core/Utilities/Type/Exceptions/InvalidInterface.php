@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core type utility invalid interface exception class.
@@ -46,5 +47,17 @@ class InvalidInterface extends Exception
 				return true;
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'interface' && !is_string($value)) {
+			return UText::stringify($value, null, ['prepend_type' => true]);
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

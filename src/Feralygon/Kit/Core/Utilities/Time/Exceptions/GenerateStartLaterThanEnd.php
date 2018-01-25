@@ -7,24 +7,27 @@
 
 namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Utilities\{
+	Time as UTime,
+	Type as UType
+};
 
 /**
- * Core time utility generate method start greater than end exception class.
+ * Core time utility generate method start later than end exception class.
  * 
- * This exception is thrown from the time utility generate method whenever a given start is greater than a given end.
+ * This exception is thrown from the time utility generate method whenever a given start is later than a given end.
  * 
  * @since 1.0.0
  * @property-read int|float $start <p>The start.</p>
  * @property-read int|float $end <p>The end.</p>
  */
-class GenerateStartGreaterThanEnd extends Generate
+class GenerateStartLaterThanEnd extends Generate
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Start {{start}} is greater than end {{end}}.";
+		return "Start {{start}} is later than end {{end}}.";
 	}
 	
 	
@@ -49,5 +52,17 @@ class GenerateStartGreaterThanEnd extends Generate
 				return UType::evaluateNumber($value);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'start' || $placeholder === 'end') {
+			return UTime::stringifyDateTime($value);
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

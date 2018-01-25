@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Data\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * Core data utility path key delete from non-array exception class.
@@ -53,5 +56,17 @@ class PathKeyDeleteFromNonArray extends Exception
 				return true;
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'value') {
+			return UText::stringify($value, null, ['prepend_type' => true]);
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

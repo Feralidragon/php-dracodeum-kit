@@ -893,7 +893,7 @@ final class Time extends Utility
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Generate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateInvalidInterval
-	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateStartGreaterThanEnd
+	 * @throws \Feralygon\Kit\Core\Utilities\Time\Exceptions\GenerateStartLaterThanEnd
 	 * @return float[]|string[] <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>
 	 */
 	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
@@ -911,7 +911,7 @@ final class Time extends Utility
 			$end = (float)self::timestamp($end);
 		}
 		if ($start > $end) {
-			throw new Exceptions\GenerateStartGreaterThanEnd(['start' => $start, 'end' => $end]);
+			throw new Exceptions\GenerateStartLaterThanEnd(['start' => $start, 'end' => $end]);
 		}
 		$options = Options\Generate::coerce($options);
 		

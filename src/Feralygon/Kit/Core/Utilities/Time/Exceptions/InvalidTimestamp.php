@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Time\Exception;
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core time utility invalid timestamp exception class.
@@ -46,5 +47,17 @@ class InvalidTimestamp extends Exception
 				return true;
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'timestamp') {
+			return UText::stringify($value, null, ['prepend_type' => true]);
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }

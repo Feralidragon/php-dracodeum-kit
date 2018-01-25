@@ -1566,8 +1566,10 @@ final class Data extends Utility
 						'value' => $value,
 						'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_ELEMENT,
 						'error_message' => Text::fill(
-							"The array value element at key {{key}} with value {{value}} is not valid.",
-							['key' => Text::stringify($k), 'value' => Text::stringify($v)]
+							"The array value element at key {{key}} with value {{value}} is not valid.", [
+								'key' => Text::stringify($k, null, ['quote_strings' => true]),
+								'value' => Text::stringify($v, null, ['quote_strings' => true])
+							]
 						)
 					]);
 				}

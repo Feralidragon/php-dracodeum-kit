@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core type utility invalid object or class exception class.
@@ -46,5 +47,17 @@ class InvalidObjectClass extends Exception
 				return true;
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'object_class' && !is_string($value)) {
+			return UText::stringify($value, null, ['prepend_type' => true]);
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }
