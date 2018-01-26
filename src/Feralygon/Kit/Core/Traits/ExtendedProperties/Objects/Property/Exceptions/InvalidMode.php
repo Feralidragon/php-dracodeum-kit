@@ -32,7 +32,7 @@ class InvalidMode extends Exception
 		$message = "Invalid mode {{mode}} for property {{property}}.";
 		if (!empty($this->get('modes'))) {
 			$message .= "\n" . 
-				"HINT: Only one of the following modes is allowed: {{modes}}.";
+				"HINT: Only the following modes are allowed: {{modes}}.";
 		}
 		return $message;
 	}
@@ -68,7 +68,7 @@ class InvalidMode extends Exception
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
 		if ($placeholder === 'modes') {
-			return UText::stringify($value, null, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR]);
+			return UText::stringify($value, null, ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}
