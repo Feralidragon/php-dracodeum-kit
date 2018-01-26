@@ -275,7 +275,7 @@ class Input extends Component
 		if ($this->nullable && !$info_options->exclude_null) {
 			$null_label = $this->getDefaultNullLabel($text_options);
 			if (isset($null_label)) {
-				$label = UText::stringify([$label, UText::uncapitalize($null_label, true)], $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR | UText::STRING_NO_QUOTES]);
+				$label = UText::stringify([$label, UText::uncapitalize($null_label, true)], $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]);
 			}
 		}
 		

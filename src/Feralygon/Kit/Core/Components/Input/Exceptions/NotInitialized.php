@@ -49,7 +49,7 @@ class NotInitialized extends Exception
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'error_message' && isset($value)) {
+		if ($placeholder === 'error_message' && is_string($value)) {
 			return UText::uncapitalize($value, true);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
