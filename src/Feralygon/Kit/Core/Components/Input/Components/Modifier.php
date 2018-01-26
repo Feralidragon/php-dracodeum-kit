@@ -131,7 +131,7 @@ abstract class Modifier extends Component
 	/**
 	 * Get message.
 	 * 
-	 * The returning message is assertive relative the expected value.
+	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>

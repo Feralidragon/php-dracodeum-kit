@@ -44,7 +44,7 @@ interface Information
 	/**
 	 * Get message.
 	 * 
-	 * The returning message is meant to be assertive relative the expected value.<br>
+	 * The returning message is meant to be assertive relative to the expected value.<br>
 	 * It may also be used as an error message if the value evaluation fails.
 	 * 
 	 * @since 1.0.0
