@@ -252,7 +252,7 @@ class Input extends Component
 		$value = $this->getValue();
 		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
-		return isset($value) && $prototype instanceof PrototypeInterfaces\ValueStringification ? $prototype->stringifyValue($value, $text_options) : UText::stringify($value, $text_options);
+		return isset($value) && $prototype instanceof PrototypeInterfaces\ValueStringification ? $prototype->stringifyValue($value, $text_options) : UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}
 	
 	/**

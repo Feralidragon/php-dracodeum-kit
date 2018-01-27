@@ -181,6 +181,6 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UText::stringify($value, $text_options);
+		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}
 }

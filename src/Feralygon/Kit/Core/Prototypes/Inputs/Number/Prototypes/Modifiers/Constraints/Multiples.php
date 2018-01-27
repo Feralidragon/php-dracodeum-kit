@@ -130,28 +130,19 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$multiples_string = UText::stringify($this->multiples, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]);
 		if ($this->negate) {
 			/**
 			 * @placeholder multiples The list of disallowed multiples.
 			 * @example A multiple of 2, 3 or 5 is not allowed.
 			 */
-			return UText::localize(
-				"A multiple of {{multiples}} is not allowed.",
-				self::class, $text_options, [
-					'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-				]
-			);
+			return UText::localize("A multiple of {{multiples}} is not allowed.", self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]);
 		}
 		/**
 		 * @placeholder multiples The list of allowed multiples.
 		 * @example Only a multiple of 2, 3 or 5 is allowed.
 		 */
-		return UText::localize(
-			"Only a multiple of {{multiples}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['multiples' => UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
+		return UText::localize("Only a multiple of {{multiples}} is allowed.", self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]);
 	}
 	
 	
@@ -160,7 +151,7 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->multiples, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND]);
+		return UText::stringify($this->multiples, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
 	}
 	
 	

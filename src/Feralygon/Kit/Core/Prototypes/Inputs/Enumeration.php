@@ -11,6 +11,7 @@ use Feralygon\Kit\Core\Prototypes\Input;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	Information as IInformation,
+	ValueStringification as IValueStringification,
 	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Enumeration as CoreEnumeration;
@@ -42,7 +43,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read bool $namify [default = false] <p>Set as an enumerated element name.</p>
  * @see \Feralygon\Kit\Core\Enumeration
  */
-class Enumeration extends Input implements IPrototypeProperties, IInformation, ISchemaData
+class Enumeration extends Input implements IPrototypeProperties, IInformation, IValueStringification, ISchemaData
 {
 	//Private properties
 	/** @var string */
@@ -262,9 +263,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				$labels[] = UText::localize("{{label}}: {{name_value}}", self::class, $text_options, [
 					'parameters' => [
 						'label' => $enumeration::getNameLabel($name, $text_options),
-						'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value])
-					],
-					'string_flags' => UText::STRING_NONASSOC_CONJUNCTION_OR
+						'name_value' => UText::stringify(
+							$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
+							$text_options,
+							['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+						)
+					]
 				]);
 			} else {
 				$labels[] = $enumeration::getNameLabel($name, $text_options);
@@ -468,6 +472,16 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
+	//Implemented public methods (core input prototype value stringification interface)
+	/** {@inheritdoc} */
+	public function stringifyValue($value, TextOptions $text_options) : string
+	{
+		$enumeration = $this->enumeration;
+		return UText::stringify($enumeration::getName($value), $text_options, ['quote_strings' => true]);
+	}
+	
+	
+	
 	//Implemented public methods (core input prototype schema data interface)
 	/** {@inheritdoc} */
 	public function getSchemaData()
@@ -582,10 +596,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 						self::class, $text_options, [
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
-								'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value]),
+								'name_value' => UText::stringify(
+									$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
+									$text_options,
+									['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+								),
 								'description' => $description
-							],
-							'string_flags' => UText::STRING_NONASSOC_CONJUNCTION_OR
+							]
 						]
 					);
 				} else {
@@ -617,9 +634,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => $show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? [$name] : [$value])
-						],
-						'string_flags' => UText::STRING_NONASSOC_CONJUNCTION_OR
+							'name_value' => UText::stringify(
+								$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
+								$text_options,
+								['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+							)
+						]
 					]
 				);
 			}

@@ -185,12 +185,12 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
-		//initialize
 		$strings = [];
-		$example_value = random_bytes($this->getBits() / 8);
-		
-		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//initialize
+			$example_value = random_bytes($this->getBits() / 8);
+			
+			//strings
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder example The hash example in hexadecimal notation.
@@ -198,7 +198,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @example Hexadecimal string (example: "a7fed3fa")
 			 */
 			$strings[] = UText::localize("Hexadecimal string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => UText::stringify(bin2hex($example_value), $text_options)]
+				'parameters' => ['example' => bin2hex($example_value)],
+				'string_options' => ['quote_strings' => true]
 			]);
 			/**
 			 * @description Base64 encoded notation string.
@@ -207,7 +208,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @example Base64 encoded string (example: "p/7T+g==")
 			 */
 			$strings[] = UText::localize("Base64 encoded string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => UText::stringify(UBase64::encode($example_value), $text_options)]
+				'parameters' => ['example' => UBase64::encode($example_value)],
+				'string_options' => ['quote_strings' => true]
 			]);
 			/**
 			 * @description URL-safe Base64 encoded notation string.
@@ -216,7 +218,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @example URL-safe Base64 encoded string (example: "p_7T-g")
 			 */
 			$strings[] = UText::localize("URL-safe Base64 encoded string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => UText::stringify(UBase64::encode($example_value, true), $text_options)]
+				'parameters' => ['example' => UBase64::encode($example_value, true)],
+				'string_options' => ['quote_strings' => true]
 			]);
 			/**
 			 * @description Raw binary notation string.
@@ -224,8 +227,6 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 */
 			$strings[] = UText::localize("Raw binary string", self::class, $text_options);
 		}
-		
-		//return
 		return $strings;
 	}
 }

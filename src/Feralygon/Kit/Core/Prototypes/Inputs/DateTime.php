@@ -172,12 +172,7 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
-		//initialize
 		$strings = [];
-		$example_text_options = TextOptions::coerce($text_options, true);
-		$example_text_options->info_scope = EInfoScope::ENDUSER;
-		
-		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
 			 * @description Unix timestamp notation string.
@@ -195,7 +190,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			 * @example ISO 8601 (examples: "2017-01-15", "2017-01-15T12:45:00", "2017-01-15T13:45:00+01:00")
 			 */
 			$strings[] = UText::localize("ISO 8601 (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['2017-01-15', '2017-01-15T12:45:00', '2017-01-15T13:45:00+01:00'], $example_text_options)]
+				'parameters' => ['examples' => ['2017-01-15', '2017-01-15T12:45:00', '2017-01-15T13:45:00+01:00']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
 		/**
@@ -204,7 +200,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 		 * @example Year, month and day, optionally with time and timezone (examples: "2017-01-15", "2017-01-15 12:45:00", "2017-01-15 07:45:00 GMT-5")
 		 */
 		$strings[] = UText::localize("Year, month and day, optionally with time and timezone (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['2017-01-15', '2017-01-15 12:45:00', '2017-01-15 07:45:00 GMT-5'], $example_text_options)]
+			'parameters' => ['examples' => ['2017-01-15', '2017-01-15 12:45:00', '2017-01-15 07:45:00 GMT-5']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		/**
 		 * @description American month, day and year (optionally with time and timezone) notation string.
@@ -212,7 +209,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 		 * @example American month, day and year, optionally with time and timezone (examples: "1/15/17", "1/15/17 12:45:00", "1/15/17 7:45:00 EST")
 		 */
 		$strings[] = UText::localize("American month, day and year, optionally with time and timezone (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['1/15/17', '1/15/17 12:45:00', '1/15/17 7:45:00 EST'], $example_text_options)]
+			'parameters' => ['examples' => ['1/15/17', '1/15/17 12:45:00', '1/15/17 7:45:00 EST']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		/**
 		 * @description Day, month and year in English (optionally with time and timezone) notation string.
@@ -220,7 +218,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 		 * @example Day, month and year in English, optionally with time and timezone (examples: "15 January 2017", "15 January 2017 12:45:00", "15 Jan 2017 15:45:00 GMT+3")
 		 */
 		$strings[] = UText::localize("Day, month and year in English, optionally with time and timezone (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['15 January 2017', '15 January 2017 12:45:00', '15 Jan 2017 15:45:00 GMT+3'], $example_text_options)]
+			'parameters' => ['examples' => ['15 January 2017', '15 January 2017 12:45:00', '15 Jan 2017 15:45:00 GMT+3']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		/**
 		 * @description Relative time interval in English notation string.
@@ -228,7 +227,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 		 * @example Relative time interval in English (examples: "now", "yesterday", "next Wednesday", "8 days ago")
 		 */
 		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['now', 'yesterday', 'next Wednesday', '8 days ago'], $example_text_options)]
+			'parameters' => ['examples' => ['now', 'yesterday', 'next Wednesday', '8 days ago']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
@@ -238,11 +238,10 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			 * @example Fixed date and time with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 12:45:00 -3 hours")
 			 */
 			$strings[] = UText::localize("Fixed date and time with time interval in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['2017-01-15 +5 days', '1/15/17 12:45:00 -3 hours'], $example_text_options)]
+				'parameters' => ['examples' => ['2017-01-15 +5 days', '1/15/17 12:45:00 -3 hours']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
-		
-		//return
 		return $strings;
 	}
 }

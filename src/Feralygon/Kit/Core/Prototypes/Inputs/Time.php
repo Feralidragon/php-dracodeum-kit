@@ -168,12 +168,7 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
-		//initialize
 		$strings = [];
-		$example_text_options = TextOptions::coerce($text_options, true);
-		$example_text_options->info_scope = EInfoScope::ENDUSER;
-		
-		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
 			 * @description Unix timestamp notation string.
@@ -191,7 +186,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			 * @example ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00")
 			 */
 			$strings[] = UText::localize("ISO 8601 (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['12:45:00', '12:45', '13:45:00+01:00'], $example_text_options)]
+				'parameters' => ['examples' => ['12:45:00', '12:45', '13:45:00+01:00']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
 		/**
@@ -200,7 +196,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 * @example Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5")
 		 */
 		$strings[] = UText::localize("Hours, minutes and seconds, optionally with timezone (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['12:45:00', '12:45AM', '07:45:00 GMT-5'], $example_text_options)]
+			'parameters' => ['examples' => ['12:45:00', '12:45AM', '07:45:00 GMT-5']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		/**
 		 * @description Relative time interval in English notation string.
@@ -208,7 +205,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 * @example Relative time interval in English (examples: "now", "8 hours ago")
 		 */
 		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => UText::stringify(['now', '8 hours ago'], $example_text_options)]
+			'parameters' => ['examples' => ['now', '8 hours ago']],
+			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
@@ -218,11 +216,10 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			 * @example Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes")
 			 */
 			$strings[] = UText::localize("Fixed time with time interval in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['12:45:00 +5 hours', '12:45AM -15 minutes'], $example_text_options)]
+				'parameters' => ['examples' => ['12:45:00 +5 hours', '12:45AM -15 minutes']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
-		
-		//return
 		return $strings;
 	}
 }

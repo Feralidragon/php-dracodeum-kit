@@ -120,12 +120,7 @@ class Float64 extends Number
 	/** {@inheritdoc} */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
-		//initialize
 		$strings = [];
-		$example_text_options = TextOptions::coerce($text_options, true);
-		$example_text_options->info_scope = EInfoScope::ENDUSER;
-		
-		//strings
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
 			 * @description Standard notation string.
@@ -134,7 +129,8 @@ class Float64 extends Number
 			 * @example Standard (examples: "1000", "45.75", "-9553.5")
 			 */
 			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['1000', '45.75', '-9553.5'], $example_text_options)]
+				'parameters' => ['examples' => ['1000', '45.75', '-9553.5']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 			/**
 			 * @description Exponential notation string.
@@ -143,7 +139,8 @@ class Float64 extends Number
 			 * @example Exponential string (examples: "1e3", "4575E-2", "-9.5535e3")
 			 */
 			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['1e3', '4575E-2', '-9.5535e3'], $example_text_options)]
+				'parameters' => ['examples' => ['1e3', '4575E-2', '-9.5535e3']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 			/**
 			 * @description Human-readable notation string.
@@ -152,11 +149,10 @@ class Float64 extends Number
 			 * @example Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k")
 			 */
 			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => UText::stringify(['1 thousand', '0.04575k', '-9.5535 k'], $example_text_options)]
+				'parameters' => ['examples' => ['1 thousand', '0.04575k', '-9.5535 k']],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
-		
-		//return
 		return $strings;
 	}
 }

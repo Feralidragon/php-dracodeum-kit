@@ -155,7 +155,7 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 		foreach ($this->values as $value) {
 			$strings[] = $this->stringifyValue($value, $text_options);
 		}
-		return UText::stringify($strings, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND | UText::STRING_NO_QUOTES]);
+		return UText::stringify($strings, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
 	}
 	
 	
@@ -195,6 +195,6 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UText::stringify($value, $text_options);
+		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}
 }

@@ -339,6 +339,6 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{
-		return UText::stringify($value, $text_options);
+		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}
 }

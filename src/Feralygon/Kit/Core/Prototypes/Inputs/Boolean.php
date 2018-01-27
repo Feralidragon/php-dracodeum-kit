@@ -70,7 +70,10 @@ class Boolean extends Input implements IInformation
 						'true' => $this->getTrueValueStrings($text_options)
 					]
 				],
-				'string_flags' => UText::STRING_NONASSOC_CONJUNCTION_AND
+				'string_options' => [
+					'quote_strings' => true,
+					'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+				]
 			]
 		);
 	}
@@ -92,7 +95,10 @@ class Boolean extends Input implements IInformation
 						'true' => $this->getTrueValueStrings($text_options)
 					]
 				],
-				'string_flags' => UText::STRING_NONASSOC_CONJUNCTION_AND
+				'string_options' => [
+					'quote_strings' => true,
+					'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+				]
 			]
 		);
 	}

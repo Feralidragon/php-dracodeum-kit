@@ -452,12 +452,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function getNotationStrings(TextOptions $text_options) : array
-	{
-		//initialize
-		$strings = [];
-		$example_text_options = TextOptions::coerce($text_options, true);
-		$example_text_options->info_scope = EInfoScope::ENDUSER;
-		
+	{		
 		//examples
 		$examples = [];
 		for ($i = 0; $i < 3; $i++) {
@@ -471,6 +466,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		sort($examples, SORT_NUMERIC);
 		
 		//strings
+		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			/**
 			 * @description Standard notation string.
@@ -479,10 +475,9 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 * @example Standard (examples: "64", "85", "125")
 			 */
 			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => [
-					'examples' => UText::stringify(array_map('strval', $examples), $example_text_options)]
-				]
-			);
+				'parameters' => ['examples' => array_map('strval', $examples)],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
+			]);
 			/**
 			 * @description Exponential notation string.
 			 * @placeholder examples The list of integer number examples in exponential notation.
@@ -491,11 +486,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
-					'examples' => UText::stringify(array_map(function ($i, $n) {
+					'examples' => array_map(function ($i, $n) {
 						return round($n / 10 ** ($i + 2), 3) . 'e' . ($i + 2);
-					}, array_keys($examples), $examples), $example_text_options)]
-				]
-			);
+					}, array_keys($examples), $examples)
+				],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
+			]);
 			/**
 			 * @description Octal notation string.
 			 * @placeholder examples The list of integer number examples in octal notation.
@@ -504,11 +500,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			$strings[] = UText::localize("Octal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
-					'examples' => UText::stringify(array_map(function ($n) {
+					'examples' => array_map(function ($n) {
 						return '0' . decoct($n);
-					}, $examples), $example_text_options)]
-				]
-			);
+					}, $examples)
+				],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
+			]);
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder examples The list of integer number examples in hexadecimal notation.
@@ -517,11 +514,12 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
-					'examples' => UText::stringify(array_map(function ($n) {
+					'examples' => array_map(function ($n) {
 						return '0x' . dechex($n);
-					}, $examples), $example_text_options)]
-				]
-			);
+					}, $examples)
+				],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
+			]);
 			/**
 			 * @description Human-readable notation string.
 			 * @placeholder examples The list of integer number examples in human-readable notation.
@@ -530,14 +528,13 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			 */
 			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
 				'parameters' => [
-					'examples' => UText::stringify(array_map(function ($i, $n) {
+					'examples' => array_map(function ($i, $n) {
 						return UMath::hnumber($n, null, ['long' => $i % 2 !== 0]);
-					}, array_keys($examples), $examples), $example_text_options)]
-				]
-			);
+					}, array_keys($examples), $examples)
+				],
+				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
+			]);
 		}
-		
-		//return
 		return $strings;
 	}
 }

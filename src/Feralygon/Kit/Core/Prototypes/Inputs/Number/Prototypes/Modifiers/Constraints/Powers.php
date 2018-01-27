@@ -126,28 +126,19 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
+		$powers_string = UText::stringify($this->powers, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]);
 		if ($this->negate) {
 			/**
 			 * @placeholder powers The list of disallowed powers.
 			 * @example A power of 2, 3 or 5 is not allowed.
 			 */
-			return UText::localize(
-				"A power of {{powers}} is not allowed.",
-				self::class, $text_options, [
-					'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-				]
-			);
+			return UText::localize("A power of {{powers}} is not allowed.", self::class, $text_options, ['parameters' => ['powers' => $powers_string]]);
 		}
 		/**
 		 * @placeholder powers The list of allowed powers.
 		 * @example Only a power of 2, 3 or 5 is allowed.
 		 */
-		return UText::localize(
-			"Only a power of {{powers}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['powers' => UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_OR])]
-			]
-		);
+		return UText::localize("Only a power of {{powers}} is allowed.", self::class, $text_options, ['parameters' => ['powers' => $powers_string]]);
 	}
 	
 	
@@ -156,7 +147,7 @@ class Powers extends Constraint implements IPrototypeProperties, IName, IInforma
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->powers, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND]);
+		return UText::stringify($this->powers, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
 	}
 	
 	

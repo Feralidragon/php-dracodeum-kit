@@ -219,22 +219,22 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			/**
 			 * @placeholder wildcard The wildcard "*" character.
 			 * @tags end-user
-			 * @example The "*" character matches any characters.
+			 * @example The character "*" matches any characters.
 			 */
-			$message .= UText::localize(
-				"The {{wildcard}} character matches any characters.",
-				self::class, $text_options, ['parameters' => ['wildcard' => UText::stringify('*', $text_options)]]
-			);
+			$message .= UText::localize("The character {{wildcard}} matches any characters.", self::class, $text_options, [
+				'parameters' => ['wildcard' => '*'],
+				'string_options' => ['quote_strings' => true]
+			]);
 		} else {
 			/**
 			 * @placeholder wildcard The wildcard "*" character.
 			 * @tags non-end-user
 			 * @example The wildcard character "*" matches any number and type of characters.
 			 */
-			$message .= UText::localize(
-				"The wildcard character {{wildcard}} matches any number and type of characters.",
-				self::class, $text_options, ['parameters' => ['wildcard' => UText::stringify('*', $text_options)]]
-			);
+			$message .= UText::localize("The wildcard character {{wildcard}} matches any number and type of characters.", self::class, $text_options, [
+				'parameters' => ['wildcard' => '*'],
+				'string_options' => ['quote_strings' => true]
+			]);
 		}
 		
 		//insensitive
@@ -259,7 +259,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->wildcards, $text_options, ['flags' => UText::STRING_NONASSOC_CONJUNCTION_AND]);
+		return UText::stringify($this->wildcards, $text_options, ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
 	}
 	
 	
