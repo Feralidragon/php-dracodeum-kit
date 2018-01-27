@@ -168,7 +168,9 @@ class LengthRange extends Constraint implements IPrototypeProperties, IName, IPr
 		 * @placeholder max_length The maximum allowed length.
 		 * @example 5 to 10
 		 */
-		return UText::localize("{{min_length}} to {{max_length}}", self::class, $text_options, ['parameters' => ['min_length' => $this->min_length, 'max_length' => $this->max_length]]);
+		return UText::localize("{{min_length}} to {{max_length}}", self::class, $text_options, [
+			'parameters' => ['min_length' => $this->min_length, 'max_length' => $this->max_length]
+		]);
 	}
 	
 	

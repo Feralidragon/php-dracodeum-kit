@@ -172,8 +172,12 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
+		//initialize
 		$strings = [];
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//unix timestamp
 			/**
 			 * @description Unix timestamp notation string.
 			 * @placeholder example The date example in Unix timestamp notation.
@@ -183,6 +187,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => 1484438400]
 			]);
+			
+			//iso 8601
 			/**
 			 * @description ISO 8601 notation string.
 			 * @placeholder example The date example in ISO 8601 notation.
@@ -194,6 +200,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 				'string_options' => ['quote_strings' => true]
 			]);
 		}
+		
+		//year, month and day
 		/**
 		 * @description Year, month and day notation string.
 		 * @placeholder example The date example in year, month and day notation.
@@ -203,6 +211,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['example' => '2017-01-15'],
 			'string_options' => ['quote_strings' => true]
 		]);
+		
+		//american month, day and year
 		/**
 		 * @description American month, day and year notation string.
 		 * @placeholder example The date example in American month, day and year notation.
@@ -212,6 +222,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['example' => '1/15/17'],
 			'string_options' => ['quote_strings' => true]
 		]);
+		
+		//day, month and year in english
 		/**
 		 * @description Day, month and year in English notation string.
 		 * @placeholder example The date example in day, month and year in English notation.
@@ -221,6 +233,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['example' => '15 January 2017'],
 			'string_options' => ['quote_strings' => true]
 		]);
+		
+		//relative time interval in english
 		/**
 		 * @description Relative time interval in English notation string.
 		 * @placeholder examples The list of date examples in relative time interval in English notation.
@@ -230,7 +244,10 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['examples' => ['today', 'yesterday', 'next Wednesday', '8 days ago']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//fixed date with time interval in english
 			/**
 			 * @description Fixed date with time interval in English notation string.
 			 * @placeholder examples The list of date examples in fixed date with time interval in English notation.
@@ -242,6 +259,8 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
+		
+		//return
 		return $strings;
 	}
 }

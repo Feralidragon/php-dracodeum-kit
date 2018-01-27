@@ -468,6 +468,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 		//strings
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//standard
 			/**
 			 * @description Standard notation string.
 			 * @placeholder examples The list of integer number examples in standard notation.
@@ -478,6 +479,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				'parameters' => ['examples' => array_map('strval', $examples)],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//exponential
 			/**
 			 * @description Exponential notation string.
 			 * @placeholder examples The list of integer number examples in exponential notation.
@@ -492,6 +495,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//octal
 			/**
 			 * @description Octal notation string.
 			 * @placeholder examples The list of integer number examples in octal notation.
@@ -506,6 +511,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//hexadecimal
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder examples The list of integer number examples in hexadecimal notation.
@@ -520,6 +527,8 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//human-readable
 			/**
 			 * @description Human-readable notation string.
 			 * @placeholder examples The list of integer number examples in human-readable notation.

@@ -181,6 +181,7 @@ class Number extends Input implements IInformation, IModifiers
 	{
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//standard
 			/**
 			 * @description Standard notation string.
 			 * @placeholder examples The list of number examples in standard notation.
@@ -191,6 +192,8 @@ class Number extends Input implements IInformation, IModifiers
 				'parameters' => ['examples' => ['1000', '45.75', '-9553.5']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//exponential
 			/**
 			 * @description Exponential notation string.
 			 * @placeholder examples The list of number examples in exponential notation.
@@ -201,6 +204,8 @@ class Number extends Input implements IInformation, IModifiers
 				'parameters' => ['examples' => ['1e3', '4575E-2', '-9.5535e3']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//octal
 			/**
 			 * @description Octal notation string.
 			 * @placeholder examples The list of number examples in octal notation.
@@ -211,6 +216,8 @@ class Number extends Input implements IInformation, IModifiers
 				'parameters' => ['examples' => ['01750', '055', '022521']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//hexadecimal
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder examples The list of number examples in hexadecimal notation.
@@ -221,6 +228,8 @@ class Number extends Input implements IInformation, IModifiers
 				'parameters' => ['examples' => ['0x03e8', '0x2D', '0x2551']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//human-readable
 			/**
 			 * @description Human-readable notation string.
 			 * @placeholder examples The list of number examples in human-readable notation.

@@ -104,6 +104,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 		//entries
 		$entries = [];
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			//first
 			/**
 			 * @description Format description first entry.
 			 * @placeholder letters.a The lowercase "a" letter character.
@@ -123,6 +124,8 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 					]
 				]
 			);
+			
+			//second
 			/**
 			 * @description Format description second entry.
 			 * @placeholder letters.a The lowercase "a" letter character.
@@ -146,6 +149,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 				]
 			);
 		} else {
+			//first
 			/**
 			 * @description Format description first entry.
 			 * @placeholder letters.a The lowercase "a" letter character.
@@ -165,6 +169,8 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 					]
 				]
 			);
+			
+			//second
 			/**
 			 * @description Format description second entry.
 			 * @placeholder letters.a The lowercase "a" letter character.

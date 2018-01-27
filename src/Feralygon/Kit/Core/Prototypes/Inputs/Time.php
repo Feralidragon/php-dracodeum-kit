@@ -168,8 +168,12 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
+		//initialize
 		$strings = [];
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//unix timestamp
 			/**
 			 * @description Unix timestamp notation string.
 			 * @placeholder example The time example in Unix timestamp notation.
@@ -179,6 +183,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => 45900]
 			]);
+			
+			//iso 8601
 			/**
 			 * @description ISO 8601 notation string.
 			 * @placeholder examples The list of time examples in ISO 8601 notation.
@@ -190,6 +196,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
+		
+		//hours, minutes and seconds (optionally with timezone)
 		/**
 		 * @description Hours, minutes and seconds (optionally with timezone) notation string.
 		 * @placeholder examples The list of time examples in hours, minutes and seconds (optionally with timezone) notation.
@@ -199,6 +207,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['examples' => ['12:45:00', '12:45AM', '07:45:00 GMT-5']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//relative time interval in english
 		/**
 		 * @description Relative time interval in English notation string.
 		 * @placeholder examples The list of time examples in relative time interval in English notation.
@@ -208,7 +218,10 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			'parameters' => ['examples' => ['now', '8 hours ago']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//fixed time with time interval in english
 			/**
 			 * @description Fixed time with time interval in English notation string.
 			 * @placeholder examples The list of time examples in fixed time with time interval in English notation.
@@ -220,6 +233,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
+		
+		//return
 		return $strings;
 	}
 }

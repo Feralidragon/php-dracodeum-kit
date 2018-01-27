@@ -919,7 +919,8 @@ final class Text extends Utility
 	 */
 	final public static function capitalize(string $string, bool $unicode = false) : string
 	{
-		if (preg_match($unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism', $string, $matches) && self::lower($matches[2], $unicode) === $matches[2]) {
+		$pattern = $unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism';
+		if (preg_match($pattern, $string, $matches) && self::lower($matches[2], $unicode) === $matches[2]) {
 			return $matches[1] . self::ucfirst($matches[2], $unicode) . $matches[3];
 		}
 		return $string;
@@ -937,7 +938,8 @@ final class Text extends Utility
 	 */
 	final public static function uncapitalize(string $string, bool $unicode = false) : string
 	{
-		if (preg_match($unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism', $string, $matches) && self::ucfirst(self::lower($matches[2], $unicode), $unicode) === $matches[2]) {
+		$pattern = $unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism';
+		if (preg_match($pattern, $string, $matches) && self::ucfirst(self::lower($matches[2], $unicode), $unicode) === $matches[2]) {
 			return $matches[1] . self::lcfirst($matches[2], $unicode) . $matches[3];
 		}
 		return $string;

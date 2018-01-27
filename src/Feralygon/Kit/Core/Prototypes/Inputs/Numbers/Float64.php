@@ -122,6 +122,7 @@ class Float64 extends Number
 	{
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//standard
 			/**
 			 * @description Standard notation string.
 			 * @placeholder examples The list of float64 number examples in standard notation.
@@ -132,6 +133,8 @@ class Float64 extends Number
 				'parameters' => ['examples' => ['1000', '45.75', '-9553.5']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//exponential
 			/**
 			 * @description Exponential notation string.
 			 * @placeholder examples The list of float64 number examples in exponential notation.
@@ -142,6 +145,8 @@ class Float64 extends Number
 				'parameters' => ['examples' => ['1e3', '4575E-2', '-9.5535e3']],
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
+			
+			//human-readable
 			/**
 			 * @description Human-readable notation string.
 			 * @placeholder examples The list of float64 number examples in human-readable notation.

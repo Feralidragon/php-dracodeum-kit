@@ -190,7 +190,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			//initialize
 			$example_value = random_bytes($this->getBits() / 8);
 			
-			//strings
+			//hexadecimal
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder example The hash example in hexadecimal notation.
@@ -201,6 +201,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 				'parameters' => ['example' => bin2hex($example_value)],
 				'string_options' => ['quote_strings' => true]
 			]);
+			
+			//base64 encoded
 			/**
 			 * @description Base64 encoded notation string.
 			 * @placeholder example The hash example in Base64 encoded notation.
@@ -211,6 +213,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 				'parameters' => ['example' => UBase64::encode($example_value)],
 				'string_options' => ['quote_strings' => true]
 			]);
+			
+			//url-safe base64 encoded
 			/**
 			 * @description URL-safe Base64 encoded notation string.
 			 * @placeholder example The hash example in URL-safe Base64 encoded notation.
@@ -221,6 +225,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 				'parameters' => ['example' => UBase64::encode($example_value, true)],
 				'string_options' => ['quote_strings' => true]
 			]);
+			
+			//raw binary
 			/**
 			 * @description Raw binary notation string.
 			 * @tags non-end-user

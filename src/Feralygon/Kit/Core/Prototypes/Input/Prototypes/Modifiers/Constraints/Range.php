@@ -58,7 +58,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (($this->min_exclusive ? $value > $this->min_value : $value >= $this->min_value) && ($this->max_exclusive ? $value < $this->max_value : $value <= $this->max_value)) !== $this->negate;
+		return $this->negate !== (
+			($this->min_exclusive ? $value > $this->min_value : $value >= $this->min_value) && 
+			($this->max_exclusive ? $value < $this->max_value : $value <= $this->max_value)
+		);
 	}
 	
 	

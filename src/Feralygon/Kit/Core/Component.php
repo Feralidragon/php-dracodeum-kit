@@ -35,7 +35,8 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * <br>
  * Interfaces, the ideal way of defining methods for implementation, only allow public methods to be defined, 
  * and many of the methods of a component are actually meant to be implemented as protected, given that they should not become visible when the component is used.<br>
- * Furthermore, the overusage of interfaces leads to classes completely loosing their own identity, or never having one in the first place, potentially violating the Single Responsibility Principle.<br>
+ * Furthermore, the overusage of interfaces leads to classes completely loosing their own identity, or never having one in the first place, 
+ * potentially violating the Single Responsibility Principle.<br>
  * <br>
  * In summary, it makes code much harder to read and maintain, and it's very error prone as it doesn't properly and cleanly isolate internal code from 
  * what the developer actually intends and is supposed to define and customize, and becomes highly unflexible for extension.<br>

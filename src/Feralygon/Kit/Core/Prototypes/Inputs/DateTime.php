@@ -172,8 +172,12 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
+		//initialize
 		$strings = [];
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//unix timestamp
 			/**
 			 * @description Unix timestamp notation string.
 			 * @placeholder example The date and time example in Unix timestamp notation.
@@ -183,6 +187,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
 				'parameters' => ['example' => 1484484300]
 			]);
+			
+			//iso 8601
 			/**
 			 * @description ISO 8601 notation string.
 			 * @placeholder examples The list of date and time examples in ISO 8601 notation.
@@ -194,6 +200,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
+		
+		//year, month and day (optionally with time and timezone)
 		/**
 		 * @description Year, month and day (optionally with time and timezone) notation string.
 		 * @placeholder examples The list of date and time examples in year, month and day (optionally with time and timezone) notation.
@@ -203,6 +211,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			'parameters' => ['examples' => ['2017-01-15', '2017-01-15 12:45:00', '2017-01-15 07:45:00 GMT-5']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//american month, day and year (optionally with time and timezone)
 		/**
 		 * @description American month, day and year (optionally with time and timezone) notation string.
 		 * @placeholder examples The list of date and time examples in American month, day and year (optionally with time and timezone) notation.
@@ -212,6 +222,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			'parameters' => ['examples' => ['1/15/17', '1/15/17 12:45:00', '1/15/17 7:45:00 EST']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//day, month and year in english (optionally with time and timezone)
 		/**
 		 * @description Day, month and year in English (optionally with time and timezone) notation string.
 		 * @placeholder examples The list of date and time examples in day, month and year in English (optionally with time and timezone) notation.
@@ -221,6 +233,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			'parameters' => ['examples' => ['15 January 2017', '15 January 2017 12:45:00', '15 Jan 2017 15:45:00 GMT+3']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//relative time interval in english
 		/**
 		 * @description Relative time interval in English notation string.
 		 * @placeholder examples The list of date and time examples in relative time interval in English notation.
@@ -230,7 +244,10 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			'parameters' => ['examples' => ['now', 'yesterday', 'next Wednesday', '8 days ago']],
 			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 		]);
+		
+		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//fixed date and time with time interval in English
 			/**
 			 * @description Fixed date and time with time interval in English notation string.
 			 * @placeholder examples The list of date and time examples in fixed date and time with time interval in English notation.
@@ -242,6 +259,8 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
 			]);
 		}
+		
+		//return
 		return $strings;
 	}
 }
