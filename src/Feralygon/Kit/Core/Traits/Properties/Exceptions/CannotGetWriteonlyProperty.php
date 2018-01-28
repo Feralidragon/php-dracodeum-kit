@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 /**
  * Core properties trait cannot get write-only property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given write-only property with a given name is attempted to be retrieved.
+ * This exception is thrown from an object using the properties trait whenever a given write-only property 
+ * with a given name is attempted to be retrieved.
  * 
  * @since 1.0.0
  */

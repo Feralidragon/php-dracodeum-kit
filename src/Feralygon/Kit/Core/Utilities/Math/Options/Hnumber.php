@@ -18,8 +18,10 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property bool $long [default = false] <p>Return the long form of the human-readable number.</p>
- * @property int|null $precision [default = null] <p>The rounding precision, in other words, the maximum number of decimal places to keep.<br>
- * If not set, a specific precision is automatically chosen and used, otherwise it must always be greater than or equal to <code>0</code>.</p>
+ * @property int|null $precision [default = null] <p>The rounding precision, 
+ * in other words, the maximum number of decimal places to keep.<br>
+ * If not set, a specific precision is automatically chosen and used, 
+ * otherwise it must always be greater than or equal to <code>0</code>.</p>
  * @property string|int|null $min_multiple [default = null] <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number, such as: <code>1</code>, <code>1000</code>, <code>1000000</code>, ...<br>
  * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>K</samp>, <samp>M</samp>, <samp>B</samp>, ... <br>

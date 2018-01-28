@@ -29,7 +29,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core time input prototype class.
  * 
- * This input prototype represents a time, as an Unix timestamp, for which only the following types of values may be evaluated as such:<br>
+ * This input prototype represents a time, as an Unix timestamp, 
+ * for which only the following types of values may be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; an Unix timestamp;<br>
  * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP core <code>strtotime</code> function.
  * 
@@ -37,12 +38,18 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Minimum [modifier, name = 'constraints.minimum']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Maximum [modifier, name = 'constraints.maximum']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Range [modifier, name = 'constraints.range' or 'constraints.non_range']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Format [modifier, name = 'filters.format']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Iso8601 [modifier, name = 'filters.iso8601']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Values 
+ * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Minimum 
+ * [modifier, name = 'constraints.minimum']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Maximum 
+ * [modifier, name = 'constraints.maximum']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Range 
+ * [modifier, name = 'constraints.range' or 'constraints.non_range']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Format 
+ * [modifier, name = 'filters.format']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Iso8601 
+ * [modifier, name = 'filters.iso8601']
  */
 class Time extends Input implements IInformation, IValueStringification, IModifiers
 {
@@ -76,7 +83,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 * @example A time, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 45900);
 		 *  &#8226; ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00");
-		 *  &#8226; Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5");
+		 *  &#8226; Hours, minutes and seconds, \
+		 *  optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5");
 		 *  &#8226; Relative time interval in English (examples: "now", "8 hours ago");
 		 *  &#8226; Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes").
 		 */
@@ -84,7 +92,9 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			"A time, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -98,7 +108,8 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 * @example Only a time is allowed, which may be given using any of the following notations:
 		 *  &#8226; Unix timestamp (example: 45900);
 		 *  &#8226; ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00");
-		 *  &#8226; Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5");
+		 *  &#8226; Hours, minutes and seconds, \
+		 *  optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5");
 		 *  &#8226; Relative time interval in English (examples: "now", "8 hours ago");
 		 *  &#8226; Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes").
 		 */
@@ -106,7 +117,9 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			"Only a time is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -137,7 +150,9 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			case 'constraints.minimum':
 				return $this->createConstraint(Constraints\Minimum::class, $prototype_properties, $properties);
 			case 'constraints.maximum':
@@ -145,7 +160,9 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			case 'constraints.range':
 				return $this->createConstraint(Constraints\Range::class, $prototype_properties, $properties);
 			case 'constraints.non_range':
-				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			
 			//filters
 			case 'filters.format':
@@ -180,9 +197,12 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example Unix timestamp (example: 45900)
 			 */
-			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => 45900]
-			]);
+			$strings[] = UText::localize(
+				"Unix timestamp (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => 45900]
+				]
+			);
 			
 			//iso 8601
 			/**
@@ -191,22 +211,36 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example ISO 8601 (examples: "12:45:00", "12:45", "13:45:00+01:00")
 			 */
-			$strings[] = UText::localize("ISO 8601 (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['12:45:00', '12:45', '13:45:00+01:00']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"ISO 8601 (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['12:45:00', '12:45', '13:45:00+01:00']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 		}
 		
 		//hours, minutes and seconds (optionally with timezone)
 		/**
 		 * @description Hours, minutes and seconds (optionally with timezone) notation string.
-		 * @placeholder examples The list of time examples in hours, minutes and seconds (optionally with timezone) notation.
-		 * @example Hours, minutes and seconds, optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5")
+		 * @placeholder examples The list of time examples in hours, \
+		 * minutes and seconds (optionally with timezone) notation.
+		 * @example Hours, minutes and seconds, \
+		 * optionally with timezone (examples: "12:45:00", "12:45AM", "07:45:00 GMT-5")
 		 */
-		$strings[] = UText::localize("Hours, minutes and seconds, optionally with timezone (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => ['12:45:00', '12:45AM', '07:45:00 GMT-5']],
-			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-		]);
+		$strings[] = UText::localize(
+			"Hours, minutes and seconds, optionally with timezone (examples: {{examples}})",
+			self::class, $text_options, [
+				'parameters' => ['examples' => ['12:45:00', '12:45AM', '07:45:00 GMT-5']],
+				'string_options' => [
+					'quote_strings' => true,
+					'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+				]
+			]
+		);
 		
 		//relative time interval in english
 		/**
@@ -214,10 +248,16 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		 * @placeholder examples The list of time examples in relative time interval in English notation.
 		 * @example Relative time interval in English (examples: "now", "8 hours ago")
 		 */
-		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => ['now', '8 hours ago']],
-			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-		]);
+		$strings[] = UText::localize(
+			"Relative time interval in English (examples: {{examples}})",
+			self::class, $text_options, [
+				'parameters' => ['examples' => ['now', '8 hours ago']],
+				'string_options' => [
+					'quote_strings' => true,
+					'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+				]
+			]
+		);
 		
 		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
@@ -228,10 +268,16 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example Fixed time with time interval in English (examples: "12:45:00 +5 hours", "12:45AM -15 minutes")
 			 */
-			$strings[] = UText::localize("Fixed time with time interval in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['12:45:00 +5 hours', '12:45AM -15 minutes']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Fixed time with time interval in English (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['12:45:00 +5 hours', '12:45AM -15 minutes']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 		}
 		
 		//return

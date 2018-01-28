@@ -23,6 +23,7 @@ class NotInitialized extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Property {{property}} has not been initialized yet.\n" . 
-			"HINT: A property must be initialized first through the \"setValue\", \"setGetter\" or \"setSetter\" method.";
+			"HINT: A property must be initialized first through the \"setValue\", " . 
+			"\"setGetter\" or \"setSetter\" method.";
 	}
 }

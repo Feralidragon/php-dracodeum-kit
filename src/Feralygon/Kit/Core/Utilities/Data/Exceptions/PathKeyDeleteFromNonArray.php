@@ -13,7 +13,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 /**
  * Core data utility path key delete from non-array exception class.
  * 
- * This exception is thrown from the data utility whenever there is an attempt to delete a given path key from a non-array value.
+ * This exception is thrown from the data utility whenever there is an attempt to delete a given path key 
+ * from a non-array value.
  * 
  * @since 1.0.0
  * @property-read string $path <p>The path.</p>

@@ -39,7 +39,8 @@ final class Error
 	 * <code>function (\Feralygon\Kit\Core\Options\Text $text_options) : ?string</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Options\Text $text_options</b></code> : The text options instance to use.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Core\Options\Text $text_options</b></code> : 
+	 * The text options instance to use.<br>
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
 	 * The error message or <code>null</code> if no error is set.

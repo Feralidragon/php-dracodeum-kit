@@ -70,12 +70,17 @@ abstract class Input extends Prototype implements IFunctions
 	 * Create a constraint instance.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype <p>The constraint prototype instance, class or name.</p>
-	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
+	 * <p>The constraint prototype instance, class or name.</p>
+	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @param array $properties [default = []] <p>The constraint properties, as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint <p>The created constraint instance.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint 
+	 * <p>The created constraint instance.</p>
 	 */
-	protected function createConstraint($prototype, array $prototype_properties = [], array $properties = []) : Constraint
+	protected function createConstraint(
+		$prototype, array $prototype_properties = [], array $properties = []
+	) : Constraint
 	{
 		return $this->call('createConstraint', $prototype, $prototype_properties, $properties);
 	}
@@ -84,12 +89,17 @@ abstract class Input extends Prototype implements IFunctions
 	 * Create a filter instance.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype <p>The filter prototype instance, class or name.</p>
-	 * @param array $prototype_properties [default = []] <p>The filter prototype properties, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
+	 * <p>The filter prototype instance, class or name.</p>
+	 * @param array $prototype_properties [default = []] <p>The filter prototype properties, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @param array $properties [default = []] <p>The filter properties, as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter <p>The created filter instance.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter 
+	 * <p>The created filter instance.</p>
 	 */
-	protected function createFilter($prototype, array $prototype_properties = [], array $properties = []) : Filter
+	protected function createFilter(
+		$prototype, array $prototype_properties = [], array $properties = []
+	) : Filter
 	{
 		return $this->call('createFilter', $prototype, $prototype_properties, $properties);
 	}

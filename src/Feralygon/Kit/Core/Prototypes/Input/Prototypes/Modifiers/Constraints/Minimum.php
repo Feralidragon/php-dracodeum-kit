@@ -29,7 +29,8 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property mixed $value <p>The minimum allowed value to restrict to (inclusive).</p>
- * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
+ * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, 
+ * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  */
 class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -118,13 +119,23 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			 * @placeholder value The minimum allowed value.
 			 * @example Only a value greater than 250 is allowed.
 			 */
-			return UText::localize("Only a value greater than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize(
+				"Only a value greater than {{value}} is allowed.",
+				self::class, $text_options, [
+					'parameters' => ['value' => $value_string]
+				]
+			);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
 		 * @example Only a value greater than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only a value greater than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize(
+			"Only a value greater than or equal to {{value}} is allowed.",
+			self::class, $text_options, [
+				'parameters' => ['value' => $value_string]
+			]
+		);
 	}
 	
 	
@@ -139,7 +150,12 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			 * @placeholder value The minimum allowed value.
 			 * @example 250 (exclusive)
 			 */
-			return UText::localize("{{value}} (exclusive)", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize(
+				"{{value}} (exclusive)",
+				self::class, $text_options, [
+					'parameters' => ['value' => $value_string]
+				]
+			);
 		}
 		return $value_string;
 	}

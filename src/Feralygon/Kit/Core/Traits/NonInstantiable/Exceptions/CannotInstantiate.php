@@ -13,7 +13,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 /**
  * Core non-instantiable trait cannot instantiate exception class.
  * 
- * This exception is thrown from a class using the non-instantiable trait whenever the instantiation of a class is attempted.
+ * This exception is thrown from a class using the non-instantiable trait whenever the instantiation 
+ * of a class is attempted.
  * 
  * @since 1.0.0
  * @property-read string $class <p>The class.</p>

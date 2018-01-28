@@ -29,7 +29,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core date input prototype class.
  * 
- * This input prototype represents a date, as an Unix timestamp, for which only the following types of values may be evaluated as such:<br>
+ * This input prototype represents a date, as an Unix timestamp, 
+ * for which only the following types of values may be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; an Unix timestamp;<br>
  * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP core <code>strtotime</code> function.
  * 
@@ -37,12 +38,18 @@ use Feralygon\Kit\Core\Utilities\{
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Minimum [modifier, name = 'constraints.minimum']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Maximum [modifier, name = 'constraints.maximum']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Range [modifier, name = 'constraints.range' or 'constraints.non_range']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Format [modifier, name = 'filters.format']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Iso8601 [modifier, name = 'filters.iso8601']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Values 
+ * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Minimum 
+ * [modifier, name = 'constraints.minimum']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Maximum 
+ * [modifier, name = 'constraints.maximum']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Range 
+ * [modifier, name = 'constraints.range' or 'constraints.non_range']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Format 
+ * [modifier, name = 'filters.format']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Iso8601 
+ * [modifier, name = 'filters.iso8601']
  */
 class Date extends Input implements IInformation, IValueStringification, IModifiers
 {
@@ -86,7 +93,9 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			"A date, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -110,7 +119,9 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			"Only a date is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -141,7 +152,9 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			case 'constraints.minimum':
 				return $this->createConstraint(Constraints\Minimum::class, $prototype_properties, $properties);
 			case 'constraints.maximum':
@@ -149,7 +162,9 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			case 'constraints.range':
 				return $this->createConstraint(Constraints\Range::class, $prototype_properties, $properties);
 			case 'constraints.non_range':
-				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			
 			//filters
 			case 'filters.format':
@@ -184,9 +199,12 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example Unix timestamp (example: 1484438400)
 			 */
-			$strings[] = UText::localize("Unix timestamp (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => 1484438400]
-			]);
+			$strings[] = UText::localize(
+				"Unix timestamp (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => 1484438400]
+				]
+			);
 			
 			//iso 8601
 			/**
@@ -195,10 +213,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example ISO 8601 (example: "2017-01-15")
 			 */
-			$strings[] = UText::localize("ISO 8601 (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => '2017-01-15'],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$strings[] = UText::localize(
+				"ISO 8601 (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => '2017-01-15'],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 		}
 		
 		//year, month and day
@@ -207,10 +228,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 * @placeholder example The date example in year, month and day notation.
 		 * @example Year, month and day (example: "2017-01-15")
 		 */
-		$strings[] = UText::localize("Year, month and day (example: {{example}})", self::class, $text_options, [
-			'parameters' => ['example' => '2017-01-15'],
-			'string_options' => ['quote_strings' => true]
-		]);
+		$strings[] = UText::localize(
+			"Year, month and day (example: {{example}})",
+			self::class, $text_options, [
+				'parameters' => ['example' => '2017-01-15'],
+				'string_options' => ['quote_strings' => true]
+			]
+		);
 		
 		//american month, day and year
 		/**
@@ -218,10 +242,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 * @placeholder example The date example in American month, day and year notation.
 		 * @example American month, day and year (example: "1/15/17")
 		 */
-		$strings[] = UText::localize("American month, day and year (example: {{example}})", self::class, $text_options, [
-			'parameters' => ['example' => '1/15/17'],
-			'string_options' => ['quote_strings' => true]
-		]);
+		$strings[] = UText::localize(
+			"American month, day and year (example: {{example}})",
+			self::class, $text_options, [
+				'parameters' => ['example' => '1/15/17'],
+				'string_options' => ['quote_strings' => true]
+			]
+		);
 		
 		//day, month and year in english
 		/**
@@ -229,10 +256,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 * @placeholder example The date example in day, month and year in English notation.
 		 * @example Day, month and year in English (example: "15 January 2017")
 		 */
-		$strings[] = UText::localize("Day, month and year in English (example: {{example}})", self::class, $text_options, [
-			'parameters' => ['example' => '15 January 2017'],
-			'string_options' => ['quote_strings' => true]
-		]);
+		$strings[] = UText::localize(
+			"Day, month and year in English (example: {{example}})",
+			self::class, $text_options, [
+				'parameters' => ['example' => '15 January 2017'],
+				'string_options' => ['quote_strings' => true]
+			]
+		);
 		
 		//relative time interval in english
 		/**
@@ -240,10 +270,16 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 		 * @placeholder examples The list of date examples in relative time interval in English notation.
 		 * @example Relative time interval in English (examples: "today", "yesterday", "next Wednesday", "8 days ago")
 		 */
-		$strings[] = UText::localize("Relative time interval in English (examples: {{examples}})", self::class, $text_options, [
-			'parameters' => ['examples' => ['today', 'yesterday', 'next Wednesday', '8 days ago']],
-			'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-		]);
+		$strings[] = UText::localize(
+			"Relative time interval in English (examples: {{examples}})",
+			self::class, $text_options, [
+				'parameters' => ['examples' => ['today', 'yesterday', 'next Wednesday', '8 days ago']],
+				'string_options' => [
+					'quote_strings' => true,
+					'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+				]
+			]
+		);
 		
 		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
@@ -254,10 +290,16 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			 * @tags non-end-user
 			 * @example Fixed date with time interval in English (examples: "2017-01-15 +5 days", "1/15/17 -3 weeks")
 			 */
-			$strings[] = UText::localize("Fixed date with time interval in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['2017-01-15 +5 days', '1/15/17 -3 weeks']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Fixed date with time interval in English (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['2017-01-15 +5 days', '1/15/17 -3 weeks']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 		}
 		
 		//return

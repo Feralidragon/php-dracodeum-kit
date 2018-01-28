@@ -162,12 +162,14 @@ abstract class Enumeration
 	/**
 	 * Evaluate a given value as an enumerated element value.
 	 * 
-	 * Only an enumerated element given as an integer, float or string can be evaluated into an enumerated element value.
+	 * Only an enumerated element given as an integer, float or string can be evaluated 
+	 * into an enumerated element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is a valid enumerated element and was sanitized into an enumerated element value.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is a valid enumerated element 
+	 * and was sanitized into an enumerated element value.</p>
 	 */
 	final public static function evaluateValue(&$value, bool $nullable = false) : bool
 	{
@@ -208,7 +210,8 @@ abstract class Enumeration
 				'enumeration' => static::class,
 				'value' => $value,
 				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumerated element given as an integer, float or string can be coerced into an enumerated element value."
+				'error_message' => "Only an enumerated element given as an integer, float or string " . 
+					"can be coerced into an enumerated element value."
 			]);
 		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
 			return static::getValue($value);
@@ -229,7 +232,8 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is a valid enumerated element and was sanitized into an enumerated element name.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is a valid enumerated element 
+	 * and was sanitized into an enumerated element name.</p>
 	 */
 	final public static function evaluateName(&$value, bool $nullable = false) : bool
 	{
@@ -270,7 +274,8 @@ abstract class Enumeration
 				'enumeration' => static::class,
 				'value' => $value,
 				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumerated element given as an integer, float or string can be coerced into an enumerated element name."
+				'error_message' => "Only an enumerated element given as an integer, float or string " . 
+					"can be coerced into an enumerated element name."
 			]);
 		} elseif (is_string($value) && static::hasName($value)) {
 			return $value;
@@ -291,7 +296,8 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element <p>The enumerated element to get for, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The label from the given enumerated element.</p>
 	 */
 	final public static function getLabel($element, $text_options = null) : string
@@ -304,7 +310,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value <p>The enumerated element value to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The label from the enumerated element with the given value.</p>
 	 */
 	final public static function getValueLabel($value, $text_options = null) : string
@@ -317,7 +324,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The enumerated element name to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Enumeration\Exceptions\NameNotFound
 	 * @return string <p>The label from the enumerated element with the given name.</p>
 	 */
@@ -326,7 +334,8 @@ abstract class Enumeration
 		if (!static::hasName($name)) {
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
-		return static::retrieveLabel($name, TextOptions::coerce($text_options)) ?? UText::unslugify(strtolower($name), UText::UNSLUG_CAPITALIZE_ALL);
+		return static::retrieveLabel($name, TextOptions::coerce($text_options))
+			?? UText::unslugify(strtolower($name), UText::UNSLUG_CAPITALIZE_ALL);
 	}
 	
 	/**
@@ -335,7 +344,8 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element <p>The enumerated element to get for, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The description from the given enumerated element or <code>null</code> if none exists.</p>
 	 */
 	final public static function getDescription($element, $text_options = null) : ?string
@@ -348,8 +358,10 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value <p>The enumerated element value to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The description from the enumerated element with the given value or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null <p>The description from the enumerated element with the given value 
+	 * or <code>null</code> if none exists.</p>
 	 */
 	final public static function getValueDescription($value, $text_options = null) : ?string
 	{
@@ -361,8 +373,10 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The enumerated element name to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The description from the enumerated element with the given name or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null <p>The description from the enumerated element with the given name 
+	 * or <code>null</code> if none exists.</p>
 	 */
 	final public static function getNameDescription(string $name, $text_options = null) : ?string
 	{

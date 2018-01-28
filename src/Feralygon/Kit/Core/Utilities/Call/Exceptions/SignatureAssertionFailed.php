@@ -17,7 +17,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core call utility signature assertion failed exception class.
  * 
- * This exception is thrown from the call utility whenever the signature assertion between a given function and a given template has failed.
+ * This exception is thrown from the call utility whenever the signature assertion between a given function 
+ * and a given template has failed.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>

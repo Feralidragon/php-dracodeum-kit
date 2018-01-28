@@ -38,13 +38,23 @@ class Minimum extends Constraints\Minimum
 			 * @placeholder value The minimum allowed value.
 			 * @example Only a date and time after 2017-01-15 12:45:00 is allowed.
 			 */
-			return UText::localize("Only a date and time after {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize(
+				"Only a date and time after {{value}} is allowed.",
+				self::class, $text_options, [
+					'parameters' => ['value' => $value_string]
+				]
+			);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
 		 * @example Only a date and time after or on 2017-01-15 12:45:00 is allowed.
 		 */
-		return UText::localize("Only a date and time after or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize(
+			"Only a date and time after or on {{value}} is allowed.",
+			self::class, $text_options, [
+				'parameters' => ['value' => $value_string]
+			]
+		);
 	}
 	
 	

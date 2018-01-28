@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 /**
  * Core properties trait invalid boolean property value exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given value is invalid for a given boolean property.
+ * This exception is thrown from an object using the properties trait whenever a given value 
+ * is invalid for a given boolean property.
  * 
  * @since 1.0.0
  */

@@ -28,18 +28,22 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core enumeration input prototype class.
  * 
- * This input prototype represents an enumerated element, as an integer, float or string, for which only the following types of values may be evaluated as such:<br>
+ * This input prototype represents an enumerated element, as an integer, float or string, 
+ * for which only the following types of values may be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; an integer, float or string as the enumerated element value;<br>
  * &nbsp; &#8226; &nbsp; a string as the enumerated element name.
  * 
  * @since 1.0.0
  * @property-read string $enumeration <p>The enumeration class to use.</p>
  * @property-read int[]|float[]|string[] $values [default = []] <p>The enumerated element values to restrict to.</p>
- * @property-read int[]|float[]|string[] $non_values [default = []] <p>The enumerated element values to restrict from.</p>
+ * @property-read int[]|float[]|string[] $non_values [default = []] 
+ * <p>The enumerated element values to restrict from.</p>
  * @property-read bool $names_only [default = false] <p>Only allow enumerated element names to be set.</p>
  * @property-read bool $values_only [default = false] <p>Only allow enumerated element values to be set.</p>
- * @property-read bool $hide_names [default = false] <p>Hide enumerated element names in labels, descriptions and messages.</p>
- * @property-read bool $hide_values [default = false] <p>Hide enumerated element values in labels, descriptions and messages.</p>
+ * @property-read bool $hide_names [default = false] <p>Hide enumerated element names in labels, 
+ * descriptions and messages.</p>
+ * @property-read bool $hide_values [default = false] <p>Hide enumerated element values in labels, 
+ * descriptions and messages.</p>
  * @property-read bool $namify [default = false] <p>Set as an enumerated element name.</p>
  * @see \Feralygon\Kit\Core\Enumeration
  */
@@ -98,7 +102,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		}
 		
 		//values
-		if ((!empty($this->values) && !in_array($value, $this->values, true)) || (!empty($this->non_values) && in_array($value, $this->non_values, true))) {
+		if (!empty($this->values) && !in_array($value, $this->values, true)) {
+			return false;
+		} elseif (!empty($this->non_values) && in_array($value, $this->non_values, true)) {
 			return false;
 		}
 		
@@ -260,16 +266,23 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				 * @placeholder name_value The enumerated element name and value.
 				 * @example Not Modified: "NOT_MODIFIED" or 304
 				 */
-				$labels[] = UText::localize("{{label}}: {{name_value}}", self::class, $text_options, [
-					'parameters' => [
-						'label' => $enumeration::getNameLabel($name, $text_options),
-						'name_value' => UText::stringify(
-							$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
-							$text_options,
-							['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
-						)
+				$labels[] = UText::localize(
+					"{{label}}: {{name_value}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'label' => $enumeration::getNameLabel($name, $text_options),
+							'name_value' => UText::stringify(
+								$show_names && $show_values && $name !== $value
+									? [$name, $value]
+									: ($show_names ? $name : $value),
+								$text_options, [
+									'quote_strings' => true,
+									'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
+								]
+							)
+						]
 					]
-				]);
+				);
 			} else {
 				$labels[] = $enumeration::getNameLabel($name, $text_options);
 			}
@@ -295,9 +308,12 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		 *    Bad Request: "BAD_REQUEST" or 400
 		 * }
 		 */
-		return UText::localize("Enumeration {\n{{labels}}\n}", self::class, $text_options, [
-			'parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]
-		]);
+		return UText::localize(
+			"Enumeration {\n{{labels}}\n}",
+			self::class, $text_options, [
+				'parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]
+			]
+		);
 	}
 	
 	/** {@inheritdoc} */
@@ -589,7 +605,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					 * @placeholder label The enumerated element label.
 					 * @placeholder name_value The enumerated element name and value.
 					 * @placeholder description The enumerated element description.
-					 * @example Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
+					 * @example Not Modified (given as "NOT_MODIFIED" or 304): \
+					 * redirection "Not Modified" HTTP status code.
 					 */
 					$descriptions[$name] = UText::localize(
 						"{{label}} (given as {{name_value}}): {{description}}", 
@@ -597,9 +614,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
 								'name_value' => UText::stringify(
-									$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
-									$text_options,
-									['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+									$show_names && $show_values && $name !== $value
+										? [$name, $value]
+										: ($show_names ? $name : $value),
+									$text_options, [
+										'quote_strings' => true,
+										'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
+									]
 								),
 								'description' => $description
 							]
@@ -635,9 +656,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
 							'name_value' => UText::stringify(
-								$show_names && $show_values && $name !== $value ? [$name, $value] : ($show_names ? $name : $value),
-								$text_options,
-								['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+								$show_names && $show_values && $name !== $value
+									? [$name, $value]
+									: ($show_names ? $name : $value),
+								$text_options, [
+									'quote_strings' => true,
+									'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
+								]
 							)
 						]
 					]

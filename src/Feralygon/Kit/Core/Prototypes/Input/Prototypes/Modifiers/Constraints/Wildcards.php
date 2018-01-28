@@ -32,7 +32,8 @@ use Feralygon\Kit\Core\Utilities\{
  * @since 1.0.0
  * @property string[] $wildcards <p>The allowed wildcard matches to restrict to.</p>
  * @property bool $insensitive [default = false] <p>Match the given wildcards in a case-insensitive manner.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
+ * @property bool $negate [default = false] <p>Negate the restriction, 
+ * so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
 class Wildcards extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -133,23 +134,35 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/** @tags end-user */
-				return UText::plocalize("Disallowed match", "Disallowed matches", count($this->wildcards), null, self::class, $text_options);
+				return UText::plocalize(
+					"Disallowed match", "Disallowed matches",
+					count($this->wildcards), null, self::class, $text_options
+				);
 			}
 			
 			//non-end-user
 			/** @tags non-end-user */
-			return UText::plocalize("Disallowed wildcard match", "Disallowed wildcard matches", count($this->wildcards), null, self::class, $text_options);
+			return UText::plocalize(
+				"Disallowed wildcard match", "Disallowed wildcard matches",
+				count($this->wildcards), null, self::class, $text_options
+			);
 		}
 		
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::plocalize("Allowed match", "Allowed matches", count($this->wildcards), null, self::class, $text_options);
+			return UText::plocalize(
+				"Allowed match", "Allowed matches",
+				count($this->wildcards), null, self::class, $text_options
+			);
 		}
 		
 		//non-end-user
 		/** @tags non-end-user */
-		return UText::plocalize("Allowed wildcard match", "Allowed wildcard matches", count($this->wildcards), null, self::class, $text_options);
+		return UText::plocalize(
+			"Allowed wildcard match", "Allowed wildcard matches",
+			count($this->wildcards), null, self::class, $text_options
+		);
 	}
 	
 	/** {@inheritdoc} */
@@ -221,20 +234,26 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			 * @tags end-user
 			 * @example The character "*" matches any characters.
 			 */
-			$message .= UText::localize("The character {{wildcard}} matches any characters.", self::class, $text_options, [
-				'parameters' => ['wildcard' => '*'],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$message .= UText::localize(
+				"The character {{wildcard}} matches any characters.",
+				self::class, $text_options, [
+					'parameters' => ['wildcard' => '*'],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 		} else {
 			/**
 			 * @placeholder wildcard The wildcard "*" character.
 			 * @tags non-end-user
 			 * @example The wildcard character "*" matches any number and type of characters.
 			 */
-			$message .= UText::localize("The wildcard character {{wildcard}} matches any number and type of characters.", self::class, $text_options, [
-				'parameters' => ['wildcard' => '*'],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$message .= UText::localize(
+				"The wildcard character {{wildcard}} matches any number and type of characters.",
+				self::class, $text_options, [
+					'parameters' => ['wildcard' => '*'],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 		}
 		
 		//insensitive
@@ -242,10 +261,14 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			$message .= "\n";
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/** @tags end-user */
-				$message .= UText::localize("All matches are case-insensitive.", self::class, $text_options);
+				$message .= UText::localize(
+					"All matches are case-insensitive.", self::class, $text_options
+				);
 			} else {
 				/** @tags non-end-user */
-				$message .= UText::localize("All wildcard matches are performed in a case-insensitive manner.", self::class, $text_options);
+				$message .= UText::localize(
+					"All wildcard matches are performed in a case-insensitive manner.", self::class, $text_options
+				);
 			}
 		}
 		
@@ -259,7 +282,10 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->wildcards, $text_options, ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
+		return UText::stringify($this->wildcards, $text_options, [
+			'quote_strings' => true,
+			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+		]);
 	}
 	
 	

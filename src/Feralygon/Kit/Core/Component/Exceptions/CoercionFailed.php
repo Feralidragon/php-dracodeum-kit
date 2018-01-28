@@ -43,7 +43,8 @@ class CoercionFailed extends Exception implements ICoercion
 	public function getDefaultMessage() : string
 	{
 		return $this->isset('error_message')
-			? "Coercion failed with value {{value}} using component {{component}}, with the following error: {{error_message}}"
+			? "Coercion failed with value {{value}} using component {{component}}, " . 
+				"with the following error: {{error_message}}"
 			: "Coercion failed with value {{value}} using component {{component}}.";
 	}
 	

@@ -153,7 +153,8 @@ trait Properties
 	/**
 	 * Get boolean property value from a given name.
 	 * 
-	 * This method is an alias of the <code>get</code> method, however it only allows properties which hold boolean values, 
+	 * This method is an alias of the <code>get</code> method, 
+	 * however it only allows properties which hold boolean values, 
 	 * and is simply meant to improve code readability when retrieving boolean properties specifically.
 	 * 
 	 * @since 1.0.0
@@ -265,14 +266,16 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to evaluate for.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The property value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The property value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool|null</b></code><br>
 	 * Boolean <code>true</code> if the property with the given name and value exists and is valid,
 	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.
 	 * </p>
 	 * @param string[] $required [default = []] <p>The required property names.</p>
-	 * @param string $mode [default = 'rw'] <p>The properties read and write mode to initialize with, which must be one the following:<br>
+	 * @param string $mode [default = 'rw'] <p>The properties read and write mode to initialize with, 
+	 * which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow properties to be both read from and written to.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow properties to be only read from.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow properties to be only written to.
@@ -282,13 +285,19 @@ trait Properties
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\MissingRequiredProperties
 	 * @return void
 	 */
-	final private function initializeProperties(array $properties, callable $evaluator, array $required = [], string $mode = 'rw') : void
+	final private function initializeProperties(
+		array $properties, callable $evaluator, array $required = [], string $mode = 'rw'
+	) : void
 	{
 		//check
 		if ($this->properties_initialized) {
 			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
 		} elseif (!in_array($mode, $this->getPropertyModes(), true)) {
-			throw new Exceptions\InvalidPropertiesMode(['object' => $this, 'mode' => $mode, 'modes' => $this->getPropertyModes()]);
+			throw new Exceptions\InvalidPropertiesMode([
+				'object' => $this,
+				'mode' => $mode,
+				'modes' => $this->getPropertyModes()
+			]);
 		}
 		
 		//required

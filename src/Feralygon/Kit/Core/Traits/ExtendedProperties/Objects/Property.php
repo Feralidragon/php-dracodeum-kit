@@ -91,7 +91,8 @@ final class Property
 	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow this property to be both read from and written to (read-write).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only read from (read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow this property to be only written to (write-only).<br>
-	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow this property to be only written to, and only once during instantiation (write-once).
+	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow this property to be only written to, 
+	 * and only once during instantiation (write-once).
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property\Exceptions\InvalidMode
 	 * @return $this <p>This instance, for chaining purposes.</p>
@@ -222,7 +223,8 @@ final class Property
 	 * <code>function (&$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given value is valid.

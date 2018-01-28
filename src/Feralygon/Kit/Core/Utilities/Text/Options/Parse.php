@@ -14,7 +14,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * Core text utility parse method options class.
  * 
  * @since 1.0.0
- * @property string $delimiter_pattern [default = '\s+'] <p>The delimiter regular expression pattern which separates the fields patterns.</p>
+ * @property string $delimiter_pattern [default = '\s+'] <p>The delimiter regular expression pattern 
+ * which separates the fields patterns.</p>
  * @property string $pattern_modifiers [default = ''] <p>The regular expression pattern modifiers.</p>
  * @property string $pattern_delimiter [default = '/'] <p>The regular expression delimiter character.</p>
  * @see \Feralygon\Kit\Core\Utilities\Text

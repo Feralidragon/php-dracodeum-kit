@@ -14,9 +14,11 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
  * Core text utility fill method options class.
  * 
  * @since 1.0.0
- * @property \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $string_options [default = null] <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> stringification method options, 
+ * @property \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $string_options [default = null] 
+ * <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> stringification method options, 
  * as an instance or <samp>name => value</samp> pairs.</p>
- * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value for a given placeholder.<br>
+ * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value 
+ * for a given placeholder.<br>
  * The expected function signature is represented as:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>

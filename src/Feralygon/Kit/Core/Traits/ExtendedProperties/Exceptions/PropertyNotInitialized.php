@@ -16,7 +16,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core extended properties trait property not initialized exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever a given property has not been initialized yet.
+ * This exception is thrown from an object using the extended properties trait whenever a given property 
+ * has not been initialized yet.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>

@@ -45,7 +45,9 @@ class Range extends Constraints\Range
 				 */
 				return UText::localize(
 					"Only a time before or at {{min_value}} or after or at {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
@@ -55,7 +57,9 @@ class Range extends Constraints\Range
 				 */
 				return UText::localize(
 					"Only a time before or at {{min_value}} or after {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
@@ -65,7 +69,9 @@ class Range extends Constraints\Range
 				 */
 				return UText::localize(
 					"Only a time before {{min_value}} or after or at {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			}
 			/**
@@ -75,7 +81,9 @@ class Range extends Constraints\Range
 			 */
 			return UText::localize(
 				"Only a time before {{min_value}} or after {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
@@ -85,7 +93,9 @@ class Range extends Constraints\Range
 			 */
 			return UText::localize(
 				"Only a time after {{min_value}} and before {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
@@ -95,7 +105,9 @@ class Range extends Constraints\Range
 			 */
 			return UText::localize(
 				"Only a time after {{min_value}} and before or at {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
@@ -105,7 +117,9 @@ class Range extends Constraints\Range
 			 */
 			return UText::localize(
 				"Only a time after or at {{min_value}} and before {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		}
 		/**
@@ -115,7 +129,9 @@ class Range extends Constraints\Range
 		 */
 		return UText::localize(
 			"Only a time after or at {{min_value}} and before or at {{max_value}} is allowed.", 
-			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+			self::class, $text_options, [
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+			]
 		);
 	}
 	

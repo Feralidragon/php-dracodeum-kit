@@ -17,7 +17,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core time utility date and time coercion failed exception class.
  * 
- * This exception is thrown from the time utility whenever the coercion into a date and time has failed with a given value.
+ * This exception is thrown from the time utility whenever the coercion into a date and time 
+ * has failed with a given value.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>

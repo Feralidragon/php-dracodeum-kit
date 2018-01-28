@@ -21,7 +21,9 @@ use Feralygon\Kit\Core\Utilities\{
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
- * @property-read \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []] <p>The modifier schema instances.</p>
+ * @property-read 
+ * \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []] 
+ * <p>The modifier schema instances.</p>
  * @see \Feralygon\Kit\Core\Components\Input
  */
 class Schema extends Structure

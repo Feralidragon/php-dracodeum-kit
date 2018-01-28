@@ -29,16 +29,20 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core hash input prototype class.
  * 
- * This input prototype represents a hash, as a string in hexadecimal notation, for which only the following types of values may be evaluated as such:<br>
+ * This input prototype represents a hash, as a string in hexadecimal notation, 
+ * for which only the following types of values may be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Hash_function
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw [modifier, name = 'filters.raw']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64 [modifier, name = 'filters.base64']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values 
+ * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw 
+ * [modifier, name = 'filters.raw']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64 
+ * [modifier, name = 'filters.base64']
  */
 abstract class Hash extends Input implements IInformation, IModifiers
 {
@@ -87,7 +91,9 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 */
 			return UText::localize(
 				"A {{label}} hash, given in hexadecimal notation.", 
-				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
+				self::class, $text_options, [
+					'parameters' => ['label' => $this->getLabel($text_options, $info_options)]
+				]
 			);
 		}
 		
@@ -107,7 +113,9 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			self::class, $text_options, [
 				'parameters' => [
 					'label' => $this->getLabel($text_options, $info_options), 
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -125,7 +133,9 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 */
 			return UText::localize(
 				"Only a {{label}} hash, given in hexadecimal notation, is allowed.", 
-				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
+				self::class, $text_options, [
+					'parameters' => ['label' => $this->getLabel($text_options, $info_options)]
+				]
 			);
 		}
 		
@@ -141,11 +151,14 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n{{notations}}", 
+			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n" . 
+				"{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
 					'label' => $this->getLabel($text_options, $info_options), 
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -162,7 +175,9 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			
 			//filters
 			case 'filters.raw':
@@ -197,10 +212,13 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Hexadecimal string (example: "a7fed3fa")
 			 */
-			$strings[] = UText::localize("Hexadecimal string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => bin2hex($example_value)],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$strings[] = UText::localize(
+				"Hexadecimal string (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => bin2hex($example_value)],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 			
 			//base64 encoded
 			/**
@@ -209,10 +227,13 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Base64 encoded string (example: "p/7T+g==")
 			 */
-			$strings[] = UText::localize("Base64 encoded string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => UBase64::encode($example_value)],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$strings[] = UText::localize(
+				"Base64 encoded string (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => UBase64::encode($example_value)],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 			
 			//url-safe base64 encoded
 			/**
@@ -221,10 +242,13 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example URL-safe Base64 encoded string (example: "p_7T-g")
 			 */
-			$strings[] = UText::localize("URL-safe Base64 encoded string (example: {{example}})", self::class, $text_options, [
-				'parameters' => ['example' => UBase64::encode($example_value, true)],
-				'string_options' => ['quote_strings' => true]
-			]);
+			$strings[] = UText::localize(
+				"URL-safe Base64 encoded string (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => ['example' => UBase64::encode($example_value, true)],
+					'string_options' => ['quote_strings' => true]
+				]
+			);
 			
 			//raw binary
 			/**

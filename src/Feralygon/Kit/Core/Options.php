@@ -16,7 +16,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * This class is the base to be extended from when creating options.<br>
  * <br>
  * An options instance is a simple object which holds a set of properties of different types, 
- * and is meant to be mainly used within a class method or function, by representing an additional set of optional parameters.<br>
+ * and is meant to be mainly used within a class method or function, 
+ * by representing an additional set of optional parameters.<br>
  * All properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be retrieved and modified directly just like public object properties.
  * 
@@ -61,11 +62,13 @@ abstract class Options implements \ArrayAccess
 	/**
 	 * Evaluate a given value as an instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, can be evaluated into an instance.
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be evaluated into an instance.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $clone [default = false] <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * @param bool $clone [default = false] <p>If an instance is given, 
+	 * clone it into a new one with the same properties.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
@@ -82,11 +85,13 @@ abstract class Options implements \ArrayAccess
 	/**
 	 * Coerce a given value into an instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, can be coerced into an instance.
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be coerced into an instance.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $clone [default = false] <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * @param bool $clone [default = false] <p>If an instance is given, 
+	 * clone it into a new one with the same properties.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Options\Exceptions\CoercionFailed
 	 * @return static|null <p>The given value coerced into an instance.<br>
@@ -118,7 +123,8 @@ abstract class Options implements \ArrayAccess
 			'value' => $value,
 			'options' => static::class,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-			'error_message' => "Only null, an instance or array of properties, given as \"name => value\" pairs, can be coerced into an instance."
+			'error_message' => "Only null, an instance or array of properties, " . 
+				"given as \"name => value\" pairs, can be coerced into an instance."
 		]);
 	}
 }

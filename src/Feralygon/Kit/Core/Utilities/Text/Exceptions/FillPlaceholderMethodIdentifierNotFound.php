@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 /**
  * Core text utility fill method placeholder method identifier not found exception class.
  * 
- * This exception is thrown from the text utility fill method whenever a given placeholder method identifier is not found.
+ * This exception is thrown from the text utility fill method whenever a given placeholder method identifier 
+ * is not found.
  * 
  * @since 1.0.0
  * @property-read string $placeholder <p>The placeholder.</p>

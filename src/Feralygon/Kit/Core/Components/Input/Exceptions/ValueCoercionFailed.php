@@ -29,7 +29,8 @@ class ValueCoercionFailed extends Exception implements ICoercion
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Value coercion failed with value {{value}} using component {{component}} (with prototype {{prototype}}), with the following error: {{error_message}}";
+		return "Value coercion failed with value {{value}} using component {{component}} " . 
+			"(with prototype {{prototype}}), with the following error: {{error_message}}";
 	}
 	
 	

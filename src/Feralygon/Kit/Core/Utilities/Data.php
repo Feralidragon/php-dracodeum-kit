@@ -142,7 +142,13 @@ final class Data extends Utility
 	
 	//Private constants
 	/** Non-associative required merge flags mask. */
-	private const MERGE_NONASSOC_REQUIRED_MASK = self::MERGE_NONASSOC_ASSOC | self::MERGE_NONASSOC_APPEND | self::MERGE_NONASSOC_UNION | self::MERGE_NONASSOC_LEFT | self::MERGE_NONASSOC_SWAP | self::MERGE_NONASSOC_KEEP;
+	private const MERGE_NONASSOC_REQUIRED_MASK = 
+		self::MERGE_NONASSOC_ASSOC | 
+		self::MERGE_NONASSOC_APPEND | 
+		self::MERGE_NONASSOC_UNION | 
+		self::MERGE_NONASSOC_LEFT | 
+		self::MERGE_NONASSOC_SWAP | 
+		self::MERGE_NONASSOC_KEEP;
 	
 	/** Keyfy maximum raw string length before transforming into a hash. */
 	private const KEYFY_MAX_RAW_STRING_LENGTH = 40;
@@ -165,19 +171,25 @@ final class Data extends Utility
 	 */
 	final public static function isAssociative(array $array) : bool
 	{
-		return !empty($array) && (!array_key_exists(0, $array) || !array_key_exists(count($array) - 1, $array) || (array_keys($array) !== range(0, count($array) - 1)));
+		return !empty($array) && (
+			!array_key_exists(0, $array) || 
+			!array_key_exists(count($array) - 1, $array) || 
+			array_keys($array) !== range(0, count($array) - 1)
+		);
 	}
 	
 	/**
 	 * Transform a given value into an unique key.
 	 * 
-	 * The returning key is not intended to be restored to its original value (and cannot in most cases), given that this function 
-	 * is only meant to efficiently produce a key which can be used in associative arrays for strict mapping and data comparisons.
+	 * The returning key is not intended to be restored to its original value (and cannot in most cases), 
+	 * given that this function is only meant to efficiently produce a key which can be used in associative arrays 
+	 * for strict mapping and data comparisons.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to transform.</p>
-	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, if set to <code>true</code>, 
-	 * indicates that the generated key may be used for longer term purposes, such as internal cache keys.</p>
+	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, 
+	 * if set to <code>true</code>, indicates that the generated key may be used for longer term purposes, 
+	 * such as internal cache keys.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\KeyfyUnsupportedValueType
 	 * @return string <p>An unique key from the given value.</p>
 	 */
@@ -232,21 +244,34 @@ final class Data extends Utility
 	 * @param array $array2 <p>The second array, to merge with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the merging at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x000] <p>The merge bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : Merge associative arrays using the union operation, in other words,
+	 * @param int $flags [default = 0x000] <p>The merge bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
+	 * Merge associative arrays using the union operation, in other words,
 	 * with this flag keys present in the first array won't get replaced by the same keys present in the second.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_LEFT</code> : Merge associative arrays but only from the left, in other words,
-	 * with this flag only the keys present in the first array will remain, while any keys exclusively present in the second will be discarded.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_APPEND</code> : Merge non-associative arrays by appending the second to the first.<br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_LEFT</code> : 
+	 * Merge associative arrays but only from the left, in other words,
+	 * with this flag only the keys present in the first array will remain, 
+	 * while any keys exclusively present in the second will be discarded.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_APPEND</code> : 
+	 * Merge non-associative arrays by appending the second to the first.<br>
 	 * This the default flag used if no non-associative flags are set.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_ASSOC</code> : Merge non-associative arrays associatively.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNION</code> : Merge non-associative arrays associatively by using the union operation, in other words,
-	 * with this flag keys present in the first array won't get replaced by the same keys present in the second for non-associative arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_LEFT</code> : Merge non-associative arrays associatively but only from the left, in other words,
-	 * with this flag only the keys present in the first array will remain, while any keys exclusively present in the second will be discarded for non-associative arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_SWAP</code> : Merge non-associative arrays by swapping the second entirely with the first.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_KEEP</code> : Merge non-associative arrays by keeping the first entirely.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNIQUE</code> : When merging non-associative arrays, ensure that only unique values are present in the merged array.
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_ASSOC</code> : 
+	 * Merge non-associative arrays associatively.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNION</code> : 
+	 * Merge non-associative arrays associatively by using the union operation, in other words,
+	 * with this flag keys present in the first array won't get replaced by the same keys present 
+	 * in the second for non-associative arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_LEFT</code> : 
+	 * Merge non-associative arrays associatively but only from the left, in other words,
+	 * with this flag only the keys present in the first array will remain, 
+	 * while any keys exclusively present in the second will be discarded for non-associative arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_SWAP</code> : 
+	 * Merge non-associative arrays by swapping the second entirely with the first.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_KEEP</code> : 
+	 * Merge non-associative arrays by keeping the first entirely.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNIQUE</code> : 
+	 * When merging non-associative arrays, ensure that only unique values are present in the merged array.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The merged array from the two given ones.</p>
@@ -258,15 +283,18 @@ final class Data extends Utility
 			throw new Exceptions\InvalidDepth(['depth' => $depth]);
 		}
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
-		$is_union = ($is_assoc && ($flags & self::MERGE_ASSOC_UNION)) || (!$is_assoc && ($flags & self::MERGE_NONASSOC_UNION));
-		$is_left = ($is_assoc && ($flags & self::MERGE_ASSOC_LEFT)) || (!$is_assoc && ($flags & self::MERGE_NONASSOC_LEFT));
+		$is_union = ($is_assoc && ($flags & self::MERGE_ASSOC_UNION)) || 
+			(!$is_assoc && ($flags & self::MERGE_NONASSOC_UNION));
+		$is_left = ($is_assoc && ($flags & self::MERGE_ASSOC_LEFT)) || 
+			(!$is_assoc && ($flags & self::MERGE_NONASSOC_LEFT));
 		$is_unique = !$is_assoc && ($flags & self::MERGE_NONASSOC_UNIQUE);
 		if (!($flags & self::MERGE_NONASSOC_REQUIRED_MASK)) {
 			$flags |= self::MERGE_NONASSOC_APPEND;
 		}
 		
 		//non-associative
-		if (!$is_assoc && !($flags & (self::MERGE_NONASSOC_ASSOC | self::MERGE_NONASSOC_UNION | self::MERGE_NONASSOC_LEFT))) {
+		$non_assoc_flags = self::MERGE_NONASSOC_ASSOC | self::MERGE_NONASSOC_UNION | self::MERGE_NONASSOC_LEFT;
+		if (!$is_assoc && !($flags & $non_assoc_flags)) {
 			$array = [];
 			if ($flags & self::MERGE_NONASSOC_SWAP) {
 				$array = $array2;
@@ -331,9 +359,11 @@ final class Data extends Utility
 	 * 
 	 * The removal is performed in such a way that only strictly unique values are present in the returning array, 
 	 * as not only the values are considered, but also their types as well.<br>
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact.<br>
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact.<br>
 	 * <br>
-	 * Since the function is recursive and only handles non-array values, values which are themselves arrays are not affected, 
+	 * Since the function is recursive and only handles non-array values, 
+	 * values which are themselves arrays are not affected, 
 	 * therefore it's possible to have two or more arrays with exactly the same data in the returning array.
 	 * 
 	 * @since 1.0.0
@@ -341,10 +371,14 @@ final class Data extends Utility
 	 * @param array $array <p>The array to remove from.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the removal at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The unique bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_EXCLUDE</code> : Exclude associative arrays from the removal of duplicates.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from the removal of duplicates.
+	 * @param int $flags [default = 0x00] <p>The unique bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from the removal of duplicates.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : 
+	 * Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from the removal of duplicates.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The given array without duplicated values.</p>
@@ -353,7 +387,10 @@ final class Data extends Utility
 	{
 		//unique
 		$is_assoc = self::isAssociative($array);
-		if (($is_assoc && !($flags & self::UNIQUE_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::UNIQUE_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE))
+		) {
 			$map = [];
 			foreach ($array as $k => $v) {
 				$key = is_array($v) ? "a:{$k}" : self::keyfy($v);
@@ -394,19 +431,24 @@ final class Data extends Utility
 	/**
 	 * Sort a given array recursively.
 	 * 
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact, 
-	 * and the sorting is performed in ascending order.
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact, and the sorting is performed in ascending order.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.sort.php
 	 * @param array $array <p>The array to sort.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : Sort array in reverse (descending order).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : Exclude associative arrays from sorting.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_ASSOC</code> : Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from sorting.
+	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
+	 * Sort array in reverse (descending order).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from sorting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_ASSOC</code> : 
+	 * Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from sorting.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The sorted array.</p>
@@ -415,7 +457,10 @@ final class Data extends Utility
 	{
 		//sort
 		$is_assoc = self::isAssociative($array);
-		if (($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
+		) {
 			if ($is_assoc || ($flags & self::SORT_NONASSOC_ASSOC)) {
 				if ($flags & self::SORT_REVERSE) {
 					arsort($array);
@@ -461,10 +506,14 @@ final class Data extends Utility
 	 * @param array $array <p>The array to sort.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : Sort array in reverse (descending order).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : Exclude associative arrays from sorting.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from sorting.
+	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
+	 * Sort array in reverse (descending order).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from sorting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from sorting.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The sorted array by key.</p>
@@ -473,7 +522,10 @@ final class Data extends Utility
 	{
 		//sort
 		$is_assoc = self::isAssociative($array);
-		if (($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
+		) {
 			if ($flags & self::SORT_REVERSE) {
 				krsort($array);
 			} else {
@@ -506,9 +558,11 @@ final class Data extends Utility
 	 * 
 	 * The filtering is performed in such a way that the given values are strictly removed from the returning array, 
 	 * as not only the values are considered, but also their types as well.<br>
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact.<br>
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact.<br>
 	 * <br>
-	 * Since the function is recursive and only handles non-array values, values which are themselves arrays are not affected.
+	 * Since the function is recursive and only handles non-array values, 
+	 * values which are themselves arrays are not affected.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-filter.php
@@ -516,13 +570,19 @@ final class Data extends Utility
 	 * @param array $values <p>The values to filter from.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : Filter array inversely, in other words, 
+	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
+	 * Filter array inversely, in other words, 
 	 * strictly filter array from all non-array values but the given ones.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : Filter array from empty arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : Exclude associative arrays from filtering.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_ASSOC</code> : Filter non-associative arrays associatively, in other words, keep the keys intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from filtering.
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : 
+	 * Filter array from empty arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from filtering.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_ASSOC</code> : 
+	 * Filter non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from filtering.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The filtered array from the given set of non-array values.</p>
@@ -532,11 +592,16 @@ final class Data extends Utility
 		//filter
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
-		if (($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))
+		) {
 			//iterate
 			$is_inverse = (bool)($flags & self::FILTER_INVERSE);
 			foreach ($array as $k => $v) {
-				if (($is_empty && is_array($v) && empty($v)) || (!is_array($v) && in_array($v, $values, true) !== $is_inverse)) {
+				if ($is_empty && is_array($v) && empty($v)) {
+					unset($array[$k]);
+				} elseif (!is_array($v) && in_array($v, $values, true) !== $is_inverse) {
 					unset($array[$k]);
 				}
 			}
@@ -583,12 +648,16 @@ final class Data extends Utility
 	 * @param array $keys <p>The keys to filter from.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : Filter array inversely, in other words,
-	 * filter array from all keys but the given ones.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : Filter array from empty arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : Exclude associative arrays from filtering.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from filtering.
+	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
+	 * Filter array inversely, in other words, filter array from all keys but the given ones.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : 
+	 * Filter array from empty arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from filtering.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from filtering.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The filtered array from the given set of keys.</p>
@@ -598,8 +667,13 @@ final class Data extends Utility
 		//filter
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
-		if (($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))) {
-			$array = ($flags & self::FILTER_INVERSE) ? array_intersect_key($array, array_flip($keys)) : array_diff_key($array, array_flip($keys));
+		if (
+			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))
+		) {
+			$array = ($flags & self::FILTER_INVERSE)
+				? array_intersect_key($array, array_flip($keys))
+				: array_diff_key($array, array_flip($keys));
 			if ($is_empty) {
 				foreach ($array as $k => $v) {
 					if (is_array($v) && empty($v)) {
@@ -637,24 +711,33 @@ final class Data extends Utility
 	 * 
 	 * The trimming is performed in such a way that the given values are strictly trimmed out from the returning array, 
 	 * as not only the values are considered, but also their types as well.<br>
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact.<br>
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact.<br>
 	 * <br>
-	 * Since the function is recursive and only handles non-array values, values which are themselves arrays are not affected.
+	 * Since the function is recursive and only handles non-array values, 
+	 * values which are themselves arrays are not affected.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to trim.</p>
 	 * @param array $values <p>The values to trim from.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : Trim array inversely, in other words, 
-	 * strictly trim array from all non-array values but the given ones.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : Trim only the left side of the array (the first values).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_RIGHT</code> : Trim only the right side of the array (the last values).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_EMPTY</code> : Trim array from empty arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_ASSOC_EXCLUDE</code> : Exclude associative arrays from trimming.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_ASSOC</code> : Trim non-associative arrays associatively, in other words, keep the keys intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from trimming.
+	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
+	 * Trim array inversely, in other words, strictly trim array from all non-array values but the given ones.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
+	 * Trim only the left side of the array (the first values).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_RIGHT</code> : 
+	 * Trim only the right side of the array (the last values).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_EMPTY</code> : 
+	 * Trim array from empty arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from trimming.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_ASSOC</code> : 
+	 * Trim non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from trimming.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The trimmed array from the given set of non-array values.</p>
@@ -664,7 +747,10 @@ final class Data extends Utility
 		//trim
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
-		if (($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::TRIM_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::TRIM_NONASSOC_EXCLUDE))
+		) {
 			//initialize
 			if (!($flags & (self::TRIM_LEFT | self::TRIM_RIGHT))) {
 				$flags |= self::TRIM_LEFT | self::TRIM_RIGHT;
@@ -683,7 +769,10 @@ final class Data extends Utility
 			foreach ($pipe_keys as $pkeys) {
 				foreach ($pkeys as $k) {
 					$v = $array[$k];
-					if ((!$is_empty || !is_array($v) || !empty($v)) && (is_array($v) || in_array($v, $values, true) === $is_inverse)) {
+					if (
+						(!$is_empty || !is_array($v) || !empty($v)) && 
+						(is_array($v) || in_array($v, $values, true) === $is_inverse)
+					) {
 						break;
 					}
 					unset($array[$k]);
@@ -732,14 +821,20 @@ final class Data extends Utility
 	 * @param array $keys <p>The keys to trim from.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : Trim array inversely, in other words,
-	 * trim array from all keys but the given ones.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : Trim only the left side of the array (the first keys).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_RIGHT</code> : Trim only the right side of the array (the last keys).<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_EMPTY</code> : Trim array from empty arrays.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_ASSOC_EXCLUDE</code> : Exclude associative arrays from trimming.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from trimming.
+	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
+	 * Trim array inversely, in other words, trim array from all keys but the given ones.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
+	 * Trim only the left side of the array (the first keys).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_RIGHT</code> : 
+	 * Trim only the right side of the array (the last keys).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_EMPTY</code> : 
+	 * Trim array from empty arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from trimming.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from trimming.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The trimmed array from the given set of keys.</p>
@@ -749,7 +844,10 @@ final class Data extends Utility
 		//trim
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
-		if (($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::TRIM_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::TRIM_NONASSOC_EXCLUDE))
+		) {
 			//initialize
 			if (!($flags & (self::TRIM_LEFT | self::TRIM_RIGHT))) {
 				$flags |= self::TRIM_LEFT | self::TRIM_RIGHT;
@@ -768,7 +866,10 @@ final class Data extends Utility
 			$is_inverse = (bool)($flags & self::TRIM_INVERSE);
 			foreach ($pipe_keys as $pkeys) {
 				foreach ($pkeys as $k) {
-					if (isset($keys_map[$k]) === $is_inverse && (!$is_empty || !is_array($array[$k]) || !empty($array[$k]))) {
+					if (
+						isset($keys_map[$k]) === $is_inverse && 
+						(!$is_empty || !is_array($array[$k]) || !empty($array[$k]))
+					) {
 						break;
 					}
 					unset($array[$k]);
@@ -802,10 +903,12 @@ final class Data extends Utility
 	/**
 	 * Intersect two given arrays strictly and recursively.
 	 * 
-	 * The intersection is performed in such a way that the returning array is only composed by the values from the first array 
-	 * which also strictly exist in the second one as well, as not only the values are considered, but also their types as well.<br>
+	 * The intersection is performed in such a way that the returning array is only composed by the values from 
+	 * the first array which also strictly exist in the second one as well, as not only the values are considered, 
+	 * but also their types as well.<br>
 	 * <br>
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact 
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact 
 	 * and the keys themselves are also considered for the intersection.
 	 * 
 	 * @since 1.0.0
@@ -814,11 +917,15 @@ final class Data extends Utility
 	 * @param array $array2 <p>The second array, to intersect with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : Exclude associative arrays from intersecting.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_ASSOC</code> : Intersect non-associative arrays associatively, in other words,
+	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from intersecting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_ASSOC</code> : 
+	 * Intersect non-associative arrays associatively, in other words, 
 	 * consider the keys in the intersection and keep them intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from intersecting.
+	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from intersecting.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The intersected array from the two given arrays.</p>
@@ -832,7 +939,10 @@ final class Data extends Utility
 		
 		//intersect
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
-		if (($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))
+		) {
 			//associative
 			if ($is_assoc || ($flags & self::INTERSECT_NONASSOC_ASSOC)) {
 				$array1 = array_intersect_key($array1, $array2);
@@ -904,9 +1014,12 @@ final class Data extends Utility
 	 * @param array $array2 <p>The second array, to intersect with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : Exclude associative arrays from intersecting.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from intersecting.
+	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from intersecting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from intersecting.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The intersected array by key from the two given arrays.</p>
@@ -920,7 +1033,10 @@ final class Data extends Utility
 		
 		//intersect
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
-		if (($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))
+		) {
 			$array1 = array_intersect_key($array1, $array2);
 		}
 		
@@ -954,10 +1070,12 @@ final class Data extends Utility
 	/**
 	 * Differentiate two given arrays strictly and recursively.
 	 * 
-	 * The differentiation is performed in such a way that the returning array is only composed by the values from the first array
-	 * which strictly do not exist in the second one, as not only the values are considered, but also their types as well.<br>
+	 * The differentiation is performed in such a way that the returning array is only composed by the values 
+	 * from the first array which strictly do not exist in the second one, as not only the values are considered, 
+	 * but also their types as well.<br>
 	 * <br>
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact
 	 * and the keys themselves are also considered for the differentiation.
 	 * 
 	 * @since 1.0.0
@@ -966,11 +1084,15 @@ final class Data extends Utility
 	 * @param array $array2 <p>The second array, to differentiate with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : Exclude associative arrays from differentiating.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_ASSOC</code> : Differentiate non-associative arrays associatively, in other words,
+	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from differentiating.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_ASSOC</code> : 
+	 * Differentiate non-associative arrays associatively, in other words, 
 	 * consider the keys in the difference and keep them intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from differentiating.
+	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from differentiating.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The differentiated array from the two given arrays.</p>
@@ -984,7 +1106,10 @@ final class Data extends Utility
 		
 		//differenciate
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
-		if (($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))
+		) {
 			//associative
 			if ($is_assoc || ($flags & self::DIFF_NONASSOC_ASSOC)) {
 				foreach ($array1 as $k => $v) {
@@ -1051,9 +1176,12 @@ final class Data extends Utility
 	 * @param array $array2 <p>The second array, to differentiate with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : Exclude associative arrays from differentiating.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from differentiating.
+	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from differentiating.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from differentiating.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The differentiated array by key from the two given arrays.</p>
@@ -1067,7 +1195,10 @@ final class Data extends Utility
 		
 		//differenciate
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
-		if (($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))
+		) {
 			foreach ($array1 as $k => $v) {
 				if (array_key_exists($k, $array2) && (!is_array($v) || !is_array($array2[$k]))) {
 					unset($array1[$k]);
@@ -1101,17 +1232,22 @@ final class Data extends Utility
 	/**
 	 * Shuffle a given array recursively.
 	 * 
-	 * By omission, in non-associative arrays the keys are recalculated, whereas in associative arrays the keys are kept intact.
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.shuffle.php
 	 * @param array $array <p>The array to shuffle.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the shuffling at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The shuffle bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_ASSOC_EXCLUDE</code> : Exclude associative arrays from shuffling.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_ASSOC</code> : Shuffle non-associative arrays associatively, in other words, keep the keys intact.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from shuffling.
+	 * @param int $flags [default = 0x00] <p>The shuffle bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from shuffling.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_ASSOC</code> : 
+	 * Shuffle non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from shuffling.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The shuffled array.</p>
@@ -1120,7 +1256,10 @@ final class Data extends Utility
 	{
 		//shuffle
 		$is_assoc = self::isAssociative($array);
-		if (($is_assoc && !($flags & self::SHUFFLE_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::SHUFFLE_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::SHUFFLE_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::SHUFFLE_NONASSOC_EXCLUDE))
+		) {
 			if ($is_assoc || ($flags & self::SHUFFLE_NONASSOC_ASSOC)) {
 				$keys = array_keys($array);
 				shuffle($keys);
@@ -1158,9 +1297,12 @@ final class Data extends Utility
 	 * @param array $keys <p>The keys to align with.</p>
 	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the alignment at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The alignment bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_ASSOC_EXCLUDE</code> : Exclude associative arrays from aligning.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : Exclude non-associative arrays from aligning.
+	 * @param int $flags [default = 0x00] <p>The alignment bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from aligning.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from aligning.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array <p>The aligned array with the set of given keys.</p>
@@ -1169,7 +1311,10 @@ final class Data extends Utility
 	{
 		//align
 		$is_assoc = self::isAssociative($array);
-		if (($is_assoc && !($flags & self::ALIGN_ASSOC_EXCLUDE)) || (!$is_assoc && !($flags & self::ALIGN_NONASSOC_EXCLUDE))) {
+		if (
+			($is_assoc && !($flags & self::ALIGN_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::ALIGN_NONASSOC_EXCLUDE))
+		) {
 			$alignment = [];
 			foreach ($keys as $key) {
 				if (array_key_exists($key, $array)) {
@@ -1337,7 +1482,11 @@ final class Data extends Utility
 		foreach ($keys as $key) {
 			if (isset($pointer)) {
 				if (!is_array($pointer)) {
-					throw new Exceptions\PathKeyDeleteFromNonArray(['path' => $path, 'key' => $key, 'value' => $pointer]);
+					throw new Exceptions\PathKeyDeleteFromNonArray([
+						'path' => $path,
+						'key' => $key,
+						'value' => $pointer
+					]);
 				} elseif (!array_key_exists($key, $pointer)) {
 					break;
 				}
@@ -1453,10 +1602,12 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param array $array <p>The array to coalesce from.</p>
 	 * @param array $keys [default = []] <p>The keys to coalesce by.<br>
-	 * If empty, then all the values from the given array are used to coalesce by, otherwise only the values in the matching keys are used.<br>
+	 * If empty, then all the values from the given array are used to coalesce by, 
+	 * otherwise only the values in the matching keys are used.<br>
 	 * The order of these keys also establish the order of the coalesce operation.
 	 * </p>
-	 * @param int|string|null $coalesced_key [reference output] [default = null] <p>The coalesced key corresponding to the returned value.</p>
+	 * @param int|string|null $coalesced_key [reference output] [default = null] 
+	 * <p>The coalesced key corresponding to the returned value.</p>
 	 * @return mixed <p>The coalesced value from the given array or <code>null</code> if no value is set.</p>
 	 */
 	final public static function coalesce(array $array, array $keys = [], &$coalesced_key = null)
@@ -1476,13 +1627,16 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
+	 * in the resulting array value.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
+	 * The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is valid.
@@ -1492,7 +1646,13 @@ final class Data extends Utility
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an array.</p>
 	 */
-	final public static function evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false) : bool
+	final public static function evaluate(
+		&$value,
+		?callable $evaluator = null,
+		bool $non_associative = false,
+		bool $non_empty = false,
+		bool $nullable = false
+	) : bool
 	{
 		try {
 			$value = self::coerce($value, $evaluator, $non_associative, $non_empty, $nullable);
@@ -1507,13 +1667,16 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
+	 * in the resulting array value.<br>
 	 * The expected function signature is represented as:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
+	 * The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is valid.
@@ -1525,7 +1688,13 @@ final class Data extends Utility
 	 * @return array|null <p>The given value coerced into an array.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false) : ?array
+	final public static function coerce(
+		$value,
+		?callable $evaluator = null,
+		bool $non_associative = false,
+		bool $non_empty = false,
+		bool $nullable = false
+	) : ?array
 	{
 		if (!isset($value)) {
 			if ($nullable) {

@@ -17,13 +17,16 @@ use Feralygon\Kit\Root\Locale;
  * Root locale translate method options class.
  * 
  * @since 1.0.0
- * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
+ * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, 
+ * as <samp>name => value</samp> pairs.</p>
  * @property int $info_scope [default = \Feralygon\Kit\Core\Enumerations\InfoScope::NONE] <p>The info scope to use.</p>
  * @property string|null $language [default = null] <p>The language ISO 639 code to translate the message to.<br>
  * If not set, the currently set locale language is used.</p>
- * @property \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $string_options [default = null] <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> stringification method options, 
+ * @property \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $string_options [default = null] 
+ * <p>The text utility <code>\Feralygon\Kit\Core\Utilities\Text</code> stringification method options, 
  * as an instance or <samp>name => value</samp> pairs.</p>
- * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value for a given placeholder.<br>
+ * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value 
+ * for a given placeholder.<br>
  * The expected function signature is represented as:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>

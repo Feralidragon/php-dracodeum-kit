@@ -44,7 +44,9 @@ final class Os
 	 * @param string $information <p>The information.</p>
 	 * @param string $architecture <p>The architecture.</p>
 	 */
-	final public function __construct(string $name, string $hostname, string $release, string $information, string $architecture)
+	final public function __construct(
+		string $name, string $hostname, string $release, string $information, string $architecture
+	)
 	{
 		$this->name = $name;
 		$this->hostname = $hostname;

@@ -38,13 +38,23 @@ class Maximum extends Constraints\Maximum
 			 * @placeholder value The maximum allowed value.
 			 * @example Only a date and time before 2017-01-17 17:20:00 is allowed.
 			 */
-			return UText::localize("Only a date and time before {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize(
+				"Only a date and time before {{value}} is allowed.",
+				self::class, $text_options, [
+					'parameters' => ['value' => $value_string]
+				]
+			);
 		}
 		/**
 		 * @placeholder value The maximum allowed value.
 		 * @example Only a date and time before or on 2017-01-17 17:20:00 is allowed.
 		 */
-		return UText::localize("Only a date and time before or on {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize(
+			"Only a date and time before or on {{value}} is allowed.",
+			self::class, $text_options, [
+				'parameters' => ['value' => $value_string]
+			]
+		);
 	}
 	
 	

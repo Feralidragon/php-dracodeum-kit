@@ -32,23 +32,35 @@ class Values extends Constraints\Values
 			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 				/** @tags technical */
-				return UText::plocalize("Disallowed string", "Disallowed strings", count($this->values), null, self::class, $text_options);
+				return UText::plocalize(
+					"Disallowed string", "Disallowed strings",
+					count($this->values), null, self::class, $text_options
+				);
 			}
 			
 			//non-technical
 			/** @tags non-technical */
-			return UText::plocalize("Disallowed text", "Disallowed texts", count($this->values), null, self::class, $text_options);
+			return UText::plocalize(
+				"Disallowed text", "Disallowed texts",
+				count($this->values), null, self::class, $text_options
+			);
 		}
 		
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::plocalize("Allowed string", "Allowed strings", count($this->values), null, self::class, $text_options);
+			return UText::plocalize(
+				"Allowed string", "Allowed strings",
+				count($this->values), null, self::class, $text_options
+			);
 		}
 		
 		//non-technical
 		/** @tags non-technical */
-		return UText::plocalize("Allowed text", "Allowed texts", count($this->values), null, self::class, $text_options);
+		return UText::plocalize(
+			"Allowed text", "Allowed texts",
+			count($this->values), null, self::class, $text_options
+		);
 	}
 	
 	/** {@inheritdoc} */

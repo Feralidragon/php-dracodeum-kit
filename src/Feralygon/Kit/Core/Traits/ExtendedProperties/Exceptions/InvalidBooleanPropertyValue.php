@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions;
 /**
  * Core extended properties trait invalid boolean property value exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever a given value is invalid for a given boolean property.
+ * This exception is thrown from an object using the extended properties trait whenever a given value is invalid 
+ * for a given boolean property.
  * 
  * @since 1.0.0
  */

@@ -67,7 +67,8 @@ class Hexadecimal extends Constraint implements IName, IInformation
 			 * @example Only hexadecimal characters (0 to 9, a to f and A to F) are allowed.
 			 */
 			return UText::localize(
-				"Only hexadecimal characters ({{digits.num0}} to {{digits.num9}}, {{letters.a}} to {{letters.f}} and {{letters.A}} to {{letters.F}}) are allowed.", 
+				"Only hexadecimal characters ({{digits.num0}} to {{digits.num9}}, " . 
+					"{{letters.a}} to {{letters.f}} and {{letters.A}} to {{letters.F}}) are allowed.", 
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'f' => 'f', 'A' => 'A', 'F' => 'F'],
@@ -89,7 +90,8 @@ class Hexadecimal extends Constraint implements IName, IInformation
 		 * @example Only hexadecimal characters (0-9, a-f and A-F) are allowed.
 		 */
 		return UText::localize(
-			"Only hexadecimal characters ({{digits.num0}}-{{digits.num9}}, {{letters.a}}-{{letters.f}} and {{letters.A}}-{{letters.F}}) are allowed.",
+			"Only hexadecimal characters ({{digits.num0}}-{{digits.num9}}, " . 
+				"{{letters.a}}-{{letters.f}} and {{letters.A}}-{{letters.F}}) are allowed.",
 			self::class, $text_options, [
 				'parameters' => [
 					'letters' => ['a' => 'a', 'f' => 'f', 'A' => 'A', 'F' => 'F'],

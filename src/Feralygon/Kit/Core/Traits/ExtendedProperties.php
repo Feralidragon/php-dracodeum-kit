@@ -21,10 +21,13 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
  * <br>
- * Each property may behave individually in a distinct manner, and may be read-write, read-only, write-only or even write-once.<br>
- * Write-once properties can only be set during instantiation, and cannot be retrieved nor modified afterwards, acting as initialization parameters only.<br>
+ * Each property may behave individually in a distinct manner, 
+ * and may be read-write, read-only, write-only or even write-once.<br>
+ * Write-once properties can only be set during instantiation, 
+ * and cannot be retrieved nor modified afterwards, acting as initialization parameters only.<br>
  * <br>
- * Each property may also have a getter and setter function, to link the property directly towards functions or methods instead of holding its own value.
+ * Each property may also have a getter and setter function, 
+ * to link the property directly towards functions or methods instead of holding its own value.
  * 
  * @since 1.0.0
  */
@@ -149,7 +152,8 @@ trait ExtendedProperties
 	/**
 	 * Get boolean property value from a given name.
 	 * 
-	 * This method is an alias of the <code>get</code> method, however it only allows properties which hold boolean values, 
+	 * This method is an alias of the <code>get</code> method, 
+	 * however it only allows properties which hold boolean values, 
 	 * and is simply meant to improve code readability when retrieving boolean properties specifically.
 	 * 
 	 * @since 1.0.0
@@ -341,7 +345,8 @@ trait ExtendedProperties
 	 * @param string $name <p>The property name to get from.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions\PropertyNotFound
-	 * @return \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property <p>The property instance from the given name.</p>
+	 * @return \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property 
+	 * <p>The property instance from the given name.</p>
 	 */
 	final private function getProperty(string $name) : Objects\Property
 	{

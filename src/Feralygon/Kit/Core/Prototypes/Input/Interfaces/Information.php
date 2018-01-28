@@ -13,7 +13,8 @@ use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 /**
  * Core input prototype information interface.
  * 
- * This interface defines a set of methods to retrieve information from an input prototype, namely a label, a description and a message.
+ * This interface defines a set of methods to retrieve information from an input prototype, 
+ * namely a label, a description and a message.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototypes\Input

@@ -110,21 +110,25 @@ final class Math extends Utility
 	 * Get a random integer or string value from a given set of weighted values.
 	 * 
 	 * The returning value is retrieved as one of the keys from the <var>$values_weights</var> parameter, 
-	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, hence only an integer or string value can be returned.<br>
+	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, 
+	 * hence only an integer or string value can be returned.<br>
 	 * <br>
 	 * The weights represent a bias towards each specific value and should always be numeric, 
-	 * whereas the greater the weight relative the other values, the greater is the chance for its value to be returned.<br>
+	 * whereas the greater the weight relative the other values, 
+	 * the greater is the chance for its value to be returned.<br>
 	 * <br>
 	 * The randomization uses the PHP core <code>mt_rand</code> function, which uses the Mersenne Twister algorithm.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param int[]|float[] $values_weights <p>The values weights to get from, as <samp>value => weight</samp> pairs.<br>
+	 * @param int[]|float[] $values_weights <p>The values weights to get from, 
+	 * as <samp>value => weight</samp> pairs.<br>
 	 * Each weight must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $seed [default = null] <p>The seed value to generate with.<br>
 	 * If not set, an internally generated seed is used.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Math\Exceptions\WrandomInvalidValueWeight
-	 * @return int|string|null <p>A random integer or string value from the given set of weighted values or <code>null</code> if the given set is empty.</p>
+	 * @return int|string|null <p>A random integer or string value from the given set of weighted values 
+	 * or <code>null</code> if the given set is empty.</p>
 	 */
 	final public static function wrandom(array $values_weights, ?int $seed = null)
 	{
@@ -166,16 +170,22 @@ final class Math extends Utility
 	 * The returning number represents the given one in a human-readable format, 
 	 * by rounding it to the nearest most significant multiple, as shown in the examples below:<br>
 	 * &nbsp; &#8226; &nbsp; <code>150</code> returns <samp>150</samp>.<br>
-	 * &nbsp; &#8226; &nbsp; <code>84290</code> returns <samp>84.29K</samp>, or <samp>84.29 thousand</samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>285000000</code> returns <samp>285M</samp>, or <samp>285 million</samp> in long form.<br>
-	 * &nbsp; &#8226; &nbsp; <code>5789482000</code> returns <samp>5.8B</samp>, or <samp>5.8 billion</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>84290</code> returns <samp>84.29K</samp>, 
+	 * or <samp>84.29 thousand</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>285000000</code> returns <samp>285M</samp>, 
+	 * or <samp>285 million</samp> in long form.<br>
+	 * &nbsp; &#8226; &nbsp; <code>5789482000</code> returns <samp>5.8B</samp>, 
+	 * or <samp>5.8 billion</samp> in long form.<br>
 	 * <br>
-	 * The short numeric scale is the one used, therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
+	 * The short numeric scale is the one used, 
+	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
 	 * @param int $number <p>The machine-readable number to retrieve from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Math\Options\Hnumber|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Math\Options\Hnumber|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable number from the given machine one.</p>
 	 */
 	final public static function hnumber(int $number, $text_options = null, $options = null) : string
@@ -187,13 +197,15 @@ final class Math extends Utility
 		$negative = $number < 0;
 		$number = abs($number);
 		$multiple_row = array_slice(self::MULTIPLES_TABLE, -1)[0];
+		$min_multiple = $options->min_multiple;
+		$max_multiple = $options->max_multiple;
 		
 		//process
 		$n = 0.0;
 		foreach (self::MULTIPLES_TABLE as $row) {
-			if (isset($options->max_multiple) && $row['number'] > $options->max_multiple) {
+			if (isset($max_multiple) && $row['number'] > $max_multiple) {
 				continue;
-			} elseif ($number < $row['number'] && (!isset($options->min_multiple) || $row['number'] > $options->min_multiple)) {
+			} elseif ($number < $row['number'] && (!isset($min_multiple) || $row['number'] > $min_multiple)) {
 				continue;
 			}
 			$n = round($number / $row['number'], $precision ?? $row['precision']);
@@ -213,35 +225,50 @@ final class Math extends Utility
 					 * @placeholder number The number in thousands.
 					 * @example 3 thousand
 					 */
-					return Text::plocalize("{{number}} thousand", "{{number}} thousand", $n, 'number', self::class, $text_options);
+					return Text::plocalize(
+						"{{number}} thousand", "{{number}} thousand",
+						$n, 'number', self::class, $text_options
+					);
 				case 'M':
 					/**
 					 * @description Human-readable number scaled in millions.
 					 * @placeholder number The number in millions.
 					 * @example 3 million
 					 */
-					return Text::plocalize("{{number}} million", "{{number}} million", $n, 'number', self::class, $text_options);
+					return Text::plocalize(
+						"{{number}} million", "{{number}} million",
+						$n, 'number', self::class, $text_options
+					);
 				case 'B':
 					/**
 					 * @description Human-readable number scaled in billions.
 					 * @placeholder number The number in billions.
 					 * @example 3 billion
 					 */
-					return Text::plocalize("{{number}} billion", "{{number}} billion", $n, 'number', self::class, $text_options);
+					return Text::plocalize(
+						"{{number}} billion", "{{number}} billion",
+						$n, 'number', self::class, $text_options
+					);
 				case 'T':
 					/**
 					 * @description Human-readable number scaled in trillions.
 					 * @placeholder number The number in trillions.
 					 * @example 3 trillion
 					 */
-					return Text::plocalize("{{number}} trillion", "{{number}} trillion", $n, 'number', self::class, $text_options);
+					return Text::plocalize(
+						"{{number}} trillion", "{{number}} trillion",
+						$n, 'number', self::class, $text_options
+					);
 				case 'Q':
 					/**
 					 * @description Human-readable number scaled in quadrillions.
 					 * @placeholder number The number in quadrillions.
 					 * @example 3 quadrillion
 					 */
-					return Text::plocalize("{{number}} quadrillion", "{{number}} quadrillion", $n, 'number', self::class, $text_options);
+					return Text::plocalize(
+						"{{number}} quadrillion", "{{number}} quadrillion",
+						$n, 'number', self::class, $text_options
+					);
 			}
 			return $n . ($multiple_row['label'] === '' ? '' : " {$multiple_row['label']}");
 		}
@@ -258,7 +285,8 @@ final class Math extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>285M</samp> or <samp>285 million</samp> returns <code>285000000</code>.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>5.8B</samp> or <samp>5.8 billion</samp> returns <code>5800000000</code>.<br>
 	 * <br>
-	 * The short numeric scale is the one used, therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
+	 * The short numeric scale is the one used, 
+	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
 	 * @param string $number <p>The human-readable number to retrieve from.</p>

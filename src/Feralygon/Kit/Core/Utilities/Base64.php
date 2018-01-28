@@ -25,8 +25,9 @@ final class Base64 extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to encode.</p>
-	 * @param bool $url_safe [default = false] <p>Use URL-safe encoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) get replaced 
-	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, as well as the padding equal signs (<samp>=</samp>) removed, 
+	 * @param bool $url_safe [default = false] <p>Use URL-safe encoding, 
+	 * in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) get replaced by hyphens (<samp>-</samp>) 
+	 * and underscores (<samp>_</samp>) respectively, as well as the padding equal signs (<samp>=</samp>) removed, 
 	 * in order to be safely put in an URL.</p>
 	 * @return string <p>The given string encoded.</p>
 	 */
@@ -40,8 +41,9 @@ final class Base64 extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to decode.</p>
-	 * @param bool|null $url_safe [default = null] <p>Use URL-safe decoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) got replaced 
-	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, as well as the padding equal signs (<samp>=</samp>) removed, 
+	 * @param bool|null $url_safe [default = null] <p>Use URL-safe decoding, in which the plus signs (<samp>+</samp>) 
+	 * and slashes (<samp>/</samp>) got replaced by hyphens (<samp>-</samp>) 
+	 * and underscores (<samp>_</samp>) respectively, as well as the padding equal signs (<samp>=</samp>) removed, 
 	 * in order to have been safely put in an URL.<br>
 	 * If not set, the used encoding is automatically detected from the given string.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Base64\Exceptions\DecodeInvalidString

@@ -13,7 +13,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 /**
  * Core data utility path key set into non-array exception class.
  * 
- * This exception is thrown from the data utility whenever there is an attempt to set a given path key into a non-array value.
+ * This exception is thrown from the data utility whenever there is an attempt to set a given path key 
+ * into a non-array value.
  * 
  * @since 1.0.0
  * @property-read string $path <p>The path.</p>
@@ -26,7 +27,8 @@ class PathKeySetIntoNonArray extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot set value at key {{key}} using the path {{path}} since a non-array value was found as {{value}}.";
+		return "Cannot set value at key {{key}} using the path {{path}} " . 
+			"since a non-array value was found as {{value}}.";
 	}
 	
 	

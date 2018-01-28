@@ -21,10 +21,14 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * This input prototype represents a boolean, for which only the following types of values may be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; a boolean;<br>
- * &nbsp; &#8226; &nbsp; an integer, with <code>0</code> as boolean <code>false</code>, and <code>1</code> as boolean <code>true</code>;<br>
- * &nbsp; &#8226; &nbsp; a float, with <code>0.0</code> as boolean <code>false</code>, and <code>1.0</code> as boolean <code>true</code>;<br>
- * &nbsp; &#8226; &nbsp; a string, with <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> and <code>"no"</code> as boolean <code>false</code>, 
- * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> and <code>"yes"</code> as boolean <code>true</code>.
+ * &nbsp; &#8226; &nbsp; an integer, with <code>0</code> as boolean <code>false</code>, 
+ * and <code>1</code> as boolean <code>true</code>;<br>
+ * &nbsp; &#8226; &nbsp; a float, with <code>0.0</code> as boolean <code>false</code>, 
+ * and <code>1.0</code> as boolean <code>true</code>;<br>
+ * &nbsp; &#8226; &nbsp; a string, with <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
+ * <code>"off"</code> and <code>"no"</code> as boolean <code>false</code>, 
+ * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
+ * <code>"on"</code> and <code>"yes"</code> as boolean <code>true</code>.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Boolean
@@ -59,7 +63,8 @@ class Boolean extends Input implements IInformation
 		/**
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
 		 * @placeholder values.true The list of possible allowed values which evaluate to boolean true.
-		 * @example A boolean, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
+		 * @example A boolean, which may be given as "0", "f", "false", "off" and "no" as boolean false, \
+		 * and "1", "t", "true", "on" and "yes" as boolean true.
 		 */
 		return UText::localize(
 			"A boolean, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.",
@@ -84,10 +89,13 @@ class Boolean extends Input implements IInformation
 		/**
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
 		 * @placeholder values.true The list of possible allowed values which evaluate to boolean true.
-		 * @example Only a boolean is allowed, which may be given as "0", "f", "false", "off" and "no" as boolean false, and "1", "t", "true", "on" and "yes" as boolean true.
+		 * @example Only a boolean is allowed, \
+		 * which may be given as "0", "f", "false", "off" and "no" as boolean false, \
+		 * and "1", "t", "true", "on" and "yes" as boolean true.
 		 */
 		return UText::localize(
-			"Only a boolean is allowed, which may be given as {{values.false}} as boolean false, and {{values.true}} as boolean true.", 
+			"Only a boolean is allowed, which may be given as {{values.false}} as boolean false, " . 
+				"and {{values.true}} as boolean true.", 
 			self::class, $text_options, [
 				'parameters' => [
 					'values' => [

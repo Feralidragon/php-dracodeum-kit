@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions;
 /**
  * Core extended properties trait cannot unset write-once property exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever a given write-once property with a given name is attempted to be unset.
+ * This exception is thrown from an object using the extended properties trait whenever a given write-once property 
+ * with a given name is attempted to be unset.
  * 
  * @since 1.0.0
  */

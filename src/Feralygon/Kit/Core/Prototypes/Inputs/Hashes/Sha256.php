@@ -14,7 +14,8 @@ use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 /**
  * Core SHA-256 hash input prototype class.
  * 
- * This input prototype represents a SHA-256 hash, as a string in hexadecimal notation, in which only the following types of values are able to be evaluated as such:<br>
+ * This input prototype represents a SHA-256 hash, as a string in hexadecimal notation, 
+ * in which only the following types of values are able to be evaluated as such:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string (64 bytes);<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string (48 bytes);<br>
  * &nbsp; &#8226; &nbsp; a raw binary string (32 bytes).

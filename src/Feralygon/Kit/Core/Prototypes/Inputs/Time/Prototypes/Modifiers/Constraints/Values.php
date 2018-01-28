@@ -27,8 +27,14 @@ class Values extends Constraints\Values
 	public function getLabel(TextOptions $text_options) : string
 	{
 		return $this->negate
-			? UText::plocalize("Disallowed time", "Disallowed times", count($this->values), null, self::class, $text_options)
-			: UText::plocalize("Allowed time", "Allowed times", count($this->values), null, self::class, $text_options);
+			? UText::plocalize(
+				"Disallowed time", "Disallowed times",
+				count($this->values), null, self::class, $text_options
+			)
+			: UText::plocalize(
+				"Allowed time", "Allowed times",
+				count($this->values), null, self::class, $text_options
+			);
 	}
 	
 	/** {@inheritdoc} */

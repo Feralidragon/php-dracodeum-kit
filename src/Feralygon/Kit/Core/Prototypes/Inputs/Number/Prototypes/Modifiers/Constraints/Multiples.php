@@ -30,7 +30,8 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property int[]|float[] $multiples <p>The allowed multiples to restrict to.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
+ * @property bool $negate [default = false] <p>Negate the restriction, 
+ * so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number
  */
 class Multiples extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
@@ -123,26 +124,44 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	public function getLabel(TextOptions $text_options) : string
 	{
 		return $this->negate
-			? UText::plocalize("Disallowed multiple", "Disallowed multiples", count($this->multiples), null, self::class, $text_options)
-			: UText::plocalize("Allowed multiple", "Allowed multiples", count($this->multiples), null, self::class, $text_options);
+			? UText::plocalize(
+				"Disallowed multiple", "Disallowed multiples",
+				count($this->multiples), null, self::class, $text_options
+			)
+			: UText::plocalize(
+				"Allowed multiple", "Allowed multiples",
+				count($this->multiples), null, self::class, $text_options
+			);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
-		$multiples_string = UText::stringify($this->multiples, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]);
+		$multiples_string = UText::stringify($this->multiples, $text_options, [
+			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
+		]);
 		if ($this->negate) {
 			/**
 			 * @placeholder multiples The list of disallowed multiples.
 			 * @example A multiple of 2, 3 or 5 is not allowed.
 			 */
-			return UText::localize("A multiple of {{multiples}} is not allowed.", self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]);
+			return UText::localize(
+				"A multiple of {{multiples}} is not allowed.",
+				self::class, $text_options, [
+					'parameters' => ['multiples' => $multiples_string]
+				]
+			);
 		}
 		/**
 		 * @placeholder multiples The list of allowed multiples.
 		 * @example Only a multiple of 2, 3 or 5 is allowed.
 		 */
-		return UText::localize("Only a multiple of {{multiples}} is allowed.", self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]);
+		return UText::localize(
+			"Only a multiple of {{multiples}} is allowed.",
+			self::class, $text_options, [
+				'parameters' => ['multiples' => $multiples_string]
+			]
+		);
 	}
 	
 	
@@ -151,7 +170,9 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
-		return UText::stringify($this->multiples, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
+		return UText::stringify($this->multiples, $text_options, [
+			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+		]);
 	}
 	
 	

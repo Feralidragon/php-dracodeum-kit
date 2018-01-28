@@ -25,14 +25,18 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Root system class.
  * 
- * This class represents the local system and is used to statically set up the environment, retrieve local information and launch an application, 
- * thus it also holds a global system state with the currently active system related objects, such as the operating system, main process, environment 
- * and running application, all of which can be accessed statically from anywhere through this class.
+ * This class represents the local system and is used to statically set up the environment, 
+ * retrieve local information and launch an application, thus it also holds a global system state with the currently 
+ * active system related objects, such as the operating system, main process, environment and running application, 
+ * all of which can be accessed statically from anywhere through this class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Root\System\Environments\Development [environment, name = 'development']
- * @see \Feralygon\Kit\Root\System\Environments\Staging [environment, name = 'staging']
- * @see \Feralygon\Kit\Root\System\Environments\Production [environment, name = 'production']
+ * @see \Feralygon\Kit\Root\System\Environments\Development 
+ * [environment, name = 'development']
+ * @see \Feralygon\Kit\Root\System\Environments\Staging 
+ * [environment, name = 'staging']
+ * @see \Feralygon\Kit\Root\System\Environments\Production 
+ * [environment, name = 'production']
  */
 final class System
 {
@@ -59,7 +63,8 @@ final class System
 	 * Use as library.
 	 * 
 	 * When set to be used as a library, it will only work as such, thus it won't modify any global PHP settings 
-	 * (such as ones through <code>ini_set</code> calls) which might be used and set by other scripts, frameworks or any other systems being used instead.
+	 * (such as ones through <code>ini_set</code> calls) which might be used and set by other scripts, 
+	 * frameworks or any other systems being used instead.
 	 * 
 	 * @since 1.0.0
 	 * @return void
@@ -95,7 +100,8 @@ final class System
 	 * Set environment.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Root\System\Environment|string $environment <p>The environment instance, class or name to set.</p>
+	 * @param \Feralygon\Kit\Root\System\Environment|string $environment <p>The environment instance, 
+	 * class or name to set.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidEnvironment
 	 * @return void
 	 */
@@ -208,7 +214,8 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The environment name to build for.</p>
-	 * @return \Feralygon\Kit\Root\System\Environment|null <p>The built environment instance for the given name or <code>null</code> if none was built.</p>
+	 * @return \Feralygon\Kit\Root\System\Environment|null <p>The built environment instance for the given name 
+	 * or <code>null</code> if none was built.</p>
 	 */
 	final private static function buildEnvironment(string $name) : ?Environment
 	{

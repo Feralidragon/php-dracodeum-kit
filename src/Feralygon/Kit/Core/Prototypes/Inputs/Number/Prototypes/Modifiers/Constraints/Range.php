@@ -44,8 +44,11 @@ class Range extends Constraints\Range
 				 * @example Only a number less than or equal to 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a number less than or equal to {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a number less than or equal to {{min_value}} or " . 
+						"greater than or equal to {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
@@ -54,8 +57,11 @@ class Range extends Constraints\Range
 				 * @example Only a number less than or equal to 100 or greater than 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a number less than or equal to {{min_value}} or greater than {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a number less than or equal to {{min_value}} or " . 
+						"greater than {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
@@ -64,8 +70,11 @@ class Range extends Constraints\Range
 				 * @example Only a number less than 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a number less than {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a number less than {{min_value}} or " . 
+						"greater than or equal to {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			}
 			/**
@@ -74,8 +83,11 @@ class Range extends Constraints\Range
 			 * @example Only a number less than 100 or greater than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a number less than {{min_value}} or greater than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a number less than {{min_value}} or " . 
+					"greater than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
@@ -84,8 +96,11 @@ class Range extends Constraints\Range
 			 * @example Only a number greater than 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a number greater than {{min_value}} and less than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a number greater than {{min_value}} and " . 
+					"less than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
@@ -94,8 +109,11 @@ class Range extends Constraints\Range
 			 * @example Only a number greater than 100 and less than or equal to 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a number greater than {{min_value}} and less than or equal to {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a number greater than {{min_value}} and " . 
+					"less than or equal to {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
@@ -104,8 +122,11 @@ class Range extends Constraints\Range
 			 * @example Only a number greater than or equal to 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a number greater than or equal to {{min_value}} and less than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a number greater than or equal to {{min_value}} and " . 
+					"less than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		}
 		/**
@@ -114,8 +135,11 @@ class Range extends Constraints\Range
 		 * @example Only a number greater than or equal to 100 and less than or equal to 250 is allowed.
 		 */
 		return UText::localize(
-			"Only a number greater than or equal to {{min_value}} and less than or equal to {{max_value}} is allowed.", 
-			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+			"Only a number greater than or equal to {{min_value}} and " . 
+				"less than or equal to {{max_value}} is allowed.", 
+			self::class, $text_options, [
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+			]
 		);
 	}
 	

@@ -19,7 +19,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * @since 1.0.0
  * @property-read int $bits <p>The number of bits.</p>
  * @property-read int $max_bits <p>The maximum allowed number of bits.</p>
- * @property-read \Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer $prototype <p>The integer number input prototype instance.</p>
+ * @property-read \Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer $prototype 
+ * <p>The integer number input prototype instance.</p>
  * @property-read bool $unsigned [default = false] <p>Handle as an unsigned integer.</p>
  */
 class InvalidBits extends Exception
@@ -28,10 +29,11 @@ class InvalidBits extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid bits {{bits}} in integer number input {{prototype}}.\n" . 
-			($this->is('unsigned')
+		return "Invalid bits {{bits}} in integer number input {{prototype}}.\n" . (
+			$this->is('unsigned')
 				? "HINT: Only up to {{max_bits}} bits are allowed for unsigned integers."
-				: "HINT: Only up to {{max_bits}} bits are allowed for signed integers.");
+				: "HINT: Only up to {{max_bits}} bits are allowed for signed integers."
+		);
 	}
 	
 	

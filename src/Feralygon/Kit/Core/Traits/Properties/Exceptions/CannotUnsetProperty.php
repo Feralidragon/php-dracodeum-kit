@@ -16,7 +16,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core properties trait cannot unset property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given property with a given name is attempted to be unset.
+ * This exception is thrown from an object using the properties trait whenever a given property 
+ * with a given name is attempted to be unset.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>

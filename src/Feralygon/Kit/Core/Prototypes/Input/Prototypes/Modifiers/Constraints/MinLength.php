@@ -33,7 +33,8 @@ use Feralygon\Kit\Core\Utilities\{
  * It must be greater than or equal to <code>0</code>.</p>
  * @property bool $unicode [default = false] <p>Check as an Unicode value.</p>
  */
-class MinLength extends Constraint implements IPrototypeProperties, IName, IPriority, IInformation, IStringification, ISchemaData
+class MinLength extends Constraint
+implements IPrototypeProperties, IName, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int */

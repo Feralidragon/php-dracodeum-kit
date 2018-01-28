@@ -28,8 +28,10 @@ class NotInitialized extends Exception
 	public function getDefaultMessage() : string
 	{
 		return $this->isset('error_message')
-			? "Input {{component}} (with prototype {{prototype}}) could not be initialized due to the following error: {{error_message}}"
-			: "Input {{component}} (with prototype {{prototype}}) has not been initialized yet.\n" .
+			? "Input {{component}} (with prototype {{prototype}}) " . 
+				"could not be initialized due to the following error: {{error_message}}"
+			: "Input {{component}} (with prototype {{prototype}}) " . 
+				"has not been initialized yet.\n" .
 				"HINT: An input must be initialized first by setting a value through the \"setValue\" method.";
 	}
 	

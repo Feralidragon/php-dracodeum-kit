@@ -16,7 +16,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core functions trait invalid function signature exception class.
  * 
- * This exception is thrown from an object using the functions trait whenever the signature from a given function is invalid.
+ * This exception is thrown from an object using the functions trait whenever the signature 
+ * from a given function is invalid.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The function name.</p>
@@ -41,7 +42,9 @@ class InvalidFunctionSignature extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name', 'function', 'template', 'signature', 'template_signature']);
+		return array_merge(
+			parent::getRequiredPropertyNames(), ['name', 'function', 'template', 'signature', 'template_signature']
+		);
 	}
 	
 	

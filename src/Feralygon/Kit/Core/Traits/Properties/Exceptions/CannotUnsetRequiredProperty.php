@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 /**
  * Core properties trait cannot unset required property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given required property with a given name is attempted to be unset.
+ * This exception is thrown from an object using the properties trait whenever a given required property 
+ * with a given name is attempted to be unset.
  * 
  * @since 1.0.0
  */

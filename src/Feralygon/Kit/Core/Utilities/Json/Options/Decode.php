@@ -16,8 +16,10 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * @since 1.0.0
  * @property bool $associative [default = false] <p>Decode into associative arrays instead of objects, 
  * as supported as <var>$assoc</var> by the PHP core <code>json_decode</code> function.</p>
- * @property int $flags [default = 0x00] <p>The flags to use, as supported as <var>$options</var> by the PHP core <code>json_decode</code> function.</p>
- * @property int|null $depth [default = null] <p>The depth to use, as supported as <var>$depth</var> by the PHP core <code>json_decode</code> function.</p>
+ * @property int $flags [default = 0x00] <p>The flags to use, 
+ * as supported as <var>$options</var> by the PHP core <code>json_decode</code> function.</p>
+ * @property int|null $depth [default = null] <p>The depth to use, 
+ * as supported as <var>$depth</var> by the PHP core <code>json_decode</code> function.</p>
  * @see http://php.net/manual/en/function.json-decode.php
  * @see \Feralygon\Kit\Core\Utilities\Json
  */

@@ -29,13 +29,22 @@ final class Text extends Utility
 	/** Convert non-associative arrays into comma-separated lists during stringification. */
 	public const STRING_NONASSOC_MODE_COMMA_LIST = 'COMMA_LIST';
 	
-	/** Convert non-associative arrays into comma-separated lists, with an "and" conjunction for the last two elements, during stringification. */
+	/**
+	 * Convert non-associative arrays into comma-separated lists, 
+	 * with an "and" conjunction for the last two elements, during stringification.
+	 */
 	public const STRING_NONASSOC_MODE_COMMA_LIST_AND = 'COMMA_LIST_AND';
 	
-	/** Convert non-associative arrays into comma-separated lists, with an "or" conjunction for the last two elements, during stringification. */
+	/**
+	 * Convert non-associative arrays into comma-separated lists, 
+	 * with an "or" conjunction for the last two elements, during stringification.
+	 */
 	public const STRING_NONASSOC_MODE_COMMA_LIST_OR = 'COMMA_LIST_OR';
 	
-	/** Convert non-associative arrays into comma-separated lists, with a "nor" conjunction for the last two elements, during stringification. */
+	/**
+	 * Convert non-associative arrays into comma-separated lists,
+	 * with a "nor" conjunction for the last two elements, during stringification.
+	 */
 	public const STRING_NONASSOC_MODE_COMMA_LIST_NOR = 'COMMA_LIST_NOR';
 	
 	/** Capitalize first word during unslugification (flag). */
@@ -85,20 +94,24 @@ final class Text extends Utility
 	 */
 	final public static function empty(?string $string, bool $ignore_whitespace = false) : bool
 	{
-		return !isset($string) || ($ignore_whitespace && trim($string) === '') || (!$ignore_whitespace && $string === '');
+		return !isset($string) || 
+			($ignore_whitespace && trim($string) === '') || 
+			(!$ignore_whitespace && $string === '');
 	}
 	
 	/**
 	 * Generate a string from a given value.
 	 * 
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
-	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, resources by their ids, 
-	 * and arrays as lists or structures depending on whether or not they are associative.
+	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, 
+	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\StringifyUnsupportedValueType
 	 * @return string <p>The generated string from the given value.</p>
 	 */
@@ -128,13 +141,15 @@ final class Text extends Utility
 			if ($is_enduser) {
 				if ($value) {
 					/**
-					 * @description Affirmative expression, as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
+					 * @description Affirmative expression, \
+					 * as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
 					 * @tags end-user
 					 */
 					return self::localize("YES", self::class, $text_options);
 				}
 				/**
-				 * @description Negative expression, as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
+				 * @description Negative expression, \
+				 * as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
 				 * @tags end-user
 				 */
 				return self::localize("NO", self::class, $text_options);
@@ -162,11 +177,17 @@ final class Text extends Utility
 		if (is_object($value)) {
 			if ($is_enduser) {
 				/**
-				 * @description An internal object expression, as a text representation of an object for the end-user, for whom only its id may be relevant for bug reporting purposes.
+				 * @description An internal object expression, as a text representation of an object for the end-user, 
+				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
 				 * @example OBJECT(294828143)
 				 */
-				return self::localize("OBJECT({{id}})", self::class, $text_options, ['parameters' => ['id' => crc32(get_class($value))]]);
+				return self::localize(
+					"OBJECT({{id}})",
+					self::class, $text_options, [
+						'parameters' => ['id' => crc32(get_class($value))]
+					]
+				);
 			} elseif ($is_technical) {
 				return self::fill("OBJECT({{id}})", ['id' => crc32(get_class($value))]);
 			}
@@ -179,11 +200,18 @@ final class Text extends Utility
 			$resource_id = (int)$value;
 			if ($is_enduser) {
 				/**
-				 * @description An internal resource expression, as a text representation of a resource for the end-user, for whom only its id may be relevant for bug reporting purposes.
+				 * @description An internal resource expression, \
+				 * as a text representation of a resource for the end-user, \
+				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
 				 * @example RESOURCE(32)
 				 */
-				return self::localize("RESOURCE({{id}})", self::class, $text_options, ['parameters' => ['id' => $resource_id]]);
+				return self::localize(
+					"RESOURCE({{id}})",
+					self::class, $text_options, [
+						'parameters' => ['id' => $resource_id]
+					]
+				);
 			} elseif ($is_technical) {
 				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
 			}
@@ -244,9 +272,12 @@ final class Text extends Utility
 					 * @placeholder last The last element of the list.
 					 * @example "foo", "bar" and "zen"
 					 */
-					return self::localize("{{list}} and {{last}}", self::class, $text_options, [
-						'parameters' => ['list' => $list_string, 'last' => $last_string]
-					]);
+					return self::localize(
+						"{{list}} and {{last}}",
+						self::class, $text_options, [
+							'parameters' => ['list' => $list_string, 'last' => $last_string]
+						]
+					);
 				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_OR) {
 					/**
 					 * @description Usage of the "or" conjunction in a list, like so: "w, x, y or z".
@@ -254,9 +285,12 @@ final class Text extends Utility
 					 * @placeholder last The last element of the list.
 					 * @example "foo", "bar" or "zen"
 					 */
-					return self::localize("{{list}} or {{last}}", self::class, $text_options, [
-						'parameters' => ['list' => $list_string, 'last' => $last_string]
-					]);
+					return self::localize(
+						"{{list}} or {{last}}",
+						self::class, $text_options, [
+							'parameters' => ['list' => $list_string, 'last' => $last_string]
+						]
+					);
 				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_NOR) {
 					/**
 					 * @description Usage of the "nor" conjunction in a list, like so: "w, x, y nor z".
@@ -264,9 +298,12 @@ final class Text extends Utility
 					 * @placeholder last The last element of the list.
 					 * @example "foo", "bar" nor "zen"
 					 */
-					return self::localize("{{list}} nor {{last}}", self::class, $text_options, [
-						'parameters' => ['list' => $list_string, 'last' => $last_string]
-					]);
+					return self::localize(
+						"{{list}} nor {{last}}",
+						self::class, $text_options, [
+							'parameters' => ['list' => $list_string, 'last' => $last_string]
+						]
+					);
 				}
 				return "{$list_string}, {$last_string}";
 			}
@@ -286,9 +323,10 @@ final class Text extends Utility
 	/**
 	 * Slugify a given string.
 	 * 
-	 * The process of slugification of a given string consists in converting all of its characters into the closest ones in 
-	 * the ASCII alphanumeric range (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), discarding all special characters and replacing word separator characters, 
-	 * such as spaces, underscores, commas, periods and others of a similar type, by a given delimiter.<br>
+	 * The process of slugification of a given string consists in converting all of its characters into 
+	 * the closest ones in the ASCII alphanumeric range (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * discarding all special characters and replacing word separator characters, such as spaces, underscores, commas, 
+	 * periods and others of a similar type, by a given delimiter.<br>
 	 * <br>
 	 * The returning string is also trimmed and converted to lowercase by omission.
 	 * 
@@ -317,15 +355,19 @@ final class Text extends Utility
 	/**
 	 * Unslugify a given string.
 	 * 
-	 * The process of unslugification of a given string consists in a best attempt to collapse all delimiter characters into spaces, 
-	 * and keep all the non-delimiter characters intact (ASCII alphanumeric characters), which results into human-readable words 
-	 * from the original slugified string, although they might not fully correspond to the original string before it was slugified.
+	 * The process of unslugification of a given string consists in a best attempt to collapse all delimiter characters 
+	 * into spaces, and keep all the non-delimiter characters intact (ASCII alphanumeric characters), 
+	 * which results into human-readable words from the original slugified string, 
+	 * although they might not fully correspond to the original string before it was slugified.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to unslugify.</p>
-	 * @param int $flags [default = 0x00] <p>The unslugification bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_FIRST</code> : Capitalize the first word of the unslugified string.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_ALL</code> : Capitalize all the words of the unslugified string.
+	 * @param int $flags [default = 0x00] <p>The unslugification bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_FIRST</code> : 
+	 * Capitalize the first word of the unslugified string.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_ALL</code> : 
+	 * Capitalize all the words of the unslugified string.
 	 * </p>
 	 * @return string <p>The unslugified string from the given one.</p>
 	 */
@@ -348,8 +390,10 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Bulletify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Bulletify|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The bulletified string from the given one.</p>
 	 */
 	final public static function bulletify(string $string, $text_options = null, $options = null) : string
@@ -365,9 +409,12 @@ final class Text extends Utility
 		 * @placeholder text The text to prepend the bullet to.
 		 * @example  &#8226; this is a bullet point;
 		 */
-		return self::localize(" {{bullet}} {{text}}", self::class, $text_options, [
-			'parameters' => ['bullet' => $options->bullet, 'text' => $string]
-		]);
+		return self::localize(
+			" {{bullet}} {{text}}",
+			self::class, $text_options, [
+				'parameters' => ['bullet' => $options->bullet, 'text' => $string]
+			]
+		);
 	}
 	
 	/**
@@ -378,12 +425,14 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $strings <p>The strings to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
-	 * If <var>$options->merge</var> is set to boolean <code>true</code>, a single merged string with all the given strings is returned instead, 
-	 * with each string in a new line.</p>
+	 * If <var>$options->merge</var> is set to boolean <code>true</code>, 
+	 * a single merged string with all the given strings is returned instead, with each string in a new line.</p>
 	 */
 	final public static function mbulletify(array $strings, $text_options = null, $options = null)
 	{
@@ -408,14 +457,24 @@ final class Text extends Utility
 					 * @placeholder text The text to punctuate.
 					 * @example  &#8226; this is the last bullet point.
 					 */
-					$string = self::localize("{{text}}.", self::class, $text_options, ['parameters' => ['text' => $string]]);
+					$string = self::localize(
+						"{{text}}.",
+						self::class, $text_options, [
+							'parameters' => ['text' => $string]
+						]
+					);
 				} else {
 					/**
 					 * @description Bullet point text punctuation with semicolon.
 					 * @placeholder text The text to punctuate.
 					 * @example  &#8226; this is a bullet point;
 					 */
-					$string = self::localize("{{text}};", self::class, $text_options, ['parameters' => ['text' => $string]]);
+					$string = self::localize(
+						"{{text}};",
+						self::class, $text_options, [
+							'parameters' => ['text' => $string]
+						]
+					);
 				}
 			}
 			unset($string);
@@ -428,12 +487,15 @@ final class Text extends Utility
 	/**
 	 * Check if a given string is an identifier.
 	 * 
-	 * A given string is only considered to be an identifier as a word which starts with an ASCII letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and is exclusively composed by ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * A given string is only considered to be an identifier as a word which starts with 
+	 * an ASCII letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
+	 * and is exclusively composed by ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
-	 * @param bool $extended [default = false] <p>Check as an extended identifier, in which dots may be used as delimiters between words to represent pointers.</p>
+	 * @param bool $extended [default = false] <p>Check as an extended identifier, 
+	 * in which dots may be used as delimiters between words to represent pointers.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given string is an identifier.</p>
 	 */
 	final public static function isIdentifier(string $string, bool $extended = false) : bool
@@ -444,8 +506,8 @@ final class Text extends Utility
 	/**
 	 * Check if a given string matches a given wildcard.
 	 * 
-	 * In a given wildcard, the <samp>*</samp> character matches any number and type of characters, including no characters at all, 
-	 * and is also the only wildcard character recognized.
+	 * In a given wildcard, the <samp>*</samp> character matches any number and type of characters, 
+	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
@@ -455,7 +517,9 @@ final class Text extends Utility
 	 */
 	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false) : bool
 	{
-		$pattern = '/^' . implode('.*', array_map(function ($s) { return preg_quote($s, '/'); }, explode('*', $wildcard))) . '$/';
+		$pattern = '/^' . 
+			implode('.*', array_map(function ($s) { return preg_quote($s, '/'); }, explode('*', $wildcard))) . 
+			'$/';
 		if ($insensitive) {
 			$pattern .= 'i';
 		}
@@ -465,8 +529,8 @@ final class Text extends Utility
 	/**
 	 * Check if a given string matches any given wildcards.
 	 * 
-	 * In any given wildcard, the <samp>*</samp> character matches any number and type of characters, including no characters at all, 
-	 * and is also the only wildcard character recognized.
+	 * In any given wildcard, the <samp>*</samp> character matches any number and type of characters, 
+	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to check.</p>
@@ -487,22 +551,28 @@ final class Text extends Utility
 	/**
 	 * Fill a given string with given parameters.
 	 * 
-	 * The process of filling a given string consists in replacing its placeholders by the given parameters, with each parameter being stringified.<br>
+	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
+	 * with each parameter being stringified.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
+	 * They may also be used as pointers to specific object properties 
+	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to fill.</p>
-	 * @param array $parameters <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Fill|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param array $parameters <p>The parameters to fill the respective placeholders with, 
+	 * as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Fill|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillPlaceholderMethodIdentifierNotFound
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillPlaceholderPropertyIdentifierNotFound
@@ -529,23 +599,38 @@ final class Text extends Utility
 					if ($identifier[-1] === ')') {
 						$identifier = substr($identifier, 0, -2);
 						if (!is_object($pointer)) {
-							throw new Exceptions\FillInvalidPlaceholderMethodIdentifier(['placeholder' => $token, 'identifier' => "{$identifier}()"]);
+							throw new Exceptions\FillInvalidPlaceholderMethodIdentifier([
+								'placeholder' => $token,
+								'identifier' => "{$identifier}()"
+							]);
 						} elseif (!method_exists($pointer, $identifier)) {
-							throw new Exceptions\FillPlaceholderMethodIdentifierNotFound(['placeholder' => $token, 'identifier' => "{$identifier}()"]);
+							throw new Exceptions\FillPlaceholderMethodIdentifierNotFound([
+								'placeholder' => $token,
+								'identifier' => "{$identifier}()"
+							]);
 						}
 						$pointer = $pointer->$identifier();
 					} elseif (is_object($pointer)) {
 						if (!property_exists($pointer, $identifier)) {
-							throw new Exceptions\FillPlaceholderPropertyIdentifierNotFound(['placeholder' => $token, 'identifier' => $identifier]);
+							throw new Exceptions\FillPlaceholderPropertyIdentifierNotFound([
+								'placeholder' => $token,
+								'identifier' => $identifier
+							]);
 						}
 						$pointer = $pointer->$identifier;
 					} elseif (is_array($pointer)) {
 						if (!array_key_exists($identifier, $pointer)) {
-							throw new Exceptions\FillPlaceholderKeyIdentifierNotFound(['placeholder' => $token, 'identifier' => $identifier]);
+							throw new Exceptions\FillPlaceholderKeyIdentifierNotFound([
+								'placeholder' => $token,
+								'identifier' => $identifier
+							]);
 						}
 						$pointer = $pointer[$identifier];
 					} else {
-						throw new Exceptions\FillInvalidPlaceholderIdentifier(['placeholder' => $token, 'identifier' => $identifier]);
+						throw new Exceptions\FillInvalidPlaceholderIdentifier([
+							'placeholder' => $token,
+							'identifier' => $identifier
+						]);
 					}
 				}
 				
@@ -571,28 +656,42 @@ final class Text extends Utility
 	/**
 	 * Fill a given plural string with given parameters.
 	 * 
-	 * The process of filling a given string consists in replacing its placeholders by the given parameters, with each parameter being stringified.<br>
+	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
+	 * with each parameter being stringified.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
+	 * They may also be used as pointers to specific object properties 
+	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string1 <p>The string singular form to fill.</p>
 	 * @param string $string2 <p>The string plural form to fill.</p>
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The string number placeholder to fill with.</p>
-	 * @param array $parameters [default = []] <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param array $parameters [default = []] <p>The parameters to fill the respective placeholders with, 
+	 * as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The given plural string filled with the given parameters.</p>
 	 */
-	final public static function pfill(string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [], $text_options = null, $options = null) : string
+	final public static function pfill(
+		string $string1,
+		string $string2,
+		float $number,
+		?string $number_placeholder,
+		array $parameters = [],
+		$text_options = null,
+		$options = null
+	) : string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Pfill::coerce($options);
@@ -610,12 +709,15 @@ final class Text extends Utility
 	 * Check if a given string is a placeholder.
 	 * 
 	 * A given string is only considered to be a placeholder if its is exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * It may also have pointers to specific object properties or associative array values, by using a dot between identifiers, 
-	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
+	 * It may also have pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, 
+	 * such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
 	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
@@ -683,14 +785,16 @@ final class Text extends Utility
 	/**
 	 * Get placeholders from a given string.
 	 * 
-	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, 
+	 * and they must be exclusively composed by identifiers, which are defined as words which must start with 
+	 * a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain 
+	 * letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used as pointers to specific object properties or associative array values, by using a dot between identifiers, 
-	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.
+	 * They may also be used as pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to get from.</p>
@@ -724,9 +828,12 @@ final class Text extends Utility
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string $string <p>The string to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Parse|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return array|null <p>The parsed data from the given string, as <samp>field => value</samp> pairs, or <code>null</code> if no data could be parsed.</p>
+	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, 
+	 * as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Parse|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return array|null <p>The parsed data from the given string, as <samp>field => value</samp> pairs, 
+	 * or <code>null</code> if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
 	{
@@ -746,13 +853,16 @@ final class Text extends Utility
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string[] $strings <p>The strings to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mparse|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, 
+	 * as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mparse|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidString
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidFieldPattern
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\MparseInvalidDelimiterPattern
-	 * @return array <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string,
-	 * or <code>null</code> per string if <var>$options->keep_nulls = true</var> and no data could be parsed from it.<br>
+	 * @return array <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs 
+	 * per string, or <code>null</code> per string if <var>$options->keep_nulls = true</var> 
+	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
 	final public static function mparse(array $strings, array $fields_patterns, $options = null) : array
@@ -776,7 +886,8 @@ final class Text extends Utility
 			return $options->keep_nulls ? array_fill_keys(array_keys($strings), null) : [];
 		} else {
 			foreach ($fields_patterns as $field => $pattern) {
-				if (!is_string($pattern) || preg_match($pattern_delimiter . $pattern . $pattern_delimiter, null) === false) {
+				$field_pattern = $pattern_delimiter . $pattern . $pattern_delimiter;
+				if (!is_string($pattern) || preg_match($field_pattern, null) === false) {
 					throw new Exceptions\MparseInvalidFieldPattern(['field' => $field, 'pattern' => $pattern]);
 				}
 			}
@@ -795,7 +906,9 @@ final class Text extends Utility
 			$group += preg_match_all('/(^|[^\\\\])\(/', $pattern) + 1;
 		}
 		unset($group);
-		$pattern = "{$pattern_delimiter}^(" . implode("){$delimiter_pattern}(", $fields_patterns) . ")\${$pattern_delimiter}{$pattern_modifiers}";
+		$pattern = "{$pattern_delimiter}^(" . 
+			implode("){$delimiter_pattern}(", $fields_patterns) . 
+			")\${$pattern_delimiter}{$pattern_modifiers}";
 		
 		//parse
 		$strings_fields_values = [];
@@ -826,7 +939,8 @@ final class Text extends Utility
 	{
 		if ($unicode) {
 			$encoding = Locale::getEncoding();
-			return mb_strtolower(mb_substr($string, 0, 1, $encoding), $encoding) . mb_substr($string, 1, null, $encoding);
+			return mb_strtolower(mb_substr($string, 0, 1, $encoding), $encoding) . 
+				mb_substr($string, 1, null, $encoding);
 		}
 		return lcfirst($string);
 	}
@@ -844,7 +958,8 @@ final class Text extends Utility
 	{
 		if ($unicode) {
 			$encoding = Locale::getEncoding();
-			return mb_strtoupper(mb_substr($string, 0, 1, $encoding), $encoding) . mb_substr($string, 1, null, $encoding);
+			return mb_strtoupper(mb_substr($string, 0, 1, $encoding), $encoding) . 
+				mb_substr($string, 1, null, $encoding);
 		}
 		return ucfirst($string);
 	}
@@ -894,8 +1009,10 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.substr.php
 	 * @param string $string <p>The string to retrieve from.</p>
-	 * @param int $start <p>The starting index to retrieve from, with <code>0</code> corresponding to the first character.<br>
-	 * If negative, it is interpreted as starting at the end of the given string, with the last character corresponding to <code>-1</code>.</p>
+	 * @param int $start <p>The starting index to retrieve from, 
+	 * with <code>0</code> corresponding to the first character.<br>
+	 * If negative, it is interpreted as starting at the end of the given string, 
+	 * with the last character corresponding to <code>-1</code>.</p>
 	 * @param int|null $length [default = null] <p>The maximum length of the returning sub-string.<br>
 	 * If negative, it is interpreted as the number of characters to remove from the end of the given string.<br>
 	 * If not set, it is interpreted as being the exact length of the given string.</p>
@@ -904,13 +1021,16 @@ final class Text extends Utility
 	 */
 	final public static function sub(string $string, int $start, ?int $length = null, bool $unicode = false) : string
 	{
-		return $unicode ? mb_substr($string, $start, $length, Locale::getEncoding()) : (isset($length) ? substr($string, $start, $length) : substr($string, $start));
+		return $unicode
+			? mb_substr($string, $start, $length, Locale::getEncoding())
+			: (isset($length) ? substr($string, $start, $length) : substr($string, $start));
 	}
 	
 	/**
 	 * Capitalize a given string.
 	 * 
-	 * The process of capitalization of a given string consists in converting the first character from its first word to uppercase, but only if it is safe to do so.
+	 * The process of capitalization of a given string consists in converting the first character 
+	 * from its first word to uppercase, but only if it is safe to do so.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to capitalize.</p>
@@ -929,7 +1049,8 @@ final class Text extends Utility
 	/**
 	 * Uncapitalize a given string.
 	 * 
-	 * The process of uncapitalization of a given string consists in converting the first character from its first word to lowercase, but only if it is safe to do so.
+	 * The process of uncapitalization of a given string consists in converting the first character 
+	 * from its first word to lowercase, but only if it is safe to do so.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to uncapitalize.</p>
@@ -939,7 +1060,10 @@ final class Text extends Utility
 	final public static function uncapitalize(string $string, bool $unicode = false) : string
 	{
 		$pattern = $unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism';
-		if (preg_match($pattern, $string, $matches) && self::ucfirst(self::lower($matches[2], $unicode), $unicode) === $matches[2]) {
+		if (
+			preg_match($pattern, $string, $matches) && 
+			self::ucfirst(self::lower($matches[2], $unicode), $unicode) === $matches[2]
+		) {
 			return $matches[1] . self::lcfirst($matches[2], $unicode) . $matches[3];
 		}
 		return $string;
@@ -952,8 +1076,8 @@ final class Text extends Utility
 	 * which defines the distance as the minimum number of inserts, deletes and substitutions which need to take place 
 	 * to transform one string into another.<br>
 	 * <br>
-	 * Alternatively, its Damerau variation (Damerau-Levenshtein) can be used to also consider transpositions of 2 adjacent characters 
-	 * to result into a distance of 1 (1 transposition) instead of 2 (2 substitutions).
+	 * Alternatively, its Damerau variation (Damerau-Levenshtein) can be used to also consider transpositions 
+	 * of 2 adjacent characters to result into a distance of 1 (1 transposition) instead of 2 (2 substitutions).
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Levenshtein_distance
@@ -965,7 +1089,9 @@ final class Text extends Utility
 	 * @param bool $unicode [default = false] <p>Calculate the distance as Unicode.</p>
 	 * @return int <p>The distance between the two given strings.</p>
 	 */
-	final public static function distance(string $string1, string $string2, bool $damerau = false, bool $insensitive = false, bool $unicode = false) : int
+	final public static function distance(
+		string $string1, string $string2, bool $damerau = false, bool $insensitive = false, bool $unicode = false
+	) : int
 	{
 		//prepare
 		if ($insensitive) {
@@ -1007,8 +1133,15 @@ final class Text extends Utility
 		for ($i2 = 1; $i2 <= $length2; $i2++) {
 			for ($i1 = 1; $i1 <= $length1; $i1++) {
 				$cost = $chars1[$i1 - 1] === $chars2[$i2 - 1] ? 0 : 1;
-				$matrix[$i1][$i2] = min($matrix[$i1 - 1][$i2] + 1, $matrix[$i1][$i2 - 1] + 1, $matrix[$i1 - 1][$i2 - 1] + $cost);
-				if ($damerau && $i1 > 1 && $i2 > 1 && $chars1[$i1 - 1] === $chars2[$i2 - 2] && $chars1[$i1 - 2] === $chars2[$i2 - 1]) {
+				$matrix[$i1][$i2] = min(
+					$matrix[$i1 - 1][$i2] + 1, 
+					$matrix[$i1][$i2 - 1] + 1,
+					$matrix[$i1 - 1][$i2 - 1] + $cost
+				);
+				if (
+					$damerau && $i1 > 1 && $i2 > 1 && 
+					$chars1[$i1 - 1] === $chars2[$i2 - 2] && $chars1[$i1 - 2] === $chars2[$i2 - 1]
+				) {
 					$matrix[$i1][$i2] = min($matrix[$i1][$i2], $matrix[$i1 - 2][$i2 - 2] + $cost);
 				}
 			}
@@ -1025,7 +1158,8 @@ final class Text extends Utility
 	 * @param string $string <p>The string to truncate.</p>
 	 * @param int $length <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Truncate|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Truncate|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\TruncateInvalidLength
 	 * @return string <p>The given string truncated to the given length.</p>
 	 */
@@ -1051,29 +1185,33 @@ final class Text extends Utility
 		}
 		
 		//sentences
-		if ($options->keep_sentences && preg_match_all($unicode ? '/\P{Po}+\p{Po}+/u' : '/[^\.\?\!]+[\.\?\!]+/', $string, $matches) > 0) {
-			$t_length = 0;
-			$t_string = '';
-			foreach ($matches[0] as $sentence) {
-				$sentence_length = self::length($sentence, $unicode);
-				if ($t_length + $sentence_length > $length) {
-					break;
+		if ($options->keep_sentences) {
+			$sentences_pattern = $unicode ? '/\P{Po}+\p{Po}+/u' : '/[^\.\?\!]+[\.\?\!]+/';
+			if (preg_match_all($sentences_pattern, $string, $matches) > 0) {
+				$t_length = 0;
+				$t_string = '';
+				foreach ($matches[0] as $sentence) {
+					$sentence_length = self::length($sentence, $unicode);
+					if ($t_length + $sentence_length > $length) {
+						break;
+					}
+					$t_string .= $sentence;
+					$t_length += $sentence_length;
 				}
-				$t_string .= $sentence;
-				$t_length += $sentence_length;
+				$t_string = trim($t_string);
+				if ($t_string !== '') {
+					return $t_string . $end_string;
+				}
+				unset($t_string);
 			}
-			$t_string = trim($t_string);
-			if ($t_string !== '') {
-				return $t_string . $end_string;
-			}
-			unset($t_string);
 		}
 		
 		//words
 		if ($options->keep_words) {
 			$t_length = 0;
 			$t_string = '';
-			foreach (preg_split($unicode ? '/([^\pL\pN_\-]+)/u' : '/([^\w\-]+)/i', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $part) {
+			$words_pattern = $unicode ? '/([^\pL\pN_\-]+)/u' : '/([^\w\-]+)/i';
+			foreach (preg_split($words_pattern, $string, null, PREG_SPLIT_DELIM_CAPTURE) as $part) {
 				$part_length = self::length($part, $unicode);
 				if ($t_length + $part_length > $length) {
 					break;
@@ -1133,7 +1271,8 @@ final class Text extends Utility
 	 * Check if a given string is in camel case notation.
 	 * 
 	 * A given string is only considered to be in camel case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by ASCII alphanumeric characters 
+	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>fooBar</samp> are two examples of camel case notation.
 	 * 
@@ -1152,7 +1291,8 @@ final class Text extends Utility
 	 * Check if a given string is in pascal case notation.
 	 * 
 	 * A given string is only considered to be in pascal case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by ASCII alphanumeric characters 
+	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
 	 * The strings <samp>Foo</samp> and <samp>FooBar</samp> are two examples of pascal case notation.
 	 * 
@@ -1171,8 +1311,9 @@ final class Text extends Utility
 	 * Check if a given string is in snake case notation.
 	 * 
 	 * A given string is only considered to be in snake case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>a-z</samp>), 
-	 * with words delimited by a single underscore (<samp>_</samp>) between them.<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters 
+	 * (<samp>0-9</samp> and <samp>a-z</samp>), with words delimited by 
+	 * a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>foo_bar</samp> are two examples of snake case notation.
 	 * 
@@ -1191,8 +1332,9 @@ final class Text extends Utility
 	 * Check if a given string is in kebab case notation.
 	 * 
 	 * A given string is only considered to be in kebab case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>a-z</samp>), 
-	 * with words delimited by a single hyphen (<samp>-</samp>) between them.<br>
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters 
+	 * (<samp>0-9</samp> and <samp>a-z</samp>), with words delimited by 
+	 * a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>foo-bar</samp> are two examples of kebab case notation.
 	 * 
@@ -1210,8 +1352,9 @@ final class Text extends Utility
 	 * Check if a given string is in macro case notation.
 	 * 
 	 * A given string is only considered to be in macro case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>A-Z</samp>), 
-	 * with words delimited by a single underscore (<samp>_</samp>) between them.<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters 
+	 * (<samp>0-9</samp> and <samp>A-Z</samp>), with words delimited by 
+	 * a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
 	 * The strings <samp>FOO</samp> and <samp>FOO_BAR</samp> are two examples of macro case notation.
 	 * 
@@ -1229,8 +1372,9 @@ final class Text extends Utility
 	 * Check if a given string is in cobol case notation.
 	 * 
 	 * A given string is only considered to be in cobol case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters (<samp>0-9</samp> and <samp>A-Z</samp>), 
-	 * with words delimited by a single hyphen (<samp>-</samp>) between them.<br>
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters 
+	 * (<samp>0-9</samp> and <samp>A-Z</samp>), with words delimited by 
+	 * a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
 	 * The strings <samp>FOO</samp> and <samp>FOO-BAR</samp> are two examples of cobol case notation.
 	 * 
@@ -1247,9 +1391,10 @@ final class Text extends Utility
 	/**
 	 * Retrieve case notation from a given string.
 	 * 
-	 * The returning case notation from the given string is recognized by checking mostly the case of each character, and only 
-	 * strings exclusively composed by ASCII alphanumeric characters (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), 
-	 * optionally with underscore (<samp>_</samp>) or hyphen (<samp>-</samp>) as delimiters, are considered.<br>
+	 * The returning case notation from the given string is recognized by checking mostly the case of each character, 
+	 * and only strings exclusively composed by ASCII alphanumeric characters 
+	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), optionally with underscore (<samp>_</samp>) 
+	 * or hyphen (<samp>-</samp>) as delimiters, are considered.<br>
 	 * <br>
 	 * The following are some examples of each notation:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo</samp> and <samp>fooBar</samp> are in camel case notation.<br>
@@ -1259,8 +1404,9 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>FOO</samp> and <samp>FOO_BAR</samp> are in macro case notation.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>FOO</samp> and <samp>FOO-BAR</samp> are in cobol case notation.<br>
 	 * <br>
-	 * Some strings may become ambiguous such as <samp>foo</samp> which is simultaneously in snake, kebab and camel case notations, 
-	 * therefore the desambiguation is solved by performing the internal checks in the following order:<br>
+	 * Some strings may become ambiguous such as <samp>foo</samp> which is simultaneously in snake, 
+	 * kebab and camel case notations, therefore the desambiguation is solved by performing the internal checks 
+	 * in the following order:<br>
 	 * 1 - Snake case notation check;<br>
 	 * 2 - Kebab case notation check;<br>
 	 * 3 - Macro case notation check;<br>
@@ -1268,8 +1414,8 @@ final class Text extends Utility
 	 * 5 - Camel case notation check;<br>
 	 * 6 - Pascal case notation check.<br>
 	 * <br>
-	 * In other words, <samp>foo</samp> will be recognized to be in snake case notation only, since the snake case check 
-	 * is performed before the kebab and camel case ones.
+	 * In other words, <samp>foo</samp> will be recognized to be in snake case notation only, 
+	 * since the snake case check is performed before the kebab and camel case ones.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
@@ -1307,7 +1453,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to camel case notation.
 	 * 
-	 * The given string can only be converted if it is already in pascal, snake, kebab, macro or cobol case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in pascal, snake, kebab, macro or cobol case notation.<br>
 	 * If given in camel case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1316,7 +1463,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to camel case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to camel case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCamelCase(string $string) : ?string
 	{
@@ -1342,7 +1490,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to pascal case notation.
 	 * 
-	 * The given string can only be converted if it is already in camel, snake, kebab, macro or cobol case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in camel, snake, kebab, macro or cobol case notation.<br>
 	 * If given in pascal case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1351,7 +1500,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to pascal case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to pascal case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toPascalCase(string $string) : ?string
 	{
@@ -1370,7 +1520,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to snake case notation.
 	 * 
-	 * The given string can only be converted if it is already in camel, pascal, kebab, macro or cobol case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in camel, pascal, kebab, macro or cobol case notation.<br>
 	 * If given in snake case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1379,7 +1530,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to snake case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to snake case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toSnakeCase(string $string) : ?string
 	{
@@ -1392,7 +1544,10 @@ final class Text extends Utility
 			return str_replace('-', '_', $string);
 		} elseif ($notation === self::CASE_COBOL) {
 			return str_replace('-', '_', strtolower($string));
-		} elseif (($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)) {
+		} elseif (
+			($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && 
+			preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)
+		) {
 			return strtolower(implode('_', $matches[0]));
 		}
 		return null;
@@ -1401,7 +1556,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to kebab case notation.
 	 * 
-	 * The given string can only be converted if it is already in camel, pascal, snake, macro or cobol case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in camel, pascal, snake, macro or cobol case notation.<br>
 	 * If given in kebab case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1410,7 +1566,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to kebab case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to kebab case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toKebabCase(string $string) : ?string
 	{
@@ -1423,7 +1580,10 @@ final class Text extends Utility
 			return str_replace('_', '-', $string);
 		} elseif ($notation === self::CASE_MACRO) {
 			return str_replace('_', '-', strtolower($string));
-		} elseif (($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)) {
+		} elseif (
+			($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && 
+			preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)
+		) {
 			return strtolower(implode('-', $matches[0]));
 		}
 		return null;
@@ -1432,7 +1592,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to macro case notation.
 	 * 
-	 * The given string can only be converted if it is already in camel, pascal, snake, kebab or cobol case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in camel, pascal, snake, kebab or cobol case notation.<br>
 	 * If given in macro case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1441,7 +1602,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to macro case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to macro case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toMacroCase(string $string) : ?string
 	{
@@ -1454,7 +1616,10 @@ final class Text extends Utility
 			return str_replace('-', '_', strtoupper($string));
 		} elseif ($notation === self::CASE_COBOL) {
 			return str_replace('-', '_', $string);
-		} elseif (($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)) {
+		} elseif (
+			($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && 
+			preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)
+		) {
 			return strtoupper(implode('_', $matches[0]));
 		}
 		return null;
@@ -1463,7 +1628,8 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to cobol case notation.
 	 * 
-	 * The given string can only be converted if it is already in camel, pascal, snake, kebab or macro case notation.<br>
+	 * The given string can only be converted if it is already 
+	 * in camel, pascal, snake, kebab or macro case notation.<br>
 	 * If given in cobol case notation already, no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
@@ -1472,7 +1638,8 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to cobol case notation or <code>null</code> if it could not be converted.</p>
+	 * @return string|null <p>The given string converted to cobol case notation 
+	 * or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCobolCase(string $string) : ?string
 	{
@@ -1485,7 +1652,10 @@ final class Text extends Utility
 			return str_replace('_', '-', strtoupper($string));
 		} elseif ($notation === self::CASE_MACRO) {
 			return str_replace('_', '-', $string);
-		} elseif (($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)) {
+		} elseif (
+			($notation === self::CASE_CAMEL || $notation === self::CASE_PASCAL) && 
+			preg_match_all('/[A-Z][a-z\d]*/', ucfirst($string), $matches)
+		) {
 			return strtoupper(implode('-', $matches[0]));
 		}
 		return null;
@@ -1496,23 +1666,26 @@ final class Text extends Utility
 	 * 
 	 * Unlike the <code>translate</code> method from the root locale class <code>\Feralygon\Kit\Root\Locale</code>, 
 	 * the returning message is only actually translated depending on the given text options, in other words, 
-	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly demanded by the callee through text options.<br>
+	 * this function is meant to be used with any message which is only meant to be translated 
+	 * if such is explicitly demanded by the callee through text options.<br>
 	 * <br>
-	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, 
+	 * and they must be exclusively composed by identifiers, which are defined as words which must start with a letter 
+	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
+	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.<br>
+	 * They may also be used as pointers to specific object properties or associative array values towards 
+	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>
 	 * <br>
-	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
-	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
-	 * and thus provide the best translation possible.<br>
+	 * When calling this function, a phpDoc-like notation may be added above the call to describe both the message 
+	 * and placeholders,as well as optionally provide an example of usage, to help the translator 
+	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>
@@ -1526,19 +1699,27 @@ final class Text extends Utility
 	 * &nbsp;*&#47;
 	 * </code><br>
 	 * <br>
-	 * Once the PHP source files are scanned to look for the usage of this call, 
-	 * these descriptions and examples will also be retrieved and saved into the resulting file with all the messages to translate.<br>
-	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), to optionally be filtered by during the scan, 
-	 * in order to create files with only a specific desired subset of all existing entries to translate.
+	 * Once the PHP source files are scanned to look for the usage of this call, these descriptions and examples 
+	 * will also be retrieved and saved into the resulting file with all the messages to translate.<br>
+	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
+	 * <br>
+	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
+	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
+	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
 	 * @param string $message <p>The message to localize.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Localize|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Localize|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given message.</p>
 	 */
-	final public static function localize(string $message, ?string $context = null, $text_options = null, $options = null) : string
+	final public static function localize(
+		string $message, ?string $context = null, $text_options = null, $options = null
+	) : string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Localize::coerce($options);
@@ -1564,23 +1745,26 @@ final class Text extends Utility
 	 * 
 	 * Unlike the <code>ptranslate</code> method from the root locale class <code>\Feralygon\Kit\Root\Locale</code>, 
 	 * the returning message is only actually translated depending on the given text options, in other words, 
-	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly demanded by the callee through text options.<br>
+	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly 
+	 * demanded by the callee through text options.<br>
 	 * <br>
-	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively composed by identifiers, 
-	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively 
+	 * composed by identifiers, which are defined as words which must start with a letter 
+	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
+	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used as pointers to specific object properties or associative array values towards the given parameters, by using a dot between identifiers, 
-	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.<br>
+	 * They may also be used as pointers to specific object properties or associative array values towards 
+	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of pointers chained.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>
 	 * <br>
-	 * When calling this function, a PHPDoc-like notation may be added above the call to describe both the message and placeholders,
-	 * as well as optionally provide an example of usage, to help the translator in fully understanding the context of the message 
-	 * and thus provide the best translation possible.<br>
+	 * When calling this function, a phpDoc-like notation may be added above the call to describe both 
+	 * the message and placeholders, as well as optionally provide an example of usage, to help the translator 
+	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>
@@ -1595,9 +1779,14 @@ final class Text extends Utility
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, 
-	 * these descriptions and examples will also be retrieved and saved into the resulting file with all the messages to translate.<br>
-	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), to optionally be filtered by during the scan, 
-	 * in order to create files with only a specific desired subset of all existing entries to translate.
+	 * these descriptions and examples will also be retrieved and saved into the resulting file with all 
+	 * the messages to translate.<br>
+	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
+	 * <br>
+	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
+	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
+	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
 	 * @param string $message1 <p>The message singular form to localize.</p>
@@ -1605,11 +1794,21 @@ final class Text extends Utility
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The message number placeholder to localize with.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Plocalize|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Plocalize|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given plural message.</p>
 	 */
-	final public static function plocalize(string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null, $text_options = null, $options = null) : string
+	final public static function plocalize(
+		string $message1,
+		string $message2,
+		float $number,
+		?string $number_placeholder,
+		?string $context = null,
+		$text_options = null,
+		$options = null
+	) : string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Plocalize::coerce($options);
@@ -1622,10 +1821,14 @@ final class Text extends Utility
 				'language' => $text_options->language
 			]);
 		} elseif (isset($number_placeholder) || !empty($options->parameters)) {
-			return self::pfill($message1, $message2, $number, $number_placeholder, $options->parameters, ['info_scope' => $text_options->info_scope], [
-				'string_options' => $options->string_options,
-				'stringifier' => $options->stringifier
-			]);
+			return self::pfill(
+				$message1, $message2, $number, $number_placeholder, $options->parameters, [
+					'info_scope' => $text_options->info_scope
+				], [
+					'string_options' => $options->string_options,
+					'stringifier' => $options->stringifier
+				]
+			);
 		}
 		return abs($number) === 1.0 ? $message1 : $message2;
 	}

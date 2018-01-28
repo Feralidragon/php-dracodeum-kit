@@ -68,7 +68,10 @@ class InvalidPropertiesMode extends Exception
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
 		if ($placeholder === 'modes') {
-			return UText::stringify($value, null, ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
+			return UText::stringify($value, null, [
+				'quote_strings' => true,
+				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+			]);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}

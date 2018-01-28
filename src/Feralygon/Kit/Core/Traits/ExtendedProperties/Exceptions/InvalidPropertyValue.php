@@ -16,7 +16,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core extended properties trait invalid property value exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever a given value is invalid for a given property.
+ * This exception is thrown from an object using the extended properties trait whenever a given value is invalid 
+ * for a given property.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>

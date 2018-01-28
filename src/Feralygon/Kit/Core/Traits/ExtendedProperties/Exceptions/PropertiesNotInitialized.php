@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Traits\ExtendedProperties\Exception;
 /**
  * Core extended properties trait properties not initialized exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever properties have not been initialized yet.
+ * This exception is thrown from an object using the extended properties trait whenever properties 
+ * have not been initialized yet.
  * 
  * @since 1.0.0
  */

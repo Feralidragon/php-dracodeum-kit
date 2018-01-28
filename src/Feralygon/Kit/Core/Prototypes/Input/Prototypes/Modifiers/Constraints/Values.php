@@ -30,7 +30,8 @@ use Feralygon\Kit\Core\Utilities\{
  * 
  * @since 1.0.0
  * @property array $values <p>The allowed values to restrict to.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
+ * @property bool $negate [default = false] <p>Negate the restriction, 
+ * so the given allowed values act as disallowed values instead.</p>
  */
 class Values extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -112,8 +113,14 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	public function getLabel(TextOptions $text_options) : string
 	{
 		return $this->negate
-			? UText::plocalize("Disallowed value", "Disallowed values", count($this->values), null, self::class, $text_options)
-			: UText::plocalize("Allowed value", "Allowed values", count($this->values), null, self::class, $text_options);
+			? UText::plocalize(
+				"Disallowed value", "Disallowed values",
+				count($this->values), null, self::class, $text_options
+			)
+			: UText::plocalize(
+				"Allowed value", "Allowed values",
+				count($this->values), null, self::class, $text_options
+			);
 	}
 	
 	/** {@inheritdoc} */
@@ -155,7 +162,9 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 		foreach ($this->values as $value) {
 			$strings[] = $this->stringifyValue($value, $text_options);
 		}
-		return UText::stringify($strings, $text_options, ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]);
+		return UText::stringify($strings, $text_options, [
+			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+		]);
 	}
 	
 	

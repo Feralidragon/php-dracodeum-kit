@@ -426,35 +426,60 @@ class HttpStatus extends Enumeration
 			 * @placeholder label The HTTP status code label.
 			 * @example Informational "Continue" HTTP status code.
 			 */
-			return UText::localize("Informational {{label}} HTTP status code.", self::class, $text_options, ['parameters' => ['label' => $label]]);
+			return UText::localize(
+				"Informational {{label}} HTTP status code.",
+				self::class, $text_options, [
+					'parameters' => ['label' => $label]
+				]
+			);
 		} elseif ($value <= 299) {
 			/**
 			 * @description Success status code description.
 			 * @placeholder label The HTTP status code label.
 			 * @example Success "OK" HTTP status code.
 			 */
-			return UText::localize("Success {{label}} HTTP status code.", self::class, $text_options, ['parameters' => ['label' => $label]]);
+			return UText::localize(
+				"Success {{label}} HTTP status code.",
+				self::class, $text_options, [
+					'parameters' => ['label' => $label]
+				]
+			);
 		} elseif ($value <= 399) {
 			/**
 			 * @description Redirection status code description.
 			 * @placeholder label The HTTP status code label.
 			 * @example Redirection "Found" HTTP status code.
 			 */
-			return UText::localize("Redirection {{label}} HTTP status code.", self::class, $text_options, ['parameters' => ['label' => $label]]);
+			return UText::localize(
+				"Redirection {{label}} HTTP status code.",
+				self::class, $text_options, [
+					'parameters' => ['label' => $label]
+				]
+			);
 		} elseif ($value <= 499) {
 			/**
 			 * @description Client error status code description.
 			 * @placeholder label The HTTP status code label.
 			 * @example Client error "Bad Request" HTTP status code.
 			 */
-			return UText::localize("Client error {{label}} HTTP status code.", self::class, $text_options, ['parameters' => ['label' => $label]]);
+			return UText::localize(
+				"Client error {{label}} HTTP status code.",
+				self::class, $text_options, [
+					'parameters' => ['label' => $label]
+				]
+			);
 		} elseif ($value <= 599) {
 			/**
 			 * @description Server error status code description.
 			 * @placeholder label The HTTP status code label.
 			 * @example Server error "Bad Gateway" HTTP status code.
 			 */
-			return UText::localize("Server error {{label}} HTTP status code.", self::class, $text_options, ['parameters' => ['label' => $label]]);
+			return UText::localize(
+				"Server error {{label}} HTTP status code.",
+				self::class, $text_options, [
+					'parameters' => ['label' => $label]
+				]
+			);
 		}
 		return null;
 	}

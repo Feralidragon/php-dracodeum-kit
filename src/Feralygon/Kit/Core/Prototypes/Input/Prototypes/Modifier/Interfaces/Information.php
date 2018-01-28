@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 /**
  * Core input modifier prototype information interface.
  * 
- * This interface defines a set of methods to retrieve information from an input modifier prototype, namely a label and a message.
+ * This interface defines a set of methods to retrieve information from an input modifier prototype, 
+ * namely a label and a message.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier

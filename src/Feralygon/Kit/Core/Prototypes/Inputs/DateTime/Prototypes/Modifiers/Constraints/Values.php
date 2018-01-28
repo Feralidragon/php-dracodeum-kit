@@ -27,8 +27,14 @@ class Values extends Constraints\Values
 	public function getLabel(TextOptions $text_options) : string
 	{
 		return $this->negate
-			? UText::plocalize("Disallowed date and time", "Disallowed dates and times", count($this->values), null, self::class, $text_options)
-			: UText::plocalize("Allowed date and time", "Allowed dates and times", count($this->values), null, self::class, $text_options);
+			? UText::plocalize(
+				"Disallowed date and time", "Disallowed dates and times",
+				count($this->values), null, self::class, $text_options
+			)
+			: UText::plocalize(
+				"Allowed date and time", "Allowed dates and times",
+				count($this->values), null, self::class, $text_options
+			);
 	}
 	
 	/** {@inheritdoc} */
@@ -37,7 +43,8 @@ class Values extends Constraints\Values
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed date and time values.
-			 * @example The following dates and times are not allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
+			 * @example The following dates and times are not allowed: \
+			 * 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
 			 */
 			return UText::plocalize(
 				"The following date and time is not allowed: {{values}}.",
@@ -49,7 +56,8 @@ class Values extends Constraints\Values
 		}
 		/**
 		 * @placeholder values The list of allowed date and time values.
-		 * @example Only the following dates and times are allowed: 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
+		 * @example Only the following dates and times are allowed: \
+		 * 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
 		 */
 		return UText::plocalize(
 			"Only the following date and time is allowed: {{values}}.",

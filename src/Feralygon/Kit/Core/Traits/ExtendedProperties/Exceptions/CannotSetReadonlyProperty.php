@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Traits\ExtendedProperties\Exceptions;
 /**
  * Core extended properties trait cannot set read-only property exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever a given read-only property with a given name is attempted to be set.
+ * This exception is thrown from an object using the extended properties trait whenever a given read-only property 
+ * with a given name is attempted to be set.
  * 
  * @since 1.0.0
  */

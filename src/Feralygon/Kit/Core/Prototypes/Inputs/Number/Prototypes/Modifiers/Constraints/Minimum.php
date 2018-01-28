@@ -38,13 +38,23 @@ class Minimum extends Constraints\Minimum
 			 * @placeholder value The minimum allowed value.
 			 * @example Only a number greater than 250 is allowed.
 			 */
-			return UText::localize("Only a number greater than {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+			return UText::localize(
+				"Only a number greater than {{value}} is allowed.",
+				self::class, $text_options, [
+					'parameters' => ['value' => $value_string]
+				]
+			);
 		}
 		/**
 		 * @placeholder value The minimum allowed value.
 		 * @example Only a number greater than or equal to 250 is allowed.
 		 */
-		return UText::localize("Only a number greater than or equal to {{value}} is allowed.", self::class, $text_options, ['parameters' => ['value' => $value_string]]);
+		return UText::localize(
+			"Only a number greater than or equal to {{value}} is allowed.",
+			self::class, $text_options, [
+				'parameters' => ['value' => $value_string]
+			]
+		);
 	}
 	
 	

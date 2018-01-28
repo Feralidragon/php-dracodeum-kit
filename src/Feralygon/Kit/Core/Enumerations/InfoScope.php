@@ -14,7 +14,8 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 /**
  * Core info scope enumeration class.
  * 
- * This enumeration represents info scopes, which are used to define which kind of information to return depending on the targetted scope.
+ * This enumeration represents info scopes, which are used to define which kind of information to return 
+ * depending on the targetted scope.
  * 
  * @since 1.0.0
  */
@@ -56,13 +57,19 @@ class InfoScope extends Enumeration
 		switch ($name) {
 			case 'NONE':
 				/** @description "NONE" description. */
-				return UText::localize("No info scope specified.", self::class, $text_options);
+				return UText::localize(
+					"No info scope specified.", self::class, $text_options
+				);
 			case 'TECHNICAL':
 				/** @description "TECHNICAL" description. */
-				return UText::localize("Technical info scope, for the developer creating the application.", self::class, $text_options);
+				return UText::localize(
+					"Technical info scope, for the developer creating the application.", self::class, $text_options
+				);
 			case 'ENDUSER':
 				/** @description "ENDUSER" description. */
-				return UText::localize("End-user info scope, for the user interacting with the application.", self::class, $text_options);
+				return UText::localize(
+					"End-user info scope, for the user interacting with the application.", self::class, $text_options
+				);
 		}
 		return null;
 	}

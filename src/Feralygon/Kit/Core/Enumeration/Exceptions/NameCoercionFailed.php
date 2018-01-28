@@ -17,7 +17,8 @@ use Feralygon\Kit\Core\Utilities\{
 /**
  * Core enumeration name coercion failed exception class.
  * 
- * This exception is thrown from an enumeration whenever the coercion into an enumerated element name has failed with a given value.
+ * This exception is thrown from an enumeration whenever the coercion into an enumerated element name 
+ * has failed with a given value.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
@@ -43,7 +44,8 @@ class NameCoercionFailed extends Exception implements ICoercion
 	public function getDefaultMessage() : string
 	{
 		return $this->isset('error_message')
-			? "Name coercion failed with value {{value}} in enumeration {{enumeration}}, with the following error: {{error_message}}"
+			? "Name coercion failed with value {{value}} in enumeration {{enumeration}}, " . 
+				"with the following error: {{error_message}}"
 			: "Name coercion failed with value {{value}} in enumeration {{enumeration}}.";
 	}
 	

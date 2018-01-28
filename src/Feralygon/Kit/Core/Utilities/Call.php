@@ -17,7 +17,8 @@ use Feralygon\Kit\Root\System;
 /**
  * Core call utility class.
  * 
- * This utility implements a set of methods used to retrieve information from existing PHP functions, methods or callables.
+ * This utility implements a set of methods used to retrieve information from existing PHP functions, 
+ * methods or callables.
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/language.functions.php
@@ -83,7 +84,8 @@ final class Call extends Utility
 	 * Retrieve a new reflection instance for a given function.
 	 * 
 	 * The returning reflection instance depends on the type of function given.<br>
-	 * In the case of a class or instance method, a reflection instance of the <code>ReflectionMethod</code> class is returned.<br>
+	 * In the case of a class or instance method, 
+	 * a reflection instance of the <code>ReflectionMethod</code> class is returned.<br>
 	 * If, however, it's any other type of function, such as a global, local or anonymous function, 
 	 * a reflection instance of the <code>ReflectionFunction</code> class is returned instead.
 	 * 
@@ -117,13 +119,16 @@ final class Call extends Utility
 	 * 
 	 * The returning hash of the given function is calculated mostly based on its declaration location, 
 	 * but also its signature, therefore it's unique to the function signature and scope, thus resulting in different 
-	 * hashes even if two functions share exactly the same signature and source provided that they are declared in different locations.
+	 * hashes even if two functions share exactly the same signature and source provided that they are declared 
+	 * in different locations.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.hash.php
 	 * @param callable $function <p>The function to calculate from.</p>
-	 * @param string $algorithm [default = 'SHA1'] <p>The hash algorithm to use, which can be any supported by the PHP core <code>hash</code> function.</p>
-	 * @param bool $raw [default = false] <p>Return the raw binary form of the hash, instead of its human-readable hexadecimal representation.</p>
+	 * @param string $algorithm [default = 'SHA1'] <p>The hash algorithm to use, 
+	 * which can be any supported by the PHP core <code>hash</code> function.</p>
+	 * @param bool $raw [default = false] <p>Return the raw binary form of the hash, 
+	 * instead of its human-readable hexadecimal representation.</p>
 	 * @return string <p>The hash from the given function.</p>
 	 */
 	final public static function hash(callable $function, string $algorithm = 'SHA1', bool $raw = false) : string
@@ -184,8 +189,10 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
 	 * @param bool $full [default = false] <p>Return the full name, including the class it's declared in.</p>
-	 * @param bool $short [default = false] <p>Return the short form of the class name instead of the full namespaced one.</p>
-	 * @return string|null <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
+	 * @param bool $short [default = false] <p>Return the short form of the class name 
+	 * instead of the full namespaced one.</p>
+	 * @return string|null <p>The name from the given function 
+	 * or <code>null</code> if the function has no name (anonymous).</p>
 	 */
 	final public static function name(callable $function, bool $full = false, bool $short = false) : ?string
 	{
@@ -222,11 +229,16 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The parameters bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : Return the constants values instead of their names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_SHORT_NAMES</code> : Return short names for classes instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_LEADING_SLASH</code> : Return classes with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NO_MIXED_TYPE</code> : Do not return mixed parameters with the <code>mixed</code> type keyword.
+	 * @param int $flags [default = 0x00] <p>The parameters bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : 
+	 * Return the constants values instead of their names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_SHORT_NAMES</code> : 
+	 * Return short names for classes instead of full namespaced names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_LEADING_SLASH</code> : 
+	 * Return classes with the leading slash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NO_MIXED_TYPE</code> : 
+	 * Do not return mixed parameters with the <code>mixed</code> type keyword.
 	 * </p>
 	 * @return string[] <p>The parameters from the given function.</p>
 	 */
@@ -277,7 +289,9 @@ final class Call extends Utility
 						$constant = $parameter->getDefaultValueConstantName();
 						if (strpos($constant, '::') !== false) {
 							if ($is_method) {
-								$constant = str_replace('self::', "{$parameter->getDeclaringClass()->getName()}::", $constant);
+								$constant = str_replace(
+									'self::', "{$parameter->getDeclaringClass()->getName()}::", $constant
+								);
 							}
 							if ($flags & self::PARAMETERS_CLASSES_SHORT_NAMES) {
 								[$constant_class, $constant_name] = explode('::', $constant);
@@ -306,10 +320,14 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The type bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : Do not return the <code>mixed</code> type keyword.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_SHORT_NAME</code> : Return a short name for a class instead of a full namespaced name.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_LEADING_SLASH</code> : Return class with the leading slash.
+	 * @param int $flags [default = 0x00] <p>The type bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : 
+	 * Do not return the <code>mixed</code> type keyword.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_SHORT_NAME</code> : 
+	 * Return a short name for a class instead of a full namespaced name.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_LEADING_SLASH</code> : 
+	 * Return class with the leading slash.
 	 * </p>
 	 * @return string <p>The type from the given function.</p>
 	 */
@@ -337,15 +355,21 @@ final class Call extends Utility
 	 * Retrieve header from a given function.
 	 * 
 	 * The returning header from the given function is represented by its modifiers, name, parameters and type.<br>
-	 * The expected return format is <samp>modifier function name(type1 param1, type2 param2 = value2, ...) : type</samp> .
+	 * The expected return format is 
+	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...) : type</samp> .
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The header bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : Return the constants values instead of their names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_SHORT_NAMES</code> : Return short names for classes instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_LEADING_SLASH</code> : Return classes with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NO_MIXED_TYPE</code> : Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
+	 * @param int $flags [default = 0x00] <p>The header bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : 
+	 * Return the constants values instead of their names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_SHORT_NAMES</code> : 
+	 * Return short names for classes instead of full namespaced names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_LEADING_SLASH</code> : 
+	 * Return classes with the leading slash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NO_MIXED_TYPE</code> : 
+	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
 	 * </p>
 	 * @return string <p>The header from the given function.</p>
 	 */
@@ -421,7 +445,9 @@ final class Call extends Utility
 			//body
 			$start_line = $reflection->getStartLine();
 			$end_line = $reflection->getEndLine();
-			$body = implode("\n", array_slice(file($filepath, FILE_IGNORE_NEW_LINES), $start_line - 1, $end_line - $start_line + 1));
+			$body = implode("\n", array_slice(
+				file($filepath, FILE_IGNORE_NEW_LINES), $start_line - 1, $end_line - $start_line + 1
+			));
 			$body = preg_replace(['/^[^{]+\{(.*)\}.*$/sm', '/^(\s*\n)+|(\n\s*)+$/'], ['$1', ''], $body);
 			if (preg_match('/^\s+/', $body, $matches)) {
 				$body = preg_replace('/^' . preg_quote($matches[0], '/') . '/m', '', $body);
@@ -439,11 +465,16 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The source bitwise flags, which can be any combination of the following:<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : Return the parameters constants values instead of their names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_SHORT_NAMES</code> : Return short names for type and parameters classes instead of full namespaced names.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_LEADING_SLASH</code> : Return classes with the leading slash.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NO_MIXED_TYPE</code> : Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
+	 * @param int $flags [default = 0x00] <p>The source bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : 
+	 * Return the parameters constants values instead of their names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_SHORT_NAMES</code> : 
+	 * Return short names for type and parameters classes instead of full namespaced names.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_LEADING_SLASH</code> : 
+	 * Return classes with the leading slash.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NO_MIXED_TYPE</code> : 
+	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
 	 * </p>
 	 * @return string <p>The source from the given function.</p>
 	 */
@@ -539,9 +570,12 @@ final class Call extends Utility
 	 * @param callable $template <p>The template callable declaration to assert against.</p>
 	 * @param bool $throw_exception [default = false] <p>Throw an exception if the assertion fails.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\SignatureAssertionFailed
-	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function against the given template, under the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function 
+	 * against the given template, under the given name.</p>
 	 */
-	final public static function assertSignature(string $name, callable $function, callable $template, bool $throw_exception = false) : bool
+	final public static function assertSignature(
+		string $name, callable $function, callable $template, bool $throw_exception = false
+	) : bool
 	{
 		if (System::getEnvironment()->isDebug()) {
 			$function_signature = self::signature($function);
@@ -568,7 +602,8 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string <p>The extension from the given function or <code>null</code> if the function does not belong to any extension.</p>
+	 * @return string <p>The extension from the given function 
+	 * or <code>null</code> if the function does not belong to any extension.</p>
 	 */
 	final public static function extension(callable $function) : ?string
 	{
@@ -581,7 +616,8 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param callable|null $template [default = null] <p>The template callable declaration to validate the signature against.</p>
+	 * @param callable|null $template [default = null] <p>The template callable declaration 
+	 * to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
 	 */
@@ -600,7 +636,8 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param callable|null $template [default = null] <p>The template callable declaration to validate the signature against.</p>
+	 * @param callable|null $template [default = null] <p>The template callable declaration 
+	 * to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\CoercionFailed
 	 * @return callable|null <p>The given value coerced into a callable.<br>
@@ -643,14 +680,16 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return string|null <p>The previous class from the current stack or <code>null</code> if the previous call in the stack was not called from a class.</p>
+	 * @return string|null <p>The previous class from the current stack 
+	 * or <code>null</code> if the previous call in the stack was not called from a class.</p>
 	 */
 	final public static function stackPreviousClass(int $offset = 0) : ?string
 	{
 		if ($offset < 0) {
 			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
 		}
-		return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $offset + 3)[$offset + 2]['class'] ?? null;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['class'] ?? null;
 	}
 	
 	/**
@@ -683,7 +722,8 @@ final class Call extends Utility
 		}
 	
 		//return
-		return array_column(array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $limit), $offset + 2), 'class');
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		return array_column(array_slice(debug_backtrace($debug_flags, $limit), $offset + 2), 'class');
 	}
 	
 	/**
@@ -693,14 +733,16 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|null <p>The previous object from the current stack or <code>null</code> if the previous call in the stack was not called from an object.</p>
+	 * @return object|null <p>The previous object from the current stack 
+	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
 	final public static function stackPreviousObject(int $offset = 0)
 	{
 		if ($offset < 0) {
 			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
 		}
-		return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $offset + 3)[$offset + 2]['object'] ?? null;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['object'] ?? null;
 	}
 	
 	/**
@@ -733,7 +775,8 @@ final class Call extends Utility
 		}
 		
 		//return
-		return array_column(array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $limit), $offset + 2), 'object');
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		return array_column(array_slice(debug_backtrace($debug_flags, $limit), $offset + 2), 'object');
 	}
 	
 	/**
@@ -743,14 +786,16 @@ final class Call extends Utility
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|string|null <p>The previous object or class from the current stack or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
+	 * @return object|string|null <p>The previous object or class from the current stack 
+	 * or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
 	 */
 	final public static function stackPreviousObjectClass(int $offset = 0)
 	{
 		if ($offset < 0) {
 			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
 		}
-		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $offset + 3)[$offset + 2] ?? null;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $offset + 3)[$offset + 2] ?? null;
 		return isset($backtrace) ? ($backtrace['object'] ?? $backtrace['class'] ?? null) : null;
 	}
 	
@@ -760,7 +805,8 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param int|null $limit [default = null] <p>The stack limit on the number of objects and classes to retrieve from.<br>
+	 * @param int|null $limit [default = null] <p>The stack limit on the number of objects 
+	 * and classes to retrieve from.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackLimit
@@ -785,7 +831,8 @@ final class Call extends Utility
 		
 		//objects and classes
 		$objects_classes = [];
-		foreach (array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, $limit), $offset + 2) as $backtrace) {
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
 			if (isset($backtrace['object'])) {
 				$objects_classes[] = $backtrace['object'];
 			} elseif (isset($backtrace['class'])) {

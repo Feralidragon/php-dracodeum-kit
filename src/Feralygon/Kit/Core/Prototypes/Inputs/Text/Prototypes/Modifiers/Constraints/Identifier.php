@@ -28,7 +28,8 @@ use Feralygon\Kit\Core\Utilities\{
  * This constraint prototype restricts a text or string to an identifier format.
  * 
  * @since 1.0.0
- * @property bool $extended [default = false] <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
+ * @property bool $extended [default = false] <p>Allow an extended format, 
+ * where dots may be used as delimiters between words to represent pointers.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Text
  */
 class Identifier extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
@@ -116,7 +117,8 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 			 * @example must start with a letter (a to z and A to Z) or underscore (_)
 			 */
 			$entries[] = UText::localize(
-				"must start with a letter ({{letters.a}} to {{letters.z}} and {{letters.A}} to {{letters.Z}}) or underscore ({{underscore}})", 
+				"must start with a letter ({{letters.a}} to {{letters.z}} and {{letters.A}} to {{letters.Z}}) " . 
+					"or underscore ({{underscore}})", 
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -139,7 +141,9 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 			 * @example must be only composed by letters (a to z and A to Z), digits (0 to 9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
-				"must be only composed by letters ({{letters.a}} to {{letters.z}} and {{letters.A}} to {{letters.Z}}), digits ({{digits.num0}} to {{digits.num9}}) and underscores ({{underscore}})",
+				"must be only composed by letters ({{letters.a}} to {{letters.z}} " . 
+					"and {{letters.A}} to {{letters.Z}}), digits ({{digits.num0}} to {{digits.num9}}) " . 
+					"and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -161,7 +165,8 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 			 * @example must start with an ASCII letter (a-z and A-Z) or underscore (_)
 			 */
 			$entries[] = UText::localize(
-				"must start with an ASCII letter ({{letters.a}}-{{letters.z}} and {{letters.A}}-{{letters.Z}}) or underscore ({{underscore}})",
+				"must start with an ASCII letter ({{letters.a}}-{{letters.z}} and {{letters.A}}-{{letters.Z}}) " . 
+					"or underscore ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -184,7 +189,9 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 			 * @example must be exclusively composed by ASCII letters (a-z and A-Z), digits (0-9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
-				"must be exclusively composed by ASCII letters ({{letters.a}}-{{letters.z}} and {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) and underscores ({{underscore}})",
+				"must be exclusively composed by ASCII letters ({{letters.a}}-{{letters.z}} " . 
+					"and {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
+					"and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],

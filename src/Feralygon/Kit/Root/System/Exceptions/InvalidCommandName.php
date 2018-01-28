@@ -25,7 +25,8 @@ class InvalidCommandName extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid command name {{name}}.\n" . 
-			"HINT: Only alphanumeric ASCII characters (a-z, A-Z and 0-9) and underscore (_) are allowed, however the first character cannot be a number (0-9).";
+			"HINT: Only alphanumeric ASCII characters (a-z, A-Z and 0-9) and underscore (_) are allowed, " . 
+			"however the first character cannot be a number (0-9).";
 	}
 	
 	

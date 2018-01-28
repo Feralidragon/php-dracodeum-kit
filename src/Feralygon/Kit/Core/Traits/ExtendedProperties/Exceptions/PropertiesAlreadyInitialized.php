@@ -12,7 +12,8 @@ use Feralygon\Kit\Core\Traits\ExtendedProperties\Exception;
 /**
  * Core extended properties trait properties already initialized exception class.
  * 
- * This exception is thrown from an object using the extended properties trait whenever properties have already been initialized.
+ * This exception is thrown from an object using the extended properties trait whenever properties 
+ * have already been initialized.
  * 
  * @since 1.0.0
  */

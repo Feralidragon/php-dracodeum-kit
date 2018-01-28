@@ -17,7 +17,8 @@ use Feralygon\Kit\Core\Utilities\Data as UData;
 /**
  * Core memoization trait.
  * 
- * This trait enables memoization capabilities into a class through the usage of protected methods focused exclusively into in-memory internal data caching.
+ * This trait enables memoization capabilities into a class through the usage of protected methods 
+ * focused exclusively into in-memory internal data caching.
  * 
  * @since 1.0.0
  */
@@ -54,18 +55,20 @@ trait Memoization
 	 * @since 1.0.0
 	 * @param string $key <p>The memoization key to check.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to check from.</p>
-	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding to the given checked key.</p>
+	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding 
+	 * to the given checked key.</p>
 	 * @return bool <p>Boolean <code>true</code> if has the given memoized key.</p>
 	 */
 	final protected function hasMemoizedKey(string $key, string $namespace = '', &$value = null) : bool
 	{
 		$value = null;
-		if (isset($this->memoize_entries[$this->memoize_selector][$namespace][$key])) {
-			$entry = $this->memoize_entries[$this->memoize_selector][$namespace][$key];
+		$selector = $this->memoize_selector;
+		if (isset($this->memoize_entries[$selector][$namespace][$key])) {
+			$entry = $this->memoize_entries[$selector][$namespace][$key];
 			if (isset($entry->expire) && $entry->expire < time()) {
-				unset($this->memoize_entries[$this->memoize_selector][$namespace][$key]);
-				if (empty($this->memoize_entries[$this->memoize_selector][$namespace])) {
-					unset($this->memoize_entries[$this->memoize_selector][$namespace]);
+				unset($this->memoize_entries[$selector][$namespace][$key]);
+				if (empty($this->memoize_entries[$selector][$namespace])) {
+					unset($this->memoize_entries[$selector][$namespace]);
 				}
 				return false;
 			}
@@ -104,20 +107,21 @@ trait Memoization
 	final protected function setMemoizedValue(string $key, $value, string $namespace = '') : void
 	{
 		//initialize
-		if (!isset($this->memoize_entries[$this->memoize_selector][$namespace])) {
-			$this->memoize_entries[$this->memoize_selector][$namespace] = [];
+		$selector = $this->memoize_selector;
+		if (!isset($this->memoize_entries[$selector][$namespace])) {
+			$this->memoize_entries[$selector][$namespace] = [];
 		}
 		$policy_options = $this->getMemoizationPolicyOptions($namespace);
 		
 		//limit
-		if (isset($policy_options->limit) && !isset($this->memoize_entries[$this->memoize_selector][$namespace][$key])) {
+		if (isset($policy_options->limit) && !isset($this->memoize_entries[$selector][$namespace][$key])) {
 			//expire
-			$expires = count($this->memoize_entries[$this->memoize_selector][$namespace]) - $policy_options->limit + 1;
+			$expires = count($this->memoize_entries[$selector][$namespace]) - $policy_options->limit + 1;
 			if ($expires > 0) {
 				$time = time();
-				foreach ($this->memoize_entries[$this->memoize_selector][$namespace] as $entry_key => $entry) {
+				foreach ($this->memoize_entries[$selector][$namespace] as $entry_key => $entry) {
 					if (isset($entry->expire) && $entry->expire < $time) {
-						unset($this->memoize_entries[$this->memoize_selector][$namespace][$entry_key]);
+						unset($this->memoize_entries[$selector][$namespace][$entry_key]);
 						if (--$expires <= 0) {
 							break;
 						}
@@ -126,13 +130,13 @@ trait Memoization
 			}
 			
 			//evict
-			$evictions = count($this->memoize_entries[$this->memoize_selector][$namespace]) - $policy_options->limit + 1;
+			$evictions = count($this->memoize_entries[$selector][$namespace]) - $policy_options->limit + 1;
 			if ($evictions > 0) {
-				if ($evictions >= count($this->memoize_entries[$this->memoize_selector][$namespace])) {
-					$this->memoize_entries[$this->memoize_selector][$namespace] = [];
+				if ($evictions >= count($this->memoize_entries[$selector][$namespace])) {
+					$this->memoize_entries[$selector][$namespace] = [];
 				} else {
-					foreach ($this->memoize_entries[$this->memoize_selector][$namespace] as $entry_key => $entry) {
-						unset($this->memoize_entries[$this->memoize_selector][$namespace][$entry_key]);
+					foreach ($this->memoize_entries[$selector][$namespace] as $entry_key => $entry) {
+						unset($this->memoize_entries[$selector][$namespace][$entry_key]);
 						if (--$evictions <= 0) {
 							break;
 						}
@@ -142,7 +146,9 @@ trait Memoization
 		}
 		
 		//set
-		$this->memoize_entries[$this->memoize_selector][$namespace][$key] = new Objects\Entry($value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null);
+		$this->memoize_entries[$selector][$namespace][$key] = new Objects\Entry(
+			$value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null
+		);
 	}
 
 	/**
@@ -156,9 +162,10 @@ trait Memoization
 	final protected function deleteMemoizedKey(string $key, string $namespace = '') : bool
 	{
 		if ($this->hasMemoizedKey($key, $namespace)) {
-			unset($this->memoize_entries[$this->memoize_selector][$namespace][$key]);
-			if (empty($this->memoize_entries[$this->memoize_selector][$namespace])) {
-				unset($this->memoize_entries[$this->memoize_selector][$namespace]);
+			$selector = $this->memoize_selector;
+			unset($this->memoize_entries[$selector][$namespace][$key]);
+			if (empty($this->memoize_entries[$selector][$namespace])) {
+				unset($this->memoize_entries[$selector][$namespace]);
 			}
 			return true;
 		}
@@ -174,23 +181,26 @@ trait Memoization
 	 */
 	final protected function getMemoizationPolicyOptions(string $namespace = '') : Options\Policy
 	{
-		if (!isset($this->memoize_policy_options[$this->memoize_selector][$namespace])) {
-			$this->memoize_policy_options[$this->memoize_selector][$namespace] = new Options\Policy();
+		$selector = $this->memoize_selector;
+		if (!isset($this->memoize_policy_options[$selector][$namespace])) {
+			$this->memoize_policy_options[$selector][$namespace] = new Options\Policy();
 		}
-		return $this->memoize_policy_options[$this->memoize_selector][$namespace];
+		return $this->memoize_policy_options[$selector][$namespace];
 	}
 	
 	/**
 	 * Set memoization policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options 
+	 * <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
 	 * @return void
 	 */
 	final protected function setMemoizationPolicyOptions($options, string $namespace = '') : void
 	{
-		$this->memoize_policy_options[$this->memoize_selector][$namespace] = Options\Policy::coerce($options);
+		$selector = $this->memoize_selector;
+		$this->memoize_policy_options[$selector][$namespace] = Options\Policy::coerce($options);
 	}
 	
 	
@@ -207,10 +217,13 @@ trait Memoization
 	 * @param string $namespace [default = ''] <p>The namespace to memoize into.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $policy_options [default = null] <p>The memoization policy options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $policy_options [default = null] 
+	 * <p>The memoization policy options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return mixed <p>The memoized value returned from the given function.</p>
 	 */
-	final protected static function memoize(callable $function, ?string $key = null, string $namespace = '', bool $local = false, $policy_options = null)
+	final protected static function memoize(
+		callable $function, ?string $key = null, string $namespace = '', bool $local = false, $policy_options = null
+	)
 	{
 		//initialize
 		$value = null;
@@ -288,19 +301,23 @@ trait Memoization
 	 * @param string $namespace [default = ''] <p>The memoization namespace to check from.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding to the given checked key.</p>
+	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding 
+	 * to the given checked key.</p>
 	 * @return bool <p>Boolean <code>true</code> if has the given memoized static key.</p>
 	 */
-	final protected static function hasMemoizedStaticKey(string $key, string $namespace = '', bool $local = false, &$value = null) : bool
+	final protected static function hasMemoizedStaticKey(
+		string $key, string $namespace = '', bool $local = false, &$value = null
+	) : bool
 	{
 		$value = null;
+		$selector = self::$memoize_static_selector;
 		$class = $local ? static::class : self::class;
-		if (isset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key])) {
-			$entry = self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key];
+		if (isset(self::$memoize_static_entries[$class][$selector][$namespace][$key])) {
+			$entry = self::$memoize_static_entries[$class][$selector][$namespace][$key];
 			if (isset($entry->expire) && $entry->expire < time()) {
-				unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key]);
-				if (empty(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace])) {
-					unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace]);
+				unset(self::$memoize_static_entries[$class][$selector][$namespace][$key]);
+				if (empty(self::$memoize_static_entries[$class][$selector][$namespace])) {
+					unset(self::$memoize_static_entries[$class][$selector][$namespace]);
 				}
 				return false;
 			}
@@ -340,24 +357,31 @@ trait Memoization
 	 * use the calling class (late static binding) instead of the declaring class.</p>
 	 * @return void
 	 */
-	final protected static function setMemoizedStaticValue(string $key, $value, string $namespace = '', bool $local = false) : void
+	final protected static function setMemoizedStaticValue(
+		string $key, $value, string $namespace = '', bool $local = false
+	) : void
 	{
 		//initialize
+		$selector = self::$memoize_static_selector;
 		$class = $local ? static::class : self::class;
-		if (!isset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace])) {
-			self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace] = [];
+		if (!isset(self::$memoize_static_entries[$class][$selector][$namespace])) {
+			self::$memoize_static_entries[$class][$selector][$namespace] = [];
 		}
 		$policy_options = static::getMemoizationStaticPolicyOptions($namespace, $local);
 		
 		//limit
-		if (isset($policy_options->limit) && !isset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key])) {
+		if (
+			isset($policy_options->limit) && 
+			!isset(self::$memoize_static_entries[$class][$selector][$namespace][$key])
+		) {
 			//expire
-			$expires = count(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace]) - $policy_options->limit + 1;
+			$expires = count(self::$memoize_static_entries[$class][$selector][$namespace]) 
+				- $policy_options->limit + 1;
 			if ($expires > 0) {
 				$time = time();
-				foreach (self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace] as $entry_key => $entry) {
+				foreach (self::$memoize_static_entries[$class][$selector][$namespace] as $entry_key => $entry) {
 					if (isset($entry->expire) && $entry->expire < $time) {
-						unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$entry_key]);
+						unset(self::$memoize_static_entries[$class][$selector][$namespace][$entry_key]);
 						if (--$expires <= 0) {
 							break;
 						}
@@ -366,13 +390,14 @@ trait Memoization
 			}
 			
 			//evict
-			$evictions = count(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace]) - $policy_options->limit + 1;
+			$evictions = count(self::$memoize_static_entries[$class][$selector][$namespace]) 
+				- $policy_options->limit + 1;
 			if ($evictions > 0) {
-				if ($evictions >= count(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace])) {
-					self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace] = [];
+				if ($evictions >= count(self::$memoize_static_entries[$class][$selector][$namespace])) {
+					self::$memoize_static_entries[$class][$selector][$namespace] = [];
 				} else {
-					foreach (self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace] as $entry_key => $entry) {
-						unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$entry_key]);
+					foreach (self::$memoize_static_entries[$class][$selector][$namespace] as $entry_key => $entry) {
+						unset(self::$memoize_static_entries[$class][$selector][$namespace][$entry_key]);
 						if (--$evictions <= 0) {
 							break;
 						}
@@ -382,7 +407,9 @@ trait Memoization
 		}
 		
 		//set
-		self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key] = new Objects\Entry($value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null);
+		self::$memoize_static_entries[$class][$selector][$namespace][$key] = new Objects\Entry(
+			$value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null
+		);
 	}
 	
 	/**
@@ -395,13 +422,16 @@ trait Memoization
 	 * use the calling class (late static binding) instead of the declaring class.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
 	 */
-	final protected static function deleteMemoizedStaticKey(string $key, string $namespace = '', bool $local = false) : bool
+	final protected static function deleteMemoizedStaticKey(
+		string $key, string $namespace = '', bool $local = false
+	) : bool
 	{
 		if (static::hasMemoizedStaticKey($key, $namespace, $local)) {
+			$selector = self::$memoize_static_selector;
 			$class = $local ? static::class : self::class;
-			unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace][$key]);
-			if (empty(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace])) {
-				unset(self::$memoize_static_entries[$class][self::$memoize_static_selector][$namespace]);
+			unset(self::$memoize_static_entries[$class][$selector][$namespace][$key]);
+			if (empty(self::$memoize_static_entries[$class][$selector][$namespace])) {
+				unset(self::$memoize_static_entries[$class][$selector][$namespace]);
 			}
 			return true;
 		}
@@ -415,29 +445,38 @@ trait Memoization
 	 * @param string $namespace [default = ''] <p>The memoization namespace to get from.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @return \Feralygon\Kit\Core\Traits\Memoization\Options\Policy <p>The memoization static policy options instance.</p>
+	 * @return \Feralygon\Kit\Core\Traits\Memoization\Options\Policy 
+	 * <p>The memoization static policy options instance.</p>
 	 */
-	final protected static function getMemoizationStaticPolicyOptions(string $namespace = '', bool $local = false) : Options\Policy
+	final protected static function getMemoizationStaticPolicyOptions(
+		string $namespace = '', bool $local = false
+	) : Options\Policy
 	{
+		$selector = self::$memoize_static_selector;
 		$class = $local ? static::class : self::class;
-		if (!isset(self::$memoize_static_policy_options[$class][self::$memoize_static_selector][$namespace])) {
-			self::$memoize_static_policy_options[$class][self::$memoize_static_selector][$namespace] = new Options\Policy();
+		if (!isset(self::$memoize_static_policy_options[$class][$selector][$namespace])) {
+			self::$memoize_static_policy_options[$class][$selector][$namespace] = new Options\Policy();
 		}
-		return self::$memoize_static_policy_options[$class][self::$memoize_static_selector][$namespace];
+		return self::$memoize_static_policy_options[$class][$selector][$namespace];
 	}
 	
 	/**
 	 * Set memoization static policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Traits\Memoization\Options\Policy|array|null $options 
+	 * <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
 	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
 	 * use the calling class (late static binding) instead of the declaring class.</p>
 	 * @return void
 	 */
-	final protected static function setMemoizationStaticPolicyOptions($options, string $namespace = '', bool $local = false) : void
+	final protected static function setMemoizationStaticPolicyOptions(
+		$options, string $namespace = '', bool $local = false
+	) : void
 	{
-		self::$memoize_static_policy_options[$local ? static::class : self::class][self::$memoize_static_selector][$namespace] = Options\Policy::coerce($options);
+		$selector = self::$memoize_static_selector;
+		$class = $local ? static::class : self::class;
+		self::$memoize_static_policy_options[$class][$selector][$namespace] = Options\Policy::coerce($options);
 	}
 }

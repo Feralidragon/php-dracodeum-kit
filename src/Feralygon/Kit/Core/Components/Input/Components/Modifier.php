@@ -65,7 +65,8 @@ abstract class Modifier extends Component
 	 * Get base priority.
 	 * 
 	 * The returning priority determines the base order by which this modifier is applied.<br>
-	 * Modifiers which end up with the same priority are grouped together and are all executed, even if any one of them fails.
+	 * Modifiers which end up with the same priority are grouped together and are all executed, 
+	 * even if any one of them fails.
 	 * 
 	 * @since 1.0.0
 	 * @return int <p>The base priority.</p>
@@ -118,7 +119,8 @@ abstract class Modifier extends Component
 	 * Get label.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The label or <code>null</code> if none exists.</p>
 	 */
 	public function getLabel($text_options = null) : ?string
@@ -134,7 +136,8 @@ abstract class Modifier extends Component
 	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The message or <code>null</code> if none exists.</p>
 	 */
 	public function getMessage($text_options = null) : ?string
@@ -151,7 +154,8 @@ abstract class Modifier extends Component
 	 * If no such properties are set, <code>null</code> is returned instead.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The string or <code>null</code> if none exists.</p>
 	 */
 	public function getString($text_options = null) : ?string
@@ -167,7 +171,8 @@ abstract class Modifier extends Component
 	 * The returning error message is only set if a previous <code>evaluateValue</code> method call has failed.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The error message or <code>null</code> if no error is set.</p>
 	 */
 	public function getErrorMessage($text_options = null) : ?string
@@ -218,7 +223,8 @@ abstract class Modifier extends Component
 	 * The returning schema describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema|null <p>The schema instance or <code>null</code> if none exists.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema|null <p>The schema instance 
+	 * or <code>null</code> if none exists.</p>
 	 */
 	public function getSchema() : ?Structures\Schema
 	{

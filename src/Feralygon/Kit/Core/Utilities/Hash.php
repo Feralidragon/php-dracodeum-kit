@@ -97,11 +97,13 @@ final class Hash extends Utility
 			'value' => $value,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID,
 			'error_message' => Text::pfill(
-				"Only a hash value of {{bits}} bit is allowed, for which only the following types and formats can be coerced into such:\n" . 
+				"Only a hash value of {{bits}} bit is allowed, " . 
+					"for which only the following types and formats can be coerced into such:\n" . 
 					" - a hexadecimal notation string;\n" . 
 					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
 					" - a raw binary string.",
-				"Only a hash value of {{bits}} bits is allowed, for which only the following types and formats can be coerced into such:\n" . 
+				"Only a hash value of {{bits}} bits is allowed, " . 
+					"for which only the following types and formats can be coerced into such:\n" . 
 					" - a hexadecimal notation string;\n" . 
 					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
 					" - a raw binary string.",

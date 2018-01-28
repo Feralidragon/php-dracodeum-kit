@@ -30,9 +30,12 @@ use Feralygon\Kit\Core\Utilities\{
  * @since 1.0.0
  * @property mixed $min_value <p>The minimum allowed value to restrict to (inclusive).</p>
  * @property mixed $max_value <p>The maximum allowed value to restrict to (inclusive).</p>
- * @property bool $min_exclusive [default = false] <p>Set the minimum allowed value as exclusive, restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, restricting a given value to always be less than the maximum allowed value, but never equal.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
+ * @property bool $min_exclusive [default = false] <p>Set the minimum allowed value as exclusive, 
+ * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
+ * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, 
+ * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
+ * @property bool $negate [default = false] <p>Negate the restriction, 
+ * so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -173,8 +176,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @example Only a value less than or equal to 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value less than or equal to {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a value less than or equal to {{min_value}} or " . 
+						"greater than or equal to {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->min_exclusive) {
 				/**
@@ -183,8 +189,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @example Only a value less than or equal to 100 or greater than 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value less than or equal to {{min_value}} or greater than {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a value less than or equal to {{min_value}} or " . 
+						"greater than {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			} elseif ($this->max_exclusive) {
 				/**
@@ -193,8 +202,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 				 * @example Only a value less than 100 or greater than or equal to 250 is allowed.
 				 */
 				return UText::localize(
-					"Only a value less than {{min_value}} or greater than or equal to {{max_value}} is allowed.", 
-					self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+					"Only a value less than {{min_value}} or " . 
+						"greater than or equal to {{max_value}} is allowed.", 
+					self::class, $text_options, [
+						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+					]
 				);
 			}
 			/**
@@ -203,8 +215,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @example Only a value less than 100 or greater than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value less than {{min_value}} or greater than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a value less than {{min_value}} or " . 
+					"greater than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive && $this->max_exclusive) {
 			/**
@@ -213,8 +228,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @example Only a value greater than 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than {{min_value}} and less than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a value greater than {{min_value}} and " . 
+					"less than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
@@ -223,8 +241,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @example Only a value greater than 100 and less than or equal to 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than {{min_value}} and less than or equal to {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a value greater than {{min_value}} and " . 
+					"less than or equal to {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
@@ -233,8 +254,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 * @example Only a value greater than or equal to 100 and less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than or equal to {{min_value}} and less than {{max_value}} is allowed.", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				"Only a value greater than or equal to {{min_value}} and " . 
+					"less than {{max_value}} is allowed.", 
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		}
 		/**
@@ -243,8 +267,11 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		 * @example Only a value greater than or equal to 100 and less than or equal to 250 is allowed.
 		 */
 		return UText::localize(
-			"Only a value greater than or equal to {{min_value}} and less than or equal to {{max_value}} is allowed.", 
-			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+			"Only a value greater than or equal to {{min_value}} and " . 
+				"less than or equal to {{max_value}} is allowed.", 
+			self::class, $text_options, [
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+			]
 		);
 	}
 	
@@ -264,7 +291,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 */
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}} (exclusive)", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->min_exclusive) {
 			/**
@@ -274,7 +303,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 */
 			return UText::localize(
 				"{{min_value}} (exclusive) to {{max_value}}", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		} elseif ($this->max_exclusive) {
 			/**
@@ -284,7 +315,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			 */
 			return UText::localize(
 				"{{min_value}} to {{max_value}} (exclusive)", 
-				self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+				self::class, $text_options, [
+					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+				]
 			);
 		}
 		/**
@@ -294,7 +327,9 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 		 */
 		return UText::localize(
 			"{{min_value}} to {{max_value}}", 
-			self::class, $text_options, ['parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]]
+			self::class, $text_options, [
+				'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
+			]
 		);
 	}
 	

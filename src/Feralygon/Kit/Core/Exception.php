@@ -15,7 +15,8 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
  * 
  * This class is the base to be extended from when creating a throwable exception, 
  * and it extends the PHP core <code>Exception</code> class to provide extra functionality.<br>
- * This extension of the PHP core <code>Exception</code> class provides the means to define custom read-only properties and a default message.
+ * This extension of the PHP core <code>Exception</code> class provides the means to define custom read-only properties 
+ * and a default message.
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
@@ -33,13 +34,16 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Exception\Options\Construct|array|null $options [default = null] <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Exception\Options\Construct|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [], $options = null)
 	{
 		//initialize
 		$options = Options\Construct::coerce($options);
-		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'evaluateProperty']), $this->getRequiredPropertyNames(), 'r');
+		$this->initializeProperties(
+			$properties, \Closure::fromCallable([$this, 'evaluateProperty']), $this->getRequiredPropertyNames(), 'r'
+		);
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();
@@ -79,10 +83,11 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
-	 * They may also be used with pointers to specific object properties or associative array values, within the set properties, by using a dot between identifiers, 
-	 * such as <samp>{{object.property}}</samp>, with no limit on the number of chained pointers.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.
+	 * They may also be used with pointers to specific object properties or associative array values, 
+	 * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of chained pointers.<br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @return string <p>The default message.</p>
@@ -111,8 +116,9 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to evaluate for.</p>
 	 * @param mixed $value [reference] <p>The property value to evaluate (validate and sanitize).</p>
-	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists and is valid,
-	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.</p>
+	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name 
+	 * and value exists and is valid, boolean <code>false</code> if it exists but is not valid, 
+	 * or <code>null</code> if it does not exist.</p>
 	 */
 	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
 	

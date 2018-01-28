@@ -30,18 +30,27 @@ use Feralygon\Kit\Core\Utilities\{
  * &nbsp; &#8226; &nbsp; a numeric string, such as <code>"1000"</code>;<br>
  * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as <code>"1e3"</code> or <code>"1E3"</code>;<br>
  * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as <code>"01750"</code>;<br>
- * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as <code>"0x03e8"</code> or <code>"0x03E8"</code>;<br>
- * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
- * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
+ * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+ * such as <code>"0x03e8"</code> or <code>"0x03E8"</code>;<br>
+ * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
+ * such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
+ * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+ * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum [modifier, name = 'constraints.minimum' or 'constraints.positive']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum [modifier, name = 'constraints.maximum' or 'constraints.negative']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range [modifier, name = 'constraints.range' or 'constraints.non_range']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples [modifier, name = 'constraints.multiples' or 'constraints.non_multiples' or 'constraints.even' or 'constraints.odd']
- * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers [modifier, name = 'constraints.powers' or 'constraints.non_powers']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values 
+ * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum 
+ * [modifier, name = 'constraints.minimum' or 'constraints.positive']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum 
+ * [modifier, name = 'constraints.maximum' or 'constraints.negative']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range 
+ * [modifier, name = 'constraints.range' or 'constraints.non_range']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples 
+ * [modifier, name = 'constraints.multiples' or 'constraints.non_multiples' or 'constraints.even' or 'constraints.odd']
+ * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers 
+ * [modifier, name = 'constraints.powers' or 'constraints.non_powers']
  */
 class Number extends Input implements IInformation, IModifiers
 {
@@ -91,7 +100,9 @@ class Number extends Input implements IInformation, IModifiers
 			"A number, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -121,7 +132,9 @@ class Number extends Input implements IInformation, IModifiers
 			"Only a number is allowed, which may be given using any of the following notations:\n{{notations}}", 
 			self::class, $text_options, [
 				'parameters' => [
-					'notations' => UText::mbulletify($this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true])
+					'notations' => UText::mbulletify(
+						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+					)
 				]
 			]
 		);
@@ -138,31 +151,53 @@ class Number extends Input implements IInformation, IModifiers
 			case 'constraints.values':
 				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			case 'constraints.minimum':
 				return $this->createConstraint(Constraints\Minimum::class, $prototype_properties, $properties);
 			case 'constraints.positive':
-				return $this->createConstraint(Constraints\Minimum::class, ['value' => 0, 'exclusive' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Minimum::class,
+					['value' => 0, 'exclusive' => true] + $prototype_properties,
+					$properties
+				);
 			case 'constraints.maximum':
 				return $this->createConstraint(Constraints\Maximum::class, $prototype_properties, $properties);
 			case 'constraints.negative':
-				return $this->createConstraint(Constraints\Maximum::class, ['value' => 0, 'exclusive' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Maximum::class,
+					['value' => 0, 'exclusive' => true] + $prototype_properties,
+					$properties
+				);
 			case 'constraints.range':
 				return $this->createConstraint(Constraints\Range::class, $prototype_properties, $properties);
 			case 'constraints.non_range':
-				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			case 'constraints.multiples':
 				return $this->createConstraint(Constraints\Multiples::class, $prototype_properties, $properties);
 			case 'constraints.non_multiples':
-				return $this->createConstraint(Constraints\Multiples::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Multiples::class, ['negate' => true] + $prototype_properties, $properties
+				);
 			case 'constraints.even':
-				return $this->createConstraint(Constraints\Multiples::class, ['multiples' => [2]] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Multiples::class, ['multiples' => [2]] + $prototype_properties, $properties
+				);
 			case 'constraints.odd':
-				return $this->createConstraint(Constraints\Multiples::class, ['multiples' => [2], 'negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Multiples::class,
+					['multiples' => [2], 'negate' => true] + $prototype_properties,
+					$properties
+				);
 			case 'constraints.powers':
 				return $this->createConstraint(Constraints\Powers::class, $prototype_properties, $properties);
 			case 'constraints.non_powers':
-				return $this->createConstraint(Constraints\Powers::class, ['negate' => true] + $prototype_properties, $properties);
+				return $this->createConstraint(
+					Constraints\Powers::class, ['negate' => true] + $prototype_properties, $properties
+				);
 		}
 		return null;
 	}
@@ -188,10 +223,16 @@ class Number extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Standard (examples: "1000", "45.75", "-9553.5")
 			 */
-			$strings[] = UText::localize("Standard (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['1000', '45.75', '-9553.5']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Standard (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['1000', '45.75', '-9553.5']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 			
 			//exponential
 			/**
@@ -200,10 +241,16 @@ class Number extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Exponential string (examples: "1e3", "4575E-2", "-9.5535e3")
 			 */
-			$strings[] = UText::localize("Exponential string (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['1e3', '4575E-2', '-9.5535e3']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Exponential string (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['1e3', '4575E-2', '-9.5535e3']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 			
 			//octal
 			/**
@@ -212,10 +259,16 @@ class Number extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Octal string (examples: "01750", "055", "022521")
 			 */
-			$strings[] = UText::localize("Octal string (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['01750', '055', '022521']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Octal string (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['01750', '055', '022521']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 			
 			//hexadecimal
 			/**
@@ -224,10 +277,16 @@ class Number extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Hexadecimal string (examples: "0x03e8", "0x2D", "0x2551")
 			 */
-			$strings[] = UText::localize("Hexadecimal string (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['0x03e8', '0x2D', '0x2551']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Hexadecimal string (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['0x03e8', '0x2D', '0x2551']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 			
 			//human-readable
 			/**
@@ -236,10 +295,16 @@ class Number extends Input implements IInformation, IModifiers
 			 * @tags non-end-user
 			 * @example Human-readable string in English (examples: "1 thousand", "0.04575k", "-9.5535 k")
 			 */
-			$strings[] = UText::localize("Human-readable string in English (examples: {{examples}})", self::class, $text_options, [
-				'parameters' => ['examples' => ['1 thousand', '0.04575k', '-9.5535 k']],
-				'string_options' => ['quote_strings' => true, 'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST]
-			]);
+			$strings[] = UText::localize(
+				"Human-readable string in English (examples: {{examples}})",
+				self::class, $text_options, [
+					'parameters' => ['examples' => ['1 thousand', '0.04575k', '-9.5535 k']],
+					'string_options' => [
+						'quote_strings' => true,
+						'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST
+					]
+				]
+			);
 		}
 		return $strings;
 	}

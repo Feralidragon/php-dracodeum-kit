@@ -38,11 +38,11 @@ final class Type extends Utility
 	 * 
 	 * The returning PHP code can be evaluated in order to run as PHP.<br>
 	 * <br>
-	 * By omission, the return is optimized to be as short as possible, but the <var>$pretty</var> parameter may optionally 
-	 * be set to <code>true</code> to get a more human-readable and visually appealing return.<br>
+	 * By omission, the return is optimized to be as short as possible, but the <var>$pretty</var> parameter may 
+	 * optionally be set to <code>true</code> to get a more human-readable and visually appealing return.<br>
 	 * <br>
-	 * This function is similar to <code>var_export</code>, but it gives more control on the return, and it is modernized 
-	 * (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
+	 * This function is similar to <code>var_export</code>, but it gives more control on the return, 
+	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
@@ -70,9 +70,17 @@ final class Type extends Utility
 		//string
 		if (is_string($value)) {
 			$string = preg_replace('/[$"\\\\]/', '\\\\$0', $value);
-			$string = $pretty ? implode("\\n\" . \n\"", explode("\n", $string)) : str_replace(["\n", "\t"], ['\\n', '\\t'], $string);
+			$string = $pretty
+				? implode("\\n\" . \n\"", explode("\n", $string))
+				: str_replace(["\n", "\t"], ['\\n', '\\t'], $string);
 			$string = str_replace(["\v", "\f", "\r", "\e"], ['\\v', '\\f', '\\r', '\\e'], $string);
-			$string = preg_replace_callback('/[\x00-\x08\x0e-\x1a\x1c-\x1f\x7f-\xff]/', function (array $matches) : string {return '\\x' . bin2hex($matches[0]);}, $string);
+			$string = preg_replace_callback(
+				'/[\x00-\x08\x0e-\x1a\x1c-\x1f\x7f-\xff]/',
+				function (array $matches) : string {
+					return '\\x' . bin2hex($matches[0]);
+				},
+				$string
+			);
 			return '"' . $string . '"';
 		}
 		
@@ -99,7 +107,11 @@ final class Type extends Utility
 			$is_assoc = Data::isAssociative($value);
 			$array = [];
 			foreach ($value as $k => $v) {
-				$array[] = ($is_assoc ? (is_int($k) ? $k : self::phpfy((string)$k, $pretty)) . ($pretty ? ' => ' : '=>') : '') . self::phpfy($v, $pretty);
+				$array[] = (
+					$is_assoc
+						? (is_int($k) ? $k : self::phpfy((string)$k, $pretty)) . ($pretty ? ' => ' : '=>')
+						: ''
+				) . self::phpfy($v, $pretty);
 			}
 			
 			//return
@@ -117,7 +129,9 @@ final class Type extends Utility
 		
 		//callable
 		if (is_callable($value)) {
-			return Call::source($value, Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPE | Call::SOURCE_CLASSES_LEADING_SLASH);
+			return Call::source(
+				$value, Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPE | Call::SOURCE_CLASSES_LEADING_SLASH
+			);
 		}
 		
 		//exception
@@ -128,11 +142,16 @@ final class Type extends Utility
 	 * Evaluate a given value as a boolean.
 	 * 
 	 * Only the following types and formats can be evaluated into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
-	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
+	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
+	 * and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
+	 * and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
+	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
+	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -153,11 +172,16 @@ final class Type extends Utility
 	 * Coerce a given value into a boolean.
 	 * 
 	 * Only the following types and formats can be coerced into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, and <code>true</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, and <code>1</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, and <code>1.0</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
-	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
+	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
+	 * and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
+	 * and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
+	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
+	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -196,7 +220,8 @@ final class Type extends Utility
 				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
 				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
 				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
-				" - a string, as: \"0\", \"f\", \"false\", \"off\" or \"no\" for boolean false, and \"1\", \"t\", \"true\", \"on\" or \"yes\" for boolean true."
+				" - a string, as: \"0\", \"f\", \"false\", \"off\" or \"no\" for boolean false, " . 
+				"and \"1\", \"t\", \"true\", \"on\" or \"yes\" for boolean true."
 		]);
 	}
 	
@@ -206,12 +231,18 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into a number:<br>
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -234,12 +265,18 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a number:<br>
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -267,7 +304,9 @@ final class Type extends Utility
 			//numeric
 			$v = str_replace(',', '.', $value);
 			if (is_numeric($v) || preg_match('/^0x[\da-f]{1,16}$/i', $v)) {
-				$value = strpos($v, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $v) ? (float)$v : intval($v, 0);
+				$value = strpos($v, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $v)
+					? (float)$v
+					: intval($v, 0);
 				if (is_float($value) && $value === floor($value)) {
 					$value = (int)$value;
 				}
@@ -306,11 +345,16 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -334,11 +378,16 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -382,12 +431,18 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into a float:<br>
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -410,12 +465,18 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a float:<br>
 	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
@@ -449,7 +510,8 @@ final class Type extends Utility
 				" - a numeric string in octal notation, such as: \"0360170\" for 123000.0;\n" . 
 				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000.0;\n" . 
 				" - a human-readable numeric string, such as: \"123.45k\" or \"123.45 thousand\" for 123450.0;\n" . 
-				" - a human-readable numeric string in bytes, such as: \"123.45kB\" or \"123.45 kilobytes\" for 123450.0."
+				" - a human-readable numeric string in bytes, " . 
+				"such as: \"123.45kB\" or \"123.45 kilobytes\" for 123450.0."
 		]);
 	}
 	
@@ -515,7 +577,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a class.</p>
 	 */
@@ -536,7 +599,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ClassCoercionFailed
 	 * @return string|null <p>The given value coerced into a class.<br>
@@ -588,12 +652,15 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an object.</p>
 	 */
-	final public static function evaluateObject(&$value, $base_object_class = null, array $arguments = [], bool $nullable = false) : bool
+	final public static function evaluateObject(
+		&$value, $base_object_class = null, array $arguments = [], bool $nullable = false
+	) : bool
 	{
 		try {
 			$value = self::coerceObject($value, $base_object_class, $arguments, $nullable);
@@ -610,14 +677,17 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ObjectCoercionFailed
 	 * @return object|null <p>The given value coerced into an object.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceObject($value, $base_object_class = null, array $arguments = [], bool $nullable = false)
+	final public static function coerceObject(
+		$value, $base_object_class = null, array $arguments = [], bool $nullable = false
+	)
 	{
 		//nullable
 		if (!isset($value)) {
@@ -652,7 +722,8 @@ final class Type extends Utility
 						'value' => $value,
 						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
 						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}}, with the following message: {{message}}", [
+							"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
+								"with the following message: {{message}}", [
 								'class' => Text::stringify($class, null, ['quote_strings' => true]),
 								'exception' => $exception,
 								'message' => Text::uncapitalize($exception->getMessage(), true)
@@ -678,9 +749,11 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an object or class.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated 
+	 * into an object or class.</p>
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -699,7 +772,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which the given value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\ObjectClassCoercionFailed
 	 * @return object|string|null <p>The given value coerced into an object or class.<br>
@@ -872,7 +946,8 @@ final class Type extends Utility
 	 * @param string[] $interfaces <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <code>true</code> if the given object or class implements any of the given interfaces.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class implements 
+	 * any of the given interfaces.</p>
 	 */
 	final public static function implementsAny($object_class, array $interfaces) : bool
 	{
@@ -895,7 +970,8 @@ final class Type extends Utility
 	 * @param string[] $interfaces <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <code>true</code> if the given object or class implements all of the given interfaces.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given object or class implements 
+	 * all of the given interfaces.</p>
 	 */
 	final public static function implementsAll($object_class, array $interfaces) : bool
 	{
@@ -906,7 +982,8 @@ final class Type extends Utility
 				throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
 			}
 		}
-		return count(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces))) === count($interfaces);
+		$count = count(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces)));
+		return $count === count($interfaces);
 	}
 	
 	/**
@@ -968,7 +1045,8 @@ final class Type extends Utility
 	 * @see https://php.net/manual/en/language.namespaces.php
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
 	 * @param int|null $depth [default = null] <p>The depth limit to retrieve with.<br>
-	 * If set to a number less than <code>0</code>, the limit is applied backwards (starting at the end of the namespace).<br>
+	 * If set to a number less than <code>0</code>, 
+	 * the limit is applied backwards (starting at the end of the namespace).<br>
 	 * If not set, no limit is applied.</p>
 	 * @return string <p>The namespace from the given object or class.</p>
 	 */
@@ -977,7 +1055,9 @@ final class Type extends Utility
 		$namespace = (new \ReflectionClass(self::class($object_class)))->getNamespaceName();
 		if (isset($depth)) {
 			$nameparts = explode('\\', $namespace);
-			$namespace = implode('\\', $depth >= 0 ? array_slice($nameparts, 0, $depth) : array_slice($nameparts, $depth));
+			$namespace = implode(
+				'\\', $depth >= 0 ? array_slice($nameparts, 0, $depth) : array_slice($nameparts, $depth)
+			);
 		}
 		return $namespace;
 	}
@@ -989,7 +1069,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
+	 * @return string <p>The filepath from the given object or class 
+	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filepath($object_class) : ?string
 	{
@@ -1004,7 +1085,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The directory from the given object or class or <code>null</code> if the class is not declared in any file.</p>
+	 * @return string <p>The directory from the given object or class 
+	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function directory($object_class) : ?string
 	{
@@ -1019,7 +1101,8 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
+	 * @return string <p>The filename from the given object or class 
+	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filename($object_class) : ?string
 	{
