@@ -210,11 +210,7 @@ final class Locale
 	 * @return string <p>The translation of the given plural message.</p>
 	 */
 	final public static function ptranslate(
-		string $message1,
-		string $message2,
-		float $number,
-		?string $number_placeholder,
-		?string $context = null,
+		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
 		$options = null
 	) : string
 	{

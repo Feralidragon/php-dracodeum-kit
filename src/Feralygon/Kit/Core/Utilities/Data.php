@@ -1647,10 +1647,7 @@ final class Data extends Utility
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an array.</p>
 	 */
 	final public static function evaluate(
-		&$value,
-		?callable $evaluator = null,
-		bool $non_associative = false,
-		bool $non_empty = false,
+		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
 		bool $nullable = false
 	) : bool
 	{
@@ -1689,10 +1686,7 @@ final class Data extends Utility
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value,
-		?callable $evaluator = null,
-		bool $non_associative = false,
-		bool $non_empty = false,
+		$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
 		bool $nullable = false
 	) : ?array
 	{

@@ -684,13 +684,8 @@ final class Text extends Utility
 	 * @return string <p>The given plural string filled with the given parameters.</p>
 	 */
 	final public static function pfill(
-		string $string1,
-		string $string2,
-		float $number,
-		?string $number_placeholder,
-		array $parameters = [],
-		$text_options = null,
-		$options = null
+		string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [],
+		$text_options = null, $options = null
 	) : string
 	{
 		$text_options = TextOptions::coerce($text_options);
@@ -1801,13 +1796,8 @@ final class Text extends Utility
 	 * @return string <p>The localization of the given plural message.</p>
 	 */
 	final public static function plocalize(
-		string $message1,
-		string $message2,
-		float $number,
-		?string $number_placeholder,
-		?string $context = null,
-		$text_options = null,
-		$options = null
+		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
+		$text_options = null, $options = null
 	) : string
 	{
 		$text_options = TextOptions::coerce($text_options);

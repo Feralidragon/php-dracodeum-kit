@@ -224,10 +224,7 @@ abstract class Component implements \ArrayAccess
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value,
-		array $prototype_properties = [],
-		array $properties = [],
-		?callable $builder = null,
+		&$value, array $prototype_properties = [], array $properties = [], ?callable $builder = null,
 		bool $nullable = false
 	) : bool
 	{
@@ -271,10 +268,7 @@ abstract class Component implements \ArrayAccess
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value,
-		array $prototype_properties = [],
-		array $properties = [],
-		?callable $builder = null,
+		$value, array $prototype_properties = [], array $properties = [], ?callable $builder = null,
 		bool $nullable = false
 	) : ?Component
 	{
