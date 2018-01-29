@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Root;
 
 use Feralygon\Kit\Root\System\{
-	Objects,
+	Immutables,
 	Environment,
 	Environments,
 	Exceptions
@@ -53,7 +53,7 @@ final class System
 	/** @var \Feralygon\Kit\Root\System\Environment */
 	private static $environment;
 	
-	/** @var \Feralygon\Kit\Root\System\Objects\Os */
+	/** @var \Feralygon\Kit\Root\System\Immutables\Os */
 	private static $os;
 	
 	
@@ -164,12 +164,18 @@ final class System
 	 * Get OS (Operating System) instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Objects\Os <p>The OS (Operating System) instance.</p>
+	 * @return \Feralygon\Kit\Root\System\Immutables\Os <p>The OS (Operating System) instance.</p>
 	 */
-	final public static function getOs() : Objects\Os
+	final public static function getOs() : Immutables\Os
 	{
 		if (!isset(self::$os)) {
-			self::$os = new Objects\Os(php_uname('s'), php_uname('n'), php_uname('r'), php_uname('v'), php_uname('m'));
+			self::$os = new Immutables\Os([
+				'name' => php_uname('s'),
+				'hostname' => php_uname('n'),
+				'release' => php_uname('r'),
+				'information' => php_uname('v'),
+				'architecture' => php_uname('m')
+			]);
 		}
 		return self::$os;
 	}
