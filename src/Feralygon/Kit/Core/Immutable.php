@@ -12,7 +12,7 @@ namespace Feralygon\Kit\Core;
  * 
  * This class is the base to be extended from when creating an immutable.<br>
  * <br>
- * An immutable is a simple object which represents and stores multiple properties of multiple types 
+ * An immutable object represents and stores multiple properties of multiple types 
  * in such a way that none of them can ever be modified after instantiation.<br>
  * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
  * and may be retrieved directly just like any public object property.
