@@ -586,9 +586,9 @@ final class Call extends Utility
 						'name' => $name,
 						'function' => $function,
 						'template' => $template,
-						'object_class' => self::stackPreviousObjectClass(),
 						'function_signature' => $function_signature,
-						'template_signature' => $template_signature
+						'template_signature' => $template_signature,
+						'object_class' => self::stackPreviousObjectClass()
 					]);
 				}
 				return false;

@@ -24,11 +24,9 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read string $name <p>The name.</p>
  * @property-read \Closure $function <p>The function.</p>
  * @property-read \Closure $template <p>The template.</p>
+ * @property-read string $function_signature <p>The function signature.</p>
+ * @property-read string $template_signature <p>The template signature.</p>
  * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
- * @property-read string $function_signature [default = auto] <p>The function signature.<br>
- * If not set, it is automatically generated from the given <var>$function</var> property above.</p>
- * @property-read string $template_signature [default = auto] <p>The template signature.<br>
- * If not set, it is automatically generated from the given <var>$template</var> property above.</p>
  */
 class SignatureAssertionFailed extends Exception implements IAssertion
 {
@@ -57,7 +55,7 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return ['name', 'function', 'template'];
+		return ['name', 'function', 'template', 'function_signature', 'template_signature'];
 	}
 	
 	
@@ -73,20 +71,12 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 				//no break
 			case 'template':
 				return UCall::evaluate($value);
+			case 'function_signature':
+				//no break
+			case 'template_signature':
+				return UType::evaluateString($value);
 			case 'object_class':
 				return UType::evaluateObjectClass($value, null, true);
-			case 'function_signature':
-				if (!isset($value)) {
-					$value = UCall::signature($this->get('function'));
-					return true;
-				}
-				return UType::evaluateString($value);
-			case 'template_signature':
-				if (!isset($value)) {
-					$value = UCall::signature($this->get('template'));
-					return true;
-				}
-				return UType::evaluateString($value);
 		}
 		return null;
 	}
