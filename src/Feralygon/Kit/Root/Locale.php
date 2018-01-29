@@ -67,7 +67,10 @@ final class Locale
 	 * &nbsp; &#8226; &nbsp; an ISO 639 code string with an ISO 3166-1 country code, 
 	 * such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
 	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, 
-	 * as well as any combination of code types).<br>
+	 * as well as any combination of code types).
+	 * 
+	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
+	 * value is meant to eventually become an actual object representing the instance.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -76,9 +79,64 @@ final class Locale
 	 */
 	final public static function evaluateLanguage(&$value, bool $nullable = false) : bool
 	{
-		return isset($value)
-			? is_string($value) && (bool)preg_match('/^[a-z]{2,3}([_\-][A-Z]{2,3})?$/', $value)
-			: $nullable;
+		try {
+			$value = self::coerceLanguage($value, $nullable);
+		} catch (Exceptions\LanguageCoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into a language.
+	 * 
+	 * Only the following types and formats can be coerced into a language:<br>
+	 * &nbsp; &#8226; &nbsp; an ISO 639 code string, 
+	 * such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
+	 * &nbsp; &#8226; &nbsp; an ISO 639 code string with an ISO 3166-1 country code, 
+	 * such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
+	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, 
+	 * as well as any combination of code types).
+	 * 
+	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
+	 * value is meant to eventually become an actual object representing the instance.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Root\Locale\Exceptions\LanguageCoercionFailed
+	 * @return string|null <p>The given value coerced into a language.<br>
+	 * If nullable, <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceLanguage($value, bool $nullable = false) : ?string
+	{
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\LanguageCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\LanguageCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_string($value)) {
+			throw new Exceptions\LanguageCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\LanguageCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a language given as a string is allowed."
+			]);
+		} elseif (!preg_match('/^[a-z]{2,3}([_\-][A-Z]{2,3})?$/', $value)) {
+			throw new Exceptions\LanguageCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\LanguageCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only the following types and formats can be coerced into a language:\n" . 
+					" - an ISO 639 code string, such as: \"en\" or \"eng\" for English;\n" . 
+					" - an ISO 639 code string with an ISO 3166-1 country code, such as: " . 
+					"\"en-US\" or \"eng-USA\" for English from United States of America " . 
+					"(both underscores (_) and hyphens (-) are allowed, as well as any combination of code types)."	
+			]);
+		}
+		return $value;
 	}
 	
 	/**

@@ -318,7 +318,7 @@ final class Math extends Utility
 	 * Evaluate a given value as a multiple.
 	 * 
 	 * Only the following types and formats can be evaluated into a multiple:<br>
-	 * &nbsp; &#8226; &nbsp; an integer as a power of 10, such as: <code>1000</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as a power of 10, such as: <code>1000</code> for thousands;<br>
 	 * &nbsp; &#8226; &nbsp; an SI symbol string, such as: <code>"k"</code> for thousands;<br>
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"thousand"</code> for thousands.
 	 * 
@@ -329,6 +329,43 @@ final class Math extends Utility
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
+		try {
+			$value = self::coerceMultiple($value, $nullable);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into a multiple.
+	 * 
+	 * Only the following types and formats can be coerced into a multiple:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as a power of 10, such as: <code>1000</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; an SI symbol string, such as: <code>"k"</code> for thousands;<br>
+	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"thousand"</code> for thousands.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Math\Exceptions\MultipleCoercionFailed
+	 * @return int|null <p>The given value coerced into a multiple.<br>
+	 * If nullable, <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceMultiple($value, bool $nullable = false) : ?int
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\MultipleCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
 		//multiples
 		if (empty(self::$multiples)) {
 			foreach (self::MULTIPLES_TABLE as $row) {
@@ -338,13 +375,27 @@ final class Math extends Utility
 			}
 		}
 		
-		//evaluate
-		if (!isset($value)) {
-			return $nullable;
-		} elseif (!is_scalar($value) || is_bool($value) || !isset(self::$multiples[(string)$value])) {
-			return false;
+		//validate
+		if (!is_int($value) && !is_float($value) && !is_string($value)) {
+			throw new Exceptions\MultipleCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a multiple given as an integer, float or string is allowed."
+			]);
 		}
-		$value = self::$multiples[(string)$value];
-		return true;
+		
+		//coerce
+		$value = (string)$value;
+		if (!isset(self::$multiples[$value])) {
+			throw new Exceptions\MultipleCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only the following types and formats can be coerced into a multiple:\n" . 
+					" - an integer or float as a power of 10, such as: 1000 for thousands;\n" . 
+					" - an SI symbol string, such as: \"k\" for thousands;\n" . 
+					" - a name string in English, such as: \"thousand\" for thousands."
+			]);
+		}
+		return self::$multiples[$value];
 	}
 }
