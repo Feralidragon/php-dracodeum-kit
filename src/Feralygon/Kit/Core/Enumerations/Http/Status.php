@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Enumerations;
+namespace Feralygon\Kit\Core\Enumerations\Http;
 
 use Feralygon\Kit\Core\Enumeration;
 use Feralygon\Kit\Core\Utilities\Text as UText;
@@ -19,7 +19,7 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
-class HttpStatus extends Enumeration
+class Status extends Enumeration
 {
 	//Public constants
 	/** Informational "Continue" HTTP status code. */
