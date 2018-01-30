@@ -46,7 +46,7 @@ final class Os extends Immutable
 			case 'information':
 				//no break
 			case 'architecture':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 		}
 		return null;
 	}

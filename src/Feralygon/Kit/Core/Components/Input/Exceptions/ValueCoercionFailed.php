@@ -52,7 +52,7 @@ class ValueCoercionFailed extends Exception implements ICoercion
 			case 'value':
 				return true;
 			case 'error_message':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

@@ -133,7 +133,7 @@ final class Time extends Utility
 	{
 		if (Type::evaluateInteger($timestamp)) {
 			return $timestamp;
-		} elseif (Type::evaluateString($timestamp)) {
+		} elseif (Type::evaluateString($timestamp, true)) {
 			$t = strtotime($timestamp);
 			if ($t !== false) {
 				return $t;

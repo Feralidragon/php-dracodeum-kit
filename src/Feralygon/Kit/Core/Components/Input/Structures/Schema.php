@@ -46,7 +46,7 @@ class Schema extends Structure
 				return $this->createProperty()
 					->setMode('r')
 					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value);
+						return UType::evaluateString($value, true);
 					})
 				;
 			case 'data':

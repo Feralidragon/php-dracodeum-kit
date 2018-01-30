@@ -39,7 +39,7 @@ class Truncate extends Options
 				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'ellipsis_string':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value, false, true);
 		}
 		return null;
 	}

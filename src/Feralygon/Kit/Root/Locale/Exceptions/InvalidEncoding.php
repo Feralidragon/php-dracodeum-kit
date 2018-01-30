@@ -57,7 +57,7 @@ class InvalidEncoding extends Exception
 				return UType::evaluateString($value);
 			case 'encodings':
 				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value);
+					return UType::evaluateString($value, true);
 				}, true);
 		}
 		return null;

@@ -55,7 +55,7 @@ class InvalidFunctionSignature extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 			case 'function':
 				//no break
 			case 'template':
@@ -63,7 +63,7 @@ class InvalidFunctionSignature extends Exception
 			case 'signature':
 				//no break
 			case 'template_signature':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

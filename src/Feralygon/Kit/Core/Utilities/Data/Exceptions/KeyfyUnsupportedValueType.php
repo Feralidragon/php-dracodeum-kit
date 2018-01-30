@@ -46,7 +46,7 @@ class KeyfyUnsupportedValueType extends Keyfy
 			case 'value':
 				return true;
 			case 'type':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 		}
 		return null;
 	}

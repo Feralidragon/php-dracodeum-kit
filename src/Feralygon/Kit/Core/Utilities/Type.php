@@ -522,13 +522,14 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a string.</p>
 	 */
-	final public static function evaluateString(&$value, bool $nullable = false) : bool
+	final public static function evaluateString(&$value, bool $non_empty = false, bool $nullable = false) : bool
 	{
 		try {
-			$value = self::coerceString($value, $nullable);
+			$value = self::coerceString($value, $non_empty, $nullable);
 		} catch (Exceptions\StringCoercionFailed $exception) {
 			return false;
 		}
@@ -542,12 +543,13 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Type\Exceptions\StringCoercionFailed
 	 * @return string|null <p>The given value coerced into a string.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceString($value, bool $nullable = false) : ?string
+	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false) : ?string
 	{
 		if (!isset($value)) {
 			if ($nullable) {
@@ -559,6 +561,13 @@ final class Type extends Utility
 				'error_message' => "A null value is not allowed."
 			]);
 		} elseif (is_string($value)) {
+			if ($non_empty && $value === '') {
+				throw new Exceptions\StringCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_EMPTY,
+					'error_message' => "An empty string value is not allowed."
+				]);
+			}
 			return $value;
 		} elseif (is_int($value) || is_float($value)) {
 			return (string)$value;

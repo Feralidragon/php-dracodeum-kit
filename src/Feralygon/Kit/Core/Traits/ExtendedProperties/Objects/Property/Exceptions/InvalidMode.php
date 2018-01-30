@@ -58,7 +58,7 @@ class InvalidMode extends Exception
 			case 'modes':
 				$value = $value ?? [];
 				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value);
+					return UType::evaluateString($value, true);
 				}, true);
 		}
 		return parent::evaluateProperty($name, $value);

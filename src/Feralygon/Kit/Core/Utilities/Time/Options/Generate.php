@@ -33,7 +33,7 @@ class Generate extends Options
 			case 'format':
 				//no break
 			case 'keys_format':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value, true, true);
 		}
 		return null;
 	}

@@ -51,7 +51,7 @@ class Format extends Filter implements IPrototypeProperties
 			case 'format':
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value);
+						return UType::evaluateString($value, true);
 					})
 					->setGetter(function () : string {
 						return $this->format;

@@ -30,6 +30,9 @@ class StringCoercionFailed extends Exception implements ICoercion
 	/** Null error code. */
 	public const ERROR_CODE_NULL = 'NULL';
 	
+	/** Empty error code. */
+	public const ERROR_CODE_EMPTY = 'EMPTY';
+	
 	/** Invalid error code. */
 	public const ERROR_CODE_INVALID = 'INVALID';
 	
@@ -65,10 +68,11 @@ class StringCoercionFailed extends Exception implements ICoercion
 			case 'error_code':
 				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
 					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_EMPTY,
 					self::ERROR_CODE_INVALID
 				], true));
 			case 'error_message':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value, true, true);
 		}
 		return null;
 	}

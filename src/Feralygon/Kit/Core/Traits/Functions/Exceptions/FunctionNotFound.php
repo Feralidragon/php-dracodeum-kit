@@ -44,7 +44,7 @@ class FunctionNotFound extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value);
+				return UType::evaluateString($value, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

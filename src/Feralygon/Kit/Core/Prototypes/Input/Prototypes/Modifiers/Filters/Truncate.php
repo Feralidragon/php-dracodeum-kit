@@ -123,7 +123,7 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 			case 'ellipsis_string':
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value, true);
+						return UType::evaluateString($value, false, true);
 					})
 					->setGetter(function () : ?string {
 						return $this->ellipsis_string;
