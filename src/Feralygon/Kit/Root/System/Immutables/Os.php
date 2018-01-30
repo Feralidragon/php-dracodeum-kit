@@ -11,7 +11,7 @@ use Feralygon\Kit\Core\Immutable;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Root system OS (Operating System) immutable object.
+ * Root system OS (Operating System) immutable class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
