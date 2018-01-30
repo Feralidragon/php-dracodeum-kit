@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Call as UCall;
+use Feralygon\Kit\Core\Utilities\{
+	Call as UCall,
+	Data as UData
+};
 
 /**
  * Core text utility localize method options class.
@@ -37,12 +40,21 @@ class Localize extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'parameters':
+				return [];
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'parameters':
-				$value = $value ?? [];
-				return is_array($value);
+				return UData::evaluate($value);
 			case 'string_options':
 				return Stringify::evaluate($value);
 			case 'stringifier':

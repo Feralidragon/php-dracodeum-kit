@@ -37,7 +37,10 @@ abstract class Immutable implements \ArrayAccess
 	final public function __construct(array $properties = [])
 	{
 		$this->initializeProperties(
-			$properties, \Closure::fromCallable([$this, 'evaluateProperty']), $this->getRequiredPropertyNames(), 'r'
+			$properties,
+			\Closure::fromCallable([$this, 'evaluateProperty']),
+			\Closure::fromCallable([$this, 'getDefaultPropertyValue']),
+			$this->getRequiredPropertyNames(), 'r'
 		);
 	}
 	
@@ -56,7 +59,7 @@ abstract class Immutable implements \ArrayAccess
 	
 	
 	
-	//Abstract protected methods
+	//Abstract protected methods	
 	/**
 	 * Evaluate a given property value for a given name.
 	 * 
@@ -67,4 +70,19 @@ abstract class Immutable implements \ArrayAccess
 	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.</p>
 	 */
 	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
+	
+	
+	
+	//Protected methods
+	/**
+	 * Get default value for a given property name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to get for.</p>
+	 * @return mixed <p>The default value for the given property name.</p>
+	 */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		return null;
+	}
 }

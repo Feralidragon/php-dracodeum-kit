@@ -42,13 +42,25 @@ abstract class Options implements \ArrayAccess
 	final public function __construct(array $properties = [], bool $readonly = false)
 	{
 		$this->initializeProperties(
-			$properties, \Closure::fromCallable([$this, 'evaluateProperty']), [], $readonly ? 'r' : 'rw'
+			$properties,
+			\Closure::fromCallable([$this, 'evaluateProperty']),
+			\Closure::fromCallable([$this, 'getDefaultPropertyValue']),
+			[], $readonly ? 'r' : 'rw'
 		);
 	}
 	
 	
 	
 	//Abstract protected methods
+	/**
+	 * Get default value for a given property name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to get for.</p>
+	 * @return mixed <p>The default value for the given property name.</p>
+	 */
+	abstract protected function getDefaultPropertyValue(string $name);
+	
 	/**
 	 * Evaluate a given property value for a given name.
 	 * 

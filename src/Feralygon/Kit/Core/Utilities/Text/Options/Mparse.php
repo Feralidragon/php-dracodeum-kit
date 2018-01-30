@@ -19,11 +19,20 @@ class Mparse extends Parse
 {
 	//Overridden protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'keep_nulls':
+				return false;
+		}
+		return parent::getDefaultPropertyValue($name);
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'keep_nulls':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 		}
 		return parent::evaluateProperty($name, $value);

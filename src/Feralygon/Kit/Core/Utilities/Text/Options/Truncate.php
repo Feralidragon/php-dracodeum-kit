@@ -26,6 +26,22 @@ class Truncate extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'unicode':
+				//no break
+			case 'ellipsis':
+				//no break
+			case 'keep_words':
+				//no break
+			case 'keep_sentences':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
@@ -36,7 +52,6 @@ class Truncate extends Options
 			case 'keep_words':
 				//no break
 			case 'keep_sentences':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'ellipsis_string':
 				return UType::evaluateString($value, false, true);

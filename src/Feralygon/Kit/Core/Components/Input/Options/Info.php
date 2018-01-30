@@ -22,13 +22,24 @@ class Info extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'exclude_null':
+				//no break
+			case 'exclude_modifiers':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'exclude_null':
 				//no break
 			case 'exclude_modifiers':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 		}
 		return null;

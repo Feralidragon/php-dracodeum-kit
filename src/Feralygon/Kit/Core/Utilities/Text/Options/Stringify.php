@@ -51,13 +51,24 @@ class Stringify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'quote_strings':
+				//no break
+			case 'prepend_type':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'quote_strings':
 				//no break
 			case 'prepend_type':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'non_assoc_mode':
 				return !isset($value) || (UType::evaluateString($value) && in_array($value, [

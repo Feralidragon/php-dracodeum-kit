@@ -24,17 +24,28 @@ class Parse extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'delimiter_pattern':
+				return '\s+';
+			case 'pattern_modifiers':
+				return '';
+			case 'pattern_delimiter':
+				return '/';
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'delimiter_pattern':
-				$value = $value ?? '\s+';
 				return UType::evaluateString($value);
 			case 'pattern_modifiers':
-				$value = $value ?? '';
 				return UType::evaluateString($value) && ($value === '' || preg_match('/^[imsxADSUXJu]+$/', $value));
 			case 'pattern_delimiter':
-				$value = $value ?? '/';
 				return UType::evaluateString($value) && strlen($value) === 1;
 		}
 		return null;

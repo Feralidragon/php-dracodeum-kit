@@ -34,6 +34,9 @@ trait Properties
 	/** @var \Closure|null */
 	private $properties_evaluator = null;
 	
+	/** @var \Closure|null */
+	private $properties_defaulter = null;
+	
 	/** @var string[] */
 	private $properties_required = [];
 	
@@ -138,7 +141,7 @@ trait Properties
 			}
 			
 			//load
-			$value = null;
+			$value = isset($this->properties_defaulter) ? ($this->properties_defaulter)($name) : null;
 			$valid = ($this->properties_evaluator)($name, $value);
 			if (!isset($valid)) {
 				throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
@@ -273,6 +276,17 @@ trait Properties
 	 * Boolean <code>true</code> if the property with the given name and value exists and is valid,
 	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.
 	 * </p>
+	 * @param callable|null $defaulter [default = null] <p>The function to retrieve a default property value 
+	 * for a given property name.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (string $name)</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to retrieve for.<br>
+	 * <br>
+	 * Return: <code><b>mixed</b></code><br>
+	 * The default value for the given property name.
+	 * </p>
 	 * @param string[] $required [default = []] <p>The required property names.</p>
 	 * @param string $mode [default = 'rw'] <p>The properties read and write mode to initialize with, 
 	 * which must be one the following:<br>
@@ -286,7 +300,7 @@ trait Properties
 	 * @return void
 	 */
 	final private function initializeProperties(
-		array $properties, callable $evaluator, array $required = [], string $mode = 'rw'
+		array $properties, callable $evaluator, ?callable $defaulter = null, array $required = [], string $mode = 'rw'
 	) : void
 	{
 		//check
@@ -312,6 +326,12 @@ trait Properties
 		//evaluator
 		UCall::assertSignature('evaluator', $evaluator, function (string $name, &$value) : ?bool {}, true);
 		$this->properties_evaluator = \Closure::fromCallable($evaluator);
+		
+		//defaulter
+		if (isset($defaulter)) {
+			UCall::assertSignature('defaulter', $defaulter, function (string $name) {}, true);
+			$this->properties_defaulter = \Closure::fromCallable($defaulter);
+		}
 		
 		//initialize
 		$this->properties_initialized = true;

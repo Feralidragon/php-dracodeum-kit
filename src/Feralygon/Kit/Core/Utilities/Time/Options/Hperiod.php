@@ -45,11 +45,20 @@ class Hperiod extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'short':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'short':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'precision':
 				return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);

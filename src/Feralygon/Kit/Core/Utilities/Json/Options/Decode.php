@@ -27,14 +27,24 @@ class Decode extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'associative':
+				return false;
+			case 'flags':
+				return 0x00;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'associative':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'flags':
-				$value = $value ?? 0x00;
 				return UType::evaluateInteger($value);
 			case 'depth':
 				return UType::evaluateInteger($value, true);

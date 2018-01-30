@@ -24,11 +24,20 @@ class Bulletify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'bullet':
+				return "\u{2022}";
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'bullet':
-				$value = $value ?? "\u{2022}";
 				return UType::evaluateString($value) && UText::length($value, true) === 1;
 		}
 		return null;

@@ -27,14 +27,24 @@ class Text extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'info_scope':
+				return EInfoScope::NONE;
+			case 'translate':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'info_scope':
-				$value = $value ?? EInfoScope::NONE;
 				return EInfoScope::evaluateValue($value);
 			case 'translate':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'language':
 				return Locale::evaluateLanguage($value, true);

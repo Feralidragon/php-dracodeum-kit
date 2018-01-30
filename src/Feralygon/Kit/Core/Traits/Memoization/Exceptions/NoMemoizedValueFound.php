@@ -50,9 +50,21 @@ class NoMemoizedValueFound extends Exception
 			case 'key':
 				return UType::evaluateString($value, true);
 			case 'namespace':
-				$value = $value ?? '';
 				return UType::evaluateString($value);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'namespace':
+				return '';
+		}
+		return parent::getDefaultPropertyValue($name);
 	}
 }

@@ -42,7 +42,10 @@ abstract class Exception extends \Exception implements \ArrayAccess
 		//initialize
 		$options = Options\Construct::coerce($options);
 		$this->initializeProperties(
-			$properties, \Closure::fromCallable([$this, 'evaluateProperty']), $this->getRequiredPropertyNames(), 'r'
+			$properties,
+			\Closure::fromCallable([$this, 'evaluateProperty']),
+			\Closure::fromCallable([$this, 'getDefaultPropertyValue']),
+			$this->getRequiredPropertyNames(), 'r'
 		);
 		
 		//message
@@ -125,6 +128,18 @@ abstract class Exception extends \Exception implements \ArrayAccess
 	
 	
 	//Protected methods
+	/**
+	 * Get default value for a given property name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to get for.</p>
+	 * @return mixed <p>The default value for the given property name.</p>
+	 */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		return null;
+	}
+	
 	/**
 	 * Get string from a given placeholder value.
 	 * 

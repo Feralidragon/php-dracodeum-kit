@@ -54,9 +54,21 @@ class DecodeInvalidString extends Decode
 			case 'string':
 				return UType::evaluateString($value);
 			case 'url_safe':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'url_safe':
+				return false;
+		}
+		return parent::getDefaultPropertyValue($name);
 	}
 }

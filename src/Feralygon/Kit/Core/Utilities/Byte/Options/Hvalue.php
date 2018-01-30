@@ -48,11 +48,20 @@ class Hvalue extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'long':
+				return false;
+		}
+		return null;
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'long':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 			case 'precision':
 				return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);

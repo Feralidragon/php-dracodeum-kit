@@ -59,9 +59,21 @@ class InvalidBits extends Exception
 			case 'prototype':
 				return is_object($value) && UType::isA($value, Integer::class);
 			case 'unsigned':
-				$value = $value ?? false;
 				return UType::evaluateBoolean($value);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'unsigned':
+				return false;
+		}
+		return parent::getDefaultPropertyValue($name);
 	}
 }

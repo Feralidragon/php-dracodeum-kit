@@ -50,13 +50,22 @@ class InvalidMode extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'modes':
+				return [];
+		}
+		return parent::getDefaultPropertyValue($name);
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'mode':
 				return true;
 			case 'modes':
-				$value = $value ?? [];
 				return UData::evaluate($value, function (&$key, &$value) : bool {
 					return UType::evaluateString($value, true);
 				}, true);

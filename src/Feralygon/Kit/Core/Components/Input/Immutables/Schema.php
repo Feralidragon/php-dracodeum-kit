@@ -45,11 +45,23 @@ class Schema extends Immutable
 			case 'data':
 				return true;
 			case 'modifiers':
-				$value = $value ?? [];
 				return UData::evaluate($value, function (&$key, &$value) : bool {
 					return is_object($value) && UType::isA($value, ModifierSchema::class);
 				}, true);
 		}
 		return null;
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'modifiers':
+				return [];
+		}
+		return parent::getDefaultPropertyValue($name);
 	}
 }
