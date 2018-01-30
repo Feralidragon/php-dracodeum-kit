@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Components\Input\{
 	Exceptions,
 	Objects,
 	Options,
-	Structures
+	Immutables
 };
 use Feralygon\Kit\Core\Prototypes\{
 	Input as Prototype,
@@ -637,15 +637,15 @@ class Input extends Component
 	/**
 	 * Get schema instance.
 	 * 
-	 * The returning schema describes this input by using a structure.
+	 * The returning schema describes this input by using an immutable object.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Structures\Schema <p>The schema instance.</p>
+	 * @return \Feralygon\Kit\Core\Components\Input\Immutables\Schema <p>The schema instance.</p>
 	 */
-	public function getSchema() : ?Structures\Schema
+	public function getSchema() : ?Immutables\Schema
 	{
 		$prototype = $this->getPrototype();
-		return new Structures\Schema([
+		return new Immutables\Schema([
 			'name' => $this->getName(),
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
@@ -998,10 +998,10 @@ class Input extends Component
 	/**
 	 * Get modifier schema instances.
 	 * 
-	 * The returning schemas describe the modifiers from this input by using structures.
+	 * The returning schemas describe the modifiers from this input by using immutable objects.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures\Schema[] 
+	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifier\Immutables\Schema[] 
 	 * <p>The modifier schema instances.</p>
 	 */
 	final public function getModifierSchemas() : array

@@ -5,21 +5,20 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Components\Input\Components\Modifier\Structures;
+namespace Feralygon\Kit\Core\Components\Input\Components\Modifier\Immutables;
 
-use Feralygon\Kit\Core\Structure;
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Immutable;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core input modifier component schema structure class.
+ * Core input modifier component schema immutable class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
  * @see \Feralygon\Kit\Core\Components\Input\Components\Modifier
  */
-class Schema extends Structure
+class Schema extends Immutable
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */
@@ -32,21 +31,13 @@ class Schema extends Structure
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
 			case 'name':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value, true);
-					})
-				;
+				return UType::evaluateString($value, true);
 			case 'data':
-				return $this->createProperty()
-					->setMode('r')
-					->setDefaultValue(null)
-				;
+				return true;
 		}
 		return null;
 	}
