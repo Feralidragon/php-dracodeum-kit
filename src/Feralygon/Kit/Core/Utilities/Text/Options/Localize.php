@@ -46,7 +46,7 @@ class Localize extends Options
 			case 'string_options':
 				return Stringify::evaluate($value);
 			case 'stringifier':
-				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true);
+				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
 		}
 		return null;
 	}

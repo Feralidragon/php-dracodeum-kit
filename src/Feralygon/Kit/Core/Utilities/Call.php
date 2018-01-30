@@ -619,12 +619,16 @@ final class Call extends Utility
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
 	 * to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
+	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
 	 */
-	final public static function evaluate(&$value, ?callable $template = null, bool $nullable = false) : bool
+	final public static function evaluate(
+		&$value, ?callable $template = null, bool $nullable = false, bool $assertive = false
+	) : bool
 	{
 		try {
-			$value = self::coerce($value, $template, $nullable);
+			$value = self::coerce($value, $template, $nullable, $assertive);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -639,11 +643,15 @@ final class Call extends Utility
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
 	 * to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $assertive [default = false] <p>Coerce in an assertive manner, in other words, 
+	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\CoercionFailed
 	 * @return callable|null <p>The given value coerced into a callable.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerce($value, ?callable $template = null, bool $nullable = false) : ?callable
+	final public static function coerce(
+		$value, ?callable $template = null, bool $nullable = false, bool $assertive = false
+	) : ?callable
 	{
 		if (!isset($value)) {
 			if ($nullable) {
@@ -660,7 +668,10 @@ final class Call extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 				'error_message' => "Only a callable value is allowed."
 			]);
-		} elseif (isset($template) && self::signature($value) !== self::signature($template)) {
+		} elseif (
+			isset($template) && (!$assertive || System::getEnvironment()->isDebug()) && 
+			self::signature($value) !== self::signature($template)
+		) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,

@@ -56,7 +56,7 @@ class Construct extends Options
 			case 'message':
 				return UType::evaluateString($value, true, true);
 			case 'stringifier':
-				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true);
+				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
 			case 'code':
 				return UType::evaluateInteger($value, true);
 			case 'previous':
