@@ -310,35 +310,9 @@ class Input extends Component
 		
 		//modifiers
 		if (!$info_options->exclude_modifiers) {
-			$modifiers = $this->getModifiers();
-			if (!empty($modifiers)) {
-				$modifier_labels = [];
-				foreach ($modifiers as $modifier) {
-					$modifier_label = $modifier->getLabel($text_options);
-					if (isset($modifier_label)) {
-						$modifier_string = $modifier->getString($text_options);
-						if (isset($modifier_string)) {
-							/**
-							 * @description Modifier label with string.
-							 * @placeholder label The modifier label.
-							 * @placeholder string The modifier string.
-							 * @example Allowed values: "a", "b" and "c"
-							 */
-							$modifier_labels[] = UText::localize(
-								"{{label}}: {{string}}",
-								self::class, $text_options, [
-									'parameters' => ['label' => $modifier_label, 'string' => $modifier_string]
-								]
-							);
-						} else {
-							$modifier_labels[] = $modifier_label;
-						}
-					}
-				}
-				if (!empty($modifier_labels)) {
-					$label .= "\n\n" . implode("\n", $modifier_labels);
-				}
-				unset($modifier_labels, $modifier_label);
+			$modifier_labels = $this->getModifierLabels($text_options);
+			if (!empty($modifier_labels)) {
+				$label .= "\n\n" . implode("\n", $modifier_labels);
 			}
 		}
 		
@@ -397,19 +371,9 @@ class Input extends Component
 			
 			//modifiers
 			if (!$info_options->exclude_modifiers) {
-				$modifiers = $this->getModifiers();
-				if (!empty($modifiers)) {
-					$modifier_messages = [];
-					foreach ($modifiers as $modifier) {
-						$modifier_message = $modifier->getMessage($text_options);
-						if (isset($modifier_message)) {
-							$modifier_messages[] = $modifier_message;
-						}
-					}
-					if (!empty($modifier_messages)) {
-						$description .= "\n\n" . implode("\n", $modifier_messages);
-					}
-					unset($modifier_messages, $modifier_message);
+				$modifier_messages = $this->getModifierMessages($text_options);
+				if (!empty($modifier_messages)) {
+					$description .= "\n\n" . implode("\n", $modifier_messages);
 				}
 			}
 		}
@@ -472,19 +436,9 @@ class Input extends Component
 			
 			//modifiers
 			if (!$info_options->exclude_modifiers) {
-				$modifiers = $this->getModifiers();
-				if (!empty($modifiers)) {
-					$modifier_messages = [];
-					foreach ($modifiers as $modifier) {
-						$modifier_message = $modifier->getMessage($text_options);
-						if (isset($modifier_message)) {
-							$modifier_messages[] = $modifier_message;
-						}
-					}
-					if (!empty($modifier_messages)) {
-						$message .= "\n\n" . implode("\n", $modifier_messages);
-					}
-					unset($modifier_messages, $modifier_message);
+				$modifier_messages = $this->getModifierMessages($text_options);
+				if (!empty($modifier_messages)) {
+					$message .= "\n\n" . implode("\n", $modifier_messages);
 				}
 			}
 		}
@@ -797,6 +751,64 @@ class Input extends Component
 			}
 		}
 		return $instances;
+	}
+	
+	/**
+	 * Get modifier labels.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string[] <p>The modifier labels.</p>
+	 */
+	final public function getModifierLabels($text_options = null) : array
+	{
+		$labels = [];
+		$text_options = TextOptions::coerce($text_options);
+		foreach ($this->getModifiers() as $modifier) {
+			$label = $modifier->getLabel($text_options);
+			if (isset($label)) {
+				$string = $modifier->getString($text_options);
+				if (isset($string)) {
+					/**
+					 * @description Modifier label with string.
+					 * @placeholder label The modifier label.
+					 * @placeholder string The modifier string.
+					 * @example Allowed values: "a", "b" and "c"
+					 */
+					$labels[] = UText::localize(
+						"{{label}}: {{string}}",
+						self::class, $text_options, [
+							'parameters' => ['label' => $label, 'string' => $string]
+						]
+					);
+				} else {
+					$labels[] = $label;
+				}
+			}
+		}
+		return $labels;
+	}
+	
+	/**
+	 * Get modifier messages.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string[] <p>The modifier messages.</p>
+	 */
+	final public function getModifierMessages($text_options = null) : array
+	{
+		$messages = [];
+		$text_options = TextOptions::coerce($text_options);
+		foreach ($this->getModifiers() as $modifier) {
+			$message = $modifier->getMessage($text_options);
+			if (isset($message)) {
+				$messages[] = $message;
+			}
+		}
+		return $messages;
 	}
 	
 	/**
