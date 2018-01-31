@@ -108,8 +108,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to generate from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Stringify|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\StringifyUnsupportedValueType
@@ -390,8 +390,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $string <p>The string to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Bulletify|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The bulletified string from the given one.</p>
@@ -425,8 +425,8 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $strings <p>The strings to bulletify.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Mbulletify|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string <p>The bulletified strings from the given ones.<br>
@@ -569,8 +569,8 @@ final class Text extends Utility
 	 * @param string $string <p>The string to fill.</p>
 	 * @param array $parameters <p>The parameters to fill the respective placeholders with, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Fill|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
@@ -677,8 +677,8 @@ final class Text extends Utility
 	 * @param string|null $number_placeholder <p>The string number placeholder to fill with.</p>
 	 * @param array $parameters [default = []] <p>The parameters to fill the respective placeholders with, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Pfill|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The given plural string filled with the given parameters.</p>
@@ -1706,8 +1706,8 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @param string $message <p>The message to localize.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Localize|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given message.</p>
@@ -1789,8 +1789,8 @@ final class Text extends Utility
 	 * @param float|int $number <p>The number to use.</p>
 	 * @param string|null $number_placeholder <p>The message number placeholder to localize with.</p>
 	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Text\Options\Plocalize|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The localization of the given plural message.</p>

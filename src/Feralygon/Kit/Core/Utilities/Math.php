@@ -182,8 +182,8 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $number <p>The machine-readable number to retrieve from.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Math\Options\Hnumber|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable number from the given machine one.</p>

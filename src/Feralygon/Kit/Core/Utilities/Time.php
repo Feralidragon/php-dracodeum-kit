@@ -242,8 +242,8 @@ final class Time extends Utility
 	 * @param int|float|string $datetime <p>The date and time to generate from, 
 	 * as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given date and time.</p>
 	 */
 	final public static function stringifyDateTime($datetime, $text_options = null) : string
@@ -354,8 +354,8 @@ final class Time extends Utility
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $date <p>The date to generate from, 
 	 * as supported by the PHP core <code>strtotime</code> function or as the number of seconds since 1970-01-01.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given date.</p>
 	 */
 	final public static function stringifyDate($date, $text_options = null) : string
@@ -467,8 +467,8 @@ final class Time extends Utility
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $time <p>The time to generate from, 
 	 * as supported by the PHP core <code>strtotime</code> function or as the number of seconds.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The generated string from the given time.</p>
 	 */
 	final public static function stringifyTime($time, $text_options = null) : string
@@ -498,8 +498,8 @@ final class Time extends Utility
 	 * @param int|float|string $timestamp <p>The timestamp to calculate from, 
 	 * as supported by the PHP core <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The calculated period on how long ago it has been, in a human-readable format, 
 	 * since the given timestamp.</p>
 	 */
@@ -634,8 +634,8 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param float $period <p>The machine-readable period to retrieve from, in seconds.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Core\Utilities\Time\Options\Hperiod|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The human-readable period from the given machine one.</p>

@@ -296,8 +296,8 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element <p>The enumerated element to get for, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The label from the given enumerated element.</p>
 	 */
 	final public static function getLabel($element, $text_options = null) : string
@@ -310,8 +310,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value <p>The enumerated element value to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string <p>The label from the enumerated element with the given value.</p>
 	 */
 	final public static function getValueLabel($value, $text_options = null) : string
@@ -324,8 +324,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The enumerated element name to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Enumeration\Exceptions\NameNotFound
 	 * @return string <p>The label from the enumerated element with the given name.</p>
 	 */
@@ -344,8 +344,8 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element <p>The enumerated element to get for, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The description from the given enumerated element or <code>null</code> if none exists.</p>
 	 */
 	final public static function getDescription($element, $text_options = null) : ?string
@@ -358,8 +358,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value <p>The enumerated element value to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The description from the enumerated element with the given value 
 	 * or <code>null</code> if none exists.</p>
 	 */
@@ -373,8 +373,8 @@ abstract class Enumeration
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The enumerated element name to get for.</p>
-	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] 
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Core\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
+	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null <p>The description from the enumerated element with the given name 
 	 * or <code>null</code> if none exists.</p>
 	 */
