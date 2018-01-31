@@ -14,8 +14,8 @@ namespace Feralygon\Kit\Core;
  * <br>
  * An immutable object represents and stores multiple properties of multiple types 
  * in such a way that none of them can ever be modified after instantiation.<br>
- * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
- * and may be retrieved directly just like any public object property.
+ * Each and every single one of its properties is lazy-loaded and is validated and sanitized, 
+ * guaranteeing its type and integrity, and may be retrieved directly just like any public object property.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Immutable_object
@@ -23,7 +23,7 @@ namespace Feralygon\Kit\Core;
 abstract class Immutable implements \ArrayAccess
 {
 	//Traits
-	use Traits\PropertiesArrayAccess;
+	use Traits\LazyPropertiesArrayAccess;
 	
 	
 	

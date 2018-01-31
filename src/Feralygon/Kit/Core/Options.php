@@ -18,7 +18,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * An options instance is a simple object which holds a set of properties of different types, 
  * and is meant to be mainly used within a class method or function, 
  * by representing an additional set of optional parameters.<br>
- * All properties are validated and sanitized, guaranteeing their type and integrity, 
+ * <br>
+ * All properties are lazy-loaded, and validated and sanitized, guaranteeing their type and integrity, 
  * and may be retrieved and modified directly just like public object properties, 
  * and may also be set to read-only during instantiation to prevent any changes.
  * 
@@ -27,7 +28,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 abstract class Options implements \ArrayAccess
 {
 	//Traits
-	use Traits\PropertiesArrayAccess;
+	use Traits\LazyPropertiesArrayAccess;
 	
 	
 	

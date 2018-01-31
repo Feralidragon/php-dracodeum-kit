@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
 /**
- * Core properties trait invalid boolean property value exception class.
+ * Core lazy properties trait invalid boolean property value exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given value 
+ * This exception is thrown from an object using the lazy properties trait whenever a given value 
  * is invalid for a given boolean property.
  * 
  * @since 1.0.0

@@ -8,17 +8,17 @@
 namespace Feralygon\Kit\Core\Traits;
 
 /**
- * Core properties array access trait.
+ * Core lazy properties array access trait.
  * 
- * This trait extends the properties trait and implements the PHP core <code>ArrayAccess</code> interface.
+ * This trait extends the lazy properties trait and implements the PHP core <code>ArrayAccess</code> interface.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Core\Traits\Properties
+ * @see \Feralygon\Kit\Core\Traits\LazyProperties
  */
-trait PropertiesArrayAccess
+trait LazyPropertiesArrayAccess
 {
 	//Traits
-	use Properties;
+	use LazyProperties;
 	
 	
 	

@@ -5,31 +5,30 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
-use Feralygon\Kit\Core\Traits\Properties\Exception;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * Core properties trait invalid property value exception class.
+ * Core lazy properties trait cannot get property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given value 
- * is invalid for a given property.
+ * This exception is thrown from an object using the lazy properties trait whenever a given property 
+ * with a given name is attempted to be retrieved.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>
- * @property-read mixed $value <p>The property value.</p>
  */
-class InvalidPropertyValue extends Exception
+class CannotGetProperty extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid value {{value}} for property {{name}} in object {{object}}.";
+		return "Cannot get property {{name}} from object {{object}}.";
 	}
 	
 	
@@ -38,7 +37,7 @@ class InvalidPropertyValue extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name', 'value']);
+		return array_merge(parent::getRequiredPropertyNames(), ['name']);
 	}
 	
 	
@@ -50,8 +49,6 @@ class InvalidPropertyValue extends Exception
 		switch ($name) {
 			case 'name':
 				return UType::evaluateString($value) && UText::isIdentifier($value);
-			case 'value':
-				return true;
 		}
 		return parent::evaluateProperty($name, $value);
 	}

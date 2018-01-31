@@ -70,7 +70,7 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * extended and have such a method implemented there instead, given that the public methods of a component are the only 
  * ones visible from any scope, which also means that for such cases it's not necessary to extend the prototypes.<br>
  * <br>
- * Both components and prototypes may also have a layer of custom properties, 
+ * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
  * While all readable properties from a component may be accessed from any scope, in the case of a prototype they 
  * are effectively only visible to itself and the component using it.<br>

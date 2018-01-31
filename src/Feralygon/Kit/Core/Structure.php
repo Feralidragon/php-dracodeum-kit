@@ -15,8 +15,8 @@ use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
  * This class is the base to be extended from when creating a structure.<br>
  * <br>
  * A structure is a simple object which represents and stores multiple properties of multiple types.<br>
- * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
- * and may be retrieved and modified directly just like any public object property.
+ * Each and every single one of its properties is lazy-loaded and is validated and sanitized, 
+ * guaranteeing its type and integrity, and may be retrieved and modified directly just like any public object property.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)

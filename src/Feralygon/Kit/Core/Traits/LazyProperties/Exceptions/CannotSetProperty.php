@@ -5,30 +5,30 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
-use Feralygon\Kit\Core\Traits\Properties\Exception;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * Core properties trait cannot unset property exception class.
+ * Core lazy properties trait cannot set property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given property 
- * with a given name is attempted to be unset.
+ * This exception is thrown from an object using the lazy properties trait whenever a given property 
+ * with a given name is attempted to be set.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>
  */
-class CannotUnsetProperty extends Exception
+class CannotSetProperty extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset property {{name}} from object {{object}}.";
+		return "Cannot set property {{name}} in object {{object}}.";
 	}
 	
 	

@@ -5,9 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
-use Feralygon\Kit\Core\Traits\Properties\Exception;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 use Feralygon\Kit\Core\Utilities\{
 	Data as UData,
 	Text as UText,
@@ -15,22 +15,26 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core properties trait missing required properties exception class.
+ * Core lazy properties trait invalid properties mode exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever required properties are missing.
+ * This exception is thrown from an object using the lazy properties trait whenever a given mode is invalid.
  * 
  * @since 1.0.0
- * @property-read string[] $names <p>The property names.</p>
+ * @property-read mixed $mode <p>The mode.</p>
+ * @property-read string[] $modes [default = []] <p>The allowed modes.</p>
  */
-class MissingRequiredProperties extends Exception
+class InvalidPropertiesMode extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return count($this->get('names')) === 1
-			? "Missing required property {{names}} for object {{object}}."
-			: "Missing required properties {{names}} for object {{object}}.";
+		$message = "Invalid properties mode {{mode}} in object {{object}}.";
+		if (!empty($this->get('modes'))) {
+			$message .= "\n" . 
+				"HINT: Only the following modes are allowed: {{modes}}.";
+		}
+		return $message;
 	}
 	
 	
@@ -39,20 +43,32 @@ class MissingRequiredProperties extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['names']);
+		return array_merge(parent::getRequiredPropertyNames(), ['mode']);
 	}
 	
 	
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
+	protected function getDefaultPropertyValue(string $name)
+	{
+		switch ($name) {
+			case 'modes':
+				return [];
+		}
+		return parent::getDefaultPropertyValue($name);
+	}
+	
+	/** {@inheritdoc} */
 	protected function evaluateProperty(string $name, &$value) : ?bool
 	{
 		switch ($name) {
-			case 'names':
+			case 'mode':
+				return true;
+			case 'modes':
 				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value) && UText::isIdentifier($value);
-				}, true, true);
+					return UType::evaluateString($value, true);
+				}, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}
@@ -60,7 +76,7 @@ class MissingRequiredProperties extends Exception
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'names') {
+		if ($placeholder === 'modes') {
 			return UText::stringify($value, null, [
 				'quote_strings' => true,
 				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND

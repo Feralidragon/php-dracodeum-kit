@@ -7,22 +7,24 @@
 
 namespace Feralygon\Kit\Core\Traits;
 
-use Feralygon\Kit\Core\Traits\Properties\Exceptions;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
- * Core properties trait.
+ * Core lazy properties trait.
  * 
- * This trait enables the support for a separate layer of custom properties in a class.<br>
+ * This trait enables the support for a separate layer of custom lazy-loaded properties in a class.<br>
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
+ * <br>
+ * Each and every property is only loaded on demand (lazy-loading).<br>
  * <br>
  * They may also be set as read-only, so that all properties can still be retrieved, but not modified in any given way, 
  * or write-only, so that all properties can be modified, but not retrieved in any given way.
  * 
  * @since 1.0.0
  */
-trait Properties
+trait LazyProperties
 {
 	//Private properties
 	/** @var array */
@@ -120,10 +122,10 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotGetWriteonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyNotFound
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertyValue
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotGetWriteonlyProperty
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyNotFound
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertyValue
 	 * @return mixed <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
@@ -162,7 +164,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidBooleanPropertyValue
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidBooleanPropertyValue
 	 * @return bool <p>The boolean property value from the given name.</p>
 	 */
 	final public function is(string $name) : bool
@@ -192,10 +194,10 @@ trait Properties
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to set for.</p>
 	 * @param mixed $value <p>The property value to set with.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotSetReadonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyNotFound
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertyValue
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotSetReadonlyProperty
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyNotFound
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value)
@@ -226,9 +228,9 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to unset from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetReadonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetRequiredProperty
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetReadonlyProperty
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetRequiredProperty
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name)
@@ -294,9 +296,9 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow properties to be only read from.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow properties to be only written to.
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertiesMode
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\MissingRequiredProperties
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesAlreadyInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertiesMode
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\MissingRequiredProperties
 	 * @return void
 	 */
 	final private function initializeProperties(

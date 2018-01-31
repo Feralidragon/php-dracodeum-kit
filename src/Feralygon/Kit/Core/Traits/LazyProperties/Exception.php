@@ -5,16 +5,16 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties;
+namespace Feralygon\Kit\Core\Traits\LazyProperties;
 
 use Feralygon\Kit\Core;
 
 /**
- * Core properties trait exception class.
+ * Core lazy properties trait exception class.
  * 
  * @since 1.0.0
  * @property-read object $object <p>The object.</p>
- * @see \Feralygon\Kit\Core\Traits\Properties
+ * @see \Feralygon\Kit\Core\Traits\LazyProperties
  */
 abstract class Exception extends Core\Exception
 {

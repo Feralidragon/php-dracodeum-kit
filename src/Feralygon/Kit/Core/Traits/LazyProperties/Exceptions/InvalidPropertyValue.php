@@ -5,30 +5,31 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
-use Feralygon\Kit\Core\Traits\Properties\Exception;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * Core properties trait cannot set property exception class.
+ * Core lazy properties trait invalid property value exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given property 
- * with a given name is attempted to be set.
+ * This exception is thrown from an object using the lazy properties trait whenever a given value 
+ * is invalid for a given property.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The property name.</p>
+ * @property-read mixed $value <p>The property value.</p>
  */
-class CannotSetProperty extends Exception
+class InvalidPropertyValue extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot set property {{name}} in object {{object}}.";
+		return "Invalid value {{value}} for property {{name}} in object {{object}}.";
 	}
 	
 	
@@ -37,7 +38,7 @@ class CannotSetProperty extends Exception
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name']);
+		return array_merge(parent::getRequiredPropertyNames(), ['name', 'value']);
 	}
 	
 	
@@ -49,6 +50,8 @@ class CannotSetProperty extends Exception
 		switch ($name) {
 			case 'name':
 				return UType::evaluateString($value) && UText::isIdentifier($value);
+			case 'value':
+				return true;
 		}
 		return parent::evaluateProperty($name, $value);
 	}

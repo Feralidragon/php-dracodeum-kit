@@ -15,8 +15,8 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
  * 
  * This class is the base to be extended from when creating a throwable exception, 
  * and it extends the PHP core <code>Exception</code> class to provide extra functionality.<br>
- * This extension of the PHP core <code>Exception</code> class provides the means to define custom read-only properties 
- * and a default message.
+ * This extension of the PHP core <code>Exception</code> class also provides the means to define 
+ * custom read-only lazy-loaded properties and a default message.
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
 abstract class Exception extends \Exception implements \ArrayAccess
 {
 	//Traits
-	use Traits\PropertiesArrayAccess;
+	use Traits\LazyPropertiesArrayAccess;
 	
 	
 	

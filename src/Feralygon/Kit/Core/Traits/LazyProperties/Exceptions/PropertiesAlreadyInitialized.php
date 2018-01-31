@@ -5,14 +5,15 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
-use Feralygon\Kit\Core\Traits\Properties\Exception;
+use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 
 /**
- * Core properties trait properties already initialized exception class.
+ * Core lazy properties trait properties already initialized exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever properties have already been initialized.
+ * This exception is thrown from an object using the lazy properties trait whenever properties 
+ * have already been initialized.
  * 
  * @since 1.0.0
  */

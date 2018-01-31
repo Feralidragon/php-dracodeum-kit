@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
 /**
- * Core properties trait cannot unset read-only property exception class.
+ * Core lazy properties trait cannot unset read-only property exception class.
  * 
- * This exception is thrown from an object using the properties trait whenever a given read-only property 
+ * This exception is thrown from an object using the lazy properties trait whenever a given read-only property 
  * with a given name is attempted to be unset.
  * 
  * @since 1.0.0
