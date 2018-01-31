@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects;
 
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property\Exceptions;
-use Feralygon\Kit\Core\Traits\NoConstructor as TNoConstructor;
 use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
@@ -18,12 +17,7 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
  * @see \Feralygon\Kit\Core\Traits\ExtendedLazyProperties
  */
 final class Property
-{
-	//Traits
-	use TNoConstructor;
-	
-	
-	
+{	
 	//Private constants
 	/** Allowed modes. */
 	private const MODES = ['rw', 'r', 'w', 'w-'];
@@ -31,6 +25,9 @@ final class Property
 	
 	
 	//Private properties
+	/** @var object */
+	private $owner;
+	
 	/** @var bool */
 	private $initialized = false;
 	
@@ -54,6 +51,24 @@ final class Property
 	
 	/** @var \Closure|null */
 	private $setter = null;
+	
+	
+	
+	//Final public magic methods
+	/**
+	 * Instantiate class.
+	 * 
+	 * @since 1.0.0
+	 * @param object $owner <p>The owner object.</p>
+	 * @throws \Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property\Exceptions\InvalidOwner
+	 */
+	final public function __construct($owner)
+	{
+		if (!is_object($owner)) {
+			throw new Exceptions\InvalidOwner(['property' => $this, 'owner' => $owner]);
+		}
+		$this->owner = $owner;
+	}
 	
 	
 	
@@ -262,7 +277,6 @@ final class Property
 	{
 		$this->getter = \Closure::fromCallable($getter);
 		$this->value = null;
-		$this->initialized = true;
 		return $this;
 	}
 	
@@ -279,7 +293,35 @@ final class Property
 	{
 		$this->setter = \Closure::fromCallable($setter);
 		$this->value = null;
-		$this->initialized = true;
+		return $this;
+	}
+	
+	/**
+	 * Bind to a given property name using a given class scope.
+	 * 
+	 * By binding to a property, getter and setter functions are automatically set for that property, 
+	 * using the given class scope, so it can be accessed and modified directly from outside.<br>
+	 * All restrictions set in this property still apply however, therefore attempts at accessing and modifying it 
+	 * may still fail accordingly.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to bind to.</p>
+	 * @param string $class_scope <p>The class scope to use.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function bind(string $name, string $class_scope) : Property
+	{
+		//getter
+		$this->setGetter(\Closure::bind(function () use ($name) {
+			return $this->$name;
+		}, $this->owner, $class_scope));
+		
+		//setter
+		$this->setSetter(\Closure::bind(function ($value) use ($name) : void {
+			$this->$name = $value;
+		}, $this->owner, $class_scope));
+		
+		//return
 		return $this;
 	}
 }

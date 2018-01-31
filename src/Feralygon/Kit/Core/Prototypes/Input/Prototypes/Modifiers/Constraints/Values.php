@@ -60,28 +60,18 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 		switch ($name) {
 			case 'values':
 				return $this->createProperty()
+					->bind('values', self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UData::evaluate($value, function (&$key, &$value) : bool {
 							return $this->evaluateValue($value);
 						}, true, true);
 					})
-					->setGetter(function () : array {
-						return $this->values;
-					})
-					->setSetter(function (array $values) : void {
-						$this->values = $values;
-					})
 				;
 			case 'negate':
 				return $this->createProperty()
+					->bind('negate', self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->negate;
-					})
-					->setSetter(function (bool $negate) : void {
-						$this->negate = $negate;
 					})
 				;
 		}

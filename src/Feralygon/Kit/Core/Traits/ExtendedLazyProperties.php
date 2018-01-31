@@ -278,7 +278,7 @@ trait ExtendedLazyProperties
 	 */
 	final protected function createProperty() : Objects\Property
 	{
-		return new Objects\Property();
+		return new Objects\Property($this);
 	}
 	
 	
