@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters
 
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\{
 	Base64 as UBase64,
 	Type as UType

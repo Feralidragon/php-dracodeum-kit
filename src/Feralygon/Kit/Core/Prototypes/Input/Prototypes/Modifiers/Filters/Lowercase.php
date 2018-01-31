@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType

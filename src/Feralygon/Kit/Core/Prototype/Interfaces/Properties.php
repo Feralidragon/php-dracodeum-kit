@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Core\Prototype\Interfaces;
 
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 
 /**
  * Core prototype properties interface.
@@ -25,7 +25,7 @@ interface Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to build for.</p>
-	 * @return \Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property|null 
+	 * @return \Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property|null 
 	 * <p>The built property instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	public function buildProperty(string $name) : ?Property;

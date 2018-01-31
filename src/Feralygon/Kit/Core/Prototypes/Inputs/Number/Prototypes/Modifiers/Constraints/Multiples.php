@@ -15,7 +15,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Stringification as IStringification,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
 	Data as UData,

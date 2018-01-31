@@ -20,7 +20,7 @@ use Feralygon\Kit\Core\Prototypes\{
 	Inputs as Prototypes
 };
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces as PrototypeInterfaces;
-use Feralygon\Kit\Core\Traits\ExtendedProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Prototype as ComponentPrototype;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;

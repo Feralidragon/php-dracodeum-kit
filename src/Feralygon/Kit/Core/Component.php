@@ -11,7 +11,7 @@ use Feralygon\Kit\Core\Component\{
 	Exceptions,
 	Traits
 };
-use Feralygon\Kit\Core\Traits\ExtendedPropertiesArrayAccess as TExtendedPropertiesArrayAccess;
+use Feralygon\Kit\Core\Traits\ExtendedLazyPropertiesArrayAccess as TExtendedLazyPropertiesArrayAccess;
 use Feralygon\Kit\Core\Utilities\{
 	Call as UCall,
 	Type as UType
@@ -93,7 +93,7 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
 abstract class Component implements \ArrayAccess
 {
 	//Traits
-	use TExtendedPropertiesArrayAccess;
+	use TExtendedLazyPropertiesArrayAccess;
 	use Traits\Properties;
 	use Traits\Initialization;
 	use Traits\PrototypeInitialization;
