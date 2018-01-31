@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
 abstract class Exception extends \Exception implements \ArrayAccess
 {
 	//Traits
-	use Traits\LazyPropertiesArrayAccess;
+	use Traits\LazyProperties\ArrayAccess;
 	
 	
 	

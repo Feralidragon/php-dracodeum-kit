@@ -27,7 +27,7 @@ use Feralygon\Kit\Core\Prototype\{
 abstract class Prototype implements \ArrayAccess
 {
 	//Traits
-	use Traits\ExtendedLazyPropertiesArrayAccess;
+	use Traits\ExtendedLazyProperties\ArrayAccess;
 	use Traits\Functions;
 	
 	

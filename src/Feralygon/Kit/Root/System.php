@@ -13,10 +13,7 @@ use Feralygon\Kit\Root\System\{
 	Environments,
 	Exceptions
 };
-use Feralygon\Kit\Core\Traits\{
-	NonInstantiable as TNonInstantiable,
-	Memoization as TMemoization
-};
+use Feralygon\Kit\Core\Traits as CoreTraits;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
@@ -41,8 +38,8 @@ use Feralygon\Kit\Core\Utilities\{
 final class System
 {
 	//Traits
-	use TNonInstantiable;
-	use TMemoization;
+	use CoreTraits\NonInstantiable;
+	use CoreTraits\Memoization;
 	
 	
 	

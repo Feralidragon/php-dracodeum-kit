@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Enumeration\{
 };
 use Feralygon\Kit\Core\Utilities\Text as UText;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
-use Feralygon\Kit\Core\Traits\NonInstantiable as TNonInstantiable;
+use Feralygon\Kit\Core\Traits as CoreTraits;
 
 /**
  * Core enumeration class.
@@ -30,7 +30,7 @@ use Feralygon\Kit\Core\Traits\NonInstantiable as TNonInstantiable;
 abstract class Enumeration
 {
 	//Traits
-	use TNonInstantiable;
+	use CoreTraits\NonInstantiable;
 	use Traits\Information;
 	
 	

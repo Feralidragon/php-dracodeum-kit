@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 abstract class Structure implements \ArrayAccess
 {
 	//Traits
-	use Traits\ExtendedLazyPropertiesArrayAccess;
+	use Traits\ExtendedLazyProperties\ArrayAccess;
 	
 	
 	

@@ -28,7 +28,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
 abstract class Options implements \ArrayAccess
 {
 	//Traits
-	use Traits\LazyPropertiesArrayAccess;
+	use Traits\LazyProperties\ArrayAccess;
 	
 	
 	

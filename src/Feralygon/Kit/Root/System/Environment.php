@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root\System;
 
-use Feralygon\Kit\Core\Traits\NoConstructor as TNoConstructor;
+use Feralygon\Kit\Core\Traits as CoreTraits;
 
 /**
  * Root system environment class.
@@ -20,7 +20,7 @@ use Feralygon\Kit\Core\Traits\NoConstructor as TNoConstructor;
 abstract class Environment
 {
 	//Traits
-	use TNoConstructor;
+	use CoreTraits\NoConstructor;
 	
 	
 	

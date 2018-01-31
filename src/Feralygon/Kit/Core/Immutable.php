@@ -23,7 +23,7 @@ namespace Feralygon\Kit\Core;
 abstract class Immutable implements \ArrayAccess
 {
 	//Traits
-	use Traits\LazyPropertiesArrayAccess;
+	use Traits\LazyProperties\ArrayAccess;
 	
 	
 	
