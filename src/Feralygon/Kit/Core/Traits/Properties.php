@@ -391,7 +391,7 @@ trait Properties
 		
 		//required
 		if (!empty($this->properties_required)) {
-			$missing = array_keys(array_diff_key(array_flip($required), $properties));
+			$missing = array_keys(array_diff_key(array_flip($this->properties_required), $properties));
 			if (!empty($missing)) {
 				throw new Exceptions\MissingRequiredProperties(['object' => $this, 'names' => $missing]);
 			}
