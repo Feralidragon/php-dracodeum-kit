@@ -299,12 +299,15 @@ abstract class Component implements \ArrayAccess
 		
 		//builder
 		if (isset($builder)) {
+			//assert
 			UCall::assertSignature(
 				'builder',
 				$builder,
 				function ($prototype, array $prototype_properties, array $properties) : Component {},
 				true
 			);
+			
+			//coerce
 			try {
 				return UType::coerceObject($builder($value, $prototype_properties, $properties), static::class);
 			} catch (UTypeExceptions\ObjectCoercionFailed $exception) {
