@@ -19,11 +19,7 @@ use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core enumeration input prototype class.
@@ -127,111 +123,29 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			case 'enumeration':
 				return $this->createProperty()
 					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateClass($value, CoreEnumeration::class);
-					})
-					->setGetter(function () : string {
-						return $this->enumeration;
-					})
-					->setSetter(function (string $enumeration) : void {
-						$this->enumeration = $enumeration;
-					})
+					->bind($name, self::class)
+					->setAsClass(CoreEnumeration::class)
 				;
 			case 'values':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UData::evaluate($value, function (&$key, &$value) : bool {
-							return is_int($value) || is_float($value) || is_string($value);
-						}, true);
-					})
-					->setGetter(function () : array {
-						return $this->values;
-					})
-					->setSetter(function (array $values) : void {
-						$this->values = $values;
-					})
-				;
+				//no break
 			case 'non_values':
 				return $this->createProperty()
 					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UData::evaluate($value, function (&$key, &$value) : bool {
-							return is_int($value) || is_float($value) || is_string($value);
-						}, true);
-					})
-					->setGetter(function () : array {
-						return $this->non_values;
-					})
-					->setSetter(function (array $non_values) : void {
-						$this->non_values = $non_values;
-					})
+					->bind($name, self::class)
+					->setAsArray(function (&$key, &$value) : bool {
+						return is_int($value) || is_float($value) || is_string($value);
+					}, true)
 				;
 			case 'names_only':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->names_only;
-					})
-					->setSetter(function (bool $names_only) : void {
-						$this->names_only = $names_only;
-					})
-				;
+				//no break
 			case 'values_only':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->values_only;
-					})
-					->setSetter(function (bool $values_only) : void {
-						$this->values_only = $values_only;
-					})
-				;
+				//no break
 			case 'hide_names':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->hide_names;
-					})
-					->setSetter(function (bool $hide_names) : void {
-						$this->hide_names = $hide_names;
-					})
-				;
+				//no break
 			case 'hide_values':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->hide_values;
-					})
-					->setSetter(function (bool $hide_values) : void {
-						$this->hide_values = $hide_values;
-					})
-				;
+				//no break
 			case 'namify':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->namify;
-					})
-					->setSetter(function (bool $namify) : void {
-						$this->namify = $namify;
-					})
-				;
+				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

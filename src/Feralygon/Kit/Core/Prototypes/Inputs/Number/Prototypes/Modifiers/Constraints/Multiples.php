@@ -18,7 +18,6 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -71,30 +70,13 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 		switch ($name) {
 			case 'multiples':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UData::evaluate($value, function (&$key, &$value) : bool {
-							return UType::evaluateNumber($value) && !empty($value);
-						}, true, true);
-					})
-					->setGetter(function () : array {
-						return $this->multiples;
-					})
-					->setSetter(function (array $multiples) : void {
-						$this->multiples = $multiples;
-					})
+					->bind($name, self::class)
+					->setAsArray(function (&$key, &$value) : bool {
+						return UType::evaluateNumber($value) && !empty($value);
+					}, true, true)
 				;
 			case 'negate':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->negate;
-					})
-					->setSetter(function (bool $negate) : void {
-						$this->negate = $negate;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

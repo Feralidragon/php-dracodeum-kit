@@ -17,10 +17,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input range constraint modifier prototype class.
@@ -75,61 +72,18 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	{
 		switch ($name) {
 			case 'min_value':
-				return $this->createProperty()
-					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
-					->setGetter(function () {
-						return $this->min_value;
-					})
-					->setSetter(function ($min_value) : void {
-						$this->min_value = $min_value;
-					})
-				;
+				//no break
 			case 'max_value':
 				return $this->createProperty()
+					->bind($name, self::class)
 					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
-					->setGetter(function () {
-						return $this->max_value;
-					})
-					->setSetter(function ($max_value) : void {
-						$this->max_value = $max_value;
-					})
 				;
 			case 'min_exclusive':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->min_exclusive;
-					})
-					->setSetter(function (bool $min_exclusive) : void {
-						$this->min_exclusive = $min_exclusive;
-					})
-				;
+				//no break
 			case 'max_exclusive':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->max_exclusive;
-					})
-					->setSetter(function (bool $max_exclusive) : void {
-						$this->max_exclusive = $max_exclusive;
-					})
-				;
+				//no break
 			case 'negate':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->negate;
-					})
-					->setSetter(function (bool $negate) : void {
-						$this->negate = $negate;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

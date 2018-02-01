@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core time input format filter modifier prototype class.
@@ -49,17 +48,7 @@ class Format extends Filter implements IPrototypeProperties
 	{
 		switch ($name) {
 			case 'format':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value, true);
-					})
-					->setGetter(function () : string {
-						return $this->format;
-					})
-					->setSetter(function (string $format) : void {
-						$this->format = $format;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsString(true);
 		}
 		return null;
 	}

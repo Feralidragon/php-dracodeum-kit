@@ -67,40 +67,20 @@ implements IPrototypeProperties, IName, IPriority, IInformation, IStringificatio
 		switch ($name) {
 			case 'min_length':
 				return $this->createProperty()
+					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->setGetter(function () : int {
-						return $this->min_length;
-					})
-					->setSetter(function (int $min_length) : void {
-						$this->min_length = $min_length;
 					})
 				;
 			case 'max_length':
 				return $this->createProperty()
+					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value) && $value >= 0;
 					})
-					->setGetter(function () : int {
-						return $this->max_length;
-					})
-					->setSetter(function (int $max_length) : void {
-						$this->max_length = $max_length;
-					})
 				;
 			case 'unicode':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->unicode;
-					})
-					->setSetter(function (bool $unicode) : void {
-						$this->unicode = $unicode;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

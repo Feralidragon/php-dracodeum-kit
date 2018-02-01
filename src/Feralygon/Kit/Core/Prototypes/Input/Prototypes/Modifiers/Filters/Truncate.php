@@ -86,76 +86,21 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 		switch ($name) {
 			case 'length':
 				return $this->createProperty()
+					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value) && $value >= 0;
 					})
-					->setGetter(function () : int {
-						return $this->length;
-					})
-					->setSetter(function (int $length) : void {
-						$this->length = $length;
-					})
 				;
 			case 'unicode':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->unicode;
-					})
-					->setSetter(function (bool $unicode) : void {
-						$this->unicode = $unicode;
-					})
-				;
+				//no break
 			case 'ellipsis':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->ellipsis;
-					})
-					->setSetter(function (bool $ellipsis) : void {
-						$this->ellipsis = $ellipsis;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 			case 'ellipsis_string':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value, false, true);
-					})
-					->setGetter(function () : ?string {
-						return $this->ellipsis_string;
-					})
-					->setSetter(function (?string $ellipsis_string) : void {
-						$this->ellipsis_string = $ellipsis_string;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsString(false, true);
 			case 'keep_words':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->keep_words;
-					})
-					->setSetter(function (bool $keep_words) : void {
-						$this->keep_words = $keep_words;
-					})
-					;
+				//no break
 			case 'keep_sentences':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->keep_sentences;
-					})
-					->setSetter(function (bool $keep_sentences) : void {
-						$this->keep_sentences = $keep_sentences;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

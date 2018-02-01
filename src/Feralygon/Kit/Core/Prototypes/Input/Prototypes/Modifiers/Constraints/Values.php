@@ -56,13 +56,13 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 		switch ($name) {
 			case 'values':
 				return $this->createProperty()
-					->bind('values', self::class)
+					->bind($name, self::class)
 					->setAsArray(function (&$key, &$value) : bool {
 						return $this->evaluateValue($value);
 					}, true, true)
 				;
 			case 'negate':
-				return $this->createProperty()->bind('negate', self::class)->setAsBoolean();
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

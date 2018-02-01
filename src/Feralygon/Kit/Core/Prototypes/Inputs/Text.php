@@ -133,31 +133,9 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->unicode;
-					})
-					->setSetter(function (bool $unicode) : void {
-						$this->unicode = $unicode;
-					})
-				;
+				//no break
 			case 'trim':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->trim;
-					})
-					->setSetter(function (bool $trim) : void {
-						$this->trim = $trim;
-					})
-				;
+				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

@@ -26,7 +26,6 @@ use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Core\Utilities\{
 	Call as UCall,
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -133,32 +132,19 @@ class Input extends Component
 	{
 		switch ($name) {
 			case 'nullable':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->nullable;
-					})
-					->setSetter(function (bool $nullable) : void {
-						$this->nullable = $nullable;
-					})
-				;
+				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
 			case 'modifiers':
 				return $this->createProperty()
 					->setMode('w-')
-					->setEvaluator(function (&$value) : bool {
-						return UData::evaluate($value, function (&$key, &$value) : bool {
-							if (is_string($key) && is_array($value)) {
-								$this->addModifier($key, $value);
-								return true;
-							} elseif (is_int($key) && (is_string($value) || is_object($value))) {
-								$this->addModifier($value);
-								return true;
-							}
-							return false;
-						});
+					->setAsArray(function (&$key, &$value) : bool {
+						if (is_string($key) && is_array($value)) {
+							$this->addModifier($key, $value);
+							return true;
+						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+							$this->addModifier($value);
+							return true;
+						}
+						return false;
 					})
 				;
 		}

@@ -16,10 +16,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input lowercase constraint modifier prototype class.
@@ -52,17 +49,7 @@ class Lowercase extends Constraint implements IPrototypeProperties, IName, IInfo
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->unicode;
-					})
-					->setSetter(function (bool $unicode) : void {
-						$this->unicode = $unicode;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}

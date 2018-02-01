@@ -122,29 +122,13 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	{
 		switch ($name) {
 			case 'unsigned':
-				return $this->createProperty()
-					->setMode('r')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->unsigned;
-					})
-					->setSetter(function (bool $unsigned) : void {
-						$this->unsigned = $unsigned;
-					})
-				;
+				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
 			case 'bits':
 				return $this->createProperty()
 					->setMode('r')
+					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value, true) && (!isset($value) || $value > 0);
-					})
-					->setGetter(function () : ?int {
-						return $this->bits;
-					})
-					->setSetter(function (?int $bits) : void {
-						$this->bits = $bits;
 					})
 				;
 		}

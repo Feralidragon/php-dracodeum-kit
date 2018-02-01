@@ -17,10 +17,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input minimum constraint modifier prototype class.
@@ -59,26 +56,11 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 		switch ($name) {
 			case 'value':
 				return $this->createProperty()
+					->bind($name, self::class)
 					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
-					->setGetter(function () {
-						return $this->value;
-					})
-					->setSetter(function ($value) : void {
-						$this->value = $value;
-					})
 				;
 			case 'exclusive':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-					->setGetter(function () : bool {
-						return $this->exclusive;
-					})
-					->setSetter(function (bool $exclusive) : void {
-						$this->exclusive = $exclusive;
-					})
-				;
+				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
 		}
 		return null;
 	}
