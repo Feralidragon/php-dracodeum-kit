@@ -17,11 +17,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
-use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input values constraint modifier prototype class.
@@ -61,19 +57,12 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 			case 'values':
 				return $this->createProperty()
 					->bind('values', self::class)
-					->setEvaluator(function (&$value) : bool {
-						return UData::evaluate($value, function (&$key, &$value) : bool {
-							return $this->evaluateValue($value);
-						}, true, true);
-					})
+					->setAsArray(function (&$key, &$value) : bool {
+						return $this->evaluateValue($value);
+					}, true, true)
 				;
 			case 'negate':
-				return $this->createProperty()
-					->bind('negate', self::class)
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateBoolean($value);
-					})
-				;
+				return $this->createProperty()->bind('negate', self::class)->setAsBoolean();
 		}
 		return null;
 	}
