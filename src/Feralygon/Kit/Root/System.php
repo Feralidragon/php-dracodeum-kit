@@ -44,9 +44,6 @@ final class System
 	
 	
 	//Private static properties
-	/** @var bool */
-	private static $library = false;
-	
 	/** @var \Feralygon\Kit\Root\System\Environment */
 	private static $environment;
 	
@@ -56,32 +53,6 @@ final class System
 	
 	
 	//Final public static methods
-	/**
-	 * Use as library.
-	 * 
-	 * When set to be used as a library, it will only work as such, thus it won't modify any global PHP settings 
-	 * (such as ones through <code>ini_set</code> calls) which might be used and set by other scripts, 
-	 * frameworks or any other systems being used instead.
-	 * 
-	 * @since 1.0.0
-	 * @return void
-	 */
-	final public static function useAsLibrary() : void
-	{
-		self::$library = true;
-	}
-	
-	/**
-	 * Check if is library.
-	 * 
-	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is a library.</p>
-	 */
-	final public static function isLibrary() : bool
-	{
-		return self::$library;
-	}
-	
 	/**
 	 * Get environment instance.
 	 * 
@@ -116,7 +87,7 @@ final class System
 		}
 		
 		//set
-		if (!self::$library) {
+		if (!Vendor::isLibrary()) {
 			ini_set('display_errors', $environment->canDisplayErrors());
 			error_reporting($environment->getErrorReportingFlags());
 		}
