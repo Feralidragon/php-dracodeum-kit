@@ -135,7 +135,7 @@ final class Call extends Utility
 	{
 		return self::memoize(function () use ($function, $algorithm, $raw) : string {
 			$reflection = self::reflection($function);
-			$export = get_class($reflection) === \ReflectionMethod::class
+			$export = Type::isA($reflection, \ReflectionMethod::class)
 				? $reflection::export($reflection->getDeclaringClass()->getName(), $reflection->getName(), true)
 				: $reflection::export($reflection->getClosure(), true);
 			return hash($algorithm, $export, $raw);
@@ -153,7 +153,7 @@ final class Call extends Utility
 	{
 		//reflection
 		$reflection = self::reflection($function);
-		if (get_class($reflection) !== \ReflectionMethod::class) {
+		if (!Type::isA($reflection, \ReflectionMethod::class)) {
 			return [];
 		}
 		
@@ -211,7 +211,7 @@ final class Call extends Utility
 		$name = $reflection->getName();
 		if ($name === '' || $name === '{closure}') {
 			return null;
-		} elseif ($full && get_class($reflection) === \ReflectionMethod::class) {
+		} elseif ($full && Type::isA($reflection, \ReflectionMethod::class)) {
 			$reflection_class = $reflection->getDeclaringClass();
 			$name = ($short ? $reflection_class->getShortName() : $reflection_class->getName()) . "::{$name}";
 		}
@@ -247,7 +247,7 @@ final class Call extends Utility
 		return self::memoize(function () use ($function, $flags) : array {
 			//initialize
 			$reflection = self::reflection($function);
-			$is_method = get_class($reflection) === \ReflectionMethod::class;
+			$is_method = Type::isA($reflection, \ReflectionMethod::class);
 			
 			//parameters
 			$parameters = [];
