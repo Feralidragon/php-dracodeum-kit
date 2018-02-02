@@ -449,7 +449,7 @@ final class Property
 	/**
 	 * Set to only allow a value evaluated as a class or object.
 	 * 
-	 * Only a class string or object can be coerced into an object or class.
+	 * Only a class string or object can be evaluated into an object or class.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 

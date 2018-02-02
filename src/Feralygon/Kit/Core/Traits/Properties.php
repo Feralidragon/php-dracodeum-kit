@@ -11,7 +11,11 @@ use Feralygon\Kit\Core\Traits\Properties\{
 	Objects,
 	Exceptions
 };
-use Feralygon\Kit\Core\Utilities\Call as UCall;
+use Feralygon\Kit\Core\Utilities\{
+	Call as UCall,
+	Data as UData,
+	Type as UType
+};
 
 /**
  * Core properties trait.
@@ -309,6 +313,295 @@ trait Properties
 		
 		//add
 		$this->properties[$name] = new Objects\Property($evaluator);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a boolean.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only the following types and formats can be evaluated into a boolean:<br>
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
+	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
+	 * and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
+	 * and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
+	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
+	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addBooleanProperty(string $name, bool $nullable = false, bool $override = false) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return UType::evaluateBoolean($value, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a number.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only the following types and formats can be evaluated into a number:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addNumberProperty(string $name, bool $nullable = false, bool $override = false) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return UType::evaluateNumber($value, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as an integer.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only the following types and formats can be evaluated into an integer:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addIntegerProperty(string $name, bool $nullable = false, bool $override = false) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return UType::evaluateInteger($value, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a float.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only the following types and formats can be evaluated into a float:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addFloatProperty(string $name, bool $nullable = false, bool $override = false) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return UType::evaluateFloat($value, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a string.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only a string, integer or float can be evaluated into a string.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty string property value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStringProperty(
+		string $name, bool $non_empty = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($non_empty, $nullable) : bool {
+			return UType::evaluateString($value, $non_empty, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a class.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only a class string or object can be evaluated into a class.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a property value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addClassProperty(
+		string $name, $base_object_class = null, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
+			return UType::evaluateClass($value, $base_object_class, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as an object.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only a class string or object can be evaluated into an object.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a property value must be or extend from.</p>
+	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addObjectProperty(
+		string $name, $base_object_class = null, array $arguments = [], bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
+			return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a class or object.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only a class string or object can be evaluated into an object or class.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a property value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addObjectClassProperty(
+		string $name, $base_object_class = null, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
+			return UType::evaluateObjectClass($value, $base_object_class, $nullable);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as a callable.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param callable|null $template [default = null] <p>The template callable declaration 
+	 * to validate the signature against.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
+	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addCallableProperty(
+		string $name, ?callable $template = null, bool $nullable = false, bool $assertive = false, 
+		bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($template, $nullable, $assertive) : bool {
+			return UCall::evaluate($value, $template, $nullable, $assertive);
+		}, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value evaluated as an array.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
+	 * in the resulting array value.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
+	 * The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The array element value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.
+	 * </p>
+	 * @param bool $non_associative [default = false] <p>Do not allow an associative array property value.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty array property value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addArrayProperty(
+		string $name, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, 
+		bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+			return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+		}, $override);
 	}
 	
 	/**
