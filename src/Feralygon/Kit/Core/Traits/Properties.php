@@ -759,7 +759,11 @@ trait Properties
 	/**
 	 * Add property with a given name, which only allows a value evaluated as an array.
 	 * 
-	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
+	 * <br>
+	 * Only the following types and formats can be evaluated into an array:<br>
+	 * &nbsp; &#8226; &nbsp; an array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>

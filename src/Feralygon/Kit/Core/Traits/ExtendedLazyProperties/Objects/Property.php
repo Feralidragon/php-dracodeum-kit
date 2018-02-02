@@ -623,6 +623,10 @@ final class Property
 	/**
 	 * Set to only allow a value evaluated as an array.
 	 * 
+	 * Only the following types and formats can be evaluated into an array:<br>
+	 * &nbsp; &#8226; &nbsp; an array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>

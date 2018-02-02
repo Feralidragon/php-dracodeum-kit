@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Utilities;
 
 use Feralygon\Kit\Core\Utility;
 use Feralygon\Kit\Core\Utilities\Data\Exceptions;
+use Feralygon\Kit\Core\Interfaces\Arrayable as IArrayable;
 
 /**
  * Core data utility class.
@@ -1625,6 +1626,10 @@ final class Data extends Utility
 	/**
 	 * Evaluate a given value as an array.
 	 * 
+	 * Only the following types and formats can be evaluated into an array:<br>
+	 * &nbsp; &#8226; &nbsp; an array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
@@ -1662,6 +1667,10 @@ final class Data extends Utility
 	/**
 	 * Coerce a given value as an array.
 	 * 
+	 * Only the following types and formats can be coerced into an array:<br>
+	 * &nbsp; &#8226; &nbsp; an array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
@@ -1690,6 +1699,7 @@ final class Data extends Utility
 		bool $nullable = false
 	) : ?array
 	{
+		//nullable
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -1699,19 +1709,30 @@ final class Data extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
 				'error_message' => "A null value is not allowed."
 			]);
-		} elseif (!is_array($value)) {
+		}
+		
+		//array
+		$array = $value;
+		if (is_object($array) && $array instanceof IArrayable) {
+			$array = $array->toArray();
+		}
+		
+		//coerce
+		if (!is_array($array)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an array value is allowed."
+				'error_message' => "Only the following types and formats can be coerced into an array:\n" . 
+					" - an array;\n" . 
+					" - an object implementing the \"Feralygon\\Kit\\Core\\Interfaces\\Arrayable\" interface."
 			]);
-		} elseif ($non_empty && empty($value)) {
+		} elseif ($non_empty && empty($array)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_EMPTY,
 				'error_message' => "An empty array value is not allowed."
 			]);
-		} elseif ($non_associative && self::isAssociative($value)) {
+		} elseif ($non_associative && self::isAssociative($array)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_ASSOCIATIVE,
@@ -1720,10 +1741,10 @@ final class Data extends Utility
 		} elseif (isset($evaluator)) {
 			Call::assertSignature('evaluator', $evaluator, function (&$key, &$value) : bool {}, true);
 			$evaluator = \Closure::fromCallable($evaluator);
-			$array = [];
-			foreach ($value as $k => $v) {
+			$f_array = [];
+			foreach ($array as $k => $v) {
 				if ($evaluator($k, $v)) {
-					$array[$k] = $v;
+					$f_array[$k] = $v;
 				} else {
 					throw new Exceptions\CoercionFailed([
 						'value' => $value,
@@ -1737,8 +1758,8 @@ final class Data extends Utility
 					]);
 				}
 			}
-			return $array;
+			return $f_array;
 		}
-		return $value;
+		return $array;
 	}
 }
