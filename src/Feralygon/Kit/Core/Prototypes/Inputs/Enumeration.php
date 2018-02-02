@@ -124,7 +124,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				return $this->createProperty()
 					->setMode('r')
 					->bind($name, self::class)
-					->setAsClass(CoreEnumeration::class)
+					->setAsStrictClass(CoreEnumeration::class)
 				;
 			case 'values':
 				//no break

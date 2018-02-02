@@ -296,6 +296,21 @@ final class Property
 	}
 	
 	/**
+	 * Set to only allow a value strictly evaluated as a boolean.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictBoolean(bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_bool($value) : $nullable;
+		});
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as a number.
 	 * 
 	 * Only the following types and formats can be evaluated into a number:<br>
@@ -327,6 +342,21 @@ final class Property
 	}
 	
 	/**
+	 * Set to only allow a value strictly evaluated as a number.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictNumber(bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_int($value) || is_float($value) : $nullable;
+		});
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as an integer.
 	 * 
 	 * Only the following types and formats can be evaluated into an integer:<br>
@@ -352,6 +382,21 @@ final class Property
 	{
 		$this->setEvaluator(function (&$value) use ($nullable) : bool {
 			return UType::evaluateInteger($value, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as an integer.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictInteger(bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_int($value) : $nullable;
 		});
 		return $this;
 	}
@@ -388,6 +433,21 @@ final class Property
 	}
 	
 	/**
+	 * Set to only allow a value strictly evaluated as a float.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictFloat(bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_float($value) : $nullable;
+		});
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as a string.
 	 * 
 	 * Only a string, integer or float can be evaluated into a string.
@@ -401,6 +461,22 @@ final class Property
 	{
 		$this->setEvaluator(function (&$value) use ($non_empty, $nullable) : bool {
 			return UType::evaluateString($value, $non_empty, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as a string.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($non_empty, $nullable) : bool {
+			return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
 		});
 		return $this;
 	}
@@ -425,6 +501,23 @@ final class Property
 	}
 	
 	/**
+	 * Set to only allow a value strictly evaluated as a class.
+	 * 
+	 * @since 1.0.0
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictClass($base_object_class = null, bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
+			return isset($value) ? is_string($value) && UType::evaluateClass($value, $base_object_class) : $nullable;
+		});
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as an object.
 	 * 
 	 * Only a class string or object can be evaluated into an object.
@@ -442,6 +535,23 @@ final class Property
 	{
 		$this->setEvaluator(function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
 			return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as an object.
+	 * 
+	 * @since 1.0.0
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictObject($base_object_class = null, bool $nullable = false) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
+			return isset($value) ? is_object($value) && UType::evaluateObject($value, $base_object_class) : $nullable;
 		});
 		return $this;
 	}
@@ -487,6 +597,30 @@ final class Property
 	}
 	
 	/**
+	 * Set to only allow a value evaluated as a closure.
+	 * 
+	 * @since 1.0.0
+	 * @param callable|null $template [default = null] <p>The template callable declaration 
+	 * to validate the signature against.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
+	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsClosure(
+		?callable $template = null, bool $nullable = false, bool $assertive = false
+	) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($template, $nullable, $assertive) : bool {
+			return isset($value)
+				? is_object($value) && UType::isA($value, \Closure::class) && 
+					UCall::evaluate($value, $template, false, $assertive)
+				: $nullable;
+		});
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as an array.
 	 * 
 	 * @since 1.0.0
@@ -515,6 +649,41 @@ final class Property
 	{
 		$this->setEvaluator(function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
 			return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as an array.
+	 * 
+	 * @since 1.0.0
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
+	 * in the resulting array value.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
+	 * The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The array element value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.
+	 * </p>
+	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictArray(
+		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
+	) : Property
+	{
+		$this->setEvaluator(function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+			return isset($value)
+				? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
+				: $nullable;
 		});
 		return $this;
 	}

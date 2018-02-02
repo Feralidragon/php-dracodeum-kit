@@ -339,6 +339,27 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as a boolean.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictBooleanProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_bool($value) : $nullable;
+		}, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as a number.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
@@ -376,6 +397,27 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as a number.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictNumberProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_int($value) || is_float($value) : $nullable;
+		}, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as an integer.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
@@ -408,6 +450,27 @@ trait Properties
 	{
 		$this->addProperty($name, function (&$value) use ($nullable) : bool {
 			return UType::evaluateInteger($value, $nullable);
+		}, $required, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as an integer.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictIntegerProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_int($value) : $nullable;
 		}, $required, $override);
 	}
 	
@@ -449,6 +512,27 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as a float.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictFloatProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($nullable) : bool {
+			return isset($value) ? is_float($value) : $nullable;
+		}, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as a string.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
@@ -469,6 +553,28 @@ trait Properties
 	{
 		$this->addProperty($name, function (&$value) use ($non_empty, $nullable) : bool {
 			return UType::evaluateString($value, $non_empty, $nullable);
+		}, $required, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as a string.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty string property value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictStringProperty(
+		string $name, bool $required = false, bool $non_empty = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($non_empty, $nullable) : bool {
+			return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
 		}, $required, $override);
 	}
 	
@@ -498,6 +604,29 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as a class.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a property value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictClassProperty(
+		string $name, bool $required = false, $base_object_class = null, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
+			return isset($value) ? is_string($value) && UType::evaluateClass($value, $base_object_class) : $nullable;
+		}, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as an object.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.<br>
@@ -521,6 +650,29 @@ trait Properties
 	{
 		$this->addProperty($name, function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
 			return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
+		}, $required, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as an object.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
+	 * which a property value must be or extend from.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictObjectProperty(
+		string $name, bool $required = false, $base_object_class = null, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
+			return isset($value) ? is_object($value) && UType::evaluateObject($value, $base_object_class) : $nullable;
 		}, $required, $override);
 	}
 	
@@ -576,6 +728,35 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which only allows a value evaluated as a closure.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param callable|null $template [default = null] <p>The template callable declaration 
+	 * to validate the signature against.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
+	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addClosureProperty(
+		string $name, bool $required = false, ?callable $template = null, bool $nullable = false, 
+		bool $assertive = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($template, $nullable, $assertive) : bool {
+			return isset($value)
+				? is_object($value) && UType::isA($value, \Closure::class) && 
+					UCall::evaluate($value, $template, false, $assertive)
+				: $nullable;
+		}, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as an array.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.
@@ -610,6 +791,46 @@ trait Properties
 	{
 		$this->addProperty($name, function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
 			return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+		}, $required, $override);
+	}
+	
+	/**
+	 * Add property with a given name, which only allows a value strictly evaluated as an array.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
+	 * in the resulting array value.<br>
+	 * The expected function signature is represented as:<br><br>
+	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
+	 * The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
+	 * The array element value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.
+	 * </p>
+	 * @param bool $non_associative [default = false] <p>Do not allow an associative array property value.</p>
+	 * @param bool $non_empty [default = false] <p>Do not allow an empty array property value.</p>
+	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addStrictArrayProperty(
+		string $name, bool $required = false, ?callable $evaluator = null, bool $non_associative = false, 
+		bool $non_empty = false, bool $nullable = false, bool $override = false
+	) : void
+	{
+		$this->addProperty($name, function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+			return isset($value)
+				? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
+				: $nullable;
 		}, $required, $override);
 	}
 	
