@@ -39,8 +39,8 @@ trait LazyProperties
 	/** @var \Closure|null */
 	private $properties_defaulter = null;
 	
-	/** @var string[] */
-	private $properties_required = [];
+	/** @var bool[] */
+	private $properties_required_map = [];
 	
 	/** @var string */
 	private $properties_mode = 'rw';
@@ -237,7 +237,7 @@ trait LazyProperties
 	{
 		if (!$this->properties_initialized) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		} elseif (in_array($name, $this->properties_required, true)) {
+		} elseif (isset($this->properties_required_map[$name])) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
 		} elseif ($this->properties_mode === 'r') {
 			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
@@ -318,9 +318,9 @@ trait LazyProperties
 		}
 		
 		//required
-		$this->properties_required = $required;
-		if (!empty($required)) {
-			$missing = array_keys(array_diff_key(array_flip($required), $properties));
+		$this->properties_required_map = array_fill_keys($required, true);
+		if (!empty($this->properties_required_map)) {
+			$missing = array_keys(array_diff_key($this->properties_required_map, $properties));
 			if (!empty($missing)) {
 				throw new Exceptions\MissingRequiredProperties(['object' => $this, 'names' => $missing]);
 			}
