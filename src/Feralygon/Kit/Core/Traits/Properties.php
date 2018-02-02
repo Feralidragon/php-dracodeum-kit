@@ -38,8 +38,8 @@ trait Properties
 	/** @var bool */
 	private $properties_initialized = false;
 	
-	/** @var string[] */
-	private $properties_required = [];
+	/** @var bool[] */
+	private $properties_required_map = [];
 	
 	/** @var string */
 	private $properties_mode = 'rw';
@@ -224,7 +224,7 @@ trait Properties
 	{
 		if (!$this->properties_initialized) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		} elseif (in_array($name, $this->properties_required, true)) {
+		} elseif (isset($this->properties_required_map[$name])) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
 		} elseif ($this->properties_mode === 'r') {
 			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
@@ -256,24 +256,6 @@ trait Properties
 	
 	//Final protected methods
 	/**
-	 * Add a given set of required property names.
-	 * 
-	 * This method can only be called during the properties initialization, namely from the loader function set.
-	 * 
-	 * @since 1.0.0
-	 * @param string[] $names <p>The property names to add.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
-	 * @return void
-	 */
-	final protected function addRequiredPropertyNames(array $names) : void
-	{
-		if ($this->properties_initialized) {
-			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
-		}
-		$this->properties_required = array_merge($this->properties_required, array_values($names));
-	}
-	
-	/**
 	 * Add property with a given name.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.
@@ -291,18 +273,23 @@ trait Properties
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given property value is successfully evaluated.
 	 * </p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyAlreadyAdded
 	 * @return void
 	 */
-	final protected function addProperty(string $name, ?callable $evaluator = null, bool $override = false) : void
+	final protected function addProperty(
+		string $name, ?callable $evaluator = null, bool $required = false, bool $override = false
+	) : void
 	{
 		//check
 		if ($this->properties_initialized) {
 			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
 		} elseif (isset($this->properties[$name]) && !$override) {
 			throw new Exceptions\PropertyAlreadyAdded(['object' => $this, 'name' => $name]);
+		} elseif ($override && !$required) {
+			unset($this->properties_required_map[$name]);
 		}
 		
 		//evaluator
@@ -313,6 +300,9 @@ trait Properties
 		
 		//add
 		$this->properties[$name] = new Objects\Property($evaluator);
+		if ($required) {
+			$this->properties_required_map[$name] = true;
+		}
 	}
 	
 	/**
@@ -334,15 +324,18 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
-	final protected function addBooleanProperty(string $name, bool $nullable = false, bool $override = false) : void
+	final protected function addBooleanProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($nullable) : bool {
 			return UType::evaluateBoolean($value, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -368,15 +361,18 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
-	final protected function addNumberProperty(string $name, bool $nullable = false, bool $override = false) : void
+	final protected function addNumberProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($nullable) : bool {
 			return UType::evaluateNumber($value, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -401,15 +397,18 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
-	final protected function addIntegerProperty(string $name, bool $nullable = false, bool $override = false) : void
+	final protected function addIntegerProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($nullable) : bool {
 			return UType::evaluateInteger($value, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -435,15 +434,18 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
-	final protected function addFloatProperty(string $name, bool $nullable = false, bool $override = false) : void
+	final protected function addFloatProperty(
+		string $name, bool $required = false, bool $nullable = false, bool $override = false
+	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($nullable) : bool {
 			return UType::evaluateFloat($value, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -455,18 +457,19 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty string property value.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
 	final protected function addStringProperty(
-		string $name, bool $non_empty = false, bool $nullable = false, bool $override = false
+		string $name, bool $required = false, bool $non_empty = false, bool $nullable = false, bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($non_empty, $nullable) : bool {
 			return UType::evaluateString($value, $non_empty, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -478,6 +481,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
 	 * which a property value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
@@ -485,12 +489,12 @@ trait Properties
 	 * @return void
 	 */
 	final protected function addClassProperty(
-		string $name, $base_object_class = null, bool $nullable = false, bool $override = false
+		string $name, bool $required = false, $base_object_class = null, bool $nullable = false, bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
 			return UType::evaluateClass($value, $base_object_class, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -502,6 +506,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
 	 * which a property value must be or extend from.</p>
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
@@ -510,12 +515,13 @@ trait Properties
 	 * @return void
 	 */
 	final protected function addObjectProperty(
-		string $name, $base_object_class = null, array $arguments = [], bool $nullable = false, bool $override = false
+		string $name, bool $required = false, $base_object_class = null, array $arguments = [], bool $nullable = false, 
+		bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
 			return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -527,6 +533,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
 	 * which a property value must be or extend from.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
@@ -534,12 +541,12 @@ trait Properties
 	 * @return void
 	 */
 	final protected function addObjectClassProperty(
-		string $name, $base_object_class = null, bool $nullable = false, bool $override = false
+		string $name, bool $required = false, $base_object_class = null, bool $nullable = false, bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($base_object_class, $nullable) : bool {
 			return UType::evaluateObjectClass($value, $base_object_class, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -549,6 +556,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
 	 * to validate the signature against.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
@@ -558,13 +566,13 @@ trait Properties
 	 * @return void
 	 */
 	final protected function addCallableProperty(
-		string $name, ?callable $template = null, bool $nullable = false, bool $assertive = false, 
-		bool $override = false
+		string $name, bool $required = false, ?callable $template = null, bool $nullable = false, 
+		bool $assertive = false, bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($template, $nullable, $assertive) : bool {
 			return UCall::evaluate($value, $template, $nullable, $assertive);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -574,6 +582,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
 	 * The expected function signature is represented as:<br><br>
@@ -595,13 +604,13 @@ trait Properties
 	 * @return void
 	 */
 	final protected function addArrayProperty(
-		string $name, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, 
-		bool $nullable = false, bool $override = false
+		string $name, bool $required = false, ?callable $evaluator = null, bool $non_associative = false, 
+		bool $non_empty = false, bool $nullable = false, bool $override = false
 	) : void
 	{
 		$this->addProperty($name, function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
 			return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
-		}, $override);
+		}, $required, $override);
 	}
 	
 	/**
@@ -683,8 +692,8 @@ trait Properties
 		$loader();
 		
 		//required
-		if (!empty($this->properties_required)) {
-			$missing = array_keys(array_diff_key(array_flip($this->properties_required), $properties));
+		if (!empty($this->properties_required_map)) {
+			$missing = array_keys(array_diff_key($this->properties_required_map, $properties));
 			if (!empty($missing)) {
 				throw new Exceptions\MissingRequiredProperties(['object' => $this, 'names' => $missing]);
 			}
