@@ -246,7 +246,7 @@ final class Property
 	 * The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is valid.
+	 * Boolean <code>true</code> if the given value is successfully evaluated.
 	 * </p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
@@ -502,7 +502,7 @@ final class Property
 	 * The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element is valid.
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.
 	 * </p>
 	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>

@@ -951,7 +951,7 @@ class Input extends Component
 	 * The value to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>callable|null $error_messenger</b> [reference output]</code> : 
 	 * The set error messenger function to retrieve the error message from, 
-	 * when the given value is not valid, with the following characteristics:<br>
+	 * when the given value is not successfully evaluated, with the following characteristics:<br>
 	 * &nbsp; &nbsp; &#8594; signature: 
 	 * <code>function (\Feralygon\Kit\Core\Options\Text $text_options) : ?string</code><br>
 	 * &nbsp; &nbsp; &#8594; parameters:<br>
@@ -961,7 +961,7 @@ class Input extends Component
 	 * &nbsp; &nbsp; &nbsp; &nbsp; The error message or <code>null</code> if no error is set.<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is valid.
+	 * Boolean <code>true</code> if the given value is successfully evaluated.
 	 * </p>
 	 * @param int $priority [default = 0] <p>The priority to execute the given evaluator function with.</p>
 	 * @param bool $before_modifiers [default = false] <p>Execute the given evaluator function before the modifiers.</p>

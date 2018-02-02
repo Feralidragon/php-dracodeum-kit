@@ -194,8 +194,8 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to set for.</p>
 	 * @param mixed $value <p>The property value to set with.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyNotFound
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
@@ -203,10 +203,10 @@ trait LazyProperties
 	final public function set(string $name, $value)
 	{
 		//check
-		if ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
+		if (!$this->properties_initialized) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		} elseif ($this->properties_mode === 'r') {
+			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
 		}
 		
 		//set
@@ -228,19 +228,19 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to unset from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetReadonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetRequiredProperty
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetRequiredProperty
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetReadonlyProperty
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name)
 	{
-		if ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
+		if (!$this->properties_initialized) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		} elseif (in_array($name, $this->properties_required, true)) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		} elseif ($this->properties_mode === 'r') {
+			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
 		}
 		unset($this->properties[$name]);
 		return $this;
@@ -275,8 +275,9 @@ trait LazyProperties
 	 * The property value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool|null</b></code><br>
-	 * Boolean <code>true</code> if the property with the given name and value exists and is valid,
-	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.
+	 * Boolean <code>true</code> if the property with the given name and value exists and is successfully evaluated, 
+	 * boolean <code>false</code> if it exists but is not successfully evaluated, 
+	 * or <code>null</code> if it does not exist.
 	 * </p>
 	 * @param callable|null $defaulter [default = null] <p>The function to retrieve a default property value 
 	 * for a given property name.<br>

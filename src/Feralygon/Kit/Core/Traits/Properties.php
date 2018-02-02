@@ -117,19 +117,19 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyNotFound
+	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @return mixed <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
 	{
-		if ($this->properties_mode === 'w') {
-			throw new Exceptions\CannotGetWriteonlyProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
+		if (!$this->properties_initialized) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		} elseif (!isset($this->properties[$name])) {
 			throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
+		} elseif ($this->properties_mode === 'w') {
+			throw new Exceptions\CannotGetWriteonlyProperty(['object' => $this, 'name' => $name]);
 		}
 		return $this->properties[$name]->value;
 	}
@@ -173,21 +173,21 @@ trait Properties
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to set for.</p>
 	 * @param mixed $value <p>The property value to set with.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyNotFound
+	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value)
 	{
 		//check
-		if ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
+		if (!$this->properties_initialized) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		} elseif (!isset($this->properties[$name])) {
 			throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
+		} elseif ($this->properties_mode === 'r') {
+			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
 		}
 		
 		//set
@@ -211,19 +211,19 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to unset from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetReadonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetRequiredProperty
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetRequiredProperty
+	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\CannotUnsetReadonlyProperty
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name)
 	{
-		if ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
+		if (!$this->properties_initialized) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		} elseif (in_array($name, $this->properties_required, true)) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
-		} elseif (!$this->properties_initialized) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		} elseif ($this->properties_mode === 'r') {
+			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
 		} elseif (isset($this->properties[$name])) {
 			$property = $this->properties[$name];
 			$property->value = $property->default_value;
@@ -252,7 +252,7 @@ trait Properties
 	
 	//Final protected methods
 	/**
-	 * Add required property names.
+	 * Add a given set of required property names.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.
 	 * 
@@ -266,7 +266,7 @@ trait Properties
 		if ($this->properties_initialized) {
 			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
 		}
-		$this->properties_required = array_merge($this->properties_required, $names);
+		$this->properties_required = array_merge($this->properties_required, array_values($names));
 	}
 	
 	/**
@@ -312,13 +312,13 @@ trait Properties
 	}
 	
 	/**
-	 * Set property default value.
+	 * Set property with a given name with a given default value.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to set for.</p>
-	 * @param mixed $value <p>The property default value to set.</p>
+	 * @param mixed $value <p>The property default value to set with.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\PropertyNotFound
 	 * @throws \Feralygon\Kit\Core\Traits\Properties\Exceptions\InvalidPropertyValue

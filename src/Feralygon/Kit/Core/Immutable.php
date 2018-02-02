@@ -66,8 +66,9 @@ abstract class Immutable implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to evaluate for.</p>
 	 * @param mixed $value [reference] <p>The property value to evaluate (validate and sanitize).</p>
-	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists and is valid,
-	 * boolean <code>false</code> if it exists but is not valid, or <code>null</code> if it does not exist.</p>
+	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists 
+	 * and is successfully evaluated, boolean <code>false</code> if it exists but is not successfully evaluated, 
+	 * or <code>null</code> if it does not exist.</p>
 	 */
 	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
 	

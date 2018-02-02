@@ -44,7 +44,7 @@ abstract class Input extends Prototype implements IFunctions
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is valid.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	abstract public function evaluateValue(&$value) : bool;
 	
