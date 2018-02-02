@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Components\Input\Components\Modifier\Immutables;
 
 use Feralygon\Kit\Core\Immutable;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core input modifier component schema immutable class.
@@ -20,25 +19,11 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  */
 class Schema extends Immutable
 {
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value, true);
-			case 'data':
-				return true;
-		}
-		return null;
+		$this->addStringProperty('name', true, true);
+		$this->addProperty('data');
 	}
 }

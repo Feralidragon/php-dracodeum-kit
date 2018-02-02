@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Core\Components\Input\Immutables;
 
 use Feralygon\Kit\Core\Immutable;
 use Feralygon\Kit\Core\Components\Input\Components\Modifier\Immutables\Schema as ModifierSchema;
-use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core input component schema immutable class.
@@ -26,42 +23,18 @@ use Feralygon\Kit\Core\Utilities\{
  */
 class Schema extends Immutable
 {
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value, true);
-			case 'data':
-				return true;
-			case 'modifiers':
-				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return is_object($value) && UType::isA($value, ModifierSchema::class);
-				}, true);
-		}
-		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		switch ($name) {
-			case 'modifiers':
-				return [];
-		}
-		return parent::getDefaultPropertyValue($name);
+		//properties
+		$this->addStringProperty('name', true, true);
+		$this->addProperty('data');
+		$this->addArrayProperty('modifiers', false, function (&$key, &$value) : bool {
+			return is_object($value) && UType::isA($value, ModifierSchema::class);
+		}, true);
+		
+		//defaults
+		$this->setPropertyDefaultValue('modifiers', []);
 	}
 }

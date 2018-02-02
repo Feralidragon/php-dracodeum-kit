@@ -7,23 +7,25 @@
 
 namespace Feralygon\Kit\Core;
 
+use Feralygon\Kit\Core\Interfaces\Arrayable as IArrayable;
+
 /**
  * Core immutable class.
  * 
  * This class is the base to be extended from when creating an immutable.<br>
  * <br>
- * An immutable object represents and stores multiple properties of multiple types 
- * in such a way that none of them can ever be modified after instantiation.<br>
- * Each and every single one of its properties is lazy-loaded and is validated and sanitized, 
- * guaranteeing its type and integrity, and may be retrieved directly just like any public object property.
+ * An immutable object represents and stores multiple properties of multiple types,  
+ * in such a way that none of them can ever be modified after instantiation (read-only).<br>
+ * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
+ * and may be retrieved directly just like any public object property.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Immutable_object
  */
-abstract class Immutable implements \ArrayAccess
+abstract class Immutable implements \ArrayAccess, IArrayable
 {
 	//Traits
-	use Traits\LazyProperties\ArrayAccess;
+	use Traits\Properties\ArrayableAccess;
 	
 	
 	
@@ -36,54 +38,17 @@ abstract class Immutable implements \ArrayAccess
 	 */
 	final public function __construct(array $properties = [])
 	{
-		$this->initializeProperties(
-			$properties,
-			\Closure::fromCallable([$this, 'evaluateProperty']),
-			\Closure::fromCallable([$this, 'getDefaultPropertyValue']),
-			$this->getRequiredPropertyNames(), 'r'
-		);
+		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'loadProperties']), 'r');
 	}
-	
-	
-	
-	//Abstract public static methods
-	/**
-	 * Get required property names.
-	 * 
-	 * All the required properties returned here must be given during instantiation.
-	 * 
-	 * @since 1.0.0
-	 * @return string[] <p>The required property names.</p>
-	 */
-	abstract public static function getRequiredPropertyNames() : array;
 	
 	
 	
 	//Abstract protected methods	
 	/**
-	 * Evaluate a given property value for a given name.
+	 * Load properties.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to evaluate for.</p>
-	 * @param mixed $value [reference] <p>The property value to evaluate (validate and sanitize).</p>
-	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists 
-	 * and is successfully evaluated, boolean <code>false</code> if it exists but is not successfully evaluated, 
-	 * or <code>null</code> if it does not exist.</p>
+	 * @return void
 	 */
-	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
-	
-	
-	
-	//Protected methods
-	/**
-	 * Get default value for a given property name.
-	 * 
-	 * @since 1.0.0
-	 * @param string $name <p>The property name to get for.</p>
-	 * @return mixed <p>The default value for the given property name.</p>
-	 */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		return null;
-	}
+	abstract protected function loadProperties() : void;
 }

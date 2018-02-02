@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Root\System\Immutables;
 
 use Feralygon\Kit\Core\Immutable;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+
 
 /**
  * Root system OS (Operating System) immutable class.
@@ -23,32 +23,15 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  */
 final class Os extends Immutable
 {
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name', 'hostname', 'release', 'information', 'architecture'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				//no break
-			case 'hostname':
-				//no break
-			case 'release':
-				//no break
-			case 'information':
-				//no break
-			case 'architecture':
-				return UType::evaluateString($value, true);
-		}
-		return null;
+		$this->addStringProperty('name', true, true);
+		$this->addStringProperty('hostname', true, true);
+		$this->addStringProperty('release', true, true);
+		$this->addStringProperty('information', true, true);
+		$this->addStringProperty('architecture', true, true);
 	}
 	
 	
