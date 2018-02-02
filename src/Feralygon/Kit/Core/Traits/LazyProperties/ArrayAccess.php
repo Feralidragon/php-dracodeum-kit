@@ -16,6 +16,7 @@ use Feralygon\Kit\Core\Traits\LazyProperties;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Traits\LazyProperties
+ * @see \ArrayAccess
  */
 trait ArrayAccess
 {

@@ -5,23 +5,34 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Traits\ExtendedLazyProperties;
+namespace Feralygon\Kit\Core\Traits\Properties;
 
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties;
+use Feralygon\Kit\Core\Traits\Properties;
 
 /**
- * Core extended lazy properties array access trait.
+ * Core properties arrayable access trait.
  * 
- * This trait extends the extended lazy properties trait and implements the PHP core <code>ArrayAccess</code> interface.
+ * This trait extends the properties trait and implements both the PHP core <code>ArrayAccess</code> 
+ * and <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interfaces.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Core\Traits\ExtendedLazyProperties
+ * @see \Feralygon\Kit\Core\Traits\Properties
+ * @see \Feralygon\Kit\Core\Interfaces\Arrayable
  * @see \ArrayAccess
  */
-trait ArrayAccess
+trait ArrayableAccess
 {
 	//Traits
-	use ExtendedLazyProperties;
+	use Properties;
+	
+	
+	
+	//Implemented final public methods (core arrayable interface)
+	/** {@inheritdoc} */
+	final public function toArray() : array
+	{
+		return $this->getProperties();
+	}
 	
 	
 	
