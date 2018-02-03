@@ -13,16 +13,11 @@ use Feralygon\Kit\Core\Immutable;
  * Root system OS (Operating System) immutable class.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The name.<br>
- * It cannot be empty.</p>
- * @property-read string $hostname <p>The hostname.<br>
- * It cannot be empty.</p>
- * @property-read string $release <p>The release.<br>
- * It cannot be empty.</p>
- * @property-read string $information <p>The information.<br>
- * It cannot be empty.</p>
- * @property-read string $architecture <p>The architecture.<br>
- * It cannot be empty.</p>
+ * @property-read string $name <p>The name.</p>
+ * @property-read string $hostname <p>The hostname.</p>
+ * @property-read string $release <p>The release.</p>
+ * @property-read string $information <p>The information.</p>
+ * @property-read string $architecture <p>The architecture.</p>
  * @see \Feralygon\Kit\Root\System
  */
 final class Os extends Immutable
