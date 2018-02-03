@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Properties\Exception;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core properties trait invalid property value exception class.
@@ -49,7 +46,7 @@ class InvalidPropertyValue extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value) && UText::isIdentifier($value);
+				return UType::evaluateString($value);
 			case 'value':
 				return true;
 		}

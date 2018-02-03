@@ -60,7 +60,7 @@ class Construct extends Options
 	{
 		switch ($name) {
 			case 'message':
-				return UType::evaluateString($value, true, true);
+				return UType::evaluateString($value, false, true);
 			case 'stringifier':
 				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
 			case 'code':

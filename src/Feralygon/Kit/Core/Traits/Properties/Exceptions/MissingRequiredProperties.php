@@ -51,7 +51,7 @@ class MissingRequiredProperties extends Exception
 		switch ($name) {
 			case 'names':
 				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value) && UText::isIdentifier($value);
+					return UType::evaluateString($value);
 				}, true, true);
 		}
 		return parent::evaluateProperty($name, $value);

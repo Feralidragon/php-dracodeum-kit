@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Exception;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core extended lazy properties trait property not initialized exception class.
@@ -49,7 +46,7 @@ class PropertyNotInitialized extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value) && UText::isIdentifier($value);
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

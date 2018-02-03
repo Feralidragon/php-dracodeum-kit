@@ -44,6 +44,8 @@ use Feralygon\Kit\Core\Utilities\{
  * @since 1.0.0
  * @property-read bool $unsigned [default = false] <p>Set as an unsigned integer.</p>
  * @property-read int|null $bits [default = null] <p>The number of bits to use.<br>
+ * If set, it must be greater than <code>0</code>.<br>
+ * <br>
  * For signed integers, the maximum allowed number is <code>64</code>, 
  * while for unsigned integers this number is <code>63</code>.<br>
  * If not set, the number of bits to use becomes system dependent.</p>

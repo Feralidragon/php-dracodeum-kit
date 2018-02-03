@@ -17,7 +17,8 @@ use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
  * This filter prototype converts a time, as an Unix timestamp, into a string using a specific format.
  * 
  * @since 1.0.0
- * @property string $format <p>The format to convert into, as supported by the PHP core <code>date</code> function.</p>
+ * @property string $format <p>The format to convert into, as supported by the PHP core <code>date</code> function.<br>
+ * It cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Time
  */

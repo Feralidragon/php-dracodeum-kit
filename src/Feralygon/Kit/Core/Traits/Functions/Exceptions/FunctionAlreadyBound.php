@@ -44,7 +44,7 @@ class FunctionAlreadyBound extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

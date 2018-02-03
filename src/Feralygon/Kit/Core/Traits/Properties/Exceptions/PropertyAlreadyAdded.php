@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Properties\Exception;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core properties trait property already added exception class.
@@ -47,7 +44,7 @@ class PropertyAlreadyAdded extends Exception
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value) && UText::isIdentifier($value);
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

@@ -48,7 +48,7 @@ class NoMemoizedValueFound extends Exception
 	{
 		switch ($name) {
 			case 'key':
-				return UType::evaluateString($value, true);
+				//no break
 			case 'namespace':
 				return UType::evaluateString($value);
 		}

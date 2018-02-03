@@ -55,7 +55,7 @@ class InvalidBits extends Exception
 			case 'bits':
 				//no break
 			case 'max_bits':
-				return UType::evaluateInteger($value) && $value > 0;
+				return UType::evaluateInteger($value);
 			case 'prototype':
 				return is_object($value) && UType::isA($value, Integer::class);
 			case 'unsigned':

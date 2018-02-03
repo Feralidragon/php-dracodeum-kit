@@ -43,7 +43,7 @@ class NotInitialized extends Exception
 	{
 		switch ($name) {
 			case 'error_message':
-				return UType::evaluateString($value, true, true);
+				return UType::evaluateString($value, false, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

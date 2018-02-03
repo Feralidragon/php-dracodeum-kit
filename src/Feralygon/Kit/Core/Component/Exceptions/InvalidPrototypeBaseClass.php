@@ -44,7 +44,7 @@ class InvalidPrototypeBaseClass extends Exception
 	{
 		switch ($name) {
 			case 'base_class':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

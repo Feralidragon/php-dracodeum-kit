@@ -15,7 +15,8 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * Core input component schema immutable class.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The name.</p>
+ * @property-read string $name <p>The name.<br>
+ * It cannot be empty.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
  * @property-read \Feralygon\Kit\Core\Components\Input\Components\Modifier\Immutables\Schema[] $modifiers [default = []] 
  * <p>The modifier schema instances.</p>

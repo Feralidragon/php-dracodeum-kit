@@ -74,7 +74,7 @@ class ValueCoercionFailed extends Exception implements ICoercion
 					self::ERROR_CODE_NOT_FOUND
 				], true));
 			case 'error_message':
-				return UType::evaluateString($value, true, true);
+				return UType::evaluateString($value, false, true);
 		}
 		return parent::evaluateProperty($name, $value);
 	}

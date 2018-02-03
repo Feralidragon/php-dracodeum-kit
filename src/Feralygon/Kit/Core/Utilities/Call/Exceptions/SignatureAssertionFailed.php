@@ -66,7 +66,7 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 	{
 		switch ($name) {
 			case 'name':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value);
 			case 'function':
 				//no break
 			case 'template':
@@ -74,7 +74,7 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 			case 'function_signature':
 				//no break
 			case 'template_signature':
-				return UType::evaluateString($value, true);
+				return UType::evaluateString($value);
 			case 'object_class':
 				return UType::evaluateObjectClass($value, null, true);
 		}

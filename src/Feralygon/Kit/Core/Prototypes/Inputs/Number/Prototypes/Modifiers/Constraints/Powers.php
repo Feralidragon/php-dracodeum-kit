@@ -28,7 +28,8 @@ use Feralygon\Kit\Core\Utilities\{
  * This constraint prototype restricts a number to a set of allowed powers.
  * 
  * @since 1.0.0
- * @property int[]|float[] $powers <p>The allowed powers to restrict to.</p>
+ * @property int[]|float[] $powers <p>The allowed powers to restrict to.<br>
+ * They must all be greater than <code>0</code>.</p>
  * @property bool $negate [default = false] <p>Negate the restriction, 
  * so the given allowed powers act as disallowed powers instead.</p>
  * @see \Feralygon\Kit\Core\Prototypes\Inputs\Number

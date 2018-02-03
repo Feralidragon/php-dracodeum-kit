@@ -73,7 +73,7 @@ class ObjectClassCoercionFailed extends Exception implements ICoercion
 					self::ERROR_CODE_INVALID
 				], true));
 			case 'error_message':
-				return UType::evaluateString($value, true, true);
+				return UType::evaluateString($value, false, true);
 		}
 		return null;
 	}

@@ -53,7 +53,7 @@ class EncodeInvalidData extends Encode
 			case 'error_code':
 				return UType::evaluateInteger($value, true);
 			case 'error_message':
-				return UType::evaluateString($value, true, true);
+				return UType::evaluateString($value, false, true);
 		}
 		return null;
 	}
