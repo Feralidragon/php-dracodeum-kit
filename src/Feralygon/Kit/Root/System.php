@@ -95,6 +95,50 @@ final class System
 	}
 	
 	/**
+	 * Set <samp>php.ini</samp> configuration option with a given name with a given value.
+	 * 
+	 * This method is mostly equivalent to the PHP core <code>ini_set</code> function, however it holds no effect 
+	 * if the package is set to be used as a library, throws an exception instead of failing silently, 
+	 * and an integer, float, boolean or <samp>null</samp> value is also safely accepted.
+	 * 
+	 * @since 1.0.0
+	 * @see https://www.php.net/manual/en/function.ini-set.php
+	 * @param string $name <p>The <samp>php.ini</samp> configuration option name to set for.</p>
+	 * @param string|int|float|bool|null $value <p>The <samp>php.ini</samp> configuration option value to set.</p>
+	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionInvalidValueType
+	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionFailed
+	 * @return void
+	 */
+	final public static function setIniOption(string $name, $value) : void
+	{
+		//validate
+		if (isset($value) && !is_scalar($value)) {
+			throw new Exceptions\SetIniOptionInvalidValueType([
+				'name' => $name,
+				'value' => $value,
+				'type' => gettype($value)
+			]);
+		} elseif (Vendor::isLibrary()) {
+			return;
+		}
+		
+		//value
+		$ini_value = $value;
+		if (!isset($ini_value)) {
+			$ini_value = '';
+		} elseif (is_bool($ini_value)) {
+			$ini_value = $ini_value ? '1' : '0';
+		} else {
+			$ini_value = (string)$ini_value;
+		}
+		
+		//set
+		if (ini_set($name, $ini_value) === false) {
+			throw new Exceptions\SetIniOptionFailed(['name' => $name, 'value' => $value]);
+		}
+	}
+	
+	/**
 	 * Get hostname.
 	 * 
 	 * @since 1.0.0
