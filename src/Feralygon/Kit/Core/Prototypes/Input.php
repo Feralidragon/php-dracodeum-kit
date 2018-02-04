@@ -67,14 +67,15 @@ abstract class Input extends Prototype implements IFunctions
 	
 	//Protected methods
 	/**
-	 * Create a constraint instance.
+	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
-	 * <p>The constraint prototype instance, class or name.</p>
-	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties, 
+	 * <p>The constraint prototype instance, class or name to create with.</p>
+	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $properties [default = []] <p>The constraint properties, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The constraint properties to use, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint 
 	 * <p>The created constraint instance.</p>
 	 */
@@ -86,14 +87,15 @@ abstract class Input extends Prototype implements IFunctions
 	}
 	
 	/**
-	 * Create a filter instance.
+	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
-	 * <p>The filter prototype instance, class or name.</p>
-	 * @param array $prototype_properties [default = []] <p>The filter prototype properties, 
+	 * <p>The filter prototype instance, class or name to create with.</p>
+	 * @param array $prototype_properties [default = []] <p>The filter prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $properties [default = []] <p>The filter properties, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The filter properties to use, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter 
 	 * <p>The created filter instance.</p>
 	 */
