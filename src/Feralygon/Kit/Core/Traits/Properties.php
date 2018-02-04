@@ -306,6 +306,22 @@ trait Properties
 	}
 	
 	/**
+	 * Add property with a given name, which allows any value.
+	 * 
+	 * This method can only be called during the properties initialization, namely from the loader function set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to add.</p>
+	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
+	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
+	 * @return void
+	 */
+	final protected function addMixedProperty(string $name, bool $required = false, bool $override = false) : void
+	{
+		$this->addProperty($name, null, $required, $override);
+	}
+	
+	/**
 	 * Add property with a given name, which only allows a value evaluated as a boolean.
 	 * 
 	 * This method can only be called during the properties initialization, namely from the loader function set.<br>

@@ -24,6 +24,6 @@ class Schema extends Immutable
 	protected function loadProperties() : void
 	{
 		$this->addStringProperty('name', true, true);
-		$this->addProperty('data');
+		$this->addMixedProperty('data');
 	}
 }

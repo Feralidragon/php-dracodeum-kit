@@ -29,7 +29,7 @@ class Schema extends Immutable
 	{
 		//properties
 		$this->addStringProperty('name', true, true);
-		$this->addProperty('data');
+		$this->addMixedProperty('data');
 		$this->addArrayProperty('modifiers', false, function (&$key, &$value) : bool {
 			return is_object($value) && UType::isA($value, ModifierSchema::class);
 		}, true);
