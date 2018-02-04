@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility fill method placeholder property identifier not found exception class.
+ * Core text utility <code>fill</code> method placeholder property identifier not found exception class.
  * 
- * This exception is thrown from the text utility fill method whenever a given placeholder property identifier 
+ * This exception is thrown from the text utility <code>fill</code> method whenever a given placeholder property identifier 
  * is not found.
  * 
  * @since 1.0.0

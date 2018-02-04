@@ -13,9 +13,9 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core time utility generate method start later than end exception class.
+ * Core time utility <code>generate</code> method start later than end exception class.
  * 
- * This exception is thrown from the time utility generate method whenever a given start is later than a given end.
+ * This exception is thrown from the time utility <code>generate</code> method whenever a given start is later than a given end.
  * 
  * @since 1.0.0
  * @property-read int|float $start <p>The start.</p>

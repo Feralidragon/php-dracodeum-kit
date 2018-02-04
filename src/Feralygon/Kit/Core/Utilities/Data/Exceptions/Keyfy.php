@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 use Feralygon\Kit\Core\Utilities\Data\Exception;
 
 /**
- * Core data utility keyfy method exception class.
+ * Core data utility <code>keyfy</code> method exception class.
  * 
  * @since 1.0.0
  */

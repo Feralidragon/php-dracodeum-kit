@@ -8,9 +8,9 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
 /**
- * Core text utility mparse method invalid string exception class.
+ * Core text utility <code>mparse</code> method invalid string exception class.
  * 
- * This exception is thrown from the text utility mparse method whenever a given string is invalid.
+ * This exception is thrown from the text utility <code>mparse</code> method whenever a given string is invalid.
  * 
  * @since 1.0.0
  * @property-read mixed $string <p>The string.</p>

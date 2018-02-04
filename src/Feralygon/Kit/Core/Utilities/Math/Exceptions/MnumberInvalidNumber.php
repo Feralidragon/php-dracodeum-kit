@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Math\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core math utility mnumber method invalid number exception class.
+ * Core math utility <code>mnumber</code> method invalid number exception class.
  * 
- * This exception is thrown from the math utility mnumber method whenever a given number is invalid.
+ * This exception is thrown from the math utility <code>mnumber</code> method whenever a given number is invalid.
  * 
  * @since 1.0.0
  * @property-read string $number <p>The number.</p>

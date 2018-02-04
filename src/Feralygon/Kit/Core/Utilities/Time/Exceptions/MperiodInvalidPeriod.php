@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core time utility mperiod method invalid period exception class.
+ * Core time utility <code>mperiod</code> method invalid period exception class.
  * 
- * This exception is thrown from the time utility mperiod method whenever a given period is invalid.
+ * This exception is thrown from the time utility <code>mperiod</code> method whenever a given period is invalid.
  * 
  * @since 1.0.0
  * @property-read string $period <p>The period.</p>

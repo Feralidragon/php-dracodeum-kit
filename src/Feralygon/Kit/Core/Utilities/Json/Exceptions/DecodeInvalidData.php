@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Json\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core JSON utility decode method invalid data exception class.
+ * Core JSON utility <code>decode</code> method invalid data exception class.
  * 
- * This exception is thrown from the JSON utility decode method whenever given data is invalid.
+ * This exception is thrown from the JSON utility <code>decode</code> method whenever given data is invalid.
  * 
  * @since 1.0.0
  * @property-read string $data <p>The data.</p>

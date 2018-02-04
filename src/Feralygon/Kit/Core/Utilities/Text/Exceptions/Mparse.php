@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Text\Exception;
 
 /**
- * Core text utility mparse method exception class.
+ * Core text utility <code>mparse</code> method exception class.
  * 
  * @since 1.0.0
  */

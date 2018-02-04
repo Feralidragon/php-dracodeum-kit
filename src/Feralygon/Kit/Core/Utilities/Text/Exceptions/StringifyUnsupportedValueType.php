@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility stringify method unsupported value type exception class.
+ * Core text utility <code>stringify</code> method unsupported value type exception class.
  * 
- * This exception is thrown from the text utility stringify method whenever a given value type is unsupported.
+ * This exception is thrown from the text utility <code>stringify</code> method whenever a given value type is unsupported.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>

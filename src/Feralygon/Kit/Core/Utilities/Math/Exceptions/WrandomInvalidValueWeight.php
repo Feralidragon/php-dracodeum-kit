@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Math\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core math utility wrandom method invalid value weight exception class.
+ * Core math utility <code>wrandom</code> method invalid value weight exception class.
  * 
- * This exception is thrown from the math utility wrandom method whenever a given weight is invalid for a given value.
+ * This exception is thrown from the math utility <code>wrandom</code> method whenever a given weight is invalid for a given value.
  * 
  * @since 1.0.0
  * @property-read int|string $value <p>The value.</p>

@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core data utility keyfy method unsupported value type exception class.
+ * Core data utility <code>keyfy</code> method unsupported value type exception class.
  * 
- * This exception is thrown from the data utility keyfy method whenever a given value type is unsupported.
+ * This exception is thrown from the data utility <code>keyfy</code> method whenever a given value type is unsupported.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>

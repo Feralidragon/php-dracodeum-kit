@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core time utility generate method invalid interval exception class.
+ * Core time utility <code>generate</code> method invalid interval exception class.
  * 
- * This exception is thrown from the time utility generate method whenever a given interval is invalid.
+ * This exception is thrown from the time utility <code>generate</code> method whenever a given interval is invalid.
  * 
  * @since 1.0.0
  * @property-read int|float $interval <p>The interval.</p>

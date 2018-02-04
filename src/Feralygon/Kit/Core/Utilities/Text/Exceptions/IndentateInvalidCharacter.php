@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility indentate method invalid character exception class.
+ * Core text utility <code>indentate</code> method invalid character exception class.
  * 
- * This exception is thrown from the text utility indentate method whenever a given character is invalid.
+ * This exception is thrown from the text utility <code>indentate</code> method whenever a given character is invalid.
  * 
  * @since 1.0.0
  * @property-read string $character <p>The character.</p>

@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core type utility phpfy method unsupported value type exception class.
+ * Core type utility <code>phpfy</code> method unsupported value type exception class.
  * 
- * This exception is thrown from the type utility phpfy method whenever a given value type is unsupported.
+ * This exception is thrown from the type utility <code>phpfy</code> method whenever a given value type is unsupported.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>

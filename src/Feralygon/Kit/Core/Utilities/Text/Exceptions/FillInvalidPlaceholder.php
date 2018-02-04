@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility fill method invalid placeholder exception class.
+ * Core text utility <code>fill</code> method invalid placeholder exception class.
  * 
- * This exception is thrown from the text utility fill method whenever a given placeholder is invalid.
+ * This exception is thrown from the text utility <code>fill</code> method whenever a given placeholder is invalid.
  * 
  * @since 1.0.0
  * @property-read string $placeholder <p>The placeholder.</p>

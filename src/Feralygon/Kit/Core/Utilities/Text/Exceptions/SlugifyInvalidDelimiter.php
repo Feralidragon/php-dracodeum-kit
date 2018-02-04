@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility slugify method invalid delimiter exception class.
+ * Core text utility <code>slugify</code> method invalid delimiter exception class.
  * 
- * This exception is thrown from the text utility slugify method whenever a given delimiter is invalid.
+ * This exception is thrown from the text utility <code>slugify</code> method whenever a given delimiter is invalid.
  * 
  * @since 1.0.0
  * @property-read string $delimiter <p>The delimiter.</p>

@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 use Feralygon\Kit\Core\Utilities\Time\Exception;
 
 /**
- * Core time utility generate method exception class.
+ * Core time utility <code>generate</code> method exception class.
  * 
  * @since 1.0.0
  */

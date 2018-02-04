@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility mparse method invalid delimiter pattern exception class.
+ * Core text utility <code>mparse</code> method invalid delimiter pattern exception class.
  * 
- * This exception is thrown from the text utility mparse method whenever a given delimiter pattern is invalid.
+ * This exception is thrown from the text utility <code>mparse</code> method whenever a given delimiter pattern is invalid.
  * 
  * @since 1.0.0
  * @property-read string $pattern <p>The delimiter pattern.</p>

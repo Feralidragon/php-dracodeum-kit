@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type\Exception;
 
 /**
- * Core type utility phpfy method exception class.
+ * Core type utility <code>phpfy</code> method exception class.
  * 
  * @since 1.0.0
  */

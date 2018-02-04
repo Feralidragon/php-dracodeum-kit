@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Byte\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core byte utility mvalue method invalid value exception class.
+ * Core byte utility <code>mvalue</code> method invalid value exception class.
  * 
- * This exception is thrown from the byte utility mvalue method whenever a given value is invalid.
+ * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
  * 
  * @since 1.0.0
  * @property-read string $value <p>The value.</p>

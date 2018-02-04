@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core text utility truncate method invalid length exception class.
+ * Core text utility <code>truncate</code> method invalid length exception class.
  * 
- * This exception is thrown from the text utility truncate method whenever a given length is invalid.
+ * This exception is thrown from the text utility <code>truncate</code> method whenever a given length is invalid.
  * 
  * @since 1.0.0
  * @property-read int $length <p>The length.</p>

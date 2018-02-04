@@ -10,9 +10,9 @@ namespace Feralygon\Kit\Core\Utilities\Base64\Exceptions;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
- * Core Base64 utility decode method invalid string exception class.
+ * Core Base64 utility <code>decode</code> method invalid string exception class.
  * 
- * This exception is thrown from the Base64 utility decode method whenever a given string is invalid.
+ * This exception is thrown from the Base64 utility <code>decode</code> method whenever a given string is invalid.
  * 
  * @since 1.0.0
  * @property-read string $string <p>The string.</p>
