@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Root\System\Environments;
 
 use Feralygon\Kit\Root\System\Environment;
+use Feralygon\Kit\Root\System;
 
 /**
  * Root system development environment class.
@@ -29,15 +30,13 @@ class Development extends Environment
 		return true;
 	}
 	
-	/** {@inheritdoc} */
-	public function canDisplayErrors() : bool
-	{
-		return true;
-	}
 	
+	
+	//Implemented protected methods
 	/** {@inheritdoc} */
-	public function getErrorReportingFlags() : int
+	protected function initialize() : void
 	{
-		return E_ALL;
+		System::setIniOption('display_errors', true);
+		System::setErrorReportingFlags(E_ALL);
 	}
 }

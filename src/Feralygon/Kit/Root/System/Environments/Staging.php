@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Root\System\Environments;
 
 use Feralygon\Kit\Root\System\Environment;
+use Feralygon\Kit\Root\System;
 
 /**
  * Root system staging environment class.
@@ -29,15 +30,13 @@ class Staging extends Environment
 		return false;
 	}
 	
-	/** {@inheritdoc} */
-	public function canDisplayErrors() : bool
-	{
-		return true;
-	}
 	
+	
+	//Implemented protected methods
 	/** {@inheritdoc} */
-	public function getErrorReportingFlags() : int
+	protected function initialize() : void
 	{
-		return E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED;
+		System::setIniOption('display_errors', true);
+		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
 	}
 }

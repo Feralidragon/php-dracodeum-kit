@@ -29,8 +29,7 @@ abstract class Environment
 	 * Get name.
 	 * 
 	 * The returning name defines an unique canonical identifier for this environment, 
-	 * to be used in situations where it is required to identify the environment through such a name,
-	 * such as to select which configuration files to use through the usage of this name in their filename.
+	 * to be used to select which configuration profile to use.
 	 * 
 	 * @since 1.0.0
 	 * @return string <p>The name.</p>
@@ -40,35 +39,23 @@ abstract class Environment
 	/**
 	 * Check if is debug.
 	 * 
-	 * In a debug environment, the system behaves in such a way so that code can be easily modified and tested,
-	 * at the potential cost of lower performance and a higher memory footprint.
+	 * In a debug environment, the system behaves in such a way so that code can be easily debugged, 
+	 * by performing additional integrity checks during runtime, at the potential cost of lower performance 
+	 * and a higher memory footprint.
 	 * 
 	 * @since 1.0.0
 	 * @return bool <p>Boolean <code>true</code> if is debug.</p>
 	 */
 	abstract public function isDebug() : bool;
 	
-	/**
-	 * Check if errors can be displayed.
-	 * 
-	 * If boolean <code>true</code> is returned, any unsuppressed errors will be displayed to the end-user,
-	 * either in the console for a CLI application or in the browser for a web server application.<br>
-	 * If the system is set to work as a library however, this method has no effect whatsoever.
-	 * 
-	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if errors can be displayed.</p>
-	 */
-	abstract public function canDisplayErrors() : bool;
 	
+	
+	//Abstract protected methods
 	/**
-	 * Get error reporting bitwise flags.
-	 * 
-	 * The returning error flags define which kinds of errors are reported and written to the error log.<br>
-	 * If the system is set to work as a library however, this method has no effect whatsoever.
+	 * Initialize.
 	 * 
 	 * @since 1.0.0
-	 * @see https://php.net/manual/en/errorfunc.constants.php
-	 * @return int <p>The error reporting bitwise flags.</p>
+	 * @return void
 	 */
-	abstract public function getErrorReportingFlags() : int;
+	abstract protected function initialize() : void;
 }

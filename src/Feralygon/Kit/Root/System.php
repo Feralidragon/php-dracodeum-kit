@@ -87,11 +87,13 @@ final class System
 		}
 		
 		//set
-		if (!Vendor::isLibrary()) {
-			ini_set('display_errors', $environment->canDisplayErrors());
-			error_reporting($environment->getErrorReportingFlags());
-		}
 		self::$environment = $environment;
+		
+		//initialize
+		$initializer = (function () : void {
+			$this->initialize();
+		})->bindTo($environment, $environment);
+		$initializer();
 	}
 	
 	/**
