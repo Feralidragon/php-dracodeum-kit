@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
 use Feralygon\Kit\Core\Components\Input\Exception;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input component not initialized exception class.
@@ -39,13 +36,13 @@ class NotInitialized extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'error_message':
-				return UType::evaluateString($value, false, true);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('error_message', false, false, true);
 	}
 	
 	/** {@inheritdoc} */

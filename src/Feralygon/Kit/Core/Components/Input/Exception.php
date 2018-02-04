@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Core\Components\Input;
 
 use Feralygon\Kit\Core;
 use Feralygon\Kit\Core\Components\Input;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core input component exception class.
@@ -21,25 +20,11 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  */
 abstract class Exception extends Core\Exception
 {
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['component', 'prototype'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'component':
-				return is_object($value) && UType::isA($value, Input::class);
-			case 'prototype':
-				return is_object($value) && UType::isA($value, Input::getPrototypeBaseClass());
-		}
-		return null;
+		$this->addStrictObjectProperty('component', true, Input::class);
+		$this->addStrictObjectProperty('prototype', true, Input::getPrototypeBaseClass());
 	}
 }

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Root\Locale\Exceptions;
 
 use Feralygon\Kit\Root\Locale\Exception;
 use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -39,28 +38,18 @@ class InvalidEncoding extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['encoding'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'encoding':
-				return UType::evaluateString($value);
-			case 'encodings':
-				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value, true);
-				}, true);
-		}
-		return null;
+		//properties
+		$this->addStringProperty('encoding', true);
+		$this->addArrayProperty('encodings', false, function (&$key, &$value) : bool {
+			return UType::evaluateString($value, true);
+		}, true);
+		
+		//defaults
+		$this->setPropertyDefaultValue('encodings', []);
 	}
 	
 	

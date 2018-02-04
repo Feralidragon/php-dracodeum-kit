@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property\Exce
 
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property\Exception;
 use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -20,7 +19,7 @@ use Feralygon\Kit\Core\Utilities\{
  * This exception is thrown from an extended lazy properties trait property object whenever a given mode is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $mode <p>The mode.</p>
+ * @property-read string $mode <p>The mode.</p>
  * @property-read string[] $modes [default = []] <p>The allowed modes.</p>
  */
 class InvalidMode extends Exception
@@ -39,38 +38,21 @@ class InvalidMode extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['mode']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'modes':
-				return [];
-		}
-		return parent::getDefaultPropertyValue($name);
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'mode':
-				return true;
-			case 'modes':
-				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value, true);
-				}, true);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('mode', true);
+		$this->addArrayProperty('modes', false, function (&$key, &$value) : bool {
+			return UType::evaluateString($value, true);
+		}, true);
+		
+		//defaults
+		$this->setPropertyDefaultValue('modes', []);
 	}
 	
 	/** {@inheritdoc} */

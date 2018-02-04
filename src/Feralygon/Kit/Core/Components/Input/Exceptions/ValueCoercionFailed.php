@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
 use Feralygon\Kit\Core\Components\Input\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
-use Feralygon\Kit\Core\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
  * Core input component value coercion failed exception class.
@@ -35,26 +32,16 @@ class ValueCoercionFailed extends Exception implements ICoercion
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['value', 'error_message']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'value':
-				return true;
-			case 'error_message':
-				return UType::evaluateString($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addMixedProperty('value', true);
+		$this->addStringProperty('error_message', true);
 	}
 	
 	/** {@inheritdoc} */

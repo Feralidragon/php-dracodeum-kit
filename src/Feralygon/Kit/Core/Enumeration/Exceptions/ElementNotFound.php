@@ -28,23 +28,16 @@ class ElementNotFound extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['element']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'element':
-				return is_int($value) || is_float($value) || is_string($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addProperty('element', function (&$value) : bool {
+			return is_int($value) || is_float($value) || is_string($value);
+		}, true);
 	}
 }

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer\Exceptions;
 
 use Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer\Exception;
 use Feralygon\Kit\Core\Prototypes\Inputs\Numbers\Integer;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core integer number input prototype invalid bits exception class.
@@ -38,42 +37,17 @@ class InvalidBits extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['bits', 'max_bits', 'prototype'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'bits':
-				//no break
-			case 'max_bits':
-				return UType::evaluateInteger($value);
-			case 'prototype':
-				return is_object($value) && UType::isA($value, Integer::class);
-			case 'unsigned':
-				return UType::evaluateBoolean($value);
-		}
-		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		switch ($name) {
-			case 'unsigned':
-				return false;
-		}
-		return parent::getDefaultPropertyValue($name);
+		//properties
+		$this->addIntegerProperty('bits', true);
+		$this->addIntegerProperty('max_bits', true);
+		$this->addStrictObjectProperty('prototype', true, Integer::class);
+		$this->addBooleanProperty('unsigned');
+		
+		//defaults
+		$this->setPropertyDefaultValue('unsigned', false);
 	}
 }

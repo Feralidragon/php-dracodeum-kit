@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Component\Exceptions;
 
 use Feralygon\Kit\Core\Component\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core component prototype name not found exception class.
@@ -24,28 +23,19 @@ class PrototypeNameNotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Prototype name {{name}} not found for component {{component}}.";
-	}
-	
-	
-	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name']);
+		return "Prototype name {{name}} not found in component {{component}}.";
 	}
 	
 	
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('name', true);
 	}
 }

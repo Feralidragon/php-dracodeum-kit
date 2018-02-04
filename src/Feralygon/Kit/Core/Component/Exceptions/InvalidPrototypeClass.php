@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Component\Exceptions;
 
 use Feralygon\Kit\Core\Component\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Prototype;
 
 /**
  * Core component invalid prototype class exception class.
@@ -17,7 +17,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read string $class <p>The class.</p>
- * @property-read string $base_class <p>The base class.</p>
+ * @property-read string $base_class <p>The prototype base class.</p>
  */
 class InvalidPrototypeClass extends Exception
 {
@@ -31,25 +31,15 @@ class InvalidPrototypeClass extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['class', 'base_class']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'class':
-				return UType::evaluateString($value);
-			case 'base_class':
-				return UType::evaluateClass($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('class', true);
+		$this->addClassProperty('base_class', true, Prototype::class);
 	}
 }

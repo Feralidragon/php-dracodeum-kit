@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Root\System\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Root system <code>setIniOption</code> method invalid value type exception class.
  * 
@@ -31,27 +29,12 @@ class SetIniOptionInvalidValueType extends SetIniOption
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name', 'value', 'type'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-			case 'value':
-				return true;
-			case 'type':
-				return UType::evaluateString($value, true);
-		}
-		return null;
+		$this->addStringProperty('name', true);
+		$this->addMixedProperty('value', true);
+		$this->addStringProperty('type', true, true);
 	}
 }

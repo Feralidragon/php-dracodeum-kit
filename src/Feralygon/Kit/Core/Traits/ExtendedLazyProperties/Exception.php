@@ -18,23 +18,10 @@ use Feralygon\Kit\Core;
  */
 abstract class Exception extends Core\Exception
 {
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['object'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'object':
-				return is_object($value);
-		}
-		return null;
+		$this->addStrictObjectProperty('object', true);
 	}
 }

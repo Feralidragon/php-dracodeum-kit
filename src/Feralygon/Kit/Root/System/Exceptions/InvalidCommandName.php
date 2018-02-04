@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Root\System\Exceptions;
 
 use Feralygon\Kit\Root\System\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Root system invalid command name exception class.
@@ -31,23 +30,10 @@ class InvalidCommandName extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('name', true);
 	}
 }

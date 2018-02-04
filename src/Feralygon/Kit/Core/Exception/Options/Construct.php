@@ -14,7 +14,7 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core exception construct method options class.
+ * Core exception <code>construct</code> method options class.
  * 
  * @since 1.0.0
  * @property string|null $message [default = null] <p>The message, 

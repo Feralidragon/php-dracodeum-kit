@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core extended lazy properties trait property not found exception class.
@@ -30,23 +29,14 @@ class PropertyNotFound extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('name', true);
 	}
 }
