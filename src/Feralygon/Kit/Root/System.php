@@ -97,6 +97,21 @@ final class System
 	}
 	
 	/**
+	 * Check if is in debug mode.
+	 * 
+	 * When in debug mode, the system behaves in such a way so that code can be easily debugged, 
+	 * by performing additional integrity checks during runtime, at the potential cost of lower performance 
+	 * and a higher memory footprint.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if is in debug mode.</p>
+	 */
+	final public static function isDebug() : bool
+	{
+		return self::getEnvironment()->isDebug();
+	}
+	
+	/**
 	 * Set <samp>php.ini</samp> configuration option with a given name with a given value.
 	 * 
 	 * This method is mostly equivalent to the PHP core <code>ini_set</code> function, however it holds no effect 

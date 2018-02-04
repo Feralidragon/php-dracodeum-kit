@@ -577,7 +577,7 @@ final class Call extends Utility
 		string $name, callable $function, callable $template, bool $throw_exception = false
 	) : bool
 	{
-		if (System::getEnvironment()->isDebug()) {
+		if (System::isDebug()) {
 			$function_signature = self::signature($function);
 			$template_signature = self::signature($template);
 			if ($function_signature !== $template_signature) {
@@ -669,7 +669,7 @@ final class Call extends Utility
 				'error_message' => "Only a callable value is allowed."
 			]);
 		} elseif (
-			isset($template) && (!$assertive || System::getEnvironment()->isDebug()) && 
+			isset($template) && (!$assertive || System::isDebug()) && 
 			self::signature($value) !== self::signature($template)
 		) {
 			throw new Exceptions\CoercionFailed([

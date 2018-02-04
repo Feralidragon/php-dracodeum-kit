@@ -65,7 +65,7 @@ trait Functions
 		$template = ($this->functions_templater)($name);
 		if (!isset($template)) {
 			throw new Exceptions\FunctionNotFound(['object' => $this, 'name' => $name]);
-		} elseif (System::getEnvironment()->isDebug()) {
+		} elseif (System::isDebug()) {
 			$function_signature = UCall::signature($function);
 			$template_signature = UCall::signature($template);
 			if ($function_signature !== $template_signature) {
