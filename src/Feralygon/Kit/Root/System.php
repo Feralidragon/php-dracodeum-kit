@@ -102,7 +102,7 @@ final class System
 	 * and an integer, float, boolean or <samp>null</samp> value is also safely accepted.
 	 * 
 	 * @since 1.0.0
-	 * @see https://www.php.net/manual/en/function.ini-set.php
+	 * @see https://php.net/manual/en/function.ini-set.php
 	 * @param string $name <p>The <samp>php.ini</samp> configuration option name to set for.</p>
 	 * @param string|int|float|bool|null $value <p>The <samp>php.ini</samp> configuration option value to set.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionInvalidValueType
@@ -135,6 +135,25 @@ final class System
 		//set
 		if (ini_set($name, $ini_value) === false) {
 			throw new Exceptions\SetIniOptionFailed(['name' => $name, 'value' => $value]);
+		}
+	}
+	
+	/**
+	 * Set error reporting flags.
+	 * 
+	 * This method is mostly equivalent to the PHP core <code>error_reporting</code> function, 
+	 * however it holds no effect if the package is set to be used as a library.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.error-reporting.php
+	 * @see https://php.net/manual/en/errorfunc.constants.php
+	 * @param int $flags <p>The error reporting flags to set.</p>
+	 * @return void
+	 */
+	final public static function setErrorReportingFlags(int $flags) : void
+	{
+		if (!Vendor::isLibrary()) {
+			error_reporting($flags);
 		}
 	}
 	
