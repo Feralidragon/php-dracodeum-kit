@@ -1597,7 +1597,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Unwrap a given array into a multiple dimensional one.
+	 * Expand a given array into a multiple dimensional one.
 	 * 
 	 * The returning array is a multiple dimensional one with all the paths broken down into nested keys.<br>
 	 * Each path is recognized as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
@@ -1606,42 +1606,53 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is converted to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to unwrap.</p>
+	 * @param array $array <p>The array to expand.</p>
 	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
+	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the expansion at.<br>
+	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @return array <p>The unwrapped array.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
+	 * @return array <p>The expanded array.</p>
 	 */
-	final public static function unwrap(array $array, string $delimiter = '.') : array
+	final public static function expand(array $array, string $delimiter = '.', ?int $depth = null) : array
 	{
 		//validate
 		if (strlen($delimiter) !== 1) {
 			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
 		}
 		
-		//unwrap
-		$unwrap = [];
+		//depth
+		if ($depth === 0) {
+			return $array;
+		} elseif (isset($depth) && $depth < 0) {
+			throw new Exceptions\InvalidDepth(['depth' => $depth]);
+		}
+		$next_depth = isset($depth) ? $depth - 1 : null;
+		
+		//expand
+		$f_array = [];
 		foreach ($array as $path => $value) {
 			[$key, $path2] = explode($delimiter, $path, 2) + [1 => null];
 			if (isset($path2)) {
-				if (!array_key_exists($key, $unwrap) || !is_array($unwrap[$key])) {
-					$unwrap[$key] = [];
+				if (!array_key_exists($key, $f_array) || !is_array($f_array[$key])) {
+					$f_array[$key] = [];
 				}
-				$unwrap[$key][$path2] = $value;
+				$f_array[$key][$path2] = $value;
 			} else {
-				$unwrap[$key] = $value;
+				$f_array[$key] = $value;
 			}
 		}
 		
 		//recursion
-		foreach ($unwrap as $k => $v) {
+		foreach ($f_array as $k => $v) {
 			if (is_array($v)) {
-				$unwrap[$k] = self::unwrap($v, $delimiter);
+				$f_array[$k] = self::expand($v, $delimiter, $next_depth);
 			}
 		}
 		
 		//return
-		return $unwrap;
+		return $f_array;
 	}
 	
 	/**
