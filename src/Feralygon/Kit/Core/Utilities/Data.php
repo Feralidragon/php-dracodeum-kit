@@ -1517,6 +1517,62 @@ final class Data extends Utility
 	}
 	
 	/**
+	 * Retrieve the first value from a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array <p>The array to retrieve from.</p>
+	 * @return mixed <p>The first value from the given array or <code>null</code> if none exists.</p>
+	 */
+	final public static function first(array $array)
+	{
+		return empty($array) ? null : reset($array);
+	}
+	
+	/**
+	 * Retrieve the first key from a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array <p>The array to retrieve from.</p>
+	 * @return int|string|null <p>The first key from the given array or <code>null</code> if none exists.</p>
+	 */
+	final public static function kfirst(array $array)
+	{
+		if (empty($array)) {
+			return null;
+		}
+		reset($array);
+		return key($array);
+	}
+	
+	/**
+	 * Retrieve the last value from a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array <p>The array to retrieve from.</p>
+	 * @return mixed <p>The last value from the given array or <code>null</code> if none exists.</p>
+	 */
+	final public static function last(array $array)
+	{
+		return empty($array) ? null : end($array);
+	}
+	
+	/**
+	 * Retrieve the last key from a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array <p>The array to retrieve from.</p>
+	 * @return int|string|null <p>The last key from the given array or <code>null</code> if none exists.</p>
+	 */
+	final public static function klast(array $array)
+	{
+		if (empty($array)) {
+			return null;
+		}
+		end($array);
+		return key($array);
+	}
+	
+	/**
 	 * Collapse a given array into a single dimensional pathed one.
 	 * 
 	 * The returning array is a single dimensional one of non-array values with all the nested keys set as paths.<br>
