@@ -778,7 +778,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Get placeholders from a given string.
+	 * Retrieve placeholders from a given string.
 	 * 
 	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, 
 	 * and they must be exclusively composed by identifiers, which are defined as words which must start with 
@@ -796,7 +796,7 @@ final class Text extends Utility
 	 * @throws \Feralygon\Kit\Core\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return string[] <p>The placeholders from the given string.</p>
 	 */
-	final public static function getPlaceholders(string $string) : array
+	final public static function placeholders(string $string) : array
 	{
 		$placeholders = [];
 		if (preg_match_all('/\{{2}(.*)\}{2}/U', $string, $matches) > 0) {

@@ -45,7 +45,7 @@ abstract class Exception extends \Exception implements \ArrayAccess, IArrayable
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();
-		$placeholders = UText::getPlaceholders($message);
+		$placeholders = UText::placeholders($message);
 		if (!empty($placeholders)) {
 			//parameters
 			$parameters = [];
