@@ -28,23 +28,10 @@ class InvalidObjectClass extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['object_class'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'object_class':
-				return true;
-		}
-		return null;
+		$this->addMixedProperty('object_class', true);
 	}
 }

@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Math\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core math utility <code>wrandom</code> method invalid value weight exception class.
  * 
@@ -30,25 +28,13 @@ class WrandomInvalidValueWeight extends Wrandom
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['value', 'weight'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'value':
-				return UType::evaluateInteger($value) || UType::evaluateString($value);
-			case 'weight':
-				return true;
-		}
-		return null;
+		$this->addProperty('value', function (&$value) : bool {
+			return is_int($value) || is_string($value);
+		}, true);
+		$this->addMixedProperty('weight', true);
 	}
 }

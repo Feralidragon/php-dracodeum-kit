@@ -7,10 +7,7 @@
 
 namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\{
-	Time as UTime,
-	Type as UType
-};
+use Feralygon\Kit\Core\Utilities\Time as UTime;
 
 /**
  * Core time utility <code>generate</code> method start later than end exception class.
@@ -32,26 +29,12 @@ class GenerateStartLaterThanEnd extends Generate
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['start', 'end'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'start':
-				//no break
-			case 'end':
-				return UType::evaluateNumber($value);
-		}
-		return null;
+		$this->addNumberProperty('start', true);
+		$this->addNumberProperty('end', true);
 	}
 	
 	

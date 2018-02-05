@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\Memoization\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Memoization\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core memoization trait no memoized value found exception class.
@@ -33,38 +32,15 @@ class NoMemoizedValueFound extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['key'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'key':
-				//no break
-			case 'namespace':
-				return UType::evaluateString($value);
-		}
-		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		switch ($name) {
-			case 'namespace':
-				return '';
-		}
-		return parent::getDefaultPropertyValue($name);
+		//properties
+		$this->addStringProperty('key', true);
+		$this->addStringProperty('namespace');
+		
+		//defaults
+		$this->setPropertyDefaultValue('namespace', '');
 	}
 }

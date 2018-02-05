@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Data\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core data utility path key set into non-array exception class.
@@ -33,27 +32,12 @@ class PathKeySetIntoNonArray extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['path', 'key', 'value'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'path':
-				//no break
-			case 'key':
-				return UType::evaluateString($value);
-			case 'value':
-				return true;
-		}
-		return null;
+		$this->addStringProperty('path', true);
+		$this->addStringProperty('key', true);
+		$this->addMixedProperty('value', true);
 	}
 }

@@ -46,31 +46,18 @@ class BooleanCoercionFailed extends Exception implements ICoercion
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['value'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'value':
-				return true;
-			case 'error_code':
-				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
-					self::ERROR_CODE_NULL,
-					self::ERROR_CODE_INVALID
-				], true));
-			case 'error_message':
-				return UType::evaluateString($value, false, true);
-		}
-		return null;
+		$this->addMixedProperty('value', true);
+		$this->addProperty('error_code', function (&$value) : bool {
+			return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+				self::ERROR_CODE_NULL,
+				self::ERROR_CODE_INVALID
+			], true));
+		});
+		$this->addStringProperty('error_message', false, false, true);
 	}
 	
 	

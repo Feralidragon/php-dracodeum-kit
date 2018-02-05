@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>mparse</code> method invalid field pattern exception class.
  * 
@@ -30,25 +28,11 @@ class MparseInvalidFieldPattern extends Mparse
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['field', 'pattern'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'field':
-				return UType::evaluateString($value);
-			case 'pattern':
-				return true;
-		}
-		return null;
+		$this->addStringProperty('field', true);
+		$this->addMixedProperty('pattern', true);
 	}
 }

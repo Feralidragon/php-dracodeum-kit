@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core time utility <code>generate</code> method invalid interval exception class.
  * 
@@ -29,23 +27,10 @@ class GenerateInvalidInterval extends Generate
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['interval'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'interval':
-				return UType::evaluateNumber($value);
-		}
-		return null;
+		$this->addNumberProperty('interval', true);
 	}
 }

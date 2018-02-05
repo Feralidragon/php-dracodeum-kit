@@ -9,10 +9,6 @@ namespace Feralygon\Kit\Core\Utilities\Call\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Call\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Type as UType
-};
 
 /**
  * Core call utility signature assertion failed exception class.
@@ -51,33 +47,15 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['name', 'function', 'template', 'function_signature', 'template_signature'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-			case 'function':
-				//no break
-			case 'template':
-				return UCall::evaluate($value);
-			case 'function_signature':
-				//no break
-			case 'template_signature':
-				return UType::evaluateString($value);
-			case 'object_class':
-				return UType::evaluateObjectClass($value, null, true);
-		}
-		return null;
+		$this->addStringProperty('name', true);
+		$this->addCallableProperty('function', true);
+		$this->addCallableProperty('template', true);
+		$this->addStringProperty('function_signature', true);
+		$this->addStringProperty('template_signature', true);
+		$this->addObjectClassProperty('object_class', false, null, true);
 	}
 }

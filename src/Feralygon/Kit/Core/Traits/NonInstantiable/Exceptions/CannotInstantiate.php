@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\NonInstantiable\Exceptions;
 
 use Feralygon\Kit\Core\Traits\NonInstantiable\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core non-instantiable trait cannot instantiate exception class.
@@ -30,23 +29,10 @@ class CannotInstantiate extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['class'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'class':
-				return UType::evaluateClass($value);
-		}
-		return null;
+		$this->addClassProperty('class', true);
 	}
 }

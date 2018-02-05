@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Data\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core data utility invalid depth exception class.
@@ -30,23 +29,10 @@ class InvalidDepth extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['depth'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'depth':
-				return UType::evaluateInteger($value);
-		}
-		return null;
+		$this->addIntegerProperty('depth', true);
 	}
 }

@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Properties\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core properties trait invalid property value exception class.
@@ -31,25 +30,15 @@ class InvalidPropertyValue extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['name', 'value']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-			case 'value':
-				return true;
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('name', true);
+		$this->addMixedProperty('value', true);
 	}
 }

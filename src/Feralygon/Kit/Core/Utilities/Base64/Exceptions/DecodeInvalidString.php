@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Base64\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core Base64 utility <code>decode</code> method invalid string exception class.
  * 
@@ -37,38 +35,15 @@ class DecodeInvalidString extends Decode
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['string'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'string':
-				return UType::evaluateString($value);
-			case 'url_safe':
-				return UType::evaluateBoolean($value);
-		}
-		return null;
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		switch ($name) {
-			case 'url_safe':
-				return false;
-		}
-		return parent::getDefaultPropertyValue($name);
+		//properties
+		$this->addStringProperty('string', true);
+		$this->addBooleanProperty('url_safe');
+		
+		//defaults
+		$this->setPropertyDefaultValue('url_safe', false);
 	}
 }

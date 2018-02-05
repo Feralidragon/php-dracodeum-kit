@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Call\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Call\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core call utility invalid stack offset exception class.
@@ -30,23 +29,10 @@ class InvalidStackOffset extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['offset'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'offset':
-				return UType::evaluateInteger($value);
-		}
-		return null;
+		$this->addIntegerProperty('offset', true);
 	}
 }

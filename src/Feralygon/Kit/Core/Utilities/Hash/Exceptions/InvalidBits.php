@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Hash\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Hash\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core hash utility invalid bits exception class.
@@ -30,23 +29,10 @@ class InvalidBits extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['bits'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'bits':
-				return UType::evaluateInteger($value);
-		}
-		return null;
+		$this->addIntegerProperty('bits', true);
 	}
 }

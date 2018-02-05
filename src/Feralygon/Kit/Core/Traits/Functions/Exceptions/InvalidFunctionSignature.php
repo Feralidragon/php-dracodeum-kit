@@ -8,10 +8,6 @@
 namespace Feralygon\Kit\Core\Traits\Functions\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Functions\Exception;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Type as UType
-};
 
 /**
  * Core functions trait invalid function signature exception class.
@@ -38,33 +34,18 @@ class InvalidFunctionSignature extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(
-			parent::getRequiredPropertyNames(), ['name', 'function', 'template', 'signature', 'template_signature']
-		);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'name':
-				return UType::evaluateString($value);
-			case 'function':
-				//no break
-			case 'template':
-				return UCall::evaluate($value);
-			case 'signature':
-				//no break
-			case 'template_signature':
-				return UType::evaluateString($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addStringProperty('name', true);
+		$this->addCallableProperty('function', true);
+		$this->addCallableProperty('template', true);
+		$this->addStringProperty('signature', true, true);
+		$this->addStringProperty('template_signature', true, true);
 	}
 }

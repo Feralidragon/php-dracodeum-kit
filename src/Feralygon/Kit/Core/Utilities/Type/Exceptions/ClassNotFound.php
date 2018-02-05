@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core type utility class not found exception class.
@@ -29,23 +28,10 @@ class ClassNotFound extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['class'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'class':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('class', true);
 	}
 }

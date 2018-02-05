@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Data\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core data utility path not found exception class.
@@ -29,23 +28,10 @@ class PathNotFound extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['path'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'path':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('path', true);
 	}
 }

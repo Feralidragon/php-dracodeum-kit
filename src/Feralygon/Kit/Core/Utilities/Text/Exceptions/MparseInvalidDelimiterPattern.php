@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>mparse</code> method invalid delimiter pattern exception class.
  * 
@@ -29,23 +27,10 @@ class MparseInvalidDelimiterPattern extends Mparse
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['pattern'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'pattern':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('pattern', true);
 	}
 }

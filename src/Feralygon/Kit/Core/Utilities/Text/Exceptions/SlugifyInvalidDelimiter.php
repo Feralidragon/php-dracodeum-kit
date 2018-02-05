@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>slugify</code> method invalid delimiter exception class.
  * 
@@ -29,23 +27,10 @@ class SlugifyInvalidDelimiter extends Slugify
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['delimiter'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'delimiter':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('delimiter', true);
 	}
 }

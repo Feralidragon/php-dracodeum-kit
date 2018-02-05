@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Math\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core math utility <code>mnumber</code> method invalid number exception class.
  * 
@@ -28,23 +26,10 @@ class MnumberInvalidNumber extends Mnumber
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['number'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'number':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('number', true);
 	}
 }

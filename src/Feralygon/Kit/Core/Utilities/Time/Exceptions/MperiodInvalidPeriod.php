@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Time\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core time utility <code>mperiod</code> method invalid period exception class.
  * 
@@ -28,23 +26,10 @@ class MperiodInvalidPeriod extends Mperiod
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['period'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'period':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('period', true);
 	}
 }

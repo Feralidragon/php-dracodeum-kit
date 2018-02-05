@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
 
 use Feralygon\Kit\Core\Traits\LazyProperties\Exception;
 use Feralygon\Kit\Core\Utilities\{
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -35,26 +34,17 @@ class MissingRequiredProperties extends Exception
 	
 	
 	
-	//Overridden public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return array_merge(parent::getRequiredPropertyNames(), ['names']);
-	}
-	
-	
-	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'names':
-				return UData::evaluate($value, function (&$key, &$value) : bool {
-					return UType::evaluateString($value);
-				}, true, true);
-		}
-		return parent::evaluateProperty($name, $value);
+		//parent
+		parent::loadProperties();
+		
+		//properties
+		$this->addArrayProperty('names', true, function (&$key, &$value) : bool {
+			return UType::evaluateString($value);
+		}, true, true);
 	}
 	
 	/** {@inheritdoc} */

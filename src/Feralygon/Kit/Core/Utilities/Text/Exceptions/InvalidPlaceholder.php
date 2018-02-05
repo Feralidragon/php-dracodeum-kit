@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Text\Exception;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
  * Core text utility invalid placeholder exception class.
@@ -29,23 +28,10 @@ class InvalidPlaceholder extends Exception
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['placeholder'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'placeholder':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('placeholder', true);
 	}
 }

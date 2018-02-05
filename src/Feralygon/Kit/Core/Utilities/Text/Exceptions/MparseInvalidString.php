@@ -26,23 +26,10 @@ class MparseInvalidString extends Mparse
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['string'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'string':
-				return true;
-		}
-		return null;
+		$this->addMixedProperty('string', true);
 	}
 }

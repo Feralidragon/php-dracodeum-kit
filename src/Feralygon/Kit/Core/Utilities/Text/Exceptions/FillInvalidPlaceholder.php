@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>fill</code> method invalid placeholder exception class.
  * 
@@ -28,23 +26,10 @@ class FillInvalidPlaceholder extends Fill
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['placeholder'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'placeholder':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('placeholder', true);
 	}
 }

@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>indentate</code> method invalid level exception class.
  * 
@@ -29,23 +27,10 @@ class IndentateInvalidLevel extends Indentate
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['level'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'level':
-				return UType::evaluateInteger($value);
-		}
-		return null;
+		$this->addIntegerProperty('level', true);
 	}
 }

@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Byte\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core byte utility <code>mvalue</code> method invalid value exception class.
  * 
@@ -28,23 +26,10 @@ class MvalueInvalidValue extends Mvalue
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['value'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'value':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('value', true);
 	}
 }

@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Json\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core JSON utility <code>encode</code> method invalid data exception class.
  * 
@@ -34,28 +32,13 @@ class EncodeInvalidData extends Encode
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['data'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'data':
-				return true;
-			case 'error_code':
-				return UType::evaluateInteger($value, true);
-			case 'error_message':
-				return UType::evaluateString($value, false, true);
-		}
-		return null;
+		$this->addMixedProperty('data', true);
+		$this->addIntegerProperty('error_code', false, true);
+		$this->addStringProperty('error_message', false, false, true);
 	}
 	
 	

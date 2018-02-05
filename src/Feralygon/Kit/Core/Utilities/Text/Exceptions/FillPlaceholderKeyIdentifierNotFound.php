@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core text utility <code>fill</code> method placeholder key identifier not found exception class.
  * 
@@ -29,25 +27,11 @@ class FillPlaceholderKeyIdentifierNotFound extends Fill
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['placeholder', 'identifier'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'placeholder':
-				//no break
-			case 'identifier':
-				return UType::evaluateString($value);
-		}
-		return null;
+		$this->addStringProperty('placeholder', true);
+		$this->addStringProperty('identifier', true);
 	}
 }

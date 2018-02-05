@@ -7,8 +7,6 @@
 
 namespace Feralygon\Kit\Core\Utilities\Data\Exceptions;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
-
 /**
  * Core data utility <code>keyfy</code> method unsupported value type exception class.
  * 
@@ -29,25 +27,11 @@ class KeyfyUnsupportedValueType extends Keyfy
 	
 	
 	
-	//Implemented public static methods
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['value', 'type'];
-	}
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function loadProperties() : void
 	{
-		switch ($name) {
-			case 'value':
-				return true;
-			case 'type':
-				return UType::evaluateString($value, true);
-		}
-		return null;
+		$this->addMixedProperty('value', true);
+		$this->addStringProperty('type', true, true);
 	}
 }
