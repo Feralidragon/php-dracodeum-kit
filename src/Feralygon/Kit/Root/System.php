@@ -116,7 +116,7 @@ final class System
 	 * 
 	 * This method is mostly equivalent to the PHP core <code>ini_set</code> function, however it holds no effect 
 	 * if the package is set to be used as a library, throws an exception instead of failing silently, 
-	 * and an integer, float, boolean or <samp>null</samp> value is also safely accepted.
+	 * and an integer, float, boolean or <code>null</code> value is also safely accepted.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ini-set.php
