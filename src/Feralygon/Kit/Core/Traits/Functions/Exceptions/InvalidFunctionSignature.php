@@ -18,9 +18,9 @@ use Feralygon\Kit\Core\Traits\Functions\Exception;
  * @since 1.0.0
  * @property-read string $name <p>The function name.</p>
  * @property-read \Closure $function <p>The function.</p>
- * @property-read \Closure $template <p>The function template.</p>
- * @property-read string $signature <p>The function signature.</p>
- * @property-read string $template_signature <p>The function template signature.</p>
+ * @property-read \Closure $template <p>The template.</p>
+ * @property-read string $function_signature <p>The function signature.</p>
+ * @property-read string $template_signature <p>The template signature.</p>
  */
 class InvalidFunctionSignature extends Exception
 {
@@ -28,7 +28,7 @@ class InvalidFunctionSignature extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid signature {{signature}} for function {{name}} in object {{object}}.\n" . 
+		return "Invalid signature {{function_signature}} for function {{name}} in object {{object}}.\n" . 
 			"HINT: Only the following signature is allowed: {{template_signature}}.";
 	}
 	
@@ -45,7 +45,7 @@ class InvalidFunctionSignature extends Exception
 		$this->addStringProperty('name', true);
 		$this->addCallableProperty('function', true);
 		$this->addCallableProperty('template', true);
-		$this->addStringProperty('signature', true, true);
+		$this->addStringProperty('function_signature', true, true);
 		$this->addStringProperty('template_signature', true, true);
 	}
 }

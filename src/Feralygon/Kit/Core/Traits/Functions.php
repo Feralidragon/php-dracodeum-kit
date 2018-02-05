@@ -74,7 +74,7 @@ trait Functions
 					'name' => $name,
 					'function' => $function,
 					'template' => $template,
-					'signature' => $function_signature,
+					'function_signature' => $function_signature,
 					'template_signature' => $template_signature
 				]);
 			}

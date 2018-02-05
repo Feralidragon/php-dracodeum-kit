@@ -24,6 +24,7 @@ class PropertiesNotImplemented extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Properties not implemented in prototype {{prototype}}.\n" . 
-			"HINT: In order to use properties, the properties interface must be implemented by this prototype.";
+			"HINT: In order to use properties, the \"\\Feralygon\\Kit\\Core\\Prototype\\Interfaces\\Properties\" " . 
+			"interface must be implemented by this prototype.";
 	}
 }
