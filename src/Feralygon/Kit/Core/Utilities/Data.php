@@ -139,6 +139,12 @@ final class Data extends Utility
 	/** Non-associative exclude alignment (flag). */
 	public const ALIGN_NONASSOC_EXCLUDE = 0x02;
 	
+	/** Associative exclude collapse (flag). */
+	public const COLLAPSE_ASSOC_EXCLUDE = 0x01;
+	
+	/** Non-associative exclude collapse (flag). */
+	public const COLLAPSE_NONASSOC_EXCLUDE = 0x02;
+	
 	
 	
 	//Private constants
@@ -1511,7 +1517,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Wrap a given array into a single dimensional pathed one.
+	 * Collapse a given array into a single dimensional pathed one.
 	 * 
 	 * The returning array is a single dimensional one of non-array values with all the nested keys set as paths.<br>
 	 * Each path is set as <samp>key1 + delimiter + key2 + delimiter + ...</samp>, like so:<br>
@@ -1520,31 +1526,74 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar'][123]</code> is converted to <samp>foo.bar.123</samp>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to wrap.</p>
+	 * @param array $array <p>The array to collapse.</p>
 	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
+	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the collapse at.<br>
+	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * @param int $flags [default = 0x00] <p>The collapse bitwise flags, 
+	 * which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from collapsing.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from collapsing.
+	 * </p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @return array <p>The wrapped array.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\InvalidDepth
+	 * @return array <p>The collapsed array.</p>
 	 */
-	final public static function wrap(array $array, string $delimiter = '.') : array
+	final public static function collapse(
+		array $array, string $delimiter = '.', ?int $depth = null, int $flags = 0x00
+	) : array
 	{
 		//validate
 		if (strlen($delimiter) !== 1) {
 			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
 		}
 		
-		//wrap
-		$wrap = [];
+		//depth
+		if ($depth === 0) {
+			return $array;
+		} elseif (isset($depth) && $depth < 0) {
+			throw new Exceptions\InvalidDepth(['depth' => $depth]);
+		}
+		$next_depth = isset($depth) ? $depth - 1 : null;
+		
+		//initialize
+		$collapse = true;
+		$assoc_exclude = (bool)($flags & self::COLLAPSE_ASSOC_EXCLUDE);
+		$non_assoc_exclude = (bool)($flags & self::COLLAPSE_NONASSOC_EXCLUDE);
+		if ($assoc_exclude && $non_assoc_exclude) {
+			return $array;
+		} elseif ($assoc_exclude || $non_assoc_exclude) {
+			$is_assoc = self::isAssociative($array);
+			$collapse = ($assoc_exclude && !$is_assoc) || ($non_assoc_exclude && $is_assoc);
+		}
+		
+		//collapse
+		$f_array = [];
 		foreach ($array as $k => $v) {
-			if (is_array($v)) {
-				foreach (self::wrap($v, $delimiter) as $path => $value) {
-					$wrap[$k . $delimiter . $path] = $value;
+			if (is_array($v) && !empty($v)) {
+				//initialize
+				$v_collapse = true;
+				if ($assoc_exclude || $non_assoc_exclude) {
+					$is_v_assoc = self::isAssociative($v);
+					$v_collapse = ($assoc_exclude && !$is_v_assoc) || ($non_assoc_exclude && $is_v_assoc);
+				}
+				
+				//collapse
+				foreach (self::collapse($v, $delimiter, $next_depth, $flags) as $path => $value) {
+					if ($collapse && $v_collapse) {
+						$f_array[$k . $delimiter . $path] = $value;
+					} else {
+						$f_array[$k][$path] = $value;
+					}
 				}
 			} else {
-				$wrap[$k] = $v;
+				$f_array[$k] = $v;
 			}
 		}
-		return $wrap;
+		return $f_array;
 	}
 	
 	/**
