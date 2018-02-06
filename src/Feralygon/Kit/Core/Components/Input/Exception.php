@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Components\Input;
 
 use Feralygon\Kit\Core;
-use Feralygon\Kit\Core\Components\Input;
+use Feralygon\Kit\Core\Components\Input as Component;
 
 /**
  * Core input component exception class.
@@ -24,7 +24,7 @@ abstract class Exception extends Core\Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addStrictObjectProperty('component', true, Input::class);
-		$this->addStrictObjectProperty('prototype', true, Input::getPrototypeBaseClass());
+		$this->addStrictObjectProperty('component', true, Component::class);
+		$this->addStrictObjectProperty('prototype', true, Component::getPrototypeBaseClass());
 	}
 }
