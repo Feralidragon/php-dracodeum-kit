@@ -510,7 +510,7 @@ final class Call extends Utility
 	 * 
 	 * The returning signature from the given function is represented only by its parameters and return types.<br>
 	 * The expected return format is as follows:<br>
-	 * <samp>(parameter1_type, parameter2_type, ...) : return_type</samp>
+	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ) : return_type</samp>
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to retrieve from.</p>
@@ -523,8 +523,10 @@ final class Call extends Utility
 			$reflection = self::reflection($function);
 			
 			//parameter types
+			$optionals = 0;
 			$parameter_types = [];
-			foreach ($reflection->getParameters() as $parameter) {
+			foreach ($reflection->getParameters() as $i => $parameter) {
+				//type
 				$parameter_type = 'mixed';
 				$ptype = $parameter->getType();
 				if (isset($ptype)) {
@@ -539,9 +541,21 @@ final class Call extends Utility
 				if ($parameter->isVariadic()) {
 					$parameter_type = "...{$parameter_type}";
 				}
-				$parameter_types[] = $parameter_type;
+				$parameter_types[] = " {$parameter_type} ";
+				
+				//optional
+				if ($parameter->isOptional()) {
+					$optionals++;
+					if ($i > 0) {
+						$parameter_types[$i - 1] .= '[';
+					} else {
+						$parameter_types[$i] = "[{$parameter_types[$i]}";
+					}
+				}
 			}
-			$signature = '(' . implode(', ', $parameter_types) . ')';
+			$optionals_end = $optionals > 0 ? str_repeat(']', $optionals) . ' ' : '';
+			$signature = '(' . implode(',', $parameter_types) . $optionals_end . ')';
+			unset($parameter_types, $parameter_type, $optionals_end);
 			
 			//return type
 			$return_type = 'mixed';
