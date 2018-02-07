@@ -598,6 +598,104 @@ final class Call extends Utility
 	}
 	
 	/**
+	 * Check if a given function is compatible with a given template.
+	 * 
+	 * A function is considered to be compatible with a template whenever, 
+	 * upon calling both with the same number and type of parameters, 
+	 * they are guaranteed to succeed and to yield the expected return type.<br>
+	 * <br>
+	 * In other words, for a given function to be compatible with a given template, 
+	 * the following conditions must be met:<br>
+	 * &nbsp; &#8226; &nbsp; the function must support at least the same number of parameters as the template, 
+	 * and any additional function parameters must be optional;<br>
+	 * &nbsp; &#8226; &nbsp; for each template optional parameter, 
+	 * the corresponding function parameter must be optional as well;<br>
+	 * &nbsp; &#8226; &nbsp; each function parameter type must be invariant or contravariant with each 
+	 * corresponding template parameter type;<br>
+	 * &nbsp; &#8226; &nbsp; the function return type must be invariant or covariant with the template return type.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $function <p>The function to check.</p>
+	 * @param callable $template <p>The template callable declaration to check against.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
+	 */
+	final public static function isCompatible(callable $function, callable $template) : bool
+	{
+		return self::memoize(function () use ($function, $template) : bool {
+			//initialize
+			$f_reflection = self::reflection($function);
+			$t_reflection = self::reflection($template);
+			
+			//parameters contravariance
+			$f_parameters = $f_reflection->getParameters();
+			$t_parameters = $t_reflection->getParameters();
+			if (count($f_parameters) < count($t_parameters)) {
+				return false;
+			}
+			foreach ($f_parameters as $i => $f_parameter) {
+				//additional function parameter
+				if (!isset($t_parameters[$i])) {
+					if (!$f_parameter->isOptional()) {
+						return false;
+					}
+					continue;
+				}
+				
+				//parameter
+				$t_parameter = $t_parameters[$i];
+				if (
+					$f_parameter->isPassedByReference() !== $t_parameter->isPassedByReference() || 
+					$f_parameter->isVariadic() !== $t_parameter->isVariadic() || 
+					(!$f_parameter->isOptional() && $t_parameter->isOptional())
+				) {
+					return false;
+				}
+				
+				//parameter type
+				$f_type_reflection = $f_parameter->getType();
+				$t_type_reflection = $t_parameter->getType();
+				$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
+				$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
+				if ($f_type !== 'mixed') {
+					$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
+					$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
+					if (
+						(!$f_type_allows_null && $t_type_allows_null) || (
+							$f_type !== $t_type && 
+							(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($t_type, $f_type))
+						)
+					) {
+						return false;
+					}
+				}
+			}
+			
+			//return type covariance
+			$f_type_reflection = $f_reflection->getReturnType();
+			$t_type_reflection = $t_reflection->getReturnType();
+			$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
+			$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
+			if ($f_type === 'void' && $t_type !== 'void') {
+				return false;
+			} elseif ($t_type !== 'void' && $t_type !== 'mixed') {
+				$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
+				$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
+				if (
+					($f_type_allows_null && !$t_type_allows_null) || (
+						$f_type !== $t_type && 
+						(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($f_type, $t_type))
+					)
+				) {
+					return false;
+				}
+			}
+			
+			//return
+			return true;
+		});
+	}
+	
+	/**
 	 * Retrieve extension from a given function.
 	 * 
 	 * @since 1.0.0
