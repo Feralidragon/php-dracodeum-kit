@@ -274,11 +274,11 @@ final class Call extends Utility
 				
 				//name
 				$name = '$' . $parameter->getName();
-				if ($parameter->isPassedByReference()) {
-					$name = "&{$name}";
-				}
 				if ($parameter->isVariadic()) {
 					$name = "...{$name}";
+				}
+				if ($parameter->isPassedByReference()) {
+					$name = "&{$name}";
 				}
 				
 				//value
@@ -535,11 +535,11 @@ final class Call extends Utility
 						$parameter_type = "?{$parameter_type}";
 					}
 				}
-				if ($parameter->isPassedByReference()) {
-					$parameter_type = "&{$parameter_type}";
-				}
 				if ($parameter->isVariadic()) {
 					$parameter_type = "...{$parameter_type}";
+				}
+				if ($parameter->isPassedByReference()) {
+					$parameter_type = "&{$parameter_type}";
 				}
 				$parameter_types[] = " {$parameter_type} ";
 				
