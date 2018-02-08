@@ -205,7 +205,7 @@ abstract class Component implements \ArrayAccess
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ($prototype, array $prototype_properties, array $properties) : 
 	 * \Feralygon\Kit\Core\Component</code><br>
 	 * <br>
@@ -247,7 +247,7 @@ abstract class Component implements \ArrayAccess
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ($prototype, array $prototype_properties, array $properties) : 
 	 * \Feralygon\Kit\Core\Component</code><br>
 	 * <br>

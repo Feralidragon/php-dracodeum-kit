@@ -1750,7 +1750,7 @@ final class Data extends Utility
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -1791,7 +1791,7 @@ final class Data extends Utility
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>

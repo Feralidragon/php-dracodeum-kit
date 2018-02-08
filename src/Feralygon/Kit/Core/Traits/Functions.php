@@ -49,7 +49,7 @@ trait Functions
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionsNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionAlreadyBound
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionNotFound
-	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\InvalidFunctionSignature
+	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\InvalidFunction
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function bind(string $name, callable $function)
@@ -65,19 +65,15 @@ trait Functions
 		$template = ($this->functions_templater)($name);
 		if (!isset($template)) {
 			throw new Exceptions\FunctionNotFound(['object' => $this, 'name' => $name]);
-		} elseif (System::isDebug()) {
-			$function_signature = UCall::signature($function);
-			$template_signature = UCall::signature($template);
-			if ($function_signature !== $template_signature) {
-				throw new Exceptions\InvalidFunctionSignature([
-					'object' => $this,
-					'name' => $name,
-					'function' => $function,
-					'template' => $template,
-					'function_signature' => $function_signature,
-					'template_signature' => $template_signature
-				]);
-			}
+		} elseif (System::isDebug() && !UCall::isCompatible($function, $template)) {
+			throw new Exceptions\InvalidFunction([
+				'object' => $this,
+				'name' => $name,
+				'function' => $function,
+				'template' => $template,
+				'function_signature' => UCall::signature($function),
+				'template_signature' => UCall::signature($template)
+			]);
 		}
 		
 		//bind
@@ -118,7 +114,7 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param callable $templater <p>The function to retrieve the function template for a given name.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?callable</code><br>
 	 * <br>
 	 * Parameters:<br>

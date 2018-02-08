@@ -266,7 +266,7 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
 	 * @param callable $evaluator <p>The function to evaluate a given property value for a given name.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name, &$value) : ?bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -281,7 +281,7 @@ trait LazyProperties
 	 * </p>
 	 * @param callable|null $defaulter [default = null] <p>The function to retrieve a default property value 
 	 * for a given property name.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name)</code><br>
 	 * <br>
 	 * Parameters:<br>

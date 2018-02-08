@@ -945,7 +945,7 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param callable $evaluator <p>The function to evaluate a given value with.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value, ?callable &$error_messenger) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>

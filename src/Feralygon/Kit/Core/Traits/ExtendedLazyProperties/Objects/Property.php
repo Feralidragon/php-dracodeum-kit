@@ -238,7 +238,7 @@ final class Property
 	 * 
 	 * @since 1.0.0
 	 * @param callable $evaluator <p>The evaluator function to set.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -580,10 +580,10 @@ final class Property
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsCallable(
@@ -601,10 +601,10 @@ final class Property
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsClosure(
@@ -630,7 +630,7 @@ final class Property
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -663,7 +663,7 @@ final class Property
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>

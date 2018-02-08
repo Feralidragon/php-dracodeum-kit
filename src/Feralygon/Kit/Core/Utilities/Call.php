@@ -620,9 +620,9 @@ final class Call extends Utility
 	 * and any additional function parameters must be optional;<br>
 	 * &nbsp; &#8226; &nbsp; for each template optional parameter, 
 	 * the corresponding function parameter must be optional as well;<br>
-	 * &nbsp; &#8226; &nbsp; each function parameter type must be invariant or contravariant with each 
+	 * &nbsp; &#8226; &nbsp; each function parameter type must be an invariant or contravariant of each 
 	 * corresponding template parameter type;<br>
-	 * &nbsp; &#8226; &nbsp; the function return type must be invariant or covariant with the template return type.
+	 * &nbsp; &#8226; &nbsp; the function return type must be an invariant or covariant of the template return type.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $function <p>The function to check.</p>
@@ -725,10 +725,10 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(
@@ -749,10 +749,10 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Coerce in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\CoercionFailed
 	 * @return callable|null <p>The given value coerced into a callable.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
@@ -776,15 +776,12 @@ final class Call extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 				'error_message' => "Only a callable value is allowed."
 			]);
-		} elseif (
-			isset($template) && (!$assertive || System::isDebug()) && 
-			self::signature($value) !== self::signature($template)
-		) {
+		} elseif (isset($template) && (!$assertive || System::isDebug()) && !self::isCompatible($value, $template)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,
 				'error_message' => Text::fill(
-					"Only a callable value with the following signature is allowed: {{template_signature}}.",
+					"Only a callable value with a signature compatible with {{template_signature}} is allowed.",
 					['template_signature' => self::signature($template)]
 				)
 			]);

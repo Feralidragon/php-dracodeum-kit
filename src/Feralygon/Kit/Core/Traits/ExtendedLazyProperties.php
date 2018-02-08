@@ -290,7 +290,7 @@ trait ExtendedLazyProperties
 	 * @since 1.0.0
 	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
 	 * @param callable $builder <p>The function to build a property instance for a given name.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?\Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>

@@ -263,7 +263,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
 	 * @param callable|null $evaluator [default = null] <p>The function to evaluate a given property value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -726,10 +726,10 @@ trait Properties
 	 * @param string $name <p>The property name to add.</p>
 	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
@@ -752,10 +752,10 @@ trait Properties
 	 * @param string $name <p>The property name to add.</p>
 	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the signature against.</p>
+	 * to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false] <p>Allow a property value to evaluate as <code>null</code>.</p>
 	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template one, only when in a debug environment.</p>
+	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
 	 * @param bool $override [default = false] <p>Override any existing property with the same name.</p>
 	 * @return void
 	 */
@@ -786,7 +786,7 @@ trait Properties
 	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -824,7 +824,7 @@ trait Properties
 	 * @param bool $required [default = false] <p>Set property as required to be given during instantiation.</p>
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
 	 * in the resulting array value.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -899,7 +899,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
 	 * @param callable $loader <p>The function to load all properties.<br>
-	 * The expected function signature is represented as:<br><br>
+	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function () : void</code><br>
 	 * <br>
 	 * Return: <code><b>void</b></code>

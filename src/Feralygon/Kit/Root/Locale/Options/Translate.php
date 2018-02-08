@@ -30,7 +30,7 @@ use Feralygon\Kit\Root\Locale;
  * as an instance or <samp>name => value</samp> pairs.</p>
  * @property \Closure|null $stringifier [default = null] <p>The function to stringify a given value 
  * for a given placeholder.<br>
- * The expected function signature is represented as:<br><br>
+ * It is expected to be compatible with the following signature:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>
  * Parameters:<br>

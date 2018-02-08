@@ -10,10 +10,9 @@ namespace Feralygon\Kit\Core\Traits\Functions\Exceptions;
 use Feralygon\Kit\Core\Traits\Functions\Exception;
 
 /**
- * Core functions trait invalid function signature exception class.
+ * Core functions trait invalid function exception class.
  * 
- * This exception is thrown from an object using the functions trait whenever the signature 
- * from a given function is invalid.
+ * This exception is thrown from an object using the functions trait whenever a given function is invalid.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The function name.</p>
@@ -22,14 +21,14 @@ use Feralygon\Kit\Core\Traits\Functions\Exception;
  * @property-read string $function_signature <p>The function signature.</p>
  * @property-read string $template_signature <p>The template signature.</p>
  */
-class InvalidFunctionSignature extends Exception
+class InvalidFunction extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid signature {{function_signature}} for function {{name}} in object {{object}}.\n" . 
-			"HINT: Only the following signature is allowed: {{template_signature}}.";
+		return "Invalid function {{name}} with signature {{function_signature}} in object {{object}}.\n" . 
+			"HINT: Only a compatible signature with {{template_signature}} is allowed.";
 	}
 	
 	
