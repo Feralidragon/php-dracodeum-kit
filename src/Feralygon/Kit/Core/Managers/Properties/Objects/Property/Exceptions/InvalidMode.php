@@ -5,18 +5,18 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
+namespace Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions;
 
-use Feralygon\Kit\Core\Managers\Properties\Exception;
+use Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exception;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * Core properties manager invalid mode exception class.
+ * Core properties manager property object invalid mode exception class.
  * 
- * This exception is thrown from a properties manager whenever a given mode is invalid.
+ * This exception is thrown from a property object whenever a given mode is invalid.
  * 
  * @since 1.0.0
  * @property-read string $mode <p>The mode.</p>
@@ -28,7 +28,7 @@ class InvalidMode extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid mode {{mode}} for properties manager with owner {{manager.getOwner()}}.\n" . 
+		$message = "Invalid mode {{mode}} for property {{property}}.\n" . 
 			"HINT: Only the following modes are allowed: {{modes}}.";
 	}
 	

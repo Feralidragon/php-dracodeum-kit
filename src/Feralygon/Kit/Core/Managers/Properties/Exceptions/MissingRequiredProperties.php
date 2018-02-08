@@ -14,22 +14,22 @@ use Feralygon\Kit\Core\Utilities\{
 };
 
 /**
- * Core properties manager invalid mode exception class.
+ * Core properties manager missing required properties exception class.
  * 
- * This exception is thrown from a properties manager whenever a given mode is invalid.
+ * This exception is thrown from a properties manager whenever required properties are missing.
  * 
  * @since 1.0.0
- * @property-read string $mode <p>The mode.</p>
- * @property-read string[] $modes <p>The allowed modes.</p>
+ * @property-read string[] $names <p>The property names.</p>
  */
-class InvalidMode extends Exception
+class MissingRequiredProperties extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid mode {{mode}} for properties manager with owner {{manager.getOwner()}}.\n" . 
-			"HINT: Only the following modes are allowed: {{modes}}.";
+		return count($this->get('names')) === 1
+			? "Missing required property {{names}} for properties manager with owner {{manager.getOwner()}}."
+			: "Missing required properties {{names}} for properties manager with owner {{manager.getOwner()}}.";
 	}
 	
 	
@@ -42,16 +42,15 @@ class InvalidMode extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addStringProperty('mode', true);
-		$this->addArrayProperty('modes', true, function (&$key, &$value) : bool {
-			return UType::evaluateString($value, true);
+		$this->addArrayProperty('names', true, function (&$key, &$value) : bool {
+			return UType::evaluateString($value);
 		}, true, true);
 	}
 	
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'modes') {
+		if ($placeholder === 'names') {
 			return UText::stringify($value, null, [
 				'quote_strings' => true,
 				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND

@@ -10,18 +10,19 @@ namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 use Feralygon\Kit\Core\Managers\Properties\Exception;
 
 /**
- * Core properties manager already initialized exception class.
+ * Core properties manager no builder set exception class.
  * 
- * This exception is thrown from a properties manager whenever it has already been initialized.
+ * This exception is thrown from a properties manager whenever no builder function has been set.
  * 
  * @since 1.0.0
  */
-class AlreadyInitialized extends Exception
+class NoBuilderSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Properties manager with owner {{manager.getOwner()}} has already been initialized.";
+		return "No builder function has been set in properties manager with owner {{manager.getOwner()}}.\n" . 
+			"HINT: A builder function is required to be set when lazy-loading is enabled.";
 	}
 }
