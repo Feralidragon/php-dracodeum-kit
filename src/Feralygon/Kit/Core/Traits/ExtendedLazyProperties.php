@@ -322,7 +322,7 @@ trait ExtendedLazyProperties
 		}
 		
 		//builder
-		UCall::assertSignature('builder', $builder, function (string $name) : ?Objects\Property {}, true);
+		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
 		$this->properties_builder = \Closure::fromCallable($builder);
 		
 		//initialized

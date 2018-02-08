@@ -327,12 +327,12 @@ trait LazyProperties
 		}
 		
 		//evaluator
-		UCall::assertSignature('evaluator', $evaluator, function (string $name, &$value) : ?bool {}, true);
+		UCall::assert('evaluator', $evaluator, function (string $name, &$value) : ?bool {}, true);
 		$this->properties_evaluator = \Closure::fromCallable($evaluator);
 		
 		//defaulter
 		if (isset($defaulter)) {
-			UCall::assertSignature('defaulter', $defaulter, function (string $name) {}, true);
+			UCall::assert('defaulter', $defaulter, function (string $name) {}, true);
 			$this->properties_defaulter = \Closure::fromCallable($defaulter);
 		}
 		

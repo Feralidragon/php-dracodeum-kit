@@ -973,9 +973,7 @@ class Input extends Component
 		callable $evaluator, int $priority = 0, bool $before_modifiers = false
 	) : Input
 	{
-		UCall::assertSignature(
-			'evaluator', $evaluator, function (&$value, ?callable &$error_messenger) : bool {}, true
-		);
+		UCall::assert('evaluator', $evaluator, function (&$value, ?callable &$error_messenger) : bool {}, true);
 		$is_new_priority = empty($this->value_evaluators_tree[$before_modifiers][$priority]);
 		$this->value_evaluators_tree[$before_modifiers][$priority][] = \Closure::fromCallable($evaluator);
 		if ($is_new_priority) {

@@ -11,10 +11,10 @@ use Feralygon\Kit\Core\Utilities\Call\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
 
 /**
- * Core call utility signature assertion failed exception class.
+ * Core call utility assertion failed exception class.
  * 
- * This exception is thrown from the call utility whenever the signature assertion between a given function 
- * and a given template has failed.
+ * This exception is thrown from the call utility whenever an assertion on the compatibility of a given function 
+ * towards a given template has failed.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
  * @property-read string $template_signature <p>The template signature.</p>
  * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
  */
-class SignatureAssertionFailed extends Exception implements IAssertion
+class AssertionFailed extends Exception implements IAssertion
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -37,12 +37,12 @@ class SignatureAssertionFailed extends Exception implements IAssertion
 				? "Assertion {{name}} failed in object {{object_class}} with function signature {{function_signature}}."
 				: "Assertion {{name}} failed in class {{object_class}} with function signature {{function_signature}}.";
 		} else {
-			$message = "Assertion failed with function signature {{function_signature}}.";
+			$message = "Assertion {{name}} failed with function signature {{function_signature}}.";
 		}
 		
 		//return
 		return "{$message}\n" . 
-			"HINT: Only the following signature is allowed: {{template_signature}}.";
+			"HINT: Only a compatible signature with {{template_signature}} is allowed.";
 	}
 	
 	

@@ -574,7 +574,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Assert a given function against a given template, under a given name.
+	 * Assert if a given function is compatible with a given template, under a given name.
 	 * 
 	 * This assertion is only performed in a debug environment.
 	 * 
@@ -583,30 +583,26 @@ final class Call extends Utility
 	 * @param callable $function <p>The function to assert.</p>
 	 * @param callable $template <p>The template callable declaration to assert against.</p>
 	 * @param bool $throw_exception [default = false] <p>Throw an exception if the assertion fails.</p>
-	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\SignatureAssertionFailed
+	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\AssertionFailed
 	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function 
-	 * against the given template, under the given name.</p>
+	 * being compatible with the given template, under the given name.</p>
 	 */
-	final public static function assertSignature(
+	final public static function assert(
 		string $name, callable $function, callable $template, bool $throw_exception = false
 	) : bool
 	{
-		if (System::isDebug()) {
-			$function_signature = self::signature($function);
-			$template_signature = self::signature($template);
-			if ($function_signature !== $template_signature) {
-				if ($throw_exception) {
-					throw new Exceptions\SignatureAssertionFailed([
-						'name' => $name,
-						'function' => $function,
-						'template' => $template,
-						'function_signature' => $function_signature,
-						'template_signature' => $template_signature,
-						'object_class' => self::stackPreviousObjectClass()
-					]);
-				}
-				return false;
+		if (System::isDebug() && !self::isCompatible($function, $template)) {
+			if ($throw_exception) {
+				throw new Exceptions\AssertionFailed([
+					'name' => $name,
+					'function' => $function,
+					'template' => $template,
+					'function_signature' => self::signature($function),
+					'template_signature' => self::signature($template),
+					'object_class' => self::stackPreviousObjectClass()
+				]);
 			}
+			return false;
 		}
 		return true;
 	}

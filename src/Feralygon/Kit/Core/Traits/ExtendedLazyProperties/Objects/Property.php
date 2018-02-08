@@ -253,7 +253,7 @@ final class Property
 	final public function setEvaluator(callable $evaluator) : Property
 	{
 		//set
-		UCall::assertSignature('evaluator', $evaluator, function (&$value) : bool {}, true);
+		UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
 		$this->evaluator = \Closure::fromCallable($evaluator);
 		
 		//values

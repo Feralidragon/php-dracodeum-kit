@@ -294,7 +294,7 @@ trait Properties
 		
 		//evaluator
 		if (isset($evaluator)) {
-			UCall::assertSignature('evaluator', $evaluator, function (&$value) : bool {}, true);
+			UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
 			$evaluator = \Closure::fromCallable($evaluator);
 		}
 		
@@ -929,7 +929,7 @@ trait Properties
 		}
 		
 		//load
-		UCall::assertSignature('loader', $loader, function () : void {}, true);
+		UCall::assert('loader', $loader, function () : void {}, true);
 		$loader();
 		
 		//required

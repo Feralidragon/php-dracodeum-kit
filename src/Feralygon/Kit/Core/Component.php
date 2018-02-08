@@ -300,7 +300,7 @@ abstract class Component implements \ArrayAccess
 		//builder
 		if (isset($builder)) {
 			//assert
-			UCall::assertSignature(
+			UCall::assert(
 				'builder',
 				$builder,
 				function ($prototype, array $prototype_properties, array $properties) : Component {},

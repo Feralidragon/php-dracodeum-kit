@@ -139,7 +139,7 @@ trait Functions
 		}
 		
 		//templater
-		UCall::assertSignature('templater', $templater, function (string $name) : ?callable {}, true);
+		UCall::assert('templater', $templater, function (string $name) : ?callable {}, true);
 		$this->functions_templater = \Closure::fromCallable($templater);
 		
 		//finish
