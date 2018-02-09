@@ -553,9 +553,8 @@ final class Call extends Utility
 					}
 				}
 			}
-			$optionals_end = $optionals > 0 ? str_repeat(']', $optionals) . ' ' : '';
-			$signature = '(' . implode(',', $parameter_types) . $optionals_end . ')';
-			unset($parameter_types, $parameter_type, $optionals_end);
+			$signature = '(' . implode(',', $parameter_types) . str_repeat(']', $optionals) . ')';
+			unset($parameter_types, $parameter_type);
 			
 			//return type
 			$return_type = 'mixed';
