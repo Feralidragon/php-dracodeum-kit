@@ -10,8 +10,7 @@ namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 /**
  * Core properties manager cannot unset write-once property exception class.
  * 
- * This exception is thrown from a properties manager whenever a given write-once property with a given name 
- * is attempted to be unset.
+ * This exception is thrown from a properties manager whenever a given write-once property is attempted to be unset.
  * 
  * @since 1.0.0
  */
@@ -21,6 +20,7 @@ class CannotUnsetWriteonceProperty extends CannotUnsetProperty
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset write-once property {{name}} from properties manager with owner {{manager.getOwner()}}.";
+		return "Cannot unset write-once property {{property.getName()}} from properties manager " . 
+			"with owner {{manager.getOwner()}}.";
 	}
 }

@@ -8,15 +8,15 @@
 namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Managers\Properties\Exception;
+use Feralygon\Kit\Core\Managers\Properties\Objects\Property;
 
 /**
  * Core properties manager cannot get property exception class.
  * 
- * This exception is thrown from a properties manager whenever a given property with a given name 
- * is attempted to be retrieved.
+ * This exception is thrown from a properties manager whenever a given property is attempted to be retrieved.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The property name.</p>
+ * @property-read \Feralygon\Kit\Core\Managers\Properties\Objects\Property $property <p>The property instance.</p>
  */
 class CannotGetProperty extends Exception
 {
@@ -24,7 +24,7 @@ class CannotGetProperty extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot get property {{name}} from properties manager with owner {{manager.getOwner()}}.";
+		return "Cannot get property {{property.getName()}} from properties manager with owner {{manager.getOwner()}}.";
 	}
 	
 	
@@ -37,6 +37,6 @@ class CannotGetProperty extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
+		$this->addStrictObjectProperty('property', true, Property::class);
 	}
 }

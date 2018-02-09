@@ -22,6 +22,7 @@ class NoDefaultValueSet extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "No default value has been set in property {{property}}.";
+		return "No default value has been set in property {{property.getName()}} from properties manager " . 
+			"with owner {{property.getManager().getOwner()}}.";
 	}
 }

@@ -27,6 +27,9 @@ class Property
 	/** @var \Feralygon\Kit\Core\Managers\Properties */
 	private $manager;
 	
+	/** @var string */
+	private $name;
+	
 	/** @var bool */
 	private $initialized = false;
 	
@@ -62,10 +65,12 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Managers\Properties $manager <p>The manager instance.</p>
+	 * @param string $name <p>The name.</p>
 	 */
-	final public function __construct(Manager $manager)
+	final public function __construct(Manager $manager, string $name)
 	{
 		$this->manager = $manager;
+		$this->name = $name;
 	}
 	
 	
@@ -80,6 +85,17 @@ class Property
 	final public function getManager() : Manager
 	{
 		return $this->manager;
+	}
+	
+	/**
+	 * Get name.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The name.</p>
+	 */
+	final public function getName() : string
+	{
+		return $this->name;
 	}
 	
 	/**
@@ -121,21 +137,23 @@ class Property
 	 */
 	final public function setAsRequired() : Property
 	{
-		if ($this->manager->isInitialized()) {
+		if ($this->manager->isLazy()) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'property' => $this,
-				'hint_message' => "This method may only be called before the manager initialization."
-			]);
-		} elseif ($this->manager->isLazy()) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'lazy' => true,
-				'hint_message' => "In order to set a property as required, "  . 
+				'name' => 'setAsRequired',
+				'hint_message' => "In order to set a property as required, with lazy-loading enabled, "  . 
 					"please use the manager \"addRequiredPropertyNames\" method instead."
+			]);
+		} elseif ($this->manager->isInitialized()) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setAsRequired',
+				'hint_message' => "This method may only be called before the manager initialization."
 			]);
 		} elseif ($this->getMode() === 'r') {
 			throw new Exceptions\MethodCallNotAllowed([
 				'property' => $this,
+				'name' => 'setAsRequired',
 				'hint_message' => "A strictly read-only property cannot be set as required."
 			]);
 		}
@@ -158,7 +176,7 @@ class Property
 	 * Set mode.
 	 * 
 	 * @since 1.0.0
-	 * @param string $mode <p>The read and write mode to set, which must be one the following:<br>
+	 * @param string $mode <p>The access mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
 	 * so that it cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow this property to be only read from (read-only), 
@@ -780,22 +798,30 @@ class Property
 	final public function setAccessors(callable $getter, callable $setter) : Property
 	{
 		//set
-		UCall::assert('getter', $getter, function () {});
-		UCall::assert('setter', $setter, function ($value) : void {});
+		UCall::assert('getter', $getter, function () {}, true);
+		UCall::assert('setter', $setter, function ($value) : void {}, true);
 		$this->getter = \Closure::fromCallable($getter);
 		$this->setter = \Closure::fromCallable($setter);
 		
 		//finish
 		$this->value = null;
 		$this->initialized = true;
-		$this->setDefaultValue($this->getValue());
+		if ($this->has_default_value) {
+			$this->setValue($this->default_value);
+		} else {
+			$value = $this->getValue();
+			$this->setDefaultValue($value);
+			if ($this->initialized) {
+				$this->setValue($value);
+			}
+		}
 		
 		//return
 		return $this;
 	}
 	
 	/**
-	 * Bind to a given existing property name using a given class scope.
+	 * Bind to an existing property from the manager owner object.
 	 * 
 	 * By binding to an existing property, getter and setter functions are automatically set for that property, 
 	 * using the given class scope, so it can be accessed and modified directly from outside.<br>
@@ -803,21 +829,34 @@ class Property
 	 * may still fail accordingly.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to bind to.</p>
-	 * @param string $class_scope <p>The class scope to use.</p>
+	 * @param string|null $class [default = null] <p>The class scope to use.<br>
+	 * If not set, the manager owner object of this instance is used.</p>
+	 * @param string|null $name [default = null] <p>The property name to bind to.<br>
+	 * If not set, the name set in this instance is used.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function bind(string $name, string $class_scope) : Property
+	final public function bind(?string $class = null, ?string $name = null) : Property
 	{
+		//initialize
 		$owner = $this->manager->getOwner();
+		if (!isset($class)) {
+			$class = get_class($owner);
+		}
+		if (!isset($name)) {
+			$name = $this->name;
+		}
+		
+		//bind
 		$this->setAccessors(
 			\Closure::bind(function () use ($name) {
 				return $this->$name;
-			}, $owner, $class_scope),
+			}, $owner, $class),
 			\Closure::bind(function ($value) use ($name) : void {
 				$this->$name = $value;
-			}, $owner, $class_scope)
+			}, $owner, $class)
 		);
+		
+		//return
 		return $this;
 	}
 }

@@ -17,9 +17,13 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
 /**
  * Core properties manager class.
  * 
- * This manager handles and stores a separate set of properties.
- * 
- * //TODO: more complete description
+ * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded 
+ * and restricted to a specific access mode (strict read-only, read-only, read-write, write-only and write-once).<br>
+ * <br>
+ * Each individual property may be set with restrictions and bindings, such as being set as required, 
+ * restricted to a specific access mode, bound to existing object properties, have a default value, 
+ * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
+ * each one may hold.
  * 
  * @since 1.0.0
  */
@@ -64,9 +68,9 @@ class Properties
 	 * @param bool $lazy [default = false] <p>Use lazy-loading, so that each property is only loaded on access.<br>
 	 * <br>
 	 * NOTE: With lazy-loading, the existence of each property becomes unknown ahead of time, 
-	 * therefore when retrieving a list of all properties, only a list of the currently loaded ones is returned.</p>
-	 * @param string $mode [default = 'rw'] <p>The read and write mode to set for all properties, 
-	 * which, if set, must be one the following:<br>
+	 * therefore when retrieving all properties, only the currently loaded ones are returned.</p>
+	 * @param string $mode [default = 'rw'] <p>The base access mode to set for all properties, 
+	 * which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
 	 * so that they cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow all properties to be only read from (read-only), 
@@ -75,7 +79,14 @@ class Properties
 	 * and written to (read-write).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow all properties to be only written to (write-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow all properties to be only written to, 
-	 * but only once during initialization (write-once).
+	 * but only once during initialization (write-once).<br>
+	 * <br>
+	 * All properties default to the mode defined here, but if another mode is set, it becomes restricted as so:<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\InvalidOwner
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\InvalidMode
@@ -102,14 +113,15 @@ class Properties
 	
 	//Public methods
 	/**
-	 * Create a property instance.
+	 * Create a property instance with a given name.
 	 * 
 	 * @since 1.0.0
+	 * @param string $name <p>The name to create with.</p>
 	 * @return \Feralygon\Kit\Core\Managers\Properties\Objects\Property <p>The created property instance.</p>
 	 */
-	public function createProperty() : Objects\Property
+	public function createProperty(string $name) : Objects\Property
 	{
-		return new Objects\Property($this);
+		return new Objects\Property($this, $name);
 	}
 	
 	
@@ -155,7 +167,7 @@ class Properties
 	 * must be given during initialization.<br>
 	 * <br>
 	 * This method is only allowed to be called before initialization, with lazy-loading enabled 
-	 * and only if the global mode is not set to strict read-only.
+	 * and only if the base access mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $names <p>The required property names to add.</p>
@@ -167,18 +179,20 @@ class Properties
 		if ($this->initialized) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
+				'name' => 'addRequiredPropertyNames',
 				'hint_message' => "This method may only be called before initialization."
 			]);
 		} elseif (!$this->lazy) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
-				'lazy' => $this->lazy,
-				'hint_message' => "In order to explicitly set a property as required, "  . 
-					"please use the \"setAsRequired\" method instead from the corresponding property object."
+				'name' => 'addRequiredPropertyNames',
+				'hint_message' => "In order to explicitly set a property as required, with lazy-loading disabled, "  . 
+					"please use the \"setAsRequired\" method instead from the corresponding property instance."
 			]);
 		} elseif ($this->mode === 'r') {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
+				'name' => 'addRequiredPropertyNames',
 				'hint_message' => "Required property names cannot be set as all properties are strictly read-only."
 			]);
 		}
@@ -195,39 +209,44 @@ class Properties
 	 * @param string $name <p>The property name to add.</p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyAlreadyAdded
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyManagerMismatch
 	 * @return \Feralygon\Kit\Core\Managers\Properties\Objects\Property 
-	 * <p>The resulting newly added property instance with the given name.</p>
+	 * <p>The newly added property instance with the given name.</p>
 	 */
 	final public function addProperty(string $name) : Objects\Property
 	{
 		//validate
-		if ($this->initialized) {
+		if ($this->lazy) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
-				'hint_message' => "This method may only be called before initialization."
+				'name' => 'addProperty',
+				'hint_message' => "In order to add new properties, with lazy-loading enabled, " . 
+					"please set and use a builder function instead."
 			]);
-		} elseif ($this->lazy) {
+		} elseif ($this->initialized) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
-				'lazy' => $this->lazy,
-				'hint_message' => "In order to add new properties, please set and use a builder function instead."
+				'name' => 'addProperty',
+				'hint_message' => "This method may only be called before initialization."
 			]);
 		} elseif (isset($this->properties[$name])) {
 			throw new Exceptions\PropertyAlreadyAdded(['manager' => $this, 'name' => $name]);
 		}
 		
 		//property
-		$property = $this->createProperty();
-		if ($property->getManager() !== $this) {
-			throw new Exceptions\PropertyManagerMismatch([
-				'manager' => $this, 'name' => $name, 'property_manager' => $property->getManager()
+		$property = $this->createProperty($name);
+		if ($property->getName() !== $name) {
+			throw new Exceptions\PropertyNameMismatch([
+				'manager' => $this, 'name' => $name, 'property' => $property
 			]);
+		} elseif ($property->getManager() !== $this) {
+			throw new Exceptions\PropertyManagerMismatch(['manager' => $this, 'property' => $property]);
 		}
 		$this->properties[$name] = $property;
 		
 		//return
-		return $this;
+		return $property;
 	}
 	
 	/**
@@ -252,16 +271,17 @@ class Properties
 	 */
 	final public function setBuilder(callable $builder) : Properties
 	{
-		if ($this->initialized) {
+		if (!$this->lazy) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'manager' => $this,
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		} elseif (!$this->lazy) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'lazy' => $this->lazy,
+				'name' => 'setBuilder',
 				'hint_message' => "A builder function is only required when lazy-loading is enabled."
+			]);
+		} elseif ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'manager' => $this,
+				'name' => 'setBuilder',
+				'hint_message' => "This method may only be called before initialization."
 			]);
 		}
 		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
@@ -281,10 +301,10 @@ class Properties
 	}
 	
 	/**
-	 * Initialize with a given set of properties.
+	 * Initialize.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\AlreadyInitialized
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\NoBuilderSet
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MissingRequiredProperties
@@ -292,7 +312,7 @@ class Properties
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize(array $properties) : Properties
+	final public function initialize(array $properties = []) : Properties
 	{
 		//validate
 		if ($this->initialized) {
@@ -315,9 +335,9 @@ class Properties
 		
 		//required (process)
 		if (!empty($required_map)) {
-			$missing = array_keys(array_diff_key($required_map, $properties));
-			if (!empty($missing)) {
-				throw new Exceptions\MissingRequiredProperties(['manager' => $this, 'names' => $missing]);
+			$missing_names = array_keys(array_diff_key($required_map, $properties));
+			if (!empty($missing_names)) {
+				throw new Exceptions\MissingRequiredProperties(['manager' => $this, 'names' => $missing_names]);
 			}
 		}
 		
@@ -329,11 +349,13 @@ class Properties
 			try {
 				$property = $this->getProperty($name);
 				if ($property->getMode() === 'r') {
-					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'name' => $name]);
+					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
 				}
 				$property->setValue($value);
 			} catch (PropertyExceptions\InvalidValue $exception) {
-				throw new Exceptions\InvalidPropertyValue(['manager' => $this, 'name' => $name, 'value' => $value]);
+				throw new Exceptions\InvalidPropertyValue([
+					'manager' => $this, 'property' => $property, 'value' => $value
+				]);
 			}
 		}
 		
@@ -350,6 +372,13 @@ class Properties
 	 */
 	final public function has(string $name) : bool
 	{
+		//check
+		$has = isset($this->properties[$name]);
+		if ($has || !$this->lazy) {
+			return $has;
+		}
+		
+		//get
 		try {
 			$this->getProperty($name);
 		} catch (Exceptions\PropertyNotFound $exception) {
@@ -374,19 +403,18 @@ class Properties
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		if ($property_mode === 'w') {
-			throw new Exceptions\CannotGetWriteonlyProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotGetWriteonlyProperty(['manager' => $this, 'property' => $property]);
 		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotGetWriteonceProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotGetWriteonceProperty(['manager' => $this, 'property' => $property]);
 		}
 		
 		//get
-		$value = null;
 		try {
-			$value = $property->getValue();
+			return $property->getValue();
 		} catch (PropertyExceptions\NotInitialized $exception) {
-			throw new Exceptions\PropertyNotInitialized(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\PropertyNotInitialized(['manager' => $this, 'property' => $property]);
 		}
-		return $value;
+		return null;
 	}
 	
 	/**
@@ -405,7 +433,9 @@ class Properties
 	{
 		$value = $this->get($name);
 		if (!is_bool($value)) {
-			throw new Exceptions\InvalidBooleanPropertyValue(['manager' => $this, 'name' => $name, 'value' => $value]);
+			throw new Exceptions\InvalidBooleanPropertyValue([
+				'manager' => $this, 'property' => $this->getProperty($name), 'value' => $value
+			]);
 		}
 		return $value;
 	}
@@ -433,22 +463,22 @@ class Properties
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value)
+	final public function set(string $name, $value) : Properties
 	{
 		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		if ($property_mode === 'r' || $property_mode === 'r+') {
-			throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
 		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotSetWriteonceProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotSetWriteonceProperty(['manager' => $this, 'property' => $property]);
 		}
 		
 		//set
 		try {
 			$property->setValue($value);
 		} catch (PropertyExceptions\InvalidValue $exception) {
-			throw new Exceptions\InvalidPropertyValue(['manager' => $this, 'name' => $name, 'value' => $value]);
+			throw new Exceptions\InvalidPropertyValue(['manager' => $this, 'property' => $property, 'value' => $value]);
 		}
 		
 		//return
@@ -466,24 +496,24 @@ class Properties
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\CannotUnsetProperty
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name)
+	final public function unset(string $name) : Properties
 	{
 		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		if ($property_mode === 'r' || $property_mode === 'r+') {
-			throw new Exceptions\CannotUnsetReadonlyProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotUnsetReadonlyProperty(['manager' => $this, 'property' => $property]);
 		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotUnsetWriteonceProperty(['manager' => $this, 'name' => $name]);
-		} elseif ((!$this->lazy && $property->isRequired()) || ($this->lazy && isset($this->required_map[$name]))) {
-			throw new Exceptions\CannotUnsetRequiredProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotUnsetWriteonceProperty(['manager' => $this, 'property' => $property]);
+		} elseif (($this->lazy && isset($this->required_map[$name])) || (!$this->lazy && $property->isRequired())) {
+			throw new Exceptions\CannotUnsetRequiredProperty(['manager' => $this, 'property' => $property]);
 		}
 		
 		//unset
 		try {
 			$property->resetValue();
 		} catch (PropertyExceptions\NoDefaultValueSet $exception) {
-			throw new Exceptions\CannotUnsetProperty(['manager' => $this, 'name' => $name]);
+			throw new Exceptions\CannotUnsetProperty(['manager' => $this, 'property' => $property]);
 		}
 		
 		//return
@@ -493,10 +523,11 @@ class Properties
 	/**
 	 * Get all properties.
 	 * 
-	 * If lazy-loading is enabled, only the currently loaded properties are returned.
+	 * If lazy-loading is enabled, only the currently loaded properties are returned.<br>
+	 * Only properties which allow read access are returned.
 	 * 
 	 * @since 1.0.0
-	 * @return array <p>All the properties, as <samp>name => value</samp> pairs.</p>
+	 * @return array <p>All properties, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll() : array
 	{
@@ -519,6 +550,8 @@ class Properties
 	 * @param string $name <p>The property name to get from.</p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\NotInitialized
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNotFound
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNameMismatch
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyManagerMismatch
 	 * @return \Feralygon\Kit\Core\Managers\Properties\Objects\Property 
 	 * <p>The property instance from the given name.</p>
 	 */
@@ -533,6 +566,12 @@ class Properties
 			}
 			if (!isset($property)) {
 				throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
+			} elseif ($property->getName() !== $name) {
+				throw new Exceptions\PropertyNameMismatch([
+					'manager' => $this, 'name' => $name, 'property' => $property
+				]);
+			} elseif ($property->getManager() !== $this) {
+				throw new Exceptions\PropertyManagerMismatch(['manager' => $this, 'property' => $property]);
 			}
 			$this->properties[$name] = $property;
 		}

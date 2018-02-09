@@ -10,8 +10,7 @@ namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 /**
  * Core properties manager cannot set write-once property exception class.
  * 
- * This exception is thrown from a properties manager whenever a given write-once property with a given name 
- * is attempted to be set.
+ * This exception is thrown from a properties manager whenever a given write-once property is attempted to be set.
  * 
  * @since 1.0.0
  */
@@ -21,6 +20,7 @@ class CannotSetWriteonceProperty extends CannotSetProperty
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot set write-once property {{name}} in properties manager with owner {{manager.getOwner()}}.";
+		return "Cannot set write-once property {{property.getName()}} in properties manager " . 
+			"with owner {{manager.getOwner()}}.";
 	}
 }

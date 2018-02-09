@@ -28,8 +28,11 @@ class InvalidMode extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid mode {{mode}} for properties manager with owner {{manager.getOwner()}}.\n" . 
-			"HINT: Only the following modes are allowed: {{modes}}.";
+		return "Invalid mode {{mode}} for properties manager with owner {{manager.getOwner()}}.\n" . (
+			count($this->get('modes')) === 1
+				? "HINT: Only the following mode is allowed: {{modes}}."
+				: "HINT: Only the following modes are allowed: {{modes}}."
+		);
 	}
 	
 	

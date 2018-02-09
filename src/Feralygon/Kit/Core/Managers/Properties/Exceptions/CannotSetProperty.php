@@ -8,15 +8,15 @@
 namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Managers\Properties\Exception;
+use Feralygon\Kit\Core\Managers\Properties\Objects\Property;
 
 /**
  * Core properties manager cannot set property exception class.
  * 
- * This exception is thrown from a properties manager whenever a given property with a given name 
- * is attempted to be set.
+ * This exception is thrown from a properties manager whenever a given property is attempted to be set.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The property name.</p>
+ * @property-read \Feralygon\Kit\Core\Managers\Properties\Objects\Property $property <p>The property instance.</p>
  */
 class CannotSetProperty extends Exception
 {
@@ -24,7 +24,7 @@ class CannotSetProperty extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot set property {{name}} in properties manager with owner {{manager.getOwner()}}.";
+		return "Cannot set property {{property.getName()}} in properties manager with owner {{manager.getOwner()}}.";
 	}
 	
 	
@@ -37,6 +37,6 @@ class CannotSetProperty extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
+		$this->addStrictObjectProperty('property', true, Property::class);
 	}
 }

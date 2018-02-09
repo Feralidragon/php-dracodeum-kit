@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Managers\Properties\Exceptions;
 
 use Feralygon\Kit\Core\Managers\Properties\Exception;
+use Feralygon\Kit\Core\Managers\Properties\Objects\Property;
 
 /**
  * Core properties manager invalid property value exception class.
@@ -15,8 +16,8 @@ use Feralygon\Kit\Core\Managers\Properties\Exception;
  * This exception is thrown from a properties manager whenever a given value is invalid for a given property.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The property name.</p>
- * @property-read mixed $value <p>The property value.</p>
+ * @property-read \Feralygon\Kit\Core\Managers\Properties\Objects\Property $property <p>The property instance.</p>
+ * @property-read mixed $value <p>The value.</p>
  */
 class InvalidPropertyValue extends Exception
 {
@@ -24,7 +25,8 @@ class InvalidPropertyValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid value {{value}} for property {{name}} in properties manager with owner {{manager.getOwner()}}.";
+		return "Invalid value {{value}} for property {{property.getName()}} in properties manager " . 
+			"with owner {{manager.getOwner()}}.";
 	}
 	
 	
@@ -37,7 +39,7 @@ class InvalidPropertyValue extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
+		$this->addStrictObjectProperty('property', true, Property::class);
 		$this->addMixedProperty('value', true);
 	}
 }

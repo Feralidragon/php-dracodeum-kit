@@ -16,7 +16,6 @@ use Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name <p>The method name.</p>
- * @property-read bool|null $lazy [default = null] <p>The lazy-loading state.</p>
  * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
  */
 class MethodCallNotAllowed extends Exception
@@ -25,25 +24,12 @@ class MethodCallNotAllowed extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		//message
-		$message = "Method {{name}} call not allowed in property {{property}}.";
-		
-		//lazy
-		if ($this->isset('lazy')) {
-			$message = $this->is('lazy')
-				? "Method {{name}} call not allowed in property {{property}} " . 
-					"with lazy-loading enabled in its properties manager {{property.getManager()}}."
-				: "Method {{name}} call not allowed in property {{property}} " . 
-					"with lazy-loading disabled in its properties manager {{{property.getManager()}}.";
-		}
-		
-		//hint message
+		$message = "Method {{name}} call not allowed in property {{property.getName()}} from properties manager " . 
+			"with owner {{property.getManager().getOwner()}}.";
 		if ($this->isset('hint_message')) {
 			$message .= "\n" . 
 				"HINT: {{hint_message}}";
 		}
-		
-		//return
 		return $message;
 	}
 	
@@ -58,7 +44,6 @@ class MethodCallNotAllowed extends Exception
 		
 		//properties
 		$this->addStringProperty('name', true);
-		$this->addBooleanProperty('lazy', false, true);
 		$this->addStringProperty('hint_message', false, false, true);
 	}
 	

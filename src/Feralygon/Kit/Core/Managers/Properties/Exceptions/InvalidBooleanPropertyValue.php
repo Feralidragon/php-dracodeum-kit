@@ -20,7 +20,7 @@ class InvalidBooleanPropertyValue extends InvalidPropertyValue
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid boolean value {{value}} for property {{name}} in properties manager " . 
+		return "Invalid boolean value {{value}} for property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.\n" . 
 			"HINT: Only a boolean value is allowed.";
 	}

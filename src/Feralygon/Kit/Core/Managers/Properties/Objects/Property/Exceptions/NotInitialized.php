@@ -22,7 +22,8 @@ class NotInitialized extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Property {{property}} has not been initialized yet.\n" . 
+		return "Property {{property.getName()}} from properties manager " . 
+			"with owner {{property.getManager().getOwner()}} has not been initialized yet.\n" . 
 			"HINT: A property must be initialized first through the \"setValue\", " . 
 			"\"setGetter\" or \"setSetter\" method.";
 	}
