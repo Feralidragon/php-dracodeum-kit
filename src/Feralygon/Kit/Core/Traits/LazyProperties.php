@@ -7,43 +7,32 @@
 
 namespace Feralygon\Kit\Core\Traits;
 
-use Feralygon\Kit\Core\Traits\LazyProperties\Exceptions;
+use Feralygon\Kit\Core\Traits\LazyProperties\{
+	Manager,
+	Objects,
+	Exceptions
+};
 use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
  * Core lazy properties trait.
  * 
  * This trait enables the support for a separate layer of custom lazy-loaded properties in a class.<br>
+ * <br>
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
- * <br>
- * Each and every property is only loaded on demand (lazy-loading).<br>
- * <br>
- * They may also be set as read-only, so that all properties can still be retrieved, but not modified in any given way, 
- * or write-only, so that all properties can be modified, but not retrieved in any given way.
+ * Each and every property is only loaded on demand (lazy-loading).
  * 
  * @since 1.0.0
  */
 trait LazyProperties
 {
 	//Private properties
-	/** @var array */
-	private $properties = [];
+	/** @var \Feralygon\Kit\Core\Traits\LazyProperties\Manager|null */
+	private $properties_manager = null;
 	
-	/** @var bool */
-	private $properties_initialized = false;
-	
-	/** @var \Closure|null */
-	private $properties_evaluator = null;
-	
-	/** @var \Closure|null */
-	private $properties_defaulter = null;
-	
-	/** @var bool[] */
-	private $properties_required_map = [];
-	
-	/** @var string */
-	private $properties_mode = 'rw';
+	/** @var string|null */
+	private $properties_builder_current_name = null;
 	
 	
 	
@@ -105,16 +94,15 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
 	final public function has(string $name) : bool
 	{
-		try {
-			$this->get($name);
-		} catch (Exceptions\PropertyNotFound $exception) {
-			return false;
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		}
-		return true;
+		return $this->properties_manager->has($name);
 	}
 	
 	/**
@@ -122,37 +110,15 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyNotFound
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertyValue
 	 * @return mixed <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
 	{
-		//check
-		if ($this->properties_mode === 'w') {
-			throw new Exceptions\CannotGetWriteonlyProperty(['object' => $this, 'name' => $name]);
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		}
-		
-		//get
-		if (!array_key_exists($name, $this->properties)) {
-			//check
-			if (!$this->properties_initialized) {
-				throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-			}
-			
-			//load
-			$value = isset($this->properties_defaulter) ? ($this->properties_defaulter)($name) : null;
-			$valid = ($this->properties_evaluator)($name, $value);
-			if (!isset($valid)) {
-				throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
-			} elseif (!$valid) {
-				throw new Exceptions\InvalidPropertyValue(['object' => $this, 'name' => $name, 'value' => $value]);
-			}
-			$this->properties[$name] = $value;
-		}
-		return $this->properties[$name];
+		return $this->properties_manager->get($name);
 	}
 	
 	/**
@@ -164,16 +130,15 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidBooleanPropertyValue
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>The boolean property value from the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
-		$value = $this->get($name);
-		if (!is_bool($value)) {
-			throw new Exceptions\InvalidBooleanPropertyValue(['object' => $this, 'name' => $name, 'value' => $value]);
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
 		}
-		return $value;
+		return $this->properties_manager->is($name);
 	}
 	
 	/**
@@ -181,11 +146,15 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
-		return $this->has($name) ? $this->get($name) !== null : false;
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		}
+		return $this->properties_manager->isset($name);
 	}
 	
 	/**
@@ -195,31 +164,14 @@ trait LazyProperties
 	 * @param string $name <p>The property name to set for.</p>
 	 * @param mixed $value <p>The property value to set with.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotSetReadonlyProperty
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyNotFound
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value)
 	{
-		//check
-		if (!$this->properties_initialized) {
+		if (!isset($this->properties_manager)) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		} elseif ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotSetReadonlyProperty(['object' => $this, 'name' => $name]);
 		}
-		
-		//set
-		$v = $value;
-		$valid = ($this->properties_evaluator)($name, $v);
-		if (!isset($valid)) {
-			throw new Exceptions\PropertyNotFound(['object' => $this, 'name' => $name]);
-		} elseif (!$valid) {
-			throw new Exceptions\InvalidPropertyValue(['object' => $this, 'name' => $name, 'value' => $value]);
-		}
-		$this->properties[$name] = $v;
-		
-		//return
+		$this->properties_manager->set($name, $value);
 		return $this;
 	}
 	
@@ -229,136 +181,125 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to unset from.</p>
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetRequiredProperty
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\CannotUnsetReadonlyProperty
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name)
 	{
-		if (!$this->properties_initialized) {
+		if (!isset($this->properties_manager)) {
 			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		} elseif (isset($this->properties_required_map[$name])) {
-			throw new Exceptions\CannotUnsetRequiredProperty(['object' => $this, 'name' => $name]);
-		} elseif ($this->properties_mode === 'r') {
-			throw new Exceptions\CannotUnsetReadonlyProperty(['object' => $this, 'name' => $name]);
 		}
-		unset($this->properties[$name]);
+		$this->properties_manager->unset($name);
 		return $this;
 	}
 	
 	/**
-	 * Get loaded properties.
+	 * Get all loaded properties.
+	 * 
+	 * Only properties which allow read access are returned.
 	 * 
 	 * @since 1.0.0
-	 * @return array <p>The loaded properties, as <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @return array <p>All loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getLoadedProperties() : array
+	final public function getAll() : array
 	{
-		return $this->properties_mode[0] === 'r' ? $this->properties : [];
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		}
+		return $this->properties_manager->getAll();
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Create a property instance.
+	 * 
+	 * @since 1.0.0
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
+	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyCreationFailed
+	 * @return \Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property <p>The created property instance.</p>
+	 */
+	final protected function createProperty() : Objects\Property
+	{
+		if (!isset($this->properties_manager)) {
+			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
+		} elseif (!isset($this->properties_builder_current_name)) {
+			throw new Exceptions\PropertyCreationFailed(['object' => $this]);
+		}
+		return $this->properties_manager->createProperty($this->properties_builder_current_name);
 	}
 	
 	
 	
 	//Final private methods
 	/**
-	 * Initialize a given set of properties with a given evaluator function.
+	 * Initialize properties with a given builder function.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties <p>The properties to initialize, as <samp>name => value</samp> pairs.</p>
-	 * @param callable $evaluator <p>The function to evaluate a given property value for a given name.<br>
+	 * @param callable $builder <p>The function to build a property instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, &$value) : ?bool</code><br>
+	 * <code>function (string $name) : ?\Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to evaluate for.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The property value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to build for.<br>
 	 * <br>
-	 * Return: <code><b>bool|null</b></code><br>
-	 * Boolean <code>true</code> if the property with the given name and value exists and is successfully evaluated, 
-	 * boolean <code>false</code> if it exists but is not successfully evaluated, 
-	 * or <code>null</code> if it does not exist.
+	 * Return: <code><b>\Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property|null</b></code><br>
+	 * The built property instance for the given name or <code>null</code> if none was built.
 	 * </p>
-	 * @param callable|null $defaulter [default = null] <p>The function to retrieve a default property value 
-	 * for a given property name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name)</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The property name to retrieve for.<br>
-	 * <br>
-	 * Return: <code><b>mixed</b></code><br>
-	 * The default value for the given property name.
-	 * </p>
+	 * @param array $properties [default = []] <p>The properties to initialize with, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @param string[] $required [default = []] <p>The required property names.</p>
-	 * @param string $mode [default = 'rw'] <p>The properties read and write mode to initialize with, 
+	 * @param string $mode [default = 'rw'] <p>The base access mode to set for all properties, 
 	 * which must be one the following:<br>
-	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow properties to be both read from and written to.<br>
-	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow properties to be only read from.<br>
-	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow properties to be only written to.
+	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
+	 * so that they cannot be given during initialization (strict read-only).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow all properties to be only read from (read-only), 
+	 * although they may still be given during initialization.<br>
+	 * &nbsp; &#8226; &nbsp; <samp>rw</samp> : Allow all properties to be both read from 
+	 * and written to (read-write).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow all properties to be only written to (write-only).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow all properties to be only written to, 
+	 * but only once during initialization (write-once).<br>
+	 * <br>
+	 * All properties default to the mode defined here, but if another mode is set in each individual property, 
+	 * it becomes restricted as so:<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesAlreadyInitialized
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\InvalidPropertiesMode
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\MissingRequiredProperties
 	 * @return void
 	 */
 	final private function initializeProperties(
-		array $properties, callable $evaluator, ?callable $defaulter = null, array $required = [], string $mode = 'rw'
+		 callable $builder, array $properties = [], array $required = [], string $mode = 'rw'
 	) : void
 	{
-		//check
-		if ($this->properties_initialized) {
+		//manager
+		if (isset($this->properties_manager)) {
 			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
-		} elseif (!in_array($mode, $this->getPropertyModes(), true)) {
-			throw new Exceptions\InvalidPropertiesMode([
-				'object' => $this,
-				'mode' => $mode,
-				'modes' => $this->getPropertyModes()
-			]);
 		}
+		$this->properties_manager = new Manager($this, true, $mode);
+		
+		//builder
+		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
+		$this->properties_manager->setBuilder(function (string $name) use ($builder) : ?Objects\Property {
+			try {
+				$this->properties_builder_current_name = $name;
+				return $builder($name);
+			} finally {
+				$this->properties_builder_current_name = null;
+			}
+		});
 		
 		//required
-		$this->properties_required_map = array_fill_keys($required, true);
-		if (!empty($this->properties_required_map)) {
-			$missing = array_keys(array_diff_key($this->properties_required_map, $properties));
-			if (!empty($missing)) {
-				throw new Exceptions\MissingRequiredProperties(['object' => $this, 'names' => $missing]);
-			}
-		}
-		
-		//evaluator
-		UCall::assert('evaluator', $evaluator, function (string $name, &$value) : ?bool {}, true);
-		$this->properties_evaluator = \Closure::fromCallable($evaluator);
-		
-		//defaulter
-		if (isset($defaulter)) {
-			UCall::assert('defaulter', $defaulter, function (string $name) {}, true);
-			$this->properties_defaulter = \Closure::fromCallable($defaulter);
+		if (!empty($required)) {
+			$this->properties_manager->addRequiredPropertyNames($required);
 		}
 		
 		//initialize
-		$this->properties_initialized = true;
-		
-		//properties
-		foreach ($properties as $name => $value) {
-			$this->set($name, $value);
-		}
-		
-		//mode
-		$this->properties_mode = $mode;
-	}
-	
-	
-	
-	//Final private static methods
-	/**
-	 * Get property modes.
-	 * 
-	 * @since 1.0.0
-	 * @return string[] <p>The property modes.</p>
-	 */
-	final private static function getPropertyModes() : array
-	{
-		return ['rw', 'r', 'w'];
+		$this->properties_manager->initialize($properties);
 	}
 }
