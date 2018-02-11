@@ -18,9 +18,9 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
  * Core lazy properties trait.
  * 
  * This trait enables the support for a separate layer of custom lazy-loaded properties in a class.<br>
- * <br>
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
+ * <br>
  * Each and every property is only loaded on demand (lazy-loading).
  * 
  * @since 1.0.0
@@ -214,6 +214,8 @@ trait LazyProperties
 	//Final protected methods
 	/**
 	 * Create a property instance.
+	 * 
+	 * This method is only allowed to be called from within a builder function.
 	 * 
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
