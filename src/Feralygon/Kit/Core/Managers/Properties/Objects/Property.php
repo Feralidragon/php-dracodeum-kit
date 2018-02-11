@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Managers\Properties\Objects;
 
 use Feralygon\Kit\Core\Managers\Properties as Manager;
 use Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions;
+use Feralygon\Kit\Core\Enumeration;
 use Feralygon\Kit\Core\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -781,6 +782,82 @@ class Property
 			return isset($value)
 				? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
 				: $nullable;
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as an enumeration value.
+	 * 
+	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration value.
+	 * 
+	 * @since 1.0.0
+	 * @param string $enumeration <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false) : Property
+	{
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
+			return $enumeration::evaluateValue($value, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as an enumeration value.
+	 * 
+	 * @since 1.0.0
+	 * @param string $enumeration <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false) : Property
+	{
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
+			if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
+				$value = $enumeration::getValue($value);
+				return true;
+			}
+			return false;
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as an enumeration name.
+	 * 
+	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $enumeration <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsEnumerationName(string $enumeration, bool $nullable = false) : Property
+	{
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
+			return $enumeration::evaluateName($value, $nullable);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value strictly evaluated as an enumeration name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $enumeration <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false) : Property
+	{
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
+			return is_string($value) && $enumeration::hasName($value);
 		});
 		return $this;
 	}
