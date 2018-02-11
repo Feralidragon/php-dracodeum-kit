@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
@@ -51,32 +52,25 @@ class Stringify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'quote_strings':
 				//no break
 			case 'prepend_type':
-				return false;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'quote_strings':
-				//no break
-			case 'prepend_type':
-				return UType::evaluateBoolean($value);
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'non_assoc_mode':
-				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
-					UText::STRING_NONASSOC_MODE_COMMA_LIST,
-					UText::STRING_NONASSOC_MODE_COMMA_LIST_AND,
-					UText::STRING_NONASSOC_MODE_COMMA_LIST_OR,
-					UText::STRING_NONASSOC_MODE_COMMA_LIST_NOR
-				], true));
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+							UText::STRING_NONASSOC_MODE_COMMA_LIST,
+							UText::STRING_NONASSOC_MODE_COMMA_LIST_AND,
+							UText::STRING_NONASSOC_MODE_COMMA_LIST_OR,
+							UText::STRING_NONASSOC_MODE_COMMA_LIST_NOR
+						], true));
+					})
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}

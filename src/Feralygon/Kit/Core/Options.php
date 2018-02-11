@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core;
 
 use Feralygon\Kit\Core\Options\Exceptions;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
@@ -21,7 +22,7 @@ use Feralygon\Kit\Core\Utilities\Type as UType;
  * <br>
  * All properties are lazy-loaded, and validated and sanitized, guaranteeing their type and integrity, 
  * and may be retrieved and modified directly just like public object properties, 
- * and may also be set to read-only during instantiation to prevent any changes.
+ * and may also be set to read-only during instantiation to prevent any further changes.
  * 
  * @since 1.0.0
  */
@@ -42,37 +43,22 @@ abstract class Options implements \ArrayAccess
 	 */
 	final public function __construct(array $properties = [], bool $readonly = false)
 	{
-		$this->initializeProperties(
-			$properties,
-			\Closure::fromCallable([$this, 'evaluateProperty']),
-			\Closure::fromCallable([$this, 'getDefaultPropertyValue']),
-			[], $readonly ? 'r' : 'rw'
-		);
+		$mode = $readonly ? 'r+' : 'rw';
+		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperty']), $properties, [], $mode);
 	}
 	
 	
 	
 	//Abstract protected methods
 	/**
-	 * Get default value for a given property name.
+	 * Build property instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to get for.</p>
-	 * @return mixed <p>The default value for the given property name.</p>
+	 * @param string $name <p>The property name to build for.</p>
+	 * @return \Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property|null 
+	 * <p>The built property instance for the given name or <code>null</code> if none was built.</p>
 	 */
-	abstract protected function getDefaultPropertyValue(string $name);
-	
-	/**
-	 * Evaluate a given property value for a given name.
-	 * 
-	 * @since 1.0.0
-	 * @param string $name <p>The property name to evaluate for.</p>
-	 * @param mixed $value [reference] <p>The property value to evaluate (validate and sanitize).</p>
-	 * @return bool|null <p>Boolean <code>true</code> if the property with the given name and value exists 
-	 * and is successfully evaluated, boolean <code>false</code> if it exists but is not successfully evaluated, 
-	 * or <code>null</code> if it does not exist.</p>
-	 */
-	abstract protected function evaluateProperty(string $name, &$value) : ?bool;
+	abstract protected function buildProperty(string $name) : ?Property;
 	
 	
 	
@@ -132,7 +118,7 @@ abstract class Options implements \ArrayAccess
 				if (!$clone && get_class($value) === static::class) {
 					return $value;
 				} elseif (UType::isA($value, self::class)) {
-					return new static($value->getLoadedProperties(), $readonly);
+					return new static($value->getAll(), $readonly);
 				}
 			}
 		} catch (\Exception $exception) {

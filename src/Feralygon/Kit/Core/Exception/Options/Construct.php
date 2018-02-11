@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Core\Exception\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Type as UType
-};
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core exception <code>construct</code> method options class.
@@ -50,23 +47,20 @@ class Construct extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'message':
-				return UType::evaluateString($value, false, true);
+				return $this->createProperty()->setAsString(false, true)->setDefaultValue(null);
 			case 'stringifier':
-				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
+				return $this->createProperty()
+					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setDefaultValue(null)
+				;
 			case 'code':
-				return UType::evaluateInteger($value, true);
+				return $this->createProperty()->setAsInteger(true)->setDefaultValue(null);
 			case 'previous':
-				return !isset($value) || (is_object($value) && UType::isA($value, \Throwable::class));
+				return $this->createProperty()->setAsStrictObject(\Throwable::class, true)->setDefaultValue(null);
 		}
 		return null;
 	}

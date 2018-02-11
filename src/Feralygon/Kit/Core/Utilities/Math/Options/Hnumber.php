@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Math\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\{
 	Math as UMath,
 	Type as UType
@@ -40,27 +41,27 @@ class Hnumber extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'long':
-				return false;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'long':
-				return UType::evaluateBoolean($value);
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'precision':
-				return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);
+					})
+					->setDefaultValue(null)
+				;
 			case 'min_multiple':
 				//no break
 			case 'max_multiple':
-				return UMath::evaluateMultiple($value, true);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return UMath::evaluateMultiple($value, true);
+					})
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}

@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Traits\Memoization\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
@@ -25,19 +26,18 @@ final class Policy extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'ttl':
 				//no break
 			case 'limit':
-				return !isset($value) || (UType::evaluateInteger($value) && $value > 0);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return !isset($value) || (UType::evaluateInteger($value) && $value > 0);
+					})
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}

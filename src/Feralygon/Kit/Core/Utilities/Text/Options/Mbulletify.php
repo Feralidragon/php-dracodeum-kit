@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core text utility mbulletify method options class.
@@ -22,26 +22,14 @@ class Mbulletify extends Bulletify
 {
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'merge':
 				//no break
 			case 'punctuate':
-				return false;
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
-		return parent::getDefaultPropertyValue($name);
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'merge':
-				//no break
-			case 'punctuate':
-				return UType::evaluateBoolean($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		return parent::buildProperty($name);
 	}
 }

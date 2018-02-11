@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\Type as UType;
 
 /**
@@ -24,29 +25,26 @@ class Parse extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'delimiter_pattern':
-				return '\s+';
+				return $this->createProperty()->setAsString()->setDefaultValue('\s+');
 			case 'pattern_modifiers':
-				return '';
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateString($value) && 
+							($value === '' || (bool)preg_match('/^[imsxADSUXJu]+$/', $value));
+					})
+					->setDefaultValue('')
+				;
 			case 'pattern_delimiter':
-				return '/';
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'delimiter_pattern':
-				return UType::evaluateString($value);
-			case 'pattern_modifiers':
-				return UType::evaluateString($value) && ($value === '' || preg_match('/^[imsxADSUXJu]+$/', $value));
-			case 'pattern_delimiter':
-				return UType::evaluateString($value) && strlen($value) === 1;
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateString($value) && strlen($value) === 1;
+					})
+					->setDefaultValue('/')
+				;
 		}
 		return null;
 	}

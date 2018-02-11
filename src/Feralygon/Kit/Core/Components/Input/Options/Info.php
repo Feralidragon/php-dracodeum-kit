@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Components\Input\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core input component info options class.
@@ -22,25 +22,13 @@ class Info extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'exclude_null':
 				//no break
 			case 'exclude_modifiers':
-				return false;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'exclude_null':
-				//no break
-			case 'exclude_modifiers':
-				return UType::evaluateBoolean($value);
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
 		return null;
 	}

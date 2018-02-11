@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core text utility mparse method options class.
@@ -19,22 +19,12 @@ class Mparse extends Parse
 {
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'keep_nulls':
-				return false;
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
-		return parent::getDefaultPropertyValue($name);
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'keep_nulls':
-				return UType::evaluateBoolean($value);
-		}
-		return parent::evaluateProperty($name, $value);
+		return parent::buildProperty($name);
 	}
 }

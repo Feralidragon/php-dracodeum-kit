@@ -8,12 +8,9 @@
 namespace Feralygon\Kit\Root\Locale\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Core\Utilities\Text\Options\Stringify as StringOptions;
-use Feralygon\Kit\Core\Utilities\{
-	Call as UCall,
-	Data as UData
-};
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -47,31 +44,35 @@ class Translate extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'parameters':
-				return [];
+				return $this->createProperty()->setAsArray()->setDefaultValue([]);
 			case 'info_scope':
-				return EInfoScope::NONE;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'parameters':
-				return UData::evaluate($value);
-			case 'info_scope':
-				return EInfoScope::evaluateValue($value);
+				return $this->createProperty()
+					->setAsEnumerationValue(EInfoScope::class)
+					->setDefaultValue(EInfoScope::NONE)
+				;
 			case 'language':
-				return Locale::evaluateLanguage($value, true);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return Locale::evaluateLanguage($value, true);
+					})
+					->setDefaultValue(null)
+				;
 			case 'string_options':
-				return StringOptions::evaluate($value);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return StringOptions::evaluate($value);
+					})
+					->setDefaultValue(null)
+				;
 			case 'stringifier':
-				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
+				return $this->createProperty()
+					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}

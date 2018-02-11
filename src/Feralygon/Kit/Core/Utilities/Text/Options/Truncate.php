@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core text utility truncate method options class.
@@ -26,7 +26,7 @@ class Truncate extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'unicode':
@@ -36,25 +36,9 @@ class Truncate extends Options
 			case 'keep_words':
 				//no break
 			case 'keep_sentences':
-				return false;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'unicode':
-				//no break
-			case 'ellipsis':
-				//no break
-			case 'keep_words':
-				//no break
-			case 'keep_sentences':
-				return UType::evaluateBoolean($value);
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'ellipsis_string':
-				return UType::evaluateString($value, false, true);
+				return $this->createProperty()->setAsString(false, true)->setDefaultValue(null);
 		}
 		return null;
 	}

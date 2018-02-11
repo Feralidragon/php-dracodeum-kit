@@ -8,8 +8,8 @@
 namespace Feralygon\Kit\Core\Options;
 
 use Feralygon\Kit\Core\Options;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Core\Utilities\Type as UType;
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -27,27 +27,23 @@ class Text extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'info_scope':
-				return EInfoScope::NONE;
+				return $this->createProperty()
+					->setAsEnumerationValue(EInfoScope::class)
+					->setDefaultValue(EInfoScope::NONE)
+				;
 			case 'translate':
-				return false;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'info_scope':
-				return EInfoScope::evaluateValue($value);
-			case 'translate':
-				return UType::evaluateBoolean($value);
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'language':
-				return Locale::evaluateLanguage($value, true);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return Locale::evaluateLanguage($value, true);
+					})
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}

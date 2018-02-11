@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Time\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core time utility generate method options class.
@@ -27,19 +27,13 @@ class Generate extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'format':
 				//no break
 			case 'keys_format':
-				return UType::evaluateString($value, true, true);
+				return $this->createProperty()->setAsString(true, true)->setDefaultValue(null);
 		}
 		return null;
 	}

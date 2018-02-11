@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Json\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core JSON utility encode method options class.
@@ -25,23 +25,13 @@ class Encode extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'flags':
-				return 0x00;
-		}
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
-	{
-		switch ($name) {
-			case 'flags':
-				return UType::evaluateInteger($value);
+				return $this->createProperty()->setAsInteger()->setDefaultValue(0x00);
 			case 'depth':
-				return UType::evaluateInteger($value, true);
+				return $this->createProperty()->setAsInteger(true)->setDefaultValue(null);
 		}
 		return null;
 	}

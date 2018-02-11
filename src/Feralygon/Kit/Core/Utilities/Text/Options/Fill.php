@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Text\Options;
 
 use Feralygon\Kit\Core\Options;
-use Feralygon\Kit\Core\Utilities\Call as UCall;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core text utility fill method options class.
@@ -35,19 +35,21 @@ class Fill extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function getDefaultPropertyValue(string $name)
-	{
-		return null;
-	}
-	
-	/** {@inheritdoc} */
-	protected function evaluateProperty(string $name, &$value) : ?bool
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'string_options':
-				return Stringify::evaluate($value);
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return Stringify::evaluate($value);
+					})
+					->setDefaultValue(null)
+				;
 			case 'stringifier':
-				return UCall::evaluate($value, function (string $placeholder, $value) : ?string {}, true, true);
+				return $this->createProperty()
+					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setDefaultValue(null)
+				;
 		}
 		return null;
 	}
