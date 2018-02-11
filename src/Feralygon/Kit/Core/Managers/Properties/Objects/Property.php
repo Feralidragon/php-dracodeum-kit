@@ -121,7 +121,8 @@ class Property
 	 */
 	final public function isRequired() : bool
 	{
-		return $this->required || !$this->has_default_value;
+		return $this->required || !$this->has_default_value || 
+			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name));
 	}
 	
 	/**
@@ -885,7 +886,9 @@ class Property
 		$this->initialized = true;
 		if ($this->has_default_value) {
 			$this->setValue($this->default_value);
-		} else {
+		} elseif (
+			!$this->required && (!$this->manager->isLazy() || !$this->manager->isRequiredPropertyName($this->name))
+		) {
 			$value = $this->getValue();
 			$this->setDefaultValue($value);
 			if ($this->initialized) {

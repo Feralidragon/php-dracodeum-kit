@@ -201,6 +201,18 @@ class Properties
 	}
 	
 	/**
+	 * Check if a given property name is required.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given property name is required.</p>
+	 */
+	final public function isRequiredPropertyName(string $name) : bool
+	{
+		return $this->lazy ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
+	}
+	
+	/**
 	 * Add a new property with a given name.
 	 * 
 	 * This method is only allowed to be called before initialization and with lazy-loading disabled.
@@ -346,11 +358,14 @@ class Properties
 		
 		//properties
 		foreach ($properties as $name => $value) {
+			//property
+			$property = $this->getProperty($name);
+			if ($property->getMode() === 'r') {
+				throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
+			}
+			
+			//set value
 			try {
-				$property = $this->getProperty($name);
-				if ($property->getMode() === 'r') {
-					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
-				}
 				$property->setValue($value);
 			} catch (PropertyExceptions\InvalidValue $exception) {
 				throw new Exceptions\InvalidPropertyValue([
@@ -505,7 +520,7 @@ class Properties
 			throw new Exceptions\CannotUnsetReadonlyProperty(['manager' => $this, 'property' => $property]);
 		} elseif ($property_mode === 'w-') {
 			throw new Exceptions\CannotUnsetWriteonceProperty(['manager' => $this, 'property' => $property]);
-		} elseif (($this->lazy && isset($this->required_map[$name])) || (!$this->lazy && $property->isRequired())) {
+		} elseif ($property->isRequired()) {
 			throw new Exceptions\CannotUnsetRequiredProperty(['manager' => $this, 'property' => $property]);
 		}
 		
