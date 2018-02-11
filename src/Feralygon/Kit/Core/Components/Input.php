@@ -20,7 +20,7 @@ use Feralygon\Kit\Core\Prototypes\{
 	Inputs as Prototypes
 };
 use Feralygon\Kit\Core\Prototypes\Input\Interfaces as PrototypeInterfaces;
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Prototype as ComponentPrototype;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
@@ -132,7 +132,7 @@ class Input extends Component
 	{
 		switch ($name) {
 			case 'nullable':
-				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
 			case 'modifiers':
 				return $this->createProperty()
 					->setMode('w-')

@@ -15,7 +15,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Stringification as IStringification,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
@@ -86,21 +86,21 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 		switch ($name) {
 			case 'length':
 				return $this->createProperty()
-					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value) && $value >= 0;
 					})
+					->bind(self::class)
 				;
 			case 'unicode':
 				//no break
 			case 'ellipsis':
-				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
 			case 'ellipsis_string':
-				return $this->createProperty()->bind($name, self::class)->setAsString(false, true);
+				return $this->createProperty()->setAsString(false, true)->bind(self::class);
 			case 'keep_words':
 				//no break
 			case 'keep_sentences':
-				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

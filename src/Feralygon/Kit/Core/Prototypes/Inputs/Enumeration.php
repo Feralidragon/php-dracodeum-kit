@@ -15,7 +15,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Interfaces\{
 	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Core\Enumeration as CoreEnumeration;
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
@@ -122,19 +122,19 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		switch ($name) {
 			case 'enumeration':
 				return $this->createProperty()
-					->setMode('r')
-					->bind($name, self::class)
+					->setMode('r+')
 					->setAsStrictClass(CoreEnumeration::class)
+					->bind(self::class)
 				;
 			case 'values':
 				//no break
 			case 'non_values':
 				return $this->createProperty()
-					->setMode('r')
-					->bind($name, self::class)
+					->setMode('r+')
 					->setAsArray(function (&$key, &$value) : bool {
 						return is_int($value) || is_float($value) || is_string($value);
 					}, true)
+					->bind(self::class)
 				;
 			case 'names_only':
 				//no break
@@ -145,7 +145,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			case 'hide_values':
 				//no break
 			case 'namify':
-				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

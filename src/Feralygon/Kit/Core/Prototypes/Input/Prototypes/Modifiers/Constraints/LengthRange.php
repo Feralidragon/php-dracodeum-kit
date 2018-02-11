@@ -16,7 +16,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Stringification as IStringification,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
@@ -66,21 +66,16 @@ implements IPrototypeProperties, IName, IPriority, IInformation, IStringificatio
 	{
 		switch ($name) {
 			case 'min_length':
-				return $this->createProperty()
-					->bind($name, self::class)
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-				;
+				//no break
 			case 'max_length':
 				return $this->createProperty()
-					->bind($name, self::class)
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateInteger($value) && $value >= 0;
 					})
+					->bind(self::class)
 				;
 			case 'unicode':
-				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

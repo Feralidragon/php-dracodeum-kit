@@ -23,7 +23,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\{
 	Constraints as InputConstraints,
 	Filters as InputFilters
 };
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
@@ -135,7 +135,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 			case 'unicode':
 				//no break
 			case 'trim':
-				return $this->createProperty()->setMode('r')->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

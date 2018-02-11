@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
@@ -51,7 +51,7 @@ class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

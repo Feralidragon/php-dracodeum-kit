@@ -14,7 +14,7 @@ use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Information as IInformation,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Core\Options\Text as TextOptions;
 use Feralygon\Kit\Core\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Core\Utilities\Text as UText;
@@ -52,7 +52,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	{
 		switch ($name) {
 			case 'extended':
-				return $this->createProperty()->bind($name, self::class)->setAsBoolean();
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

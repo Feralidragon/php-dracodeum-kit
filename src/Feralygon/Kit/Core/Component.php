@@ -93,7 +93,7 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
 abstract class Component implements \ArrayAccess
 {
 	//Traits
-	use CoreTraits\ExtendedLazyProperties\ArrayAccess;
+	use CoreTraits\LazyProperties\ArrayAccess;
 	use Traits\Properties;
 	use Traits\Initialization;
 	use Traits\PrototypeInitialization;
@@ -170,7 +170,9 @@ abstract class Component implements \ArrayAccess
 		
 		//properties
 		$this->initializeProperties(
-			$properties, \Closure::fromCallable([$this, 'buildProperty']), $this->getRequiredPropertyNames()
+			\Closure::fromCallable([$this, 'buildProperty']),
+			$properties,
+			$this->getRequiredPropertyNames()
 		);
 		
 		//initialize
@@ -301,8 +303,7 @@ abstract class Component implements \ArrayAccess
 		if (isset($builder)) {
 			//assert
 			UCall::assert(
-				'builder',
-				$builder,
+				'builder', $builder,
 				function ($prototype, array $prototype_properties, array $properties) : Component {},
 				true
 			);

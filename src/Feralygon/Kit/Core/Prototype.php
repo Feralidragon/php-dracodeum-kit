@@ -27,7 +27,7 @@ use Feralygon\Kit\Core\Prototype\{
 abstract class Prototype implements \ArrayAccess
 {
 	//Traits
-	use Traits\ExtendedLazyProperties\ArrayAccess;
+	use Traits\LazyProperties\ArrayAccess;
 	use Traits\Functions;
 	
 	
@@ -44,7 +44,7 @@ abstract class Prototype implements \ArrayAccess
 	{
 		//properties
 		if ($this instanceof Interfaces\Properties) {
-			$this->initializeProperties($properties, [$this, 'buildProperty'], $this->getRequiredPropertyNames());
+			$this->initializeProperties([$this, 'buildProperty'], $properties, $this->getRequiredPropertyNames());
 		} elseif (!empty($properties)) {
 			throw new Exceptions\PropertiesNotImplemented(['prototype' => $this]);
 		}

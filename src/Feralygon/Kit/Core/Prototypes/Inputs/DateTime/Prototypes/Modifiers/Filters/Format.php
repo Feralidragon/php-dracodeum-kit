@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Core\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Fil
 
 use Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Core\Prototype\Interfaces\Properties as IPrototypeProperties;
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core date and time input format filter modifier prototype class.
@@ -49,7 +49,7 @@ class Format extends Filter implements IPrototypeProperties
 	{
 		switch ($name) {
 			case 'format':
-				return $this->createProperty()->bind($name, self::class)->setAsString(true);
+				return $this->createProperty()->setAsString(true)->bind(self::class);
 		}
 		return null;
 	}

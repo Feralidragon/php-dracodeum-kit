@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Core\Component\Traits;
 
-use Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property;
+use Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property;
 
 /**
  * Core component properties trait.
@@ -41,8 +41,8 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to build for.</p>
-	 * @return \Feralygon\Kit\Core\Traits\ExtendedLazyProperties\Objects\Property|null <p>The built property instance 
-	 * for the given name or <code>null</code> if none was built.</p>
+	 * @return \Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property|null 
+	 * <p>The built property instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	protected function buildProperty(string $name) : ?Property
 	{
