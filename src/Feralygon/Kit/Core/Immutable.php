@@ -38,17 +38,17 @@ abstract class Immutable implements \ArrayAccess, IArrayable
 	 */
 	final public function __construct(array $properties = [])
 	{
-		$this->initializeProperties($properties, \Closure::fromCallable([$this, 'loadProperties']), 'r');
+		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperties']), $properties, 'r+');
 	}
 	
 	
 	
 	//Abstract protected methods	
 	/**
-	 * Load properties.
+	 * Build properties.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract protected function loadProperties() : void;
+	abstract protected function buildProperties() : void;
 }

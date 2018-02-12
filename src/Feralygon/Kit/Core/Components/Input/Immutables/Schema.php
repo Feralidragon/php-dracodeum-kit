@@ -25,16 +25,15 @@ class Schema extends Immutable
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		//properties
-		$this->addStringProperty('name', true, true);
-		$this->addMixedProperty('data');
-		$this->addArrayProperty('modifiers', false, function (&$key, &$value) : bool {
-			return is_object($value) && UType::isA($value, ModifierSchema::class);
-		}, true);
-		
-		//defaults
-		$this->setPropertyDefaultValue('modifiers', []);
+		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('data')->setDefaultValue(null);
+		$this->addProperty('modifiers')
+			->setAsArray(function (&$key, &$value) : bool {
+				return is_object($value) && UType::isA($value, ModifierSchema::class);
+			}, true)
+			->setDefaultValue([])
+		;
 	}
 }

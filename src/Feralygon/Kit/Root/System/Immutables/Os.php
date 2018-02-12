@@ -24,13 +24,13 @@ final class Os extends Immutable
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('name', true, true);
-		$this->addStringProperty('hostname', true, true);
-		$this->addStringProperty('release', true, true);
-		$this->addStringProperty('information', true, true);
-		$this->addStringProperty('architecture', true, true);
+		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('hostname')->setAsString(true)->setAsRequired();
+		$this->addProperty('release')->setAsString(true)->setAsRequired();
+		$this->addProperty('information')->setAsString(true)->setAsRequired();
+		$this->addProperty('architecture')->setAsString(true)->setAsRequired();
 	}
 	
 	

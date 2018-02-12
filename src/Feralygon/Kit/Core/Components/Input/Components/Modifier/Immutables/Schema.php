@@ -21,9 +21,9 @@ class Schema extends Immutable
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('name', true, true);
-		$this->addMixedProperty('data');
+		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('data')->setDefaultValue(null);
 	}
 }
