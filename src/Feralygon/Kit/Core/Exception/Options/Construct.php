@@ -58,7 +58,7 @@ class Construct extends Options
 					->setDefaultValue(null)
 				;
 			case 'code':
-				return $this->createProperty()->setAsInteger(true)->setDefaultValue(null);
+				return $this->createProperty()->setAsStrictInteger(true)->setDefaultValue(null);
 			case 'previous':
 				return $this->createProperty()->setAsStrictObject(\Throwable::class, true)->setDefaultValue(null);
 		}

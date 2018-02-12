@@ -29,7 +29,7 @@ class Encode extends Options
 	{
 		switch ($name) {
 			case 'flags':
-				return $this->createProperty()->setAsInteger()->setDefaultValue(0x00);
+				return $this->createProperty()->setAsStrictInteger()->setDefaultValue(0x00);
 			case 'depth':
 				return $this->createProperty()->setAsInteger(true)->setDefaultValue(null);
 		}
