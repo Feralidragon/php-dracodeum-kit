@@ -16,8 +16,8 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions;
  * This utility implements a set of methods used to check, validate and retrieve information from PHP types, 
  * being mostly focused in scalars, objects and classes.<br>
  * <br>
- * For functions or callables see the <code>\Feralygon\Kit\Core\Utilities\Call</code> class, 
- * while for arrays see the <code>\Feralygon\Kit\Core\Utilities\Data</code> class instead.
+ * For functions or callables see the <code>Feralygon\Kit\Core\Utilities\Call</code> class, 
+ * while for arrays see the <code>Feralygon\Kit\Core\Utilities\Data</code> class instead.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Utilities\Call

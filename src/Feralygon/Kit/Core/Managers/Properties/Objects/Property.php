@@ -720,7 +720,7 @@ class Property
 	 * 
 	 * Only the following types and formats can be evaluated into an array:<br>
 	 * &nbsp; &#8226; &nbsp; an array;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 

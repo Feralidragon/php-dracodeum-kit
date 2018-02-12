@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Traits\Properties;
  * Core properties arrayable access trait.
  * 
  * This trait extends the properties trait and implements both the PHP core <code>ArrayAccess</code> 
- * and <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interfaces.
+ * and <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interfaces.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Traits\Properties

@@ -13,7 +13,7 @@ use Feralygon\Kit\Core\Traits\Properties;
  * Core properties arrayable trait.
  * 
  * This trait extends the properties trait and implements 
- * the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+ * the <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Traits\Properties

@@ -1744,7 +1744,7 @@ final class Data extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into an array:<br>
 	 * &nbsp; &#8226; &nbsp; an array;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
@@ -1785,7 +1785,7 @@ final class Data extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into an array:<br>
 	 * &nbsp; &#8226; &nbsp; an array;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>\Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>

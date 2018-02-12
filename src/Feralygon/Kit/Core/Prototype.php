@@ -16,7 +16,7 @@ use Feralygon\Kit\Core\Prototype\{
  * Core prototype class.
  * 
  * This class is the base to be extended from when creating a prototype.<br>
- * For more information, please check the <code>\Feralygon\Kit\Core\Component</code> class.
+ * For more information, please check the <code>Feralygon\Kit\Core\Component</code> class.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Component

@@ -1659,7 +1659,7 @@ final class Text extends Utility
 	/**
 	 * Localize a given message.
 	 * 
-	 * Unlike the <code>translate</code> method from the root locale class <code>\Feralygon\Kit\Root\Locale</code>, 
+	 * Unlike the <code>translate</code> method from the root locale class <code>Feralygon\Kit\Root\Locale</code>, 
 	 * the returning message is only actually translated depending on the given text options, in other words, 
 	 * this function is meant to be used with any message which is only meant to be translated 
 	 * if such is explicitly demanded by the callee through text options.<br>
@@ -1738,7 +1738,7 @@ final class Text extends Utility
 	/**
 	 * Localize a given plural message.
 	 * 
-	 * Unlike the <code>ptranslate</code> method from the root locale class <code>\Feralygon\Kit\Root\Locale</code>, 
+	 * Unlike the <code>ptranslate</code> method from the root locale class <code>Feralygon\Kit\Root\Locale</code>, 
 	 * the returning message is only actually translated depending on the given text options, in other words, 
 	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly 
 	 * demanded by the callee through text options.<br>
