@@ -31,8 +31,8 @@ class InvalidEnvironment extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addMixedProperty('environment', true);
+		$this->addProperty('environment')->setAsRequired();
 	}
 }

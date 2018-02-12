@@ -40,16 +40,15 @@ class InvalidEncoding extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		//properties
-		$this->addStringProperty('encoding', true);
-		$this->addArrayProperty('encodings', false, function (&$key, &$value) : bool {
-			return UType::evaluateString($value, true);
-		}, true);
-		
-		//defaults
-		$this->setPropertyDefaultValue('encodings', []);
+		$this->addProperty('encoding')->setAsString()->setAsRequired();
+		$this->addProperty('encodings')
+			->setAsArray(function (&$key, &$value) : bool {
+				return UType::evaluateString($value, true);
+			}, true)
+			->setDefaultValue([])
+		;
 	}
 	
 	

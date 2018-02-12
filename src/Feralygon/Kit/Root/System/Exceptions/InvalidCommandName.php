@@ -32,8 +32,8 @@ class InvalidCommandName extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('name', true);
+		$this->addProperty('name')->setAsString()->setAsRequired();
 	}
 }
