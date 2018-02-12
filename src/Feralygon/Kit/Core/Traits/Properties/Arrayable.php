@@ -30,6 +30,6 @@ trait Arrayable
 	/** {@inheritdoc} */
 	final public function toArray() : array
 	{
-		return $this->getProperties();
+		return $this->getAll();
 	}
 }
