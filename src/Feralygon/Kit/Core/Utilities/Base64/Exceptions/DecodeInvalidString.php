@@ -37,13 +37,9 @@ class DecodeInvalidString extends Decode
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		//properties
-		$this->addStringProperty('string', true);
-		$this->addBooleanProperty('url_safe');
-		
-		//defaults
-		$this->setPropertyDefaultValue('url_safe', false);
+		$this->addProperty('string')->setAsString()->setAsRequired();
+		$this->addProperty('url_safe')->setAsBoolean()->setDefaultValue(false);
 	}
 }

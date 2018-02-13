@@ -40,16 +40,19 @@ class InvalidMode extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('mode', true);
-		$this->addArrayProperty('modes', true, function (&$key, &$value) : bool {
-			return UType::evaluateString($value, true);
-		}, true, true);
+		$this->addProperty('mode')->setAsString()->setAsRequired();
+		$this->addProperty('modes')
+			->setAsArray(function (&$key, &$value) : bool {
+				return UType::evaluateString($value, true);
+			}, true, true)
+			->setAsRequired()
+		;
 	}
 	
 	/** {@inheritdoc} */

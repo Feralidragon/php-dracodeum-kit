@@ -30,8 +30,8 @@ class InvalidObjectClass extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addMixedProperty('object_class', true);
+		$this->addProperty('object_class')->setAsRequired();
 	}
 }

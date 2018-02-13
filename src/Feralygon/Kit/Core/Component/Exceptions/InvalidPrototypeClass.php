@@ -33,13 +33,13 @@ class InvalidPrototypeClass extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('class', true);
-		$this->addClassProperty('base_class', true, Prototype::class);
+		$this->addProperty('class')->setAsString()->setAsRequired();
+		$this->addProperty('base_class')->setAsClass(Prototype::class)->setAsRequired();
 	}
 }

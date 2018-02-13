@@ -36,13 +36,13 @@ class NotInitialized extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('error_message', false, false, true);
+		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
 	/** {@inheritdoc} */

@@ -31,8 +31,8 @@ class InvalidBits extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addIntegerProperty('bits', true);
+		$this->addProperty('bits')->setAsInteger()->setAsRequired();
 	}
 }

@@ -30,12 +30,12 @@ class PropertyAlreadyAdded extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
+		$this->addProperty('name')->setAsString()->setAsRequired();
 	}
 }

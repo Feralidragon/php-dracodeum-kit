@@ -29,8 +29,8 @@ class IndentateInvalidLevel extends Indentate
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addIntegerProperty('level', true);
+		$this->addProperty('level')->setAsInteger()->setAsRequired();
 	}
 }

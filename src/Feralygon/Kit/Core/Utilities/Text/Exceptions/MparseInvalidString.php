@@ -28,8 +28,8 @@ class MparseInvalidString extends Mparse
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addMixedProperty('string', true);
+		$this->addProperty('string')->setAsRequired();
 	}
 }

@@ -30,11 +30,14 @@ class WrandomInvalidValueWeight extends Wrandom
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addProperty('value', function (&$value) : bool {
-			return is_int($value) || is_string($value);
-		}, true);
-		$this->addMixedProperty('weight', true);
+		$this->addProperty('value')
+			->setEvaluator(function (&$value) : bool {
+				return is_int($value) || is_string($value);
+			})
+			->setAsRequired()
+		;
+		$this->addProperty('weight')->setAsRequired();
 	}
 }

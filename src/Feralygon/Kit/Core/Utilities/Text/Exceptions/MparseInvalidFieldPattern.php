@@ -30,9 +30,9 @@ class MparseInvalidFieldPattern extends Mparse
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('field', true);
-		$this->addMixedProperty('pattern', true);
+		$this->addProperty('field')->setAsString()->setAsRequired();
+		$this->addProperty('pattern')->setAsRequired();
 	}
 }

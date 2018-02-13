@@ -53,21 +53,24 @@ class NameCoercionFailed extends Exception implements ICoercion
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addMixedProperty('value', true);
-		$this->addProperty('error_code', function (&$value) : bool {
-			return !isset($value) || (UType::evaluateString($value) && in_array($value, [
-				self::ERROR_CODE_NULL,
-				self::ERROR_CODE_INVALID_TYPE,
-				self::ERROR_CODE_NOT_FOUND
-			], true));
-		});
-		$this->addStringProperty('error_message', false, false, true);
+		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('error_code')
+			->setEvaluator(function (&$value) : bool {
+				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_INVALID_TYPE,
+					self::ERROR_CODE_NOT_FOUND
+				], true));
+			})
+			->setDefaultValue(null)
+		;
+		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
 	/** {@inheritdoc} */

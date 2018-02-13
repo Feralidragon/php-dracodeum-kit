@@ -21,8 +21,8 @@ abstract class Exception extends Core\Exception
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStrictClassProperty('enumeration', true, Enumeration::class);
+		$this->addProperty('enumeration')->setAsStrictClass(Enumeration::class)->setAsRequired();
 	}
 }

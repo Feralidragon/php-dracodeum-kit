@@ -35,16 +35,16 @@ class InvalidFunction extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
-		$this->addCallableProperty('function', true);
-		$this->addCallableProperty('template', true);
-		$this->addStringProperty('function_signature', true, true);
-		$this->addStringProperty('template_signature', true, true);
+		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('function')->setAsCallable()->setAsRequired();
+		$this->addProperty('template')->setAsCallable()->setAsRequired();
+		$this->addProperty('function_signature')->setAsString(true)->setAsRequired();
+		$this->addProperty('template_signature')->setAsString(true)->setAsRequired();
 	}
 }

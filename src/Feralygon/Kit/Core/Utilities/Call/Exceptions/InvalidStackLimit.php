@@ -31,8 +31,8 @@ class InvalidStackLimit extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addIntegerProperty('limit', true);
+		$this->addProperty('limit')->setAsInteger()->setAsRequired();
 	}
 }

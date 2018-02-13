@@ -30,8 +30,8 @@ class InvalidInterface extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addMixedProperty('interface', true);
+		$this->addProperty('interface')->setAsRequired();
 	}
 }

@@ -36,15 +36,18 @@ class MissingRequiredProperties extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addArrayProperty('names', true, function (&$key, &$value) : bool {
-			return UType::evaluateString($value);
-		}, true, true);
+		$this->addProperty('names')
+			->setAsArray(function (&$key, &$value) : bool {
+				return UType::evaluateString($value);
+			}, true, true)
+			->setAsRequired()
+		;
 	}
 	
 	/** {@inheritdoc} */

@@ -34,14 +34,14 @@ class ValueCoercionFailed extends Exception implements ICoercion
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addMixedProperty('value', true);
-		$this->addStringProperty('error_message', true);
+		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('error_message')->setAsString()->setAsRequired();
 	}
 	
 	/** {@inheritdoc} */

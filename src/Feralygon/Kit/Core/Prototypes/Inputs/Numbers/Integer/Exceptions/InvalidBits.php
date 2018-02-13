@@ -39,15 +39,11 @@ class InvalidBits extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		//properties
-		$this->addIntegerProperty('bits', true);
-		$this->addIntegerProperty('max_bits', true);
-		$this->addStrictObjectProperty('prototype', true, Integer::class);
-		$this->addBooleanProperty('unsigned');
-		
-		//defaults
-		$this->setPropertyDefaultValue('unsigned', false);
+		$this->addProperty('bits')->setAsInteger()->setAsRequired();
+		$this->addProperty('max_bits')->setAsInteger()->setAsRequired();
+		$this->addProperty('prototype')->setAsStrictObject(Integer::class)->setAsRequired();
+		$this->addProperty('unsigned')->setAsBoolean()->setDefaultValue(false);
 	}
 }

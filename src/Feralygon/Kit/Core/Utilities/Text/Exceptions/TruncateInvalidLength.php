@@ -29,8 +29,8 @@ class TruncateInvalidLength extends Truncate
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addIntegerProperty('length', true);
+		$this->addProperty('length')->setAsInteger()->setAsRequired();
 	}
 }

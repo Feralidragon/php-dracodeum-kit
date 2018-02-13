@@ -28,8 +28,8 @@ class MnumberInvalidNumber extends Mnumber
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('number', true);
+		$this->addProperty('number')->setAsString()->setAsRequired();
 	}
 }

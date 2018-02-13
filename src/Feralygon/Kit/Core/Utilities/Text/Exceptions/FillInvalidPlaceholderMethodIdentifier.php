@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Core\Utilities\Text\Exceptions;
 /**
  * Core text utility <code>fill</code> method invalid placeholder method identifier exception class.
  * 
- * This exception is thrown from the text utility <code>fill</code> method whenever a given placeholder method identifier is invalid.
+ * This exception is thrown from the text utility <code>fill</code> method whenever 
+ * a given placeholder method identifier is invalid.
  * 
  * @since 1.0.0
  * @property-read string $placeholder <p>The placeholder.</p>
@@ -29,9 +30,9 @@ class FillInvalidPlaceholderMethodIdentifier extends Fill
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('placeholder', true);
-		$this->addStringProperty('identifier', true);
+		$this->addProperty('placeholder')->setAsString()->setAsRequired();
+		$this->addProperty('identifier')->setAsString()->setAsRequired();
 	}
 }

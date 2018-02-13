@@ -31,8 +31,8 @@ class InvalidStackOffset extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addIntegerProperty('offset', true);
+		$this->addProperty('offset')->setAsInteger()->setAsRequired();
 	}
 }

@@ -28,8 +28,8 @@ class MperiodInvalidPeriod extends Mperiod
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('period', true);
+		$this->addProperty('period')->setAsString()->setAsRequired();
 	}
 }

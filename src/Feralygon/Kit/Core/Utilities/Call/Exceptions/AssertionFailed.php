@@ -49,13 +49,13 @@ class AssertionFailed extends Exception implements IAssertion
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('name', true);
-		$this->addCallableProperty('function', true);
-		$this->addCallableProperty('template', true);
-		$this->addStringProperty('function_signature', true);
-		$this->addStringProperty('template_signature', true);
-		$this->addObjectClassProperty('object_class', false, null, true);
+		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('function')->setAsCallable()->setAsRequired();
+		$this->addProperty('template')->setAsCallable()->setAsRequired();
+		$this->addProperty('function_signature')->setAsString(true)->setAsRequired();
+		$this->addProperty('template_signature')->setAsString(true)->setAsRequired();
+		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
 	}
 }

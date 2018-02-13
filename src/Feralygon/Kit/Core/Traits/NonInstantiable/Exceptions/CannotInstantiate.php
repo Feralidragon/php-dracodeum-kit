@@ -31,8 +31,8 @@ class CannotInstantiate extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addClassProperty('class', true);
+		$this->addProperty('class')->setAsClass()->setAsRequired();
 	}
 }

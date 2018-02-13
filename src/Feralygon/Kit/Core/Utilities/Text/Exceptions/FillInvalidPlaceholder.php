@@ -28,8 +28,8 @@ class FillInvalidPlaceholder extends Fill
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('placeholder', true);
+		$this->addProperty('placeholder')->setAsString()->setAsRequired();
 	}
 }

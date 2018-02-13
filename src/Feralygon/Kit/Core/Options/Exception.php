@@ -21,8 +21,8 @@ abstract class Exception extends Core\Exception
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addObjectClassProperty('options', true, Options::class);
+		$this->addProperty('options')->setAsObjectClass(Options::class)->setAsRequired();
 	}
 }

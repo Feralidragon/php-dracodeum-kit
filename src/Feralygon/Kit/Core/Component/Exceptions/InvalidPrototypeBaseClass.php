@@ -30,12 +30,12 @@ class InvalidPrototypeBaseClass extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('base_class', true);
+		$this->addProperty('base_class')->setAsString()->setAsRequired();
 	}
 }

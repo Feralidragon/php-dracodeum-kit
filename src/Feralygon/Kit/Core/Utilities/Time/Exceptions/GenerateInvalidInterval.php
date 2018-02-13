@@ -29,8 +29,8 @@ class GenerateInvalidInterval extends Generate
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addNumberProperty('interval', true);
+		$this->addProperty('interval')->setAsStrictNumber()->setAsRequired();
 	}
 }

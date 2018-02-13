@@ -30,14 +30,17 @@ class ValueNotFound extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addProperty('value', function (&$value) : bool {
-			return is_int($value) || is_float($value) || is_string($value);
-		}, true);
+		$this->addProperty('value')
+			->setEvaluator(function (&$value) : bool {
+				return is_int($value) || is_float($value) || is_string($value);
+			})
+			->setAsRequired()
+		;
 	}
 }

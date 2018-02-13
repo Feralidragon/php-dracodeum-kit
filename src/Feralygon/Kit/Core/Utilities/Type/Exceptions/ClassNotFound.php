@@ -30,8 +30,8 @@ class ClassNotFound extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('class', true);
+		$this->addProperty('class')->setAsString()->setAsRequired();
 	}
 }

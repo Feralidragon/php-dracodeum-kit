@@ -31,10 +31,10 @@ class GenerateStartLaterThanEnd extends Generate
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addNumberProperty('start', true);
-		$this->addNumberProperty('end', true);
+		$this->addProperty('start')->setAsStrictNumber()->setAsRequired();
+		$this->addProperty('end')->setAsStrictNumber()->setAsRequired();
 	}
 	
 	

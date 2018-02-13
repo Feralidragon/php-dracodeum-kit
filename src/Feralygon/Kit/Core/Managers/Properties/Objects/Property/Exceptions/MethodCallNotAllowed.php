@@ -37,14 +37,14 @@ class MethodCallNotAllowed extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStringProperty('name', true);
-		$this->addStringProperty('hint_message', false, false, true);
+		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('hint_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
 	/** {@inheritdoc} */

@@ -30,8 +30,8 @@ class InterfaceNotFound extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('interface', true);
+		$this->addProperty('interface')->setAsString()->setAsRequired();
 	}
 }

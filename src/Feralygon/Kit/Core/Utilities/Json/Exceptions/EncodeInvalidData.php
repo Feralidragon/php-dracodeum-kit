@@ -34,11 +34,11 @@ class EncodeInvalidData extends Encode
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addMixedProperty('data', true);
-		$this->addIntegerProperty('error_code', false, true);
-		$this->addStringProperty('error_message', false, false, true);
+		$this->addProperty('data')->setAsRequired();
+		$this->addProperty('error_code')->setAsStrictInteger(true)->setDefaultValue(null);
+		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
 	

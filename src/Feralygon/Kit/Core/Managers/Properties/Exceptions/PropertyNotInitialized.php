@@ -33,12 +33,12 @@ class PropertyNotInitialized extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addStrictObjectProperty('property', true, Property::class);
+		$this->addProperty('property')->setAsStrictObject(Property::class)->setAsRequired();
 	}
 }

@@ -31,12 +31,12 @@ class InvalidOwner extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
 		//parent
-		parent::loadProperties();
+		parent::buildProperties();
 		
 		//properties
-		$this->addMixedProperty('owner', true);
+		$this->addProperty('owner')->setAsRequired();
 	}
 }

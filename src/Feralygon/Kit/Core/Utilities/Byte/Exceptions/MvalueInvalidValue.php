@@ -28,8 +28,8 @@ class MvalueInvalidValue extends Mvalue
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function buildProperties() : void
 	{
-		$this->addStringProperty('value', true);
+		$this->addProperty('value')->setAsString()->setAsRequired();
 	}
 }
