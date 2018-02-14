@@ -50,6 +50,9 @@ class Property
 	private $default_value = null;
 	
 	/** @var \Closure|null */
+	private $default_getter = null;
+	
+	/** @var \Closure|null */
 	private $evaluator = null;
 	
 	/** @var \Closure|null */
@@ -313,6 +316,32 @@ class Property
 		}
 		$this->default_value = $value;
 		$this->has_default_value = true;
+		$this->default_getter = null;
+		return $this;
+	}
+	
+	/**
+	 * Set default getter function.
+	 * 
+	 * By setting a default getter function, the default value will always be retrieved using that function.<br>
+	 * It is only called upon value retrieval, after all properties have been initialized through the manager.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $getter <p>The default getter function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>mixed</b></code><br>
+	 * The default value.
+	 * </p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setDefaultGetter(callable $getter) : Property
+	{
+		UCall::assert('default_getter', $getter, function () {}, true);
+		$this->default_getter = \Closure::fromCallable($getter);
+		$this->default_value = null;
+		$this->has_default_value = false;
 		return $this;
 	}
 	
@@ -869,8 +898,22 @@ class Property
 	 * By setting a getter and a setter function, the value will always be retrieved and modified using those functions.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $getter <p>The getter function to set.</p>
-	 * @param callable $setter <p>The setter function to set.</p>
+	 * @param callable $getter <p>The getter function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>mixed</b></code><br>
+	 * The value.
+	 * </p>
+	 * @param callable $setter <p>The setter function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function ($value) : void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to set.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code>
+	 * </p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAccessors(callable $getter, callable $setter) : Property
