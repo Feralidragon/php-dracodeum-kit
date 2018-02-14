@@ -215,7 +215,7 @@ trait LazyProperties
 	/**
 	 * Create a property instance.
 	 * 
-	 * This method is only allowed to be called from within a builder function.
+	 * This method may only be called from within a builder function.
 	 * 
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized

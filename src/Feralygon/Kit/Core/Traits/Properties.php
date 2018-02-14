@@ -210,7 +210,7 @@ trait Properties
 	/**
 	 * Add a new property with a given name.
 	 * 
-	 * This method is only allowed to be called from within a builder function.
+	 * This method may only be called from within a builder function.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>

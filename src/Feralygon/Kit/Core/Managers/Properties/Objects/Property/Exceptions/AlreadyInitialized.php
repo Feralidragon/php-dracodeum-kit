@@ -10,21 +10,19 @@ namespace Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions;
 use Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exception;
 
 /**
- * Core properties manager property object not initialized exception class.
+ * Core properties manager property object already initialized exception class.
  * 
- * This exception is thrown from a property object whenever it has not been initialized yet.
+ * This exception is thrown from a property object whenever it has already been initialized.
  * 
  * @since 1.0.0
  */
-class NotInitialized extends Exception
+class AlreadyInitialized extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
 		return "Property {{property.getName()}} from properties manager " . 
-			"with owner {{property.getManager().getOwner()}} has not been initialized yet.\n" . 
-			"HINT: A property must be initialized first through the \"setValue\", " . 
-			"\"setGetter\" or \"setSetter\" method.";
+			"with owner {{property.getManager().getOwner()}} has already been initialized.";
 	}
 }

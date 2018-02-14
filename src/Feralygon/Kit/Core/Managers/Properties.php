@@ -48,6 +48,9 @@ class Properties
 	/** @var bool */
 	private $initialized = false;
 	
+	/** @var bool */
+	private $initializing = false;
+	
 	/** @var bool[] */
 	private $required_map = [];
 	
@@ -166,7 +169,7 @@ class Properties
 	 * The properties, corresponding to the given required property names added here, 
 	 * must be given during initialization.<br>
 	 * <br>
-	 * This method is only allowed to be called before initialization, with lazy-loading enabled 
+	 * This method may only be called before initialization, with lazy-loading enabled 
 	 * and only if the base access mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
@@ -215,7 +218,7 @@ class Properties
 	/**
 	 * Add a new property with a given name.
 	 * 
-	 * This method is only allowed to be called before initialization and with lazy-loading disabled.
+	 * This method may only be called before initialization and with lazy-loading disabled.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
@@ -265,7 +268,7 @@ class Properties
 	 * Set builder function.
 	 * 
 	 * A builder function is required to be set when lazy-loading is enabled.<br>
-	 * This method is only allowed to be called before initialization and with lazy-loading enabled.
+	 * This method may only be called before initialization and with lazy-loading enabled.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $builder <p>The function to build a property instance for a given name.<br>
@@ -313,10 +316,22 @@ class Properties
 	}
 	
 	/**
+	 * Check if is initializing.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if is initializing.</p>
+	 */
+	final public function isInitializing() : bool
+	{
+		return $this->initializing;
+	}
+	
+	/**
 	 * Initialize.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []] <p>The properties to initialize with, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\AlreadyInitialized
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\NoBuilderSet
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MissingRequiredProperties
@@ -333,46 +348,59 @@ class Properties
 			throw new Exceptions\NoBuilderSet(['manager' => $this]);
 		}
 		
-		//required (initialize)
-		$required_map = [];
-		if ($this->lazy) {
-			$required_map = $this->required_map;
-		} else {
-			foreach ($this->properties as $name => $property) {
-				if ($property->isRequired()) {
-					$required_map[$name] = true;
+		//initialize
+		$this->initializing = true;
+		try {
+			//required (initialize)
+			$required_map = [];
+			if ($this->lazy) {
+				$required_map = $this->required_map;
+			} else {
+				foreach ($this->properties as $name => $property) {
+					if ($property->isRequired()) {
+						$required_map[$name] = true;
+					}
 				}
 			}
-		}
-		
-		//required (process)
-		if (!empty($required_map)) {
-			$missing_names = array_keys(array_diff_key($required_map, $properties));
-			if (!empty($missing_names)) {
-				throw new Exceptions\MissingRequiredProperties(['manager' => $this, 'names' => $missing_names]);
-			}
-		}
-		
-		//initialized
-		$this->initialized = true;
-		
-		//properties
-		foreach ($properties as $name => $value) {
-			//property
-			$property = $this->getProperty($name);
-			if ($property->getMode() === 'r') {
-				throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
+			
+			//required (process)
+			if (!empty($required_map)) {
+				$missing_names = array_keys(array_diff_key($required_map, $properties));
+				if (!empty($missing_names)) {
+					throw new Exceptions\MissingRequiredProperties(['manager' => $this, 'names' => $missing_names]);
+				}
 			}
 			
-			//set value
-			try {
-				$property->setValue($value);
-			} catch (PropertyExceptions\InvalidValue $exception) {
-				throw new Exceptions\InvalidPropertyValue([
-					'manager' => $this, 'property' => $property, 'value' => $value
-				]);
+			//properties (set value)
+			foreach ($properties as $name => $value) {
+				//property
+				$property = $this->getProperty($name);
+				if ($property->getMode() === 'r') {
+					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
+				}
+				
+				//set value
+				try {
+					$property->setValue($value);
+				} catch (PropertyExceptions\InvalidValue $exception) {
+					throw new Exceptions\InvalidPropertyValue([
+						'manager' => $this, 'property' => $property, 'value' => $value
+					]);
+				}
 			}
+			
+			//properties (initialize)
+			if (!$this->lazy) {
+				foreach ($this->properties as $property) {
+					if (!$property->isInitialized()) {
+						$property->initialize();
+					}
+				}
+			}
+		} finally {
+			$this->initializing = false;
 		}
+		$this->initialized = true;
 		
 		//return
 		return $this;
@@ -398,7 +426,7 @@ class Properties
 			$this->getProperty($name);
 		} catch (Exceptions\PropertyNotFound $exception) {
 			return false;
-		} catch (Exceptions\PropertyNotInitialized $exception) {}
+		}
 		return true;
 	}
 	
@@ -409,7 +437,7 @@ class Properties
 	 * @param string $name <p>The property name to get from.</p>
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\CannotGetWriteonceProperty
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNotInitialized
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNoDefaultValueSet
 	 * @return mixed <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
@@ -426,8 +454,8 @@ class Properties
 		//get
 		try {
 			return $property->getValue();
-		} catch (PropertyExceptions\NotInitialized $exception) {
-			throw new Exceptions\PropertyNotInitialized(['manager' => $this, 'property' => $property]);
+		} catch (PropertyExceptions\NoDefaultValueSet $exception) {
+			throw new Exceptions\PropertyNoDefaultValueSet(['manager' => $this, 'property' => $property]);
 		}
 		return null;
 	}
@@ -563,7 +591,6 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\NotInitialized
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNotFound
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyManagerMismatch
@@ -572,13 +599,18 @@ class Properties
 	 */
 	final protected function getProperty(string $name) : Objects\Property
 	{
-		if (!$this->initialized) {
-			throw new Exceptions\NotInitialized(['manager' => $this]);
-		} elseif (!isset($this->properties[$name])) {
+		//initialize
+		if (!isset($this->properties[$name])) {
+			//build
 			$property = null;
 			if (isset($this->builder)) {
 				$property = ($this->builder)($name);
+				if ($this->initialized && !$property->isInitialized()) {
+					$property->initialize();
+				}
 			}
+			
+			//validate
 			if (!isset($property)) {
 				throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
 			} elseif ($property->getName() !== $name) {
@@ -588,8 +620,12 @@ class Properties
 			} elseif ($property->getManager() !== $this) {
 				throw new Exceptions\PropertyManagerMismatch(['manager' => $this, 'property' => $property]);
 			}
+			
+			//set
 			$this->properties[$name] = $property;
 		}
+		
+		//return
 		return $this->properties[$name];
 	}
 }

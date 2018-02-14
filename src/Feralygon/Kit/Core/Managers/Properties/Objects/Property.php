@@ -43,12 +43,6 @@ class Property
 	/** @var mixed */
 	private $value = null;
 	
-	/** @var bool */
-	private $has_default_value = false;
-	
-	/** @var mixed */
-	private $default_value = null;
-	
 	/** @var \Closure|null */
 	private $default_getter = null;
 	
@@ -105,8 +99,7 @@ class Property
 	/**
 	 * Check if is initialized.
 	 * 
-	 * A property is only considered to have been initialized after a value or default value has been set, 
-	 * or if accessor functions (a getter and a setter) have been set.
+	 * A property becomes implicitly initialized once a value is set.
 	 * 
 	 * @since 1.0.0
 	 * @return bool <p>Boolean <code>true</code> if is initialized.</p>
@@ -124,8 +117,24 @@ class Property
 	 */
 	final public function isRequired() : bool
 	{
-		return $this->required || !$this->has_default_value || 
+		return $this->required || !$this->hasDefaultValue() || 
 			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name));
+	}
+	
+	/**
+	 * Initialize.
+	 * 
+	 * @since 1.0.0
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\AlreadyInitialized
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function initialize() : Property
+	{
+		if ($this->initialized) {
+			throw new Exceptions\AlreadyInitialized(['property' => $this]);
+		}
+		$this->setValue($this->getDefaultValue());
+		return $this;
 	}
 	
 	/**
@@ -133,8 +142,8 @@ class Property
 	 * 
 	 * Even without being explicitly set as required, a property is considered so if it has no default value set.<br>
 	 * <br>
-	 * This method is only allowed to be called before the manager initialization, with lazy-loading disabled
-	 * and only if the mode is not set to strict read-only.
+	 * This method may only be called before initialization, of both the property and the manager, 
+	 * with lazy-loading disabled and only if the mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
@@ -142,7 +151,13 @@ class Property
 	 */
 	final public function setAsRequired() : Property
 	{
-		if ($this->manager->isLazy()) {
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setAsRequired',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		} elseif ($this->manager->isLazy()) {
 			throw new Exceptions\MethodCallNotAllowed([
 				'property' => $this,
 				'name' => 'setAsRequired',
@@ -180,6 +195,8 @@ class Property
 	/**
 	 * Set mode.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $mode <p>The access mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
@@ -198,11 +215,21 @@ class Property
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
 	 * </p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidMode
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setMode(string $mode) : Property
 	{
+		//check
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setMode',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		}
+		
 		//allowed modes
 		$modes = Manager::MODES;
 		$manager_mode = $this->manager->getMode();
@@ -229,14 +256,20 @@ class Property
 	/**
 	 * Get value.
 	 * 
+	 * This method may only be called after initialization.
+	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\NotInitialized
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return mixed <p>The value.</p>
 	 */
 	final public function getValue()
 	{
 		if (!$this->initialized) {
-			throw new Exceptions\NotInitialized(['property' => $this]);
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'getValue',
+				'hint_message' => "This method may only be called after initialization."
+			]);
 		} elseif (isset($this->getter)) {
 			return ($this->getter)();
 		}
@@ -246,29 +279,30 @@ class Property
 	/**
 	 * Set value.
 	 * 
+	 * This method may only be called during or after the manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to set.</p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setValue($value) : Property
 	{
-		//evaluator
-		if (isset($this->evaluator) && !($this->evaluator)($value)) {
+		if (!$this->manager->isInitialized() && !$this->manager->isInitializing()) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setValue',
+				'hint_message' => "This method may only be called during or after the manager initialization."
+			]);
+		} elseif (isset($this->evaluator) && !($this->evaluator)($value)) {
 			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
-		}
-		
-		//set
-		if (isset($this->setter)) {
+		} elseif (isset($this->setter)) {
 			($this->setter)($value);
 		} else {
 			$this->value = $value;
 		}
-		
-		//finish
 		$this->initialized = true;
-		
-		//return
 		return $this;
 	}
 	
@@ -280,7 +314,7 @@ class Property
 	 */
 	final public function hasDefaultValue() : bool
 	{
-		return $this->has_default_value;
+		return isset($this->default_getter);
 	}
 	
 	/**
@@ -288,35 +322,46 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\NoDefaultValueSet
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidDefaultValue
 	 * @return mixed <p>The default value.</p>
 	 */
 	final public function getDefaultValue()
 	{
-		if (!$this->has_default_value) {
+		//check
+		if (!isset($this->default_getter)) {
 			throw new Exceptions\NoDefaultValueSet(['property' => $this]);
 		}
-		return $this->default_value;
+		
+		//value
+		$value = ($this->default_getter)();
+		if (isset($this->evaluator) && !($this->evaluator)($value)) {
+			throw new Exceptions\InvalidDefaultValue(['property' => $this, 'value' => $value]);
+		}
+		return $value;
 	}
 	
 	/**
 	 * Set default value.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The default value to set.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidValue
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultValue($value) : Property
 	{
-		if (!$this->initialized) {
-			$this->setValue($value);
-			$value = $this->getValue();
-		} elseif (isset($this->evaluator) && !($this->evaluator)($value)) {
-			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setDefaultValue',
+				'hint_message' => "This method may only be called before initialization."
+			]);
 		}
-		$this->default_value = $value;
-		$this->has_default_value = true;
-		$this->default_getter = null;
+		$this->default_getter = function () use ($value) {
+			return $value;
+		};
 		return $this;
 	}
 	
@@ -324,7 +369,9 @@ class Property
 	 * Set default getter function.
 	 * 
 	 * By setting a default getter function, the default value will always be retrieved using that function.<br>
-	 * It is only called upon value retrieval, after all properties have been initialized through the manager.
+	 * It is only called after all properties have been initialized through the manager.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $getter <p>The default getter function to set.<br>
@@ -334,31 +381,49 @@ class Property
 	 * Return: <code><b>mixed</b></code><br>
 	 * The default value.
 	 * </p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultGetter(callable $getter) : Property
 	{
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setDefaultGetter',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		}
 		UCall::assert('default_getter', $getter, function () {}, true);
 		$this->default_getter = \Closure::fromCallable($getter);
-		$this->default_value = null;
-		$this->has_default_value = false;
 		return $this;
 	}
 	
 	/**
 	 * Reset value.
 	 * 
+	 * This method may only be called after initialization.
+	 * 
 	 * @since 1.0.0
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function resetValue() : Property
 	{
+		if (!$this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'resetValue',
+				'hint_message' => "This method may only be called after initialization."
+			]);
+		}
 		$this->setValue($this->getDefaultValue());
 		return $this;
 	}
 	
 	/**
 	 * Set evaluator function.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $evaluator <p>The evaluator function to set.<br>
@@ -372,23 +437,20 @@ class Property
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given value is successfully evaluated.
 	 * </p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setEvaluator(callable $evaluator) : Property
 	{
-		//set
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setEvaluator',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		}
 		UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
 		$this->evaluator = \Closure::fromCallable($evaluator);
-		
-		//values
-		if ($this->has_default_value) {
-			$this->setDefaultValue($this->default_value);
-		}
-		if ($this->initialized) {
-			$this->setValue($this->getValue());
-		}
-		
-		//return
 		return $this;
 	}
 	
@@ -405,7 +467,9 @@ class Property
 	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
 	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
-	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
+	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -421,6 +485,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value strictly evaluated as a boolean.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -451,7 +517,9 @@ class Property
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -467,6 +535,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value strictly evaluated as a number.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -496,7 +566,9 @@ class Property
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -512,6 +584,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value strictly evaluated as an integer.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -542,7 +616,9 @@ class Property
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -559,6 +635,8 @@ class Property
 	/**
 	 * Set to only allow a value strictly evaluated as a float.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
@@ -574,7 +652,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as a string.
 	 * 
-	 * Only a string, integer or float can be evaluated into a string.
+	 * Only a string, integer or float can be evaluated into a string.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
@@ -592,6 +672,8 @@ class Property
 	/**
 	 * Set to only allow a value strictly evaluated as a string.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -608,7 +690,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as a class.
 	 * 
-	 * Only a class string or object can be evaluated into a class.
+	 * Only a class string or object can be evaluated into a class.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
@@ -627,6 +711,8 @@ class Property
 	/**
 	 * Set to only allow a value strictly evaluated as a class.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
 	 * which a value must be or extend from.</p>
@@ -644,7 +730,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as an object.
 	 * 
-	 * Only a class string or object can be evaluated into an object.
+	 * Only a class string or object can be evaluated into an object.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
@@ -666,6 +754,8 @@ class Property
 	/**
 	 * Set to only allow a value strictly evaluated as an object.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
 	 * which a value must be or extend from.</p>
@@ -683,7 +773,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as a class or object.
 	 * 
-	 * Only a class string or object can be evaluated into an object or class.
+	 * Only a class string or object can be evaluated into an object or class.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
@@ -701,6 +793,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value evaluated as a callable.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
@@ -722,6 +816,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value evaluated as a closure.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $template [default = null] <p>The template callable declaration 
@@ -749,7 +845,10 @@ class Property
 	 * 
 	 * Only the following types and formats can be evaluated into an array:<br>
 	 * &nbsp; &#8226; &nbsp; an array;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the 
+	 * <code>Feralygon\Kit\Core\Interfaces\Arrayable</code> interface.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
@@ -783,6 +882,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value strictly evaluated as an array.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
@@ -819,7 +920,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as an enumeration value.
 	 * 
-	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration value.
+	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration value.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $enumeration <p>The enumeration class to use.</p>
@@ -837,6 +940,8 @@ class Property
 	
 	/**
 	 * Set to only allow a value strictly evaluated as an enumeration value.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $enumeration <p>The enumeration class to use.</p>
@@ -859,7 +964,9 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as an enumeration name.
 	 * 
-	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration name.
+	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration name.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $enumeration <p>The enumeration class to use.</p>
@@ -878,6 +985,8 @@ class Property
 	/**
 	 * Set to only allow a value strictly evaluated as an enumeration name.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $enumeration <p>The enumeration class to use.</p>
 	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
@@ -895,7 +1004,10 @@ class Property
 	/**
 	 * Set accessor functions.
 	 * 
-	 * By setting a getter and a setter function, the value will always be retrieved and modified using those functions.
+	 * By setting a getter and a setter function, 
+	 * the value will always be retrieved and modified using those functions.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $getter <p>The getter function to set.<br>
@@ -914,29 +1026,29 @@ class Property
 	 * <br>
 	 * Return: <code><b>void</b></code>
 	 * </p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAccessors(callable $getter, callable $setter) : Property
 	{
+		//check
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'setAccessors',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		}
+		
 		//set
 		UCall::assert('getter', $getter, function () {}, true);
 		UCall::assert('setter', $setter, function ($value) : void {}, true);
 		$this->getter = \Closure::fromCallable($getter);
 		$this->setter = \Closure::fromCallable($setter);
 		
-		//finish
-		$this->value = null;
-		$this->initialized = true;
-		if ($this->has_default_value) {
-			$this->setValue($this->default_value);
-		} elseif (
-			!$this->required && (!$this->manager->isLazy() || !$this->manager->isRequiredPropertyName($this->name))
-		) {
-			$value = $this->getValue();
-			$this->setDefaultValue($value);
-			if ($this->initialized) {
-				$this->setValue($value);
-			}
+		//default
+		if (!$this->hasDefaultValue()) {
+			$this->setDefaultValue(($this->getter)());
 		}
 		
 		//return
@@ -949,17 +1061,29 @@ class Property
 	 * By binding to an existing property, getter and setter functions are automatically set for that property, 
 	 * using the given class scope, so it can be accessed and modified directly from outside.<br>
 	 * All restrictions set in this property still apply however, therefore attempts at accessing and modifying it 
-	 * may still fail accordingly.
+	 * may still fail accordingly.<br>
+	 * <br>
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string|null $class [default = null] <p>The class scope to use.<br>
 	 * If not set, the manager owner object of this instance is used.</p>
 	 * @param string|null $name [default = null] <p>The property name to bind to.<br>
 	 * If not set, the name set in this instance is used.</p>
+	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function bind(?string $class = null, ?string $name = null) : Property
 	{
+		//check
+		if ($this->initialized) {
+			throw new Exceptions\MethodCallNotAllowed([
+				'property' => $this,
+				'name' => 'bind',
+				'hint_message' => "This method may only be called before initialization."
+			]);
+		}
+		
 		//initialize
 		$owner = $this->manager->getOwner();
 		if (!isset($class)) {

@@ -11,22 +11,22 @@ use Feralygon\Kit\Core\Managers\Properties\Exception;
 use Feralygon\Kit\Core\Managers\Properties\Objects\Property;
 
 /**
- * Core properties manager property not initialized exception class.
+ * Core properties manager property no default value set exception class.
  * 
- * This exception is thrown from a properties manager whenever a given property has not been initialized yet.
+ * This exception is thrown from a properties manager whenever a given property has no default value set.
  * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Core\Managers\Properties\Objects\Property $property <p>The property instance.</p>
  */
-class PropertyNotInitialized extends Exception
+class PropertyNoDefaultValueSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Property {{property.getName()}} has not been initialized yet in properties manager " . 
+		return "Property {{property.getName()}} has no default value set in properties manager " . 
 			"with owner {{manager.getOwner()}}.\n" . 
-			"HINT: Properties must be initialized first with a value, default value, accessors or through binding.";
+			"HINT: Optional properties must be set with a default value.";
 	}
 	
 	
