@@ -596,8 +596,6 @@ final class Call extends Utility
 					'name' => $name,
 					'function' => $function,
 					'template' => $template,
-					'function_signature' => self::signature($function),
-					'template_signature' => self::signature($template),
 					'object_class' => self::stackPreviousObjectClass()
 				]);
 			}

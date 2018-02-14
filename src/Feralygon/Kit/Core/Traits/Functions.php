@@ -70,9 +70,7 @@ trait Functions
 				'object' => $this,
 				'name' => $name,
 				'function' => $function,
-				'template' => $template,
-				'function_signature' => UCall::signature($function),
-				'template_signature' => UCall::signature($template)
+				'template' => $template
 			]);
 		}
 		

@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Core\Utilities\Call\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Call\Exception;
 use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
+use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
  * Core call utility assertion failed exception class.
@@ -20,8 +21,10 @@ use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
  * @property-read string $name <p>The name.</p>
  * @property-read \Closure $function <p>The function.</p>
  * @property-read \Closure $template <p>The template.</p>
- * @property-read string $function_signature <p>The function signature.</p>
- * @property-read string $template_signature <p>The template signature.</p>
+ * @property-read string $function_signature [readonly] [default = auto] <p>The function signature.<br>
+ * It is automatically retrieved from the given <var>$function</var> property above.</p>
+ * @property-read string $template_signature [readonly] [default = auto] <p>The template signature.<br>
+ * It is automatically retrieved from the given <var>$template</var> property above.</p>
  * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
  */
 class AssertionFailed extends Exception implements IAssertion
@@ -54,8 +57,20 @@ class AssertionFailed extends Exception implements IAssertion
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('function')->setAsCallable()->setAsRequired();
 		$this->addProperty('template')->setAsCallable()->setAsRequired();
-		$this->addProperty('function_signature')->setAsString(true)->setAsRequired();
-		$this->addProperty('template_signature')->setAsString(true)->setAsRequired();
+		$this->addProperty('function_signature')
+			->setMode('r')
+			->setAsString(true)
+			->setDefaultGetter(function () {
+				return UCall::signature($this->get('function'));
+			})
+		;
+		$this->addProperty('template_signature')
+			->setMode('r')
+			->setAsString(true)
+			->setDefaultGetter(function () {
+				return UCall::signature($this->get('template'));
+			})
+		;
 		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
 	}
 }

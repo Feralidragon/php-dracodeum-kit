@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Core\Traits\Functions\Exceptions;
 
 use Feralygon\Kit\Core\Traits\Functions\Exception;
+use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
  * Core functions trait invalid function exception class.
@@ -18,8 +19,10 @@ use Feralygon\Kit\Core\Traits\Functions\Exception;
  * @property-read string $name <p>The function name.</p>
  * @property-read \Closure $function <p>The function.</p>
  * @property-read \Closure $template <p>The template.</p>
- * @property-read string $function_signature <p>The function signature.</p>
- * @property-read string $template_signature <p>The template signature.</p>
+ * @property-read string $function_signature [readonly] [default = auto] <p>The function signature.<br>
+ * It is automatically retrieved from the given <var>$function</var> property above.</p>
+ * @property-read string $template_signature [readonly] [default = auto] <p>The template signature.<br>
+ * It is automatically retrieved from the given <var>$template</var> property above.</p>
  */
 class InvalidFunction extends Exception
 {
@@ -44,7 +47,19 @@ class InvalidFunction extends Exception
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('function')->setAsCallable()->setAsRequired();
 		$this->addProperty('template')->setAsCallable()->setAsRequired();
-		$this->addProperty('function_signature')->setAsString(true)->setAsRequired();
-		$this->addProperty('template_signature')->setAsString(true)->setAsRequired();
+		$this->addProperty('function_signature')
+			->setMode('r')
+			->setAsString(true)
+			->setDefaultGetter(function () {
+				return UCall::signature($this->get('function'));
+			})
+		;
+		$this->addProperty('template_signature')
+			->setMode('r')
+			->setAsString(true)
+			->setDefaultGetter(function () {
+				return UCall::signature($this->get('template'));
+			})
+		;
 	}
 }
