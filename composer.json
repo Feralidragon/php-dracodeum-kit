@@ -20,6 +20,5 @@
 		"files" : [
 			"autoload.php"
 		]
-	},
-	"minimum-stability" : "dev"
+	}
 }
