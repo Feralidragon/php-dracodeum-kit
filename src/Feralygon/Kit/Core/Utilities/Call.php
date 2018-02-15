@@ -956,4 +956,37 @@ final class Call extends Utility
 		//return
 		return $objects_classes;
 	}
+	
+	/**
+	 * Guard the current function or method in the stack from being called depending on a given assertion.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $assertion <p>The assertion to depend on.<br>
+	 * If given as boolean <code>false</code>, an exception is thrown, 
+	 * preventing the execution of the current function or method in the stack.
+	 * </p>
+	 * @param string|null $hint_message [default = null] <p>The hint message to use in the thrown exception.</p>
+	 * @param string|null $name [default = null] <p>The function or method name to use in the thrown exception.<br>
+	 * If not set, the name of the current function or method in the stack is used.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\NotAllowed
+	 * @return void
+	 */
+	final public static function guard(bool $assertion, ?string $hint_message = null, ?string $name = null) : void
+	{
+		if (!$assertion) {
+			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
+			if (isset($backtrace[1]['function'])) {
+				throw new Exceptions\NotAllowed([
+					'name' => $name ?? $backtrace[1]['function'],
+					'object_class' => $backtrace[1]['object'] ?? $backtrace[1]['class'] ?? null,
+					'hint_message' => $hint_message
+				]);
+			}
+			throw new Exceptions\NotAllowed([
+				'name' => 'guard',
+				'object_class' => self::class,
+				'hint_message' => "This method may only be called from within a function or method."
+			]);
+		}
+	}
 }
