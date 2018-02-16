@@ -584,7 +584,7 @@ class Input extends Component
 	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Core\Components\Input\Immutables\Schema <p>The schema instance.</p>
 	 */
-	public function getSchema() : ?Immutables\Schema
+	public function getSchema() : Immutables\Schema
 	{
 		$prototype = $this->getPrototype();
 		return new Immutables\Schema([
