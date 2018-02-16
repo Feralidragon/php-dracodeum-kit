@@ -195,7 +195,7 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to transform.</p>
 	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, 
-	 * if given as boolean <code>true</code>, indicates that the generated key may be used for longer term purposes, 
+	 * if set to boolean <code>true</code>, indicates that the generated key may be used for longer term purposes, 
 	 * such as internal cache keys.</p>
 	 * @throws \Feralygon\Kit\Core\Utilities\Data\Exceptions\KeyfyUnsupportedValueType
 	 * @return string <p>An unique key from the given value.</p>
