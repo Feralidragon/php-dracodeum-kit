@@ -24,15 +24,18 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * This class is the base to be extended from when creating a component.<br>
  * <br>
  * A component is an object which represents a specific functional part of an application and is expected to have 
- * several different implementations from the developer.<br>
+ * several different specific implementations or configurations tailored to each specific need, 
+ * but with its core behavior and functionality mostly unchanged.<br>
+ * <br>
  * Examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, controllers, 
  * handlers, entities, etc, all of which are expected to end up having tens or even hundreds of different 
- * implementations over time, each one representing a specific input, output, table, etc, respectively.<br>
+ * implementations or configurations over time, each one representing a specific input, output, table, etc, 
+ * respectively, within the application.<br>
  * <br>
- * Usually, this would be achieved by extending the base class, and implementing all the methods declared as abstract, 
+ * This could be achieved by extending the base class, and implementing all the methods declared as abstract, 
  * or through one or more interfaces recognized by the base class, or even overriding existing methods.<br>
- * Each one of them has several issues however, such as having internal code of the base class mixed with the actual 
- * methods meant to implement a component, and it becomes unclear what each method is intended to do and how to extend 
+ * Each one of them has some issues however, such as having internal code of the base class mixed with the actual 
+ * methods meant to implement a component, becoming unclear what each method is intended to do and how to extend 
  * and implement it, especially in relatively complex components, while overriding would certainly end up accidentally 
  * breaking the base code of the base class in some given way.<br>
  * <br>
@@ -42,13 +45,9 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * Furthermore, the overusage of interfaces leads to classes completely loosing their own identity, 
  * or never having one in the first place, potentially violating the Single Responsibility Principle.<br>
  * <br>
- * In summary, it makes code much harder to read and maintain, and it's very error prone as it doesn't properly 
- * and cleanly isolate internal code from what the developer actually intends and is supposed to define and customize, 
- * and becomes highly unflexible for extension.<br>
- * <br>
  * Therefore, the implementation of a component is not done by extending the component itself, nor through interfaces, 
  * a <b>prototype</b> is used instead.<br>
- * A prototype is an object which represents a specific implementation or set of definitions of a component.<br>
+ * A prototype is an object which represents a specific implementation or configuration of a component.<br>
  * <br>
  * Any methods meant to implement a component are declared in a prototype instead, generally with the same class name 
  * as the component, but in a different namespace.<br>
@@ -63,6 +62,13 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * to reuse the existing prototypes in the same way, and the prototype methods may be called directly 
  * for testing purposes, allowing for more powerful debugging and unit testing.<br>
  * <br>
+ * While using an interface (or more) alone could also work, interfaces only dictate what a class is <i>able to do</i>, 
+ * and <u>not</u> <i>what it is</i>, potentially resulting in an object with no clear identity, and limiting the object 
+ * on what it may already do by omission.<br>
+ * Therefore, a prototype consists in an abstract class representing the mandatory definition of <i>what it is</i> 
+ * and <i>must do</i>, coupled with additional optional interfaces to implement additional optional functionality 
+ * concerning <i>what it is able to do</i>.<br>
+ * <br>
  * When using a component, the prototype itself is not accessible in any way whatsoever, other than from within 
  * the component itself, thus a prototype should not have any public methods meant to be called from anywhere else 
  * other than its component, except for testing purposes.<br>
@@ -75,13 +81,18 @@ use Feralygon\Kit\Core\Utilities\Type\Exceptions as UTypeExceptions;
  * While all readable properties from a component may be accessed from any scope, in the case of a prototype they 
  * are effectively only visible to itself and the component using it.<br>
  * <br>
- * A prototype may also require to have existing functions bound to itself by a component, which must strictly follow 
- * the function templates defined by the prototype itself, 
+ * A prototype may also require to have existing functions bound to itself by a component, which must be compatible 
+ * with the function templates defined by the prototype itself, 
  * and which may or may not correspond to actual methods from the component itself.<br>
  * <br>
  * A single prototype instance may also be used by multiple component instances at the same time, although it's not 
  * a normal use case, and it's limited to the prototype whether or not requiring functions to be bound to itself, 
- * however a single component can never have more than a single prototype.
+ * however a single component instance can never have more than a single prototype instance.<br>
+ * <br>
+ * While the prototype to use may be given through its class or an instance (dependency injection), a component may 
+ * also map specific short names towards specific prototypes, so that a prototype may also be instantiated and used 
+ * through a short name instead, so that the class to use does not need to be known ahead of time (factory pattern).<br>
+ * This allows for both dependency injection and factory pattern to be used with prototypes, simultaneously.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Core\Prototype
