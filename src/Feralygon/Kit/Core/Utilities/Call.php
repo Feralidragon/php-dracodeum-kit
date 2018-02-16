@@ -962,7 +962,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param bool $assertion <p>The assertion to depend on.<br>
-	 * If given as boolean <code>false</code>, an exception is thrown, 
+	 * If set to boolean <code>false</code>, an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.
 	 * </p>
 	 * @param string|null $hint_message [default = null] <p>The hint message to use in the thrown exception.</p>
