@@ -968,17 +968,30 @@ final class Call extends Utility
 	 * @param string|null $hint_message [default = null] <p>The hint message to use in the thrown exception.</p>
 	 * @param string|null $name [default = null] <p>The function or method name to use in the thrown exception.<br>
 	 * If not set, the name of the current function or method in the stack is used.</p>
+	 * @param int $stack_offset [default = 0] <p>The stack offset to use.<br>
+	 * It must be greater than or equal to <code>0</code>.</p>
+	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Core\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
 	 */
-	final public static function guard(bool $assertion, ?string $hint_message = null, ?string $name = null) : void
+	final public static function guard(
+		bool $assertion, ?string $hint_message = null, ?string $name = null, int $stack_offset = 0
+	) : void
 	{
+		//stack offset
+		if ($stack_offset < 0) {
+			throw new Exceptions\InvalidStackOffset(['offset' => $stack_offset]);
+		}
+		
+		//assertion
 		if (!$assertion) {
-			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
-			if (isset($backtrace[1]['function'])) {
+			$stack_index = $stack_offset + 1;
+			$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+			$backtrace = debug_backtrace($debug_flags, $stack_offset + 2);
+			if (isset($backtrace[$stack_index]['function'])) {
 				throw new Exceptions\NotAllowed([
-					'name' => $name ?? $backtrace[1]['function'],
-					'object_class' => $backtrace[1]['object'] ?? $backtrace[1]['class'] ?? null,
+					'name' => $name ?? $backtrace[$stack_index]['function'],
+					'object_class' => $backtrace[$stack_index]['object'] ?? $backtrace[$stack_index]['class'] ?? null,
 					'hint_message' => $hint_message
 				]);
 			}
