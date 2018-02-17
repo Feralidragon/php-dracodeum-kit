@@ -92,32 +92,30 @@ trait LazyProperties
 	/**
 	 * Check if has property with a given name.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
 	final public function has(string $name) : bool
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->has($name);
 	}
 	
 	/**
 	 * Get property value from a given name.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return mixed <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->get($name);
 	}
 	
@@ -126,51 +124,48 @@ trait LazyProperties
 	 * 
 	 * This method is an alias of the <code>get</code> method, 
 	 * however it only allows properties which hold boolean values, 
-	 * and is simply meant to improve code readability when retrieving boolean properties specifically.
+	 * and is simply meant to improve code readability when retrieving boolean properties specifically.<br>
+	 * <br>
+	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>The boolean property value from the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->is($name);
 	}
 	
 	/**
 	 * Check if property is set for a given name.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to check for.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isset($name);
 	}
 	
 	/**
 	 * Set property with a given name with a given value.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to set for.</p>
 	 * @param mixed $value <p>The property value to set with.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value)
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		$this->properties_manager->set($name, $value);
 		return $this;
 	}
@@ -178,16 +173,15 @@ trait LazyProperties
 	/**
 	 * Unset property from a given name.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to unset from.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name)
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		$this->properties_manager->unset($name);
 		return $this;
 	}
@@ -195,17 +189,16 @@ trait LazyProperties
 	/**
 	 * Get all loaded properties.
 	 * 
-	 * Only properties which allow read access are returned.
+	 * Only properties which allow read access are returned.<br>
+	 * <br>
+	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @return array <p>All loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll() : array
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		}
+		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->getAll();
 	}
 	
@@ -215,18 +208,16 @@ trait LazyProperties
 	/**
 	 * Create a property instance.
 	 * 
-	 * This method may only be called from within a builder function.
+	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertiesNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\LazyProperties\Exceptions\PropertyCreationFailed
 	 * @return \Feralygon\Kit\Core\Traits\LazyProperties\Objects\Property <p>The created property instance.</p>
 	 */
 	final protected function createProperty() : Objects\Property
 	{
-		if (!isset($this->properties_manager)) {
-			throw new Exceptions\PropertiesNotInitialized(['object' => $this]);
-		} elseif (!isset($this->properties_builder_current_name)) {
+		$this->guardPropertiesManagerCall();
+		if (!isset($this->properties_builder_current_name)) {
 			throw new Exceptions\PropertyCreationFailed(['object' => $this]);
 		}
 		return $this->properties_manager->createProperty($this->properties_builder_current_name);
@@ -303,5 +294,21 @@ trait LazyProperties
 		
 		//initialize
 		$this->properties_manager->initialize($properties);
+	}
+	
+	/**
+	 * Guard the current function or method in the stack from being called, 
+	 * until the properties manager has been initialized.
+	 * 
+	 * @since 1.0.0
+	 * @return void
+	 */
+	final private function guardPropertiesManagerCall() : void
+	{
+		UCall::guard(
+			isset($this->properties_manager),
+			"This method may only be called after the properties manager initialization.",
+			null, 1
+		);
 	}
 }

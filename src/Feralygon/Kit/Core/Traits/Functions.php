@@ -43,10 +43,11 @@ trait Functions
 	/**
 	 * Bind a given function to a given name.
 	 * 
+	 * This method may only be called after the functions initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The function name to bind to.</p>
 	 * @param callable $function <p>The function to bind.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionsNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionAlreadyBound
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionNotFound
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\InvalidFunction
@@ -54,10 +55,14 @@ trait Functions
 	 */
 	final public function bind(string $name, callable $function)
 	{
-		//validate
-		if (!$this->functions_initialized) {
-			throw new Exceptions\FunctionsNotInitialized(['object' => $this]);
-		} elseif ($this->functions_bindonce && isset($this->functions[$name])) {
+		//guard
+		UCall::guard(
+			$this->functions_initialized,
+			"This method may only be called after the functions initialization."
+		);
+		
+		//bind-once
+		if ($this->functions_bindonce && isset($this->functions[$name])) {
 			throw new Exceptions\FunctionAlreadyBound(['object' => $this, 'name' => $name]);
 		}
 		
@@ -87,18 +92,21 @@ trait Functions
 	/**
 	 * Call function with a given name.
 	 * 
+	 * This method may only be called after the functions initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The function name to call.</p>
 	 * @param mixed $arguments [variadic] <p>The function arguments to call with.</p>
-	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionsNotInitialized
 	 * @throws \Feralygon\Kit\Core\Traits\Functions\Exceptions\FunctionNotFound
 	 * @return mixed <p>The returning value from the called function with the given name.</p>
 	 */
 	final protected function call(string $name, ...$arguments)
 	{
-		if (!$this->functions_initialized) {
-			throw new Exceptions\FunctionsNotInitialized(['object' => $this]);
-		} elseif (!isset($this->functions[$name])) {
+		UCall::guard(
+			$this->functions_initialized,
+			"This method may only be called after the functions initialization."
+		);
+		if (!isset($this->functions[$name])) {
 			throw new Exceptions\FunctionNotFound(['object' => $this, 'name' => $name]);
 		}
 		return ($this->functions[$name])(...$arguments);

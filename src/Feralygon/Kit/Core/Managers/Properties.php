@@ -174,32 +174,29 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $names <p>The required property names to add.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addRequiredPropertyNames(array $names) : Properties
 	{
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'addRequiredPropertyNames',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		} elseif (!$this->lazy) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'addRequiredPropertyNames',
-				'hint_message' => "In order to explicitly set a property as required, with lazy-loading disabled, "  . 
-					"please use the \"setAsRequired\" method instead from the corresponding property instance."
-			]);
-		} elseif ($this->mode === 'r') {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'addRequiredPropertyNames',
-				'hint_message' => "Required property names cannot be set as all properties are strictly read-only."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
+		UCall::guard(
+			$this->lazy,
+			"In order to explicitly set a property as required, with lazy-loading disabled, "  . 
+				"please use the \"setAsRequired\" method instead from the corresponding property instance."
+		);
+		UCall::guard(
+			$this->mode !== 'r',
+			"Required property names cannot be set as all properties are strictly read-only."
+		);
+		
+		//add
 		$this->required_map += array_fill_keys($names, true);
+		
+		//return
 		return $this;
 	}
 	
@@ -222,7 +219,6 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The property name to add.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyAlreadyAdded
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\PropertyManagerMismatch
@@ -231,21 +227,18 @@ class Properties
 	 */
 	final public function addProperty(string $name) : Objects\Property
 	{
-		//validate
-		if ($this->lazy) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'addProperty',
-				'hint_message' => "In order to add new properties, with lazy-loading enabled, " . 
-					"please set and use a builder function instead."
-			]);
-		} elseif ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'addProperty',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		} elseif (isset($this->properties[$name])) {
+		//guard
+		UCall::guard(
+			!$this->lazy,
+			"In order to add new properties, with lazy-loading enabled, please set and use a builder function instead."
+		);
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
+		
+		//check
+		if (isset($this->properties[$name])) {
 			throw new Exceptions\PropertyAlreadyAdded(['manager' => $this, 'name' => $name]);
 		}
 		
@@ -281,24 +274,18 @@ class Properties
 	 * Return: <code><b>\Feralygon\Kit\Core\Managers\Properties\Objects\Property|null</b></code><br>
 	 * The built property instance for the given name or <code>null</code> if none was built.
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setBuilder(callable $builder) : Properties
 	{
-		if (!$this->lazy) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'setBuilder',
-				'hint_message' => "A builder function is only required when lazy-loading is enabled."
-			]);
-		} elseif ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'manager' => $this,
-				'name' => 'setBuilder',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		UCall::guard(
+			$this->lazy,
+			"A builder function is only required when lazy-loading is enabled."
+		);
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;
@@ -605,7 +592,7 @@ class Properties
 			$property = null;
 			if (isset($this->builder)) {
 				$property = ($this->builder)($name);
-				if ($this->initialized && !$property->isInitialized()) {
+				if ($this->initialized && isset($property) && !$property->isInitialized()) {
 					$property->initialize();
 				}
 			}

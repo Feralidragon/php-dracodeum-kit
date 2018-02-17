@@ -146,38 +146,33 @@ class Property
 	 * with lazy-loading disabled and only if the mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsRequired() : Property
 	{
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setAsRequired',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		} elseif ($this->manager->isLazy()) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setAsRequired',
-				'hint_message' => "In order to set a property as required, with lazy-loading enabled, "  . 
-					"please use the manager \"addRequiredPropertyNames\" method instead."
-			]);
-		} elseif ($this->manager->isInitialized()) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setAsRequired',
-				'hint_message' => "This method may only be called before the manager initialization."
-			]);
-		} elseif ($this->getMode() === 'r') {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setAsRequired',
-				'hint_message' => "A strictly read-only property cannot be set as required."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
+		UCall::guard(
+			!$this->manager->isLazy(),
+			"In order to set a property as required, with lazy-loading enabled, " . 
+				"please use the manager \"addRequiredPropertyNames\" method instead."
+		);
+		UCall::guard(
+			!$this->manager->isInitialized(),
+			"This method may only be called before the manager initialization."
+		);
+		UCall::guard(
+			$this->getMode() !== 'r',
+			"A strictly read-only property cannot be set as required."
+		);
+		
+		//set
 		$this->required = true;
+		
+		//return
 		return $this;
 	}
 	
@@ -215,20 +210,16 @@ class Property
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidMode
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setMode(string $mode) : Property
 	{
-		//check
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setMode',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		
 		//allowed modes
 		$modes = Manager::MODES;
@@ -259,21 +250,15 @@ class Property
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return mixed <p>The value.</p>
 	 */
 	final public function getValue()
 	{
-		if (!$this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'getValue',
-				'hint_message' => "This method may only be called after initialization."
-			]);
-		} elseif (isset($this->getter)) {
-			return ($this->getter)();
-		}
-		return $this->value;
+		UCall::guard(
+			$this->initialized,
+			"This method may only be called after initialization."
+		);
+		return isset($this->getter) ? ($this->getter)() : $this->value;
 	}
 	
 	/**
@@ -283,26 +268,30 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to set.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\InvalidValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setValue($value) : Property
 	{
-		if (!$this->manager->isInitialized() && !$this->manager->isInitializing()) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setValue',
-				'hint_message' => "This method may only be called during or after the manager initialization."
-			]);
-		} elseif (isset($this->evaluator) && !($this->evaluator)($value)) {
+		//guard
+		UCall::guard(
+			$this->manager->isInitialized() || $this->manager->isInitializing(),
+			"This method may only be called during or after the manager initialization."
+		);
+		
+		//set
+		if (isset($this->evaluator) && !($this->evaluator)($value)) {
 			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
 		} elseif (isset($this->setter)) {
 			($this->setter)($value);
 		} else {
 			$this->value = $value;
 		}
+		
+		//initialized
 		$this->initialized = true;
+		
+		//return
 		return $this;
 	}
 	
@@ -347,21 +336,22 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The default value to set.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultValue($value) : Property
 	{
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setDefaultValue',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
+		
+		//set
 		$this->default_getter = function () use ($value) {
 			return $value;
 		};
+		
+		//return
 		return $this;
 	}
 	
@@ -381,18 +371,14 @@ class Property
 	 * Return: <code><b>mixed</b></code><br>
 	 * The default value.
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultGetter(callable $getter) : Property
 	{
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setDefaultGetter',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		UCall::assert('default_getter', $getter, function () {}, true);
 		$this->default_getter = \Closure::fromCallable($getter);
 		return $this;
@@ -404,18 +390,14 @@ class Property
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function resetValue() : Property
 	{
-		if (!$this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'resetValue',
-				'hint_message' => "This method may only be called after initialization."
-			]);
-		}
+		UCall::guard(
+			$this->initialized,
+			"This method may only be called after initialization."
+		);
 		$this->setValue($this->getDefaultValue());
 		return $this;
 	}
@@ -437,18 +419,14 @@ class Property
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given value is successfully evaluated.
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setEvaluator(callable $evaluator) : Property
 	{
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setEvaluator',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
 		$this->evaluator = \Closure::fromCallable($evaluator);
 		return $this;
@@ -1026,19 +1004,15 @@ class Property
 	 * <br>
 	 * Return: <code><b>void</b></code>
 	 * </p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAccessors(callable $getter, callable $setter) : Property
 	{
-		//check
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'setAccessors',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		
 		//set
 		UCall::assert('getter', $getter, function () {}, true);
@@ -1070,19 +1044,15 @@ class Property
 	 * If not set, the manager owner object of this instance is used.</p>
 	 * @param string|null $name [default = null] <p>The property name to bind to.<br>
 	 * If not set, the name set in this instance is used.</p>
-	 * @throws \Feralygon\Kit\Core\Managers\Properties\Objects\Property\Exceptions\MethodCallNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function bind(?string $class = null, ?string $name = null) : Property
 	{
-		//check
-		if ($this->initialized) {
-			throw new Exceptions\MethodCallNotAllowed([
-				'property' => $this,
-				'name' => 'bind',
-				'hint_message' => "This method may only be called before initialization."
-			]);
-		}
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
 		
 		//initialize
 		$owner = $this->manager->getOwner();

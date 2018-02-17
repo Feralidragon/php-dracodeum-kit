@@ -613,19 +613,20 @@ class Input extends Component
 	/**
 	 * Get value.
 	 * 
+	 * This method may only be called after initialization.
+	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Core\Components\Input\Exceptions\NotInitialized
 	 * @return mixed <p>The value.</p>
 	 */
 	final public function getValue()
 	{
-		if (!$this->initialized) {
-			throw new Exceptions\NotInitialized([
-				'component' => $this,
-				'prototype' => $this->getPrototype(),
-				'error_message' => $this->getErrorMessage()
-			]);
-		}
+		UCall::guard(
+			$this->initialized,
+			$this->hasError()
+				? "No value has been set due to the following error: " . 
+					UText::uncapitalize($this->getErrorMessage(), true)
+				: "This method may only be called after initialization."
+		);
 		return $this->value;
 	}
 	
@@ -802,6 +803,8 @@ class Input extends Component
 	/**
 	 * Add modifier.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifier|string $modifier 
 	 * <p>The modifier instance or name to add.</p>
@@ -816,6 +819,12 @@ class Input extends Component
 	 */
 	final public function addModifier($modifier, array $prototype_properties = [], array $properties = []) : Input
 	{
+		//guard
+		UCall::guard(
+			!$this->initialized,
+			"This method may only be called before initialization."
+		);
+		
 		//validate and build
 		$prototype = $this->getPrototype();
 		if (is_string($modifier)) {
@@ -859,6 +868,8 @@ class Input extends Component
 	/**
 	 * Add constraint.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Constraint|
 	 * \Feralygon\Kit\Core\Prototypes\Input\Prototypes\Modifiers\Constraint|string $constraint 
@@ -900,6 +911,8 @@ class Input extends Component
 	
 	/**
 	 * Add filter.
+	 * 
+	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Core\Components\Input\Components\Modifiers\Filter|
