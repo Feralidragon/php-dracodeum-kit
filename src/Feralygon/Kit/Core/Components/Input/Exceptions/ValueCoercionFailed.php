@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Components\Input\Exceptions;
 
 use Feralygon\Kit\Core\Components\Input\Exception;
-use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Core\Utilities\Text as UText;
 
 /**
@@ -20,7 +20,7 @@ use Feralygon\Kit\Core\Utilities\Text as UText;
  * @property-read mixed $value <p>The value.</p>
  * @property-read string $error_message <p>The error message.</p>
  */
-class ValueCoercionFailed extends Exception implements ICoercion
+class ValueCoercionFailed extends Exception implements ICoercive
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -28,6 +28,27 @@ class ValueCoercionFailed extends Exception implements ICoercion
 	{
 		return "Value coercion failed with value {{value}} using component {{component}} " . 
 			"(with prototype {{prototype}}), with the following error: {{error_message}}";
+	}
+	
+	
+	
+	//Implemented public methods (core coercive throwable interface)
+	/** {@inheritdoc} */
+	public function getValue()
+	{
+		return $this->get('value');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorCode() : ?string
+	{
+		return null;
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorMessage() : ?string
+	{
+		return $this->get('error_message');
 	}
 	
 	

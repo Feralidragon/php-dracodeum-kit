@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Enumeration\Exceptions;
 
 use Feralygon\Kit\Core\Enumeration\Exception;
-use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
@@ -25,7 +25,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read string|null $error_code [default = null] <p>The error code.</p>
  * @property-read string|null $error_message [default = null] <p>The error message.</p>
  */
-class NameCoercionFailed extends Exception implements ICoercion
+class NameCoercionFailed extends Exception implements ICoercive
 {
 	//Public constants
 	/** Null error code. */
@@ -47,6 +47,27 @@ class NameCoercionFailed extends Exception implements ICoercion
 			? "Name coercion failed with value {{value}} in enumeration {{enumeration}}, " . 
 				"with the following error: {{error_message}}"
 			: "Name coercion failed with value {{value}} in enumeration {{enumeration}}.";
+	}
+	
+	
+	
+	//Implemented public methods (core coercive throwable interface)
+	/** {@inheritdoc} */
+	public function getValue()
+	{
+		return $this->get('value');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorCode() : ?string
+	{
+		return $this->get('error_code');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorMessage() : ?string
+	{
+		return $this->get('error_message');
 	}
 	
 	

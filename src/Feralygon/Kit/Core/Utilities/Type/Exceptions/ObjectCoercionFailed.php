@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Type\Exception;
-use Feralygon\Kit\Core\Interfaces\Throwables\Coercion as ICoercion;
+use Feralygon\Kit\Core\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Core\Utilities\{
 	Text as UText,
 	Type as UType
@@ -24,7 +24,7 @@ use Feralygon\Kit\Core\Utilities\{
  * @property-read string|null $error_code [default = null] <p>The error code.</p>
  * @property-read string|null $error_message [default = null] <p>The error message.</p>
  */
-class ObjectCoercionFailed extends Exception implements ICoercion
+class ObjectCoercionFailed extends Exception implements ICoercive
 {
 	//Public constants
 	/** Null error code. */
@@ -69,6 +69,27 @@ class ObjectCoercionFailed extends Exception implements ICoercion
 			->setDefaultValue(null)
 		;
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
+	}
+	
+	
+	
+	//Implemented public methods (core coercive throwable interface)
+	/** {@inheritdoc} */
+	public function getValue()
+	{
+		return $this->get('value');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorCode() : ?string
+	{
+		return $this->get('error_code');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorMessage() : ?string
+	{
+		return $this->get('error_message');
 	}
 	
 	
