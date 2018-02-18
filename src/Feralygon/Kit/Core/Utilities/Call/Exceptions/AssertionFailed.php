@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Core\Utilities\Call\Exceptions;
 
 use Feralygon\Kit\Core\Utilities\Call\Exception;
-use Feralygon\Kit\Core\Interfaces\Throwables\Assertion as IAssertion;
+use Feralygon\Kit\Core\Interfaces\Throwables\Assertive as IAssertive;
 use Feralygon\Kit\Core\Utilities\Call as UCall;
 
 /**
@@ -27,7 +27,7 @@ use Feralygon\Kit\Core\Utilities\Call as UCall;
  * It is automatically retrieved from the given <var>$template</var> property above.</p>
  * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
  */
-class AssertionFailed extends Exception implements IAssertion
+class AssertionFailed extends Exception implements IAssertive
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

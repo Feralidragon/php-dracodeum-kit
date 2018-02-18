@@ -8,10 +8,10 @@
 namespace Feralygon\Kit\Core\Interfaces\Throwables;
 
 /**
- * Core assertion throwable interface.
+ * Core assertive throwable interface.
  * 
- * This interface defines no methods, as is only meant to group assertion throwables for catching purposes.
+ * This interface defines no methods, as is only meant to group assertive throwables for catching purposes.
  * 
  * @since 1.0.0
  */
-interface Assertion extends \Throwable {}
+interface Assertive extends \Throwable {}
