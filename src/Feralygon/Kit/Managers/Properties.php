@@ -164,6 +164,58 @@ class Properties
 	}
 	
 	/**
+	 * Check if properties are read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 */
+	final public function isReadonly() : bool
+	{
+		return $this->mode === 'r' || $this->mode === 'r+';
+	}
+	
+	/**
+	 * Set properties as read-only.
+	 * 
+	 * Only properties which allow read access can be set as read-only.<br>
+	 * <br>
+	 * This method may only be called with lazy-loading disabled.
+	 * 
+	 * @since 1.0.0
+	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetPropertyAsReadonly
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsReadonly() : Properties
+	{
+		//guard
+		UCall::guard(
+			!$this->lazy,
+			"This method may only be called with lazy-loading disabled."
+		);
+		
+		//set
+		if (!$this->isReadonly()) {
+			//check
+			$properties = [];
+			foreach ($this->properties as $property) {
+				$mode = $property->getMode();
+				if ($mode === 'rw') {
+					$properties[] = $property;
+				} elseif ($mode[0] !== 'r') {
+					throw new Exceptions\CannotSetPropertyAsReadonly(['manager' => $this, 'property' => $property]);
+				}
+			}
+			
+			//set
+			foreach ($properties as $property) {
+				$property->setMode('r');
+			}
+			$this->mode = 'r';
+		}
+		return $this;
+	}
+	
+	/**
 	 * Add a given set of required property names.
 	 * 
 	 * The properties, corresponding to the given required property names added here, 

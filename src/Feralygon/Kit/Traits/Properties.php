@@ -197,6 +197,33 @@ trait Properties
 		return $this->properties_manager->getAll();
 	}
 	
+	/**
+	 * Check if properties are read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 */
+	final public function isReadonly() : bool
+	{
+		$this->guardPropertiesManagerCall();
+		return $this->properties_manager->isReadonly();
+	}
+	
+	/**
+	 * Set properties as read-only.
+	 * 
+	 * Only properties which allow read access can be set as read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsReadonly()
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->setAsReadonly();
+		return $this;
+	}
+	
 	
 	
 	//Final protected methods

@@ -190,8 +190,6 @@ class Property
 	/**
 	 * Set mode.
 	 * 
-	 * This method may only be called before initialization.
-	 * 
 	 * @since 1.0.0
 	 * @param string $mode <p>The access mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
@@ -215,12 +213,6 @@ class Property
 	 */
 	final public function setMode(string $mode) : Property
 	{
-		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
-		
 		//allowed modes
 		$modes = Manager::MODES;
 		$manager_mode = $this->manager->getMode();

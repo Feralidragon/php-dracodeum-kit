@@ -202,6 +202,18 @@ trait LazyProperties
 		return $this->properties_manager->getAll();
 	}
 	
+	/**
+	 * Check if properties are read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 */
+	final public function isReadonly() : bool
+	{
+		$this->guardPropertiesManagerCall();
+		return $this->properties_manager->isReadonly();
+	}
+	
 	
 	
 	//Final protected methods
