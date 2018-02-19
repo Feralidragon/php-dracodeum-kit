@@ -13,8 +13,8 @@ use Feralygon\Kit\Root\System\{
 	Environments,
 	Exceptions
 };
-use Feralygon\Kit\Core\Traits as CoreTraits;
-use Feralygon\Kit\Core\Utilities\{
+use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Utilities\{
 	Text as UText,
 	Type as UType
 };
@@ -38,8 +38,8 @@ use Feralygon\Kit\Core\Utilities\{
 final class System
 {
 	//Traits
-	use CoreTraits\NonInstantiable;
-	use CoreTraits\Memoization;
+	use KitTraits\NonInstantiable;
+	use KitTraits\Memoization;
 	
 	
 	
@@ -114,7 +114,7 @@ final class System
 	/**
 	 * Set <samp>php.ini</samp> configuration option with a given name with a given value.
 	 * 
-	 * This method is mostly equivalent to the PHP core <code>ini_set</code> function, however it holds no effect 
+	 * This method is mostly equivalent to the PHP <code>ini_set</code> function, however it holds no effect 
 	 * if the package is set to be used as a library, throws an exception instead of failing silently, 
 	 * and an integer, float, boolean or <code>null</code> value is also safely accepted.
 	 * 
@@ -158,7 +158,7 @@ final class System
 	/**
 	 * Set error reporting flags.
 	 * 
-	 * This method is mostly equivalent to the PHP core <code>error_reporting</code> function, 
+	 * This method is mostly equivalent to the PHP <code>error_reporting</code> function, 
 	 * however it holds no effect if the package is set to be used as a library.
 	 * 
 	 * @since 1.0.0

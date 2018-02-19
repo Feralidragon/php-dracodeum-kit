@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root\System;
 
-use Feralygon\Kit\Core\Traits as CoreTraits;
+use Feralygon\Kit\Traits as KitTraits;
 
 /**
  * Root system environment class.
@@ -20,7 +20,7 @@ use Feralygon\Kit\Core\Traits as CoreTraits;
 abstract class Environment
 {
 	//Traits
-	use CoreTraits\NoConstructor;
+	use KitTraits\NoConstructor;
 	
 	
 	
