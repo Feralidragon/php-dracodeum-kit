@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../autoload.php';
 
 use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Core\Components\Input;
+use Feralygon\Kit\Components\Input;
 
 System::setEnvironment('development');
 

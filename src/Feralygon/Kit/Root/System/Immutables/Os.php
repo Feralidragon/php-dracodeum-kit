@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root\System\Immutables;
 
-use Feralygon\Kit\Core\Immutable;
+use Feralygon\Kit\Immutable;
 
 /**
  * Root system OS (Operating System) immutable class.

@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Root;
 
 use Feralygon\Kit\Root\Loader\Objects;
-use Feralygon\Kit\Core\Utilities\Type as UType;
+use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * Root loader class.

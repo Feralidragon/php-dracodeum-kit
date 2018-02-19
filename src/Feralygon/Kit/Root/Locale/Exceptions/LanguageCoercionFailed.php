@@ -8,8 +8,8 @@
 namespace Feralygon\Kit\Root\Locale\Exceptions;
 
 use Feralygon\Kit\Root\Locale\Exception;
-use Feralygon\Kit\Core\Interfaces\Throwables\Coercive as ICoercive;
-use Feralygon\Kit\Core\Utilities\{
+use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
+use Feralygon\Kit\Utilities\{
 	Text as UText,
 	Type as UType
 };
@@ -69,7 +69,7 @@ class LanguageCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (core coercive throwable interface)
+	//Implemented public methods (coercive throwable interface)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

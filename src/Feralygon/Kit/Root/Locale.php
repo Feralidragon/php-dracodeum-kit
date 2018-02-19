@@ -11,7 +11,7 @@ use Feralygon\Kit\Root\Locale\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Core\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * Root locale class.

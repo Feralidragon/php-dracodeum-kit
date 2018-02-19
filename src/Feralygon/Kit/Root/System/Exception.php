@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root\System;
 
-use Feralygon\Kit\Core;
+use Feralygon\Kit\Exception as KitException;
 
 /**
  * Root system exception class.
@@ -15,4 +15,4 @@ use Feralygon\Kit\Core;
  * @since 1.0.0
  * @see \Feralygon\Kit\Root\System
  */
-abstract class Exception extends Core\Exception {}
+abstract class Exception extends KitException {}

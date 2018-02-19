@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root;
 
-use Feralygon\Kit\Core\Traits as CoreTraits;
+use Feralygon\Kit\Traits as KitTraits;
 
 /**
  * Root vendor class.
@@ -18,7 +18,7 @@ use Feralygon\Kit\Core\Traits as CoreTraits;
 final class Vendor
 {
 	//Traits
-	use CoreTraits\NonInstantiable;
+	use KitTraits\NonInstantiable;
 	
 	
 	
