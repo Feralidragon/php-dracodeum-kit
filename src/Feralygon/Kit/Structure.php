@@ -16,7 +16,8 @@ use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
  * <br>
  * A structure is a simple object which represents and stores multiple properties of multiple types.<br>
  * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
- * and may be retrieved and modified directly just like any public object property.
+ * and may be retrieved and modified directly just like any public object property, 
+ * and may also be set to read-only during instantiation to prevent any further changes.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
@@ -34,10 +35,12 @@ abstract class Structure implements \ArrayAccess, IArrayable
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $readonly [default = false] <p>Set all properties as read-only.</p>
 	 */
-	final public function __construct(array $properties = [])
+	final public function __construct(array $properties = [], bool $readonly = false)
 	{
-		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperties']), $properties);
+		$mode = $readonly ? 'r+' : 'rw';
+		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperties']), $properties, $mode);
 	}
 	
 	
