@@ -203,7 +203,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
-	final public function isReadonly() : bool
+	final public function arePropertiesReadonly() : bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isReadonly();
@@ -217,7 +217,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly()
+	final public function setPropertiesAsReadonly()
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->setAsReadonly();
