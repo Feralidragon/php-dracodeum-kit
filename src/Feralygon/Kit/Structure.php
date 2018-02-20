@@ -8,6 +8,8 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
+use Feralygon\Kit\Structure\Exceptions;
+use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * Structure class.
@@ -53,4 +55,82 @@ abstract class Structure implements \ArrayAccess, IArrayable
 	 * @return void
 	 */
 	abstract protected function buildProperties() : void;
+	
+	
+	
+	//Final public static methods	
+	/**
+	 * Evaluate a given value as an instance.
+	 * 
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be evaluated into an instance.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $clone [default = false] <p>If an instance is given, 
+	 * clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false] <p>Set all properties of a new instance as read-only.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
+	 */
+	final public static function evaluate(
+		&$value, bool $clone = false, bool $readonly = false, bool $nullable = false
+	) : bool
+	{
+		try {
+			$value = static::coerce($value, $clone, $readonly, $nullable);
+		} catch (Exceptions\CoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into an instance.
+	 * 
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be coerced into an instance.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $clone [default = false] <p>If an instance is given, 
+	 * clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false] <p>Set all properties of a new instance as read-only.</p>
+	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
+	 * @return static|null <p>The given value coerced into an instance.<br>
+	 * If nullable, <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerce(
+		$value, bool $clone = false, bool $readonly = false, bool $nullable = false
+	) : ?Structure
+	{
+		try {
+			if (!isset($value)) {
+				return $nullable ? null : new static([], $readonly);
+			} elseif (is_array($value)) {
+				return new static($value, $readonly);
+			} elseif (is_object($value)) {
+				if (!$clone && get_class($value) === static::class) {
+					return $value;
+				} elseif (UType::isA($value, self::class)) {
+					return new static($value->getAll(), $readonly);
+				}
+			}
+		} catch (\Exception $exception) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'structure' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
+		}
+		throw new Exceptions\CoercionFailed([
+			'value' => $value,
+			'structure' => static::class,
+			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+			'error_message' => "Only null, an instance or array of properties, " . 
+				"given as \"name => value\" pairs, can be coerced into an instance."
+		]);
+	}
 }
