@@ -202,35 +202,42 @@ class Property
 	 * but only once during initialization (write-once).<br>
 	 * <br>
 	 * NOTE: The allowed modes may be more restricted depending on the global mode set in the manager:<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
+	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidMode
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setMode(string $mode) : Property
 	{
-		//allowed modes
-		$modes = Manager::MODES;
-		$manager_mode = $this->manager->getMode();
-		if (isset($manager_mode)) {
-			if ($manager_mode === 'r+') {
-				$modes = ['r', 'r+'];
-			} elseif ($manager_mode === 'w') {
-				$modes = ['w', 'w-'];
-			} elseif ($manager_mode !== 'rw') {
-				$modes = [$manager_mode];
-			}
+		//map
+		$map = [];
+		switch ($this->manager->getMode()) {
+			case 'r':
+				$map = ['r' => 'r', 'r+' => 'r', 'rw' => 'r'];
+				break;
+			case 'r+':
+				$map = ['r' => 'r', 'r+' => 'r+', 'rw' => 'r+'];
+				break;
+			case 'rw':
+				$map = array_combine(Manager::MODES, Manager::MODES);
+				break;
+			case 'w':
+				$map = ['rw' => 'w', 'w' => 'w', 'w-' => 'w-'];
+				break;
+			case 'w-':
+				$map = ['rw' => 'w-', 'w' => 'w-', 'w-' => 'w-'];
+				break;
 		}
 		
 		//set
-		if (!in_array($mode, $modes, true)) {
-			throw new Exceptions\InvalidMode(['property' => $this, 'mode' => $mode, 'modes' => $modes]);
+		if (!isset($map[$mode])) {
+			throw new Exceptions\InvalidMode(['property' => $this, 'mode' => $mode, 'modes' => array_keys($map)]);
 		}
-		$this->mode = $mode;
+		$this->mode = $map[$mode];
 		
 		//return
 		return $this;

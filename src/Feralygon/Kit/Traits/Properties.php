@@ -209,21 +209,6 @@ trait Properties
 		return $this->properties_manager->isReadonly();
 	}
 	
-	/**
-	 * Set properties as read-only.
-	 * 
-	 * Only properties which allow read access can be set as read-only.
-	 * 
-	 * @since 1.0.0
-	 * @return $this <p>This instance, for chaining purposes.</p>
-	 */
-	final public function setPropertiesAsReadonly()
-	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->setAsReadonly();
-		return $this;
-	}
-	
 	
 	
 	//Final protected methods
@@ -241,6 +226,18 @@ trait Properties
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->addProperty($name);
+	}
+	
+	/**
+	 * Set properties as read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return void
+	 */
+	final protected function setPropertiesAsReadonly() : void
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->setAsReadonly();
 	}
 	
 	
@@ -272,11 +269,11 @@ trait Properties
 	 * <br>
 	 * All properties default to the mode defined here, but if another mode is set in each individual property, 
 	 * it becomes restricted as so:<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
+	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
