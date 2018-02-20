@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Root\System\Immutables;
+namespace Feralygon\Kit\Root\System\Structures;
 
-use Feralygon\Kit\Immutable;
+use Feralygon\Kit\Structure;
 
 /**
- * Root system OS (Operating System) immutable class.
+ * Root system OS (Operating System) structure class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
@@ -20,7 +20,7 @@ use Feralygon\Kit\Immutable;
  * @property-read string $architecture <p>The architecture.</p>
  * @see \Feralygon\Kit\Root\System
  */
-final class Os extends Immutable
+final class Os extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */

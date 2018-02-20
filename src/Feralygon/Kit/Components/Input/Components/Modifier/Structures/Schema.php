@@ -5,19 +5,19 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Components\Input\Components\Modifier\Immutables;
+namespace Feralygon\Kit\Components\Input\Components\Modifier\Structures;
 
-use Feralygon\Kit\Immutable;
+use Feralygon\Kit\Structure;
 
 /**
- * Input modifier component schema immutable class.
+ * Input modifier component schema structure class.
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  */
-class Schema extends Immutable
+class Schema extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
