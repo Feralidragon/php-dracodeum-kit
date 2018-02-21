@@ -21,10 +21,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
  */
-abstract class Exception extends \Exception implements \ArrayAccess, IArrayable
+abstract class Exception extends \Exception implements IArrayable
 {
 	//Traits
-	use Traits\Properties\ArrayableAccess;
+	use Traits\Properties\Arrayable;
 	
 	
 	

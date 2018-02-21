@@ -24,10 +24,10 @@ use Feralygon\Kit\Prototype\{
  * @see \Feralygon\Kit\Prototype\Interfaces\Functions
  * @see \Feralygon\Kit\Prototype\Interfaces\Initialization
  */
-abstract class Prototype implements \ArrayAccess
+abstract class Prototype
 {
 	//Traits
-	use Traits\LazyProperties\ArrayAccess;
+	use Traits\LazyProperties;
 	use Traits\Functions;
 	
 	

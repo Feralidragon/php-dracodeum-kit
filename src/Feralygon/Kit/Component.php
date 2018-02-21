@@ -101,10 +101,10 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitialization
  * @see \Feralygon\Kit\Component\Traits\Prototypes
  */
-abstract class Component implements \ArrayAccess
+abstract class Component
 {
 	//Traits
-	use KitTraits\LazyProperties\ArrayAccess;
+	use KitTraits\LazyProperties;
 	use Traits\Properties;
 	use Traits\Initialization;
 	use Traits\PrototypeInitialization;
