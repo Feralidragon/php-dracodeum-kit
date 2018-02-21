@@ -85,11 +85,11 @@ class Properties
 	 * but only once during initialization (write-once).<br>
 	 * <br>
 	 * All properties default to the mode defined here, but if another mode is set, it becomes restricted as so:<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
+	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidOwner
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidMode
@@ -161,6 +161,41 @@ class Properties
 	final public function getMode() : string
 	{
 		return $this->mode;
+	}
+	
+	/**
+	 * Check if properties are read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 */
+	final public function isReadonly() : bool
+	{
+		return $this->mode === 'r' || $this->mode === 'r+';
+	}
+	
+	/**
+	 * Set properties as read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsReadonly() : Properties
+	{
+		if (!$this->isReadonly()) {
+			foreach ($this->properties as $name => $property) {
+				$mode = $property->getMode();
+				if ($mode !== 'r') {
+					if ($mode[0] === 'r') {
+						$property->setMode('r');
+					} else {
+						unset($this->properties[$name]);
+					}
+				}
+			}
+			$this->mode = 'r';
+		}
+		return $this;
 	}
 	
 	/**

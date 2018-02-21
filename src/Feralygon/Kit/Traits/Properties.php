@@ -197,6 +197,18 @@ trait Properties
 		return $this->properties_manager->getAll();
 	}
 	
+	/**
+	 * Check if properties are read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 */
+	final public function arePropertiesReadonly() : bool
+	{
+		$this->guardPropertiesManagerCall();
+		return $this->properties_manager->isReadonly();
+	}
+	
 	
 	
 	//Final protected methods
@@ -216,6 +228,18 @@ trait Properties
 		return $this->properties_manager->addProperty($name);
 	}
 	
+	/**
+	 * Set properties as read-only.
+	 * 
+	 * @since 1.0.0
+	 * @return void
+	 */
+	final protected function setPropertiesAsReadonly() : void
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->setAsReadonly();
+	}
+	
 	
 	
 	//Final private methods
@@ -225,9 +249,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @param callable $builder <p>The function to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code><br>
-	 * <br>
-	 * Return: <code><b>void</b></code>
+	 * <code>function () : void</code>
 	 * </p>
 	 * @param array $properties [default = []] <p>The properties to initialize with, 
 	 * as <samp>name => value</samp> pairs.</p>
@@ -245,11 +267,11 @@ trait Properties
 	 * <br>
 	 * All properties default to the mode defined here, but if another mode is set in each individual property, 
 	 * it becomes restricted as so:<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp>, only <samp>r</samp> is allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>r+</samp>, only <samp>r</samp> and <samp>r+</samp> are allowed;<br>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
+	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, only <samp>w</samp> and <samp>w-</samp> are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w-</samp>, only <samp>w-</samp> is allowed.
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
 	 * @throws \Feralygon\Kit\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
@@ -271,8 +293,8 @@ trait Properties
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called, 
-	 * until the properties manager has been initialized.
+	 * Guard the current function or method in the stack from being called until the properties manager 
+	 * has been initialized.
 	 * 
 	 * @since 1.0.0
 	 * @return void

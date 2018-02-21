@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Components\Input\Components;
 use Feralygon\Kit\Component;
 use Feralygon\Kit\Components\Input\Components\Modifier\{
 	Objects,
-	Immutables
+	Structures
 };
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier as Prototype;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
@@ -220,21 +220,21 @@ abstract class Modifier extends Component
 	/**
 	 * Get schema instance.
 	 * 
-	 * The returning schema describes this modifier by using an immutable object.
+	 * The returning schema describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Immutables\Schema|null <p>The schema instance 
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema|null <p>The schema instance 
 	 * or <code>null</code> if none exists.</p>
 	 */
-	public function getSchema() : ?Immutables\Schema
+	public function getSchema() : ?Structures\Schema
 	{
 		$name = $this->getName();
 		if (isset($name)) {
 			$prototype = $this->getPrototype();
-			return new Immutables\Schema([
+			return new Structures\Schema([
 				'name' => $name,
 				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
-			]);
+			], true);
 		}
 		return null;
 	}
