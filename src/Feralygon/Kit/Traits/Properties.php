@@ -249,9 +249,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @param callable $builder <p>The function to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code><br>
-	 * <br>
-	 * Return: <code><b>void</b></code>
+	 * <code>function () : void</code>
 	 * </p>
 	 * @param array $properties [default = []] <p>The properties to initialize with, 
 	 * as <samp>name => value</samp> pairs.</p>

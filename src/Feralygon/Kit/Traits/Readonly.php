@@ -76,9 +76,7 @@ trait Readonly
 	 * @since 1.0.0
 	 * @param callable[] $callbacks [default = []] <p>The callback functions to call upon read-only enablement.<br>
 	 * Each one is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code><br>
-	 * <br>
-	 * Return: <code><b>void</b></code>
+	 * <code>function () : void</code>
 	 * </p>
 	 * @throws \Feralygon\Kit\Traits\Readonly\Exceptions\ReadonlyAlreadyInitialized
 	 * @return void

@@ -998,9 +998,7 @@ class Property
 	 * <code>function ($value) : void</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to set.<br>
-	 * <br>
-	 * Return: <code><b>void</b></code>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to set.
 	 * </p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
