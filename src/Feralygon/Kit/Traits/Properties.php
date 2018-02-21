@@ -295,8 +295,8 @@ trait Properties
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called, 
-	 * until the properties manager has been initialized.
+	 * Guard the current function or method in the stack from being called until the properties manager 
+	 * has been initialized.
 	 * 
 	 * @since 1.0.0
 	 * @return void
