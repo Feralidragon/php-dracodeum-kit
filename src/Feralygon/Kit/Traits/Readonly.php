@@ -74,6 +74,7 @@ trait Readonly
 	 * Initialize read-only.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $enable [default = false] <p>Enable the read-only state.</p>
 	 * @param callable[] $callbacks [default = []] <p>The callback functions to call upon read-only enablement.<br>
 	 * Each one is expected to be compatible with the following signature:<br><br>
 	 * <code>function () : void</code>
@@ -81,7 +82,7 @@ trait Readonly
 	 * @throws \Feralygon\Kit\Traits\Readonly\Exceptions\ReadonlyAlreadyInitialized
 	 * @return void
 	 */
-	final private function initializeReadonly(array $callbacks = []) : void
+	final private function initializeReadonly(bool $enable = false, array $callbacks = []) : void
 	{
 		//manager
 		if (isset($this->readonly_manager)) {
@@ -92,6 +93,11 @@ trait Readonly
 		//callbacks
 		foreach ($callbacks as $callback) {
 			$this->readonly_manager->addCallback($callback);
+		}
+		
+		//enable
+		if ($enable) {
+			$this->readonly_manager->enable();
 		}
 	}
 	
