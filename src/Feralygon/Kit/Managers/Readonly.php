@@ -13,7 +13,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
 /**
  * Read-only manager class.
  * 
- * This manager handles the read-only state and callbacks of an object.
+ * This manager handles the read-only state and the resulting callback functions of an object.
  * 
  * @since 1.0.0
  */
@@ -86,12 +86,15 @@ class Readonly
 			}
 			$this->enabled = true;
 		}
+		return $this;
 	}
 	
 	/**
 	 * Add callback function.
 	 * 
-	 * All callback functions are called upon enablement.
+	 * All callback functions are called upon enablement.<br>
+	 * <br>
+	 * This method may only be called before enablement.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $callback <p>The callback function to add.<br>
@@ -104,19 +107,17 @@ class Readonly
 	 */
 	final public function addCallback(callable $callback) : Readonly
 	{
-		if ($this->enabled) {
-			
-			//TODO: throw exception
-			
-		}
-		
+		UCall::guard(
+			!$this->enabled,
+			"This method may only be called before enablement."
+		);
 		UCall::assert('callback', $callback, function () : void {}, true);
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called if this is enabled.
+	 * Guard the current function or method in the stack from being called after enablement.
 	 * 
 	 * @since 1.0.0
 	 * @param int $stack_offset [default = 0] <p>The stack offset to use.<br>
@@ -126,7 +127,7 @@ class Readonly
 	final public function guardCall(int $stack_offset = 0) : void
 	{
 		UCall::guard(
-			!$this->readonly,
+			!$this->enabled,
 			"This method cannot be called as this object is currently set as read-only.",
 			null, $stack_offset + 1
 		);
