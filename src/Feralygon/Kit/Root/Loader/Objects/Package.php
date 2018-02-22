@@ -32,8 +32,10 @@ final class Package
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The vendor.</p>
-	 * @param string $name <p>The name.</p>
+	 * @param string $vendor <p>The vendor.<br>
+	 * It is converted to lowercase.</p>
+	 * @param string $name <p>The name.<br>
+	 * It is converted to lowercase.</p>
 	 * @param string $path <p>The path.</p>
 	 */
 	final public function __construct(string $vendor, string $name, string $path)
