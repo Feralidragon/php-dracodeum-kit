@@ -27,7 +27,7 @@ abstract class Builder
 	
 	//Abstract public methods
 	/**
-	 * Build an object for a given name.
+	 * Build object for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The name to build for.</p>

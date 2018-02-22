@@ -49,16 +49,33 @@ abstract class Factory
 	abstract protected static function buildBuilder(string $type) : ?Builder;
 	
 	
+	//TODO: use object with builder and class instead
+	
+	
+	/**
+	 * Get base class for a given type.
+	 * 
+	 * Any object built by this factory must be or extend from the same class as the base class returned here, 
+	 * for the given type.<br>
+	 * If no base class is set, then any object is assumed to be valid.
+	 * 
+	 * @since 1.0.0
+	 * @param string $type <p>The type to get for.</p>
+	 * @return string|null <p>The base class for the given type or <code>null</code> if none is set.</p>
+	 */
+	abstract protected static function getBaseClass(string $type) : ?string;
+	
+	
 	
 	//Final public static methods
 	/**
-	 * Build an object for a given type and name.
+	 * Build an object of a given type for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $type <p>The type to build for.</p>
 	 * @param string $name <p>The name to build for.</p>
 	 * @param mixed $arguments [variadic] <p>The arguments to build with.</p>
-	 * @return object <p>The built object.</p>
+	 * @return object <p>The built object of the given type for the given name.</p>
 	 */
 	final public static function build(string $type, string $name, ...$arguments)
 	{
@@ -75,11 +92,16 @@ abstract class Factory
 		
 		//build
 		$object = self::$builders[static::class][$type]->build($name, ...$arguments);
+		$base_class = static::getBaseClass($type);
 		if (!isset($object)) {
 			
 			//TODO: throw exception
 			
 		} elseif (!is_object($object)) {
+			
+			//TODO: throw exception
+			
+		} elseif (isset($base_class) && !UType::isA($object, $base_class)) {
 			
 			//TODO: throw exception
 			
@@ -95,7 +117,7 @@ abstract class Factory
 	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to set.</p>
 	 * @return void
 	 */
-	final protected static function setBuilder(string $type, $builder) : void
+	final public static function setBuilder(string $type, $builder) : void
 	{
 		self::$builders[static::class][$type] = UType::coerceObject($builder, Builder::class);
 	}
