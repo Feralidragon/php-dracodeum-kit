@@ -181,9 +181,7 @@ abstract class Component
 		
 		//properties
 		$this->initializeProperties(
-			\Closure::fromCallable([$this, 'buildProperty']),
-			$properties,
-			$this->getRequiredPropertyNames()
+			\Closure::fromCallable([$this, 'buildProperty']), $properties, $this->getRequiredPropertyNames()
 		);
 		
 		//initialize
