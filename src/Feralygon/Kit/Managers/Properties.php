@@ -26,6 +26,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * each one may hold.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Managers\Properties\Objects\Property
  */
 class Properties
 {
@@ -114,7 +115,8 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The name to create with.</p>
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property <p>The created property instance.</p>
+	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property 
+	 * <p>The created property instance with the given name.</p>
 	 */
 	public function createProperty(string $name) : Objects\Property
 	{
