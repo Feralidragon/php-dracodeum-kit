@@ -831,7 +831,7 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class reference to construct from.</p>
-	 * @param mixed $arguments [variadic] <p>The arguments to construct with.</p>
+	 * @param mixed ...$arguments <p>The arguments to construct with.</p>
 	 * @return object <p>The new instance from the given object or class reference.</p>
 	 */
 	final public static function construct($object_class, ...$arguments) : object

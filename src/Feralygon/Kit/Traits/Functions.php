@@ -96,7 +96,7 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The function name to call.</p>
-	 * @param mixed $arguments [variadic] <p>The function arguments to call with.</p>
+	 * @param mixed ...$arguments <p>The function arguments to call with.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
 	 * @return mixed <p>The returning value from the called function with the given name.</p>
 	 */
