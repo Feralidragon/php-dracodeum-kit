@@ -223,15 +223,16 @@ trait LazyProperties
 	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Traits\LazyProperties\Exceptions\PropertyCreationFailed
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property <p>The created property instance.</p>
 	 */
 	final protected function createProperty() : Objects\Property
 	{
 		$this->guardPropertiesManagerCall();
-		if (!isset($this->properties_builder_current_name)) {
-			throw new Exceptions\PropertyCreationFailed(['object' => $this]);
-		}
+		UCall::guard(
+			isset($this->properties_builder_current_name),
+			"This method may only be called after the properties manager initialization and " . 
+				"from within a builder function."
+		);
 		return $this->properties_manager->createProperty($this->properties_builder_current_name);
 	}
 	
