@@ -175,6 +175,7 @@ final class Text extends Utility
 		
 		//object
 		if (is_object($value)) {
+			$object_id = spl_object_id($value);
 			if ($is_enduser) {
 				/**
 				 * @description An internal object expression, as a text representation of an object for the end-user, 
@@ -185,14 +186,14 @@ final class Text extends Utility
 				return self::localize(
 					"OBJECT({{id}})",
 					self::class, $text_options, [
-						'parameters' => ['id' => crc32(get_class($value))]
+						'parameters' => ['id' => $object_id]
 					]
 				);
 			} elseif ($is_technical) {
-				return self::fill("OBJECT({{id}})", ['id' => crc32(get_class($value))]);
+				return self::fill("OBJECT({{id}})", ['id' => $object_id]);
 			}
 			$class = get_class($value);
-			return $prepend_type ? "(object){$class}" : "object({$class})";
+			return $prepend_type ? "(object){$class}#{$object_id}" : "object({$class})#{$object_id}";
 		}
 		
 		//resource

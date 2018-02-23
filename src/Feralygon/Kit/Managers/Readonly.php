@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Managers;
 
-use Feralygon\Kit\Managers\Readonly\Exceptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -37,13 +36,9 @@ class Readonly
 	 * 
 	 * @since 1.0.0
 	 * @param object $owner <p>The owner object.</p>
-	 * @throws \Feralygon\Kit\Managers\Readonly\Exceptions\InvalidOwner
 	 */
-	final public function __construct($owner)
+	final public function __construct(object $owner)
 	{
-		if (!is_object($owner)) {
-			throw new Exceptions\InvalidOwner(['manager' => $this, 'owner' => $owner]);
-		}
 		$this->owner = $owner;
 	}
 	
@@ -56,7 +51,7 @@ class Readonly
 	 * @since 1.0.0
 	 * @return object <p>The owner object.</p>
 	 */
-	final public function getOwner()
+	final public function getOwner() : object
 	{
 		return $this->owner;
 	}

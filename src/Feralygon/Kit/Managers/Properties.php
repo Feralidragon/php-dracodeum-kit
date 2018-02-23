@@ -91,18 +91,12 @@ class Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidOwner
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidMode
 	 */
-	final public function __construct($owner, bool $lazy = false, string $mode = 'rw')
+	final public function __construct(object $owner, bool $lazy = false, string $mode = 'rw')
 	{
-		//owner
-		if (!is_object($owner)) {
-			throw new Exceptions\InvalidOwner(['manager' => $this, 'owner' => $owner]);
-		}
+		//initialize
 		$this->owner = $owner;
-		
-		//lazy
 		$this->lazy = $lazy;
 		
 		//mode
@@ -136,7 +130,7 @@ class Properties
 	 * @since 1.0.0
 	 * @return object <p>The owner object.</p>
 	 */
-	final public function getOwner()
+	final public function getOwner() : object
 	{
 		return $this->owner;
 	}

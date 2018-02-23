@@ -696,7 +696,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceObject(
 		$value, $base_object_class = null, array $arguments = [], bool $nullable = false
-	)
+	) : ?object
 	{
 		//nullable
 		if (!isset($value)) {
@@ -834,7 +834,7 @@ final class Type extends Utility
 	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
 	 * @return object <p>The new instance from the given object or class reference.</p>
 	 */
-	final public static function construct($object_class, array $arguments = [])
+	final public static function construct($object_class, array $arguments = []) : object
 	{
 		return (new \ReflectionClass(self::class($object_class)))->newInstanceArgs($arguments);
 	}

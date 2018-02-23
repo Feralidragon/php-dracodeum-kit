@@ -45,7 +45,7 @@ trait Readonly
 	 * @since 1.0.0
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly()
+	final public function setAsReadonly() : object
 	{
 		$this->guardReadonlyManagerCall();
 		$this->readonly_manager->enable();

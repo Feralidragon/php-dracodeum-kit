@@ -53,7 +53,7 @@ trait Functions
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\InvalidFunction
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function bind(string $name, callable $function)
+	final public function bind(string $name, callable $function) : object
 	{
 		//guard
 		UCall::guard(

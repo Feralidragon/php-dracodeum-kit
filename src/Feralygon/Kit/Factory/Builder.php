@@ -34,5 +34,5 @@ abstract class Builder
 	 * @param mixed $arguments [variadic] <p>The arguments to build with.</p>
 	 * @return object|null <p>The built object for the given name or <code>null</code> if none was built.</p>
 	 */
-	abstract public function build(string $name, ...$arguments);
+	abstract public function build(string $name, ...$arguments) : ?object;
 }

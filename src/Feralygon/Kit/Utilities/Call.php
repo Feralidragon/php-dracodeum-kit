@@ -849,7 +849,7 @@ final class Call extends Utility
 	 * @return object|null <p>The previous object from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
-	final public static function stackPreviousObject(int $offset = 0)
+	final public static function stackPreviousObject(int $offset = 0) : ?object
 	{
 		if ($offset < 0) {
 			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);

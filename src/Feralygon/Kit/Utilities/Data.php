@@ -223,7 +223,7 @@ final class Data extends Utility
 			return 'R:' . (int)$value;
 		} elseif (is_object($value)) {
 			$safe = false;
-			return 'O:' . spl_object_hash($value);
+			return 'O:' . spl_object_id($value);
 		} elseif (is_array($value)) {
 			$array_safe = true;
 			foreach ($value as &$v) {

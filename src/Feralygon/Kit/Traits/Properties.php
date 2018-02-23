@@ -158,7 +158,7 @@ trait Properties
 	 * @param mixed $value <p>The property value to set with.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value)
+	final public function set(string $name, $value) : object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->set($name, $value);
@@ -174,7 +174,7 @@ trait Properties
 	 * @param string $name <p>The property name to unset from.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name)
+	final public function unset(string $name) : object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->unset($name);

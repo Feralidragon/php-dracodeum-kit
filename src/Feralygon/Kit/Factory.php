@@ -77,7 +77,7 @@ abstract class Factory
 	 * @param mixed $arguments [variadic] <p>The arguments to build with.</p>
 	 * @return object <p>The built object of the given type for the given name.</p>
 	 */
-	final public static function build(string $type, string $name, ...$arguments)
+	final public static function build(string $type, string $name, ...$arguments) : object
 	{
 		//builder
 		if (!isset(self::$builders[static::class][$type])) {
@@ -94,10 +94,6 @@ abstract class Factory
 		$object = self::$builders[static::class][$type]->build($name, ...$arguments);
 		$base_class = static::getBaseClass($type);
 		if (!isset($object)) {
-			
-			//TODO: throw exception
-			
-		} elseif (!is_object($object)) {
 			
 			//TODO: throw exception
 			
