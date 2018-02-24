@@ -5,17 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Factory\Objects\Type;
+namespace Feralygon\Kit\Factory\Builder;
 
 use Feralygon\Kit\Exception as KitException;
-use Feralygon\Kit\Factory\Objects\Type;
+use Feralygon\Kit\Factory\Builder;
 
 /**
- * Factory type object exception class.
+ * Factory builder exception class.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
- * @see \Feralygon\Kit\Factory\Objects\Type
+ * @property-read \Feralygon\Kit\Factory\Builder $builder <p>The builder instance.</p>
+ * @see \Feralygon\Kit\Factory\Builder
  */
 abstract class Exception extends KitException
 {
@@ -23,6 +23,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function buildProperties() : void
 	{
-		$this->addProperty('type')->setAsStrictObject(Type::class)->setAsRequired();
+		$this->addProperty('builder')->setAsStrictObject(Builder::class)->setAsRequired();
 	}
 }

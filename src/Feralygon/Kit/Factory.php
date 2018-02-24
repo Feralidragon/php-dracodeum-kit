@@ -11,14 +11,18 @@ use Feralygon\Kit\Factory\{
 	Objects,
 	Exceptions
 };
-use Feralygon\Kit\Utilities\Call as UCall;
+use Feralygon\Kit\Factory\Builder\Interfaces as BuilderInterfaces;
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Type as UType
+};
 
 /**
  * Factory class.
  * 
  * This class is the base to be extended from when creating a factory.<br>
  * <br>
- * A factory is a class which is able to build specific types of objects for any given names using <b>builders</b>.<br>
+ * A factory is a class which is able to build specific types of objects using <b>builders</b>.<br>
  * Every type has a default builder set, but another one may be set during runtime (dependency injection).
  * 
  * @since 1.0.0
@@ -57,26 +61,6 @@ abstract class Factory
 	
 	//Final public static methods
 	/**
-	 * Build an object from a given type for a given name.
-	 * 
-	 * @since 1.0.0
-	 * @param string $type <p>The type to build from.</p>
-	 * @param string $name <p>The name to build for.</p>
-	 * @param mixed ...$arguments <p>The arguments to build with.</p>
-	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
-	 * @return object <p>The built object from the given type for the given name.</p>
-	 */
-	final public static function build(string $type, string $name, ...$arguments) : object
-	{
-		$type = static::getType($type);
-		$object = $type->build($name, ...$arguments);
-		if (!isset($object)) {
-			throw new Exceptions\NoObjectBuilt(['factory' => static::class, 'name' => $name, 'type' => $type]);
-		}
-		return $object;
-	}
-	
-	/**
 	 * Set builder for a given type.
 	 * 
 	 * @since 1.0.0
@@ -89,6 +73,9 @@ abstract class Factory
 		static::getType($type)->setBuilder($builder);
 	}
 	
+	
+	
+	//Final protected static methods
 	/**
 	 * Get type instance with a given name.
 	 * 
@@ -98,7 +85,7 @@ abstract class Factory
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNameMismatch
 	 * @return \Feralygon\Kit\Factory\Objects\Type <p>The type instance with the given name.</p>
 	 */
-	final public static function getType(string $name) : Objects\Type
+	final protected static function getType(string $name) : Objects\Type
 	{
 		if (!isset(self::$types[static::class][$name])) {
 			//build
@@ -123,9 +110,6 @@ abstract class Factory
 		return self::$types[static::class][$name];
 	}
 	
-	
-	
-	//Final protected static methods
 	/**
 	 * Create a new type instance with a given builder.
 	 * 
@@ -144,6 +128,81 @@ abstract class Factory
 			isset(self::$current_type_name),
 			"This method may only be called from within the \"buildType\" method."
 		);
-		return new Objects\Type(static::class, self::$current_type_name, $builder, $class);
+		return new Objects\Type(self::$current_type_name, $builder, $class);
+	}
+	
+	/**
+	 * Build object from a given type.
+	 * 
+	 * This method requires the builder of the given type to have 
+	 * the <code>Feralygon\Kit\Factory\Builder\Interfaces\Build</code> interface implemented.
+	 * 
+	 * @since 1.0.0
+	 * @param string $type <p>The type to build from.</p>
+	 * @param mixed ...$arguments <p>The arguments to build with.</p>
+	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
+	 * @throws \Feralygon\Kit\Factory\Exceptions\InvalidObjectBuilt
+	 * @return object <p>The built object from the given type.</p>
+	 */
+	final protected static function build(string $type, ...$arguments) : object
+	{
+		//initialize
+		$type = static::getType($type);
+		$builder = $type->getBuilder();
+		
+		//guard
+		UCall::guard(
+			$builder instanceof BuilderInterfaces\Build,
+			"This method requires the builder of the given type to have " . 
+				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\Build\" interface implemented."
+		);
+		
+		//build
+		$object = $builder->build(...$arguments);
+		if (!isset($object)) {
+			throw new Exceptions\NoObjectBuilt(['factory' => static::class, 'type' => $type]);
+		} elseif ($type->hasClass() && !UType::isA($object, $type->getClass())) {
+			throw new Exceptions\InvalidObjectBuilt(['factory' => static::class, 'type' => $type, 'object' => $object]);
+		}
+		return $object;
+	}
+	
+	/**
+	 * Build object from a given type by using a given name.
+	 * 
+	 * This method requires the builder of the given type to have 
+	 * the <code>Feralygon\Kit\Factory\Builder\Interfaces\NamedBuild</code> interface implemented.
+	 * 
+	 * @since 1.0.0
+	 * @param string $type <p>The type to build from.</p>
+	 * @param string $name <p>The name to use.</p>
+	 * @param mixed ...$arguments <p>The arguments to build with.</p>
+	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
+	 * @throws \Feralygon\Kit\Factory\Exceptions\InvalidObjectBuilt
+	 * @return object <p>The built object from the given type by using the given name.</p>
+	 */
+	final protected static function buildByName(string $type, string $name, ...$arguments) : object
+	{
+		//initialize
+		$type = static::getType($type);
+		$builder = $type->getBuilder();
+		
+		//guard
+		UCall::guard(
+			$builder instanceof BuilderInterfaces\NamedBuild,
+			"This method requires the builder of the given type to have " . 
+				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\NamedBuild\" interface implemented."
+		);
+		
+		//build
+		$object = $builder->buildByName($name, ...$arguments);
+		if (!isset($object)) {
+			throw new Exceptions\NoObjectBuilt(['factory' => static::class, 'type' => $type, 'name' => $name]);
+		} elseif ($type->hasClass() && !UType::isA($object, $type->getClass())) {
+			throw new Exceptions\InvalidObjectBuilt([
+				'factory' => static::class, 'type' => $type, 'object' => $object, 'name' => $name
+			]);
+		}
+		return $object;
 	}
 }
