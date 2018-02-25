@@ -12,44 +12,6 @@ $text_options = [
 	'info_scope' => 0
 ];
 
-class B extends Feralygon\Kit\Factory\Builder
-implements Feralygon\Kit\Factory\Builder\Interfaces\NamedBuild
-{
-	public function buildByName(string $name, ...$arguments) : ?object
-	{
-		$remaining = [];
-		$this->mapArguments($arguments, ['a', 'k', 'jk', 'unreal'], $remaining);
-		var_dump($arguments, $remaining);
-		
-		return new stdClass;
-		return null;
-	}
-}
-
-
-class F extends Feralygon\Kit\Factory
-{
-	protected static function buildType(string $name): ?Feralygon\Kit\Factory\Objects\Type
-	{
-		
-		return static::createType(B::class);
-		
-		return null;
-	}
-	
-	public static function a(...$arguments)
-	{
-		return static::buildByName('foo', 'bar', ...$arguments);
-	}
-}
-
-$a = F::a(1);
-
-var_dump($a);
-
-die();
-
-
 
 $value = 'hasd';
 
