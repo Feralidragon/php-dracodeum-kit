@@ -46,8 +46,10 @@ class Component extends Factory
 	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input <p>The built input instance.</p>
 	 */
-	public static function input($prototype, array $prototype_properties = [], array $properties = []) : Components\Input
+	public static function input(
+		$prototype, array $prototype_properties = [], array $properties = []
+	) : Components\Input
 	{
-		return static::build('input', '', $prototype, $prototype_properties, $properties);
+		return static::build('input', $prototype, $prototype_properties, $properties);
 	}
 }

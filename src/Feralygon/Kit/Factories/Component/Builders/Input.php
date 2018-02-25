@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Factories\Component\Builders;
 
 use Feralygon\Kit\Factory\Builder;
+use Feralygon\Kit\Factory\Builder\Interfaces\Build as IBuild;
 use Feralygon\Kit\Components;
 
 /**
@@ -17,19 +18,15 @@ use Feralygon\Kit\Components;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component
- * @see \Feralygon\Kit\Components\Input [name = '', arguments = 1-3]
+ * @see \Feralygon\Kit\Components\Input [arguments = 1-3]
  */
-class Input extends Builder
+class Input extends Builder implements IBuild
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function build(string $name, ...$arguments) : ?object
+	public function build(...$arguments) : ?object
 	{
-		switch ($name) {
-			case '':
-				$this->validateArguments($arguments, 1, 3);
-				return new Components\Input(...$arguments);
-		}
-		return null;
+		$this->validateArgumentsRange($arguments, 1, 3);
+		return new Components\Input(...$arguments);
 	}
 }
