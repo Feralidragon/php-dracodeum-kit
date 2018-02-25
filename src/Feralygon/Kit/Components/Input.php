@@ -589,6 +589,7 @@ class Input extends Component
 		$prototype = $this->getPrototype();
 		return new Structures\Schema([
 			'name' => $this->getName(),
+			'nullable' => $this->nullable,
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
 		], true);

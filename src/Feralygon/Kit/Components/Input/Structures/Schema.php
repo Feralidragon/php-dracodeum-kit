@@ -16,6 +16,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * 
  * @since 1.0.0
  * @property-read string $name <p>The name.</p>
+ * @property-read bool $nullable [default = false] <p>The nullable state.</p>
  * @property-read mixed $data [default = null] <p>The data.</p>
  * @property-read \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []] 
  * <p>The modifier schema instances.</p>
@@ -28,6 +29,7 @@ class Schema extends Structure
 	protected function buildProperties() : void
 	{
 		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('nullable')->setAsBoolean()->setDefaultValue(false);
 		$this->addProperty('data')->setDefaultValue(null);
 		$this->addProperty('modifiers')
 			->setAsArray(function (&$key, &$value) : bool {

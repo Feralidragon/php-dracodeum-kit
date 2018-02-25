@@ -41,7 +41,12 @@ var_dump($input->getDescription($text_options));
 var_dump($input->getMessage($text_options));
 
 $schema = $input->getSchema();
-var_dump(['name' => $schema->name, 'data' => $schema->data, 'modifiers_count' => count($schema->modifiers)]);
+var_dump([
+	'name' => $schema->name,
+	'nullable' => $schema->nullable,
+	'data' => $schema->data,
+	'modifiers_count' => count($schema->modifiers)
+]);
 
 echo "\n\nINPUT ERROR: ";
 var_dump($input->getErrorMessage($text_options));
@@ -57,7 +62,10 @@ foreach ($input->getModifiers() as $i => $modifier) {
 	
 	$schema = $modifier->getSchema();
 	if (isset($schema)) {
-		var_dump(['name' => $schema->name, 'data' => $schema->data]);
+		var_dump([
+			'name' => $schema->name,
+			'data' => $schema->data
+		]);
 	}
 	echo "\n\n";
 }
