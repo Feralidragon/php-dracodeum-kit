@@ -301,10 +301,9 @@ trait Properties
 	 */
 	final private function guardPropertiesManagerCall() : void
 	{
-		UCall::guard(
-			isset($this->properties_manager),
-			"This method may only be called after the properties manager initialization.",
-			null, 1
-		);
+		UCall::guard(isset($this->properties_manager), [
+			'hint_message' => "This method may only be called after the properties manager initialization.",
+			'stack_offset' => 1
+		]);
 	}
 }

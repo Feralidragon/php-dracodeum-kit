@@ -11,7 +11,10 @@ use Feralygon\Kit\{
 	Traits,
 	Utility
 };
-use Feralygon\Kit\Utilities\Call\Exceptions;
+use Feralygon\Kit\Utilities\Call\{
+	Options,
+	Exceptions
+};
 use Feralygon\Kit\Root\System;
 
 /**
@@ -965,41 +968,54 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.
 	 * </p>
-	 * @param string|null $hint_message [default = null] <p>The hint message to use in the thrown exception.</p>
-	 * @param string|null $name [default = null] <p>The function or method name to use in the thrown exception.<br>
-	 * If not set, the name of the current function or method in the stack is used.</p>
-	 * @param int $stack_offset [default = 0] <p>The stack offset to use.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
+	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
 	 */
-	final public static function guard(
-		bool $assertion, ?string $hint_message = null, ?string $name = null, int $stack_offset = 0
-	) : void
+	final public static function guard(bool $assertion, $options = null) : void
 	{
-		//stack offset
-		if ($stack_offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $stack_offset]);
+		//initialize
+		if ($assertion) {
+			return;
 		}
+		$options = Options\Guard::coerce($options);
 		
-		//assertion
-		if (!$assertion) {
-			$stack_index = $stack_offset + 1;
-			$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-			$backtrace = debug_backtrace($debug_flags, $stack_offset + 2);
-			if (isset($backtrace[$stack_index]['function'])) {
-				throw new Exceptions\NotAllowed([
-					'name' => $name ?? $backtrace[$stack_index]['function'],
-					'object_class' => $backtrace[$stack_index]['object'] ?? $backtrace[$stack_index]['class'] ?? null,
-					'hint_message' => $hint_message
-				]);
-			}
+		//backtrace
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		if (!isset($backtrace[$stack_index]['function'])) {
 			throw new Exceptions\NotAllowed([
 				'name' => 'guard',
 				'object_class' => self::class,
 				'hint_message' => "This method may only be called from within a function or method."
 			]);
 		}
+		$backtrace = $backtrace[$stack_index];
+		
+		//stringifier
+		$stringifier = $options->stringifier;
+		if (!isset($stringifier)) {
+			$stringifier = function (string $placeholder, $value) : ?string {
+				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			};
+		}
+		
+		//hint message
+		$hint_message = $options->hint_message;
+		if (isset($hint_message) && !empty($options->parameters)) {
+			$hint_message = Text::fill($hint_message, $options->parameters, null, [
+				'string_options' => $options->string_options,
+				'stringifier' => $stringifier
+			]);
+		}
+		
+		//exception
+		throw new Exceptions\NotAllowed([
+			'name' => $options->name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
+			'hint_message' => $hint_message
+		]);
 	}
 }

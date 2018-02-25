@@ -124,10 +124,9 @@ abstract class Factory
 	 */
 	final protected static function createType($builder, ?string $class = null) : Objects\Type
 	{
-		UCall::guard(
-			isset(self::$current_type_name),
-			"This method may only be called from within the \"buildType\" method."
-		);
+		UCall::guard(isset(self::$current_type_name), [
+			'hint_message' => "This method may only be called from within the \"buildType\" method."
+		]);
 		return new Objects\Type(self::$current_type_name, $builder, $class);
 	}
 	
@@ -151,11 +150,12 @@ abstract class Factory
 		$builder = $type->getBuilder();
 		
 		//guard
-		UCall::guard(
-			$builder instanceof BuilderInterfaces\Build,
-			"This method requires the builder of the given type to have " . 
-				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\Build\" interface implemented."
-		);
+		UCall::guard($builder instanceof BuilderInterfaces\Build, [
+			'hint_message' => "This method requires the builder of the given type {{type}} to have " . 
+				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\Build\" interface implemented.",
+			'parameters' => ['type' => $type->getName()],
+			'object_class' => static::class
+		]);
 		
 		//build
 		$object = $builder->build(...$arguments);
@@ -188,11 +188,12 @@ abstract class Factory
 		$builder = $type->getBuilder();
 		
 		//guard
-		UCall::guard(
-			$builder instanceof BuilderInterfaces\NamedBuild,
-			"This method requires the builder of the given type to have " . 
-				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\NamedBuild\" interface implemented."
-		);
+		UCall::guard($builder instanceof BuilderInterfaces\NamedBuild, [
+			'hint_message' => "This method requires the builder of the given type {{type}} to have " . 
+				"the \"Feralygon\\Kit\\Factory\\Builder\\Interfaces\\NamedBuild\" interface implemented.",
+			'parameters' => ['type' => $type->getName()],
+			'object_class' => static::class
+		]);
 		
 		//build
 		$object = $builder->buildByName($name, ...$arguments);

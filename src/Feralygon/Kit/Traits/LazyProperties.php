@@ -228,11 +228,10 @@ trait LazyProperties
 	final protected function createProperty() : Objects\Property
 	{
 		$this->guardPropertiesManagerCall();
-		UCall::guard(
-			isset($this->properties_builder_current_name),
-			"This method may only be called after the properties manager initialization and " . 
+		UCall::guard(isset($this->properties_builder_current_name), [
+			'hint_message' => "This method may only be called after the properties manager initialization and " . 
 				"from within a builder function."
-		);
+		]);
 		return $this->properties_manager->createProperty($this->properties_builder_current_name);
 	}
 	
@@ -330,10 +329,9 @@ trait LazyProperties
 	 */
 	final private function guardPropertiesManagerCall() : void
 	{
-		UCall::guard(
-			isset($this->properties_manager),
-			"This method may only be called after the properties manager initialization.",
-			null, 1
-		);
+		UCall::guard(isset($this->properties_manager), [
+			'hint_message' => "This method may only be called after the properties manager initialization.",
+			'stack_offset' => 1
+		]);
 	}
 }

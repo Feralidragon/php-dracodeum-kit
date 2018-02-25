@@ -56,10 +56,9 @@ trait Functions
 	final public function bind(string $name, callable $function) : object
 	{
 		//guard
-		UCall::guard(
-			$this->functions_initialized,
-			"This method may only be called after the functions initialization."
-		);
+		UCall::guard($this->functions_initialized, [
+			'hint_message' => "This method may only be called after the functions initialization."
+		]);
 		
 		//bind-once
 		if ($this->functions_bindonce && isset($this->functions[$name])) {
@@ -102,10 +101,9 @@ trait Functions
 	 */
 	final protected function call(string $name, ...$arguments)
 	{
-		UCall::guard(
-			$this->functions_initialized,
-			"This method may only be called after the functions initialization."
-		);
+		UCall::guard($this->functions_initialized, [
+			'hint_message' => "This method may only be called after the functions initialization."
+		]);
 		if (!isset($this->functions[$name])) {
 			throw new Exceptions\FunctionNotFound(['object' => $this, 'name' => $name]);
 		}

@@ -100,10 +100,9 @@ class Readonly
 	 */
 	final public function addCallback(callable $callback) : Readonly
 	{
-		UCall::guard(
-			!$this->enabled,
-			"This method may only be called before enablement."
-		);
+		UCall::guard(!$this->enabled, [
+			'hint_message' => "This method may only be called before enablement."
+		]);
 		UCall::assert('callback', $callback, function () : void {}, true);
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
@@ -119,10 +118,9 @@ class Readonly
 	 */
 	final public function guardCall(int $stack_offset = 0) : void
 	{
-		UCall::guard(
-			!$this->enabled,
-			"This method cannot be called as this object is currently set as read-only.",
-			null, $stack_offset + 1
-		);
+		UCall::guard(!$this->enabled, [
+			'hint_message' => "This method cannot be called as this object is currently set as read-only.",
+			'stack_offset' => $stack_offset + 1
+		]);
 	}
 }

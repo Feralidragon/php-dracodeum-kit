@@ -110,10 +110,9 @@ trait Readonly
 	 */
 	final private function guardReadonlyManagerCall() : void
 	{
-		UCall::guard(
-			isset($this->readonly_manager),
-			"This method may only be called after the read-only manager initialization.",
-			null, 1
-		);
+		UCall::guard(isset($this->readonly_manager), [
+			'hint_message' => "This method may only be called after the read-only manager initialization.",
+			'stack_offset' => 1
+		]);
 	}
 }

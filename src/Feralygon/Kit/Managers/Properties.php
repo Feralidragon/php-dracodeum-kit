@@ -210,19 +210,16 @@ class Properties
 	final public function addRequiredPropertyNames(array $names) : Properties
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
-		UCall::guard(
-			$this->lazy,
-			"In order to explicitly set a property as required, with lazy-loading disabled, "  . 
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		UCall::guard($this->lazy, [
+			'hint_message' => "In order to explicitly set a property as required, with lazy-loading disabled, "  . 
 				"please use the \"setAsRequired\" method instead from the corresponding property instance."
-		);
-		UCall::guard(
-			$this->mode !== 'r',
-			"Required property names cannot be set as all properties are strictly read-only."
-		);
+		]);
+		UCall::guard($this->mode !== 'r', [
+			'hint_message' => "Required property names cannot be set as all properties are strictly read-only."
+		]);
 		
 		//add
 		$this->required_map += array_fill_keys($names, true);
@@ -259,14 +256,13 @@ class Properties
 	final public function addProperty(string $name) : Objects\Property
 	{
 		//guard
-		UCall::guard(
-			!$this->lazy,
-			"In order to add new properties, with lazy-loading enabled, please set and use a builder function instead."
-		);
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->lazy, [
+			'hint_message' => "In order to add new properties, with lazy-loading enabled, " . 
+				"please set and use a builder function instead."
+		]);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//check
 		if (isset($this->properties[$name])) {
@@ -309,14 +305,12 @@ class Properties
 	 */
 	final public function setBuilder(callable $builder) : Properties
 	{
-		UCall::guard(
-			$this->lazy,
-			"A builder function is only required when lazy-loading is enabled."
-		);
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard($this->lazy, [
+			'hint_message' => "A builder function is only required when lazy-loading is enabled."
+		]);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;
