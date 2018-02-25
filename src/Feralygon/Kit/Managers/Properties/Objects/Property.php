@@ -151,23 +151,19 @@ class Property
 	final public function setAsRequired() : Property
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
-		UCall::guard(
-			!$this->manager->isLazy(),
-			"In order to set a property as required, with lazy-loading enabled, " . 
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		UCall::guard(!$this->manager->isLazy(), [
+			'hint_message' => "In order to set a property as required, with lazy-loading enabled, " . 
 				"please use the manager \"addRequiredPropertyNames\" method instead."
-		);
-		UCall::guard(
-			!$this->manager->isInitialized(),
-			"This method may only be called before the manager initialization."
-		);
-		UCall::guard(
-			$this->getMode() !== 'r',
-			"A strictly read-only property cannot be set as required."
-		);
+		]);
+		UCall::guard(!$this->manager->isInitialized(), [
+			'hint_message' => "This method may only be called before the manager initialization."
+		]);
+		UCall::guard($this->getMode() !== 'r', [
+			'hint_message' => "A strictly read-only property cannot be set as required."
+		]);
 		
 		//set
 		$this->required = true;
@@ -253,10 +249,9 @@ class Property
 	 */
 	final public function getValue()
 	{
-		UCall::guard(
-			$this->initialized,
-			"This method may only be called after initialization."
-		);
+		UCall::guard($this->initialized, [
+			'hint_message' => "This method may only be called after initialization."
+		]);
 		return isset($this->getter) ? ($this->getter)() : $this->value;
 	}
 	
@@ -273,10 +268,9 @@ class Property
 	final public function setValue($value) : Property
 	{
 		//guard
-		UCall::guard(
-			$this->manager->isInitialized() || $this->manager->isInitializing(),
-			"This method may only be called during or after the manager initialization."
-		);
+		UCall::guard($this->manager->isInitialized() || $this->manager->isInitializing(), [
+			'hint_message' => "This method may only be called during or after the manager initialization."
+		]);
 		
 		//set
 		if (isset($this->evaluator) && !($this->evaluator)($value)) {
@@ -340,10 +334,9 @@ class Property
 	final public function setDefaultValue($value) : Property
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//set
 		$this->default_getter = function () use ($value) {
@@ -374,10 +367,9 @@ class Property
 	 */
 	final public function setDefaultGetter(callable $getter) : Property
 	{
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		UCall::assert('default_getter', $getter, function () {}, true);
 		$this->default_getter = \Closure::fromCallable($getter);
 		return $this;
@@ -393,10 +385,9 @@ class Property
 	 */
 	final public function resetValue() : Property
 	{
-		UCall::guard(
-			$this->initialized,
-			"This method may only be called after initialization."
-		);
+		UCall::guard($this->initialized, [
+			'hint_message' => "This method may only be called after initialization."
+		]);
 		$this->setValue($this->getDefaultValue());
 		return $this;
 	}
@@ -422,10 +413,9 @@ class Property
 	 */
 	final public function setEvaluator(callable $evaluator) : Property
 	{
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
 		$this->evaluator = \Closure::fromCallable($evaluator);
 		return $this;
@@ -1005,10 +995,9 @@ class Property
 	final public function setAccessors(callable $getter, callable $setter) : Property
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//set
 		UCall::assert('getter', $getter, function () {}, true);
@@ -1045,10 +1034,9 @@ class Property
 	final public function bind(?string $class = null, ?string $name = null) : Property
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//initialize
 		$owner = $this->manager->getOwner();

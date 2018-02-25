@@ -5,17 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Readonly;
+namespace Feralygon\Kit\Factory;
 
 use Feralygon\Kit\Exception as KitException;
-use Feralygon\Kit\Managers\Readonly as Manager;
+use Feralygon\Kit\Factory;
 
 /**
- * Read-only manager exception class.
+ * Factory exception class.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Readonly $manager <p>The read-only manager instance.</p>
- * @see \Feralygon\Kit\Managers\Readonly
+ * @property-read string $factory <p>The factory class.</p>
+ * @see \Feralygon\Kit\Factory
  */
 abstract class Exception extends KitException
 {
@@ -23,6 +23,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function buildProperties() : void
 	{
-		$this->addProperty('manager')->setAsStrictObject(Manager::class)->setAsRequired();
+		$this->addProperty('factory')->setAsStrictClass(Factory::class)->setAsRequired();
 	}
 }

@@ -163,7 +163,7 @@ trait LazyProperties
 	 * @param mixed $value <p>The property value to set with.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value)
+	final public function set(string $name, $value) : object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->set($name, $value);
@@ -179,7 +179,7 @@ trait LazyProperties
 	 * @param string $name <p>The property name to unset from.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name)
+	final public function unset(string $name) : object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->unset($name);
@@ -223,15 +223,15 @@ trait LazyProperties
 	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Traits\LazyProperties\Exceptions\PropertyCreationFailed
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property <p>The created property instance.</p>
 	 */
 	final protected function createProperty() : Objects\Property
 	{
 		$this->guardPropertiesManagerCall();
-		if (!isset($this->properties_builder_current_name)) {
-			throw new Exceptions\PropertyCreationFailed(['object' => $this]);
-		}
+		UCall::guard(isset($this->properties_builder_current_name), [
+			'hint_message' => "This method may only be called after the properties manager initialization and " . 
+				"from within a builder function."
+		]);
 		return $this->properties_manager->createProperty($this->properties_builder_current_name);
 	}
 	
@@ -329,10 +329,9 @@ trait LazyProperties
 	 */
 	final private function guardPropertiesManagerCall() : void
 	{
-		UCall::guard(
-			isset($this->properties_manager),
-			"This method may only be called after the properties manager initialization.",
-			null, 1
-		);
+		UCall::guard(isset($this->properties_manager), [
+			'hint_message' => "This method may only be called after the properties manager initialization.",
+			'stack_offset' => 1
+		]);
 	}
 }

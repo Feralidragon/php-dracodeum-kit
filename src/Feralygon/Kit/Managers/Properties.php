@@ -26,6 +26,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * each one may hold.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Managers\Properties\Objects\Property
  */
 class Properties
 {
@@ -91,18 +92,12 @@ class Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidOwner
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidMode
 	 */
-	final public function __construct($owner, bool $lazy = false, string $mode = 'rw')
+	final public function __construct(object $owner, bool $lazy = false, string $mode = 'rw')
 	{
-		//owner
-		if (!is_object($owner)) {
-			throw new Exceptions\InvalidOwner(['manager' => $this, 'owner' => $owner]);
-		}
+		//initialize
 		$this->owner = $owner;
-		
-		//lazy
 		$this->lazy = $lazy;
 		
 		//mode
@@ -120,7 +115,8 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The name to create with.</p>
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property <p>The created property instance.</p>
+	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property 
+	 * <p>The created property instance with the given name.</p>
 	 */
 	public function createProperty(string $name) : Objects\Property
 	{
@@ -136,7 +132,7 @@ class Properties
 	 * @since 1.0.0
 	 * @return object <p>The owner object.</p>
 	 */
-	final public function getOwner()
+	final public function getOwner() : object
 	{
 		return $this->owner;
 	}
@@ -214,19 +210,16 @@ class Properties
 	final public function addRequiredPropertyNames(array $names) : Properties
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
-		UCall::guard(
-			$this->lazy,
-			"In order to explicitly set a property as required, with lazy-loading disabled, "  . 
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		UCall::guard($this->lazy, [
+			'hint_message' => "In order to explicitly set a property as required, with lazy-loading disabled, "  . 
 				"please use the \"setAsRequired\" method instead from the corresponding property instance."
-		);
-		UCall::guard(
-			$this->mode !== 'r',
-			"Required property names cannot be set as all properties are strictly read-only."
-		);
+		]);
+		UCall::guard($this->mode !== 'r', [
+			'hint_message' => "Required property names cannot be set as all properties are strictly read-only."
+		]);
 		
 		//add
 		$this->required_map += array_fill_keys($names, true);
@@ -263,14 +256,13 @@ class Properties
 	final public function addProperty(string $name) : Objects\Property
 	{
 		//guard
-		UCall::guard(
-			!$this->lazy,
-			"In order to add new properties, with lazy-loading enabled, please set and use a builder function instead."
-		);
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->lazy, [
+			'hint_message' => "In order to add new properties, with lazy-loading enabled, " . 
+				"please set and use a builder function instead."
+		]);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//check
 		if (isset($this->properties[$name])) {
@@ -313,14 +305,12 @@ class Properties
 	 */
 	final public function setBuilder(callable $builder) : Properties
 	{
-		UCall::guard(
-			$this->lazy,
-			"A builder function is only required when lazy-loading is enabled."
-		);
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard($this->lazy, [
+			'hint_message' => "A builder function is only required when lazy-loading is enabled."
+		]);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;

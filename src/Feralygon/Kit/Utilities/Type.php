@@ -696,7 +696,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceObject(
 		$value, $base_object_class = null, array $arguments = [], bool $nullable = false
-	)
+	) : ?object
 	{
 		//nullable
 		if (!isset($value)) {
@@ -725,7 +725,7 @@ final class Type extends Utility
 				]);
 			} elseif (!is_object($value)) {
 				try {
-					$value = self::construct($class, $arguments);
+					$value = self::construct($class, ...$arguments);
 				} catch (\Exception $exception) {
 					throw new Exceptions\ObjectCoercionFailed([
 						'value' => $value,
@@ -831,12 +831,13 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class <p>The object or class reference to construct from.</p>
-	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
+	 * @param mixed ...$arguments <p>The arguments to construct with.</p>
 	 * @return object <p>The new instance from the given object or class reference.</p>
 	 */
-	final public static function construct($object_class, array $arguments = [])
+	final public static function construct($object_class, ...$arguments) : object
 	{
-		return (new \ReflectionClass(self::class($object_class)))->newInstanceArgs($arguments);
+		$class = self::class($object_class);
+		return new $class(...$arguments);
 	}
 	
 	/**

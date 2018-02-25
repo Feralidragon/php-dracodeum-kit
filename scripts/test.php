@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../autoload.php';
 
 use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Components\Input;
+use Feralygon\Kit\Factories\Component as FC;
 
 System::setEnvironment('development');
 
@@ -15,7 +15,7 @@ $text_options = [
 
 $value = 'hasd';
 
-$input = new Input('string');
+$input = FC::input('string');
 $input->addModifier('constraints.values', ['values' => ['asd', 'ggg', 12345678]]);
 //$input->addModifier('constraints.maximum', ['value' => 'January 3rd 2017, 8PM', 'exclusive' => 1]);
 /*
@@ -41,7 +41,12 @@ var_dump($input->getDescription($text_options));
 var_dump($input->getMessage($text_options));
 
 $schema = $input->getSchema();
-var_dump(['name' => $schema->name, 'data' => $schema->data, 'modifiers_count' => count($schema->modifiers)]);
+var_dump([
+	'name' => $schema->name,
+	'nullable' => $schema->nullable,
+	'data' => $schema->data,
+	'modifiers_count' => count($schema->modifiers)
+]);
 
 echo "\n\nINPUT ERROR: ";
 var_dump($input->getErrorMessage($text_options));
@@ -57,7 +62,10 @@ foreach ($input->getModifiers() as $i => $modifier) {
 	
 	$schema = $modifier->getSchema();
 	if (isset($schema)) {
-		var_dump(['name' => $schema->name, 'data' => $schema->data]);
+		var_dump([
+			'name' => $schema->name,
+			'data' => $schema->data
+		]);
 	}
 	echo "\n\n";
 }

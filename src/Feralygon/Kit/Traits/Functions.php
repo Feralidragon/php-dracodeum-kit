@@ -53,13 +53,12 @@ trait Functions
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\InvalidFunction
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function bind(string $name, callable $function)
+	final public function bind(string $name, callable $function) : object
 	{
 		//guard
-		UCall::guard(
-			$this->functions_initialized,
-			"This method may only be called after the functions initialization."
-		);
+		UCall::guard($this->functions_initialized, [
+			'hint_message' => "This method may only be called after the functions initialization."
+		]);
 		
 		//bind-once
 		if ($this->functions_bindonce && isset($this->functions[$name])) {
@@ -96,16 +95,15 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The function name to call.</p>
-	 * @param mixed $arguments [variadic] <p>The function arguments to call with.</p>
+	 * @param mixed ...$arguments <p>The function arguments to call with.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
 	 * @return mixed <p>The returning value from the called function with the given name.</p>
 	 */
 	final protected function call(string $name, ...$arguments)
 	{
-		UCall::guard(
-			$this->functions_initialized,
-			"This method may only be called after the functions initialization."
-		);
+		UCall::guard($this->functions_initialized, [
+			'hint_message' => "This method may only be called after the functions initialization."
+		]);
 		if (!isset($this->functions[$name])) {
 			throw new Exceptions\FunctionNotFound(['object' => $this, 'name' => $name]);
 		}

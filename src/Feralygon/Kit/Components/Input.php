@@ -589,6 +589,7 @@ class Input extends Component
 		$prototype = $this->getPrototype();
 		return new Structures\Schema([
 			'name' => $this->getName(),
+			'nullable' => $this->nullable,
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
 		], true);
@@ -620,13 +621,12 @@ class Input extends Component
 	 */
 	final public function getValue()
 	{
-		UCall::guard(
-			$this->initialized,
-			$this->hasError()
+		UCall::guard($this->initialized, [
+			'hint_message' => $this->hasError()
 				? "No value has been set due to the following error: " . 
 					UText::uncapitalize($this->getErrorMessage(), true)
 				: "This method may only be called after initialization."
-		);
+		]);
 		return $this->value;
 	}
 	
@@ -820,10 +820,9 @@ class Input extends Component
 	final public function addModifier($modifier, array $prototype_properties = [], array $properties = []) : Input
 	{
 		//guard
-		UCall::guard(
-			!$this->initialized,
-			"This method may only be called before initialization."
-		);
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
 		
 		//validate and build
 		$prototype = $this->getPrototype();

@@ -45,7 +45,7 @@ trait Readonly
 	 * @since 1.0.0
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly()
+	final public function setAsReadonly() : object
 	{
 		$this->guardReadonlyManagerCall();
 		$this->readonly_manager->enable();
@@ -110,10 +110,9 @@ trait Readonly
 	 */
 	final private function guardReadonlyManagerCall() : void
 	{
-		UCall::guard(
-			isset($this->readonly_manager),
-			"This method may only be called after the read-only manager initialization.",
-			null, 1
-		);
+		UCall::guard(isset($this->readonly_manager), [
+			'hint_message' => "This method may only be called after the read-only manager initialization.",
+			'stack_offset' => 1
+		]);
 	}
 }

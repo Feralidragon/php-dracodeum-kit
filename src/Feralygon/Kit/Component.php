@@ -24,57 +24,26 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * This class is the base to be extended from when creating a component.<br>
  * <br>
  * A component is an object which represents a specific functional part of an application and is expected to have 
- * several different specific implementations or configurations tailored to each specific need, 
- * but with its core behavior and functionality mostly unchanged.<br>
- * <br>
+ * a very high number of implementations, each one tailored to each specific purpose, but with its core behavior, 
+ * functionality and interface mostly intact.<br>
  * Examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, controllers, 
- * handlers, entities, etc, all of which are expected to end up having tens or even hundreds of different 
- * implementations or configurations over time, each one representing a specific input, output, table, etc, 
- * respectively, within the application.<br>
+ * handlers, and others, all of which are expected to have tens or even hundreds of different internal implementations 
+ * under a common functional interface when seen and used by other objects.<br>
  * <br>
- * This could be achieved by extending the base class, and implementing all the methods declared as abstract, 
- * or through one or more interfaces recognized by the base class, or even overriding existing methods.<br>
- * Each one of them has some issues however, such as having internal code of the base class mixed with the actual 
- * methods meant to implement a component, becoming unclear what each method is intended to do and how to extend 
- * and implement it, especially in relatively complex components, while overriding would certainly end up accidentally 
- * breaking the base code of the base class in some given way.<br>
+ * The implementation of a component is performed through a <b>prototype</b> object.<br>
  * <br>
- * Interfaces, the ideal way of defining methods for implementation, only allow public methods to be defined, 
- * and many of the methods of a component are actually meant to be implemented as protected, given that they should not 
- * become visible when the component is used.<br>
- * Furthermore, the overusage of interfaces leads to classes completely loosing their own identity, 
- * or never having one in the first place, potentially violating the Single Responsibility Principle.<br>
+ * Any methods meant to internally implement a component are declared as abstract in a prototype instead, 
+ * generally sharing the same class name as the component, but under a different namespace, resulting in the component 
+ * using the prototype to define the details of its internal behavior.<br>
  * <br>
- * Therefore, the implementation of a component is not done by extending the component itself, nor through interfaces, 
- * a <b>prototype</b> is used instead.<br>
- * A prototype is an object which represents a specific implementation or configuration of a component.<br>
+ * While every method declared in a prototype must be implemented, additional interfaces recognized by the component 
+ * may be defined and implemented in the prototype to enable additional optional internal features.<br>
  * <br>
- * Any methods meant to implement a component are declared in a prototype instead, generally with the same class name 
- * as the component, but in a different namespace.<br>
- * This completely encapsulates the internal implementation from what is to be implemented by a developer 
- * when using it, and this way both the component and its prototype may share the same names for the same kind 
- * of methods without conflict, and all these methods may be public without any issues, allowing the usage 
- * of interfaces to segregate optional implementations from the prototype itself.<br>
- * <br>
- * This encapsulation is further reinforced by the fact that a prototype is never aware of which specific component 
- * is using it, as there is no back reference to it from the prototype.<br>
- * Also, a component may be extended or recreated to modify or refactor any internal behavior and still be able 
- * to reuse the existing prototypes in the same way, and the prototype methods may be called directly 
- * for testing purposes, allowing for more powerful debugging and unit testing.<br>
- * <br>
- * While using an interface (or more) alone could also work, interfaces only dictate what a class is <i>able to do</i>, 
- * and <u>not</u> <i>what it is</i>, potentially resulting in an object with no clear identity, and limiting the object 
- * on what it may already do by omission.<br>
- * Therefore, a prototype consists in an abstract class representing the mandatory definition of <i>what it is</i> 
- * and <i>must do</i>, coupled with additional optional interfaces to implement additional optional functionality 
- * concerning <i>what it is able to do</i>.<br>
- * <br>
- * When using a component, the prototype itself is not accessible in any way whatsoever, other than from within 
- * the component itself, thus a prototype should not have any public methods meant to be called from anywhere else 
- * other than its component, except for testing purposes.<br>
- * Therefore, whenever a new public method is required to be called from a component, the component itself should be 
- * extended and have such a method implemented there instead, given that the public methods of a component are the only 
- * ones visible from any scope, which also means that for such cases it's not necessary to extend the prototypes.<br>
+ * A prototype is never aware of which specific component is using it, given that there is no back reference to it, 
+ * and a component never exposes its prototype to other outside objects, ensuring that every public method defined 
+ * in a prototype remains hidden from other objects and to be exclusively used by its component alone.<br>
+ * Additionally, a component may be extended or recreated to modify or refactor any internal behavior and still be able 
+ * to reuse all the existing prototypes in the same way.<br>
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
@@ -82,17 +51,14 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * are effectively only visible to itself and the component using it.<br>
  * <br>
  * A prototype may also require to have existing functions bound to itself by a component, which must be compatible 
- * with the function templates defined by the prototype itself, 
- * and which may or may not correspond to actual methods from the component itself.<br>
+ * with the function templates defined by the prototype itself, and which may or may not correspond to 
+ * actual methods from the component itself.<br>
  * <br>
- * A single prototype instance may also be used by multiple component instances at the same time, although it's not 
- * a normal use case, and it's limited to the prototype whether or not requiring functions to be bound to itself, 
- * however a single component instance can never have more than a single prototype instance.<br>
- * <br>
- * While the prototype to use may be given through its class or an instance (dependency injection), a component may 
- * also map specific short names towards specific prototypes, so that a prototype may also be instantiated and used 
- * through a short name instead, so that the class to use does not need to be known ahead of time (factory pattern).<br>
- * This allows for both dependency injection and factory pattern to be used with prototypes, simultaneously.
+ * While the prototype to use may be given through its class or an instance (dependency injection pattern), 
+ * a component may also map specific names towards specific prototypes, so that a prototype may also be instantiated 
+ * and used through the usage of a name instead, so that the class to use does not need to be known ahead of time 
+ * (factory pattern).<br>
+ * This allows for both dependency injection and factory patterns to be used with prototypes, simultaneously.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
@@ -181,9 +147,7 @@ abstract class Component
 		
 		//properties
 		$this->initializeProperties(
-			\Closure::fromCallable([$this, 'buildProperty']),
-			$properties,
-			$this->getRequiredPropertyNames()
+			\Closure::fromCallable([$this, 'buildProperty']), $properties, $this->getRequiredPropertyNames()
 		);
 		
 		//initialize
