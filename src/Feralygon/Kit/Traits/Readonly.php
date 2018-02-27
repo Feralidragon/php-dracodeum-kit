@@ -67,6 +67,27 @@ trait Readonly
 		$this->readonly_manager->guardCall(1);
 	}
 	
+	/**
+	 * Add read-only callback function.
+	 * 
+	 * All read-only callback functions are called upon read-only enablement.<br>
+	 * <br>
+	 * This method may only be called before read-only enablement.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $callback <p>The read-only callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function () : void</code>
+	 * </p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addReadonlyCallback(callable $callback) : object
+	{
+		$this->guardReadonlyManagerCall();
+		$this->readonly_manager->addCallback($callback);
+		return $this;
+	}
+	
 	
 	
 	//Final private methods
