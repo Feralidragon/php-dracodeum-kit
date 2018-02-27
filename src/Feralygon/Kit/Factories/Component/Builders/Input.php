@@ -22,7 +22,7 @@ use Feralygon\Kit\Components;
  */
 class Input extends Builder implements IBuild
 {
-	//Implemented public methods
+	//Implemented public methods (factory builder build interface)
 	/** {@inheritdoc} */
 	public function build(...$arguments) : ?object
 	{
