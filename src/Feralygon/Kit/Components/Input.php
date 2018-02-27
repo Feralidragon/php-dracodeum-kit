@@ -809,9 +809,11 @@ class Input extends Component
 	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier 
 	 * <p>The modifier instance or name to add.</p>
 	 * @param array $prototype_properties [default = []] <p>The modifier prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * as <samp>name => value</samp> pairs.<br>
+	 * They cannot be set if a modifier instance is given.</p>
 	 * @param array $properties [default = []] <p>The modifier properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * as <samp>name => value</samp> pairs.<br>
+	 * They cannot be set if a modifier instance is given.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidModifier
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierPropertiesNotAllowed

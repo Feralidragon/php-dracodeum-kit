@@ -20,7 +20,8 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property-read string $mode <p>The mode.</p>
- * @property-read string[] $modes <p>The allowed modes.</p>
+ * @property-read string[] $modes <p>The allowed modes.<br>
+ * They cannot be empty.</p>
  */
 class InvalidMode extends Exception
 {

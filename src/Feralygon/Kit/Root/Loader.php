@@ -46,11 +46,11 @@ final class Loader
 	/**
 	 * Check if has package with a given vendor and name.
 	 * 
-	 * Both the given vendor and name are checked in a case-insensitive manner.
-	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to check for.</p>
-	 * @param string $name <p>The package name to check for.</p>
+	 * @param string $vendor <p>The package vendor to check for.<br>
+	 * It is checked in a case-insensitive manner.</p>
+	 * @param string $name <p>The package name to check for.<br>
+	 * It is checked in a case-insensitive manner.</p>
 	 * @return bool <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
 	 */
 	final public static function hasPackage(string $vendor, string $name) : bool
@@ -61,11 +61,11 @@ final class Loader
 	/**
 	 * Get package instance with a given vendor and name.
 	 * 
-	 * Both the given vendor and name are used in a case-insensitive manner.
-	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to get with.</p>
-	 * @param string $name <p>The package name to get with.</p>
+	 * @param string $vendor <p>The package vendor to get with.<br>
+	 * It is used in a case-insensitive manner.</p>
+	 * @param string $name <p>The package name to get with.<br>
+	 * It is used in a case-insensitive manner.</p>
 	 * @throws \RuntimeException
 	 * @return \Feralygon\Kit\Root\Loader\Objects\Package <p>The package instance with the given vendor and name.</p>
 	 */
@@ -82,11 +82,11 @@ final class Loader
 	/**
 	 * Set package with a given vendor, name and path.
 	 * 
-	 * Both the given vendor and name are set in a case-insensitive manner and converted to lowercase.
-	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to set with.</p>
-	 * @param string $name <p>The package name to set with.</p>
+	 * @param string $vendor <p>The package vendor to set with.<br>
+	 * It is set in a case-insensitive manner and converted to lowercase.</p>
+	 * @param string $name <p>The package name to set with.<br>
+	 * It is set in a case-insensitive manner and converted to lowercase.</p>
 	 * @param string $path <p>The package path to set with.</p>
 	 * @throws \RuntimeException
 	 * @return \Feralygon\Kit\Root\Loader\Objects\Package <p>The package instance set with the given vendor, 

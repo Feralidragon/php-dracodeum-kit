@@ -35,6 +35,6 @@ class SetIniOptionInvalidValueType extends SetIniOption
 	{
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('value')->setAsRequired();
-		$this->addProperty('type')->setAsString(true)->setAsRequired();
+		$this->addProperty('type')->setAsString()->setAsRequired();
 	}
 }

@@ -20,7 +20,8 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property-read string $encoding <p>The encoding.</p>
- * @property-read string[] $encodings [default = []] <p>The allowed encodings.</p>
+ * @property-read string[] $encodings [default = []] <p>The allowed encodings.<br>
+ * They cannot be empty.</p>
  */
 class InvalidEncoding extends Exception
 {

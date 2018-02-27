@@ -16,10 +16,12 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * @since 1.0.0
  * @property string|null $format [default = null] <p>The values format 
  * as supported by the PHP <code>date</code> function.<br>
- * If not set, no format is used for the values, therefore only values in seconds will be returned.</p>
+ * If not set, no format is used for the values, therefore only values in seconds will be returned.<br>
+ * If set, it cannot be empty.</p>
  * @property string|null $keys_format [default = null] <p>The keys format 
  * as supported by the PHP <code>date</code> function.<br>
- * If not set, no format is used for the keys, therefore only keys in seconds will be returned.</p>
+ * If not set, no format is used for the keys, therefore only keys in seconds will be returned.<br>
+ * If set, it cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
  * @see \Feralygon\Kit\Utilities\Time
  */
