@@ -13,15 +13,15 @@ use Feralygon\Kit\Structure;
  * Root system OS (Operating System) structure class.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The name.<br>
+ * @property string $name <p>The name.<br>
  * It cannot be empty.</p>
- * @property-read string $hostname <p>The hostname.<br>
+ * @property string $hostname <p>The hostname.<br>
  * It cannot be empty.</p>
- * @property-read string $release <p>The release.<br>
+ * @property string $release <p>The release.<br>
  * It cannot be empty.</p>
- * @property-read string $information <p>The information.<br>
+ * @property string $information <p>The information.<br>
  * It cannot be empty.</p>
- * @property-read string $architecture <p>The architecture.<br>
+ * @property string $architecture <p>The architecture.<br>
  * It cannot be empty.</p>
  * @see \Feralygon\Kit\Root\System
  */
