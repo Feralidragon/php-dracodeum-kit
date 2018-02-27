@@ -19,11 +19,11 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property bool $short [default = false] <p>Return the short form of the human-readable period.</p>
- * @property int|null $precision [default = null] <p>The rounding precision, 
+ * @property int|null $precision [default = null] <p>The rounding precision to use, 
  * in other words, the maximum number of decimal places to keep.<br>
  * If not set, a specific precision is automatically chosen and used, 
  * otherwise it must always be greater than or equal to <code>0</code>.</p>
- * @property int|null $limit [default = null] <p>The limit on the number of multiples returned.<br>
+ * @property int|null $limit [default = null] <p>The limit to use on the number of multiples returned.<br>
  * If not set, a specific limit is automatically chosen and used, 
  * otherwise it must always be greater than <code>0</code>.</p>
  * @property string|float|null $min_multiple [default = null] <p>The minimum multiple to use, 

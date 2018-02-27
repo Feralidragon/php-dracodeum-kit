@@ -16,7 +16,8 @@ use Feralygon\Kit\Root\Locale;
  * Text options class.
  * 
  * @since 1.0.0
- * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE] <p>The info scope to use.</p>
+ * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE] <p>The info scope to use, 
+ * as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property bool $translate [default = false] <p>Translate the returning text.</p>
  * @property string|null $language [default = null] <p>The language ISO 639 code to translate the returning text to.<br>
  * If not set, the currently set locale language is used.<br>

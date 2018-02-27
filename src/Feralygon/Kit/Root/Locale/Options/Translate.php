@@ -19,7 +19,8 @@ use Feralygon\Kit\Root\Locale;
  * @since 1.0.0
  * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, 
  * as <samp>name => value</samp> pairs.</p>
- * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE] <p>The info scope to use.</p>
+ * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE] <p>The info scope to use, 
+ * as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property string|null $language [default = null] <p>The language ISO 639 code to translate the message to.<br>
  * If not set, the currently set locale language is used.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $string_options [default = null] 

@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property bool $long [default = false] <p>Return the long form of the human-readable number.</p>
- * @property int|null $precision [default = null] <p>The rounding precision, 
+ * @property int|null $precision [default = null] <p>The rounding precision to use, 
  * in other words, the maximum number of decimal places to keep.<br>
  * If not set, a specific precision is automatically chosen and used, 
  * otherwise it must always be greater than or equal to <code>0</code>.</p>

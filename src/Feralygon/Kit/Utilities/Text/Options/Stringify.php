@@ -29,8 +29,8 @@ use Feralygon\Kit\Utilities\{
  * Even if not enabled, if <var>$prepend_type</var> above is set to boolean <code>true</code>, 
  * quotation marks may still be added anyway.</p>
  * @property string|null $non_assoc_mode [default = null] 
- * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> class 
- * non-associative array stringification mode, which can be any of the following:<br><br>
+ * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> class non-associative array 
+ * stringification mode to use, which can be any of the following:<br><br>
  * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_MODE_COMMA_LIST</code> : 
  * Convert non-associative arrays into comma-separated lists.<br><br>
  * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_MODE_COMMA_LIST_AND</code> : 
