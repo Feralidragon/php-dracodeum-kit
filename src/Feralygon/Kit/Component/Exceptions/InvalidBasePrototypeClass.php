@@ -10,20 +10,20 @@ namespace Feralygon\Kit\Component\Exceptions;
 use Feralygon\Kit\Component\Exception;
 
 /**
- * Component invalid prototype base class exception class.
+ * Component invalid base prototype class exception class.
  * 
- * This exception is thrown from a component whenever a given prototype base class is invalid.
+ * This exception is thrown from a component whenever a given base prototype class is invalid.
  * 
  * @since 1.0.0
  * @property-read string $base_class <p>The base class.</p>
  */
-class InvalidPrototypeBaseClass extends Exception
+class InvalidBasePrototypeClass extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid prototype base class {{base_class}} in component {{component}}.";
+		return "Invalid base prototype class {{base_class}} in component {{component}}.";
 	}
 	
 	

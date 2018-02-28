@@ -48,7 +48,7 @@ class Constraint extends Modifier
 	
 	//Overridden public static methods
 	/** {@inheritdoc} */
-	public static function getPrototypeBaseClass() : string
+	public static function getBasePrototypeClass() : string
 	{
 		return Prototype::class;
 	}

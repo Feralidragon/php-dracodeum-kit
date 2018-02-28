@@ -99,7 +99,7 @@ class Input extends Component
 	
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getPrototypeBaseClass() : string
+	public static function getBasePrototypeClass() : string
 	{
 		return Prototype::class;
 	}

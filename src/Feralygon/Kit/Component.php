@@ -95,7 +95,7 @@ abstract class Component
 	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototypeBaseClass
+	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidBasePrototypeClass
 	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypeNameNotFound
 	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototypeClass
 	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypePropertiesNotAllowed
@@ -103,9 +103,9 @@ abstract class Component
 	final public function __construct($prototype = null, array $properties = [], array $prototype_properties = [])
 	{
 		//prototype base class
-		$prototype_base_class = $this->getPrototypeBaseClass();
+		$prototype_base_class = $this->getBasePrototypeClass();
 		if (!UType::isA($prototype_base_class, Prototype::class)) {
-			throw new Exceptions\InvalidPrototypeBaseClass([
+			throw new Exceptions\InvalidBasePrototypeClass([
 				'component' => $this,
 				'base_class' => $prototype_base_class
 			]);
@@ -158,15 +158,15 @@ abstract class Component
 	
 	//Abstract public static methods
 	/**
-	 * Get prototype base class.
+	 * Get base prototype class.
 	 * 
 	 * Any prototype class or instance given to be used by this component must be or 
-	 * extend from the same class as the prototype base class returned here.
+	 * extend from the same class as the base prototype class returned here.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The prototype base class.</p>
+	 * @return string <p>The base prototype class.</p>
 	 */
-	abstract public static function getPrototypeBaseClass() : string;
+	abstract public static function getBasePrototypeClass() : string;
 	
 	
 	
