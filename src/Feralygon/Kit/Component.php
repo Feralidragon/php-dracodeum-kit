@@ -64,6 +64,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Prototype
  * @see \Feralygon\Kit\Component\Traits\Properties
  * @see \Feralygon\Kit\Component\Traits\Initialization
+ * @see \Feralygon\Kit\Component\Traits\DefaultPrototype
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitialization
  * @see \Feralygon\Kit\Component\Traits\Prototypes
  */
@@ -73,6 +74,7 @@ abstract class Component
 	use KitTraits\LazyProperties;
 	use Traits\Properties;
 	use Traits\Initialization;
+	use Traits\DefaultPrototype;
 	use Traits\PrototypeInitialization;
 	use Traits\Prototypes;
 	
@@ -113,7 +115,7 @@ abstract class Component
 		
 		//prototype validation
 		if (!isset($prototype)) {
-			$prototype = $prototype_base_class;
+			$prototype = $this->buildDefaultPrototype($prototype_properties) ?? $prototype_base_class;
 		} else {
 			//build
 			if (is_string($prototype)) {
