@@ -1032,6 +1032,24 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Validate and sanitize a given interface.
+	 * 
+	 * The leading backslash character <samp>\</samp> is never prepended to the returned interface.
+	 * 
+	 * @since 1.0.0
+	 * @param string $interface <p>The interface to validate and sanitize.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
+	 * @return string <p>The given interface validated and sanitized.</p>
+	 */
+	final public static function interface(string $interface) : string
+	{
+		if (!interface_exists($interface)) {
+			throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
+		}
+		return ltrim($interface, '\\');
+	}
+	
+	/**
 	 * Retrieve basename from a given object or class.
 	 * 
 	 * The returning basename is the class name without its namespace (class short name).
