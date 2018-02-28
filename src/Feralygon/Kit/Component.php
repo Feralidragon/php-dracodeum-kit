@@ -63,6 +63,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  * @see \Feralygon\Kit\Component\Traits\Properties
+ * @see \Feralygon\Kit\Component\Traits\PreInitialization
  * @see \Feralygon\Kit\Component\Traits\Initialization
  * @see \Feralygon\Kit\Component\Traits\DefaultPrototype
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitialization
@@ -73,6 +74,7 @@ abstract class Component
 	//Traits
 	use KitTraits\LazyProperties;
 	use Traits\Properties;
+	use Traits\PreInitialization;
 	use Traits\Initialization;
 	use Traits\DefaultPrototype;
 	use Traits\PrototypeInitialization;
@@ -146,6 +148,9 @@ abstract class Component
 		}
 		$this->initializePrototype($prototype);
 		$this->prototype = $prototype;
+		
+		//pre-initialize
+		$this->preInitialize();
 		
 		//properties
 		$this->initializeProperties(
