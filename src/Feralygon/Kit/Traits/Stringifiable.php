@@ -33,9 +33,8 @@ trait Stringifiable
 	final public function __toString() : string
 	{
 		UCall::guard($this instanceof IStringifiable, [
-			'hint_message' => "This method requires the object {{object}} to have " . 
-				"the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface implemented.",
-			'parameters' => ['object' => $this]
+			'hint_message' => "This method requires this object to have " . 
+				"the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface implemented."
 		]);
 		return $this->toString();
 	}
