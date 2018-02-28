@@ -143,32 +143,32 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 	
 	//Implemented public methods (input prototype modifiers interface)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Values::class, $properties, $prototype_properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(
-					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+					Constraints\Values::class, $properties, ['negate' => true] + $prototype_properties
 				);
 			case 'constraints.minimum':
-				return $this->createConstraint(Constraints\Minimum::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Minimum::class, $properties, $prototype_properties);
 			case 'constraints.maximum':
-				return $this->createConstraint(Constraints\Maximum::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Maximum::class, $properties, $prototype_properties);
 			case 'constraints.range':
-				return $this->createConstraint(Constraints\Range::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Range::class, $properties, $prototype_properties);
 			case 'constraints.non_range':
 				return $this->createConstraint(
-					Constraints\Range::class, ['negate' => true] + $prototype_properties, $properties
+					Constraints\Range::class, $properties, ['negate' => true] + $prototype_properties
 				);
 			
 			//filters
 			case 'filters.format':
-				return $this->createFilter(Filters\Format::class, $prototype_properties, $properties);
+				return $this->createFilter(Filters\Format::class, $properties, $prototype_properties);
 			case 'filters.iso8601':
-				return $this->createFilter(Filters\Iso8601::class, $prototype_properties, $properties);
+				return $this->createFilter(Filters\Iso8601::class, $properties, $prototype_properties);
 		}
 		return null;
 	}

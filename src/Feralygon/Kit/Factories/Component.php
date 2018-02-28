@@ -42,15 +42,15 @@ class Component extends Factory
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype <p>The prototype instance, class or 
 	 * name to build with.</p>
+	 * @param array $properties [default = []] <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to build with, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $properties [default = []] <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input <p>The built input instance.</p>
 	 */
 	public static function input(
-		$prototype, array $prototype_properties = [], array $properties = []
+		$prototype, array $properties = [], array $prototype_properties = []
 	) : Components\Input
 	{
-		return static::build('input', $prototype, $prototype_properties, $properties);
+		return static::build('input', $prototype, $properties, $prototype_properties);
 	}
 }

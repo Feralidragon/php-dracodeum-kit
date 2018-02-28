@@ -210,93 +210,93 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	//Implemented public methods (input prototype modifiers interface)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $prototype_properties = [], array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(Constraints\Values::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Values::class, $properties, $prototype_properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(
-					Constraints\Values::class, ['negate' => true] + $prototype_properties, $properties
+					Constraints\Values::class, $properties, ['negate' => true] + $prototype_properties
 				);
 			case 'constraints.wildcards':
-				return $this->createConstraint(InputConstraints\Wildcards::class, $prototype_properties, $properties);
+				return $this->createConstraint(InputConstraints\Wildcards::class, $properties, $prototype_properties);
 			case 'constraints.non_wildcards':
 				return $this->createConstraint(
-					InputConstraints\Wildcards::class, ['negate' => true] + $prototype_properties, $properties
+					InputConstraints\Wildcards::class, $properties, ['negate' => true] + $prototype_properties
 				);
 			case 'constraints.non_empty':
-				return $this->createConstraint(Constraints\NonEmpty::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\NonEmpty::class, $properties, $prototype_properties);
 			case 'constraints.length':
 				return $this->createConstraint(
 					InputConstraints\Length::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.min_length':
 				return $this->createConstraint(
 					InputConstraints\MinLength::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.max_length':
 				return $this->createConstraint(
 					InputConstraints\MaxLength::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.length_range':
 				return $this->createConstraint(
 					InputConstraints\LengthRange::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.lowercase':
 				return $this->createConstraint(
 					InputConstraints\Lowercase::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.uppercase':
 				return $this->createConstraint(
 					InputConstraints\Uppercase::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.alphabetical':
 				return $this->createConstraint(
 					Constraints\Alphabetical::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.numerical':
 				return $this->createConstraint(
-					Constraints\Numerical::class, $prototype_properties + ['unicode' => $this->unicode], $properties
+					Constraints\Numerical::class, $properties, $prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.alphanumerical':
 				return $this->createConstraint(
 					Constraints\Alphanumerical::class,
-					$prototype_properties + ['unicode' => $this->unicode],
-					$properties
+					$properties,
+					$prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.identifier':
-				return $this->createConstraint(Constraints\Identifier::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Identifier::class, $properties, $prototype_properties);
 			case 'constraints.hexadecimal':
-				return $this->createConstraint(Constraints\Hexadecimal::class, $prototype_properties, $properties);
+				return $this->createConstraint(Constraints\Hexadecimal::class, $properties, $prototype_properties);
 			
 			//filters
 			case 'filters.lowercase':
 				return $this->createFilter(
-					InputFilters\Lowercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties
+					InputFilters\Lowercase::class, $properties, $prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'filters.uppercase':
 				return $this->createFilter(
-					InputFilters\Uppercase::class, $prototype_properties + ['unicode' => $this->unicode], $properties
+					InputFilters\Uppercase::class, $properties, $prototype_properties + ['unicode' => $this->unicode]
 				);
 			case 'filters.truncate':
 				return $this->createFilter(
-					Filters\Truncate::class, $prototype_properties + ['unicode' => $this->unicode], $properties
+					Filters\Truncate::class, $properties, $prototype_properties + ['unicode' => $this->unicode]
 				);
 		}
 		return null;
