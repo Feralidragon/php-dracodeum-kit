@@ -118,7 +118,11 @@ abstract class Builder
 	 * 
 	 * @since 1.0.0
 	 * @param array $arguments [reference] <p>The arguments to map.</p>
-	 * @param string[] $keys <p>The keys to map with.</p>
+	 * @param array $keys <p>The keys to map with, as any possible combination of the following:<br>
+	 * &nbsp; &#8226; &nbsp; an array of keys;<br>
+	 * &nbsp; &#8226; &nbsp; an array as <code>key => value</code> pairs, in which each value represents 
+	 * the default value to use for each key, if the corresponding argument is not given.
+	 * </p>
 	 * @param array $remaining [reference output] [default = []] 
 	 * <p>The remaining arguments which were not mapped, due to missing corresponding keys.</p>
 	 * @throws \Feralygon\Kit\Factory\Builder\Exceptions\MissingArgumentsForKeys
@@ -126,15 +130,39 @@ abstract class Builder
 	 */
 	final protected function mapArguments(array &$arguments, array $keys, array &$remaining = []) : void
 	{
-		$remaining = [];
-		$args_count = count($arguments);
-		$keys_count = count($keys);
-		if ($args_count < $keys_count) {
+		//initialize
+		$remaining = $mandatory = $defaults = [];
+		foreach ($keys as $k => $key) {
+			if (is_int($k)) {
+				if (!empty($defaults)) {
+					$mandatory = array_merge($mandatory, array_keys($defaults));
+					$defaults = [];
+				}
+				$mandatory[] = $key;
+			} else {
+				$defaults[$k] = $key;
+			}
+		}
+		
+		//validate
+		$arguments_count = count($arguments);
+		$mandatory_count = count($mandatory);
+		if ($arguments_count < $mandatory_count) {
 			throw new Exceptions\MissingArgumentsForKeys([
-				'builder' => $this, 'keys' => array_slice($keys, $args_count)
+				'builder' => $this, 'keys' => array_slice($mandatory, $arguments_count)
 			]);
 		}
-		$remaining = array_slice($arguments, $keys_count);
-		$arguments = array_combine($keys, array_slice($arguments, 0, $keys_count));
+		
+		//map
+		$args = array_combine($mandatory, array_slice($arguments, 0, $mandatory_count));
+		if (!empty($defaults)) {
+			$default_args = array_slice($arguments, $mandatory_count, count($defaults));
+			$default_keys = array_keys(array_slice($defaults, 0, count($default_args), true));
+			$args += array_combine($default_keys, $default_args) + $defaults;
+		}
+		
+		//finish
+		$remaining = array_slice($arguments, count($keys));
+		$arguments = $args;
 	}
 }
