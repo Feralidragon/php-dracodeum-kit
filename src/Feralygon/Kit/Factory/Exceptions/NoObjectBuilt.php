@@ -17,7 +17,6 @@ use Feralygon\Kit\Factory\Objects\Type;
  * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
- * @property-read string|null $name [default = null] <p>The name.</p>
  */
 class NoObjectBuilt extends Exception
 {
@@ -25,11 +24,8 @@ class NoObjectBuilt extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return $this->isset('name')
-			? "No object has been built for type {{type.getName()}} using name {{name}} " . 
-				"from builder {{type.getBuilder()}} in factory {{factory}}."
-			: "No object has been built for type {{type.getName()}} " . 
-				"from builder {{type.getBuilder()}} in factory {{factory}}.";
+		return "No object has been built for type {{type.getName()}} " . 
+			"from builder {{type.getBuilder()}} in factory {{factory}}.";
 	}
 	
 	
@@ -43,6 +39,5 @@ class NoObjectBuilt extends Exception
 		
 		//properties
 		$this->addProperty('type')->setAsStrictObject(Type::class)->setAsRequired();
-		$this->addProperty('name')->setAsString(false, true)->setDefaultValue(null);
 	}
 }

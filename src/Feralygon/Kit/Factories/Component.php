@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Factories;
 use Feralygon\Kit\Factory;
 use Feralygon\Kit\Factory\Objects\Type;
 use Feralygon\Kit\Factories\Component\Builders;
-use Feralygon\Kit\Components;
+use Feralygon\Kit\Factories\Component\Builder\Interfaces as BuilderInterfaces;
+use Feralygon\Kit\Components\Input;
 
 /**
  * Component factory class.
@@ -18,7 +19,8 @@ use Feralygon\Kit\Components;
  * This factory is used to build component instances.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Factories\Component\Builders\Input [type = 'input']
+ * @see \Feralygon\Kit\Factories\Component\Builder\Interfaces\Input [builder interface, type = 'input']
+ * @see \Feralygon\Kit\Factories\Component\Builders\Input [builder, type = 'input']
  */
 class Component extends Factory
 {
@@ -28,7 +30,7 @@ class Component extends Factory
 	{
 		switch ($name) {
 			case 'input':
-				return static::createType(Builders\Input::class, Components\Input::class);
+				return static::createType(BuilderInterfaces\Input::class, Builders\Input::class);
 		}
 		return null;
 	}
@@ -37,7 +39,7 @@ class Component extends Factory
 	
 	//Public static methods
 	/**
-	 * Build input instance.
+	 * Build input instance with a given prototype.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype <p>The prototype instance, class or 
@@ -45,11 +47,9 @@ class Component extends Factory
 	 * @param array $properties [default = []] <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @param array $prototype_properties [default = []] <p>The prototype properties to build with, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input <p>The built input instance.</p>
+	 * @return \Feralygon\Kit\Components\Input <p>The built input instance with the given prototype.</p>
 	 */
-	public static function input(
-		$prototype, array $properties = [], array $prototype_properties = []
-	) : Components\Input
+	public static function input($prototype, array $properties = [], array $prototype_properties = []) : Input
 	{
 		return static::build('input', $prototype, $properties, $prototype_properties);
 	}

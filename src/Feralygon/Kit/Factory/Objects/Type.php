@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Factory\Objects;
 
 use Feralygon\Kit\Factory\Builder;
-use Feralygon\Kit\Utilities\Type as UType;
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Type as UType
+};
 
 /**
  * Factory type object class.
@@ -18,15 +21,15 @@ use Feralygon\Kit\Utilities\Type as UType;
  */
 final class Type
 {
-	//Private properties	
+	//Private properties
 	/** @var string */
 	private $name;
 	
+	/** @var string */
+	private $builder_interface;
+	
 	/** @var \Feralygon\Kit\Factory\Builder */
 	private $builder;
-	
-	/** @var string|null */
-	private $class = null;
 	
 	
 	
@@ -36,18 +39,25 @@ final class Type
 	 * 
 	 * @since 1.0.0
 	 * @param string $name <p>The name.</p>
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class.</p>
-	 * @param string|null $class [default = null] <p>The class.<br>
-	 * Any object built by this type must be or extend from the same class as the one given here.<br>
-	 * If no class is set, then any built object is assumed to be valid.</p>
+	 * @param string $builder_interface <p>The builder interface.<br>
+	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class.<br>
+	 * It must implement the builder interface given above as <var>$builder_interface</var>.</p>
 	 */
-	final public function __construct(string $name, $builder, ?string $class = null)
+	final public function __construct(string $name, string $builder_interface, $builder)
 	{
+		//name
 		$this->name = $name;
+		
+		//builder interface
+		$builder_interface = UType::interface($builder_interface);
+		UCall::guardParameter('builder_interface', $builder_interface, method_exists($builder_interface, 'build'), [
+			'hint_message' => "Only an interface which defines a \"build\" method is allowed."
+		]);
+		$this->builder_interface = $builder_interface;
+		
+		//builder
 		$this->setBuilder($builder);
-		if (isset($class)) {
-			$this->class = UType::coerceClass($class);
-		}
 	}
 	
 	
@@ -65,6 +75,17 @@ final class Type
 	}
 	
 	/**
+	 * Get builder interface.
+	 * 
+	 * @since 1.0.0
+	 * @return string <p>The builder interface.</p>
+	 */
+	final public function getBuilderInterface() : string
+	{
+		return $this->builder_interface;
+	}
+	
+	/**
 	 * Get builder instance.
 	 * 
 	 * @since 1.0.0
@@ -79,34 +100,19 @@ final class Type
 	 * Set builder.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to set.</p>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to set.<br>
+	 * It must implement the builder interface set in this type.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setBuilder($builder) : Type
 	{
-		$this->builder = UType::coerceObject($builder, Builder::class);
+		$builder = UType::coerceObject($builder, Builder::class);
+		UCall::guardParameter('builder', $builder, UType::implements($builder, $this->builder_interface), [
+			'hint_message' => "Only a builder instance or class which implements the {{interface}} interface " . 
+				"is allowed for type {{type.getName()}}.",
+			'parameters' => ['interface' => $this->builder_interface, 'type' => $this]
+		]);
+		$this->builder = $builder;
 		return $this;
-	}
-	
-	/**
-	 * Check if has class.
-	 * 
-	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if has class.</p>
-	 */
-	final public function hasClass() : bool
-	{
-		return isset($this->class);
-	}
-	
-	/**
-	 * Get class.
-	 * 
-	 * @since 1.0.0
-	 * @return string|null <p>The class or <code>null</code> if none is set.</p>
-	 */
-	final public function getClass() : ?string
-	{
-		return $this->class;
 	}
 }

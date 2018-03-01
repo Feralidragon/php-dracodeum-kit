@@ -17,8 +17,7 @@ use Feralygon\Kit\Factory\Objects\Type;
  * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
- * @property-read object $object <p>The object.</p>
- * @property-read string|null $name [default = null] <p>The name.</p>
+ * @property-read mixed $object <p>The object.</p>
  */
 class InvalidObjectBuilt extends Exception
 {
@@ -26,21 +25,9 @@ class InvalidObjectBuilt extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		//message
-		$message = $this->isset('name')
-			? "Invalid object {{object}} has been built for type {{type.getName()}} using name {{name}} " . 
-				"from builder {{type.getBuilder()}} in factory {{factory}}."
-			: "Invalid object {{object}} has been built for type {{type.getName()}} " . 
-				"from builder {{type.getBuilder()}} in factory {{factory}}.";
-		
-		//hint
-		if ($this->get('type')->hasClass()) {
-			$message .= "\n" . 
-				"HINT: Only an object class or subclass of {{type.getClass()}} is allowed to be built for this type.";
-		}
-		
-		//return
-		return $message;
+		return "Invalid object {{object}} has been built for type {{type.getName()}} " . 
+			"from builder {{type.getBuilder()}} in factory {{factory}}.\n" . 
+			"HINT: Only an object is allowed to built.";
 	}
 	
 	
@@ -54,7 +41,6 @@ class InvalidObjectBuilt extends Exception
 		
 		//properties
 		$this->addProperty('type')->setAsStrictObject(Type::class)->setAsRequired();
-		$this->addProperty('object')->setAsStrictObject()->setAsRequired();
-		$this->addProperty('name')->setAsString(false, true)->setDefaultValue(null);
+		$this->addProperty('object')->setAsRequired();
 	}
 }
