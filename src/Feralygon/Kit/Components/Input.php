@@ -37,12 +37,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property-read bool $nullable [default = false] <p>Allow a <code>null</code> value to be set.</p>
- * @property-write 
- * \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [once] [default = []] 
- * <p>The modifiers to add, as any combination of the following:<br>
- * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
- * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
- * with the properties being given as <samp>name => value</samp> pairs.</p>
  * @see \Feralygon\Kit\Prototypes\Input
  * @see \Feralygon\Kit\Prototypes\Inputs\Boolean 
  * [prototype, name = 'boolean' or 'bool']
@@ -133,20 +127,6 @@ class Input extends Component
 		switch ($name) {
 			case 'nullable':
 				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
-			case 'modifiers':
-				return $this->createProperty()
-					->setMode('w-')
-					->setAsArray(function (&$key, &$value) : bool {
-						if (is_string($key) && is_array($value)) {
-							$this->addModifier($key, $value);
-							return true;
-						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
-							$this->addModifier($value);
-							return true;
-						}
-						return false;
-					})
-				;
 		}
 		return null;
 	}
