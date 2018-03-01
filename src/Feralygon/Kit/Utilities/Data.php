@@ -1297,7 +1297,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Align a given array with a set of given keys recursively.
+	 * Align a given array with a given set of keys recursively.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array <p>The array to align.</p>
@@ -1312,7 +1312,7 @@ final class Data extends Utility
 	 * Exclude non-associative arrays from aligning.
 	 * </p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The aligned array with the set of given keys.</p>
+	 * @return array <p>The aligned array with the given set of keys.</p>
 	 */
 	final public static function align(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{

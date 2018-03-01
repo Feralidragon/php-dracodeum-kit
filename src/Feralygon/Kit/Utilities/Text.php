@@ -419,10 +419,10 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Bulletify multiple given strings.
+	 * Bulletify a given set of strings.
 	 * 
-	 * The process of bulletification of given strings consists in prepending a bullet character to each string, 
-	 * turning the strings into bullet points, in a way to be safely localized for different languages.
+	 * The process of bulletification of a given set of strings consists in prepending a bullet character 
+	 * to each string, turning the strings into bullet points, in a way to be safely localized for different languages.
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $strings <p>The strings to bulletify.</p>
@@ -550,7 +550,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Fill a given string with given parameters.
+	 * Fill a given string with a given set of parameters.
 	 * 
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
 	 * with each parameter being stringified.<br>
@@ -580,7 +580,7 @@ final class Text extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderKeyIdentifierNotFound
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderIdentifier
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholder
-	 * @return string <p>The given string filled with the given parameters.</p>
+	 * @return string <p>The given string filled with the given set of parameters.</p>
 	 */
 	final public static function fill(string $string, array $parameters, $text_options = null, $options = null) : string
 	{
@@ -655,7 +655,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Fill a given plural string with given parameters.
+	 * Fill a given plural string with a given set of parameters.
 	 * 
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
 	 * with each parameter being stringified.<br>
@@ -682,7 +682,7 @@ final class Text extends Utility
 	 * as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Pfill|array|null $options [default = null] 
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The given plural string filled with the given parameters.</p>
+	 * @return string <p>The given plural string filled with the given set of parameters.</p>
 	 */
 	final public static function pfill(
 		string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [],
