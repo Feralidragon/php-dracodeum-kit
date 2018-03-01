@@ -672,7 +672,8 @@ final class Call extends Utility
 					if (
 						(!$f_type_allows_null && $t_type_allows_null) || (
 							$f_type !== $t_type && 
-							(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($t_type, $f_type))
+							(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($t_type, $f_type)) && 
+							($f_type !== 'object' || !class_exists($t_type))
 						)
 					) {
 						return false;
@@ -693,7 +694,8 @@ final class Call extends Utility
 				if (
 					($f_type_allows_null && !$t_type_allows_null) || (
 						$f_type !== $t_type && 
-						(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($f_type, $t_type))
+						(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($f_type, $t_type)) && 
+						(!class_exists($f_type) || $t_type !== 'object')
 					)
 				) {
 					return false;
@@ -1047,9 +1049,9 @@ final class Call extends Utility
 		$stack_index = $options->stack_offset + 1;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
-		self::guard(isset($backtrace[$stack_index]['function']), [
-			'hint_message' => "This method may only be called from within a function or method."
-		]);
+			self::guard(isset($backtrace[$stack_index]['function']), [
+				'hint_message' => "This method may only be called from within a function or method."
+			]);
 		$backtrace = $backtrace[$stack_index];
 		
 		//stringifier
