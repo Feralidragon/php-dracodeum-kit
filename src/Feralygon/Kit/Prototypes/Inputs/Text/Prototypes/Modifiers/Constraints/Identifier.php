@@ -31,7 +31,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  */
 class Identifier extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
 {
-	//Private properties	
+	//Private properties
 	/** @var bool */
 	private $extended = false;
 	

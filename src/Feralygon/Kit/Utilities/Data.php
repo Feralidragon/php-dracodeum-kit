@@ -335,7 +335,7 @@ final class Data extends Utility
 			return isset($depth) ? array_replace($array1, $array2) : array_replace_recursive($array1, $array2);
 		}
 		
-		//merge			
+		//merge
 		$array = $array1;
 		$next_depth = isset($depth) ? $depth - 1 : null;
 		foreach ($array as $k => &$v) {

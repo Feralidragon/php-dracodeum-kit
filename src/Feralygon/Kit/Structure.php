@@ -67,7 +67,7 @@ abstract class Structure implements \ArrayAccess, IArrayable
 	
 	
 	
-	//Final public static methods	
+	//Final public static methods
 	/**
 	 * Evaluate a given value as an instance.
 	 * 

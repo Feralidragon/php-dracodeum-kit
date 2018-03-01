@@ -29,7 +29,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  */
 class Alphabetical extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
 {
-	//Private properties	
+	//Private properties
 	/** @var bool */
 	private $unicode = false;
 	
