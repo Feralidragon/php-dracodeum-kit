@@ -14,7 +14,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
 use Feralygon\Kit\Root\Locale;
 
 /**
- * Root locale translate method options class.
+ * Root locale <code>translate</code> method options class.
  * 
  * @since 1.0.0
  * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, 

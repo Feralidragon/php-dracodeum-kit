@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Math utility hnumber method options class.
+ * Math utility <code>hnumber</code> method options class.
  * 
  * @since 1.0.0
  * @property bool $long [default = false] <p>Return the long form of the human-readable number.</p>

@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * JSON utility encode method options class.
+ * JSON utility <code>encode</code> method options class.
  * 
  * @since 1.0.0
  * @property int $flags [default = 0x00] <p>The flags to use, 

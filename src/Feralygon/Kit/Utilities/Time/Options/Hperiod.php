@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Time utility hperiod method options class.
+ * Time utility <code>hperiod</code> method options class.
  * 
  * @since 1.0.0
  * @property bool $short [default = false] <p>Return the short form of the human-readable period.</p>

@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Text\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Text utility mbulletify method options class.
+ * Text utility <code>mbulletify</code> method options class.
  * 
  * @since 1.0.0
  * @property bool $merge [default = false] <p>Merge all the given strings into a single one, 

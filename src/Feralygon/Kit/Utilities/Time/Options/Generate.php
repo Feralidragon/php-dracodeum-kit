@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Time utility generate method options class.
+ * Time utility <code>generate</code> method options class.
  * 
  * @since 1.0.0
  * @property string|null $format [default = null] <p>The values format to use, 

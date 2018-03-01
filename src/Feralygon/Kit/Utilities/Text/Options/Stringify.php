@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Text utility stringify method options class.
+ * Text utility <code>stringify</code> method options class.
  * 
  * @since 1.0.0
  * @property bool $prepend_type [default = false] <p>Prepend the type of the given value in the returning string.<br>

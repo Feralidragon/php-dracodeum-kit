@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Text\Options;
 
 /**
- * Text utility pfill method options class.
+ * Text utility <code>pfill</code> method options class.
  * 
  * @since 1.0.0
  */

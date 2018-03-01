@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Call\Options;
 
 /**
- * Call utility guardParameter method options class.
+ * Call utility <code>guardParameter</code> method options class.
  * 
  * @since 1.0.0
  */

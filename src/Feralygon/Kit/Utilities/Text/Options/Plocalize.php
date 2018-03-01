@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Text\Options;
 
 /**
- * Text utility plocalize method options class.
+ * Text utility <code>plocalize</code> method options class.
  * 
  * @since 1.0.0
  */

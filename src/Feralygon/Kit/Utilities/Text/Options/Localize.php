@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Text utility localize method options class.
+ * Text utility <code>localize</code> method options class.
  * 
  * @since 1.0.0
  * @property array $parameters [default = []] <p>The parameters to replace the respective message placeholders with, 
