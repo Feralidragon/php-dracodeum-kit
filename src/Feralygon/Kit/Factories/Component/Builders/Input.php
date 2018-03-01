@@ -18,7 +18,7 @@ use Feralygon\Kit\Components\Input as Component;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component
- * @see \Feralygon\Kit\Components\Input
+ * @see \Feralygon\Kit\Components\Input [object]
  */
 class Input extends Builder implements IBuilder
 {
