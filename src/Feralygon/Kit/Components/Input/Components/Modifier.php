@@ -125,9 +125,10 @@ abstract class Modifier extends Component
 	 */
 	public function getLabel($text_options = null) : ?string
 	{
-		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\Information ? $prototype->getLabel($text_options) : null;
+		return $prototype instanceof PrototypeInterfaces\Information
+			? $prototype->getLabel(TextOptions::coerce($text_options))
+			: null;
 	}
 	
 	/**
@@ -142,9 +143,10 @@ abstract class Modifier extends Component
 	 */
 	public function getMessage($text_options = null) : ?string
 	{
-		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\Information ? $prototype->getMessage($text_options) : null;
+		return $prototype instanceof PrototypeInterfaces\Information
+			? $prototype->getMessage(TextOptions::coerce($text_options))
+			: null;
 	}
 	
 	/**
@@ -160,9 +162,10 @@ abstract class Modifier extends Component
 	 */
 	public function getString($text_options = null) : ?string
 	{
-		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\Stringification ? $prototype->getString($text_options) : null;
+		return $prototype instanceof PrototypeInterfaces\Stringification
+			? $prototype->getString(TextOptions::coerce($text_options))
+			: null;
 	}
 	
 	/**

@@ -400,7 +400,6 @@ final class Text extends Utility
 	final public static function bulletify(string $string, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Bulletify::coerce($options);
 		
 		//bulletify
@@ -438,7 +437,6 @@ final class Text extends Utility
 	final public static function mbulletify(array $strings, $text_options = null, $options = null)
 	{
 		//initialize
-		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Mbulletify::coerce($options);
 		
 		//bulletify
@@ -585,7 +583,6 @@ final class Text extends Utility
 	final public static function fill(string $string, array $parameters, $text_options = null, $options = null) : string
 	{
 		//initialize
-		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Fill::coerce($options);
 		
 		//tokenize
@@ -689,7 +686,6 @@ final class Text extends Utility
 		$text_options = null, $options = null
 	) : string
 	{
-		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Pfill::coerce($options);
 		$string = abs($number) === 1.0 ? $string1 : $string2;
 		if ($number === floor($number)) {
