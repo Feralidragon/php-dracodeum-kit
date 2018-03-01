@@ -987,7 +987,7 @@ final class Call extends Utility
 		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
 		if (!isset($backtrace[$stack_index]['function'])) {
 			throw new Exceptions\NotAllowed([
-				'name' => 'guard',
+				'function_name' => 'guard',
 				'object_class' => self::class,
 				'hint_message' => "This method may only be called from within a function or method."
 			]);
@@ -1013,7 +1013,67 @@ final class Call extends Utility
 		
 		//exception
 		throw new Exceptions\NotAllowed([
-			'name' => $options->name ?? $backtrace['function'],
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
+			'hint_message' => $hint_message
+		]);
+	}
+	
+	/**
+	 * Guard the current function or method in the stack from being called depending on a given assertion 
+	 * relative a given parameter name and value.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The parameter name.</p>
+	 * @param mixed $value <p>The parameter value.</p>
+	 * @param bool $assertion <p>The assertion to depend on.<br>
+	 * If set to boolean <code>false</code>, an exception is thrown, 
+	 * preventing the execution of the current function or method in the stack.
+	 * </p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null] 
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
+	 * @return void
+	 */
+	final public static function guardParameter(string $name, $value, bool $assertion, $options = null) : void
+	{
+		//initialize
+		if ($assertion) {
+			return;
+		}
+		$options = Options\GuardParameter::coerce($options);
+		
+		//backtrace
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		self::guard(isset($backtrace[$stack_index]['function']), [
+			'hint_message' => "This method may only be called from within a function or method."
+		]);
+		$backtrace = $backtrace[$stack_index];
+		
+		//stringifier
+		$stringifier = $options->stringifier;
+		if (!isset($stringifier)) {
+			$stringifier = function (string $placeholder, $value) : ?string {
+				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			};
+		}
+		
+		//hint message
+		$hint_message = $options->hint_message;
+		if (isset($hint_message) && !empty($options->parameters)) {
+			$hint_message = Text::fill($hint_message, $options->parameters, null, [
+				'string_options' => $options->string_options,
+				'stringifier' => $stringifier
+			]);
+		}
+		
+		//exception
+		throw new Exceptions\ParameterNotAllowed([
+			'name' => $name,
+			'value' => $value,
+			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
 			'hint_message' => $hint_message
 		]);

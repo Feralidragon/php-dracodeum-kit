@@ -29,7 +29,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * the identifiers are interpreted as getter method calls, 
  * but they cannot be given any custom parameters.</p>
- * @property string|null $name [default = null] <p>The function or method name to use.<br>
+ * @property string|null $function_name [default = null] <p>The function or method name to use.<br>
  * If not set, the name of the current function or method in the stack is used.</p>
  * @property int $stack_offset [default = 0] <p>The stack offset to use.<br>
  * It must be greater than or equal to <code>0</code>.</p>
@@ -63,7 +63,7 @@ class Guard extends Options
 		switch ($name) {
 			case 'hint_message':
 				//no break
-			case 'name':
+			case 'function_name':
 				return $this->createProperty()->setAsString(false, true)->setDefaultValue(null);
 			case 'stack_offset':
 				return $this->createProperty()
