@@ -22,11 +22,11 @@ use Feralygon\Kit\Options\Text as TextOptions;
 class Method extends Enumeration
 {
 	//Public constants
-	/** Retrieve a full HTTP resource (both headers and content). */
-	public const GET = 'GET';
-	
 	/** Retrieve the head of an HTTP resource (headers only). */
 	public const HEAD = 'HEAD';
+	
+	/** Retrieve a full HTTP resource (both headers and content). */
+	public const GET = 'GET';
 	
 	/** Create a new HTTP resource. */
 	public const POST = 'POST';
@@ -62,14 +62,14 @@ class Method extends Enumeration
 	protected static function retrieveDescription(string $name, TextOptions $text_options) : ?string
 	{
 		switch ($name) {
-			case 'GET':
-				return UText::localize(
-					"Retrieve a full HTTP resource (both headers and content).",
-					self::class, $text_options
-				);
 			case 'HEAD':
 				return UText::localize(
 					"Retrieve the head of an HTTP resource (headers only).",
+					self::class, $text_options
+				);
+			case 'GET':
+				return UText::localize(
+					"Retrieve a full HTTP resource (both headers and content).",
 					self::class, $text_options
 				);
 			case 'POST':
@@ -109,5 +109,77 @@ class Method extends Enumeration
 				);
 		}
 		return null;
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Check if a given enumerated element represents an HTTP method which has a request body.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
+	 * represents an HTTP method which has a request body.</p>
+	 */
+	public static function hasRequestBody(string $element) : bool
+	{
+		return in_array(static::getValue($element), [self::POST, self::PUT, self::PATCH], true);
+	}
+	
+	/**
+	 * Check if a given enumerated element represents an HTTP method which has a response body.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
+	 * represents an HTTP method which has a response body.</p>
+	 */
+	public static function hasResponseBody(string $element) : bool
+	{
+		return in_array(static::getValue($element), [
+			self::GET, self::POST, self::TRACE, self::CONNECT, self::OPTIONS
+		], true);
+	}
+	
+	/**
+	 * Check if a given enumerated element represents a cacheable HTTP method.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
+	 * represents a cacheable HTTP method.</p>
+	 */
+	public static function isCacheable(string $element) : bool
+	{
+		return in_array(static::getValue($element), [self::HEAD, self::GET], true);
+	}
+	
+	/**
+	 * Check if a given enumerated element represents a nullipotent HTTP method.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
+	 * represents a nullipotent HTTP method.</p>
+	 */
+	public static function isNullipotent(string $element) : bool
+	{
+		return in_array(static::getValue($element), [self::HEAD, self::GET, self::OPTIONS], true);
+	}
+	
+	/**
+	 * Check if a given enumerated element represents an idempotent HTTP method.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
+	 * represents an idempotent HTTP method.</p>
+	 */
+	public static function isIdempotent(string $element) : bool
+	{
+		return in_array(static::getValue($element), [
+			self::HEAD, self::GET, self::PUT, self::DELETE, self::OPTIONS
+		], true);
 	}
 }
