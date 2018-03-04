@@ -49,7 +49,7 @@ abstract class Factory
 	 * Build type instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The name to build for.</p>
+	 * @param string $name <p>The type name to build for.</p>
 	 * @return \Feralygon\Kit\Factory\Objects\Type|null <p>The built type instance for the given name or 
 	 * <code>null</code> if none was built.</p>
 	 */

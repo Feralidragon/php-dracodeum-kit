@@ -42,10 +42,11 @@ class Component extends Factory
 	 * Build input instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype <p>The prototype instance, class or 
-	 * name to build with.</p>
-	 * @param array $properties [default = []] <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties to build with, 
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype <p>The input prototype instance, 
+	 * class or name to build with.</p>
+	 * @param array $properties [default = []] <p>The input properties to build with, 
+	 * as <samp>name => value</samp> pairs.</p>
+	 * @param array $prototype_properties [default = []] <p>The input prototype properties to build with, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input <p>The built input instance with the given prototype.</p>
 	 */
