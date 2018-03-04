@@ -527,7 +527,7 @@ class Input extends Component
 	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint 
-	 * <p>The created constraint instance.</p>
+	 * <p>The created constraint instance with the given prototype.</p>
 	 */
 	public function createConstraint(
 		$prototype, array $properties = [], array $prototype_properties = []
@@ -547,7 +547,7 @@ class Input extends Component
 	 * @param array $prototype_properties [default = []] <p>The filter prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter 
-	 * <p>The created filter instance.</p>
+	 * <p>The created filter instance with the given prototype.</p>
 	 */
 	public function createFilter(
 		$prototype, array $properties = [], array $prototype_properties = []
