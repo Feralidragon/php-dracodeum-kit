@@ -879,15 +879,10 @@ class Input extends Component
 			}
 		}
 		
-		//builder
-		$builder = function ($prototype, array $properties, array $prototype_properties) : Component {
-			return $this->createConstraint($prototype, $properties, $prototype_properties);
-		};
-		
 		//add
-		return $this->addModifier(
-			Components\Modifiers\Constraint::coerce($constraint, $properties, $prototype_properties, $builder)
-		);
+		return $this->addModifier(Components\Modifiers\Constraint::coerce(
+			$constraint, $properties, $prototype_properties, [$this, 'createConstraint']
+		));
 	}
 	
 	/**
@@ -923,15 +918,10 @@ class Input extends Component
 			}
 		}
 		
-		//builder
-		$builder = function ($prototype, array $properties, array $prototype_properties) : Component {
-			return $this->createFilter($prototype, $properties, $prototype_properties);
-		};
-		
 		//add
-		return $this->addModifier(
-			Components\Modifiers\Filter::coerce($filter, $properties, $prototype_properties, $builder)
-		);
+		return $this->addModifier(Components\Modifiers\Filter::coerce(
+			$filter, $properties, $prototype_properties, [$this, 'createFilter']
+		));
 	}
 	
 	/**
