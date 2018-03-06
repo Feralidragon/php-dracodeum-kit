@@ -243,9 +243,9 @@ final class Text extends Utility
 			
 			//associative
 			if ($is_associative) {
-				$string = self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ');
+				$string = "\n" . self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ');
 				if (!$is_enduser) {
-					$string = "{\n{$string}\n}";
+					$string = "{{$string}\n}";
 				}
 				return $prepend_type ? "(array){$string}" : $string;
 			}
