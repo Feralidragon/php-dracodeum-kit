@@ -556,4 +556,17 @@ class Status extends Enumeration
 		$value = static::getValue($element);
 		return $value >= 500 && $value <= 599;
 	}
+	
+	/**
+	 * Check if a given enumerated element represents an error HTTP status.
+	 * 
+	 * @since 1.0.0
+	 * @param int|string $element <p>The enumerated element to check.</p>
+	 * @return bool <p>Boolean <code>true</code> if the given enumerated element represents an error HTTP status.</p>
+	 */
+	public static function isError($element) : bool
+	{
+		$value = static::getValue($element);
+		return $value >= 400 && $value <= 599;
+	}
 }
