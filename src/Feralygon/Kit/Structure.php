@@ -84,9 +84,9 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	
 	
-	//Implemented final public methods (stringifiable interface)
+	//Implemented public methods (stringifiable interface)
 	/** {@inheritdoc} */
-	final public function toString(?TextOptions $text_options = null) : string
+	public function toString(?TextOptions $text_options = null) : string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}
