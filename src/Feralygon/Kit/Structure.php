@@ -25,7 +25,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  */
-abstract class Structure implements \ArrayAccess, IArrayable
+abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable
 {
 	//Traits
 	use Traits\Properties\ArrayableAccess;
@@ -64,6 +64,15 @@ abstract class Structure implements \ArrayAccess, IArrayable
 	 * @return void
 	 */
 	abstract protected function buildProperties() : void;
+	
+	
+	
+	//Implemented final public methods (PHP JSON serializable interface)
+	/** {@inheritdoc} */
+	final public function jsonSerialize()
+	{
+		return $this->getAll();
+	}
 	
 	
 	
