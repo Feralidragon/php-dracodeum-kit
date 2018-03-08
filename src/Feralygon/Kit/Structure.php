@@ -7,9 +7,16 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
+use Feralygon\Kit\Interfaces\{
+	Arrayable as IArrayable,
+	Stringifiable as IStringifiable
+};
 use Feralygon\Kit\Structure\Exceptions;
-use Feralygon\Kit\Utilities\Type as UType;
+use Feralygon\Kit\Options\Text as TextOptions;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * Structure class.
@@ -25,11 +32,12 @@ use Feralygon\Kit\Utilities\Type as UType;
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  */
-abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable
+abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable, IStringifiable
 {
 	//Traits
 	use Traits\Properties\ArrayableAccess;
 	use Traits\Readonly;
+	use Traits\Stringifiable;
 	
 	
 	
@@ -72,6 +80,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable
 	final public function jsonSerialize()
 	{
 		return $this->getAll();
+	}
+	
+	
+	
+	//Implemented final public methods (stringifiable interface)
+	/** {@inheritdoc} */
+	final public function toString(?TextOptions $text_options = null) : string
+	{
+		return UText::stringify($this->getAll(), $text_options);
 	}
 	
 	
