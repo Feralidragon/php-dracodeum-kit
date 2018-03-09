@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../autoload.php';
 
 use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Factories\Component as FC;
+use Feralygon\Kit\Factories\Component as CF;
 
 System::setEnvironment('development');
 
@@ -15,7 +15,7 @@ $text_options = [
 
 $value = 'hasd';
 
-$input = FC::input('string');
+$input = CF::input('string');
 $input->addModifier('constraints.values', [], ['values' => ['asd', 'ggg', 12345678]]);
 //$input->addModifier('constraints.maximum', [], ['value' => 'January 3rd 2017, 8PM', 'exclusive' => 1]);
 /*
