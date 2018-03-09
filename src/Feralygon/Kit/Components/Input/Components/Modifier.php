@@ -212,7 +212,7 @@ abstract class Modifier extends Component
 		
 		//prototype
 		$prototype = $this->getPrototype();
-		if ($prototype instanceof PrototypeInterfaces\Error) {
+		if ($prototype instanceof PrototypeInterfaces\ErrorUnset) {
 			$prototype->unsetError();
 		}
 		

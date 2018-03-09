@@ -19,8 +19,8 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
- * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Error
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
+ * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorInformation
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData

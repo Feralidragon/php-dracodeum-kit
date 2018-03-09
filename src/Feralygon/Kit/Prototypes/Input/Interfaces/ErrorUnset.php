@@ -8,14 +8,14 @@
 namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 
 /**
- * Input prototype error interface.
+ * Input prototype error unset interface.
  * 
  * This interface defines a method to unset an error from an input prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
-interface Error
+interface ErrorUnset
 {
 	//Public methods
 	/**
