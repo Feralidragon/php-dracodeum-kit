@@ -9,7 +9,10 @@ namespace Feralygon\Kit\Managers\Properties\Objects;
 
 use Feralygon\Kit\Managers\Properties as Manager;
 use Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
-use Feralygon\Kit\Enumeration;
+use Feralygon\Kit\{
+	Enumeration,
+	Structure
+};
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -963,6 +966,35 @@ class Property
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
 		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
 			return is_string($value) && $enumeration::hasName($value);
+		});
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a structure instance.
+	 * 
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be evaluated into a structure instance.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string $class <p>The structure class to use.</p>
+	 * @param bool $clone [default = false] <p>If a structure instance is given, clone it into a new one 
+	 * with the same properties.</p>
+	 * @param bool $readonly [default = false] <p>Evaluate into a read-only structure instance.<br>
+	 * If a structure instance is given and is not read-only, a new one is created with the same properties 
+	 * and as read-only.</p>
+	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsStructure(
+		string $class, bool $clone = false, bool $readonly = false, bool $nullable = false
+	) : Property
+	{
+		$class = UType::coerceClass($class, Structure::class);
+		$this->setEvaluator(function (&$value) use ($class, $clone, $readonly, $nullable) : bool {
+			return $class::evaluate($value, $clone, $readonly, $nullable);
 		});
 		return $this;
 	}
