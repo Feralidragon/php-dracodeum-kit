@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Structure;
 
 /**
- * Structure exception class.
- * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Structure|string $structure <p>The structure instance or class.</p>
  * @see \Feralygon\Kit\Structure

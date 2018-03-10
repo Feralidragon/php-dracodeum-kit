@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\LazyProperties\Exceptions;
 use Feralygon\Kit\Traits\LazyProperties\Exception;
 
 /**
- * Lazy properties trait properties already initialized exception class.
- * 
  * This exception is thrown from an object using the lazy properties trait whenever properties 
  * have already been initialized.
  * 

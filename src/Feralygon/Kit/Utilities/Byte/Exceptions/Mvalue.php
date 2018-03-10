@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Byte\Exceptions;
 use Feralygon\Kit\Utilities\Byte\Exception;
 
 /**
- * Byte utility <code>mvalue</code> method exception class.
+ * Byte utility <code>mvalue</code> method exception.
  * 
  * @since 1.0.0
  */

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits;
 use Feralygon\Kit\Traits\NonInstantiable\Exceptions;
 
 /**
- * Non-instantiable trait.
- * 
  * This trait turns a class into a non-instantiable one by preventing its instantiation.
  * 
  * @since 1.0.0

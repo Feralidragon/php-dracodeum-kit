@@ -13,9 +13,8 @@ use Feralygon\Kit\Prototype\{
 };
 
 /**
- * Prototype class.
+ * This class is the base to be extended from when creating a prototype.
  * 
- * This class is the base to be extended from when creating a prototype.<br>
  * For more information, please check the <code>Feralygon\Kit\Component</code> class.
  * 
  * @since 1.0.0

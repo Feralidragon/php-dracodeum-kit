@@ -17,8 +17,6 @@ use Feralygon\Kit\Utilities\Text\{
 use Feralygon\Kit\Root\Locale;
 
 /**
- * Text utility class.
- * 
  * This utility implements a set of methods used to manipulate and retrieve information from text and strings.
  * 
  * @since 1.0.0

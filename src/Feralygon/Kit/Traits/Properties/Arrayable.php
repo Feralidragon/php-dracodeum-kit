@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Properties;
 use Feralygon\Kit\Traits\Properties;
 
 /**
- * Properties arrayable trait.
- * 
  * This trait extends the properties trait and implements 
  * the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
  * 

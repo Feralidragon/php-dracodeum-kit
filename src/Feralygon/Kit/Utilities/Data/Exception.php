@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Data;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Data utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Data
  */

@@ -11,8 +11,6 @@ use Feralygon\Kit\Managers\Properties\Exception;
 use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
- * Properties manager property manager mismatch exception class.
- * 
  * This exception is thrown from a properties manager whenever a given property manager mismatches the expected one.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Readonly\Exceptions;
 use Feralygon\Kit\Traits\Readonly\Exception;
 
 /**
- * Read-only trait read-only already initialized exception class.
- * 
  * This exception is thrown from an object using the read-only trait whenever read-only support 
  * has already been initialized.
  * 

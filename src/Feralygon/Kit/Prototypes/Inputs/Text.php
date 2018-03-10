@@ -34,10 +34,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Text input prototype class.
+ * This input prototype represents a text or string.
  * 
- * This input prototype represents a text or string, 
- * for which only integers, floats and strings may be evaluated as such.
+ * Only an integer, float or string may be evaluated as a text or string.
  * 
  * @since 1.0.0
  * @property-read bool $unicode [default = false] <p>Set as Unicode text.</p>
@@ -127,7 +126,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -142,7 +141,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -151,7 +150,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
@@ -196,7 +195,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	
 	
-	//Implemented public methods (input prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{
@@ -208,7 +207,7 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 	
 	
 	
-	//Implemented public methods (input prototype modifiers interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{

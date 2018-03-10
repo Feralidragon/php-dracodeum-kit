@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Properties manager missing required properties exception class.
- * 
  * This exception is thrown from a properties manager whenever required properties are missing.
  * 
  * @since 1.0.0

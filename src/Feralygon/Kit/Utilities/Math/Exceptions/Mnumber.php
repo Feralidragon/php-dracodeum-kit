@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Math\Exceptions;
 use Feralygon\Kit\Utilities\Math\Exception;
 
 /**
- * Math utility <code>mnumber</code> method exception class.
+ * Math utility <code>mnumber</code> method exception.
  * 
  * @since 1.0.0
  */

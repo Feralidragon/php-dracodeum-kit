@@ -11,8 +11,6 @@ use Feralygon\Kit\Managers\Properties as PropertiesManager;
 use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
- * Lazy properties trait manager class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\LazyProperties
  */

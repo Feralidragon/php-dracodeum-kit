@@ -11,8 +11,6 @@ use Feralygon\Kit\Factory\Exception;
 use Feralygon\Kit\Factory\Objects\Type;
 
 /**
- * Factory type name mismatch exception class.
- * 
  * This exception is thrown from a factory whenever a given type name mismatches the expected one.
  * 
  * @since 1.0.0

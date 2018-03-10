@@ -13,8 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Base64 as UBase64;
 
 /**
- * Hash input Base64 filter modifier prototype class.
- * 
  * This filter prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
  * 
  * @since 1.0.0
@@ -47,7 +45,7 @@ class Base64 extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -60,7 +58,7 @@ class Base64 extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Components\Input\Exceptions;
 use Feralygon\Kit\Components\Input\Exception;
 
 /**
- * Input component filter name not found exception class.
- * 
  * This exception is thrown from an input whenever a given filter name is not found.
  * 
  * @since 1.0.0

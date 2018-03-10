@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
 /**
- * Properties manager invalid boolean property value exception class.
- * 
  * This exception is thrown from a properties manager whenever a given value is invalid for a given boolean property.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Input prototype value stringification interface.
- * 
  * This interface defines a method to stringify a value in an input prototype.
  * 
  * @since 1.0.0

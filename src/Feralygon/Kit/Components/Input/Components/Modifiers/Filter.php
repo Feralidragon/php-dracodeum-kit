@@ -13,8 +13,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Input filter modifier component class.
- * 
  * This component represents a filter modifier which processes an input value.
  * 
  * @since 1.0.0

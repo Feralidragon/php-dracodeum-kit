@@ -10,9 +10,8 @@ namespace Feralygon\Kit\Utilities\Time\Exceptions;
 use Feralygon\Kit\Utilities\Time as UTime;
 
 /**
- * Time utility <code>generate</code> method start later than end exception class.
- * 
- * This exception is thrown from the time utility <code>generate</code> method whenever a given start is later than a given end.
+ * This exception is thrown from the time utility <code>generate</code> method whenever a given start is later than 
+ * a given end.
  * 
  * @since 1.0.0
  * @property-read int|float $start <p>The start.</p>

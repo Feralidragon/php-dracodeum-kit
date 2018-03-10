@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>indentate</code> method invalid character exception class.
- * 
  * This exception is thrown from the text utility <code>indentate</code> method whenever a given character is invalid.
  * 
  * @since 1.0.0

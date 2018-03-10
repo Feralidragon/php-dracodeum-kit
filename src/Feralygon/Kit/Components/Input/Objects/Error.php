@@ -11,8 +11,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Input component error object class.
- * 
  * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Components\Input

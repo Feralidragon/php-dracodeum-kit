@@ -11,8 +11,6 @@ use Feralygon\Kit\Factory\Exception;
 use Feralygon\Kit\Factory\Objects\Type;
 
 /**
- * Factory no object built exception class.
- * 
  * This exception is thrown from a factory whenever no object has been built for a given type.
  * 
  * @since 1.0.0

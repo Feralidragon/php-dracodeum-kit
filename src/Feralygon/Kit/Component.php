@@ -19,13 +19,12 @@ use Feralygon\Kit\Utilities\{
 use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
 
 /**
- * Component class.
+ * This class is the base to be extended from when creating a component.
  * 
- * This class is the base to be extended from when creating a component.<br>
- * <br>
  * A component is an object which represents a specific functional part of an application and is expected to have 
  * a very high number of implementations, each one tailored to each specific purpose, but with its core behavior, 
  * functionality and interface mostly intact.<br>
+ * <br>
  * Examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, controllers, 
  * handlers, and others, all of which are expected to have tens or even hundreds of different internal implementations 
  * under a common functional interface when seen and used by other objects.<br>

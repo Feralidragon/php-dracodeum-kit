@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Enumeration\Exceptions;
 use Feralygon\Kit\Enumeration\Exception;
 
 /**
- * Enumeration name not found exception class.
- * 
  * This exception is thrown from an enumeration whenever a given name is not found.
  * 
  * @since 1.0.0

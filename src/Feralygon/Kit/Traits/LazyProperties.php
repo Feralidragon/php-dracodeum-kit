@@ -15,12 +15,10 @@ use Feralygon\Kit\Traits\LazyProperties\{
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Lazy properties trait.
+ * This trait enables the support for a separate layer of custom lazy-loaded properties in a class.
  * 
- * This trait enables the support for a separate layer of custom lazy-loaded properties in a class.<br>
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
- * <br>
  * Each and every property is only loaded on demand (lazy-loading).
  * 
  * @since 1.0.0

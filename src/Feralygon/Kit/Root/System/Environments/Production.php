@@ -10,11 +10,7 @@ namespace Feralygon\Kit\Root\System\Environments;
 use Feralygon\Kit\Root\System\Environment;
 use Feralygon\Kit\Root\System;
 
-/**
- * Root system production environment class.
- * 
- * @since 1.0.0
- */
+/** @since 1.0.0 */
 class Production extends Environment
 {
 	//Implemented public methods

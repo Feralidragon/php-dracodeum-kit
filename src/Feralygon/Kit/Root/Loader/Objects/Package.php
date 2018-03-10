@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Root\Loader\Objects;
 
 /**
- * Root loader package object.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Root\Loader
  */

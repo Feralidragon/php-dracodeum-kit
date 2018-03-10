@@ -10,10 +10,8 @@ namespace Feralygon\Kit\Prototype\Exceptions;
 use Feralygon\Kit\Prototype\Exception;
 
 /**
- * Prototype properties not implemented exception class.
- * 
- * This exception is thrown from a prototype whenever properties are given 
- * but there is nothing implemented to handle them.
+ * This exception is thrown from a prototype whenever properties are given but there is nothing implemented 
+ * to handle them.
  * 
  * @since 1.0.0
  */

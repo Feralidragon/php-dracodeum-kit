@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Root locale invalid encoding exception class.
- * 
  * This exception is thrown from the locale whenever a given encoding is invalid.
  * 
  * @since 1.0.0

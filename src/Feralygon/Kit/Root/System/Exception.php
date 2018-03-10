@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Root\System;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Root system exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Root\System
  */

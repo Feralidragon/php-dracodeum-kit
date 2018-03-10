@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Components\Input\Components\Modifier\Structures;
 use Feralygon\Kit\Structure;
 
 /**
- * Input modifier component schema structure class.
- * 
  * @since 1.0.0
  * @property string $name <p>The name.<br>
  * It cannot be empty.</p>

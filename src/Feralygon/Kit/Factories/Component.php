@@ -14,8 +14,6 @@ use Feralygon\Kit\Factories\Component\Builder\Interfaces as BuilderInterfaces;
 use Feralygon\Kit\Components\Input;
 
 /**
- * Component factory class.
- * 
  * This factory is used to build component instances.
  * 
  * @since 1.0.0

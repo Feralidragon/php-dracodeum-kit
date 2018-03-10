@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers\Properties\Exceptions;
 use Feralygon\Kit\Managers\Properties\Exception;
 
 /**
- * Properties manager no builder set exception class.
- * 
  * This exception is thrown from a properties manager whenever no builder function has been set.
  * 
  * @since 1.0.0

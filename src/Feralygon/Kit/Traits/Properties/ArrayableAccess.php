@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Properties;
 use Feralygon\Kit\Traits\Properties;
 
 /**
- * Properties arrayable access trait.
- * 
  * This trait extends the properties trait and implements both the PHP <code>ArrayAccess</code> 
  * and <code>Feralygon\Kit\Interfaces\Arrayable</code> interfaces.
  * 

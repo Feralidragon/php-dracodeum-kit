@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Hash\Exceptions;
 use Feralygon\Kit\Utilities\Hash\Exception;
 
 /**
- * Hash utility invalid bits exception class.
- * 
  * This exception is thrown from the hash utility whenever a given number of bits is invalid.
  * 
  * @since 1.0.0

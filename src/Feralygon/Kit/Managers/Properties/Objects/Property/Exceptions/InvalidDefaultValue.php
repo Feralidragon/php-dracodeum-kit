@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
 
 /**
- * Properties manager property object invalid default value exception class.
- * 
  * This exception is thrown from a property object whenever a given default value is invalid.
  * 
  * @since 1.0.0

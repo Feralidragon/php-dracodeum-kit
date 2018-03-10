@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
 use Feralygon\Kit\Utilities\Call\Exception;
 
 /**
- * Call utility invalid stack offset exception class.
- * 
  * This exception is thrown from the call utility whenever a given stack offset is invalid.
  * 
  * @since 1.0.0

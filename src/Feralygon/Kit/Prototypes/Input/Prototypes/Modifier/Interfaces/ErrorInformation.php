@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Input modifier prototype error information interface.
- * 
  * This interface defines a method to retrieve error information from an input modifier prototype, 
  * namely an error message.
  * 

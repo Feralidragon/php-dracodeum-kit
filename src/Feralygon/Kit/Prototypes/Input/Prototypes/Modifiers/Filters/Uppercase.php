@@ -17,8 +17,6 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Input uppercase filter modifier prototype class.
- * 
  * This filter prototype converts a value to uppercase.
  * 
  * @since 1.0.0
@@ -45,7 +43,7 @@ class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -58,7 +56,7 @@ class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -67,7 +65,7 @@ class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	
 	
 	
-	//Implemented public methods (input modifier prototype name interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -76,7 +74,7 @@ class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	
 	
 	
-	//Implemented public methods (input modifier prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

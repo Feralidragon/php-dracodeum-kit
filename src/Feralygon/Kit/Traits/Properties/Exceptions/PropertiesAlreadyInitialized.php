@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Properties\Exceptions;
 use Feralygon\Kit\Traits\Properties\Exception;
 
 /**
- * Properties trait properties already initialized exception class.
- * 
  * This exception is thrown from an object using the properties trait whenever properties have already been initialized.
  * 
  * @since 1.0.0

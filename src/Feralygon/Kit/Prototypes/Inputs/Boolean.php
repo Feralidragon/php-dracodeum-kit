@@ -17,9 +17,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Boolean input prototype class.
+ * This input prototype represents a boolean.
  * 
- * This input prototype represents a boolean, for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as a boolean:<br>
  * &nbsp; &#8226; &nbsp; a boolean;<br>
  * &nbsp; &#8226; &nbsp; an integer, with <code>0</code> as boolean <code>false</code>, 
  * and <code>1</code> as boolean <code>true</code>;<br>
@@ -50,7 +50,7 @@ class Boolean extends Input implements IInformation
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{

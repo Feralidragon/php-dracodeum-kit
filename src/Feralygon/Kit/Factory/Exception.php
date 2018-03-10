@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Factory;
 
 /**
- * Factory exception class.
- * 
  * @since 1.0.0
  * @property-read string $factory <p>The factory class.</p>
  * @see \Feralygon\Kit\Factory

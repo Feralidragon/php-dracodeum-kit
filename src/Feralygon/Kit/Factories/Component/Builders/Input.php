@@ -12,8 +12,6 @@ use Feralygon\Kit\Factories\Component\Builder\Interfaces\Input as IBuilder;
 use Feralygon\Kit\Components\Input as Component;
 
 /**
- * Component factory input builder class.
- * 
  * This builder is used to build input component instances.
  * 
  * @since 1.0.0
@@ -22,7 +20,7 @@ use Feralygon\Kit\Components\Input as Component;
  */
 class Input extends Builder implements IBuilder
 {
-	//Implemented public methods (component factory input builder interface)
+	//Implemented public methods (Feralygon\Kit\Factories\Component\Builder\Interfaces\Input)
 	/** {@inheritdoc} */
 	public function build($prototype, array $properties = [], array $prototype_properties = []) : Component
 	{

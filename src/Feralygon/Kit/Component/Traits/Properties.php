@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Component properties trait.
- * 
  * This trait defines a set of methods to build and retrieve properties from a component.
  * 
  * @since 1.0.0

@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Options;
 
 /**
- * Options exception class.
- * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Options|string $options <p>The options instance or class.</p>
  * @see \Feralygon\Kit\Options

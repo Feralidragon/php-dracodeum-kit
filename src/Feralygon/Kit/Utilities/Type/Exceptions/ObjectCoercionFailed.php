@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Type utility object coercion failed exception class.
- * 
  * This exception is thrown from the type utility whenever the coercion into an object has failed with a given value.
  * 
  * @since 1.0.0
@@ -73,7 +71,7 @@ class ObjectCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

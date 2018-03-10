@@ -16,8 +16,6 @@ use Feralygon\Kit\Utilities\Time\{
 };
 
 /**
- * Time utility class.
- * 
  * This utility implements a set of methods used to manipulate and retrieve information about time.
  * 
  * @since 1.0.0

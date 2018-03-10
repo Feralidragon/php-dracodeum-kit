@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Prototype;
 
 /**
- * Prototype exception class.
- * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Prototype $prototype <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Prototype

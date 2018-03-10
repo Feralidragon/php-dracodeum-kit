@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Components\Input\Exceptions;
 use Feralygon\Kit\Components\Input\Exception;
 
 /**
- * Input component modifier properties not allowed exception class.
- * 
  * This exception is thrown from an input whenever modifier properties are given although they are not allowed.
  * 
  * @since 1.0.0

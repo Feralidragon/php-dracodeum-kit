@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Factory\Exceptions;
 use Feralygon\Kit\Factory\Exception;
 
 /**
- * Factory type not found exception class.
- * 
  * This exception is thrown from a factory whenever a given type is not found.
  * 
  * @since 1.0.0

@@ -14,8 +14,6 @@ use Feralygon\Kit\Root\Locale\{
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Root locale class.
- * 
  * This class is used to statically handle localization, 
  * such as encoding and text translations into different languages.
  * 

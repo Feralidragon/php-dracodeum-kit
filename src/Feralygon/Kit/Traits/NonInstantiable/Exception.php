@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\NonInstantiable;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Non-instantiable trait exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\NonInstantiable
  */

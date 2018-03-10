@@ -11,8 +11,6 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Input component info options class.
- * 
  * @since 1.0.0
  * @property bool $exclude_null [default = false] <p>Exclude null information.</p>
  * @property bool $exclude_modifiers [default = false] <p>Exclude modifiers information.</p>

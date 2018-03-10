@@ -11,8 +11,6 @@ use Feralygon\Kit\Utility;
 use Feralygon\Kit\Utilities\Base64\Exceptions;
 
 /**
- * Base64 utility class.
- * 
  * This utility implements a set of methods used to encode and decode Base64 strings.
  * 
  * @since 1.0.0
@@ -20,6 +18,7 @@ use Feralygon\Kit\Utilities\Base64\Exceptions;
  */
 final class Base64 extends Utility
 {
+	//Final public static methods
 	/**
 	 * Encode a given string.
 	 * 

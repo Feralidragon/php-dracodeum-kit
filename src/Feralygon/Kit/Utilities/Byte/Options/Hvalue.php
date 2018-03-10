@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Byte utility <code>hvalue</code> method options class.
+ * Byte utility <code>hvalue</code> method options.
  * 
  * @since 1.0.0
  * @property bool $long [default = false] <p>Return the long form of the human-readable value.</p>

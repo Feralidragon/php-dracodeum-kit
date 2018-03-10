@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Numbers\Integer;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Integer number input prototype exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer
  */

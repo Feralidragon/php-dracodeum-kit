@@ -24,8 +24,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Input wildcards constraint modifier prototype class.
- * 
  * This constraint prototype restricts a value to a set of allowed wildcard matches.
  * 
  * @since 1.0.0
@@ -57,7 +55,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -79,7 +77,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -88,7 +86,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public methods (input modifier prototype name interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -97,7 +95,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public methods (input modifier prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -250,7 +248,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public methods (input modifier prototype stringification interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
@@ -262,7 +260,7 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	
 	
 	
-	//Implemented public methods (input modifier prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

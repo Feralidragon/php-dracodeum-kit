@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
 use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
 
 /**
- * Properties manager property object invalid value exception class.
- * 
  * This exception is thrown from a property object whenever a given value is invalid.
  * 
  * @since 1.0.0

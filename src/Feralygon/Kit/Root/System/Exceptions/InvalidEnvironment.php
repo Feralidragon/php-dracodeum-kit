@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Root\System\Exceptions;
 use Feralygon\Kit\Root\System\Exception;
 
 /**
- * Root system invalid environment exception class.
- * 
  * This exception is thrown from the system whenever a given environment is invalid.
  * 
  * @since 1.0.0

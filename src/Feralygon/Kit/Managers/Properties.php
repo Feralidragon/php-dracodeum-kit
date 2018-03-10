@@ -15,11 +15,9 @@ use Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions as PropertyExc
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Properties manager class.
- * 
  * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded 
- * and restricted to a specific access mode (strict read-only, read-only, read-write, write-only and write-once).<br>
- * <br>
+ * and restricted to a specific access mode (strict read-only, read-only, read-write, write-only and write-once).
+ * 
  * Each individual property may be set with restrictions and bindings, such as being set as required, 
  * restricted to a specific access mode, bound to existing object properties, have a default value, 
  * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 

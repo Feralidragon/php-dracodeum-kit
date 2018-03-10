@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>mparse</code> method invalid field pattern exception class.
- * 
  * This exception is thrown from the text utility <code>mparse</code> method whenever a given field pattern is invalid.
  * 
  * @since 1.0.0

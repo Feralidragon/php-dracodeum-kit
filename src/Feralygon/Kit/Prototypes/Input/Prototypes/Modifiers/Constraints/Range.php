@@ -20,8 +20,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Input range constraint modifier prototype class.
- * 
  * This constraint prototype restricts a value to a range of values.
  * 
  * @since 1.0.0
@@ -66,7 +64,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -90,7 +88,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -99,7 +97,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (input modifier prototype name interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -108,7 +106,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (input modifier prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -231,7 +229,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (input modifier prototype stringification interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
@@ -289,7 +287,7 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	
 	
 	
-	//Implemented public methods (input modifier prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

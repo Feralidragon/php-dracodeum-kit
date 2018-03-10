@@ -12,8 +12,6 @@ use Feralygon\Kit\Interfaces\Throwables\Assertive as IAssertive;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Call utility assertion failed exception class.
- * 
  * This exception is thrown from the call utility whenever an assertion on the compatibility of a given function 
  * towards a given template has failed.
  * 

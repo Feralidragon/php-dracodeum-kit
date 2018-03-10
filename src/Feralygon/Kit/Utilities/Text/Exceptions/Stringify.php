@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
 use Feralygon\Kit\Utilities\Text\Exception;
 
 /**
- * Text utility <code>stringify</code> method exception class.
+ * Text utility <code>stringify</code> method exception.
  * 
  * @since 1.0.0
  */

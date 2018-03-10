@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Read-only manager class.
- * 
  * This manager handles the read-only state and the resulting callback functions of an object.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 use Feralygon\Kit\Prototype;
 
 /**
- * Component prototypes trait.
- * 
  * This trait defines a method to build prototypes for a component.
  * 
  * @since 1.0.0

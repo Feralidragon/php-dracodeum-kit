@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 
 /**
- * Input prototype schema data interface.
- * 
  * This interface defines a method to retrieve the schema data from an input prototype.
  * 
  * @since 1.0.0

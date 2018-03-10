@@ -17,10 +17,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Float64 number input prototype class.
+ * This input prototype represents a floating point number of 64 bits.
  * 
- * This input prototype represents a floating point number of 64 bits, 
- * for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as a floating point number of 64 bits:<br>
  * &nbsp; &#8226; &nbsp; an integer or float;<br>
  * &nbsp; &#8226; &nbsp; a numeric string, such as <code>"1000"</code>;<br>
  * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 

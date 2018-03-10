@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Time\Exceptions;
 
 /**
- * Time utility <code>mperiod</code> method invalid period exception class.
- * 
  * This exception is thrown from the time utility <code>mperiod</code> method whenever a given period is invalid.
  * 
  * @since 1.0.0

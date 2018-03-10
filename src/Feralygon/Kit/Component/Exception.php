@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Component;
 
 /**
- * Component exception class.
- * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Component|string $component <p>The component instance or class.</p>
  * @see \Feralygon\Kit\Component

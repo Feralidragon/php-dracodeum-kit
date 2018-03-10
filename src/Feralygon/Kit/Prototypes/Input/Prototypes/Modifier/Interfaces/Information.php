@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Input modifier prototype information interface.
- * 
  * This interface defines a set of methods to retrieve information from an input modifier prototype, 
  * namely a label and a message.
  * 

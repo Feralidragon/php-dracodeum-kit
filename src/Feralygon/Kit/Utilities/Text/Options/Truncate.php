@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Text utility <code>truncate</code> method options class.
+ * Text utility <code>truncate</code> method options.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false] <p>Handle the string as Unicode.</p>

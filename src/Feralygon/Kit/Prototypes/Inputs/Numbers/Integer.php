@@ -25,10 +25,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Integer number input prototype class.
+ * This input prototype represents an integer number.
  * 
- * This input prototype represents an integer number, 
- * for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as an integer number:<br>
  * &nbsp; &#8226; &nbsp; an integer or float;<br>
  * &nbsp; &#8226; &nbsp; a numeric string, such as <code>"1000"</code>;<br>
  * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
@@ -83,7 +82,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	
 	
-	//Implemented public methods (prototype initialization interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Initialization)
 	/**
 	 * {@inheritdoc}
 	 * @throws \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions\InvalidBits
@@ -118,7 +117,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -139,7 +138,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -148,7 +147,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	
 	
-	//Implemented public methods (input prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\Json\{
 };
 
 /**
- * JSON utility class.
- * 
  * This utility implements a set of methods used to encode and decode JSON (JavaScript Object Notation) data.
  * 
  * @since 1.0.0
@@ -23,6 +21,7 @@ use Feralygon\Kit\Utilities\Json\{
  */
 final class Json extends Utility
 {
+	//Final public static methods
 	/**
 	 * Encode data.
 	 * 

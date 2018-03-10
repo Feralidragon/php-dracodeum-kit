@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototype\Interfaces;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Prototype properties interface.
- * 
  * This interface defines a set of methods to build and retrieve properties from a prototype.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Properties\Objects;
 use Feralygon\Kit\Managers\Properties\Objects\Property as ManagerProperty;
 
 /**
- * Properties trait property object class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\Properties
  */

@@ -11,8 +11,6 @@ use Feralygon\Kit\Managers\Properties\Exception;
 use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
- * Properties manager cannot set property exception class.
- * 
  * This exception is thrown from a properties manager whenever a given property is attempted to be set.
  * 
  * @since 1.0.0

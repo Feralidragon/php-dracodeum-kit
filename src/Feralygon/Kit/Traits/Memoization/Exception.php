@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Memoization;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Memoization trait exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\Memoization
  */

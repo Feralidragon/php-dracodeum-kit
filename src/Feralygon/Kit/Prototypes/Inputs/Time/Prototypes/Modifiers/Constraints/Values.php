@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Time input values constraint modifier prototype class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Time
  */

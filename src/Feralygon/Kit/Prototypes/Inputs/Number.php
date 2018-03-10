@@ -23,9 +23,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Number input prototype class.
+ * This input prototype represents a number.
  * 
- * This input prototype represents a number, for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as a number:<br>
  * &nbsp; &#8226; &nbsp; an integer or float;<br>
  * &nbsp; &#8226; &nbsp; a numeric string, such as <code>"1000"</code>;<br>
  * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, such as <code>"1e3"</code> or <code>"1E3"</code>;<br>
@@ -69,7 +69,7 @@ class Number extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
@@ -142,7 +142,7 @@ class Number extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (input prototype modifiers interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{

@@ -11,11 +11,9 @@ use Feralygon\Kit\Utility;
 use Feralygon\Kit\Utilities\Type\Exceptions;
 
 /**
- * Type utility class.
- * 
  * This utility implements a set of methods used to check, validate and retrieve information from PHP types, 
- * being mostly focused in scalars, objects and classes.<br>
- * <br>
+ * being mostly focused in scalars, objects and classes.
+ * 
  * For functions or callables see the <code>Feralygon\Kit\Utilities\Call</code> class, 
  * while for arrays see the <code>Feralygon\Kit\Utilities\Data</code> class instead.
  * 

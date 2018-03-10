@@ -15,9 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Options coercion failed exception class.
- * 
- * This exception is thrown from an options whenever a coercion has failed with a given value.
+ * This exception is thrown from an options instance whenever a coercion has failed with a given value.
  * 
  * @since 1.0.0
  * @property-read mixed $value <p>The value.</p>
@@ -47,7 +45,7 @@ class CoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

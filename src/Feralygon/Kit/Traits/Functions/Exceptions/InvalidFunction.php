@@ -11,8 +11,6 @@ use Feralygon\Kit\Traits\Functions\Exception;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Functions trait invalid function exception class.
- * 
  * This exception is thrown from an object using the functions trait whenever a given function is invalid.
  * 
  * @since 1.0.0

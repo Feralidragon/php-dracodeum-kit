@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Math utility multiple coercion failed exception class.
- * 
  * This exception is thrown from the math utility whenever the coercion into a multiple has failed with a given value.
  * 
  * @since 1.0.0
@@ -69,7 +67,7 @@ class MultipleCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

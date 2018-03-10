@@ -11,8 +11,6 @@ use Feralygon\Kit\Utility;
 use Feralygon\Kit\Utilities\Hash\Exceptions;
 
 /**
- * Hash utility class.
- * 
  * This utility implements a set of methods used to evaluate and coerce hash values.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Text;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Text utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Text
  */

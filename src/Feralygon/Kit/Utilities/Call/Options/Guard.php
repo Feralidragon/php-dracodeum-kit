@@ -13,7 +13,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringifyOptions;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Call utility <code>guard</code> method options class.
+ * Call utility <code>guard</code> method options.
  * 
  * @since 1.0.0
  * @property string|null $hint_message [default = null] <p>The hint message to use in the thrown exception, 

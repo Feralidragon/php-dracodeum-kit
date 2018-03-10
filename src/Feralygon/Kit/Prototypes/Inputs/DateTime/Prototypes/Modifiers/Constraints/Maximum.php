@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Date and time input maximum constraint modifier prototype class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  */

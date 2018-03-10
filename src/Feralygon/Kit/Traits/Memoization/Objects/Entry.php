@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Traits\Memoization\Objects;
 
 /**
- * Memoization trait entry object class.
- * 
  * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Traits\Memoization

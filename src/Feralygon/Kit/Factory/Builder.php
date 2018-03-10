@@ -8,10 +8,8 @@
 namespace Feralygon\Kit\Factory;
 
 /**
- * Factory builder class.
+ * This class is the base to be extended from when creating a builder.
  * 
- * This class is the base to be extended from when creating a builder.<br>
- * <br>
  * A builder is responsible for building objects for a factory.<br>
  * For more information, please check the <code>Feralygon\Kit\Factory</code> class.
  * 

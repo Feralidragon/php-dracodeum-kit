@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
 use Feralygon\Kit\Utilities\Data\Exception;
 
 /**
- * Data utility path key set into non-array exception class.
- * 
  * This exception is thrown from the data utility whenever there is an attempt to set a given path key 
  * into a non-array value.
  * 

@@ -12,8 +12,6 @@ use Feralygon\Kit\Utilities\Data\Exceptions;
 use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
 
 /**
- * Data utility class.
- * 
  * This utility implements a set of methods used to manipulate data structures in the form of PHP arrays.
  * 
  * @since 1.0.0

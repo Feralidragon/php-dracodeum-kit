@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers\Properties\Exceptions;
 use Feralygon\Kit\Managers\Properties\Exception;
 
 /**
- * Properties manager property not found exception class.
- * 
  * This exception is thrown from a properties manager whenever a given property is not found.
  * 
  * @since 1.0.0

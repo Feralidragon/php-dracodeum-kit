@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Exceptions;
 use Feralygon\Kit\Component\Exception;
 
 /**
- * Component invalid base prototype class exception class.
- * 
  * This exception is thrown from a component whenever a given base prototype class is invalid.
  * 
  * @since 1.0.0

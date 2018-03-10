@@ -15,8 +15,6 @@ use Feralygon\Kit\Traits\Memoization\{
 use Feralygon\Kit\Utilities\Data as UData;
 
 /**
- * Memoization trait.
- * 
  * This trait enables memoization capabilities into a class through the usage of protected methods 
  * focused exclusively into in-memory internal data caching.
  * 

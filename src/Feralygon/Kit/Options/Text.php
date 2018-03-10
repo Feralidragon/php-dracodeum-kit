@@ -13,8 +13,6 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Root\Locale;
 
 /**
- * Text options class.
- * 
  * @since 1.0.0
  * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE] <p>The info scope to use, 
  * as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>

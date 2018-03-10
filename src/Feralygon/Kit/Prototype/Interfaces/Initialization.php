@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Prototype\Interfaces;
 
 /**
- * Prototype initialization interface.
- * 
  * This interface defines a method to initialize a prototype.
  * 
  * @since 1.0.0

@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Components\Input\Components\Modifier\Objects;
 
 /**
- * Input modifier component error object class.
- * 
  * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Components\Input\Components\Modifier

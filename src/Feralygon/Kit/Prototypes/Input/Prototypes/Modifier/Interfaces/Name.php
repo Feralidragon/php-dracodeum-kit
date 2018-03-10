@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
 
 /**
- * Input modifier prototype name interface.
- * 
  * This interface defines a method to retrieve the name from an input modifier prototype.
  * 
  * @since 1.0.0

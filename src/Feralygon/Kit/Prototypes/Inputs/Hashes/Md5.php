@@ -12,10 +12,9 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 
 /**
- * MD5 hash input prototype class.
+ * This input prototype represents a MD5 hash, as a string in hexadecimal notation.
  * 
- * This input prototype represents a MD5 hash, as a string in hexadecimal notation, 
- * in which only the following types of values are able to be evaluated as such:<br>
+ * Only the following types of values are able to be evaluated as a MD5 hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string (32 bytes);<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string (24 bytes);<br>
  * &nbsp; &#8226; &nbsp; a raw binary string (16 bytes).

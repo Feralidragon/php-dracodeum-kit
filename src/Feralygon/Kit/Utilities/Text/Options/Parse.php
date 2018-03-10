@@ -12,7 +12,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Text utility <code>parse</code> method options class.
+ * Text utility <code>parse</code> method options.
  * 
  * @since 1.0.0
  * @property string $delimiter_pattern [default = '\s+'] <p>The delimiter regular expression pattern to use to  

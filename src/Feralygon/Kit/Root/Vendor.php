@@ -10,10 +10,10 @@ namespace Feralygon\Kit\Root;
 use Feralygon\Kit\Traits as KitTraits;
 
 /**
- * Root vendor class.
- * 
  * This class represents the vendor package and is used to set up how the overall package is meant to work and be used, 
  * such as setting the package to work as just a library instead of the main application framework.
+ * 
+ * @since 1.0.0
  */
 final class Vendor
 {

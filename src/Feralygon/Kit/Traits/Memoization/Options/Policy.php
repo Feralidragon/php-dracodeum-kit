@@ -12,8 +12,6 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Memoization trait policy options class.
- * 
  * @since 1.0.0
  * @property int|null $ttl [default = null] <p>The TTL (Time to Live) of each memoized data entry, in seconds.<br>
  * If not set, no TTL is applied, otherwise it must always be greater than <code>0</code>.</p>

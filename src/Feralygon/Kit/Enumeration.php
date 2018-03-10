@@ -16,10 +16,8 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Traits as KitTraits;
 
 /**
- * Enumeration class.
+ * This class is the base to be extended from when creating an enumeration.
  * 
- * This class is the base to be extended from when creating an enumeration.<br>
- * <br>
  * An enumeration is defined by declaring its possible elements as public constants of the class.<br>
  * All enumerated values must be integers, floats or strings.
  * 

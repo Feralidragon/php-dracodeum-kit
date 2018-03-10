@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Data\Exceptions;
 
 /**
- * Data utility <code>keyfy</code> method unsupported value type exception class.
- * 
  * This exception is thrown from the data utility <code>keyfy</code> method whenever a given value type is unsupported.
  * 
  * @since 1.0.0

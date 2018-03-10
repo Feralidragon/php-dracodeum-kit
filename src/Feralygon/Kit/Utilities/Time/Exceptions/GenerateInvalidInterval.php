@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Time\Exceptions;
 
 /**
- * Time utility <code>generate</code> method invalid interval exception class.
- * 
  * This exception is thrown from the time utility <code>generate</code> method whenever a given interval is invalid.
  * 
  * @since 1.0.0

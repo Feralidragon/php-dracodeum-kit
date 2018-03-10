@@ -14,10 +14,8 @@ use Feralygon\Kit\Factory\{
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Factory class.
+ * This class is the base to be extended from when creating a factory.
  * 
- * This class is the base to be extended from when creating a factory.<br>
- * <br>
  * A factory is a class which is able to build specific types of objects using <b>builders</b>.<br>
  * A builder must implement an interface with a <code>build</code> method defined, which is used to build an object.<br>
  * <br>

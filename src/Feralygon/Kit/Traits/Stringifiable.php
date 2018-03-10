@@ -11,8 +11,6 @@ use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Stringifiable trait.
- * 
  * This trait adds the ability for a class to be converted into a string, 
  * by using the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
  * 

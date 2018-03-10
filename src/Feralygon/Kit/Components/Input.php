@@ -31,8 +31,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Input component class.
- * 
  * This component represents an input which can check, sanitize and hold a value.
  * 
  * @since 1.0.0
@@ -100,7 +98,7 @@ class Input extends Component
 	
 	
 	
-	//Implemented protected methods (component prototype initialization trait)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\Initialization)
 	protected function initializePrototype(ComponentPrototype $prototype) : void
 	{
 		$prototype
@@ -111,7 +109,7 @@ class Input extends Component
 	
 	
 	
-	//Implemented public static methods (component properties trait)
+	//Implemented public static methods (Feralygon\Kit\Component\Traits\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -120,7 +118,7 @@ class Input extends Component
 	
 	
 	
-	//Implemented protected methods (component properties trait)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\Properties)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name) : ?Property
 	{
@@ -133,7 +131,7 @@ class Input extends Component
 	
 	
 	
-	//Implemented protected methods (component prototypes trait)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\Prototypes)
 	/** {@inheritdoc} */
 	protected function buildPrototype(string $name, array $properties = []) : ?ComponentPrototype
 	{

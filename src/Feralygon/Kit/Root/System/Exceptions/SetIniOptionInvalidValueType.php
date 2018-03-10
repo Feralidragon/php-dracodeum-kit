@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Root\System\Exceptions;
 
 /**
- * Root system <code>setIniOption</code> method invalid value type exception class.
- * 
  * This exception is thrown from the system <code>setIniOption</code> method whenever a given value type is invalid.
  * 
  * @since 1.0.0

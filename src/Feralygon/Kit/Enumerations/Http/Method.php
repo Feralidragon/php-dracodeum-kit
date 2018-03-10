@@ -12,8 +12,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * HTTP method enumeration class.
- * 
  * This enumeration represents HTTP request methods.
  * 
  * @since 1.0.0
@@ -51,7 +49,7 @@ class Method extends Enumeration
 	
 	
 	
-	//Implemented protected static methods (enumeration information trait)
+	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
 	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
 	{

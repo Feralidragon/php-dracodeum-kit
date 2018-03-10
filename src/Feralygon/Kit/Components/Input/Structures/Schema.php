@@ -12,8 +12,6 @@ use Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema as Modi
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Input component schema structure class.
- * 
  * @since 1.0.0
  * @property string $name <p>The name.<br>
  * It cannot be empty.</p>

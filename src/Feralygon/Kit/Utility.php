@@ -8,9 +8,8 @@
 namespace Feralygon\Kit;
 
 /**
- * Utility class.
+ * This class is the base to be extended from when creating an utility.
  * 
- * This class is the base to be extended from when creating an utility.<br>
  * All methods of this kind of class must be <code>static</code>.
  * 
  * @since 1.0.0

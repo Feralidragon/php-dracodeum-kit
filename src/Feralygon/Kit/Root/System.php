@@ -20,8 +20,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Root system class.
- * 
  * This class represents the local system and is used to statically set up the environment, 
  * retrieve local information and launch an application, thus it also holds a global system state with the currently 
  * active system related objects, such as the operating system, main process, environment and running application, 

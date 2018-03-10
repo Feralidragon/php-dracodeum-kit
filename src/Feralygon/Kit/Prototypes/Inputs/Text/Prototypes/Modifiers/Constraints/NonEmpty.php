@@ -17,8 +17,6 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Text input non-empty constraint modifier prototype class.
- * 
  * This constraint prototype prevents a text or string from being empty.
  * 
  * @since 1.0.0
@@ -35,7 +33,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	
 	
 	
-	//Implemented public methods (input modifier prototype name interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -44,7 +42,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	
 	
 	
-	//Implemented public methods (input modifier prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{

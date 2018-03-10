@@ -12,8 +12,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Info scope enumeration class.
- * 
  * This enumeration represents info scopes, which are used to define which kind of information to return 
  * depending on the targetted scope.
  * 
@@ -33,7 +31,7 @@ class InfoScope extends Enumeration
 	
 	
 	
-	//Implemented protected static methods (enumeration information trait)
+	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
 	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
 	{

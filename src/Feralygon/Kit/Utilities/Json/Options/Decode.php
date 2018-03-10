@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * JSON utility <code>decode</code> method options class.
+ * JSON utility <code>decode</code> method options.
  * 
  * @since 1.0.0
  * @property bool $associative [default = false] <p>Decode into associative arrays instead of objects, 

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
 use Feralygon\Kit\Utilities\Type\Exception;
 
 /**
- * Type utility interface not found exception class.
- * 
  * This exception is thrown from the type utility whenever a given interface is not found.
  * 
  * @since 1.0.0

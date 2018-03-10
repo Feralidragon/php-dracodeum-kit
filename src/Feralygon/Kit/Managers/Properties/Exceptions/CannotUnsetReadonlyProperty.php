@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
 /**
- * Properties manager cannot unset read-only property exception class.
- * 
  * This exception is thrown from a properties manager whenever a given read-only property is attempted to be unset.
  * 
  * @since 1.0.0

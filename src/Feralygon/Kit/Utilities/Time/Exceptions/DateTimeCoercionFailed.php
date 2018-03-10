@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Time utility date and time coercion failed exception class.
- * 
  * This exception is thrown from the time utility whenever the coercion into a date and time 
  * has failed with a given value.
  * 
@@ -70,7 +68,7 @@ class DateTimeCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

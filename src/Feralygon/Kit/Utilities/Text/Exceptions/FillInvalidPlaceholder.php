@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>fill</code> method invalid placeholder exception class.
- * 
  * This exception is thrown from the text utility <code>fill</code> method whenever a given placeholder is invalid.
  * 
  * @since 1.0.0

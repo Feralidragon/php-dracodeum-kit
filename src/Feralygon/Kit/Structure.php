@@ -19,10 +19,8 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Structure class.
+ * This class is the base to be extended from when creating a structure.
  * 
- * This class is the base to be extended from when creating a structure.<br>
- * <br>
  * A structure is a simple object which represents and stores multiple properties of multiple types.<br>
  * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
  * and may be retrieved and modified directly just like any public object property.<br>
@@ -75,7 +73,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	
 	
-	//Implemented final public methods (PHP JSON serializable interface)
+	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
 	final public function jsonSerialize()
 	{
@@ -84,7 +82,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	
 	
-	//Implemented public methods (stringifiable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Stringifiable)
 	/** {@inheritdoc} */
 	public function toString(?TextOptions $text_options = null) : string
 	{

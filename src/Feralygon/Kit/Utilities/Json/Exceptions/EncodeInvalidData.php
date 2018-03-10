@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Json\Exceptions;
 
 /**
- * JSON utility <code>encode</code> method invalid data exception class.
- * 
  * This exception is thrown from the JSON utility <code>encode</code> method whenever given data is invalid.
  * 
  * @since 1.0.0

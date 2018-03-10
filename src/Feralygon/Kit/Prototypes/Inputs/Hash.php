@@ -27,10 +27,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Hash input prototype class.
+ * This input prototype represents a hash, as a string in hexadecimal notation.
  * 
- * This input prototype represents a hash, as a string in hexadecimal notation, 
- * for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as a hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
@@ -72,7 +71,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
@@ -166,7 +165,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (input prototype modifiers interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{

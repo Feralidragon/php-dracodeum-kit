@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
 use Feralygon\Kit\Utilities\Data\Exception;
 
 /**
- * Data utility path not found exception class.
- * 
  * This exception is thrown from the data utility whenever a given path is not found.
  * 
  * @since 1.0.0

@@ -11,8 +11,6 @@ use Feralygon\Kit\Component\Exception;
 use Feralygon\Kit\Prototype;
 
 /**
- * Component invalid prototype class exception class.
- * 
  * This exception is thrown from a component whenever a given prototype class is invalid.
  * 
  * @since 1.0.0

@@ -12,8 +12,6 @@ use Feralygon\Kit\Traits\Readonly\Exceptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * Read-only trait.
- * 
  * This trait enables read-only support for a class.
  * 
  * @since 1.0.0

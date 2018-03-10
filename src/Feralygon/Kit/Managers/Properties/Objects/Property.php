@@ -20,8 +20,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Properties manager property object class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Managers\Properties
  */

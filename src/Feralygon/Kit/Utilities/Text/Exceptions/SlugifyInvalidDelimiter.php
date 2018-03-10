@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>slugify</code> method invalid delimiter exception class.
- * 
  * This exception is thrown from the text utility <code>slugify</code> method whenever a given delimiter is invalid.
  * 
  * @since 1.0.0

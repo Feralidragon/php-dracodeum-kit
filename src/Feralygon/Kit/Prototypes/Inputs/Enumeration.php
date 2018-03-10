@@ -22,10 +22,9 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Enumeration input prototype class.
+ * This input prototype represents an enumerated element, as an integer, float or string.
  * 
- * This input prototype represents an enumerated element, as an integer, float or string, 
- * for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as an enumerated element:<br>
  * &nbsp; &#8226; &nbsp; an integer, float or string as the enumerated element value;<br>
  * &nbsp; &#8226; &nbsp; a string as the enumerated element name.
  * 
@@ -115,7 +114,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -152,7 +151,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -161,7 +160,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
@@ -402,7 +401,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public methods (input prototype value stringification interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options) : string
 	{
@@ -412,7 +411,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	
 	
 	
-	//Implemented public methods (input prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

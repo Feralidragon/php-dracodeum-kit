@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Prototype\Interfaces;
 
 /**
- * Prototype functions interface.
- * 
  * This interface defines a method to retrieve function templates from a prototype.
  * 
  * @since 1.0.0

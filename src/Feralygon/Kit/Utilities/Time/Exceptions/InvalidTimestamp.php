@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Time\Exceptions;
 use Feralygon\Kit\Utilities\Time\Exception;
 
 /**
- * Time utility invalid timestamp exception class.
- * 
  * This exception is thrown from the time utility whenever a given timestamp is invalid.
  * 
  * @since 1.0.0

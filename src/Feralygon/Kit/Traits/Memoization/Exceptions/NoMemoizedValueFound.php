@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Memoization\Exceptions;
 use Feralygon\Kit\Traits\Memoization\Exception;
 
 /**
- * Memoization trait no memoized value found exception class.
- * 
  * This exception is thrown from a class or object using the memoization trait whenever no memoized value 
  * is found at a given key.
  * 

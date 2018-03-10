@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Exception <code>construct</code> method options class.
+ * Exception <code>construct</code> method options.
  * 
  * @since 1.0.0
  * @property string|null $message [default = null] <p>The message, 

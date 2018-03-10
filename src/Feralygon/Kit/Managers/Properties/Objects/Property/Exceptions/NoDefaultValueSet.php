@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
 use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
 
 /**
- * Properties manager property object no default value set exception class.
- * 
  * This exception is thrown from a property object whenever no default value has been set.
  * 
  * @since 1.0.0

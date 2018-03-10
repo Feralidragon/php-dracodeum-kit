@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\Byte\{
 };
 
 /**
- * Byte utility class.
- * 
  * This utility implements a set of methods used to retrieve information at the byte level.
  * 
  * @since 1.0.0

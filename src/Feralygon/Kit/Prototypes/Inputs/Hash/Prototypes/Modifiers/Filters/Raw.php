@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
 
 /**
- * Hash input raw filter modifier prototype class.
- * 
  * This filter prototype converts a hash string in hexadecimal notation into a raw binary string.
  * 
  * @since 1.0.0

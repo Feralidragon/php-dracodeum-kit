@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Interfaces;
 
 /**
- * Arrayable interface.
- * 
  * This interface defines a method to convert an object into an array.
  * 
  * @since 1.0.0

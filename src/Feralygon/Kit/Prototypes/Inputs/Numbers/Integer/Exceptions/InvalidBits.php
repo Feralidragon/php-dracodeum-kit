@@ -11,8 +11,6 @@ use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exception;
 use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer;
 
 /**
- * Integer number input prototype invalid bits exception class.
- * 
  * This exception is thrown from an integer number input whenever a given number of bits is invalid.
  * 
  * @since 1.0.0

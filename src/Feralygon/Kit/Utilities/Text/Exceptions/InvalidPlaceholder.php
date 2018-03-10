@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
 use Feralygon\Kit\Utilities\Text\Exception;
 
 /**
- * Text utility invalid placeholder exception class.
- * 
  * This exception is thrown from the text utility whenever a given placeholder is invalid.
  * 
  * @since 1.0.0

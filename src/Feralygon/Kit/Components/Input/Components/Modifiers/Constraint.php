@@ -13,8 +13,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Input constraint modifier component class.
- * 
  * This component represents a constraint modifier which checks an input value.
  * 
  * @since 1.0.0

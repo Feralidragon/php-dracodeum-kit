@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Exceptions;
 use Feralygon\Kit\Component\Exception;
 
 /**
- * Component prototype properties not allowed exception class.
- * 
  * This exception is thrown from a component whenever prototype properties are given although they are not allowed.
  * 
  * @since 1.0.0

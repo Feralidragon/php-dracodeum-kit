@@ -27,10 +27,9 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Date input prototype class.
+ * This input prototype represents a date, as an Unix timestamp.
  * 
- * This input prototype represents a date, as an Unix timestamp, 
- * for which only the following types of values may be evaluated as such:<br>
+ * Only the following types of values may be evaluated as a date:<br>
  * &nbsp; &#8226; &nbsp; an Unix timestamp;<br>
  * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP <code>strtotime</code> function.
  * 
@@ -68,7 +67,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	
 	
-	//Implemented public methods (input prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
 	{
@@ -129,7 +128,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	
 	
-	//Implemented public methods (input prototype value stringification interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options) : string
 	{
@@ -143,7 +142,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	
 	
-	//Implemented public methods (input prototype modifiers interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
 	{

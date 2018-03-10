@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Functions\Exceptions;
 use Feralygon\Kit\Traits\Functions\Exception;
 
 /**
- * Functions trait function already bound exception class.
- * 
  * This exception is thrown from an object using the functions trait whenever a given function has already been bound.
  * 
  * @since 1.0.0

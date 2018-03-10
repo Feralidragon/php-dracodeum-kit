@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\LazyProperties\Objects;
 use Feralygon\Kit\Managers\Properties\Objects\Property as ManagerProperty;
 
 /**
- * Lazy properties trait property object class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\LazyProperties
  */

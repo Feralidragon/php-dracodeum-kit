@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
 /**
- * Properties manager cannot unset required property exception class.
- * 
  * This exception is thrown from a properties manager whenever a given required property is attempted to be unset.
  * 
  * @since 1.0.0

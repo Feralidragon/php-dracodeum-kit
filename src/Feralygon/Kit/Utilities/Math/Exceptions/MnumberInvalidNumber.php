@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Math\Exceptions;
 
 /**
- * Math utility <code>mnumber</code> method invalid number exception class.
- * 
  * This exception is thrown from the math utility <code>mnumber</code> method whenever a given number is invalid.
  * 
  * @since 1.0.0

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
 use Feralygon\Kit\Utilities\Call\Exception;
 
 /**
- * Call utility not allowed exception class.
- * 
  * This exception is thrown from the call utility whenever a given function or method call is not allowed.
  * 
  * @since 1.0.0

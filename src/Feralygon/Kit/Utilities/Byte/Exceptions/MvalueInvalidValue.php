@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Byte\Exceptions;
 
 /**
- * Byte utility <code>mvalue</code> method invalid value exception class.
- * 
  * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
  * 
  * @since 1.0.0

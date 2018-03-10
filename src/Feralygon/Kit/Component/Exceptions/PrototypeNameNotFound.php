@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Exceptions;
 use Feralygon\Kit\Component\Exception;
 
 /**
- * Component prototype name not found exception class.
- * 
  * This exception is thrown from a component whenever a given prototype name is not found.
  * 
  * @since 1.0.0

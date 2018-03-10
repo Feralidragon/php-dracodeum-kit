@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Base64;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Base64 utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Base64
  */

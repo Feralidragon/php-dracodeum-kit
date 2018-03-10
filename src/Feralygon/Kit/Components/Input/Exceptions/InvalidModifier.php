@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Components\Input\Exceptions;
 use Feralygon\Kit\Components\Input\Exception;
 
 /**
- * Input component invalid modifier exception class.
- * 
  * This exception is thrown from an input whenever a given modifier is invalid.
  * 
  * @since 1.0.0

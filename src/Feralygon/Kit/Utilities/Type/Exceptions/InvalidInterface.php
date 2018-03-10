@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
 use Feralygon\Kit\Utilities\Type\Exception;
 
 /**
- * Type utility invalid interface exception class.
- * 
  * This exception is thrown from the type utility whenever a given interface is invalid.
  * 
  * @since 1.0.0

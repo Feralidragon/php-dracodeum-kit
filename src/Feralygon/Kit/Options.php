@@ -12,10 +12,8 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Options class.
+ * This class is the base to be extended from when creating options.
  * 
- * This class is the base to be extended from when creating options.<br>
- * <br>
  * An options instance is a simple object which holds a set of properties of different types, 
  * and is meant to be mainly used within a class method or function, 
  * by representing an additional set of optional parameters.<br>

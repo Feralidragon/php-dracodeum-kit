@@ -17,8 +17,6 @@ use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces as PrototypeIn
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Input modifier component class.
- * 
  * This component represents a modifier which alters the behavior of an input towards a given value, 
  * in the form of an additional constraint, filter or other.
  * 
@@ -84,7 +82,7 @@ abstract class Modifier extends Component
 	
 	
 	
-	//Implemented protected methods (component initialization trait)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\Initialization)
 	/** {@inheritdoc} */
 	protected function initialize() : void
 	{

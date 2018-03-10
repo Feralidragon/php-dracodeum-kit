@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>fill</code> method placeholder property identifier not found exception class.
- * 
  * This exception is thrown from the text utility <code>fill</code> method whenever 
  * a given placeholder property identifier is not found.
  * 

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\LazyProperties;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Lazy properties trait exception class.
- * 
  * @since 1.0.0
  * @property-read object $object <p>The object.</p>
  * @see \Feralygon\Kit\Traits\LazyProperties

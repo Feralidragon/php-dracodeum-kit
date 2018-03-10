@@ -12,8 +12,6 @@ use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Input component value coercion failed exception class.
- * 
  * This exception is thrown from an input whenever a value coercion has failed with a given value and prototype.
  * 
  * @since 1.0.0
@@ -32,7 +30,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * Text utility <code>truncate</code> method invalid length exception class.
- * 
  * This exception is thrown from the text utility <code>truncate</code> method whenever a given length is invalid.
  * 
  * @since 1.0.0

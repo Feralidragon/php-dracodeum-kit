@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Component\Traits;
 
 /**
- * Component pre-initialization trait.
- * 
  * This trait defines a method to pre-initialize a component.
  * 
  * @since 1.0.0

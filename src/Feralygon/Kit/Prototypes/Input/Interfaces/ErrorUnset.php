@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 
 /**
- * Input prototype error unset interface.
- * 
  * This interface defines a method to unset an error from an input prototype.
  * 
  * @since 1.0.0

@@ -11,8 +11,6 @@ use Feralygon\Kit\Factory\Exception;
 use Feralygon\Kit\Factory\Objects\Type;
 
 /**
- * Factory invalid object built exception class.
- * 
  * This exception is thrown from a factory whenever an invalid object has been built for a given type.
  * 
  * @since 1.0.0

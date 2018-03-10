@@ -11,8 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Managers\Properties as Manager;
 
 /**
- * Properties manager exception class.
- * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Properties $manager <p>The properties manager instance.</p>
  * @see \Feralygon\Kit\Managers\Properties

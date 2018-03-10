@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Byte;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Byte utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Byte
  */

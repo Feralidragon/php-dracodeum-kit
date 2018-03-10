@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Interfaces\Throwables;
 
 /**
- * Assertive throwable interface.
- * 
  * This interface defines no methods, as is only meant to group assertive throwables for catching purposes.
  * 
  * @since 1.0.0

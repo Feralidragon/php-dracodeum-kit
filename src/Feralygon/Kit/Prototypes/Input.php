@@ -15,8 +15,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 };
 
 /**
- * Input prototype class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
@@ -50,7 +48,7 @@ abstract class Input extends Prototype implements IFunctions
 	
 	
 	
-	//Implemented public methods (prototype functions interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Functions)
 	/** {@inheritdoc} */
 	public function getFunctionTemplate(string $name) : ?callable
 	{

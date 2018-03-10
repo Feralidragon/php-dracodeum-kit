@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Type;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Type utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Type
  */

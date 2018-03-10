@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
 /**
- * Properties manager cannot get write-once property exception class.
- * 
  * This exception is thrown from a properties manager whenever a given write-once property is attempted to be retrieved.
  * 
  * @since 1.0.0

@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Call\Exceptions;
 
 /**
- * Call utility parameter not allowed exception class.
- * 
  * This exception is thrown from the call utility whenever a given parameter from a given function or method call 
  * is not allowed.
  * 

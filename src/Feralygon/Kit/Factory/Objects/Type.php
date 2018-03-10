@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Factory type object class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Factory
  */

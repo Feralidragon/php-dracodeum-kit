@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\Math\{
 };
 
 /**
- * Math utility class.
- * 
  * This utility implements a set of methods used to perform calculations and generation of numbers.
  * 
  * @since 1.0.0

@@ -18,8 +18,6 @@ use Feralygon\Kit\Utilities\Call\{
 use Feralygon\Kit\Root\System;
 
 /**
- * Call utility class.
- * 
  * This utility implements a set of methods used to retrieve information from existing PHP functions, 
  * methods or callables.
  * 

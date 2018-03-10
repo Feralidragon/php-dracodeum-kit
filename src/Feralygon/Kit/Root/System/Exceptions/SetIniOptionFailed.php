@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Root\System\Exceptions;
 
 /**
- * Root system <code>setIniOption</code> method failed exception class.
- * 
  * This exception is thrown from the system <code>setIniOption</code> method whenever it has failed.
  * 
  * @since 1.0.0

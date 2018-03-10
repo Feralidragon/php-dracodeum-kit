@@ -20,8 +20,6 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Text input identifier constraint modifier prototype class.
- * 
  * This constraint prototype restricts a text or string to an identifier format.
  * 
  * @since 1.0.0
@@ -46,7 +44,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -59,7 +57,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{
@@ -68,7 +66,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	
 	
 	
-	//Implemented public methods (input modifier prototype name interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -77,7 +75,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	
 	
 	
-	//Implemented public methods (input modifier prototype information interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -255,7 +253,7 @@ class Identifier extends Constraint implements IPrototypeProperties, IName, IInf
 	
 	
 	
-	//Implemented public methods (input modifier prototype schema data interface)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

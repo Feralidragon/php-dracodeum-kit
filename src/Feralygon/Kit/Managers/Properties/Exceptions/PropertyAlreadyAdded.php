@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Managers\Properties\Exceptions;
 use Feralygon\Kit\Managers\Properties\Exception;
 
 /**
- * Properties manager property already added exception class.
- * 
  * This exception is thrown from a properties manager whenever a given property has already been added.
  * 
  * @since 1.0.0

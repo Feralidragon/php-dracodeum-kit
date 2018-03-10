@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 use Feralygon\Kit\Prototype;
 
 /**
- * Component prototype initialization trait.
- * 
  * This trait defines a method to initialize a prototype instance in a component.
  * 
  * @since 1.0.0

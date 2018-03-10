@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Time;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Time utility exception class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Time
  */

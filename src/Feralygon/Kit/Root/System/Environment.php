@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Root\System;
 use Feralygon\Kit\Traits as KitTraits;
 
 /**
- * Root system environment class.
- * 
  * This class is the base to be extended from when creating a system environment.
  * 
  * @since 1.0.0

@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Enumeration value coercion failed exception class.
- * 
  * This exception is thrown from an enumeration whenever the coercion into an enumerated element value 
  * has failed with a given value.
  * 
@@ -51,7 +49,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented public methods (coercive throwable interface)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
 	{

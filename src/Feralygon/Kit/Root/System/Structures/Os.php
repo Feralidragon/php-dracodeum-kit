@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Root\System\Structures;
 use Feralygon\Kit\Structure;
 
 /**
- * Root system OS (Operating System) structure class.
+ * Root system OS (Operating System) structure.
  * 
  * @since 1.0.0
  * @property string $name <p>The name.<br>

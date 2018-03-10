@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
 use Feralygon\Kit\Utilities\Data\Exception;
 
 /**
- * Data utility invalid depth exception class.
- * 
  * This exception is thrown from the data utility whenever a given depth is invalid.
  * 
  * @since 1.0.0

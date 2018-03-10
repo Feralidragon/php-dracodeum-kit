@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Text\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Text utility <code>mparse</code> method options class.
+ * Text utility <code>mparse</code> method options.
  * 
  * @since 1.0.0
  * @property bool $keep_nulls [default = false] <p>Keep the <code>null</code> values in the returned array.</p>

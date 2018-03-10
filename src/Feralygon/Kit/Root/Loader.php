@@ -11,8 +11,6 @@ use Feralygon\Kit\Root\Loader\Objects;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * Root loader class.
- * 
  * This class is used to statically set packages and autoload their classes.
  * 
  * @since 1.0.0

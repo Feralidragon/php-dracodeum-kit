@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Prototypes;
 use Feralygon\Kit\Prototype;
 
 /**
- * Input modifier prototype class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name

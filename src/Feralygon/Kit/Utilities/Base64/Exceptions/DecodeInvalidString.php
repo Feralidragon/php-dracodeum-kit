@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Utilities\Base64\Exceptions;
 
 /**
- * Base64 utility <code>decode</code> method invalid string exception class.
- * 
  * This exception is thrown from the Base64 utility <code>decode</code> method whenever a given string is invalid.
  * 
  * @since 1.0.0

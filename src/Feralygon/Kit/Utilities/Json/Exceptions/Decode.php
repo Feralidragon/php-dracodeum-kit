@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Json\Exceptions;
 use Feralygon\Kit\Utilities\Json\Exception;
 
 /**
- * JSON utility <code>decode</code> method exception class.
+ * JSON utility <code>decode</code> method exception.
  * 
  * @since 1.0.0
  */

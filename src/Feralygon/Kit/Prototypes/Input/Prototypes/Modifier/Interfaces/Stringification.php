@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Input modifier prototype stringification interface.
- * 
  * This interface defines a method to retrieve a string from an input modifier prototype.
  * 
  * @since 1.0.0

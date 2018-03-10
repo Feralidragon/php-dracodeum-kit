@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\NonInstantiable\Exceptions;
 use Feralygon\Kit\Traits\NonInstantiable\Exception;
 
 /**
- * Non-instantiable trait cannot instantiate exception class.
- * 
  * This exception is thrown from a class using the non-instantiable trait whenever the instantiation 
  * of a class is attempted.
  * 

@@ -14,8 +14,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Properties manager invalid mode exception class.
- * 
  * This exception is thrown from a properties manager whenever a given mode is invalid.
  * 
  * @since 1.0.0

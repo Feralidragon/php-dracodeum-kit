@@ -13,8 +13,6 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Text input truncate filter modifier prototype class.
- * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */

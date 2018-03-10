@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Readonly;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Read-only trait exception class.
- * 
  * @since 1.0.0
  * @property-read object $object <p>The object.</p>
  * @see \Feralygon\Kit\Traits\Readonly

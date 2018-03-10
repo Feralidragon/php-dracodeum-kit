@@ -12,8 +12,6 @@ use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Date and time input format filter modifier prototype class.
- * 
  * This filter prototype converts a date and time, as an Unix timestamp, into a string using a specific format.
  * 
  * @since 1.0.0
@@ -43,7 +41,7 @@ class Format extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public methods (prototype properties interface)
+	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public function buildProperty(string $name) : ?Property
 	{
@@ -56,7 +54,7 @@ class Format extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public static methods (prototype properties interface)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
 	/** {@inheritdoc} */
 	public static function getRequiredPropertyNames() : array
 	{

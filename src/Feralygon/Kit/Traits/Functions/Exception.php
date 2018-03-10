@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Traits\Functions;
 use Feralygon\Kit\Exception as KitException;
 
 /**
- * Functions trait exception class.
- * 
  * @since 1.0.0
  * @property-read object $object <p>The object.</p>
  * @see \Feralygon\Kit\Traits\Functions

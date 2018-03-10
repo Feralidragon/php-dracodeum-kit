@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Interfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * Stringifiable interface.
- * 
  * This interface defines a method to convert an object into a string.
  * 
  * @since 1.0.0

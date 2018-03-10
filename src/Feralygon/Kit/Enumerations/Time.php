@@ -15,8 +15,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * Time enumeration class.
- * 
  * This enumeration represents time values in seconds.
  * 
  * @since 1.0.0
@@ -233,7 +231,7 @@ class Time extends Enumeration
 	
 	
 	
-	//Implemented protected static methods (enumeration information trait)
+	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
 	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
 	{

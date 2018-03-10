@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
 
 /**
- * Date and time input ISO-8601 filter modifier prototype class.
- * 
  * This filter prototype converts a date and time, as an Unix timestamp, into a string using an ISO-8601 format.
  * 
  * @since 1.0.0

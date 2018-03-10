@@ -11,7 +11,7 @@ use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * Text utility <code>fill</code> method options class.
+ * Text utility <code>fill</code> method options.
  * 
  * @since 1.0.0
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $string_options [default = null] 

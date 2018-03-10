@@ -8,8 +8,6 @@
 namespace Feralygon\Kit\Traits;
 
 /**
- * No-constructor trait.
- * 
  * This trait removes the ability to implement a custom constructor for a class.
  * 
  * @since 1.0.0

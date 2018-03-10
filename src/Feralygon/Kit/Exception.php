@@ -12,10 +12,9 @@ use Feralygon\Kit\Exception\Options;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * Exception class.
- * 
  * This class is the base to be extended from when creating a throwable exception, 
- * and it extends the PHP <code>Exception</code> class to provide extra functionality.<br>
+ * and it extends the PHP <code>Exception</code> class to provide extra functionality.
+ * 
  * It also provides the means to define custom read-only properties and a default message.
  * 
  * @since 1.0.0

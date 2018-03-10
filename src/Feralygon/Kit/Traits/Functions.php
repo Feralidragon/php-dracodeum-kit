@@ -12,13 +12,11 @@ use Feralygon\Kit\Utilities\Call as UCall;
 use Feralygon\Kit\Root\System;
 
 /**
- * Functions trait.
+ * This trait enables the support for a separate layer of custom functions in a class.
  * 
- * This trait enables the support for a separate layer of custom functions in a class.<br>
  * All these functions have their signatures validated, and are meant to be bound to existing functions or methods.<br>
- * <br>
- * They may also be set as bind-once, 
- * so that any given already bound function with the same name cannot be rebound to another.
+ * They may also be set as bind-once, so that any given already bound function with the same name 
+ * cannot be rebound to another.
  * 
  * @since 1.0.0
  */
