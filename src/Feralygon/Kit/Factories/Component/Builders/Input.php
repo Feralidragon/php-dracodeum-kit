@@ -22,8 +22,8 @@ class Input extends Builder implements IBuilder
 {
 	//Implemented public methods (Feralygon\Kit\Factories\Component\Builder\Interfaces\Input)
 	/** {@inheritdoc} */
-	public function build($prototype, array $properties = [], array $prototype_properties = []) : Component
+	public function build($prototype, array $properties = []) : Component
 	{
-		return new Component($prototype, $properties, $prototype_properties);
+		return new Component($prototype, $properties);
 	}
 }

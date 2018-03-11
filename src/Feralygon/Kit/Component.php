@@ -14,6 +14,7 @@ use Feralygon\Kit\Component\{
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
+	Text as UText,
 	Type as UType
 };
 use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
@@ -92,18 +93,27 @@ abstract class Component
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototype|string|null $prototype [default = null] 
-	 * <p>The prototype instance, class or name.<br>
-	 * If not set, the base prototype class is used.</p>
+	 * @param \Feralygon\Kit\Prototype|array|string|null $prototype [default = null] <p>The prototype, 
+	 * which may be given in one of the following types or formats:<br>
+	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * If not set, the default prototype instance or the base prototype class is used.
+	 * </p>
 	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties, 
-	 * as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidBasePrototypeClass
+	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototype
 	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypeNameNotFound
 	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototypeClass
 	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypePropertiesNotAllowed
 	 */
-	final public function __construct($prototype = null, array $properties = [], array $prototype_properties = [])
+	final public function __construct($prototype = null, array $properties = [])
 	{
 		//prototype base class
 		$prototype_base_class = $this->getBasePrototypeClass();
@@ -114,29 +124,48 @@ abstract class Component
 			]);
 		}
 		
-		//prototype validation
+		//prepare prototype
+		$prototype_properties = [];
 		if (!isset($prototype)) {
-			$prototype = $this->buildDefaultPrototype($prototype_properties) ?? $prototype_base_class;
-		} else {
-			//build
-			if (is_string($prototype)) {
-				$instance = $this->buildPrototype($prototype, $prototype_properties);
-				if (isset($instance)) {
-					$prototype = $instance;
+			$prototype = $this->buildDefaultPrototype() ?? $prototype_base_class;
+		} elseif (is_array($prototype)) {
+			if (
+				count($prototype) === 2 && isset($prototype[0]) && isset($prototype[1]) && is_string($prototype[0]) && 
+				is_array($prototype[1])
+			) {
+				$prototype_properties = $prototype[1];
+				$prototype = $prototype[0];
+			} else {
+				$prototype_properties = $prototype;
+				$prototype = $this->buildDefaultPrototype($prototype_properties);
+				if (isset($prototype)) {
 					$prototype_properties = [];
-				} elseif (!class_exists($prototype)) {
-					throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
+				} else {
+					$prototype = $prototype_base_class;
 				}
 			}
-			
-			//check
-			if (!UType::isA($prototype, $prototype_base_class)) {
-				throw new Exceptions\InvalidPrototypeClass([
-					'component' => $this,
-					'class' => UType::class($prototype),
-					'base_class' => $prototype_base_class
-				]);
+		} elseif (!is_string($prototype) && !is_object($prototype)) {
+			throw new Exceptions\InvalidPrototype(['component' => $this, 'prototype' => $prototype]);
+		}
+		
+		//build prototype
+		if (is_string($prototype)) {
+			$instance = $this->buildPrototype($prototype, $prototype_properties);
+			if (isset($instance)) {
+				$prototype = $instance;
+				$prototype_properties = [];
+			} elseif (!class_exists($prototype)) {
+				throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
 			}
+		}
+		
+		//check prototype
+		if (!UType::isA($prototype, $prototype_base_class)) {
+			throw new Exceptions\InvalidPrototypeClass([
+				'component' => $this,
+				'class' => UType::class($prototype),
+				'base_class' => $prototype_base_class
+			]);
 		}
 		
 		//prototype instantiation
@@ -180,38 +209,67 @@ abstract class Component
 	/**
 	 * Evaluate a given value as an instance.
 	 * 
-	 * Only a component instance, prototype instance, class or name can be evaluated into an instance.
+	 * Only the following types and formats can be evaluated into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; a component instance;<br>
+	 * &nbsp; &#8226; &nbsp; a prototype instance, class or name;<br>
+	 * &nbsp; &#8226; &nbsp; a prototype <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a prototype <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a set of prototype properties, as <samp>name => value</samp> pairs.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties, array $prototype_properties) : \Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties) : \Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|string $prototype</b></code> : 
-	 * The prototype instance, class or name to build with.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|array|string $prototype</b></code> : 
+	 * The prototype to build with, which may be given in one of the following types or formats:<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; an instance, class or name;<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a set of properties, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : 
+	 * The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
+	 * The built instance.
+	 * </p>
+	 * @param callable|null $named_builder [default = null] <p>The function to build an instance for a given name.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (string $name, array $properties, array $prototype_properties) : ?\Feralygon\Kit\Component
+	 * </code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : 
+	 * The name to build for.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : 
 	 * The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : 
 	 * The prototype properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
-	 * The built instance.
+	 * Return: <code><b>\Feralygon\Kit\Component|null</b></code><br>
+	 * The built instance for the given name or <code>null</code> if none was built.
 	 * </p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, array $properties = [], array $prototype_properties = [], ?callable $builder = null,
+		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
 		bool $nullable = false
 	) : bool
 	{
 		try {
-			$value = static::coerce($value, $properties, $prototype_properties, $builder, $nullable);
+			$value = static::coerce($value, $properties, $builder, $named_builder, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -221,27 +279,56 @@ abstract class Component
 	/**
 	 * Coerce a given value into an instance.
 	 * 
-	 * Only a component instance, prototype instance, class or name can be coerced into an instance.
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; a component instance;<br>
+	 * &nbsp; &#8226; &nbsp; a prototype instance, class or name;<br>
+	 * &nbsp; &#8226; &nbsp; a prototype <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a prototype <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a set of prototype properties, as <samp>name => value</samp> pairs.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
 	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null] <p>The function to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties, array $prototype_properties) : \Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties) : \Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|string $prototype</b></code> : 
-	 * The prototype instance, class or name to build with.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|array|string $prototype</b></code> : 
+	 * The prototype to build with, which may be given in one of the following types or formats:<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; an instance, class or name;<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &nbsp; &nbsp; &#183; &nbsp; a set of properties, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : 
+	 * The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
+	 * The built instance.
+	 * </p>
+	 * @param callable|null $named_builder [default = null] <p>The function to build an instance for a given name.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (string $name, array $properties, array $prototype_properties) : ?\Feralygon\Kit\Component
+	 * </code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : 
+	 * The name to build for.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code> : 
 	 * The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $prototype_properties</b></code> : 
 	 * The prototype properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
-	 * The built instance.
+	 * Return: <code><b>\Feralygon\Kit\Component|null</b></code><br>
+	 * The built instance for the given name or <code>null</code> if none was built.
 	 * </p>
 	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\CoercionFailed
@@ -249,11 +336,11 @@ abstract class Component
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, array $properties = [], array $prototype_properties = [], ?callable $builder = null,
+		$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
 		bool $nullable = false
 	) : ?Component
 	{
-		//initialize
+		//check
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -266,31 +353,85 @@ abstract class Component
 			]);
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
-		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
+		} elseif (
+			!is_string($value) && !is_array($value) && (!is_object($value) || !UType::isA($value, Prototype::class))
+		) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a component instance, prototype instance, class or name " . 
-					"can be coerced into an instance."
+				'error_message' => "Only the following types and formats are allowed:\n" . 
+					" - a component instance;\n" . 
+					" - a prototype instance, class or name;\n" . 
+					" - a prototype \"class, properties\" array, " . 
+					"with the properties given as \"name => value\" pairs;\n" . 
+					" - a prototype \"name, properties\" array, " . 
+					"with the properties given as \"name => value\" pairs;\n" . 
+					" - a set of prototype properties, as \"name => value\" pairs."
 			]);
-		} elseif (is_object($value)) {
-			$prototype_properties = [];
+		}
+		
+		//named builder
+		if (
+			isset($named_builder) && (is_string($value) || (
+				is_array($value) && count($value) === 2 && isset($value[0]) && isset($value[1]) && 
+				is_string($value[0]) && is_array($value[1])
+			))
+		) {
+			//assert
+			UCall::assert(
+				'named_builder', $named_builder,
+				function (string $name, array $properties, array $prototype_properties) : ?Component {}, true
+			);
+			
+			//build
+			$name = is_array($value) ? $value[0] : $value;
+			$prototype_properties = is_array($value) ? $value[1] : [];
+			$instance = null;
+			try {
+				$instance = $named_builder($name, $properties, $prototype_properties);
+			} catch (\Exception $exception) {
+				throw new Exceptions\CoercionFailed([
+					'value' => $value,
+					'component' => static::class,
+					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+					'error_message' => $exception->getMessage()
+				]);
+			}
+			
+			//check
+			if (isset($instance)) {
+				try {
+					$instance = UType::coerceObject($instance, static::class);
+				} catch (UTypeExceptions\ObjectCoercionFailed $exception) {
+					throw new Exceptions\CoercionFailed([
+						'value' => $value,
+						'component' => static::class,
+						'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+						'error_message' => $exception->getMessage()
+					]);
+				}
+				return $instance;
+			} elseif (!class_exists($name)) {
+				throw new Exceptions\CoercionFailed([
+					'value' => $value,
+					'component' => static::class,
+					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+					'error_message' => UText::fill(
+						"Prototype name {{name}} has not been found.", ['name' => $name], null, [
+							'string_options' => ['quote_strings' => true]
+						]
+					)
+				]);
+			}
 		}
 		
 		//builder
 		if (isset($builder)) {
-			//assert
-			UCall::assert(
-				'builder', $builder,
-				function ($prototype, array $properties, array $prototype_properties) : Component {},
-				true
-			);
-			
-			//coerce
+			UCall::assert('builder', $builder, function ($prototype, array $properties) : Component {}, true);
 			try {
-				return UType::coerceObject($builder($value, $properties, $prototype_properties), static::class);
-			} catch (UTypeExceptions\ObjectCoercionFailed $exception) {
+				return UType::coerceObject($builder($value, $properties), static::class);
+			} catch (\Exception $exception) {
 				throw new Exceptions\CoercionFailed([
 					'value' => $value,
 					'component' => static::class,
@@ -302,7 +443,7 @@ abstract class Component
 		
 		//finish
 		try {
-			return new static($value, $properties, $prototype_properties);
+			return new static($value, $properties);
 		} catch (\Exception $exception) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
@@ -311,10 +452,7 @@ abstract class Component
 				'error_message' => $exception->getMessage()
 			]);
 		}
-		throw new Exceptions\CoercionFailed([
-			'value' => $value,
-			'component' => static::class
-		]);
+		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
 	}
 	
 	

@@ -172,17 +172,17 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(Constraints\Values::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Values($prototype_properties), $properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(
-					Constraints\Values::class, $properties, ['negate' => true] + $prototype_properties
+					new Constraints\Values(['negate' => true] + $prototype_properties), $properties
 				);
 			
 			//filters
 			case 'filters.raw':
-				return $this->createFilter(Filters\Raw::class, $properties, $prototype_properties);
+				return $this->createFilter(new Filters\Raw($prototype_properties), $properties);
 			case 'filters.base64':
-				return $this->createFilter(Filters\Base64::class, $properties, $prototype_properties);
+				return $this->createFilter(new Filters\Base64($prototype_properties), $properties);
 		}
 		return null;
 	}

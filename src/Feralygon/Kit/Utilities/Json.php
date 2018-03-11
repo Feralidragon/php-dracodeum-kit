@@ -34,10 +34,13 @@ final class Json extends Utility
 	 */
 	final public static function encode($data, $options = null) : string
 	{
+		//encode
 		$options = Options\Encode::coerce($options);
 		$encoded_data = isset($options->depth)
 			? json_encode($data, $options->flags, $options->depth)
 			: json_encode($data, $options->flags);
+		
+		//error
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
 			throw new Exceptions\EncodeInvalidData([
@@ -46,6 +49,8 @@ final class Json extends Utility
 				'error_message' => json_last_error_msg()
 			]);
 		}
+		
+		//return
 		return $encoded_data;
 	}
 	
@@ -61,10 +66,13 @@ final class Json extends Utility
 	 */
 	final public static function decode(string $data, $options = null)
 	{
+		//decode
 		$options = Options\Decode::coerce($options);
 		$decoded_data = isset($options->depth)
 			? json_decode($data, $options->associative, $options->depth, $options->flags)
 			: json_decode($data, $options->associative);
+		
+		//error
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
 			throw new Exceptions\DecodeInvalidData([
@@ -73,6 +81,8 @@ final class Json extends Utility
 				'error_message' => json_last_error_msg()
 			]);
 		}
+		
+		//return
 		return $decoded_data;
 	}
 }

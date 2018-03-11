@@ -54,9 +54,9 @@ abstract class Input extends Prototype implements IFunctions
 	{
 		switch ($name) {
 			case 'createConstraint':
-				return function ($prototype, array $properties, array $prototype_properties) : Constraint {};
+				return function ($prototype, array $properties) : Constraint {};
 			case 'createFilter':
-				return function ($prototype, array $properties, array $prototype_properties) : Filter {};
+				return function ($prototype, array $properties) : Filter {};
 		}
 		return null;
 	}
@@ -68,39 +68,49 @@ abstract class Input extends Prototype implements IFunctions
 	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
-	 * <p>The constraint prototype instance, class or name to create with.</p>
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|array|string $prototype 
+	 * <p>The constraint prototype, which may be given in one of the following types or formats:<br>
+	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
+	 * </p>
 	 * @param array $properties [default = []] <p>The constraint properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The constraint prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint 
 	 * <p>The created constraint instance with the given prototype.</p>
 	 */
-	protected function createConstraint(
-		$prototype, array $properties = [], array $prototype_properties = []
-	) : Constraint
+	protected function createConstraint($prototype, array $properties = []) : Constraint
 	{
-		return $this->call('createConstraint', $prototype, $properties, $prototype_properties);
+		return $this->call('createConstraint', $prototype, $properties);
 	}
 	
 	/**
 	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
-	 * <p>The filter prototype instance, class or name to create with.</p>
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|array|string $prototype 
+	 * <p>The filter prototype, which may be given in one of the following types or formats:<br>
+	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
+	 * with the properties given as <samp>name => value</samp> pairs 
+	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
+	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
+	 * </p>
 	 * @param array $properties [default = []] <p>The filter properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The filter prototype properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter 
 	 * <p>The created filter instance with the given prototype.</p>
 	 */
-	protected function createFilter(
-		$prototype, array $properties = [], array $prototype_properties = []
-	) : Filter
+	protected function createFilter($prototype, array $properties = []) : Filter
 	{
-		return $this->call('createFilter', $prototype, $properties, $prototype_properties);
+		return $this->call('createFilter', $prototype, $properties);
 	}
 }

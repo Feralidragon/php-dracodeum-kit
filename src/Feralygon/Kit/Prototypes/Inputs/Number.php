@@ -149,54 +149,49 @@ class Number extends Input implements IInformation, IModifiers
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(Constraints\Values::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Values($prototype_properties), $properties);
 			case 'constraints.non_values':
 				return $this->createConstraint(
-					Constraints\Values::class, $properties, ['negate' => true] + $prototype_properties
+					new Constraints\Values(['negate' => true] + $prototype_properties), $properties
 				);
 			case 'constraints.minimum':
-				return $this->createConstraint(Constraints\Minimum::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Minimum($prototype_properties), $properties);
 			case 'constraints.positive':
 				return $this->createConstraint(
-					Constraints\Minimum::class,
-					$properties,
-					['value' => 0, 'exclusive' => true] + $prototype_properties
+					new Constraints\Minimum(['value' => 0, 'exclusive' => true] + $prototype_properties), $properties
 				);
 			case 'constraints.maximum':
-				return $this->createConstraint(Constraints\Maximum::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Maximum($prototype_properties), $properties);
 			case 'constraints.negative':
 				return $this->createConstraint(
-					Constraints\Maximum::class,
-					$properties,
-					['value' => 0, 'exclusive' => true] + $prototype_properties
+					new Constraints\Maximum(['value' => 0, 'exclusive' => true] + $prototype_properties), $properties
 				);
 			case 'constraints.range':
-				return $this->createConstraint(Constraints\Range::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Range($prototype_properties), $properties);
 			case 'constraints.non_range':
 				return $this->createConstraint(
-					Constraints\Range::class, $properties, ['negate' => true] + $prototype_properties
+					new Constraints\Range(['negate' => true] + $prototype_properties), $properties
 				);
 			case 'constraints.multiples':
-				return $this->createConstraint(Constraints\Multiples::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Multiples($prototype_properties), $properties);
 			case 'constraints.non_multiples':
 				return $this->createConstraint(
-					Constraints\Multiples::class, $properties, ['negate' => true] + $prototype_properties
+					new Constraints\Multiples(['negate' => true] + $prototype_properties), $properties
 				);
 			case 'constraints.even':
 				return $this->createConstraint(
-					Constraints\Multiples::class, $properties, ['multiples' => [2]] + $prototype_properties
+					new Constraints\Multiples(['multiples' => [2]] + $prototype_properties), $properties
 				);
 			case 'constraints.odd':
 				return $this->createConstraint(
-					Constraints\Multiples::class,
-					$properties,
-					['multiples' => [2], 'negate' => true] + $prototype_properties
+					new Constraints\Multiples(['multiples' => [2], 'negate' => true] + $prototype_properties),
+					$properties
 				);
 			case 'constraints.powers':
-				return $this->createConstraint(Constraints\Powers::class, $properties, $prototype_properties);
+				return $this->createConstraint(new Constraints\Powers($prototype_properties), $properties);
 			case 'constraints.non_powers':
 				return $this->createConstraint(
-					Constraints\Powers::class, $properties, ['negate' => true] + $prototype_properties
+					new Constraints\Powers(['negate' => true] + $prototype_properties), $properties
 				);
 		}
 		return null;
