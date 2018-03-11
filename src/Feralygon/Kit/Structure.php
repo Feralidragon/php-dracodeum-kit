@@ -104,15 +104,12 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * with the same properties.</p>
 	 * @param bool $readonly [default = false] <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
-	final public static function evaluate(
-		&$value, bool $clone = false, bool $readonly = false, bool $nullable = false
-	) : bool
+	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false) : bool
 	{
 		try {
-			$value = static::coerce($value, $clone, $readonly, $nullable);
+			$value = static::coerce($value, $clone, $readonly);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -131,18 +128,14 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * with the same properties.</p>
 	 * @param bool $readonly [default = false] <p>Coerce into a read-only instance.<br>
 	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
-	 * @return static|null <p>The given value coerced into an instance.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * @return static <p>The given value coerced into an instance.</p>
 	 */
-	final public static function coerce(
-		$value, bool $clone = false, bool $readonly = false, bool $nullable = false
-	) : ?Structure
+	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Structure
 	{
 		try {
 			if (!isset($value)) {
-				return $nullable ? null : new static([], $readonly);
+				return new static([], $readonly);
 			} elseif (is_array($value)) {
 				return new static($value, $readonly);
 			} elseif (is_object($value) && $value instanceof Structure) {
