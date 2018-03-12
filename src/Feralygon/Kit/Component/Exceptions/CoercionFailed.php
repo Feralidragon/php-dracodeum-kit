@@ -25,9 +25,6 @@ use Feralygon\Kit\Utilities\{
 class CoercionFailed extends Exception implements ICoercive
 {
 	//Public constants
-	/** Null error code. */
-	public const ERROR_CODE_NULL = 'NULL';
-	
 	/** Invalid type error code. */
 	public const ERROR_CODE_INVALID_TYPE = 'INVALID_TYPE';
 	
@@ -81,7 +78,6 @@ class CoercionFailed extends Exception implements ICoercive
 		$this->addProperty('error_code')
 			->setEvaluator(function (&$value) : bool {
 				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
-					self::ERROR_CODE_NULL,
 					self::ERROR_CODE_INVALID_TYPE,
 					self::ERROR_CODE_BUILD_EXCEPTION
 				], true));

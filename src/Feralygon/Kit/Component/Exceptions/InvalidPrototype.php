@@ -22,11 +22,7 @@ class InvalidPrototype extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Invalid prototype {{prototype}} for component {{component}}.\n" . 
-			"HINT: Only the following types and formats are allowed:\n" . 
-			" - an instance, class or name;\n" . 
-			" - a \"class, properties\" array, with the properties given as \"name => value\" pairs;\n" . 
-			" - a \"name, properties\" array, with the properties given as \"name => value\" pairs;\n" . 
-			" - a set of properties, as \"name => value\" pairs.";
+			"HINT: Only an instance, class or name is allowed.";
 	}
 	
 	

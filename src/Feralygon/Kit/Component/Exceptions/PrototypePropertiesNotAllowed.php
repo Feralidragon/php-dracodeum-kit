@@ -21,7 +21,7 @@ class PrototypePropertiesNotAllowed extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Prototype properties not allowed in component {{component}}.\n" . 
-			"HINT: Prototype properties are only allowed whenever the prototype is given as a class " . 
-			"or not given at all.";
+			"HINT: Prototype specific properties are only allowed whenever the prototype is given as a class, " . 
+			"a name or not given at all.";
 	}
 }

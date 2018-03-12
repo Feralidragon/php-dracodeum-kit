@@ -40,17 +40,8 @@ class Component extends Factory
 	 * Build input instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input|array|string $prototype <p>The input prototype to build with, 
-	 * which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
-	 * </p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * <p>The input prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []] <p>The input properties to build with, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input <p>The built input instance with the given prototype.</p>

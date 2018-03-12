@@ -517,17 +517,8 @@ class Input extends Component
 	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|array|string $prototype 
-	 * <p>The constraint prototype, which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
-	 * </p>
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
+	 * <p>The constraint prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []] <p>The constraint properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint 
@@ -542,17 +533,8 @@ class Input extends Component
 	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|array|string $prototype 
-	 * <p>The filter prototype, which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
-	 * </p>
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
+	 * <p>The filter prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []] <p>The filter properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter 
@@ -793,16 +775,10 @@ class Input extends Component
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|array|string $modifier 
-	 * <p>The modifier to add, which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; a component instance;<br>
-	 * &nbsp; &#8226; &nbsp; a prototype name;<br>
-	 * &nbsp; &#8226; &nbsp; a prototype <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>).
-	 * </p>
-	 * @param array $properties [default = []] <p>The modifier component properties to use if a component instance 
-	 * is not given, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier 
+	 * <p>The modifier component instance or name to add.</p>
+	 * @param array $properties [default = []] <p>The modifier properties to use if a component name is given, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addModifier($modifier, array $properties = []) : Input
@@ -913,19 +889,9 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Prototypes\Input|array|string $prototype <p>The prototype to evaluate with, 
-	 * which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
-	 * </p>
-	 * @param array $properties [default = []] <p>The component properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * <p>The prototype instance, class or name to evaluate with.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated 
 	 * with the given prototype.</p>
 	 */
@@ -944,19 +910,9 @@ class Input extends Component
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Prototypes\Input|array|string $prototype <p>The prototype to coerce with, 
-	 * which may be given in one of the following types or formats:<br>
-	 * &nbsp; &#8226; &nbsp; an instance, class or name;<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>class, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>[Prototype::class, ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a <samp>name, properties</samp> array, 
-	 * with the properties given as <samp>name => value</samp> pairs 
-	 * (example: <samp>['proto_name', ['name1' => 'value1', 'name2' => 'value2']]</samp>);<br>
-	 * &nbsp; &#8226; &nbsp; a set of properties, as <samp>name => value</samp> pairs.
-	 * </p>
-	 * @param array $properties [default = []] <p>The component properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * <p>The prototype instance, class or name to coerce with.</p>
+	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ValueCoercionFailed
 	 * @return mixed <p>The given value coerced with the given prototype.</p>
 	 */
