@@ -342,6 +342,9 @@ class Properties
 	 * @since 1.0.0
 	 * @param array $properties [default = []] <p>The properties to initialize with, 
 	 * as <samp>name => value</samp> pairs.</p>
+	 * @param array|null $remaining [reference output] [default = null] <p>If set, it is gracefully filled with all  
+	 * properties, from the given <var>$properties</var> above, which have not been found, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\AlreadyInitialized
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\NoBuilderSet
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\MissingRequiredProperties
@@ -349,8 +352,13 @@ class Properties
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize(array $properties = []) : Properties
+	final public function initialize(array $properties = [], ?array &$remaining = null) : Properties
 	{
+		//pre-initialize
+		if (isset($remaining)) {
+			$remaining = [];
+		}
+		
 		//validate
 		if ($this->initialized) {
 			throw new Exceptions\AlreadyInitialized(['manager' => $this]);
@@ -383,6 +391,12 @@ class Properties
 			
 			//properties (set value)
 			foreach ($properties as $name => $value) {
+				//remaining
+				if (isset($remaining) && !$this->hasProperty($name)) {
+					$remaining[$name] = $value;
+					continue;
+				}
+				
 				//property
 				$property = $this->getProperty($name);
 				if ($property->getMode() === 'r') {
@@ -425,19 +439,7 @@ class Properties
 	 */
 	final public function has(string $name) : bool
 	{
-		//check
-		$has = isset($this->properties[$name]);
-		if ($has || !$this->lazy) {
-			return $has;
-		}
-		
-		//get
-		try {
-			$this->getProperty($name);
-		} catch (Exceptions\PropertyNotFound $exception) {
-			return false;
-		}
-		return true;
+		return $this->hasProperty($name);
 	}
 	
 	/**
@@ -597,19 +599,16 @@ class Properties
 	
 	//Final protected methods
 	/**
-	 * Get property instance from a given name.
+	 * Check if has property with a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to get from.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @param string $name <p>The property name to check for.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyManagerMismatch
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property 
-	 * <p>The property instance from the given name.</p>
+	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
-	final protected function getProperty(string $name) : Objects\Property
+	final protected function hasProperty(string $name) : bool
 	{
-		//initialize
 		if (!isset($this->properties[$name])) {
 			//build
 			$property = null;
@@ -620,9 +619,9 @@ class Properties
 				}
 			}
 			
-			//validate
+			//check
 			if (!isset($property)) {
-				throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
+				return false;
 			} elseif ($property->getName() !== $name) {
 				throw new Exceptions\PropertyNameMismatch([
 					'manager' => $this, 'name' => $name, 'property' => $property
@@ -634,8 +633,23 @@ class Properties
 			//set
 			$this->properties[$name] = $property;
 		}
-		
-		//return
+		return true;
+	}
+	
+	/**
+	 * Get property instance from a given name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name <p>The property name to get from.</p>
+	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property 
+	 * <p>The property instance from the given name.</p>
+	 */
+	final protected function getProperty(string $name) : Objects\Property
+	{
+		if (!$this->hasProperty($name)) {
+			throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
+		}
 		return $this->properties[$name];
 	}
 }

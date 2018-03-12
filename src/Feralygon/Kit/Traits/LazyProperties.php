@@ -285,11 +285,14 @@ trait LazyProperties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
 	 * </p>
+	 * @param array|null $remaining [reference output] [default = null] <p>If set, it is gracefully filled with all  
+	 * properties, from the given <var>$properties</var> above, which have not been found, 
+	 * as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Traits\LazyProperties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
 	 */
 	final private function initializeProperties(
-		 callable $builder, array $properties = [], array $required = [], string $mode = 'rw'
+		 callable $builder, array $properties = [], array $required = [], string $mode = 'rw', ?array &$remaining = null
 	) : void
 	{
 		//manager
@@ -315,7 +318,7 @@ trait LazyProperties
 		}
 		
 		//initialize
-		$this->properties_manager->initialize($properties);
+		$this->properties_manager->initialize($properties, $remaining);
 	}
 	
 	/**
