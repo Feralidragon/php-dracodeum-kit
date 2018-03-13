@@ -26,7 +26,8 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
-	Text as UText
+	Text as UText,
+	Type as UType
 };
 
 /**
@@ -779,6 +780,9 @@ class Input extends Component
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []] <p>The modifier properties to use if a component name is given, 
 	 * as <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
+	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidModifier
+	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierPropertiesNotAllowed
 	 * @return $this <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addModifier($modifier, array $properties = []) : Input
@@ -788,12 +792,26 @@ class Input extends Component
 			'hint_message' => "This method may only be called before initialization."
 		]);
 		
-		//coerce
+		//validate and build
 		$prototype = $this->getPrototype();
-		$named_builder = $prototype instanceof PrototypeInterfaces\Modifiers
-			? \Closure::fromCallable([$prototype, 'buildModifier'])
-			: null;
-		$modifier = Components\Modifier::coerce($modifier, $properties, null, $named_builder);
+		if (is_string($modifier)) {
+			$instance = $prototype instanceof PrototypeInterfaces\Modifiers
+				? $prototype->buildModifier($modifier, $properties)
+				: null;
+			if (isset($instance)) {
+				$modifier = $instance;
+			} else {
+				throw new Exceptions\ModifierNameNotFound([
+					'name' => $modifier, 'component' => $this, 'prototype' => $prototype
+				]);
+			}
+		} elseif (!is_object($modifier) || !UType::isA($modifier, Components\Modifier::class)) {
+			throw new Exceptions\InvalidModifier([
+				'modifier' => $modifier, 'component' => $this, 'prototype' => $prototype
+			]);
+		} elseif (!empty($properties)) {
+			throw new Exceptions\ModifierPropertiesNotAllowed(['component' => $this, 'prototype' => $prototype]);
+		}
 		
 		//add
 		$priority = $modifier->getPriority();
