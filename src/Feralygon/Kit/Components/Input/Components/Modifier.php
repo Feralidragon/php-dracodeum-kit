@@ -40,8 +40,10 @@ abstract class Modifier extends Component
 	 * Handle the evaluation of a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to handle the evaluation of (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is evaluated as being valid.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to handle the evaluation of (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is evaluated as being valid.</p>
 	 */
 	abstract protected function handleValueEvaluation(&$value) : bool;
 	
@@ -51,8 +53,10 @@ abstract class Modifier extends Component
 	 * The returning error message is the one used by default when the value evaluation fails.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string <p>The default error message.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The default error message.</p>
 	 */
 	abstract protected function getDefaultErrorMessage(TextOptions $text_options) : string;
 	
@@ -67,7 +71,8 @@ abstract class Modifier extends Component
 	 * even if any one of them fails.
 	 * 
 	 * @since 1.0.0
-	 * @return int <p>The base priority.</p>
+	 * @return int
+	 * <p>The base priority.</p>
 	 */
 	abstract protected static function getBasePriority() : int;
 	
@@ -105,7 +110,8 @@ abstract class Modifier extends Component
 	 * The returning name is a canonical string, which uniquely identifies this modifier within an input.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The name or <code>null</code> if none exists.</p>
+	 * @return string|null
+	 * <p>The name or <code>null</code> if none exists.</p>
 	 */
 	public function getName() : ?string
 	{
@@ -117,9 +123,10 @@ abstract class Modifier extends Component
 	 * Get label.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The label or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The label or <code>null</code> if none exists.</p>
 	 */
 	public function getLabel($text_options = null) : ?string
 	{
@@ -135,9 +142,10 @@ abstract class Modifier extends Component
 	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The message or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The message or <code>null</code> if none exists.</p>
 	 */
 	public function getMessage($text_options = null) : ?string
 	{
@@ -154,9 +162,10 @@ abstract class Modifier extends Component
 	 * If no such properties are set, <code>null</code> is returned instead.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The string or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The string or <code>null</code> if none exists.</p>
 	 */
 	public function getString($text_options = null) : ?string
 	{
@@ -172,9 +181,10 @@ abstract class Modifier extends Component
 	 * The returning error message is only set if a previous <code>evaluateValue</code> method call has failed.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The error message or <code>null</code> if no error is set.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */
 	public function getErrorMessage($text_options = null) : ?string
 	{
@@ -200,7 +210,8 @@ abstract class Modifier extends Component
 	 * Unset error.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if an error was previously set.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if an error was previously set.</p>
 	 */
 	public function unsetError() : bool
 	{
@@ -224,8 +235,8 @@ abstract class Modifier extends Component
 	 * The returning schema describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema|null <p>The schema instance 
-	 * or <code>null</code> if none exists.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema|null
+	 * <p>The schema instance or <code>null</code> if none exists.</p>
 	 */
 	public function getSchema() : ?Structures\Schema
 	{
@@ -247,8 +258,10 @@ abstract class Modifier extends Component
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	final public function evaluateValue(&$value) : bool
 	{
@@ -268,7 +281,8 @@ abstract class Modifier extends Component
 	 * Modifiers with the same priority should be grouped together and be all executed, even if any one of them fails.
 	 * 
 	 * @since 1.0.0
-	 * @return int <p>The priority.</p>
+	 * @return int
+	 * <p>The priority.</p>
 	 */
 	final public function getPriority() : int
 	{

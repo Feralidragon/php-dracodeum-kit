@@ -17,8 +17,10 @@ use Feralygon\Kit\Components\Input;
  * This factory is used to build component instances.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Factories\Component\Builder\Interfaces\Input [builder interface, type = 'input']
- * @see \Feralygon\Kit\Factories\Component\Builders\Input [builder, type = 'input']
+ * @see \Feralygon\Kit\Factories\Component\Builder\Interfaces\Input
+ * [builder interface, type = 'input']
+ * @see \Feralygon\Kit\Factories\Component\Builders\Input
+ * [builder, type = 'input']
  */
 class Component extends Factory
 {
@@ -40,11 +42,12 @@ class Component extends Factory
 	 * Build input instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The input prototype instance, class or name to build with.</p>
-	 * @param array $properties [default = []] <p>The input properties to build with, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input <p>The built input instance with the given prototype.</p>
+	 * @param array $properties [default = []]
+	 * <p>The input properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Components\Input
+	 * <p>The built input instance with the given prototype.</p>
 	 */
 	public static function input($prototype, array $properties = []) : Input
 	{

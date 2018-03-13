@@ -15,8 +15,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This exception is thrown from an input whenever a value coercion has failed with a given value and prototype.
  * 
  * @since 1.0.0
- * @property-read mixed $value <p>The value.</p>
- * @property-read string $error_message <p>The error message.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
+ * @property-read string $error_message
+ * <p>The error message.</p>
  */
 class ValueCoercionFailed extends Exception implements ICoercive
 {

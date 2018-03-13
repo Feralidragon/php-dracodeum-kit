@@ -20,8 +20,10 @@ interface Functions
 	 * Get function template for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The function name to get for.</p>
-	 * @return callable|null <p>The function template for the given name or <code>null</code> if none exists.</p>
+	 * @param string $name
+	 * <p>The function name to get for.</p>
+	 * @return callable|null
+	 * <p>The function template for the given name or <code>null</code> if none exists.</p>
 	 */
 	public function getFunctionTemplate(string $name) : ?callable;
 }

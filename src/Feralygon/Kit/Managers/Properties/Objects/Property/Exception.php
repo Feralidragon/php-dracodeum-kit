@@ -12,7 +12,8 @@ use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property <p>The property instance.</p>
+ * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * <p>The property instance.</p>
  * @see \Feralygon\Kit\Managers\Properties\Objects\Property
  */
 abstract class Exception extends KitException

@@ -44,12 +44,15 @@ trait Functions
 	 * This method may only be called after the functions initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The function name to bind to.</p>
-	 * @param callable $function <p>The function to bind.</p>
+	 * @param string $name
+	 * <p>The function name to bind to.</p>
+	 * @param callable $function
+	 * <p>The function to bind.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionAlreadyBound
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\InvalidFunction
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function bind(string $name, callable $function) : object
 	{
@@ -92,10 +95,13 @@ trait Functions
 	 * This method may only be called after the functions initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The function name to call.</p>
-	 * @param mixed ...$arguments <p>The function arguments to call with.</p>
+	 * @param string $name
+	 * <p>The function name to call.</p>
+	 * @param mixed ...$arguments
+	 * <p>The function arguments to call with.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
-	 * @return mixed <p>The returning value from the called function with the given name.</p>
+	 * @return mixed
+	 * <p>The returning value from the called function with the given name.</p>
 	 */
 	final protected function call(string $name, ...$arguments)
 	{
@@ -115,17 +121,19 @@ trait Functions
 	 * Initialize functions with a given templater function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $templater <p>The function to retrieve the function template for a given name.<br>
+	 * @param callable $templater
+	 * <p>The function to retrieve the function template for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?callable</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code> : The function name to retrieve the template for.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The function name to retrieve the template for.<br>
 	 * <br>
 	 * Return: <code><b>callable|null</b></code><br>
-	 * The function template for the given name or <code>null</code> if none exists.
-	 * </p>
-	 * @param bool $bindonce [default = false] <p>Set functions as bind-once.</p>
+	 * The function template for the given name or <code>null</code> if none exists.</p>
+	 * @param bool $bindonce [default = false]
+	 * <p>Set functions as bind-once.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionsAlreadyInitialized
 	 * @return void
 	 */

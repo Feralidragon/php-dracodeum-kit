@@ -14,8 +14,10 @@ use Feralygon\Kit\Managers\Properties\Objects\Property;
  * This exception is thrown from a properties manager whenever a given value is invalid for a given property.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property <p>The property instance.</p>
- * @property-read mixed $value <p>The value.</p>
+ * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * <p>The property instance.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
  */
 class InvalidPropertyValue extends Exception
 {

@@ -11,8 +11,10 @@ namespace Feralygon\Kit\Root\System\Exceptions;
  * This exception is thrown from the system <code>setIniOption</code> method whenever it has failed.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The option name.</p>
- * @property-read mixed $value <p>The option value.</p>
+ * @property-read string $name
+ * <p>The option name.</p>
+ * @property-read mixed $value
+ * <p>The option value.</p>
  */
 class SetIniOptionFailed extends SetIniOption
 {

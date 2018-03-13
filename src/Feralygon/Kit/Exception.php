@@ -32,8 +32,9 @@ abstract class Exception extends \Exception implements IArrayable
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Exception\Options\Construct|array|null $options [default = null] 
+	 * @param array $properties [default = []]
+	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Exception\Options\Construct|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [], $options = null)
@@ -87,7 +88,8 @@ abstract class Exception extends \Exception implements IArrayable
 	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The default message.</p>
+	 * @return string
+	 * <p>The default message.</p>
 	 */
 	abstract public function getDefaultMessage() : string;
 	
@@ -109,9 +111,12 @@ abstract class Exception extends \Exception implements IArrayable
 	 * Get string from a given placeholder value.
 	 * 
 	 * @since 1.0.0
-	 * @param string $placeholder <p>The placeholder to get from.</p>
-	 * @param mixed $value <p>The value to get from.</p>
-	 * @return string <p>The string from the given placeholder value.</p>
+	 * @param string $placeholder
+	 * <p>The placeholder to get from.</p>
+	 * @param mixed $value
+	 * <p>The value to get from.</p>
+	 * @return string
+	 * <p>The string from the given placeholder value.</p>
 	 */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{

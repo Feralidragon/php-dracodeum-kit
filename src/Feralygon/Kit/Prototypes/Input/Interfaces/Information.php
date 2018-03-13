@@ -24,9 +24,12 @@ interface Information
 	 * Get label.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options <p>The info options instance to use.</p>
-	 * @return string <p>The label.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
+	 * <p>The info options instance to use.</p>
+	 * @return string
+	 * <p>The label.</p>
 	 */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string;
 	
@@ -34,9 +37,12 @@ interface Information
 	 * Get description.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options <p>The info options instance to use.</p>
-	 * @return string <p>The description.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
+	 * <p>The info options instance to use.</p>
+	 * @return string
+	 * <p>The description.</p>
 	 */
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string;
 	
@@ -47,9 +53,12 @@ interface Information
 	 * It may also be used as an error message if the value evaluation fails.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options <p>The info options instance to use.</p>
-	 * @return string <p>The message.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
+	 * <p>The info options instance to use.</p>
+	 * @return string
+	 * <p>The message.</p>
 	 */
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string;
 }

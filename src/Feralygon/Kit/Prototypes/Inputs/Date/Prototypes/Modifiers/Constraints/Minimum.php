@@ -38,9 +38,7 @@ class Minimum extends Constraints\Minimum
 			 */
 			return UText::localize(
 				"Only a date after {{value}} is allowed.",
-				self::class, $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
+				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		/**
@@ -49,9 +47,7 @@ class Minimum extends Constraints\Minimum
 		 */
 		return UText::localize(
 			"Only a date after or on {{value}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
+			self::class, $text_options, ['parameters' => ['value' => $value_string]]
 		);
 	}
 	

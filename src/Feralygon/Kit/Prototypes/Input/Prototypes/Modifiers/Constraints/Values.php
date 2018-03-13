@@ -23,9 +23,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to a set of allowed values.
  * 
  * @since 1.0.0
- * @property array $values <p>The allowed values to restrict to.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, 
- * so the given allowed values act as disallowed values instead.</p>
+ * @property array $values
+ * <p>The allowed values to restrict to.</p>
+ * @property bool $negate [default = false]
+ * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  */
 class Values extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -163,8 +164,10 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	protected function evaluateValue(&$value) : bool
 	{
@@ -175,9 +178,12 @@ class Values extends Constraint implements IPrototypeProperties, IName, IInforma
 	 * Generate a string from a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate a string from.</p>
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string <p>The generated string from the given value.</p>
+	 * @param mixed $value
+	 * <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The generated string from the given value.</p>
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{

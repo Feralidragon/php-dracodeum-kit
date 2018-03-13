@@ -22,7 +22,8 @@ trait PrototypeInitialization
 	 * Initialize prototype instance.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototype $prototype <p>The prototype instance to initialize.</p>
+	 * @param \Feralygon\Kit\Prototype $prototype
+	 * <p>The prototype instance to initialize.</p>
 	 * @return void
 	 */
 	protected function initializePrototype(Prototype $prototype) : void {}

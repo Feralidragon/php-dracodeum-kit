@@ -33,7 +33,8 @@ abstract class Input extends Prototype implements IFunctions
 	 * The returning name must be a canonical string, which uniquely identifies this input.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	abstract public function getName() : string;
 	
@@ -41,8 +42,10 @@ abstract class Input extends Prototype implements IFunctions
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	abstract public function evaluateValue(&$value) : bool;
 	
@@ -68,11 +71,11 @@ abstract class Input extends Prototype implements IFunctions
 	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The constraint prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []] <p>The constraint properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint 
+	 * @param array $properties [default = []]
+	 * <p>The constraint properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The created constraint instance with the given prototype.</p>
 	 */
 	protected function createConstraint($prototype, array $properties = []) : Constraint
@@ -84,11 +87,11 @@ abstract class Input extends Prototype implements IFunctions
 	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The filter prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []] <p>The filter properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter 
+	 * @param array $properties [default = []]
+	 * <p>The filter properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The created filter instance with the given prototype.</p>
 	 */
 	protected function createFilter($prototype, array $properties = []) : Filter

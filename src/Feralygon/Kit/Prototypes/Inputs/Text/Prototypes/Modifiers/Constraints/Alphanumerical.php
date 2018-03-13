@@ -22,7 +22,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a text or string to alphanumerical characters.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false] <p>Check as an Unicode text or string.</p>
+ * @property bool $unicode [default = false]
+ * <p>Check as an Unicode text or string.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Alphanumerical extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData

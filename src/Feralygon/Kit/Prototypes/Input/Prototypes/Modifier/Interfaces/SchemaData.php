@@ -23,7 +23,8 @@ interface SchemaData
 	 * for example, returning some of its properties as <samp>name => value</samp> pairs.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The schema data.</p>
+	 * @return mixed
+	 * <p>The schema data.</p>
 	 */
 	public function getSchemaData();
 }

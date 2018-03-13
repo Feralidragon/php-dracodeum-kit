@@ -37,17 +37,17 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Values 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Minimum 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Minimum
  * [modifier, name = 'constraints.minimum']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Maximum 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Maximum
  * [modifier, name = 'constraints.maximum']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Range 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Range
  * [modifier, name = 'constraints.range' or 'constraints.non_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Format 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Format
  * [modifier, name = 'filters.format']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Iso8601 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Iso8601
  * [modifier, name = 'filters.iso8601']
  */
 class DateTime extends Input implements IInformation, IValueStringification, IModifiers
@@ -187,8 +187,10 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 	 * Get notation strings.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The notation strings.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The notation strings.</p>
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{
@@ -206,9 +208,7 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 			 */
 			$strings[] = UText::localize(
 				"Unix timestamp (example: {{example}})",
-				self::class, $text_options, [
-					'parameters' => ['example' => 1484484300]
-				]
+				self::class, $text_options, ['parameters' => ['example' => 1484484300]]
 			);
 			
 			//iso 8601

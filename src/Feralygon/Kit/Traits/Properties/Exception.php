@@ -11,7 +11,8 @@ use Feralygon\Kit\Exception as KitException;
 
 /**
  * @since 1.0.0
- * @property-read object $object <p>The object.</p>
+ * @property-read object $object
+ * <p>The object.</p>
  * @see \Feralygon\Kit\Traits\Properties
  */
 abstract class Exception extends KitException

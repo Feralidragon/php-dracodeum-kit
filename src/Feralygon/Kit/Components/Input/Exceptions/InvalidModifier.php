@@ -15,7 +15,8 @@ use Feralygon\Kit\Components\Input\Exception;
  * This exception is thrown from an input whenever a given modifier is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $modifier <p>The modifier.</p>
+ * @property-read mixed $modifier
+ * <p>The modifier.</p>
  */
 class InvalidModifier extends Exception
 {

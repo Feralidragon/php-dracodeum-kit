@@ -39,43 +39,45 @@ use Feralygon\Kit\Utilities\{
  * Only an integer, float or string may be evaluated as a text or string.
  * 
  * @since 1.0.0
- * @property-read bool $unicode [default = false] <p>Set as Unicode text.</p>
- * @property-read bool $trim [default = false] <p>Trim the given text or string from whitespace.</p>
+ * @property-read bool $unicode [default = false]
+ * <p>Set as Unicode text.</p>
+ * @property-read bool $trim [default = false]
+ * <p>Trim the given text or string from whitespace.</p>
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Wildcards 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Wildcards
  * [modifier, name = 'constraints.wildcards' or 'constraints.non_wildcards']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\NonEmpty 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\NonEmpty
  * [modifier, name = 'constraints.non_empty']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Length 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Length
  * [modifier, name = 'constraints.length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MinLength 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MinLength
  * [modifier, name = 'constraints.min_length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MaxLength 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MaxLength
  * [modifier, name = 'constraints.max_length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange
  * [modifier, name = 'constraints.length_range']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase
  * [modifier, name = 'constraints.lowercase']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase
  * [modifier, name = 'constraints.uppercase']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical
  * [modifier, name = 'constraints.alphabetical']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical
  * [modifier, name = 'constraints.numerical']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical
  * [modifier, name = 'constraints.alphanumerical']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Identifier 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Identifier
  * [modifier, name = 'constraints.identifier']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
  * [modifier, name = 'constraints.hexadecimal']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase
  * [modifier, name = 'filters.lowercase']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase 
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase
  * [modifier, name = 'filters.uppercase']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers

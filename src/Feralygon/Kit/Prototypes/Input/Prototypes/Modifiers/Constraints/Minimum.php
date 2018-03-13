@@ -23,8 +23,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to a minimum value.
  * 
  * @since 1.0.0
- * @property mixed $value <p>The minimum allowed value to restrict to (inclusive).</p>
- * @property bool $exclusive [default = false] <p>Set the minimum allowed value as exclusive, 
+ * @property mixed $value
+ * <p>The minimum allowed value to restrict to (inclusive).</p>
+ * @property bool $exclusive [default = false]
+ * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  */
 class Minimum extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
@@ -101,9 +103,7 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			 */
 			return UText::localize(
 				"Only a value greater than {{value}} is allowed.",
-				self::class, $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
+				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		/**
@@ -112,9 +112,7 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 		 */
 		return UText::localize(
 			"Only a value greater than or equal to {{value}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
+			self::class, $text_options, ['parameters' => ['value' => $value_string]]
 		);
 	}
 	
@@ -132,9 +130,7 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 			 */
 			return UText::localize(
 				"{{value}} (exclusive)",
-				self::class, $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
+				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		return $value_string;
@@ -159,8 +155,10 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	protected function evaluateValue(&$value) : bool
 	{
@@ -171,9 +169,12 @@ class Minimum extends Constraint implements IPrototypeProperties, IName, IInform
 	 * Generate a string from a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate a string from.</p>
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string <p>The generated string from the given value.</p>
+	 * @param mixed $value
+	 * <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The generated string from the given value.</p>
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{

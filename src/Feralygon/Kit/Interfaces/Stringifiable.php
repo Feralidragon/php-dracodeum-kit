@@ -21,8 +21,10 @@ interface Stringifiable
 	 * Convert this object into a string.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|null $text_options [default = null] <p>The text options instance to use.</p>
-	 * @return string <p>This object converted into a string.</p>
+	 * @param \Feralygon\Kit\Options\Text|null $text_options [default = null]
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>This object converted into a string.</p>
 	 */
 	public function toString(?TextOptions $text_options = null) : string;
 }

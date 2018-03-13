@@ -12,7 +12,8 @@ use Feralygon\Kit\Component;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Component|string $component <p>The component instance or class.</p>
+ * @property-read \Feralygon\Kit\Component|string $component
+ * <p>The component instance or class.</p>
  * @see \Feralygon\Kit\Component
  */
 abstract class Exception extends KitException

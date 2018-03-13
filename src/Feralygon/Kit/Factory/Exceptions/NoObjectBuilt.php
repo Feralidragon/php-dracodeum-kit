@@ -14,7 +14,8 @@ use Feralygon\Kit\Factory\Objects\Type;
  * This exception is thrown from a factory whenever no object has been built for a given type.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
+ * @property-read \Feralygon\Kit\Factory\Objects\Type $type
+ * <p>The type instance.</p>
  */
 class NoObjectBuilt extends Exception
 {

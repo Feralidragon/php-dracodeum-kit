@@ -14,8 +14,10 @@ use Feralygon\Kit\Factory\Objects\Type;
  * This exception is thrown from a factory whenever an invalid object has been built for a given type.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
- * @property-read mixed $object <p>The object.</p>
+ * @property-read \Feralygon\Kit\Factory\Objects\Type $type
+ * <p>The type instance.</p>
+ * @property-read mixed $object
+ * <p>The object.</p>
  */
 class InvalidObjectBuilt extends Exception
 {

@@ -25,10 +25,10 @@ trait DefaultPrototype
 	 * If none is built, the base prototype class is used instead.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Prototype|null <p>The built default prototype instance 
-	 * or <code>null</code> if none was built.</p>
+	 * @param array $properties [default = []]
+	 * <p>The prototype properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Prototype|null
+	 * <p>The built default prototype instance or <code>null</code> if none was built.</p>
 	 */
 	protected function buildDefaultPrototype(array $properties = []) : ?Prototype
 	{

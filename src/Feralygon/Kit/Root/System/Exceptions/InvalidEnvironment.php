@@ -13,7 +13,8 @@ use Feralygon\Kit\Root\System\Exception;
  * This exception is thrown from the system whenever a given environment is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $environment <p>The environment.</p>
+ * @property-read mixed $environment
+ * <p>The environment.</p>
  */
 class InvalidEnvironment extends Exception
 {

@@ -30,7 +30,8 @@ abstract class Environment
 	 * to be used to select which configuration profile to use.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	abstract public function getName() : string;
 	
@@ -42,7 +43,8 @@ abstract class Environment
 	 * and a higher memory footprint.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is debug.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is debug.</p>
 	 */
 	abstract public function isDebug() : bool;
 	

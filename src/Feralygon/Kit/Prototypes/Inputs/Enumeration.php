@@ -29,17 +29,22 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a string as the enumerated element name.
  * 
  * @since 1.0.0
- * @property-read string $enumeration <p>The enumeration class to use.</p>
- * @property-read int[]|float[]|string[] $values [default = []] <p>The enumerated element values to restrict to.</p>
- * @property-read int[]|float[]|string[] $non_values [default = []] 
+ * @property-read string $enumeration
+ * <p>The enumeration class to use.</p>
+ * @property-read int[]|float[]|string[] $values [default = []]
+ * <p>The enumerated element values to restrict to.</p>
+ * @property-read int[]|float[]|string[] $non_values [default = []]
  * <p>The enumerated element values to restrict from.</p>
- * @property-read bool $names_only [default = false] <p>Only allow enumerated element names to be set.</p>
- * @property-read bool $values_only [default = false] <p>Only allow enumerated element values to be set.</p>
- * @property-read bool $hide_names [default = false] <p>Hide enumerated element names in labels, 
- * descriptions and messages.</p>
- * @property-read bool $hide_values [default = false] <p>Hide enumerated element values in labels, 
- * descriptions and messages.</p>
- * @property-read bool $namify [default = false] <p>Set as an enumerated element name.</p>
+ * @property-read bool $names_only [default = false]
+ * <p>Only allow enumerated element names to be set.</p>
+ * @property-read bool $values_only [default = false]
+ * <p>Only allow enumerated element values to be set.</p>
+ * @property-read bool $hide_names [default = false]
+ * <p>Hide enumerated element names in labels, descriptions and messages.</p>
+ * @property-read bool $hide_values [default = false]
+ * <p>Hide enumerated element values in labels, descriptions and messages.</p>
+ * @property-read bool $namify [default = false]
+ * <p>Set as an enumerated element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
 class Enumeration extends Input implements IPrototypeProperties, IInformation, IValueStringification, ISchemaData
@@ -223,9 +228,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		 */
 		return UText::localize(
 			"Enumeration {\n{{labels}}\n}",
-			self::class, $text_options, [
-				'parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]
-			]
+			self::class, $text_options, ['parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]]
 		);
 	}
 	
@@ -438,7 +441,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Check if names can be shown.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if names can be shown.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if names can be shown.</p>
 	 */
 	protected function canShowNames() : bool
 	{
@@ -449,7 +453,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Check if values can be shown.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if values can be shown.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if values can be shown.</p>
 	 */
 	protected function canShowValues() : bool
 	{
@@ -460,7 +465,8 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Get enumerated element names values.
 	 * 
 	 * @since 1.0.0
-	 * @return int[]|float[]|string[] <p>The enumerated element names values, as <samp>name => value</samp> pairs.</p>
+	 * @return int[]|float[]|string[]
+	 * <p>The enumerated element names values, as <samp>name => value</samp> pairs.</p>
 	 */
 	protected function getNamesValues() : array
 	{
@@ -496,8 +502,10 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	 * Get enumerated element names descriptions.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The enumerated element names descriptions, as <samp>name => description</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The enumerated element names descriptions, as <samp>name => description</samp> pairs.</p>
 	 */
 	protected function getNamesDescriptions(TextOptions $text_options) : array
 	{

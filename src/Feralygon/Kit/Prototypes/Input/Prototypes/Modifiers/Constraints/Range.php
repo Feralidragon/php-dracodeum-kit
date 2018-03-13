@@ -23,14 +23,18 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to a range of values.
  * 
  * @since 1.0.0
- * @property mixed $min_value <p>The minimum allowed value to restrict to (inclusive).</p>
- * @property mixed $max_value <p>The maximum allowed value to restrict to (inclusive).</p>
- * @property bool $min_exclusive [default = false] <p>Set the minimum allowed value as exclusive, 
+ * @property mixed $min_value
+ * <p>The minimum allowed value to restrict to (inclusive).</p>
+ * @property mixed $max_value
+ * <p>The maximum allowed value to restrict to (inclusive).</p>
+ * @property bool $min_exclusive [default = false]
+ * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property bool $max_exclusive [default = false] <p>Set the maximum allowed value as exclusive, 
+ * @property bool $max_exclusive [default = false]
+ * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, 
- * so the given allowed range of values acts as a disallowed range of values instead.</p>
+ * @property bool $negate [default = false]
+ * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {
@@ -311,8 +315,10 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	protected function evaluateValue(&$value) : bool
 	{
@@ -323,9 +329,12 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 	 * Generate a string from a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate a string from.</p>
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string <p>The generated string from the given value.</p>
+	 * @param mixed $value
+	 * <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The generated string from the given value.</p>
 	 */
 	protected function stringifyValue($value, TextOptions $text_options) : string
 	{

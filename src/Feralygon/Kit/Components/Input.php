@@ -34,36 +34,37 @@ use Feralygon\Kit\Utilities\{
  * This component represents an input which can check, sanitize and hold a value.
  * 
  * @since 1.0.0
- * @property-read bool $nullable [default = false] <p>Allow a <code>null</code> value to be set.</p>
+ * @property-read bool $nullable [default = false]
+ * <p>Allow a <code>null</code> value to be set.</p>
  * @see \Feralygon\Kit\Prototypes\Input
- * @see \Feralygon\Kit\Prototypes\Inputs\Boolean 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Boolean
  * [prototype, name = 'boolean' or 'bool']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Crc32 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Crc32
  * [prototype, name = 'crc32']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Md5 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Md5
  * [prototype, name = 'md5']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha1 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha1
  * [prototype, name = 'sha1']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha256 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha256
  * [prototype, name = 'sha256']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha512 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha512
  * [prototype, name = 'sha512']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number
  * [prototype, name = 'number']
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Float64 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Float64
  * [prototype, name = 'float64' or 'float' or 'double']
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer
  * [prototype, name = 'integer' or 'int' or 'uint' or 'int64' or 'uint63' or 'int32' or 'uint32' or 'uint31' or 
  * 'int16' or 'uint16' or 'uint15' or 'int8' or 'uint8' or 'uint7']
- * @see \Feralygon\Kit\Prototypes\Inputs\Enumeration 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Enumeration
  * [prototype, name = 'enumeration' or 'enum']
- * @see \Feralygon\Kit\Prototypes\Inputs\Text 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text
  * [prototype, name = 'text' or 'string']
- * @see \Feralygon\Kit\Prototypes\Inputs\Date 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Date
  * [prototype, name = 'date']
- * @see \Feralygon\Kit\Prototypes\Inputs\Time 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Time
  * [prototype, name = 'time']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime 
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  * [prototype, name = 'datetime' or 'timestamp']
  */
 class Input extends Component
@@ -215,7 +216,8 @@ class Input extends Component
 	 * The returning name is a canonical string, which uniquely identifies this input.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	public function getName() : string
 	{
@@ -226,9 +228,10 @@ class Input extends Component
 	 * Get value string.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The value string.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The value string.</p>
 	 */
 	public function getValueString($text_options = null) : string
 	{
@@ -244,11 +247,12 @@ class Input extends Component
 	 * Get label.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null] 
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
 	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The label.</p>
+	 * @return string
+	 * <p>The label.</p>
 	 */
 	public function getLabel($text_options = null, $info_options = null) : string
 	{
@@ -288,9 +292,10 @@ class Input extends Component
 	 * Get default null label.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The default null label or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The default null label or <code>null</code> if none exists.</p>
 	 */
 	public function getDefaultNullLabel($text_options = null) : ?string
 	{
@@ -306,11 +311,12 @@ class Input extends Component
 	 * Get description.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null] 
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
 	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The description or <code>null</code> if none exists.</p>
+	 * @return string|null
+	 * <p>The description or <code>null</code> if none exists.</p>
 	 */
 	public function getDescription($text_options = null, $info_options = null) : ?string
 	{
@@ -350,9 +356,10 @@ class Input extends Component
 	 * Get default null description.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The default null description or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The default null description or <code>null</code> if none exists.</p>
 	 */
 	public function getDefaultNullDescription($text_options = null) : ?string
 	{
@@ -371,11 +378,12 @@ class Input extends Component
 	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null] 
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
 	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The message or <code>null</code> if none exists.</p>
+	 * @return string|null
+	 * <p>The message or <code>null</code> if none exists.</p>
 	 */
 	public function getMessage($text_options = null, $info_options = null) : ?string
 	{
@@ -415,9 +423,10 @@ class Input extends Component
 	 * Get default null message.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The default null message or <code>null</code> if none exists.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The default null message or <code>null</code> if none exists.</p>
 	 */
 	public function getDefaultNullMessage($text_options = null) : ?string
 	{
@@ -436,9 +445,10 @@ class Input extends Component
 	 * The returning error message is only set if a previous <code>setValue</code> method call has failed.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null <p>The error message or <code>null</code> if no error is set.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */
 	public function getErrorMessage($text_options = null) : ?string
 	{
@@ -476,9 +486,10 @@ class Input extends Component
 	 * Get default error message.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The default error message.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The default error message.</p>
 	 */
 	public function getDefaultErrorMessage($text_options = null) : string
 	{
@@ -489,7 +500,8 @@ class Input extends Component
 	 * Unset error.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if an error was previously set.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if an error was previously set.</p>
 	 */
 	public function unsetError() : bool
 	{
@@ -518,11 +530,11 @@ class Input extends Component
 	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype 
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The constraint prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []] <p>The constraint properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint 
+	 * @param array $properties [default = []]
+	 * <p>The constraint properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The created constraint instance with the given prototype.</p>
 	 */
 	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
@@ -534,11 +546,11 @@ class Input extends Component
 	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype 
+	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The filter prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []] <p>The filter properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter 
+	 * @param array $properties [default = []]
+	 * <p>The filter properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The created filter instance with the given prototype.</p>
 	 */
 	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
@@ -552,7 +564,8 @@ class Input extends Component
 	 * The returning schema describes this input by using a structure.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Components\Input\Structures\Schema <p>The schema instance.</p>
+	 * @return \Feralygon\Kit\Components\Input\Structures\Schema
+	 * <p>The schema instance.</p>
 	 */
 	public function getSchema() : Structures\Schema
 	{
@@ -574,7 +587,8 @@ class Input extends Component
 	 * An input is only considered to have been initialized after a value has been set.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is initialized.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
 	final public function isInitialized() : bool
 	{
@@ -587,7 +601,8 @@ class Input extends Component
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The value.</p>
+	 * @return mixed
+	 * <p>The value.</p>
 	 */
 	final public function getValue()
 	{
@@ -604,8 +619,10 @@ class Input extends Component
 	 * Set value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to set.</p>
-	 * @return bool <p>Boolean <code>true</code> if the value was set successfully.</p>
+	 * @param mixed $value
+	 * <p>The value to set.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the value was set successfully.</p>
 	 */
 	final public function setValue($value) : bool
 	{
@@ -672,7 +689,8 @@ class Input extends Component
 	 * By unsetting the value, the input reverts back to an uninitialized state.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if a value was previously set.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if a value was previously set.</p>
 	 */
 	final public function unsetValue() : bool
 	{
@@ -688,7 +706,8 @@ class Input extends Component
 	 * Check if is nullable.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is nullable.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is nullable.</p>
 	 */
 	final public function isNullable() : bool
 	{
@@ -699,7 +718,8 @@ class Input extends Component
 	 * Get modifier instances.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifier[] <p>The modifier instances.</p>
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifier[]
+	 * <p>The modifier instances.</p>
 	 */
 	final public function getModifiers() : array
 	{
@@ -716,9 +736,10 @@ class Input extends Component
 	 * Get modifier labels.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string[] <p>The modifier labels.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string[]
+	 * <p>The modifier labels.</p>
 	 */
 	final public function getModifierLabels($text_options = null) : array
 	{
@@ -737,9 +758,7 @@ class Input extends Component
 					 */
 					$labels[] = UText::localize(
 						"{{label}}: {{string}}",
-						self::class, $text_options, [
-							'parameters' => ['label' => $label, 'string' => $string]
-						]
+						self::class, $text_options, ['parameters' => ['label' => $label, 'string' => $string]]
 					);
 				} else {
 					$labels[] = $label;
@@ -753,9 +772,10 @@ class Input extends Component
 	 * Get modifier messages.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string[] <p>The modifier messages.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string[]
+	 * <p>The modifier messages.</p>
 	 */
 	final public function getModifierMessages($text_options = null) : array
 	{
@@ -776,14 +796,15 @@ class Input extends Component
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier 
+	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
-	 * @param array $properties [default = []] <p>The modifier properties to use if a component name is given, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []]
+	 * <p>The modifier properties to use if a component name is given, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidModifier
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierPropertiesNotAllowed
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addModifier($modifier, array $properties = []) : Input
 	{
@@ -829,30 +850,33 @@ class Input extends Component
 	 * Add value evaluator function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $evaluator <p>The function to evaluate a given value with.<br>
+	 * @param callable $evaluator
+	 * <p>The function to evaluate a given value with.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value, ?callable &$error_messenger) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The value to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>callable|null $error_messenger</b> [reference output]</code> : 
-	 * The set error messenger function to retrieve the error message from, 
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>callable|null $error_messenger</b> [reference output]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The set error messenger function to retrieve the error message from, 
 	 * when the given value is not successfully evaluated, with the following characteristics:<br>
 	 * &nbsp; &nbsp; &#8594; signature: 
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
 	 * &nbsp; &nbsp; &#8594; parameters:<br>
-	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>\Feralygon\Kit\Options\Text $text_options</code> : 
-	 * The text options instance to use.<br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>\Feralygon\Kit\Options\Text $text_options</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
 	 * &nbsp; &nbsp; &#8594; return: <code>string|null</code><br>
-	 * &nbsp; &nbsp; &nbsp; &nbsp; The error message or <code>null</code> if no error is set.<br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The error message or <code>null</code> if no error is set.<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.
-	 * </p>
-	 * @param int $priority [default = 0] <p>The priority to execute the given evaluator function with.</p>
-	 * @param bool $before_modifiers [default = false] <p>Execute the given evaluator function before the modifiers.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param int $priority [default = 0]
+	 * <p>The priority to execute the given evaluator function with.</p>
+	 * @param bool $before_modifiers [default = false]
+	 * <p>Execute the given evaluator function before the modifiers.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addValueEvaluator(
 		callable $evaluator, int $priority = 0, bool $before_modifiers = false
@@ -871,7 +895,8 @@ class Input extends Component
 	 * Check if has an error.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if has an error.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has an error.</p>
 	 */
 	final public function hasError() : bool
 	{
@@ -884,7 +909,7 @@ class Input extends Component
 	 * The returning schemas describe the modifiers from this input by using structures.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] 
+	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[]
 	 * <p>The modifier schema instances.</p>
 	 */
 	final public function getModifierSchemas() : array
@@ -906,12 +931,14 @@ class Input extends Component
 	 * Evaluate a given value with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to evaluate with.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated 
-	 * with the given prototype.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated with the given prototype.</p>
 	 */
 	final public static function evaluateValue(&$value, $prototype, array $properties = []) : bool
 	{
@@ -927,12 +954,15 @@ class Input extends Component
 	 * Coerce a given value with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype 
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to coerce with.</p>
-	 * @param array $properties [default = []] <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ValueCoercionFailed
-	 * @return mixed <p>The given value coerced with the given prototype.</p>
+	 * @return mixed
+	 * <p>The given value coerced with the given prototype.</p>
 	 */
 	final public static function coerceValue($value, $prototype, array $properties = [])
 	{
@@ -955,10 +985,12 @@ class Input extends Component
 	 * Evaluate a given value with value evaluators.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $before_modifiers [default = false] <p>Execute the evaluator functions set to be executed 
-	 * before the modifiers.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $before_modifiers [default = false]
+	 * <p>Execute the evaluator functions set to be executed before the modifiers.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
 	 */
 	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false) : bool
 	{

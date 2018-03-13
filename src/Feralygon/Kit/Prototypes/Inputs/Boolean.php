@@ -118,8 +118,10 @@ class Boolean extends Input implements IInformation
 	 * Get <code>false</code> value strings.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The <code>false</code> value strings.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The <code>false</code> value strings.</p>
 	 */
 	protected function getFalseValueStrings(TextOptions $text_options) : array
 	{
@@ -130,8 +132,10 @@ class Boolean extends Input implements IInformation
 	 * Get <code>true</code> value strings.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The <code>true</code> value strings.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The <code>true</code> value strings.</p>
 	 */
 	protected function getTrueValueStrings(TextOptions $text_options) : array
 	{

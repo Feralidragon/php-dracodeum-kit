@@ -13,7 +13,8 @@ use Feralygon\Kit\Traits\Functions\Exception;
  * This exception is thrown from an object using the functions trait whenever a given function is not found.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The function name.</p>
+ * @property-read string $name
+ * <p>The function name.</p>
  */
 class FunctionNotFound extends Exception
 {

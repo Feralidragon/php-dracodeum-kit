@@ -8,17 +8,17 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions;
 
 use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exception;
-use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer;
 
 /**
  * This exception is thrown from an integer number input whenever a given number of bits is invalid.
  * 
  * @since 1.0.0
- * @property-read int $bits <p>The number of bits.</p>
- * @property-read int $max_bits <p>The maximum allowed number of bits.</p>
- * @property-read \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer $prototype 
- * <p>The integer number input prototype instance.</p>
- * @property-read bool $unsigned [default = false] <p>Handle as an unsigned integer.</p>
+ * @property-read int $bits
+ * <p>The number of bits.</p>
+ * @property-read int $max_bits
+ * <p>The maximum allowed number of bits.</p>
+ * @property-read bool $unsigned [default = false]
+ * <p>Handle as an unsigned integer.</p>
  */
 class InvalidBits extends Exception
 {
@@ -35,13 +35,16 @@ class InvalidBits extends Exception
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function buildProperties() : void
 	{
+		//parent
+		parent::buildProperties();
+		
+		//properties
 		$this->addProperty('bits')->setAsInteger()->setAsRequired();
 		$this->addProperty('max_bits')->setAsInteger()->setAsRequired();
-		$this->addProperty('prototype')->setAsStrictObject(Integer::class)->setAsRequired();
 		$this->addProperty('unsigned')->setAsBoolean()->setDefaultValue(false);
 	}
 }

@@ -12,7 +12,8 @@ use Feralygon\Kit\Managers\Properties as Manager;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties $manager <p>The properties manager instance.</p>
+ * @property-read \Feralygon\Kit\Managers\Properties $manager
+ * <p>The properties manager instance.</p>
  * @see \Feralygon\Kit\Managers\Properties
  */
 abstract class Exception extends KitException

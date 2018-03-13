@@ -14,8 +14,10 @@ use Feralygon\Kit\Prototype;
  * This exception is thrown from a component whenever a given prototype class is invalid.
  * 
  * @since 1.0.0
- * @property-read string $class <p>The class.</p>
- * @property-read string $base_class <p>The prototype base class.</p>
+ * @property-read string $class
+ * <p>The class.</p>
+ * @property-read string $base_class
+ * <p>The prototype base class.</p>
  */
 class InvalidPrototypeClass extends Exception
 {

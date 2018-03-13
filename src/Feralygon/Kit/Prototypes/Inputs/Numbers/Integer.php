@@ -41,8 +41,10 @@ use Feralygon\Kit\Utilities\{
  * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
  * 
  * @since 1.0.0
- * @property-read bool $unsigned [default = false] <p>Set as an unsigned integer.</p>
- * @property-read int|null $bits [default = null] <p>The number of bits to use.<br>
+ * @property-read bool $unsigned [default = false]
+ * <p>Set as an unsigned integer.</p>
+ * @property-read int|null $bits [default = null]
+ * <p>The number of bits to use.<br>
  * If set, it must be greater than <code>0</code>.<br>
  * <br>
  * For signed integers, the maximum allowed number is <code>64</code>, 
@@ -234,9 +236,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 */
 				return UText::localize(
 					"An integer number greater than or equal to {{minimum}}.",
-					self::class, $text_options, [
-						'parameters' => ['minimum' => $this->minimum]
-					]
+					self::class, $text_options, ['parameters' => ['minimum' => $this->minimum]]
 				);
 			} elseif (isset($this->maximum)) {
 				/**
@@ -246,9 +246,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 */
 				return UText::localize(
 					"An integer number less than or equal to {{maximum}}.",
-					self::class, $text_options, [
-						'parameters' => ['maximum' => $this->maximum]
-					]
+					self::class, $text_options, ['parameters' => ['maximum' => $this->maximum]]
 				);
 			}
 			/** @tags end-user */
@@ -390,9 +388,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 */
 				return UText::localize(
 					"Only an integer number greater than or equal to {{minimum}} is allowed.",
-					self::class, $text_options, [
-						'parameters' => ['minimum' => $this->minimum]
-					]
+					self::class, $text_options, ['parameters' => ['minimum' => $this->minimum]]
 				);
 			} elseif (isset($this->maximum)) {
 				/**
@@ -402,9 +398,7 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 				 */
 				return UText::localize(
 					"Only an integer number less than or equal to {{maximum}} is allowed.",
-					self::class, $text_options, [
-						'parameters' => ['maximum' => $this->maximum]
-					]
+					self::class, $text_options, ['parameters' => ['maximum' => $this->maximum]]
 				);
 			}
 			/** @tags end-user */

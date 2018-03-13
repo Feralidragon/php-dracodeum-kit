@@ -12,7 +12,8 @@ use Feralygon\Kit\Options;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Options|string $options <p>The options instance or class.</p>
+ * @property-read \Feralygon\Kit\Options|string $options
+ * <p>The options instance or class.</p>
  * @see \Feralygon\Kit\Options
  */
 abstract class Exception extends KitException

@@ -19,7 +19,8 @@ interface Arrayable
 	 * Convert this object into an array.
 	 * 
 	 * @since 1.0.0
-	 * @return array <p>This object converted into an array.</p>
+	 * @return array
+	 * <p>This object converted into an array.</p>
 	 */
 	public function toArray() : array;
 }

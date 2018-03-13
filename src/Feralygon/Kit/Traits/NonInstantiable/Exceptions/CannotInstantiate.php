@@ -14,7 +14,8 @@ use Feralygon\Kit\Traits\NonInstantiable\Exception;
  * of a class is attempted.
  * 
  * @since 1.0.0
- * @property-read string $class <p>The class.</p>
+ * @property-read string $class
+ * <p>The class.</p>
  */
 class CannotInstantiate extends Exception
 {

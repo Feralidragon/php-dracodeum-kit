@@ -12,7 +12,8 @@ use Feralygon\Kit\Structure;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Structure|string $structure <p>The structure instance or class.</p>
+ * @property-read \Feralygon\Kit\Structure|string $structure
+ * <p>The structure instance or class.</p>
  * @see \Feralygon\Kit\Structure
  */
 abstract class Exception extends KitException

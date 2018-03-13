@@ -38,9 +38,7 @@ class Maximum extends Constraints\Maximum
 			 */
 			return UText::localize(
 				"Only a time before {{value}} is allowed.",
-				self::class, $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
+				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		/**
@@ -49,9 +47,7 @@ class Maximum extends Constraints\Maximum
 		 */
 		return UText::localize(
 			"Only a time before or at {{value}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
+			self::class, $text_options, ['parameters' => ['value' => $value_string]]
 		);
 	}
 	

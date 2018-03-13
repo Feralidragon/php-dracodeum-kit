@@ -12,8 +12,10 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
  * @since 1.0.0
- * @property bool $exclude_null [default = false] <p>Exclude null information.</p>
- * @property bool $exclude_modifiers [default = false] <p>Exclude modifiers information.</p>
+ * @property bool $exclude_null [default = false]
+ * <p>Exclude null information.</p>
+ * @property bool $exclude_modifiers [default = false]
+ * <p>Exclude modifiers information.</p>
  * @see \Feralygon\Kit\Components\Input
  */
 class Info extends Options

@@ -48,7 +48,8 @@ final class Vendor
 	 * Check if is library.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is a library.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is a library.</p>
 	 */
 	final public static function isLibrary() : bool
 	{

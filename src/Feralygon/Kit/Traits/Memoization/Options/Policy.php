@@ -13,9 +13,11 @@ use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * @since 1.0.0
- * @property int|null $ttl [default = null] <p>The TTL (Time to Live) of each memoized data entry, in seconds.<br>
+ * @property int|null $ttl [default = null]
+ * <p>The TTL (Time to Live) of each memoized data entry, in seconds.<br>
  * If not set, no TTL is applied, otherwise it must always be greater than <code>0</code>.</p>
- * @property int|null $limit [default = null] <p>The limit on the number of memoized data entries.<br>
+ * @property int|null $limit [default = null]
+ * <p>The limit on the number of memoized data entries.<br>
  * If not set, no limit is applied, otherwise it must always be greater than <code>0</code>.</p>
  * @see https://en.wikipedia.org/wiki/Time_to_live
  * @see \Feralygon\Kit\Traits\Memoization

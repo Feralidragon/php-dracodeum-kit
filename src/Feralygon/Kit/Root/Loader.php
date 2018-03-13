@@ -45,11 +45,14 @@ final class Loader
 	 * Check if has package with a given vendor and name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to check for.<br>
+	 * @param string $vendor
+	 * <p>The package vendor to check for.<br>
 	 * It is checked in a case-insensitive manner.</p>
-	 * @param string $name <p>The package name to check for.<br>
+	 * @param string $name
+	 * <p>The package name to check for.<br>
 	 * It is checked in a case-insensitive manner.</p>
-	 * @return bool <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
 	 */
 	final public static function hasPackage(string $vendor, string $name) : bool
 	{
@@ -60,12 +63,15 @@ final class Loader
 	 * Get package instance with a given vendor and name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to get with.<br>
+	 * @param string $vendor
+	 * <p>The package vendor to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
-	 * @param string $name <p>The package name to get with.<br>
+	 * @param string $name
+	 * <p>The package name to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
 	 * @throws \RuntimeException
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package <p>The package instance with the given vendor and name.</p>
+	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
+	 * <p>The package instance with the given vendor and name.</p>
 	 */
 	final public static function getPackage(string $vendor, string $name) : Objects\Package
 	{
@@ -81,14 +87,17 @@ final class Loader
 	 * Set package with a given vendor, name and path.
 	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The package vendor to set with.<br>
+	 * @param string $vendor
+	 * <p>The package vendor to set with.<br>
 	 * It is set in a case-insensitive manner and converted to lowercase.</p>
-	 * @param string $name <p>The package name to set with.<br>
+	 * @param string $name
+	 * <p>The package name to set with.<br>
 	 * It is set in a case-insensitive manner and converted to lowercase.</p>
-	 * @param string $path <p>The package path to set with.</p>
+	 * @param string $path
+	 * <p>The package path to set with.</p>
 	 * @throws \RuntimeException
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package <p>The package instance set with the given vendor, 
-	 * name and path.</p>
+	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
+	 * <p>The package instance set with the given vendor, name and path.</p>
 	 */
 	final public static function setPackage(string $vendor, string $name, string $path) : Objects\Package
 	{
@@ -121,9 +130,10 @@ final class Loader
 	 * Get package instance from a given object or class.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to get from.</p>
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package|null <p>The package instance from the given object or class 
-	 * or <code>null</code> if none is set.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to get from.</p>
+	 * @return \Feralygon\Kit\Root\Loader\Objects\Package|null
+	 * <p>The package instance from the given object or class or <code>null</code> if none is set.</p>
 	 */
 	final public static function getClassPackage($object_class) : ?Objects\Package
 	{

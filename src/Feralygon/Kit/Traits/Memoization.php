@@ -51,11 +51,14 @@ trait Memoization
 	 * Check if has a given memoized key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoization key to check.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to check from.</p>
-	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding 
-	 * to the given checked key.</p>
-	 * @return bool <p>Boolean <code>true</code> if has the given memoized key.</p>
+	 * @param string $key
+	 * <p>The memoization key to check.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to check from.</p>
+	 * @param mixed $value [reference output] [default = null]
+	 * <p>The memoized value corresponding to the given checked key.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has the given memoized key.</p>
 	 */
 	final protected function hasMemoizedKey(string $key, string $namespace = '', &$value = null) : bool
 	{
@@ -80,10 +83,13 @@ trait Memoization
 	 * Get memoized value from a given key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoized key to get from.</p>
-	 * @param string $namespace [default = ''] <p>The memoized namespace to get from.</p>
+	 * @param string $key
+	 * <p>The memoized key to get from.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoized namespace to get from.</p>
 	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\NoMemoizedValueFound
-	 * @return mixed <p>The memoized value from the given key.</p>
+	 * @return mixed
+	 * <p>The memoized value from the given key.</p>
 	 */
 	final protected function getMemoizedValue(string $key, string $namespace = '')
 	{
@@ -97,9 +103,12 @@ trait Memoization
 	 * Set a given memoized value into a given key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoization key to set into.</p>
-	 * @param mixed $value <p>The memoization value to set.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to set into.</p>
+	 * @param string $key
+	 * <p>The memoization key to set into.</p>
+	 * @param mixed $value
+	 * <p>The memoization value to set.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to set into.</p>
 	 * @return void
 	 */
 	final protected function setMemoizedValue(string $key, $value, string $namespace = '') : void
@@ -153,9 +162,12 @@ trait Memoization
 	 * Delete memoized key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoized key to delete.</p>
-	 * @param string $namespace [default = ''] <p>The memoized namespace to delete from.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
+	 * @param string $key
+	 * <p>The memoized key to delete.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoized namespace to delete from.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
 	 */
 	final protected function deleteMemoizedKey(string $key, string $namespace = '') : bool
 	{
@@ -174,8 +186,10 @@ trait Memoization
 	 * Get memoization policy options instance.
 	 * 
 	 * @since 1.0.0
-	 * @param string $namespace [default = ''] <p>The memoized namespace to get from.</p>
-	 * @return \Feralygon\Kit\Traits\Memoization\Options\Policy <p>The memoization policy options instance.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoized namespace to get from.</p>
+	 * @return \Feralygon\Kit\Traits\Memoization\Options\Policy
+	 * <p>The memoization policy options instance.</p>
 	 */
 	final protected function getMemoizationPolicyOptions(string $namespace = '') : Options\Policy
 	{
@@ -190,9 +204,10 @@ trait Memoization
 	 * Set memoization policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $options 
+	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $options
 	 * <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to set to.</p>
 	 * @return void
 	 */
 	final protected function setMemoizationPolicyOptions($options, string $namespace = '') : void
@@ -209,15 +224,20 @@ trait Memoization
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.late-static-bindings.php
-	 * @param callable $function <p>The function to memoize.</p>
-	 * @param string|null $key [default = null] <p>The key to memoize into.<br>
+	 * @param callable $function
+	 * <p>The function to memoize.</p>
+	 * @param string|null $key [default = null]
+	 * <p>The key to memoize into.<br>
 	 * If not set, the key is automatically generated from the caller function parameters.</p>
-	 * @param string $namespace [default = ''] <p>The namespace to memoize into.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $policy_options [default = null] 
+	 * @param string $namespace [default = '']
+	 * <p>The namespace to memoize into.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
+	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $policy_options [default = null]
 	 * <p>The memoization policy options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return mixed <p>The memoized value returned from the given function.</p>
+	 * @return mixed
+	 * <p>The memoized value returned from the given function.</p>
 	 */
 	final protected static function memoize(
 		callable $function, ?string $key = null, string $namespace = '', bool $local = false, $policy_options = null
@@ -295,13 +315,17 @@ trait Memoization
 	 * Check if has a given memoized static key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoization key to check.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to check from.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @param mixed $value [reference output] [default = null] <p>The memoized value corresponding 
-	 * to the given checked key.</p>
-	 * @return bool <p>Boolean <code>true</code> if has the given memoized static key.</p>
+	 * @param string $key
+	 * <p>The memoization key to check.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to check from.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
+	 * @param mixed $value [reference output] [default = null]
+	 * <p>The memoized value corresponding to the given checked key.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has the given memoized static key.</p>
 	 */
 	final protected static function hasMemoizedStaticKey(
 		string $key, string $namespace = '', bool $local = false, &$value = null
@@ -329,12 +353,16 @@ trait Memoization
 	 * Get memoized static value from a given key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoized key to get from.</p>
-	 * @param string $namespace [default = ''] <p>The memoized namespace to get from.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
+	 * @param string $key
+	 * <p>The memoized key to get from.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoized namespace to get from.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
 	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\NoMemoizedValueFound
-	 * @return mixed <p>The memoized static value from the given key.</p>
+	 * @return mixed
+	 * <p>The memoized static value from the given key.</p>
 	 */
 	final protected static function getMemoizedStaticValue(string $key, string $namespace = '', bool $local = false)
 	{
@@ -348,11 +376,15 @@ trait Memoization
 	 * Set a given memoized static value into a given key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoization key to set into.</p>
-	 * @param mixed $value <p>The memoization value to set.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to set into.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
+	 * @param string $key
+	 * <p>The memoization key to set into.</p>
+	 * @param mixed $value
+	 * <p>The memoization value to set.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to set into.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
 	 * @return void
 	 */
 	final protected static function setMemoizedStaticValue(
@@ -414,11 +446,15 @@ trait Memoization
 	 * Delete memoized static key.
 	 * 
 	 * @since 1.0.0
-	 * @param string $key <p>The memoized key to delete.</p>
-	 * @param string $namespace [default = ''] <p>The memoized namespace to delete from.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
+	 * @param string $key
+	 * <p>The memoized key to delete.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoized namespace to delete from.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given key existed and was deleted.</p>
 	 */
 	final protected static function deleteMemoizedStaticKey(
 		string $key, string $namespace = '', bool $local = false
@@ -440,10 +476,12 @@ trait Memoization
 	 * Get memoization static policy options instance.
 	 * 
 	 * @since 1.0.0
-	 * @param string $namespace [default = ''] <p>The memoization namespace to get from.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
-	 * @return \Feralygon\Kit\Traits\Memoization\Options\Policy 
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to get from.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
+	 * @return \Feralygon\Kit\Traits\Memoization\Options\Policy
 	 * <p>The memoization static policy options instance.</p>
 	 */
 	final protected static function getMemoizationStaticPolicyOptions(
@@ -462,11 +500,13 @@ trait Memoization
 	 * Set memoization static policy options.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $options 
+	 * @param \Feralygon\Kit\Traits\Memoization\Options\Policy|array|null $options
 	 * <p>The memoization policy options to set, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param string $namespace [default = ''] <p>The memoization namespace to set to.</p>
-	 * @param bool $local [default = false] <p>Use the local class as reference, in other words, 
-	 * use the calling class (late static binding) instead of the declaring class.</p>
+	 * @param string $namespace [default = '']
+	 * <p>The memoization namespace to set to.</p>
+	 * @param bool $local [default = false]
+	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
+	 * the declaring class.</p>
 	 * @return void
 	 */
 	final protected static function setMemoizationStaticPolicyOptions(

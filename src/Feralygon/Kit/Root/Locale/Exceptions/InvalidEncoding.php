@@ -17,8 +17,10 @@ use Feralygon\Kit\Utilities\{
  * This exception is thrown from the locale whenever a given encoding is invalid.
  * 
  * @since 1.0.0
- * @property-read string $encoding <p>The encoding.</p>
- * @property-read string[] $encodings [default = []] <p>The allowed encodings.<br>
+ * @property-read string $encoding
+ * <p>The encoding.</p>
+ * @property-read string[] $encodings [default = []]
+ * <p>The allowed encodings.<br>
  * They cannot be empty.</p>
  */
 class InvalidEncoding extends Exception

@@ -29,7 +29,8 @@ trait Readonly
 	 * Check if is read-only.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is read-only.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is read-only.</p>
 	 */
 	final public function isReadonly() : bool
 	{
@@ -41,7 +42,8 @@ trait Readonly
 	 * Set as read-only.
 	 * 
 	 * @since 1.0.0
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsReadonly() : object
 	{
@@ -73,11 +75,12 @@ trait Readonly
 	 * This method may only be called before read-only enablement.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $callback <p>The read-only callback function to add.<br>
+	 * @param callable $callback
+	 * <p>The read-only callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code>
-	 * </p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * <code>function () : void</code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final protected function addReadonlyCallback(callable $callback) : object
 	{
@@ -93,11 +96,12 @@ trait Readonly
 	 * Initialize read-only.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $enable [default = false] <p>Enable the read-only state.</p>
-	 * @param callable[] $callbacks [default = []] <p>The callback functions to call upon read-only enablement.<br>
+	 * @param bool $enable [default = false]
+	 * <p>Enable the read-only state.</p>
+	 * @param callable[] $callbacks [default = []]
+	 * <p>The callback functions to call upon read-only enablement.<br>
 	 * Each one is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code>
-	 * </p>
+	 * <code>function () : void</code></p>
 	 * @throws \Feralygon\Kit\Traits\Readonly\Exceptions\ReadonlyAlreadyInitialized
 	 * @return void
 	 */

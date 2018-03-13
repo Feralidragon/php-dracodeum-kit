@@ -20,7 +20,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This filter prototype converts a value to uppercase.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false] <p>Convert as an Unicode value.</p>
+ * @property bool $unicode [default = false]
+ * <p>Convert as an Unicode value.</p>
  */
 class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaData
 {

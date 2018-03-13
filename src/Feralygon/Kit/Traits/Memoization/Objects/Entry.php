@@ -29,8 +29,10 @@ final class Entry
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
-	 * @param mixed $value <p>The value.</p>
-	 * @param int|null $expire [default = null] <p>The expiration timestamp, in seconds (Unix timestamp).<br>
+	 * @param mixed $value
+	 * <p>The value.</p>
+	 * @param int|null $expire [default = null]
+	 * <p>The expiration timestamp, in seconds (Unix timestamp).<br>
 	 * If not set, the entry will never expire.</p>
 	 */
 	final public function __construct($value, ?int $expire = null)

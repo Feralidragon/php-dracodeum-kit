@@ -31,18 +31,19 @@ final class Error
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value.</p>
-	 * @param callable[] $messengers [default = []] <p>The messenger functions to retrieve error messages from.<br>
-	 * The expected functions signature is represented as:<br><br>
+	 * @param mixed $value
+	 * <p>The value.</p>
+	 * @param callable[] $messengers [default = []]
+	 * <p>The messenger functions to retrieve error messages from.<br>
+	 * They are expected to be compatible with the following signature:<br><br>
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Options\Text $text_options</b></code> : 
-	 * The text options instance to use.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Options\Text $text_options</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
-	 * The error message or <code>null</code> if no error is set.
-	 * </p>
+	 * The error message or <code>null</code> if no error is set.</p>
 	 */
 	final public function __construct($value, array $messengers = [])
 	{
@@ -68,7 +69,8 @@ final class Error
 	 * Get value.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The value.</p>
+	 * @return mixed
+	 * <p>The value.</p>
 	 */
 	final public function getValue()
 	{
@@ -79,7 +81,8 @@ final class Error
 	 * Get messenger functions.
 	 * 
 	 * @since 1.0.0
-	 * @return \Closure[] <p>The messenger functions.</p>
+	 * @return \Closure[]
+	 * <p>The messenger functions.</p>
 	 */
 	final public function getMessengers() : array
 	{

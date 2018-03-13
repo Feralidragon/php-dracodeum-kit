@@ -39,17 +39,17 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum
  * [modifier, name = 'constraints.minimum' or 'constraints.positive']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum
  * [modifier, name = 'constraints.maximum' or 'constraints.negative']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range
  * [modifier, name = 'constraints.range' or 'constraints.non_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples
  * [modifier, name = 'constraints.multiples' or 'constraints.non_multiples' or 'constraints.even' or 'constraints.odd']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers
  * [modifier, name = 'constraints.powers' or 'constraints.non_powers']
  */
 class Number extends Input implements IInformation, IModifiers
@@ -193,8 +193,10 @@ class Number extends Input implements IInformation, IModifiers
 	 * Get notation strings.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The notation strings.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The notation strings.</p>
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{

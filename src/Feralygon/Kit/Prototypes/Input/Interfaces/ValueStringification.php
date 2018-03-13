@@ -22,9 +22,12 @@ interface ValueStringification
 	 * Generate a string from a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate a string from.</p>
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string <p>The generated string from the given value.</p>
+	 * @param mixed $value
+	 * <p>The value to generate a string from.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The generated string from the given value.</p>
 	 */
 	public function stringifyValue($value, TextOptions $text_options) : string;
 }

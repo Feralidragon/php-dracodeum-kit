@@ -27,10 +27,12 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a set of allowed wildcard matches.
  * 
  * @since 1.0.0
- * @property string[] $wildcards <p>The allowed wildcard matches to restrict to.</p>
- * @property bool $insensitive [default = false] <p>Match the given wildcards in a case-insensitive manner.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, 
- * so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
+ * @property string[] $wildcards
+ * <p>The allowed wildcard matches to restrict to.</p>
+ * @property bool $insensitive [default = false]
+ * <p>Match the given wildcards in a case-insensitive manner.</p>
+ * @property bool $negate [default = false]
+ * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
 class Wildcards extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {

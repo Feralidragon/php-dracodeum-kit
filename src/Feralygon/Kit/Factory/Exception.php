@@ -12,7 +12,8 @@ use Feralygon\Kit\Factory;
 
 /**
  * @since 1.0.0
- * @property-read string $factory <p>The factory class.</p>
+ * @property-read string $factory
+ * <p>The factory class.</p>
  * @see \Feralygon\Kit\Factory
  */
 abstract class Exception extends KitException

@@ -13,7 +13,8 @@ use Feralygon\Kit\Component\Exception;
  * This exception is thrown from a component whenever a given prototype is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $prototype <p>The prototype.</p>
+ * @property-read mixed $prototype
+ * <p>The prototype.</p>
  */
 class InvalidPrototype extends Exception
 {

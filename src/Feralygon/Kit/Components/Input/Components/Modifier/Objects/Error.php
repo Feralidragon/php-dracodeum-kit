@@ -25,7 +25,8 @@ final class Error
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value.</p>
+	 * @param mixed $value
+	 * <p>The value.</p>
 	 */
 	final public function __construct($value)
 	{

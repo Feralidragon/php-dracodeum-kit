@@ -14,7 +14,8 @@ use Feralygon\Kit\Managers\Properties\Objects\Property;
  * This exception is thrown from a properties manager whenever a given property manager mismatches the expected one.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property <p>The property instance.</p>
+ * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * <p>The property instance.</p>
  */
 class PropertyManagerMismatch extends Exception
 {

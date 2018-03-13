@@ -38,9 +38,7 @@ class Minimum extends Constraints\Minimum
 			 */
 			return UText::localize(
 				"Only a number greater than {{value}} is allowed.",
-				self::class, $text_options, [
-					'parameters' => ['value' => $value_string]
-				]
+				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		/**
@@ -49,9 +47,7 @@ class Minimum extends Constraints\Minimum
 		 */
 		return UText::localize(
 			"Only a number greater than or equal to {{value}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['value' => $value_string]
-			]
+			self::class, $text_options, ['parameters' => ['value' => $value_string]]
 		);
 	}
 	

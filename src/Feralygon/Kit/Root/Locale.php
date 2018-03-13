@@ -32,7 +32,8 @@ final class Locale
 	 * Get encoding.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The encoding.</p>
+	 * @return string
+	 * <p>The encoding.</p>
 	 */
 	final public static function getEncoding() : string
 	{
@@ -43,7 +44,8 @@ final class Locale
 	 * Set encoding.
 	 * 
 	 * @since 1.0.0
-	 * @param string $encoding <p>The encoding to set.</p>
+	 * @param string $encoding
+	 * <p>The encoding to set.</p>
 	 * @throws \Feralygon\Kit\Root\Locale\Exceptions\InvalidEncoding
 	 * @return void
 	 */
@@ -71,9 +73,12 @@ final class Locale
 	 * value is meant to eventually become an actual object representing the instance.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a language.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a language.</p>
 	 */
 	final public static function evaluateLanguage(&$value, bool $nullable = false) : bool
 	{
@@ -100,10 +105,13 @@ final class Locale
 	 * value is meant to eventually become an actual object representing the instance.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Root\Locale\Exceptions\LanguageCoercionFailed
-	 * @return string|null <p>The given value coerced into a language.<br>
+	 * @return string|null
+	 * <p>The given value coerced into a language.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceLanguage($value, bool $nullable = false) : ?string
@@ -181,11 +189,14 @@ final class Locale
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
-	 * @param string $message <p>The message to translate.</p>
-	 * @param string|null $context [default = null] <p>The message context to translate with.</p>
-	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null] 
+	 * @param string $message
+	 * <p>The message to translate.</p>
+	 * @param string|null $context [default = null]
+	 * <p>The message context to translate with.</p>
+	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The translation of the given message.</p>
+	 * @return string
+	 * <p>The translation of the given message.</p>
 	 */
 	final public static function translate(string $message, ?string $context = null, $options = null) : string
 	{
@@ -256,14 +267,20 @@ final class Locale
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
-	 * @param string $message1 <p>The message singular form to translate.</p>
-	 * @param string $message2 <p>The message plural form to translate.</p>
-	 * @param float|int $number <p>The number to use.</p>
-	 * @param string|null $number_placeholder <p>The message number placeholder to translate with.</p>
-	 * @param string|null $context [default = null] <p>The message context to translate with.</p>
-	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null] 
+	 * @param string $message1
+	 * <p>The message singular form to translate.</p>
+	 * @param string $message2
+	 * <p>The message plural form to translate.</p>
+	 * @param float|int $number
+	 * <p>The number to use.</p>
+	 * @param string|null $number_placeholder
+	 * <p>The message number placeholder to translate with.</p>
+	 * @param string|null $context [default = null]
+	 * <p>The message context to translate with.</p>
+	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The translation of the given plural message.</p>
+	 * @return string
+	 * <p>The translation of the given plural message.</p>
 	 */
 	final public static function ptranslate(
 		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,

@@ -47,9 +47,10 @@ abstract class Factory
 	 * Build type instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The type name to build for.</p>
-	 * @return \Feralygon\Kit\Factory\Objects\Type|null <p>The built type instance for the given name or 
-	 * <code>null</code> if none was built.</p>
+	 * @param string $name
+	 * <p>The type name to build for.</p>
+	 * @return \Feralygon\Kit\Factory\Objects\Type|null
+	 * <p>The built type instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected static function buildType(string $name) : ?Objects\Type;
 	
@@ -60,8 +61,10 @@ abstract class Factory
 	 * Set builder for a given type.
 	 * 
 	 * @since 1.0.0
-	 * @param string $type <p>The type to set for.</p>
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to set.<br>
+	 * @param string $type
+	 * <p>The type to set for.</p>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder
+	 * <p>The builder instance or class to set.<br>
 	 * It must implement the builder interface set for the given type.</p>
 	 * @return void
 	 */
@@ -77,10 +80,12 @@ abstract class Factory
 	 * Get type instance with a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The name to get with.</p>
+	 * @param string $name
+	 * <p>The name to get with.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNameMismatch
-	 * @return \Feralygon\Kit\Factory\Objects\Type <p>The type instance with the given name.</p>
+	 * @return \Feralygon\Kit\Factory\Objects\Type
+	 * <p>The type instance with the given name.</p>
 	 */
 	final protected static function getType(string $name) : Objects\Type
 	{
@@ -113,11 +118,13 @@ abstract class Factory
 	 * This method may only be called from within the <code>buildType</code> method.
 	 * 
 	 * @since 1.0.0
-	 * @param string $builder_interface <p>The builder interface to create with.<br>
+	 * @param string $builder_interface
+	 * <p>The builder interface to create with.<br>
 	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to create with.</p>
-	 * @return \Feralygon\Kit\Factory\Objects\Type <p>The created type instance with the given builder interface 
-	 * and instance or class.</p>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder
+	 * <p>The builder instance or class to create with.</p>
+	 * @return \Feralygon\Kit\Factory\Objects\Type
+	 * <p>The created type instance with the given builder interface and instance or class.</p>
 	 */
 	final protected static function createType(string $builder_interface, $builder) : Objects\Type
 	{
@@ -131,11 +138,14 @@ abstract class Factory
 	 * Build object from a given type.
 	 * 
 	 * @since 1.0.0
-	 * @param string $type <p>The type to build from.</p>
-	 * @param mixed ...$arguments <p>The arguments to build with.</p>
+	 * @param string $type
+	 * <p>The type to build from.</p>
+	 * @param mixed ...$arguments
+	 * <p>The arguments to build with.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
 	 * @throws \Feralygon\Kit\Factory\Exceptions\InvalidObjectBuilt
-	 * @return object <p>The built object from the given type.</p>
+	 * @return object
+	 * <p>The built object from the given type.</p>
 	 */
 	final protected static function build(string $type, ...$arguments) : object
 	{

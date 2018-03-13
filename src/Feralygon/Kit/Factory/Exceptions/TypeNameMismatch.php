@@ -14,8 +14,10 @@ use Feralygon\Kit\Factory\Objects\Type;
  * This exception is thrown from a factory whenever a given type name mismatches the expected one.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The expected type name.</p>
- * @property-read \Feralygon\Kit\Factory\Objects\Type $type <p>The type instance.</p>
+ * @property-read string $name
+ * <p>The expected type name.</p>
+ * @property-read \Feralygon\Kit\Factory\Objects\Type $type
+ * <p>The type instance.</p>
  */
 class TypeNameMismatch extends Exception
 {

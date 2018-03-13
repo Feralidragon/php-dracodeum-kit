@@ -17,7 +17,8 @@ use Feralygon\Kit\Utilities\{
  * This exception is thrown from a properties manager whenever required properties are missing.
  * 
  * @since 1.0.0
- * @property-read string[] $names <p>The property names.</p>
+ * @property-read string[] $names
+ * <p>The property names.</p>
  */
 class MissingRequiredProperties extends Exception
 {

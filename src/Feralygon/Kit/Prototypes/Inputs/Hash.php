@@ -36,11 +36,11 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Hash_function
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'constraints.non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
  * [modifier, name = 'filters.raw']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64 
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
  * [modifier, name = 'filters.base64']
  */
 abstract class Hash extends Input implements IInformation, IModifiers
@@ -50,7 +50,8 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	 * Get number of bits.
 	 * 
 	 * @since 1.0.0
-	 * @return int <p>The number of bits.</p>
+	 * @return int
+	 * <p>The number of bits.</p>
 	 */
 	abstract public function getBits() : int;
 	
@@ -90,9 +91,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 */
 			return UText::localize(
 				"A {{label}} hash, given in hexadecimal notation.", 
-				self::class, $text_options, [
-					'parameters' => ['label' => $this->getLabel($text_options, $info_options)]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
 			);
 		}
 		
@@ -132,9 +131,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 			 */
 			return UText::localize(
 				"Only a {{label}} hash, given in hexadecimal notation, is allowed.", 
-				self::class, $text_options, [
-					'parameters' => ['label' => $this->getLabel($text_options, $info_options)]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
 			);
 		}
 		
@@ -150,8 +147,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n" . 
-				"{{notations}}", 
+			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n{{notations}}",
 			self::class, $text_options, [
 				'parameters' => [
 					'label' => $this->getLabel($text_options, $info_options), 
@@ -192,8 +188,10 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	 * Get notation strings.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options <p>The text options instance to use.</p>
-	 * @return string[] <p>The notation strings.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string[]
+	 * <p>The notation strings.</p>
 	 */
 	protected function getNotationStrings(TextOptions $text_options) : array
 	{

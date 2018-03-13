@@ -23,7 +23,8 @@ interface Priority
 	 * Modifiers with the same priority are grouped together and are all executed, even if any one of them fails.
 	 * 
 	 * @since 1.0.0
-	 * @return int <p>The priority.</p>
+	 * @return int
+	 * <p>The priority.</p>
 	 */
 	public function getPriority() : int;
 }

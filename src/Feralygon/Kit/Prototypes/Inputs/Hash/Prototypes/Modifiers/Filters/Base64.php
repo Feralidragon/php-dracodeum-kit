@@ -16,9 +16,10 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * This filter prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
  * 
  * @since 1.0.0
- * @property bool $url_safe [default = false] <p>Use URL-safe encoding, 
- * in which the plus signs (+) and slashes (/) get replaced by hyphens (-) and underscores (_) respectively, 
- * as well as the padding equal signs (=) removed, in order to be safely put in an URL.</p>
+ * @property bool $url_safe [default = false]
+ * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) get replaced 
+ * by hyphens (-) and underscores (_) respectively, as well as the padding equal signs (=) removed, 
+ * in order to be safely put in an URL.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
 class Base64 extends Filter implements IPrototypeProperties

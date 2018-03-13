@@ -12,7 +12,8 @@ use Feralygon\Kit\Prototype;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Prototype $prototype <p>The prototype instance.</p>
+ * @property-read \Feralygon\Kit\Prototype $prototype
+ * <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Prototype
  */
 abstract class Exception extends KitException

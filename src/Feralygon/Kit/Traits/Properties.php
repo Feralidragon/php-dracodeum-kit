@@ -35,8 +35,10 @@ trait Properties
 	 * Get property value from a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to get from.</p>
-	 * @return mixed <p>The property value from the given name.</p>
+	 * @param string $name
+	 * <p>The property name to get from.</p>
+	 * @return mixed
+	 * <p>The property value from the given name.</p>
 	 */
 	final public function __get(string $name)
 	{
@@ -47,8 +49,10 @@ trait Properties
 	 * Check if property is set for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * @param string $name
+	 * <p>The property name to check for.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function __isset(string $name) : bool
 	{
@@ -59,8 +63,10 @@ trait Properties
 	 * Set property with a given name with a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to set for.</p>
-	 * @param mixed $value <p>The property value to set with.</p>
+	 * @param string $name
+	 * <p>The property name to set for.</p>
+	 * @param mixed $value
+	 * <p>The property value to set with.</p>
 	 * @return void
 	 */
 	final public function __set(string $name, $value) : void
@@ -72,7 +78,8 @@ trait Properties
 	 * Unset property from a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to unset from.</p>
+	 * @param string $name
+	 * <p>The property name to unset from.</p>
 	 * @return void
 	 */
 	final public function __unset(string $name) : void
@@ -89,8 +96,10 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * @param string $name
+	 * <p>The property name to check for.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
 	final public function has(string $name) : bool
 	{
@@ -104,8 +113,10 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to get from.</p>
-	 * @return mixed <p>The property value from the given name.</p>
+	 * @param string $name
+	 * <p>The property name to get from.</p>
+	 * @return mixed
+	 * <p>The property value from the given name.</p>
 	 */
 	final public function get(string $name)
 	{
@@ -123,8 +134,10 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to get from.</p>
-	 * @return bool <p>The boolean property value from the given name.</p>
+	 * @param string $name
+	 * <p>The property name to get from.</p>
+	 * @return bool
+	 * <p>The boolean property value from the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
@@ -138,8 +151,10 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to check for.</p>
-	 * @return bool <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * @param string $name
+	 * <p>The property name to check for.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
@@ -153,9 +168,12 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to set for.</p>
-	 * @param mixed $value <p>The property value to set with.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $name
+	 * <p>The property name to set for.</p>
+	 * @param mixed $value
+	 * <p>The property value to set with.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value) : object
 	{
@@ -170,8 +188,10 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to unset from.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $name
+	 * <p>The property name to unset from.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name) : object
 	{
@@ -188,7 +208,8 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @return array <p>All properties, as <samp>name => value</samp> pairs.</p>
+	 * @return array
+	 * <p>All properties, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll() : array
 	{
@@ -200,7 +221,8 @@ trait Properties
 	 * Check if properties are read-only.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if properties are read-only.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
 	final public function arePropertiesReadonly() : bool
 	{
@@ -217,8 +239,9 @@ trait Properties
 	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to add.</p>
-	 * @return \Feralygon\Kit\Traits\Properties\Objects\Property 
+	 * @param string $name
+	 * <p>The property name to add.</p>
+	 * @return \Feralygon\Kit\Traits\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
 	final protected function addProperty(string $name) : Objects\Property
@@ -246,14 +269,14 @@ trait Properties
 	 * Initialize properties with a given builder function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $builder <p>The function to build all properties.<br>
+	 * @param callable $builder
+	 * <p>The function to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code>
-	 * </p>
-	 * @param array $properties [default = []] <p>The properties to initialize with, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @param string $mode [default = 'rw'] <p>The base access mode to set for all properties, 
-	 * which must be one the following:<br>
+	 * <code>function () : void</code></p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * @param string $mode [default = 'rw']
+	 * <p>The base access mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
 	 * so that they cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow all properties to be only read from (read-only), 
@@ -270,11 +293,10 @@ trait Properties
 	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
-	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
-	 * </p>
-	 * @param array|null $remaining [reference output] [default = null] <p>If set, it is gracefully filled with all  
-	 * properties, from the given <var>$properties</var> above, which have not been found, 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
+	 * @param array|null $remaining [reference output] [default = null]
+	 * <p>If set, it is gracefully filled with all properties, from the given <var>$properties</var> above, 
+	 * which have not been found, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
 	 */

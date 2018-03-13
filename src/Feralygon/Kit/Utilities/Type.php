@@ -43,10 +43,13 @@ final class Type extends Utility
 	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate from.</p>
-	 * @param bool $pretty [default = false] <p>Return human-readable and visually appealing PHP code.</p>
+	 * @param mixed $value
+	 * <p>The value to generate from.</p>
+	 * @param bool $pretty [default = false]
+	 * <p>Return human-readable and visually appealing PHP code.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\PhpfyUnsupportedValueType
-	 * @return string <p>The generated PHP code from the given value.</p>
+	 * @return string
+	 * <p>The generated PHP code from the given value.</p>
 	 */
 	final public static function phpfy($value, bool $pretty = false) : string
 	{
@@ -152,9 +155,12 @@ final class Type extends Utility
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a boolean.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a boolean.</p>
 	 */
 	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
 	{
@@ -182,10 +188,13 @@ final class Type extends Utility
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\BooleanCoercionFailed
-	 * @return bool|null <p>The given value coerced into a boolean.<br>
+	 * @return bool|null
+	 * <p>The given value coerced into a boolean.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
@@ -243,9 +252,12 @@ final class Type extends Utility
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a number.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a number.</p>
 	 */
 	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
 	{
@@ -277,10 +289,13 @@ final class Type extends Utility
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NumberCoercionFailed
-	 * @return int|float|null <p>The given value coerced into a number.<br>
+	 * @return int|float|null
+	 * <p>The given value coerced into a number.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceNumber($value, bool $nullable = false)
@@ -355,9 +370,12 @@ final class Type extends Utility
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an integer.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an integer.</p>
 	 */
 	final public static function evaluateInteger(&$value, bool $nullable = false) : bool
 	{
@@ -388,10 +406,13 @@ final class Type extends Utility
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\IntegerCoercionFailed
-	 * @return int|null <p>The given value coerced into an integer.<br>
+	 * @return int|null
+	 * <p>The given value coerced into an integer.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceInteger($value, bool $nullable = false) : ?int
@@ -443,9 +464,12 @@ final class Type extends Utility
 	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a float.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a float.</p>
 	 */
 	final public static function evaluateFloat(&$value, bool $nullable = false) : bool
 	{
@@ -477,10 +501,13 @@ final class Type extends Utility
 	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\FloatCoercionFailed
-	 * @return float|null <p>The given value coerced into a float.<br>
+	 * @return float|null
+	 * <p>The given value coerced into a float.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceFloat($value, bool $nullable = false) : ?float
@@ -519,10 +546,14 @@ final class Type extends Utility
 	 * Only a string, integer or float can be evaluated into a string.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a string.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a string.</p>
 	 */
 	final public static function evaluateString(&$value, bool $non_empty = false, bool $nullable = false) : bool
 	{
@@ -540,11 +571,15 @@ final class Type extends Utility
 	 * Only a string, integer or float can be coerced into a string.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\StringCoercionFailed
-	 * @return string|null <p>The given value coerced into a string.<br>
+	 * @return string|null
+	 * <p>The given value coerced into a string.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false) : ?string
@@ -583,11 +618,14 @@ final class Type extends Utility
 	 * Only a class string or object can be evaluated into a class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a class.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a class.</p>
 	 */
 	final public static function evaluateClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -605,12 +643,15 @@ final class Type extends Utility
 	 * Only a class string or object can be coerced into a class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
-	 * @return string|null <p>The given value coerced into a class.<br>
+	 * @return string|null
+	 * <p>The given value coerced into a class.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceClass($value, $base_object_class = null, bool $nullable = false) : ?string
@@ -658,12 +699,16 @@ final class Type extends Utility
 	 * Only a class string or object can be evaluated into an object.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an object.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param array $arguments [default = []]
+	 * <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an object.</p>
 	 */
 	final public static function evaluateObject(
 		&$value, $base_object_class = null, array $arguments = [], bool $nullable = false
@@ -683,13 +728,17 @@ final class Type extends Utility
 	 * Only a class string or object can be coerced into an object.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param array $arguments [default = []]
+	 * <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectCoercionFailed
-	 * @return object|null <p>The given value coerced into an object.<br>
+	 * @return object|null
+	 * <p>The given value coerced into an object.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObject(
@@ -755,12 +804,14 @@ final class Type extends Utility
 	 * Only a class string or object can be coerced into an object or class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated 
-	 * into an object or class.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an object or class.</p>
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -778,12 +829,15 @@ final class Type extends Utility
 	 * Only a class string or object can be coerced into an object or class.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which the given value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
-	 * @return object|string|null <p>The given value coerced into an object or class.<br>
+	 * @return object|string|null
+	 * <p>The given value coerced into an object or class.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObjectClass($value, $base_object_class = null, bool $nullable = false)
@@ -828,9 +882,12 @@ final class Type extends Utility
 	 * Construct a new instance from a given object or class reference.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class reference to construct from.</p>
-	 * @param mixed ...$arguments <p>The arguments to construct with.</p>
-	 * @return object <p>The new instance from the given object or class reference.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class reference to construct from.</p>
+	 * @param mixed ...$arguments
+	 * <p>The arguments to construct with.</p>
+	 * @return object
+	 * <p>The new instance from the given object or class reference.</p>
 	 */
 	final public static function construct($object_class, ...$arguments) : object
 	{
@@ -842,9 +899,12 @@ final class Type extends Utility
 	 * Check if a given object or class extends from or is of the same class as a given base object or class.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @param object|string $base_object_class <p>The base object or class to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given object or class extends from or 
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @param object|string $base_object_class
+	 * <p>The base object or class to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class extends from or 
 	 * is of the same class as the given base object or class.</p>
 	 */
 	final public static function isA($object_class, $base_object_class) : bool
@@ -856,9 +916,12 @@ final class Type extends Utility
 	 * Check if all given objects or classes extend from or are of the same class as a given base object or class.
 	 * 
 	 * @since 1.0.0
-	 * @param object[]|string[] $objects_classes <p>The objects or classes to check.</p>
-	 * @param object|string $base_object_class <p>The base object or class to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if all the given objects or classes extend from or
+	 * @param object[]|string[] $objects_classes
+	 * <p>The objects or classes to check.</p>
+	 * @param object|string $base_object_class
+	 * <p>The base object or class to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if all the given objects or classes extend from or
 	 * are of the same class as the given base object or class.</p>
 	 */
 	final public static function areA(array $objects_classes, $base_object_class) : bool
@@ -876,9 +939,12 @@ final class Type extends Utility
 	 * Check if a given object or class extends from or is of the same class as any given base objects or classes.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @param object[]|string[] $base_objects_classes <p>The base objects or classes to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given object or class extends from or
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @param object[]|string[] $base_objects_classes
+	 * <p>The base objects or classes to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class extends from or
 	 * is of the same class as any of the given base objects or classes.</p>
 	 */
 	final public static function isAny($object_class, array $base_objects_classes) : bool
@@ -896,9 +962,12 @@ final class Type extends Utility
 	 * Check if all given objects or classes extend from or are of the same class as any given base objects or classes.
 	 * 
 	 * @since 1.0.0
-	 * @param object[]|string[] $objects_classes <p>The objects or classes to check.</p>
-	 * @param object[]|string[] $base_objects_classes <p>The base objects or classes to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given objects or classes extend from or
+	 * @param object[]|string[] $objects_classes
+	 * <p>The objects or classes to check.</p>
+	 * @param object[]|string[] $base_objects_classes
+	 * <p>The base objects or classes to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given objects or classes extend from or
 	 * are of the same class as any of the given base objects or classes.</p>
 	 */
 	final public static function areAny(array $objects_classes, array $base_objects_classes) : bool
@@ -936,9 +1005,12 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @param string $interface <p>The interface to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given object or class implements the given interface.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @param string $interface
+	 * <p>The interface to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class implements the given interface.</p>
 	 */
 	final public static function implements($object_class, string $interface) : bool
 	{
@@ -950,12 +1022,14 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @param string[] $interfaces <p>The interfaces to check against.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @param string[] $interfaces
+	 * <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <code>true</code> if the given object or class implements 
-	 * any of the given interfaces.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class implements any of the given interfaces.</p>
 	 */
 	final public static function implementsAny($object_class, array $interfaces) : bool
 	{
@@ -974,12 +1048,14 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @param string[] $interfaces <p>The interfaces to check against.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @param string[] $interfaces
+	 * <p>The interfaces to check against.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidInterface
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return bool <p>Boolean <code>true</code> if the given object or class implements 
-	 * all of the given interfaces.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class implements all the given interfaces.</p>
 	 */
 	final public static function implementsAll($object_class, array $interfaces) : bool
 	{
@@ -998,8 +1074,10 @@ final class Type extends Utility
 	 * Check if a given object or class is anonymous.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given object or class is anonymous.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object or class is anonymous.</p>
 	 */
 	final public static function isAnonymous($object_class) : bool
 	{
@@ -1012,10 +1090,12 @@ final class Type extends Utility
 	 * The leading backslash character <samp>\</samp> is never prepended to the returned class.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidObjectClass
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassNotFound
-	 * @return string <p>The class from the given object or class.</p>
+	 * @return string
+	 * <p>The class from the given object or class.</p>
 	 */
 	final public static function class($object_class) : string
 	{
@@ -1035,9 +1115,11 @@ final class Type extends Utility
 	 * The leading backslash character <samp>\</samp> is never prepended to the returned interface.
 	 * 
 	 * @since 1.0.0
-	 * @param string $interface <p>The interface to validate and sanitize.</p>
+	 * @param string $interface
+	 * <p>The interface to validate and sanitize.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return string <p>The given interface validated and sanitized.</p>
+	 * @return string
+	 * <p>The given interface validated and sanitized.</p>
 	 */
 	final public static function interface(string $interface) : string
 	{
@@ -1053,8 +1135,10 @@ final class Type extends Utility
 	 * The returning basename is the class name without its namespace (class short name).
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The basename from the given object or class.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
+	 * @return string
+	 * <p>The basename from the given object or class.</p>
 	 */
 	final public static function basename($object_class) : string
 	{
@@ -1069,12 +1153,15 @@ final class Type extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.namespaces.php
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @param int|null $depth [default = null] <p>The depth limit to retrieve with.<br>
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The depth limit to retrieve with.<br>
 	 * If set to a number less than <code>0</code>, 
 	 * the limit is applied backwards (starting at the end of the namespace).<br>
 	 * If not set, no limit is applied.</p>
-	 * @return string <p>The namespace from the given object or class.</p>
+	 * @return string
+	 * <p>The namespace from the given object or class.</p>
 	 */
 	final public static function namespace($object_class, ?int $depth = null) : string
 	{
@@ -1094,9 +1181,10 @@ final class Type extends Utility
 	 * The returning filepath is the absolute file path in the filesystem where the class is declared.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filepath from the given object or class 
-	 * or <code>null</code> if the class is not declared in any file.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
+	 * @return string
+	 * <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filepath($object_class) : ?string
 	{
@@ -1110,8 +1198,10 @@ final class Type extends Utility
 	 * The returning directory is the absolute directory path in the filesystem where the class is declared.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The directory from the given object or class 
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
+	 * @return string
+	 * <p>The directory from the given object or class 
 	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function directory($object_class) : ?string
@@ -1126,9 +1216,10 @@ final class Type extends Utility
 	 * The returning filename is the complete name of the file where the class is declared.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string $object_class <p>The object or class to retrieve from.</p>
-	 * @return string <p>The filename from the given object or class 
-	 * or <code>null</code> if the class is not declared in any file.</p>
+	 * @param object|string $object_class
+	 * <p>The object or class to retrieve from.</p>
+	 * @return string
+	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filename($object_class) : ?string
 	{

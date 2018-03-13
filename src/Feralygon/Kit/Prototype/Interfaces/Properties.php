@@ -22,8 +22,9 @@ interface Properties
 	 * Build property instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The property name to build for.</p>
-	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property|null 
+	 * @param string $name
+	 * <p>The property name to build for.</p>
+	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property|null
 	 * <p>The built property instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	public function buildProperty(string $name) : ?Property;
@@ -37,7 +38,8 @@ interface Properties
 	 * All the required properties returned here must be given during instantiation.
 	 * 
 	 * @since 1.0.0
-	 * @return string[] <p>The required property names.</p>
+	 * @return string[]
+	 * <p>The required property names.</p>
 	 */
 	public static function getRequiredPropertyNames() : array;
 }

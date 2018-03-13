@@ -13,7 +13,8 @@ use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
  * This exception is thrown from a property object whenever a given value is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $value <p>The value.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
  */
 class InvalidValue extends Exception
 {

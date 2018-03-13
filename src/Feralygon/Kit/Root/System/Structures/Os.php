@@ -13,15 +13,20 @@ use Feralygon\Kit\Structure;
  * Root system OS (Operating System) structure.
  * 
  * @since 1.0.0
- * @property string $name <p>The name.<br>
+ * @property string $name
+ * <p>The name.<br>
  * It cannot be empty.</p>
- * @property string $hostname <p>The hostname.<br>
+ * @property string $hostname
+ * <p>The hostname.<br>
  * It cannot be empty.</p>
- * @property string $release <p>The release.<br>
+ * @property string $release
+ * <p>The release.<br>
  * It cannot be empty.</p>
- * @property string $information <p>The information.<br>
+ * @property string $information
+ * <p>The information.<br>
  * It cannot be empty.</p>
- * @property string $architecture <p>The architecture.<br>
+ * @property string $architecture
+ * <p>The architecture.<br>
  * It cannot be empty.</p>
  * @see \Feralygon\Kit\Root\System
  */
@@ -45,7 +50,8 @@ final class Os extends Structure
 	 * Check if is Linux.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is Linux.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is Linux.</p>
 	 */
 	final public function isLinux() : bool
 	{
@@ -56,7 +62,8 @@ final class Os extends Structure
 	 * Check if is Windows.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is Windows.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is Windows.</p>
 	 */
 	final public function isWindows() : bool
 	{
@@ -67,7 +74,8 @@ final class Os extends Structure
 	 * Check if is Unix.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is Unix.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is Unix.</p>
 	 */
 	final public function isUnix() : bool
 	{

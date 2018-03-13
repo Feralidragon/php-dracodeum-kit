@@ -13,7 +13,8 @@ use Feralygon\Kit\Component\Exception;
  * This exception is thrown from a component whenever a given prototype name is not found.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The prototype name.</p>
+ * @property-read string $name
+ * <p>The prototype name.</p>
  */
 class PrototypeNameNotFound extends Exception
 {

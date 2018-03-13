@@ -26,11 +26,11 @@ use Feralygon\Kit\Utilities\{
  * all of which can be accessed statically from anywhere through this class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Root\System\Environments\Development 
+ * @see \Feralygon\Kit\Root\System\Environments\Development
  * [environment, name = 'development']
- * @see \Feralygon\Kit\Root\System\Environments\Staging 
+ * @see \Feralygon\Kit\Root\System\Environments\Staging
  * [environment, name = 'staging']
- * @see \Feralygon\Kit\Root\System\Environments\Production 
+ * @see \Feralygon\Kit\Root\System\Environments\Production
  * [environment, name = 'production']
  */
 final class System
@@ -55,7 +55,8 @@ final class System
 	 * Get environment instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Environment <p>The environment instance.</p>
+	 * @return \Feralygon\Kit\Root\System\Environment
+	 * <p>The environment instance.</p>
 	 */
 	final public static function getEnvironment() : Environment
 	{
@@ -66,8 +67,8 @@ final class System
 	 * Set environment.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Root\System\Environment|string $environment <p>The environment instance, 
-	 * class or name to set.</p>
+	 * @param \Feralygon\Kit\Root\System\Environment|string $environment
+	 * <p>The environment instance, class or name to set.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidEnvironment
 	 * @return void
 	 */
@@ -102,7 +103,8 @@ final class System
 	 * and a higher memory footprint.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is in debug mode.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is in debug mode.</p>
 	 */
 	final public static function isDebug() : bool
 	{
@@ -118,8 +120,10 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ini-set.php
-	 * @param string $name <p>The <samp>php.ini</samp> configuration option name to set for.</p>
-	 * @param string|int|float|bool|null $value <p>The <samp>php.ini</samp> configuration option value to set.</p>
+	 * @param string $name
+	 * <p>The <samp>php.ini</samp> configuration option name to set for.</p>
+	 * @param string|int|float|bool|null $value
+	 * <p>The <samp>php.ini</samp> configuration option value to set.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionInvalidValueType
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionFailed
 	 * @return void
@@ -129,9 +133,7 @@ final class System
 		//validate
 		if (isset($value) && !is_scalar($value)) {
 			throw new Exceptions\SetIniOptionInvalidValueType([
-				'name' => $name,
-				'value' => $value,
-				'type' => gettype($value)
+				'name' => $name, 'value' => $value, 'type' => gettype($value)
 			]);
 		} elseif (Vendor::isLibrary()) {
 			return;
@@ -162,7 +164,8 @@ final class System
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.error-reporting.php
 	 * @see https://php.net/manual/en/errorfunc.constants.php
-	 * @param int $flags <p>The error reporting flags to set.</p>
+	 * @param int $flags
+	 * <p>The error reporting flags to set.</p>
 	 * @return void
 	 */
 	final public static function setErrorReportingFlags(int $flags) : void
@@ -176,7 +179,8 @@ final class System
 	 * Get hostname.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The hostname or <code>null</code> if none is set.</p>
+	 * @return string|null
+	 * <p>The hostname or <code>null</code> if none is set.</p>
 	 */
 	final public static function getHostname() : ?string
 	{
@@ -188,7 +192,8 @@ final class System
 	 * Get IP address.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The IP address or <code>null</code> if none is set.</p>
+	 * @return string|null
+	 * <p>The IP address or <code>null</code> if none is set.</p>
 	 */
 	final public static function getIpAddress() : ?string
 	{
@@ -210,7 +215,8 @@ final class System
 	 * Get OS (Operating System) instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Structures\Os <p>The OS (Operating System) instance.</p>
+	 * @return \Feralygon\Kit\Root\System\Structures\Os
+	 * <p>The OS (Operating System) instance.</p>
 	 */
 	final public static function getOs() : Structures\Os
 	{
@@ -230,9 +236,11 @@ final class System
 	 * Check if has a command with a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The command name to check for.</p>
+	 * @param string $name
+	 * <p>The command name to check for.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidCommandName
-	 * @return bool <p>Boolean <code>true</code> if has a command with the given name.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has a command with the given name.</p>
 	 */
 	final public static function hasCommand(string $name) : bool
 	{
@@ -251,7 +259,8 @@ final class System
 	 * Load environment instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Environment <p>The loaded environment instance.</p>
+	 * @return \Feralygon\Kit\Root\System\Environment
+	 * <p>The loaded environment instance.</p>
 	 */
 	final private static function loadEnvironment() : Environment
 	{
@@ -265,9 +274,10 @@ final class System
 	 * Build environment instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The environment name to build for.</p>
-	 * @return \Feralygon\Kit\Root\System\Environment|null <p>The built environment instance for the given name 
-	 * or <code>null</code> if none was built.</p>
+	 * @param string $name
+	 * <p>The environment name to build for.</p>
+	 * @return \Feralygon\Kit\Root\System\Environment|null
+	 * <p>The built environment instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	final private static function buildEnvironment(string $name) : ?Environment
 	{

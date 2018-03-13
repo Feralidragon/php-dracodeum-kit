@@ -121,11 +121,12 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $timestamp <p>The timestamp to retrieve from, 
-	 * as supported by the PHP <code>strtotime</code> function 
+	 * @param int|float|string $timestamp
+	 * <p>The timestamp to retrieve from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\InvalidTimestamp
-	 * @return int <p>The Unix timestamp from the given timestamp.</p>
+	 * @return int
+	 * <p>The Unix timestamp from the given timestamp.</p>
 	 */
 	final public static function timestamp($timestamp) : int
 	{
@@ -154,12 +155,15 @@ final class Time extends Utility
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to evaluate into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a date and time.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a date and time.</p>
 	 */
 	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -181,13 +185,16 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to coerce into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
-	 * @return int|string|null <p>The given value coerced into a date and time.<br>
+	 * @return int|string|null
+	 * <p>The given value coerced into a date and time.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDateTime($value, ?string $format = null, bool $nullable = false)
@@ -237,12 +244,13 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $datetime <p>The date and time to generate from, 
-	 * as supported by the PHP <code>strtotime</code> function 
+	 * @param int|float|string $datetime
+	 * <p>The date and time to generate from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The generated string from the given date and time.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The generated string from the given date and time.</p>
 	 */
 	final public static function stringifyDateTime($datetime, $text_options = null) : string
 	{
@@ -268,12 +276,15 @@ final class Time extends Utility
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to evaluate into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a date.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a date.</p>
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -295,13 +306,16 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to coerce into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateCoercionFailed
-	 * @return int|string|null <p>The given value coerced into a date.<br>
+	 * @return int|string|null
+	 * <p>The given value coerced into a date.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
@@ -350,11 +364,13 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $date <p>The date to generate from, 
-	 * as supported by the PHP <code>strtotime</code> function or as the number of seconds since 1970-01-01.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The generated string from the given date.</p>
+	 * @param int|float|string $date
+	 * <p>The date to generate from, as supported by the PHP <code>strtotime</code> function 
+	 * or as the number of seconds since 1970-01-01.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The generated string from the given date.</p>
 	 */
 	final public static function stringifyDate($date, $text_options = null) : string
 	{
@@ -380,12 +396,15 @@ final class Time extends Utility
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to evaluate into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a time.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a time.</p>
 	 */
 	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -407,13 +426,16 @@ final class Time extends Utility
 	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param string|null $format [default = null] <p>The format to coerce into, 
-	 * as supported by the PHP <code>date</code> function.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
 	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
-	 * @return int|string|null <p>The given value coerced into a time.<br>
+	 * @return int|string|null
+	 * <p>The given value coerced into a time.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
@@ -463,11 +485,13 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $time <p>The time to generate from, 
-	 * as supported by the PHP <code>strtotime</code> function or as the number of seconds.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The generated string from the given time.</p>
+	 * @param int|float|string $time
+	 * <p>The time to generate from, as supported by the PHP <code>strtotime</code> function 
+	 * or as the number of seconds.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The generated string from the given time.</p>
 	 */
 	final public static function stringifyTime($time, $text_options = null) : string
 	{
@@ -493,13 +517,13 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $timestamp <p>The timestamp to calculate from, 
-	 * as supported by the PHP <code>strtotime</code> function 
+	 * @param int|float|string $timestamp
+	 * <p>The timestamp to calculate from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The calculated period on how long ago it has been, in a human-readable format, 
-	 * since the given timestamp.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The calculated period on how long ago it has been, in a human-readable format, since the given timestamp.</p>
 	 */
 	final public static function ago($timestamp, $text_options = null) : string
 	{
@@ -631,12 +655,14 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
 	 * 
 	 * @since 1.0.0
-	 * @param float $period <p>The machine-readable period to retrieve from, in seconds.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Time\Options\Hperiod|array|null $options [default = null] 
+	 * @param float $period
+	 * <p>The machine-readable period to retrieve from, in seconds.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Time\Options\Hperiod|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The human-readable period from the given machine one.</p>
+	 * @return string
+	 * <p>The human-readable period from the given machine one.</p>
 	 */
 	final public static function hperiod(float $period, $text_options = null, $options = null) : string
 	{
@@ -828,9 +854,7 @@ final class Time extends Utility
 		 */
 		return Text::localize(
 			"{{list}} and {{last}}",
-			self::class, $text_options, [
-				'parameters' => ['list' => $parts_list, 'last' => $last_part]
-			]
+			self::class, $text_options, ['parameters' => ['list' => $parts_list, 'last' => $last_part]]
 		);
 	}
 	
@@ -861,9 +885,11 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
 	 * 
 	 * @since 1.0.0
-	 * @param string $period <p>The human-readable period to retrieve from.</p>
+	 * @param string $period
+	 * <p>The human-readable period to retrieve from.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\MperiodInvalidPeriod
-	 * @return float <p>The machine-readable period, in seconds, from the given human one.</p>
+	 * @return float
+	 * <p>The machine-readable period, in seconds, from the given human one.</p>
 	 */
 	final public static function mperiod(string $period) : float
 	{
@@ -894,9 +920,12 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
@@ -917,10 +946,13 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\MultipleCoercionFailed
-	 * @return int|float|null <p>The given value coerced into a multiple.<br>
+	 * @return int|float|null
+	 * <p>The given value coerced into a multiple.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false)
@@ -979,22 +1011,22 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $start <p>The start timestamp to generate from, 
-	 * as supported by the PHP <code>strtotime</code> function 
+	 * @param int|float|string $start
+	 * <p>The start timestamp to generate from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param int|float|string|null $end [default = null] <p>The end timestamp to generate to, 
-	 * as supported by the PHP <code>strtotime</code> function 
+	 * @param int|float|string|null $end [default = null]
+	 * <p>The end timestamp to generate to, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.<br>
 	 * If not set, the current system time is used.</p>
-	 * @param int|float $interval [default = \Feralygon\Kit\Enumerations\Time::T1_DAY] 
+	 * @param int|float $interval [default = \Feralygon\Kit\Enumerations\Time::T1_DAY]
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
-	 * @param \Feralygon\Kit\Utilities\Time\Options\Generate|array|null $options [default = null] 
+	 * @param \Feralygon\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateInvalidInterval
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateStartLaterThanEnd
-	 * @return float[]|string[] <p>The generated time series from the given start timestamp, 
-	 * as <samp>time => time</samp> pairs.</p>
+	 * @return float[]|string[]
+	 * <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>
 	 */
 	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
 	{

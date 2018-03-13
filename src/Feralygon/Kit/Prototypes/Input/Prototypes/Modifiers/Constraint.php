@@ -20,8 +20,10 @@ abstract class Constraint extends Modifier
 	 * Check a given value.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is valid.</p>
+	 * @param mixed $value
+	 * <p>The value to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is valid.</p>
 	 */
 	abstract public function checkValue($value) : bool;
 }

@@ -26,14 +26,20 @@ use Feralygon\Kit\Utilities\{
  * This filter prototype truncates a value to a specific length.
  * 
  * @since 1.0.0
- * @property int $length <p>The length to truncate to.<br>
+ * @property int $length
+ * <p>The length to truncate to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property bool $unicode [default = false] <p>Handle as an Unicode value.</p>
- * @property bool $ellipsis [default = false] <p>Add an ellipsis at the end of the truncated value.</p>
- * @property string|null $ellipsis_string [default = null] <p>The ellipsis string to use.<br>
+ * @property bool $unicode [default = false]
+ * <p>Handle as an Unicode value.</p>
+ * @property bool $ellipsis [default = false]
+ * <p>Add an ellipsis at the end of the truncated value.</p>
+ * @property string|null $ellipsis_string [default = null]
+ * <p>The ellipsis string to use.<br>
  * If not set, the internal default ellipsis string is used.</p>
- * @property bool $keep_words [default = false] <p>Try to keep words preserved in the truncated value.</p>
- * @property bool $keep_sentences [default = false] <p>Try to keep sentences preserved in the truncated value.</p>
+ * @property bool $keep_words [default = false]
+ * <p>Try to keep words preserved in the truncated value.</p>
+ * @property bool $keep_sentences [default = false]
+ * <p>Try to keep sentences preserved in the truncated value.</p>
  */
 class Truncate extends Filter implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
 {

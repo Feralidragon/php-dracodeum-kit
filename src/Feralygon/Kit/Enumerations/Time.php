@@ -249,9 +249,7 @@ class Time extends Enumeration
 			 */
 			return UText::localize(
 				"Time in seconds equivalent to {{time}}.",
-				self::class, $text_options, [
-					'parameters' => ['time' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['time' => $label]]
 			);
 		}
 		return null;

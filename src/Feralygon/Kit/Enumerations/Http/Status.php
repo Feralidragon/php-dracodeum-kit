@@ -426,9 +426,7 @@ class Status extends Enumeration
 			 */
 			return UText::localize(
 				"Informational {{label}} HTTP status code.",
-				self::class, $text_options, [
-					'parameters' => ['label' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $label]]
 			);
 		} elseif ($value <= 299) {
 			/**
@@ -438,9 +436,7 @@ class Status extends Enumeration
 			 */
 			return UText::localize(
 				"Success {{label}} HTTP status code.",
-				self::class, $text_options, [
-					'parameters' => ['label' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $label]]
 			);
 		} elseif ($value <= 399) {
 			/**
@@ -450,9 +446,7 @@ class Status extends Enumeration
 			 */
 			return UText::localize(
 				"Redirection {{label}} HTTP status code.",
-				self::class, $text_options, [
-					'parameters' => ['label' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $label]]
 			);
 		} elseif ($value <= 499) {
 			/**
@@ -462,9 +456,7 @@ class Status extends Enumeration
 			 */
 			return UText::localize(
 				"Client error {{label}} HTTP status code.",
-				self::class, $text_options, [
-					'parameters' => ['label' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $label]]
 			);
 		} elseif ($value <= 599) {
 			/**
@@ -474,9 +466,7 @@ class Status extends Enumeration
 			 */
 			return UText::localize(
 				"Server error {{label}} HTTP status code.",
-				self::class, $text_options, [
-					'parameters' => ['label' => $label]
-				]
+				self::class, $text_options, ['parameters' => ['label' => $label]]
 			);
 		}
 		return null;
@@ -489,9 +479,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents an informational HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents an informational HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents an informational HTTP status.</p>
 	 */
 	public static function isInformational($element) : bool
 	{
@@ -503,9 +494,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents a success HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents a success HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents a success HTTP status.</p>
 	 */
 	public static function isSuccess($element) : bool
 	{
@@ -517,9 +509,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents a redirection HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents a redirection HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents a redirection HTTP status.</p>
 	 */
 	public static function isRedirection($element) : bool
 	{
@@ -531,9 +524,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents a client error HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents a client error HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents a client error HTTP status.</p>
 	 */
 	public static function isClientError($element) : bool
 	{
@@ -545,9 +539,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents a server error HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents a server error HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents a server error HTTP status.</p>
 	 */
 	public static function isServerError($element) : bool
 	{
@@ -559,8 +554,10 @@ class Status extends Enumeration
 	 * Check if a given enumerated element represents an error HTTP status.
 	 * 
 	 * @since 1.0.0
-	 * @param int|string $element <p>The enumerated element to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given enumerated element represents an error HTTP status.</p>
+	 * @param int|string $element
+	 * <p>The enumerated element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given enumerated element represents an error HTTP status.</p>
 	 */
 	public static function isError($element) : bool
 	{

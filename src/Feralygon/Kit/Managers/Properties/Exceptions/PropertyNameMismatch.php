@@ -14,8 +14,10 @@ use Feralygon\Kit\Managers\Properties\Objects\Property;
  * This exception is thrown from a properties manager whenever a given property name mismatches the expected one.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The expected property name.</p>
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property <p>The property instance.</p>
+ * @property-read string $name
+ * <p>The expected property name.</p>
+ * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * <p>The property instance.</p>
  */
 class PropertyNameMismatch extends Exception
 {

@@ -27,9 +27,11 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to an exact length.
  * 
  * @since 1.0.0
- * @property int $length <p>The length to restrict to.<br>
+ * @property int $length
+ * <p>The length to restrict to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property bool $unicode [default = false] <p>Check as an Unicode value.</p>
+ * @property bool $unicode [default = false]
+ * <p>Check as an Unicode value.</p>
  */
 class Length extends Constraint
 implements IPrototypeProperties, IName, IPriority, IInformation, IStringification, ISchemaData

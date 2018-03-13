@@ -22,7 +22,8 @@ interface Name
 	 * The returning name must be a canonical string, which uniquely identifies this modifier within an input.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	public function getName() : string;
 }

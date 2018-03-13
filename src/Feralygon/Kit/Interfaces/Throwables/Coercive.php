@@ -19,7 +19,8 @@ interface Coercive extends \Throwable
 	 * Get value.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The value.</p>
+	 * @return mixed
+	 * <p>The value.</p>
 	 */
 	public function getValue();
 	
@@ -27,7 +28,8 @@ interface Coercive extends \Throwable
 	 * Get error code.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The error code or <code>null</code> if none is set.</p>
+	 * @return string|null
+	 * <p>The error code or <code>null</code> if none is set.</p>
 	 */
 	public function getErrorCode() : ?string;
 	
@@ -35,7 +37,8 @@ interface Coercive extends \Throwable
 	 * Get error message.
 	 * 
 	 * @since 1.0.0
-	 * @return string|null <p>The error message or <code>null</code> if none is set.</p>
+	 * @return string|null
+	 * <p>The error message or <code>null</code> if none is set.</p>
 	 */
 	public function getErrorMessage() : ?string;
 }

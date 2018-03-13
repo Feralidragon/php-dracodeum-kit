@@ -26,10 +26,11 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a number to a set of allowed multiples.
  * 
  * @since 1.0.0
- * @property int[]|float[] $multiples <p>The allowed multiples to restrict to.<br>
+ * @property int[]|float[] $multiples
+ * <p>The allowed multiples to restrict to.<br>
  * They must all be different from <code>0</code>.</p>
- * @property bool $negate [default = false] <p>Negate the restriction, 
- * so the given allowed multiples act as disallowed multiples instead.</p>
+ * @property bool $negate [default = false]
+ * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
 class Multiples extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
@@ -128,9 +129,7 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 			 */
 			return UText::localize(
 				"A multiple of {{multiples}} is not allowed.",
-				self::class, $text_options, [
-					'parameters' => ['multiples' => $multiples_string]
-				]
+				self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]
 			);
 		}
 		/**
@@ -139,9 +138,7 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 		 */
 		return UText::localize(
 			"Only a multiple of {{multiples}} is allowed.",
-			self::class, $text_options, [
-				'parameters' => ['multiples' => $multiples_string]
-			]
+			self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]
 		);
 	}
 	

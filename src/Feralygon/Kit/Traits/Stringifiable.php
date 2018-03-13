@@ -26,7 +26,8 @@ trait Stringifiable
 	 * the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface implemented.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>This object converted into a string.</p>
+	 * @return string
+	 * <p>This object converted into a string.</p>
 	 */
 	final public function __toString() : string
 	{

@@ -30,11 +30,14 @@ final class Package
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param string $vendor <p>The vendor.<br>
+	 * @param string $vendor
+	 * <p>The vendor.<br>
 	 * It is converted to lowercase.</p>
-	 * @param string $name <p>The name.<br>
+	 * @param string $name
+	 * <p>The name.<br>
 	 * It is converted to lowercase.</p>
-	 * @param string $path <p>The path.</p>
+	 * @param string $path
+	 * <p>The path.</p>
 	 */
 	final public function __construct(string $vendor, string $name, string $path)
 	{
@@ -50,7 +53,8 @@ final class Package
 	 * Get vendor.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The vendor.</p>
+	 * @return string
+	 * <p>The vendor.</p>
 	 */
 	final public function getVendor() : string
 	{
@@ -61,7 +65,8 @@ final class Package
 	 * Get name.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	final public function getName() : string
 	{
@@ -72,7 +77,8 @@ final class Package
 	 * Get path.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The path.</p>
+	 * @return string
+	 * <p>The path.</p>
 	 */
 	final public function getPath() : string
 	{

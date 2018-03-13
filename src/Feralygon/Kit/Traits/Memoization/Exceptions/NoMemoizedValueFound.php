@@ -14,8 +14,10 @@ use Feralygon\Kit\Traits\Memoization\Exception;
  * is found at a given key.
  * 
  * @since 1.0.0
- * @property-read string $key <p>The key.</p>
- * @property-read string $namespace [default = ''] <p>The namespace.</p>
+ * @property-read string $key
+ * <p>The key.</p>
+ * @property-read string $namespace [default = '']
+ * <p>The namespace.</p>
  */
 class NoMemoizedValueFound extends Exception
 {

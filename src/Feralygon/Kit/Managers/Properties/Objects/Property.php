@@ -63,8 +63,10 @@ class Property
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Managers\Properties $manager <p>The manager instance.</p>
-	 * @param string $name <p>The name.</p>
+	 * @param \Feralygon\Kit\Managers\Properties $manager
+	 * <p>The manager instance.</p>
+	 * @param string $name
+	 * <p>The name.</p>
 	 */
 	final public function __construct(Manager $manager, string $name)
 	{
@@ -79,7 +81,8 @@ class Property
 	 * Get manager instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Managers\Properties <p>The manager instance.</p>
+	 * @return \Feralygon\Kit\Managers\Properties
+	 * <p>The manager instance.</p>
 	 */
 	final public function getManager() : Manager
 	{
@@ -90,7 +93,8 @@ class Property
 	 * Get name.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	final public function getName() : string
 	{
@@ -103,7 +107,8 @@ class Property
 	 * A property becomes implicitly initialized once a value is set.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is initialized.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
 	final public function isInitialized() : bool
 	{
@@ -114,7 +119,8 @@ class Property
 	 * Check if is required.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is required.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is required.</p>
 	 */
 	final public function isRequired() : bool
 	{
@@ -127,7 +133,8 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\AlreadyInitialized
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function initialize() : Property
 	{
@@ -147,7 +154,8 @@ class Property
 	 * with lazy-loading disabled and only if the mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsRequired() : Property
 	{
@@ -177,7 +185,8 @@ class Property
 	 * Get mode.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The mode.</p>
+	 * @return string
+	 * <p>The mode.</p>
 	 */
 	final public function getMode() : string
 	{
@@ -188,7 +197,8 @@ class Property
 	 * Set mode.
 	 * 
 	 * @since 1.0.0
-	 * @param string $mode <p>The access mode to set, which must be one the following:<br>
+	 * @param string $mode
+	 * <p>The access mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
 	 * so that it cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow this property to be only read from (read-only), 
@@ -203,10 +213,10 @@ class Property
 	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
-	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.
-	 * </p>
+	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidMode
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setMode(string $mode) : Property
 	{
@@ -246,7 +256,8 @@ class Property
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @return mixed <p>The value.</p>
+	 * @return mixed
+	 * <p>The value.</p>
 	 */
 	final public function getValue()
 	{
@@ -262,9 +273,11 @@ class Property
 	 * This method may only be called during or after the manager initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to set.</p>
+	 * @param mixed $value
+	 * <p>The value to set.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidValue
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setValue($value) : Property
 	{
@@ -293,7 +306,8 @@ class Property
 	 * Check if has default value.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if has default value.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has default value.</p>
 	 */
 	final public function hasDefaultValue() : bool
 	{
@@ -306,7 +320,8 @@ class Property
 	 * @since 1.0.0
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\NoDefaultValueSet
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidDefaultValue
-	 * @return mixed <p>The default value.</p>
+	 * @return mixed
+	 * <p>The default value.</p>
 	 */
 	final public function getDefaultValue()
 	{
@@ -329,8 +344,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The default value to set.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param mixed $value
+	 * <p>The default value to set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultValue($value) : Property
 	{
@@ -357,14 +374,15 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $getter <p>The default getter function to set.<br>
+	 * @param callable $getter
+	 * <p>The default getter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>mixed</b></code><br>
-	 * The default value.
-	 * </p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * The default value.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setDefaultGetter(callable $getter) : Property
 	{
@@ -382,7 +400,8 @@ class Property
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function resetValue() : Property
 	{
@@ -399,18 +418,19 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $evaluator <p>The evaluator function to set.<br>
+	 * @param callable $evaluator
+	 * <p>The evaluator function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.
-	 * </p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setEvaluator(callable $evaluator) : Property
 	{
@@ -440,8 +460,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsBoolean(bool $nullable = false) : Property
 	{
@@ -457,8 +479,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictBoolean(bool $nullable = false) : Property
 	{
@@ -490,8 +514,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsNumber(bool $nullable = false) : Property
 	{
@@ -507,8 +533,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictNumber(bool $nullable = false) : Property
 	{
@@ -539,8 +567,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsInteger(bool $nullable = false) : Property
 	{
@@ -556,8 +586,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictInteger(bool $nullable = false) : Property
 	{
@@ -589,8 +621,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsFloat(bool $nullable = false) : Property
 	{
@@ -606,8 +640,10 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictFloat(bool $nullable = false) : Property
 	{
@@ -625,9 +661,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsString(bool $non_empty = false, bool $nullable = false) : Property
 	{
@@ -643,9 +682,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty string value.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false) : Property
 	{
@@ -663,10 +705,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which a value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsClass($base_object_class = null, bool $nullable = false) : Property
 	{
@@ -682,10 +726,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which a value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictClass($base_object_class = null, bool $nullable = false) : Property
 	{
@@ -703,11 +749,14 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which a value must be or extend from.</p>
-	 * @param array $arguments [default = []] <p>The class constructor arguments to instantiate with.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param array $arguments [default = []]
+	 * <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsObject(
 		$base_object_class = null, array $arguments = [], bool $nullable = false
@@ -725,10 +774,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which a value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictObject($base_object_class = null, bool $nullable = false) : Property
 	{
@@ -746,10 +797,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null] <p>The base object or class 
-	 * which a value must be or extend from.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param object|string|null $base_object_class [default = null]
+	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsObjectClass($base_object_class = null, bool $nullable = false) : Property
 	{
@@ -765,12 +818,15 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the compatibility against.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param callable|null $template [default = null]
+	 * <p>The template callable declaration to validate the compatibility against.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false]
+	 * <p>Evaluate in an assertive manner, in other words, perform the heavier validations, 
+	 * such as the template compatibility one, only when in a debug environment.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsCallable(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
@@ -788,12 +844,15 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the compatibility against.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param callable|null $template [default = null]
+	 * <p>The template callable declaration to validate the compatibility against.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false]
+	 * <p>Evaluate in an assertive manner, in other words, perform the heavier validations, 
+	 * such as the template compatibility one, only when in a debug environment.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsClosure(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
@@ -818,24 +877,27 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
-	 * in the resulting array value.<br>
+	 * @param callable|null $evaluator [default = null]
+	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
-	 * The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element is successfully evaluated.
-	 * </p>
-	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
+	 * @param bool $non_associative [default = false]
+	 * <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
@@ -853,24 +915,27 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
-	 * in the resulting array value.<br>
+	 * @param callable|null $evaluator [default = null]
+	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
-	 * The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element is successfully evaluated.
-	 * </p>
-	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
+	 * @param bool $non_associative [default = false]
+	 * <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
@@ -892,9 +957,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $enumeration <p>The enumeration class to use.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $enumeration
+	 * <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false) : Property
 	{
@@ -911,9 +979,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $enumeration <p>The enumeration class to use.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $enumeration
+	 * <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false) : Property
 	{
@@ -936,9 +1007,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $enumeration <p>The enumeration class to use.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $enumeration
+	 * <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsEnumerationName(string $enumeration, bool $nullable = false) : Property
 	{
@@ -955,9 +1029,12 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $enumeration <p>The enumeration class to use.</p>
-	 * @param bool $nullable [default = false] <p>Allow a value to evaluate as <code>null</code>.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @param string $enumeration
+	 * <p>The enumeration class to use.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false) : Property
 	{
@@ -977,13 +1054,16 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string $class <p>The structure class to use.</p>
-	 * @param bool $clone [default = false] <p>If a structure instance is given, clone it into a new one 
-	 * with the same properties.</p>
-	 * @param bool $readonly [default = false] <p>Evaluate into a read-only structure instance.<br>
+	 * @param string $class
+	 * <p>The structure class to use.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If a structure instance is given, clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Evaluate into a read-only structure instance.<br>
 	 * If a structure instance is given and is not read-only, a new one is created with the same properties 
 	 * and as read-only.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStructure(string $class, bool $clone = false, bool $readonly = false) : Property
 	{
@@ -1003,21 +1083,23 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $getter <p>The getter function to set.<br>
+	 * @param callable $getter
+	 * <p>The getter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>mixed</b></code><br>
-	 * The value.
-	 * </p>
-	 * @param callable $setter <p>The setter function to set.<br>
+	 * The value.</p>
+	 * @param callable $setter
+	 * <p>The setter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ($value) : void</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code> : The value to set.
-	 * </p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAccessors(callable $getter, callable $setter) : Property
 	{
@@ -1052,11 +1134,14 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param string|null $class [default = null] <p>The class scope to use.<br>
+	 * @param string|null $class [default = null]
+	 * <p>The class scope to use.<br>
 	 * If not set, the manager owner object of this instance is used.</p>
-	 * @param string|null $name [default = null] <p>The property name to bind to.<br>
+	 * @param string|null $name [default = null]
+	 * <p>The property name to bind to.<br>
 	 * If not set, the name set in this instance is used.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function bind(?string $class = null, ?string $name = null) : Property
 	{

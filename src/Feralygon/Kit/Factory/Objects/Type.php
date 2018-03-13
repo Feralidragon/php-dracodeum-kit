@@ -36,10 +36,13 @@ final class Type
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The name.</p>
-	 * @param string $builder_interface <p>The builder interface.<br>
+	 * @param string $name
+	 * <p>The name.</p>
+	 * @param string $builder_interface
+	 * <p>The builder interface.<br>
 	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class.<br>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder
+	 * <p>The builder instance or class.<br>
 	 * It must implement the builder interface given above as <var>$builder_interface</var>.</p>
 	 */
 	final public function __construct(string $name, string $builder_interface, $builder)
@@ -65,7 +68,8 @@ final class Type
 	 * Get name.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The name.</p>
+	 * @return string
+	 * <p>The name.</p>
 	 */
 	final public function getName() : string
 	{
@@ -76,7 +80,8 @@ final class Type
 	 * Get builder interface.
 	 * 
 	 * @since 1.0.0
-	 * @return string <p>The builder interface.</p>
+	 * @return string
+	 * <p>The builder interface.</p>
 	 */
 	final public function getBuilderInterface() : string
 	{
@@ -87,7 +92,8 @@ final class Type
 	 * Get builder instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Factory\Builder <p>The builder instance.</p>
+	 * @return \Feralygon\Kit\Factory\Builder
+	 * <p>The builder instance.</p>
 	 */
 	final public function getBuilder() : Builder
 	{
@@ -98,9 +104,11 @@ final class Type
 	 * Set builder.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Factory\Builder|string $builder <p>The builder instance or class to set.<br>
+	 * @param \Feralygon\Kit\Factory\Builder|string $builder
+	 * <p>The builder instance or class to set.<br>
 	 * It must implement the builder interface set in this type.</p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setBuilder($builder) : Type
 	{

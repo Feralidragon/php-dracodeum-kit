@@ -33,7 +33,8 @@ class Readonly
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param object $owner <p>The owner object.</p>
+	 * @param object $owner
+	 * <p>The owner object.</p>
 	 */
 	final public function __construct(object $owner)
 	{
@@ -47,7 +48,8 @@ class Readonly
 	 * Get owner object.
 	 * 
 	 * @since 1.0.0
-	 * @return object <p>The owner object.</p>
+	 * @return object
+	 * <p>The owner object.</p>
 	 */
 	final public function getOwner() : object
 	{
@@ -58,7 +60,8 @@ class Readonly
 	 * Check if is enabled.
 	 * 
 	 * @since 1.0.0
-	 * @return bool <p>Boolean <code>true</code> if is enabled.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is enabled.</p>
 	 */
 	final public function isEnabled() : bool
 	{
@@ -69,7 +72,8 @@ class Readonly
 	 * Enable.
 	 * 
 	 * @since 1.0.0
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function enable() : Readonly
 	{
@@ -90,11 +94,12 @@ class Readonly
 	 * This method may only be called before enablement.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $callback <p>The callback function to add.<br>
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code>
-	 * </p>
-	 * @return $this <p>This instance, for chaining purposes.</p>
+	 * <code>function () : void</code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addCallback(callable $callback) : Readonly
 	{
@@ -110,7 +115,8 @@ class Readonly
 	 * Guard the current function or method in the stack from being called after enablement.
 	 * 
 	 * @since 1.0.0
-	 * @param int $stack_offset [default = 0] <p>The stack offset to use.<br>
+	 * @param int $stack_offset [default = 0]
+	 * <p>The stack offset to use.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @return void
 	 */

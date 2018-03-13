@@ -17,8 +17,10 @@ use Feralygon\Kit\Utilities\{
  * This exception is thrown from a properties manager whenever a given mode is invalid.
  * 
  * @since 1.0.0
- * @property-read string $mode <p>The mode.</p>
- * @property-read string[] $modes <p>The allowed modes.<br>
+ * @property-read string $mode
+ * <p>The mode.</p>
+ * @property-read string[] $modes
+ * <p>The allowed modes.<br>
  * They cannot be empty.</p>
  */
 class InvalidMode extends Exception

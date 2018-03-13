@@ -44,8 +44,10 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
-	 * @param bool $readonly [default = false] <p>Set as read-only.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Set as read-only.</p>
 	 */
 	final public function __construct(array $properties = [], bool $readonly = false)
 	{
@@ -99,12 +101,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * can be evaluated into an instance.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $clone [default = false] <p>If an instance is given, clone it into a new one 
-	 * with the same properties.</p>
-	 * @param bool $readonly [default = false] <p>Evaluate into a read-only instance.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false) : bool
 	{
@@ -123,13 +128,16 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * can be coerced into an instance.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $clone [default = false] <p>If an instance is given, clone it into a new one 
-	 * with the same properties.</p>
-	 * @param bool $readonly [default = false] <p>Coerce into a read-only instance.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Coerce into a read-only instance.<br>
 	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
-	 * @return static <p>The given value coerced into an instance.</p>
+	 * @return static
+	 * <p>The given value coerced into an instance.</p>
 	 */
 	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Structure
 	{

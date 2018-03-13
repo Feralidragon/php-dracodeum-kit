@@ -22,11 +22,12 @@ trait Prototypes
 	 * Build prototype instance for a given name.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The prototype name to build for.</p>
-	 * @param array $properties [default = []] <p>The prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Prototype|null <p>The built prototype instance for the given name or 
-	 * <code>null</code> if none was built.</p>
+	 * @param string $name
+	 * <p>The prototype name to build for.</p>
+	 * @param array $properties [default = []]
+	 * <p>The prototype properties to use, as <samp>name => value</samp> pairs.</p>
+	 * @return \Feralygon\Kit\Prototype|null
+	 * <p>The built prototype instance for the given name or <code>null</code> if none was built.</p>
 	 */
 	protected function buildPrototype(string $name, array $properties = []) : ?Prototype
 	{

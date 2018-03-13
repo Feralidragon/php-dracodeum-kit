@@ -22,7 +22,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to lowercase.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false] <p>Check as an Unicode value.</p>
+ * @property bool $unicode [default = false]
+ * <p>Check as an Unicode value.</p>
  */
 class Lowercase extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
 {

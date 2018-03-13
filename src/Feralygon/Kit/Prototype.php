@@ -36,7 +36,8 @@ abstract class Prototype
 	 * Instantiate class.
 	 *
 	 * @since 1.0.0
-	 * @param array $properties [default = []] <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Prototype\Exceptions\PropertiesNotImplemented
 	 */
 	final public function __construct(array $properties = [])
