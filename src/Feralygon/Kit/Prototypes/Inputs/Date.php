@@ -144,32 +144,28 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []) : ?Modifier
 	{
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(new Constraints\Values($prototype_properties), $properties);
+				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(
-					new Constraints\Values(['negate' => true] + $prototype_properties), $properties
-				);
+				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			case 'constraints.minimum':
-				return $this->createConstraint(new Constraints\Minimum($prototype_properties), $properties);
+				return $this->createConstraint(Constraints\Minimum::class, $properties);
 			case 'constraints.maximum':
-				return $this->createConstraint(new Constraints\Maximum($prototype_properties), $properties);
+				return $this->createConstraint(Constraints\Maximum::class, $properties);
 			case 'constraints.range':
-				return $this->createConstraint(new Constraints\Range($prototype_properties), $properties);
+				return $this->createConstraint(Constraints\Range::class, $properties);
 			case 'constraints.non_range':
-				return $this->createConstraint(
-					new Constraints\Range(['negate' => true] + $prototype_properties), $properties
-				);
+				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
 			
 			//filters
 			case 'filters.format':
-				return $this->createFilter(new Filters\Format($prototype_properties), $properties);
+				return $this->createFilter(Filters\Format::class, $properties);
 			case 'filters.iso8601':
-				return $this->createFilter(new Filters\Iso8601($prototype_properties), $properties);
+				return $this->createFilter(Filters\Iso8601::class, $properties);
 		}
 		return null;
 	}

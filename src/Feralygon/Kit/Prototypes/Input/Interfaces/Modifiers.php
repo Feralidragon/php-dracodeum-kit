@@ -25,10 +25,8 @@ interface Modifiers
 	 * @param string $name <p>The modifier name to build for.</p>
 	 * @param array $properties [default = []] <p>The modifier properties to use, 
 	 * as <samp>name => value</samp> pairs.</p>
-	 * @param array $prototype_properties [default = []] <p>The modifier prototype properties to use, 
-	 * as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier|null 
 	 * <p>The built modifier instance for the given name or <code>null</code> if none was built.</p>
 	 */
-	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier;
+	public function buildModifier(string $name, array $properties = []) : ?Modifier;
 }

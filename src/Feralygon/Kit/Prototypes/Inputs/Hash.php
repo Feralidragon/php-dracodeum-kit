@@ -167,22 +167,20 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = [], array $prototype_properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []) : ?Modifier
 	{
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
-				return $this->createConstraint(new Constraints\Values($prototype_properties), $properties);
+				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
-				return $this->createConstraint(
-					new Constraints\Values(['negate' => true] + $prototype_properties), $properties
-				);
+				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			
 			//filters
 			case 'filters.raw':
-				return $this->createFilter(new Filters\Raw($prototype_properties), $properties);
+				return $this->createFilter(Filters\Raw::class, $properties);
 			case 'filters.base64':
-				return $this->createFilter(new Filters\Base64($prototype_properties), $properties);
+				return $this->createFilter(Filters\Base64::class, $properties);
 		}
 		return null;
 	}
