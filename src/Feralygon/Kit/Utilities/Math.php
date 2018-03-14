@@ -72,11 +72,15 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param int $maximum [default = 1] <p>The maximum integer number to generate with (inclusive).</p>
-	 * @param int $minimum [default = 0] <p>The minimum integer number to generate with (inclusive).</p>
-	 * @param int|null $seed [default = null] <p>The seed value to generate with.<br>
+	 * @param int $maximum [default = 1]
+	 * <p>The maximum integer number to generate with (inclusive).</p>
+	 * @param int $minimum [default = 0]
+	 * <p>The minimum integer number to generate with (inclusive).</p>
+	 * @param int|null $seed [default = null]
+	 * <p>The seed value to generate with.<br>
 	 * If not set, an internally generated seed is used.</p>
-	 * @return int <p>The generated random integer number.</p>
+	 * @return int
+	 * <p>The generated random integer number.</p>
 	 */
 	final public static function random(int $maximum = 1, int $minimum = 0, ?int $seed = null) : int
 	{
@@ -92,11 +96,15 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param float $maximum [default = 1.0] <p>The maximum float number to generate with (inclusive).</p>
-	 * @param float $minimum [default = 0.0] <p>The minimum float number to generate with (inclusive).</p>
-	 * @param int|null $seed [default = null] <p>The seed value to generate with.<br>
+	 * @param float $maximum [default = 1.0]
+	 * <p>The maximum float number to generate with (inclusive).</p>
+	 * @param float $minimum [default = 0.0]
+	 * <p>The minimum float number to generate with (inclusive).</p>
+	 * @param int|null $seed [default = null]
+	 * <p>The seed value to generate with.<br>
 	 * If not set, an internally generated seed is used.</p>
-	 * @return float <p>The generated random float number.</p>
+	 * @return float
+	 * <p>The generated random float number.</p>
 	 */
 	final public static function frandom(float $maximum = 1.0, float $minimum = 0.0, ?int $seed = null) : float
 	{
@@ -119,13 +127,15 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param int[]|float[] $values_weights <p>The values weights to get from, 
-	 * as <samp>value => weight</samp> pairs.<br>
+	 * @param int[]|float[] $values_weights
+	 * <p>The values weights to get from, as <samp>value => weight</samp> pairs.<br>
 	 * Each weight must be greater than or equal to <code>0</code>.</p>
-	 * @param int|null $seed [default = null] <p>The seed value to generate with.<br>
+	 * @param int|null $seed [default = null]
+	 * <p>The seed value to generate with.<br>
 	 * If not set, an internally generated seed is used.</p>
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\WrandomInvalidValueWeight
-	 * @return int|string|null <p>A random integer or string value from the given set of weighted values 
+	 * @return int|string|null
+	 * <p>A random integer or string value from the given set of weighted values 
 	 * or <code>null</code> if the given set is empty.</p>
 	 */
 	final public static function wrandom(array $values_weights, ?int $seed = null)
@@ -179,12 +189,14 @@ final class Math extends Utility
 	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
-	 * @param int $number <p>The machine-readable number to retrieve from.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Math\Options\Hnumber|array|null $options [default = null] 
+	 * @param int $number
+	 * <p>The machine-readable number to retrieve from.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Math\Options\Hnumber|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The human-readable number from the given machine one.</p>
+	 * @return string
+	 * <p>The human-readable number from the given machine one.</p>
 	 */
 	final public static function hnumber(int $number, $text_options = null, $options = null) : string
 	{
@@ -287,9 +299,11 @@ final class Math extends Utility
 	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
-	 * @param string $number <p>The human-readable number to retrieve from.</p>
+	 * @param string $number
+	 * <p>The human-readable number to retrieve from.</p>
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\MnumberInvalidNumber
-	 * @return int <p>The machine-readable number from the given human one.</p>
+	 * @return int
+	 * <p>The machine-readable number from the given human one.</p>
 	 */
 	final public static function mnumber(string $number) : int
 	{
@@ -321,9 +335,12 @@ final class Math extends Utility
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"thousand"</code> for thousands.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
@@ -344,10 +361,13 @@ final class Math extends Utility
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"thousand"</code> for thousands.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\MultipleCoercionFailed
-	 * @return int|null <p>The given value coerced into a multiple.<br>
+	 * @return int|null
+	 * <p>The given value coerced into a multiple.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false) : ?int

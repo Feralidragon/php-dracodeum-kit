@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Type\Exception;
  * This exception is thrown from the type utility whenever a given object or class is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $object_class <p>The object or class.</p>
+ * @property-read mixed $object_class
+ * <p>The object or class.</p>
  */
 class InvalidObjectClass extends Exception
 {

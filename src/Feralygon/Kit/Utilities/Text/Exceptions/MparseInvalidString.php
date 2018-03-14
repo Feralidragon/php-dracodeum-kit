@@ -11,7 +11,8 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * This exception is thrown from the text utility <code>mparse</code> method whenever a given string is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $string <p>The string.</p>
+ * @property-read mixed $string
+ * <p>The string.</p>
  */
 class MparseInvalidString extends Mparse
 {

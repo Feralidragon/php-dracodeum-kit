@@ -12,8 +12,10 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
  * is not allowed.
  * 
  * @since 1.0.0
- * @property-read string $name <p>The parameter name.</p>
- * @property-read mixed $value <p>The parameter value.</p>
+ * @property-read string $name
+ * <p>The parameter name.</p>
+ * @property-read mixed $value
+ * <p>The parameter value.</p>
  */
 class ParameterNotAllowed extends NotAllowed
 {

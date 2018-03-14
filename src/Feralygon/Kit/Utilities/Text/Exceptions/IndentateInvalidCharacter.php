@@ -11,7 +11,8 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * This exception is thrown from the text utility <code>indentate</code> method whenever a given character is invalid.
  * 
  * @since 1.0.0
- * @property-read string $character <p>The character.</p>
+ * @property-read string $character
+ * <p>The character.</p>
  */
 class IndentateInvalidCharacter extends Indentate
 {

@@ -19,9 +19,12 @@ use Feralygon\Kit\Utilities\{
  * has failed with a given value.
  * 
  * @since 1.0.0
- * @property-read mixed $value <p>The value.</p>
- * @property-read string|null $error_code [default = null] <p>The error code.</p>
- * @property-read string|null $error_message [default = null] <p>The error message.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
+ * @property-read string|null $error_code [default = null]
+ * <p>The error code.</p>
+ * @property-read string|null $error_message [default = null]
+ * <p>The error message.</p>
  */
 class DateTimeCoercionFailed extends Exception implements ICoercive
 {

@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Type\Exception;
  * This exception is thrown from the type utility whenever a given interface is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $interface <p>The interface.</p>
+ * @property-read mixed $interface
+ * <p>The interface.</p>
  */
 class InvalidInterface extends Exception
 {

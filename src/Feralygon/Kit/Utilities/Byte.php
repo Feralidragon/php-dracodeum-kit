@@ -97,10 +97,12 @@ final class Byte extends Utility
 	 * or <samp>47.96 gigabytes</samp> in long form.
 	 * 
 	 * @since 1.0.0
-	 * @param int $value <p>The machine-readable value to retrieve from, in bytes.</p>
-	 * @param \Feralygon\Kit\Utilities\Byte\Options\Hvalue|array|null $options [default = null] 
+	 * @param int $value
+	 * <p>The machine-readable value to retrieve from, in bytes.</p>
+	 * @param \Feralygon\Kit\Utilities\Byte\Options\Hvalue|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The human-readable value from the given machine one.</p>
+	 * @return string
+	 * <p>The human-readable value from the given machine one.</p>
 	 */
 	final public static function hvalue(int $value, $options = null) : string
 	{
@@ -148,9 +150,11 @@ final class Byte extends Utility
 	 * or <samp>47.96 gigabytes</samp> returns <code>47960000000</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param string $value <p>The human-readable value to retrieve from.</p>
+	 * @param string $value
+	 * <p>The human-readable value to retrieve from.</p>
 	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\MvalueInvalidValue
-	 * @return int <p>The machine-readable value in bytes from the given human one.</p>
+	 * @return int
+	 * <p>The machine-readable value in bytes from the given human one.</p>
 	 */
 	final public static function mvalue(string $value) : int
 	{
@@ -185,9 +189,12 @@ final class Byte extends Utility
 	 * such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{
@@ -211,10 +218,13 @@ final class Byte extends Utility
 	 * such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\MultipleCoercionFailed
-	 * @return int|null <p>The given value coerced into a multiple.<br>
+	 * @return int|null
+	 * <p>The given value coerced into a multiple.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false) : ?int

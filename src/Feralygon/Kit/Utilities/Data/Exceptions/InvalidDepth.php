@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * This exception is thrown from the data utility whenever a given depth is invalid.
  * 
  * @since 1.0.0
- * @property-read int $depth <p>The depth.</p>
+ * @property-read int $depth
+ * <p>The depth.</p>
  */
 class InvalidDepth extends Exception
 {

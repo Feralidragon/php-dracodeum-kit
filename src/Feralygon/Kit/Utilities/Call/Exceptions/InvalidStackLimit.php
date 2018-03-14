@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Call\Exception;
  * This exception is thrown from the call utility whenever a given stack limit is invalid.
  * 
  * @since 1.0.0
- * @property-read int $limit <p>The limit.</p>
+ * @property-read int $limit
+ * <p>The limit.</p>
  */
 class InvalidStackLimit extends Exception
 {

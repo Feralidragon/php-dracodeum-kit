@@ -15,10 +15,12 @@ use Feralygon\Kit\Utilities\Type as UType;
  * Text utility <code>parse</code> method options.
  * 
  * @since 1.0.0
- * @property string $delimiter_pattern [default = '\s+'] <p>The delimiter regular expression pattern to use to  
- * separate the fields patterns.</p>
- * @property string $pattern_modifiers [default = ''] <p>The regular expression pattern modifiers to use.</p>
- * @property string $pattern_delimiter [default = '/'] <p>The regular expression delimiter character to use.</p>
+ * @property string $delimiter_pattern [default = '\s+']
+ * <p>The delimiter regular expression pattern to use to separate the fields patterns.</p>
+ * @property string $pattern_modifiers [default = '']
+ * <p>The regular expression pattern modifiers to use.</p>
+ * @property string $pattern_delimiter [default = '/']
+ * <p>The regular expression delimiter character to use.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Parse extends Options

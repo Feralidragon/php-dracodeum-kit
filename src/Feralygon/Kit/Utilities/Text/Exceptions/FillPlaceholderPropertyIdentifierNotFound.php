@@ -12,8 +12,10 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * a given placeholder property identifier is not found.
  * 
  * @since 1.0.0
- * @property-read string $placeholder <p>The placeholder.</p>
- * @property-read string $identifier <p>The property identifier.</p>
+ * @property-read string $placeholder
+ * <p>The placeholder.</p>
+ * @property-read string $identifier
+ * <p>The property identifier.</p>
  */
 class FillPlaceholderPropertyIdentifierNotFound extends Fill
 {

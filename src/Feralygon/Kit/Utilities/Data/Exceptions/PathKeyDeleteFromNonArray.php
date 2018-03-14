@@ -14,9 +14,12 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * from a non-array value.
  * 
  * @since 1.0.0
- * @property-read string $path <p>The path.</p>
- * @property-read string $key <p>The key.</p>
- * @property-read mixed $value <p>The value.</p>
+ * @property-read string $path
+ * <p>The path.</p>
+ * @property-read string $key
+ * <p>The key.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
  */
 class PathKeyDeleteFromNonArray extends Exception
 {

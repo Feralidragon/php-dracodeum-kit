@@ -26,11 +26,13 @@ final class Json extends Utility
 	 * Encode data.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $data <p>The data to encode.</p>
-	 * @param \Feralygon\Kit\Utilities\Json\Options\Encode|array|null $options [default = null] 
+	 * @param mixed $data
+	 * <p>The data to encode.</p>
+	 * @param \Feralygon\Kit\Utilities\Json\Options\Encode|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\EncodeInvalidData
-	 * @return string <p>The given data encoded.</p>
+	 * @return string
+	 * <p>The given data encoded.</p>
 	 */
 	final public static function encode($data, $options = null) : string
 	{
@@ -44,9 +46,7 @@ final class Json extends Utility
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
 			throw new Exceptions\EncodeInvalidData([
-				'data' => $data,
-				'error_code' => $error_code,
-				'error_message' => json_last_error_msg()
+				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}
 		
@@ -58,11 +58,13 @@ final class Json extends Utility
 	 * Decode data.
 	 * 
 	 * @since 1.0.0
-	 * @param string $data <p>The data to decode.</p>
-	 * @param \Feralygon\Kit\Utilities\Json\Options\Decode|array|null $options [default = null] 
+	 * @param string $data
+	 * <p>The data to decode.</p>
+	 * @param \Feralygon\Kit\Utilities\Json\Options\Decode|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\DecodeInvalidData
-	 * @return mixed <p>The given data decoded.</p>
+	 * @return mixed
+	 * <p>The given data decoded.</p>
 	 */
 	final public static function decode(string $data, $options = null)
 	{
@@ -76,9 +78,7 @@ final class Json extends Utility
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
 			throw new Exceptions\DecodeInvalidData([
-				'data' => $data,
-				'error_code' => $error_code,
-				'error_message' => json_last_error_msg()
+				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}
 		

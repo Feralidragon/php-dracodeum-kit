@@ -11,9 +11,12 @@ namespace Feralygon\Kit\Utilities\Json\Exceptions;
  * This exception is thrown from the JSON utility <code>encode</code> method whenever given data is invalid.
  * 
  * @since 1.0.0
- * @property-read mixed $data <p>The data.</p>
- * @property-read int|null $error_code [default = null] <p>The error code.</p>
- * @property-read string|null $error_message [default = null] <p>The error message.</p>
+ * @property-read mixed $data
+ * <p>The data.</p>
+ * @property-read int|null $error_code [default = null]
+ * <p>The error code.</p>
+ * @property-read string|null $error_message [default = null]
+ * <p>The error message.</p>
  */
 class EncodeInvalidData extends Encode
 {

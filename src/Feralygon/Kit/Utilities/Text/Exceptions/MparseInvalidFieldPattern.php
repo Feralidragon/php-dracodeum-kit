@@ -11,8 +11,10 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * This exception is thrown from the text utility <code>mparse</code> method whenever a given field pattern is invalid.
  * 
  * @since 1.0.0
- * @property-read string $field <p>The field.</p>
- * @property-read mixed $pattern <p>The field pattern.</p>
+ * @property-read string $field
+ * <p>The field.</p>
+ * @property-read mixed $pattern
+ * <p>The field pattern.</p>
  */
 class MparseInvalidFieldPattern extends Mparse
 {

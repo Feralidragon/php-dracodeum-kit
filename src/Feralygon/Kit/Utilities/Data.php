@@ -171,8 +171,10 @@ final class Data extends Utility
 	 * its keys are not consecutive integers starting from <code>0</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given array is associative.</p>
+	 * @param array $array
+	 * <p>The array to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given array is associative.</p>
 	 */
 	final public static function isAssociative(array $array) : bool
 	{
@@ -191,12 +193,14 @@ final class Data extends Utility
 	 * for strict mapping and data comparisons.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to transform.</p>
-	 * @param bool|null $safe [reference output] [default = null] <p>The safety indicator which, 
-	 * if set to boolean <code>true</code>, indicates that the generated key may be used for longer term purposes, 
-	 * such as internal cache keys.</p>
+	 * @param mixed $value
+	 * <p>The value to transform.</p>
+	 * @param bool|null $safe [reference output] [default = null]
+	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
+	 * indicates that the generated key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\KeyfyUnsupportedValueType
-	 * @return string <p>An unique key from the given value.</p>
+	 * @return string
+	 * <p>An unique key from the given value.</p>
 	 */
 	final public static function keyfy($value, ?bool &$safe = null) : string
 	{
@@ -245,12 +249,15 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-merge.php
-	 * @param array $array1 <p>The first array, to merge into.</p>
-	 * @param array $array2 <p>The second array, to merge with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the merging at.<br>
+	 * @param array $array1
+	 * <p>The first array, to merge into.</p>
+	 * @param array $array2
+	 * <p>The second array, to merge with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the merging at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x000] <p>The merge bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x000]
+	 * <p>The merge bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
 	 * Merge associative arrays using the union operation, in other words,
 	 * with this flag keys present in the first array won't get replaced by the same keys present in the second.<br><br>
@@ -276,10 +283,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_KEEP</code> : 
 	 * Merge non-associative arrays by keeping the first entirely.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNIQUE</code> : 
-	 * When merging non-associative arrays, ensure that only unique values are present in the merged array.
-	 * </p>
+	 * When merging non-associative arrays, ensure that only unique values are present in the merged array.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The merged array from the two given ones.</p>
+	 * @return array
+	 * <p>The merged array from the two given ones.</p>
 	 */
 	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x000) : array
 	{
@@ -373,20 +380,22 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-unique.php
-	 * @param array $array <p>The array to remove from.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the removal at.<br>
+	 * @param array $array
+	 * <p>The array to remove from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the removal at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The unique bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The unique bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from the removal of duplicates.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : 
 	 * Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from the removal of duplicates.
-	 * </p>
+	 * Exclude non-associative arrays from the removal of duplicates.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The given array without duplicated values.</p>
+	 * @return array
+	 * <p>The given array without duplicated values.</p>
 	 */
 	final public static function unique(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -441,11 +450,13 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.sort.php
-	 * @param array $array <p>The array to sort.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the sorting at.<br>
+	 * @param array $array
+	 * <p>The array to sort.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The sort bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -453,10 +464,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_ASSOC</code> : 
 	 * Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from sorting.
-	 * </p>
+	 * Exclude non-associative arrays from sorting.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The sorted array.</p>
+	 * @return array
+	 * <p>The sorted array.</p>
 	 */
 	final public static function sort(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -508,20 +519,22 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ksort.php
-	 * @param array $array <p>The array to sort.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the sorting at.<br>
+	 * @param array $array
+	 * <p>The array to sort.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The sort bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The sort bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from sorting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from sorting.
-	 * </p>
+	 * Exclude non-associative arrays from sorting.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The sorted array by key.</p>
+	 * @return array
+	 * <p>The sorted array by key.</p>
 	 */
 	final public static function ksort(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -571,12 +584,15 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-filter.php
-	 * @param array $array <p>The array to filter.</p>
-	 * @param array $values <p>The values to filter from.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the filtering at.<br>
+	 * @param array $array
+	 * <p>The array to filter.</p>
+	 * @param array $values
+	 * <p>The values to filter from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The filter bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, 
 	 * strictly filter array from all non-array values but the given ones.<br><br>
@@ -587,10 +603,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_ASSOC</code> : 
 	 * Filter non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from filtering.
-	 * </p>
+	 * Exclude non-associative arrays from filtering.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The filtered array from the given set of non-array values.</p>
+	 * @return array
+	 * <p>The filtered array from the given set of non-array values.</p>
 	 */
 	final public static function filter(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -649,12 +665,15 @@ final class Data extends Utility
 	 * Filter a given array recursively from a given set of keys.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to filter.</p>
-	 * @param array $keys <p>The keys to filter from.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the filtering at.<br>
+	 * @param array $array
+	 * <p>The array to filter.</p>
+	 * @param int[]|string[] $keys
+	 * <p>The keys to filter from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The filter bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The filter bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, filter array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : 
@@ -662,10 +681,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from filtering.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from filtering.
-	 * </p>
+	 * Exclude non-associative arrays from filtering.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The filtered array from the given set of keys.</p>
+	 * @return array
+	 * <p>The filtered array from the given set of keys.</p>
 	 */
 	final public static function kfilter(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -723,12 +742,15 @@ final class Data extends Utility
 	 * values which are themselves arrays are not affected.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to trim.</p>
-	 * @param array $values <p>The values to trim from.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the trimming at.<br>
+	 * @param array $array
+	 * <p>The array to trim.</p>
+	 * @param array $values
+	 * <p>The values to trim from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The trim bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, strictly trim array from all non-array values but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -742,10 +764,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_ASSOC</code> : 
 	 * Trim non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from trimming.
-	 * </p>
+	 * Exclude non-associative arrays from trimming.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The trimmed array from the given set of non-array values.</p>
+	 * @return array
+	 * <p>The trimmed array from the given set of non-array values.</p>
 	 */
 	final public static function trim(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -822,12 +844,15 @@ final class Data extends Utility
 	 * Trim a given array recursively from a given set of keys.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to trim.</p>
-	 * @param array $keys <p>The keys to trim from.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the trimming at.<br>
+	 * @param array $array
+	 * <p>The array to trim.</p>
+	 * @param int[]|string[] $keys
+	 * <p>The keys to trim from.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The trim bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The trim bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, trim array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -839,10 +864,10 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from trimming.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from trimming.
-	 * </p>
+	 * Exclude non-associative arrays from trimming.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The trimmed array from the given set of keys.</p>
+	 * @return array
+	 * <p>The trimmed array from the given set of keys.</p>
 	 */
 	final public static function ktrim(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -918,22 +943,25 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-intersect.php
-	 * @param array $array1 <p>The first array, to intersect from.</p>
-	 * @param array $array2 <p>The second array, to intersect with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the intersection at.<br>
+	 * @param array $array1
+	 * <p>The first array, to intersect from.</p>
+	 * @param array $array2
+	 * <p>The second array, to intersect with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_ASSOC</code> : 
 	 * Intersect non-associative arrays associatively, in other words, 
 	 * consider the keys in the intersection and keep them intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from intersecting.
-	 * </p>
+	 * Exclude non-associative arrays from intersecting.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The intersected array from the two given arrays.</p>
+	 * @return array
+	 * <p>The intersected array from the two given arrays.</p>
 	 */
 	final public static function intersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1015,19 +1043,22 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-intersect-key.php
-	 * @param array $array1 <p>The first array, to intersect from.</p>
-	 * @param array $array2 <p>The second array, to intersect with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the intersection at.<br>
+	 * @param array $array1
+	 * <p>The first array, to intersect from.</p>
+	 * @param array $array2
+	 * <p>The second array, to intersect with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The intersection bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from intersecting.
-	 * </p>
+	 * Exclude non-associative arrays from intersecting.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The intersected array by key from the two given arrays.</p>
+	 * @return array
+	 * <p>The intersected array by key from the two given arrays.</p>
 	 */
 	final public static function kintersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1085,22 +1116,25 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-diff.php
-	 * @param array $array1 <p>The first array, to differentiate from.</p>
-	 * @param array $array2 <p>The second array, to differentiate with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the differentiation at.<br>
+	 * @param array $array1
+	 * <p>The first array, to differentiate from.</p>
+	 * @param array $array2
+	 * <p>The second array, to differentiate with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The difference bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_ASSOC</code> : 
 	 * Differentiate non-associative arrays associatively, in other words, 
 	 * consider the keys in the difference and keep them intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from differentiating.
-	 * </p>
+	 * Exclude non-associative arrays from differentiating.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The differentiated array from the two given arrays.</p>
+	 * @return array
+	 * <p>The differentiated array from the two given arrays.</p>
 	 */
 	final public static function diff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1177,19 +1211,22 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-diff-key.php
-	 * @param array $array1 <p>The first array, to differentiate from.</p>
-	 * @param array $array2 <p>The second array, to differentiate with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the differentiation at.<br>
+	 * @param array $array1
+	 * <p>The first array, to differentiate from.</p>
+	 * @param array $array2
+	 * <p>The second array, to differentiate with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The difference bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The difference bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from differentiating.
-	 * </p>
+	 * Exclude non-associative arrays from differentiating.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The differentiated array by key from the two given arrays.</p>
+	 * @return array
+	 * <p>The differentiated array by key from the two given arrays.</p>
 	 */
 	final public static function kdiff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1242,20 +1279,22 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.shuffle.php
-	 * @param array $array <p>The array to shuffle.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the shuffling at.<br>
+	 * @param array $array
+	 * <p>The array to shuffle.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the shuffling at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The shuffle bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The shuffle bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from shuffling.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_ASSOC</code> : 
 	 * Shuffle non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from shuffling.
-	 * </p>
+	 * Exclude non-associative arrays from shuffling.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The shuffled array.</p>
+	 * @return array
+	 * <p>The shuffled array.</p>
 	 */
 	final public static function shuffle(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1298,19 +1337,22 @@ final class Data extends Utility
 	 * Align a given array with a given set of keys recursively.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to align.</p>
-	 * @param array $keys <p>The keys to align with.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the alignment at.<br>
+	 * @param array $array
+	 * <p>The array to align.</p>
+	 * @param int[]|string[] $keys
+	 * <p>The keys to align with.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the alignment at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The alignment bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The alignment bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from aligning.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from aligning.
-	 * </p>
+	 * Exclude non-associative arrays from aligning.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The aligned array with the given set of keys.</p>
+	 * @return array
+	 * <p>The aligned array with the given set of keys.</p>
 	 */
 	final public static function align(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
@@ -1359,12 +1401,16 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to check in.</p>
-	 * @param string $path <p>The path to check for.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array
+	 * <p>The array to check in.</p>
+	 * @param string $path
+	 * <p>The path to check for.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @return bool <p>Boolean <code>true</code> if the given array has the given path.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given array has the given path.</p>
 	 */
 	final public static function has(array $array, string $path, string $delimiter = '.') : bool
 	{
@@ -1393,13 +1439,17 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to get from.</p>
-	 * @param string $path <p>The path to get from.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array
+	 * <p>The array to get from.</p>
+	 * @param string $path
+	 * <p>The path to get from.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathNotFound
-	 * @return mixed <p>The value from the given array at the given path.</p>
+	 * @return mixed
+	 * <p>The value from the given array at the given path.</p>
 	 */
 	final public static function get(array $array, string $path, string $delimiter = '.')
 	{
@@ -1428,10 +1478,14 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array [reference] <p>The array to set in.</p>
-	 * @param string $path <p>The path to set at.</p>
-	 * @param mixed $value <p>The value to set.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array [reference]
+	 * <p>The array to set in.</p>
+	 * @param string $path
+	 * <p>The path to set at.</p>
+	 * @param mixed $value
+	 * <p>The value to set.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathKeySetIntoNonArray
@@ -1465,9 +1519,12 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array [reference] <p>The array to delete from.</p>
-	 * @param string $path <p>The path to delete.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array [reference]
+	 * <p>The array to delete from.</p>
+	 * @param string $path
+	 * <p>The path to delete.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathKeyDeleteFromNonArray
@@ -1488,9 +1545,7 @@ final class Data extends Utility
 			if (isset($pointer)) {
 				if (!is_array($pointer)) {
 					throw new Exceptions\PathKeyDeleteFromNonArray([
-						'path' => $path,
-						'key' => $key,
-						'value' => $pointer
+						'path' => $path, 'key' => $key, 'value' => $pointer
 					]);
 				} elseif (!array_key_exists($key, $pointer)) {
 					break;
@@ -1518,8 +1573,10 @@ final class Data extends Utility
 	 * Retrieve the first value from a given array.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to retrieve from.</p>
-	 * @return mixed <p>The first value from the given array or <code>null</code> if none exists.</p>
+	 * @param array $array
+	 * <p>The array to retrieve from.</p>
+	 * @return mixed
+	 * <p>The first value from the given array or <code>null</code> if none exists.</p>
 	 */
 	final public static function first(array $array)
 	{
@@ -1530,8 +1587,10 @@ final class Data extends Utility
 	 * Retrieve the first key from a given array.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to retrieve from.</p>
-	 * @return int|string|null <p>The first key from the given array or <code>null</code> if none exists.</p>
+	 * @param array $array
+	 * <p>The array to retrieve from.</p>
+	 * @return int|string|null
+	 * <p>The first key from the given array or <code>null</code> if none exists.</p>
 	 */
 	final public static function kfirst(array $array)
 	{
@@ -1546,8 +1605,10 @@ final class Data extends Utility
 	 * Retrieve the last value from a given array.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to retrieve from.</p>
-	 * @return mixed <p>The last value from the given array or <code>null</code> if none exists.</p>
+	 * @param array $array
+	 * <p>The array to retrieve from.</p>
+	 * @return mixed
+	 * <p>The last value from the given array or <code>null</code> if none exists.</p>
 	 */
 	final public static function last(array $array)
 	{
@@ -1558,8 +1619,10 @@ final class Data extends Utility
 	 * Retrieve the last key from a given array.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to retrieve from.</p>
-	 * @return int|string|null <p>The last key from the given array or <code>null</code> if none exists.</p>
+	 * @param array $array
+	 * <p>The array to retrieve from.</p>
+	 * @return int|string|null
+	 * <p>The last key from the given array or <code>null</code> if none exists.</p>
 	 */
 	final public static function klast(array $array)
 	{
@@ -1580,21 +1643,24 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar'][123]</code> is converted to <samp>foo.bar.123</samp>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to collapse.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array
+	 * <p>The array to collapse.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the collapse at.<br>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the collapse at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x00] <p>The collapse bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param int $flags [default = 0x00]
+	 * <p>The collapse bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from collapsing.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from collapsing.
-	 * </p>
+	 * Exclude non-associative arrays from collapsing.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The collapsed array.</p>
+	 * @return array
+	 * <p>The collapsed array.</p>
 	 */
 	final public static function collapse(
 		array $array, string $delimiter = '.', ?int $depth = null, int $flags = 0x00
@@ -1660,14 +1726,18 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is converted to <code>$array['foo']['bar'][123]</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to expand.</p>
-	 * @param string $delimiter [default = '.'] <p>The path delimiter character to use.<br>
+	 * @param array $array
+	 * <p>The array to expand.</p>
+	 * @param string $delimiter [default = '.']
+	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @param int|null $depth [default = null] <p>The recursive depth limit to stop the expansion at.<br>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the expansion at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
-	 * @return array <p>The expanded array.</p>
+	 * @return array
+	 * <p>The expanded array.</p>
 	 */
 	final public static function expand(array $array, string $delimiter = '.', ?int $depth = null) : array
 	{
@@ -1715,15 +1785,17 @@ final class Data extends Utility
 	 * The returning value is the first one from the given array which is not <code>null</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array <p>The array to coalesce from.</p>
-	 * @param array $keys [default = []] <p>The keys to coalesce by.<br>
+	 * @param array $array
+	 * <p>The array to coalesce from.</p>
+	 * @param int[]|string[] $keys [default = []]
+	 * <p>The keys to coalesce by.<br>
 	 * If empty, then all the values from the given array are used to coalesce by, 
 	 * otherwise only the values in the matching keys are used.<br>
-	 * The order of these keys also establish the order of the coalesce operation.
-	 * </p>
-	 * @param int|string|null $coalesced_key [reference output] [default = null] 
+	 * The order of these keys also establish the order of the coalesce operation.</p>
+	 * @param int|string|null $coalesced_key [reference output] [default = null]
 	 * <p>The coalesced key corresponding to the returned value.</p>
-	 * @return mixed <p>The coalesced value from the given array or <code>null</code> if no value is set.</p>
+	 * @return mixed
+	 * <p>The coalesced value from the given array or <code>null</code> if no value is set.</p>
 	 */
 	final public static function coalesce(array $array, array $keys = [], &$coalesced_key = null)
 	{
@@ -1745,25 +1817,29 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
-	 * in the resulting array value.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param callable|null $evaluator [default = null]
+	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
-	 * The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element is successfully evaluated.
-	 * </p>
-	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into an array.</p>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
+	 * @param bool $non_associative [default = false]
+	 * <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an array.</p>
 	 */
 	final public static function evaluate(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
@@ -1786,26 +1862,30 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param callable|null $evaluator [default = null] <p>The evaluator function to use for each element 
-	 * in the resulting array value.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param callable|null $evaluator [default = null]
+	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value) : bool</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code> : 
-	 * The array element key to evaluate (validate and sanitize).<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code> : 
-	 * The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given array element is successfully evaluated.
-	 * </p>
-	 * @param bool $non_associative [default = false] <p>Do not allow an associative array value.</p>
-	 * @param bool $non_empty [default = false] <p>Do not allow an empty array value.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
+	 * @param bool $non_associative [default = false]
+	 * <p>Do not allow an associative array value.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty array value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\CoercionFailed
-	 * @return array|null <p>The given value coerced into an array.<br>
+	 * @return array|null
+	 * <p>The given value coerced into an array.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(

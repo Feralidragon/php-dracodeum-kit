@@ -11,7 +11,8 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * This exception is thrown from the text utility <code>indentate</code> method whenever a given level is invalid.
  * 
  * @since 1.0.0
- * @property-read int $level <p>The level.</p>
+ * @property-read int $level
+ * <p>The level.</p>
  */
 class IndentateInvalidLevel extends Indentate
 {

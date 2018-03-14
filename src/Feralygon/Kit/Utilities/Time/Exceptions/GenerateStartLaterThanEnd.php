@@ -14,8 +14,10 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * a given end.
  * 
  * @since 1.0.0
- * @property-read int|float $start <p>The start.</p>
- * @property-read int|float $end <p>The end.</p>
+ * @property-read int|float $start
+ * <p>The start.</p>
+ * @property-read int|float $end
+ * <p>The end.</p>
  */
 class GenerateStartLaterThanEnd extends Generate
 {

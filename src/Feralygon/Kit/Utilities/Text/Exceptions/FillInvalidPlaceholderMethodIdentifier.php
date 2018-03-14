@@ -12,8 +12,10 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * a given placeholder method identifier is invalid.
  * 
  * @since 1.0.0
- * @property-read string $placeholder <p>The placeholder.</p>
- * @property-read string $identifier <p>The method identifier.</p>
+ * @property-read string $placeholder
+ * <p>The placeholder.</p>
+ * @property-read string $identifier
+ * <p>The method identifier.</p>
  */
 class FillInvalidPlaceholderMethodIdentifier extends Fill
 {

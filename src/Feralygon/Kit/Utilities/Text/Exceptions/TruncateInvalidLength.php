@@ -11,7 +11,8 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * This exception is thrown from the text utility <code>truncate</code> method whenever a given length is invalid.
  * 
  * @since 1.0.0
- * @property-read int $length <p>The length.</p>
+ * @property-read int $length
+ * <p>The length.</p>
  */
 class TruncateInvalidLength extends Truncate
 {

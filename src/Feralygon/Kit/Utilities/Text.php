@@ -78,23 +78,28 @@ final class Text extends Utility
 	 * A given string is considered to be empty if its value is either <code>null</code> or <code>''</code>.
 	 * 
 	 * @since 1.0.0
-	 * @param string|null $string <p>The string to check.</p>
-	 * @param bool $ignore_whitespace [default = false] <p>Ignore whitespace characters from the given string.<br>
+	 * @param string|null $string
+	 * <p>The string to check.</p>
+	 * @param bool $ignore_whitespace [default = false]
+	 * <p>Ignore whitespace characters from the given string.<br>
 	 * These characters are defined as follows:<br>
 	 * &nbsp; &#8226; &nbsp; space (<code>' '</code>);<br>
 	 * &nbsp; &#8226; &nbsp; tab (<code>"\t"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; new line (<code>"\n"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
-	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).
-	 * </p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is empty.</p>
+	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is empty.</p>
 	 */
 	final public static function empty(?string $string, bool $ignore_whitespace = false) : bool
 	{
-		return !isset($string) || 
-			($ignore_whitespace && trim($string) === '') || 
-			(!$ignore_whitespace && $string === '');
+		if (!isset($string)) {
+			return true;
+		} elseif ($ignore_whitespace) {
+			$string = trim($string);
+		}
+		return $string === '';
 	}
 	
 	/**
@@ -105,13 +110,15 @@ final class Text extends Utility
 	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to generate from.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $options [default = null] 
+	 * @param mixed $value
+	 * <p>The value to generate from.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\StringifyUnsupportedValueType
-	 * @return string <p>The generated string from the given value.</p>
+	 * @return string
+	 * <p>The generated string from the given value.</p>
 	 */
 	final public static function stringify($value, $text_options = null, $options = null) : string
 	{
@@ -183,9 +190,7 @@ final class Text extends Utility
 				 */
 				return self::localize(
 					"OBJECT({{id}})",
-					self::class, $text_options, [
-						'parameters' => ['id' => $object_id]
-					]
+					self::class, $text_options, ['parameters' => ['id' => $object_id]]
 				);
 			} elseif ($is_technical) {
 				return self::fill("OBJECT({{id}})", ['id' => $object_id]);
@@ -207,9 +212,7 @@ final class Text extends Utility
 				 */
 				return self::localize(
 					"RESOURCE({{id}})",
-					self::class, $text_options, [
-						'parameters' => ['id' => $resource_id]
-					]
+					self::class, $text_options, ['parameters' => ['id' => $resource_id]]
 				);
 			} elseif ($is_technical) {
 				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
@@ -273,9 +276,7 @@ final class Text extends Utility
 					 */
 					return self::localize(
 						"{{list}} and {{last}}",
-						self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]
+						self::class, $text_options, ['parameters' => ['list' => $list_string, 'last' => $last_string]]
 					);
 				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_OR) {
 					/**
@@ -286,9 +287,7 @@ final class Text extends Utility
 					 */
 					return self::localize(
 						"{{list}} or {{last}}",
-						self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]
+						self::class, $text_options, ['parameters' => ['list' => $list_string, 'last' => $last_string]]
 					);
 				} elseif ($non_assoc_mode === self::STRING_NONASSOC_MODE_COMMA_LIST_NOR) {
 					/**
@@ -299,9 +298,7 @@ final class Text extends Utility
 					 */
 					return self::localize(
 						"{{list}} nor {{last}}",
-						self::class, $text_options, [
-							'parameters' => ['list' => $list_string, 'last' => $last_string]
-						]
+						self::class, $text_options, ['parameters' => ['list' => $list_string, 'last' => $last_string]]
 					);
 				}
 				return "{$list_string}, {$last_string}";
@@ -330,12 +327,16 @@ final class Text extends Utility
 	 * The returning string is also trimmed and converted to lowercase by omission.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to slugify.</p>
-	 * @param bool $keep_case [default = false] <p>Keep the original string case.</p>
-	 * @param string $delimiter [default = '-'] <p>The delimiter character to be used between words.<br>
+	 * @param string $string
+	 * <p>The string to slugify.</p>
+	 * @param bool $keep_case [default = false]
+	 * <p>Keep the original string case.</p>
+	 * @param string $delimiter [default = '-']
+	 * <p>The delimiter character to be used between words.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\SlugifyInvalidDelimiter
-	 * @return string <p>The slugified string from the given one.</p>
+	 * @return string
+	 * <p>The slugified string from the given one.</p>
 	 */
 	final public static function slugify(string $string, bool $keep_case = false, string $delimiter = '-') : string
 	{
@@ -360,15 +361,16 @@ final class Text extends Utility
 	 * although they might not fully correspond to the original string before it was slugified.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to unslugify.</p>
-	 * @param int $flags [default = 0x00] <p>The unslugification bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param string $string
+	 * <p>The string to unslugify.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The unslugification bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_FIRST</code> : 
 	 * Capitalize the first word of the unslugified string.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_ALL</code> : 
-	 * Capitalize all the words of the unslugified string.
-	 * </p>
-	 * @return string <p>The unslugified string from the given one.</p>
+	 * Capitalize all the words of the unslugified string.</p>
+	 * @return string
+	 * <p>The unslugified string from the given one.</p>
 	 */
 	final public static function unslugify(string $string, int $flags = 0x00) : string
 	{
@@ -388,12 +390,14 @@ final class Text extends Utility
 	 * turning the string into a bullet point, in a way to be safely localized for different languages.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to bulletify.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Bulletify|array|null $options [default = null] 
+	 * @param string $string
+	 * <p>The string to bulletify.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Bulletify|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The bulletified string from the given one.</p>
+	 * @return string
+	 * <p>The bulletified string from the given one.</p>
 	 */
 	final public static function bulletify(string $string, $text_options = null, $options = null) : string
 	{
@@ -409,9 +413,7 @@ final class Text extends Utility
 		 */
 		return self::localize(
 			" {{bullet}} {{text}}",
-			self::class, $text_options, [
-				'parameters' => ['bullet' => $options->bullet, 'text' => $string]
-			]
+			self::class, $text_options, ['parameters' => ['bullet' => $options->bullet, 'text' => $string]]
 		);
 	}
 	
@@ -422,12 +424,14 @@ final class Text extends Utility
 	 * to each string, turning the strings into bullet points, in a way to be safely localized for different languages.
 	 * 
 	 * @since 1.0.0
-	 * @param string[] $strings <p>The strings to bulletify.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Mbulletify|array|null $options [default = null] 
+	 * @param string[] $strings
+	 * <p>The strings to bulletify.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Mbulletify|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string[]|string <p>The bulletified strings from the given ones.<br>
+	 * @return string[]|string
+	 * <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
 	 * If <var>$options->merge</var> is set to boolean <code>true</code>, 
 	 * a single merged string with all the given strings is returned instead, with each string in a new line.</p>
@@ -456,9 +460,7 @@ final class Text extends Utility
 					 */
 					$string = self::localize(
 						"{{text}}.",
-						self::class, $text_options, [
-							'parameters' => ['text' => $string]
-						]
+						self::class, $text_options, ['parameters' => ['text' => $string]]
 					);
 				} else {
 					/**
@@ -468,9 +470,7 @@ final class Text extends Utility
 					 */
 					$string = self::localize(
 						"{{text}};",
-						self::class, $text_options, [
-							'parameters' => ['text' => $string]
-						]
+						self::class, $text_options, ['parameters' => ['text' => $string]]
 					);
 				}
 			}
@@ -490,10 +490,13 @@ final class Text extends Utility
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param bool $extended [default = false] <p>Check as an extended identifier, 
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param bool $extended [default = false]
+	 * <p>Check as an extended identifier, 
 	 * in which dots may be used as delimiters between words to represent pointers.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is an identifier.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is an identifier.</p>
 	 */
 	final public static function isIdentifier(string $string, bool $extended = false) : bool
 	{
@@ -507,10 +510,14 @@ final class Text extends Utility
 	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param string $wildcard <p>The wildcard to match against.</p>
-	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive matching.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string matches the given wildcard.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string $wildcard
+	 * <p>The wildcard to match against.</p>
+	 * @param bool $insensitive [default = false]
+	 * <p>Perform a case-insensitive matching.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string matches the given wildcard.</p>
 	 */
 	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false) : bool
 	{
@@ -530,10 +537,14 @@ final class Text extends Utility
 	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param string[] $wildcards <p>The wildcards to match against.</p>
-	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive matching.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string[] $wildcards
+	 * <p>The wildcards to match against.</p>
+	 * @param bool $insensitive [default = false]
+	 * <p>Perform a case-insensitive matching.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
 	 */
 	final public static function isAnyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false) : bool
 	{
@@ -563,12 +574,13 @@ final class Text extends Utility
 	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to fill.</p>
-	 * @param array $parameters <p>The parameters to fill the respective placeholders with, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Fill|array|null $options [default = null] 
+	 * @param string $string
+	 * <p>The string to fill.</p>
+	 * @param array $parameters
+	 * <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Fill|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderMethodIdentifierNotFound
@@ -576,7 +588,8 @@ final class Text extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderKeyIdentifierNotFound
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderIdentifier
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholder
-	 * @return string <p>The given string filled with the given set of parameters.</p>
+	 * @return string
+	 * <p>The given string filled with the given set of parameters.</p>
 	 */
 	final public static function fill(string $string, array $parameters, $text_options = null, $options = null) : string
 	{
@@ -596,36 +609,31 @@ final class Text extends Utility
 						$identifier = substr($identifier, 0, -2);
 						if (!is_object($pointer)) {
 							throw new Exceptions\FillInvalidPlaceholderMethodIdentifier([
-								'placeholder' => $token,
-								'identifier' => "{$identifier}()"
+								'placeholder' => $token, 'identifier' => "{$identifier}()"
 							]);
 						} elseif (!method_exists($pointer, $identifier)) {
 							throw new Exceptions\FillPlaceholderMethodIdentifierNotFound([
-								'placeholder' => $token,
-								'identifier' => "{$identifier}()"
+								'placeholder' => $token, 'identifier' => "{$identifier}()"
 							]);
 						}
 						$pointer = $pointer->$identifier();
 					} elseif (is_object($pointer)) {
 						if (!property_exists($pointer, $identifier)) {
 							throw new Exceptions\FillPlaceholderPropertyIdentifierNotFound([
-								'placeholder' => $token,
-								'identifier' => $identifier
+								'placeholder' => $token, 'identifier' => $identifier
 							]);
 						}
 						$pointer = $pointer->$identifier;
 					} elseif (is_array($pointer)) {
 						if (!array_key_exists($identifier, $pointer)) {
 							throw new Exceptions\FillPlaceholderKeyIdentifierNotFound([
-								'placeholder' => $token,
-								'identifier' => $identifier
+								'placeholder' => $token, 'identifier' => $identifier
 							]);
 						}
 						$pointer = $pointer[$identifier];
 					} else {
 						throw new Exceptions\FillInvalidPlaceholderIdentifier([
-							'placeholder' => $token,
-							'identifier' => $identifier
+							'placeholder' => $token, 'identifier' => $identifier
 						]);
 					}
 				}
@@ -667,17 +675,22 @@ final class Text extends Utility
 	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string1 <p>The string singular form to fill.</p>
-	 * @param string $string2 <p>The string plural form to fill.</p>
-	 * @param float|int $number <p>The number to use.</p>
-	 * @param string|null $number_placeholder <p>The string number placeholder to fill with.</p>
-	 * @param array $parameters [default = []] <p>The parameters to fill the respective placeholders with, 
-	 * as <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Pfill|array|null $options [default = null] 
+	 * @param string $string1
+	 * <p>The string singular form to fill.</p>
+	 * @param string $string2
+	 * <p>The string plural form to fill.</p>
+	 * @param float|int $number
+	 * <p>The number to use.</p>
+	 * @param string|null $number_placeholder
+	 * <p>The string number placeholder to fill with.</p>
+	 * @param array $parameters [default = []]
+	 * <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Pfill|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The given plural string filled with the given set of parameters.</p>
+	 * @return string
+	 * <p>The given plural string filled with the given set of parameters.</p>
 	 */
 	final public static function pfill(
 		string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [],
@@ -711,8 +724,10 @@ final class Text extends Utility
 	 * but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is a placeholder.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is a placeholder.</p>
 	 */
 	final public static function isPlaceholder(string $string) : bool
 	{
@@ -723,10 +738,13 @@ final class Text extends Utility
 	 * Check if a given string has a given placeholder.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param string $placeholder <p>The placeholder to check for.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string $placeholder
+	 * <p>The placeholder to check for.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
-	 * @return bool <p>Boolean <code>true</code> if the given string has the given placeholder.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string has the given placeholder.</p>
 	 */
 	final public static function hasPlaceholder(string $string, string $placeholder) : bool
 	{
@@ -740,9 +758,12 @@ final class Text extends Utility
 	 * Check if a given string has all given placeholders.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param string[] $placeholders <p>The placeholders to check for.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string has all the given placeholders.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string[] $placeholders
+	 * <p>The placeholders to check for.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string has all the given placeholders.</p>
 	 */
 	final public static function hasAllPlaceholders(string $string, array $placeholders) : bool
 	{
@@ -758,9 +779,12 @@ final class Text extends Utility
 	 * Check if a given string has any given placeholders.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @param string[] $placeholders <p>The placeholders to check for.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string has any of the given placeholders.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string[] $placeholders
+	 * <p>The placeholders to check for.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string has any of the given placeholders.</p>
 	 */
 	final public static function hasAnyPlaceholders(string $string, array $placeholders) : bool
 	{
@@ -787,9 +811,11 @@ final class Text extends Utility
 	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to get from.</p>
+	 * @param string $string
+	 * <p>The string to get from.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
-	 * @return string[] <p>The placeholders from the given string.</p>
+	 * @return string[]
+	 * <p>The placeholders from the given string.</p>
 	 */
 	final public static function placeholders(string $string) : array
 	{
@@ -817,12 +843,14 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
-	 * @param string $string <p>The string to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, 
-	 * as <samp>field => pattern</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Parse|array|null $options [default = null] 
+	 * @param string $string
+	 * <p>The string to parse from.</p>
+	 * @param string[] $fields_patterns
+	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Parse|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return array|null <p>The parsed data from the given string, as <samp>field => value</samp> pairs, 
+	 * @return array|null
+	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs, 
 	 * or <code>null</code> if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
@@ -842,16 +870,18 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
-	 * @param string[] $strings <p>The strings to parse from.</p>
-	 * @param string[] $fields_patterns <p>The fields regular expression patterns to parse with, 
-	 * as <samp>field => pattern</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null] 
+	 * @param string[] $strings
+	 * <p>The strings to parse from.</p>
+	 * @param string[] $fields_patterns
+	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidString
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidFieldPattern
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidDelimiterPattern
-	 * @return array <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs 
-	 * per string, or <code>null</code> per string if <var>$options->keep_nulls = true</var> 
+	 * @return array
+	 * <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string, 
+	 * or <code>null</code> per string if <var>$options->keep_nulls = true</var> 
 	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
@@ -921,9 +951,12 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.lcfirst.php
-	 * @param string $string <p>The string to convert.</p>
-	 * @param bool $unicode [default = false] <p>Convert as an Unicode string.</p>
-	 * @return string <p>The given string with the first letter converted to lowercase.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Convert as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string with the first letter converted to lowercase.</p>
 	 */
 	final public static function lcfirst(string $string, bool $unicode = false) : string
 	{
@@ -940,9 +973,12 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ucfirst.php
-	 * @param string $string <p>The string to convert.</p>
-	 * @param bool $unicode [default = false] <p>Convert as an Unicode string.</p>
-	 * @return string <p>The given string with the first letter converted to uppercase.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Convert as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string with the first letter converted to uppercase.</p>
 	 */
 	final public static function ucfirst(string $string, bool $unicode = false) : string
 	{
@@ -958,9 +994,12 @@ final class Text extends Utility
 	 * Calculate the length of a given string.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to calculate from.</p>
-	 * @param bool $unicode [default = false] <p>Calculate as an Unicode string.</p>
-	 * @return int <p>The length of the given string.</p>
+	 * @param string $string
+	 * <p>The string to calculate from.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Calculate as an Unicode string.</p>
+	 * @return int
+	 * <p>The length of the given string.</p>
 	 */
 	final public static function length(string $string, bool $unicode = false) : int
 	{
@@ -971,9 +1010,12 @@ final class Text extends Utility
 	 * Convert a given string to uppercase.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to convert.</p>
-	 * @param bool $unicode [default = false] <p>Convert as an Unicode string.</p>
-	 * @return string <p>The given string converted to uppercase.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Convert as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string converted to uppercase.</p>
 	 */
 	final public static function upper(string $string, bool $unicode = false) : string
 	{
@@ -984,9 +1026,12 @@ final class Text extends Utility
 	 * Convert a given string to lowercase.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to convert.</p>
-	 * @param bool $unicode [default = false] <p>Convert as an Unicode string.</p>
-	 * @return string <p>The given string converted to lowercase.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Convert as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string converted to lowercase.</p>
 	 */
 	final public static function lower(string $string, bool $unicode = false) : string
 	{
@@ -998,16 +1043,20 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.substr.php
-	 * @param string $string <p>The string to retrieve from.</p>
-	 * @param int $start <p>The starting index to retrieve from, 
-	 * with <code>0</code> corresponding to the first character.<br>
+	 * @param string $string
+	 * <p>The string to retrieve from.</p>
+	 * @param int $start
+	 * <p>The starting index to retrieve from, with <code>0</code> corresponding to the first character.<br>
 	 * If negative, it is interpreted as starting at the end of the given string, 
 	 * with the last character corresponding to <code>-1</code>.</p>
-	 * @param int|null $length [default = null] <p>The maximum length of the returning sub-string.<br>
+	 * @param int|null $length [default = null]
+	 * <p>The maximum length of the returning sub-string.<br>
 	 * If negative, it is interpreted as the number of characters to remove from the end of the given string.<br>
 	 * If not set, it is interpreted as being the exact length of the given string.</p>
-	 * @param bool $unicode [default = false] <p>Retrieve as an Unicode string.</p>
-	 * @return string <p>The sub-string from the given string from the given starting index.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Retrieve as an Unicode string.</p>
+	 * @return string
+	 * <p>The sub-string from the given string from the given starting index.</p>
 	 */
 	final public static function sub(string $string, int $start, ?int $length = null, bool $unicode = false) : string
 	{
@@ -1023,9 +1072,12 @@ final class Text extends Utility
 	 * from its first word to uppercase, but only if it is safe to do so.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to capitalize.</p>
-	 * @param bool $unicode [default = false] <p>Capitalize as an Unicode string.</p>
-	 * @return string <p>The given string capitalized.</p>
+	 * @param string $string
+	 * <p>The string to capitalize.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Capitalize as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string capitalized.</p>
 	 */
 	final public static function capitalize(string $string, bool $unicode = false) : string
 	{
@@ -1043,9 +1095,12 @@ final class Text extends Utility
 	 * from its first word to lowercase, but only if it is safe to do so.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to uncapitalize.</p>
-	 * @param bool $unicode [default = false] <p>Uncapitalize as an Unicode string.</p>
-	 * @return string <p>The given string uncapitalized.</p>
+	 * @param string $string
+	 * <p>The string to uncapitalize.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Uncapitalize as an Unicode string.</p>
+	 * @return string
+	 * <p>The given string uncapitalized.</p>
 	 */
 	final public static function uncapitalize(string $string, bool $unicode = false) : string
 	{
@@ -1072,12 +1127,18 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Levenshtein_distance
 	 * @see https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
-	 * @param string $string1 <p>The first string, to calculate from.</p>
-	 * @param string $string2 <p>The second string, to calculate from.</p>
-	 * @param bool $damerau [default = false] <p>Use the Damerau variation of the algorithm (Damerau-Levenshtein).</p>
-	 * @param bool $insensitive [default = false] <p>Perform a case-insensitive calculation.</p>
-	 * @param bool $unicode [default = false] <p>Calculate the distance as Unicode.</p>
-	 * @return int <p>The distance between the two given strings.</p>
+	 * @param string $string1
+	 * <p>The first string, to calculate from.</p>
+	 * @param string $string2
+	 * <p>The second string, to calculate from.</p>
+	 * @param bool $damerau [default = false]
+	 * <p>Use the Damerau variation of the algorithm (Damerau-Levenshtein).</p>
+	 * @param bool $insensitive [default = false]
+	 * <p>Perform a case-insensitive calculation.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Calculate the distance as Unicode.</p>
+	 * @return int
+	 * <p>The distance between the two given strings.</p>
 	 */
 	final public static function distance(
 		string $string1, string $string2, bool $damerau = false, bool $insensitive = false, bool $unicode = false
@@ -1145,13 +1206,16 @@ final class Text extends Utility
 	 * Truncate a given string to a given length.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to truncate.</p>
-	 * @param int $length <p>The length to truncate to.<br>
+	 * @param string $string
+	 * <p>The string to truncate.</p>
+	 * @param int $length
+	 * <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null] 
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\TruncateInvalidLength
-	 * @return string <p>The given string truncated to the given length.</p>
+	 * @return string
+	 * <p>The given string truncated to the given length.</p>
 	 */
 	final public static function truncate(string $string, int $length, $options = null) : string
 	{
@@ -1224,14 +1288,18 @@ final class Text extends Utility
 	 * Indentate a given string.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to indentate.</p>
-	 * @param int $level [default = 1] <p>The level to indentate with.<br>
+	 * @param string $string
+	 * <p>The string to indentate.</p>
+	 * @param int $level [default = 1]
+	 * <p>The level to indentate with.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param string $character [default = "\t"] <p>The character to indentate with.<br>
+	 * @param string $character [default = "\t"]
+	 * <p>The character to indentate with.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\IndentateInvalidLevel
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\IndentateInvalidCharacter
-	 * @return string <p>The given string indentated.</p>
+	 * @return string
+	 * <p>The given string indentated.</p>
 	 */
 	final public static function indentate(string $string, int $level = 1, string $character = "\t") : string
 	{
@@ -1249,8 +1317,10 @@ final class Text extends Utility
 	 * Check if a given string is multiline.
 	 * 
 	 * @since 1.0.0
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is multiline.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is multiline.</p>
 	 */
 	final public static function isMultiline(string $string) : bool
 	{
@@ -1269,8 +1339,10 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in camel case notation.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in camel case notation.</p>
 	 */
 	final public static function isCamelCase(string $string) : bool
 	{
@@ -1289,8 +1361,10 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in pascal case notation.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in pascal case notation.</p>
 	 */
 	final public static function isPascalCase(string $string) : bool
 	{
@@ -1310,8 +1384,10 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in snake case notation.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in snake case notation.</p>
 	 */
 	final public static function isSnakeCase(string $string) : bool
 	{
@@ -1330,8 +1406,10 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in kebab case notation.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in kebab case notation.</p>
 	 */
 	final public static function isKebabCase(string $string) : bool
 	{
@@ -1350,8 +1428,10 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in macro case notation.</p>
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in macro case notation.</p>
 	 */
 	final public static function isMacroCase(string $string) : bool
 	{
@@ -1370,8 +1450,10 @@ final class Text extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>String to check.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given string is in cobol case notation.</p>
+	 * @param string $string
+	 * <p>String to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is in cobol case notation.</p>
 	 */
 	final public static function isCobolCase(string $string) : bool
 	{
@@ -1412,8 +1494,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to get from.</p>
-	 * @return string|null <p>The case notation of a given string as:<br>
+	 * @param string $string
+	 * <p>The string to get from.</p>
+	 * @return string|null
+	 * <p>The case notation of a given string as:<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_SNAKE</code> for snake case;<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_KEBAB</code> for kebab case;<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_MACRO</code> for macro case;<br>
@@ -1452,9 +1536,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to camel case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to camel case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCamelCase(string $string) : ?string
 	{
@@ -1489,9 +1574,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to pascal case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to pascal case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toPascalCase(string $string) : ?string
 	{
@@ -1519,9 +1605,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to snake case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to snake case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toSnakeCase(string $string) : ?string
 	{
@@ -1555,9 +1642,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to kebab case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to kebab case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toKebabCase(string $string) : ?string
 	{
@@ -1591,9 +1679,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to macro case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to macro case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toMacroCase(string $string) : ?string
 	{
@@ -1627,9 +1716,10 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
-	 * @param string $string <p>The string to convert.</p>
-	 * @return string|null <p>The given string converted to cobol case notation 
-	 * or <code>null</code> if it could not be converted.</p>
+	 * @param string $string
+	 * <p>The string to convert.</p>
+	 * @return string|null
+	 * <p>The given string converted to cobol case notation or <code>null</code> if it could not be converted.</p>
 	 */
 	final public static function toCobolCase(string $string) : ?string
 	{
@@ -1699,13 +1789,16 @@ final class Text extends Utility
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
-	 * @param string $message <p>The message to localize.</p>
-	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Localize|array|null $options [default = null] 
+	 * @param string $message
+	 * <p>The message to localize.</p>
+	 * @param string|null $context [default = null]
+	 * <p>The message context to localize with.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Localize|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The localization of the given message.</p>
+	 * @return string
+	 * <p>The localization of the given message.</p>
 	 */
 	final public static function localize(
 		string $message, ?string $context = null, $text_options = null, $options = null
@@ -1779,16 +1872,22 @@ final class Text extends Utility
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
-	 * @param string $message1 <p>The message singular form to localize.</p>
-	 * @param string $message2 <p>The message plural form to localize.</p>
-	 * @param float|int $number <p>The number to use.</p>
-	 * @param string|null $number_placeholder <p>The message number placeholder to localize with.</p>
-	 * @param string|null $context [default = null] <p>The message context to localize with.</p>
-	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null] <p>The text options to use, 
-	 * as an instance or <samp>name => value</samp> pairs.</p>
-	 * @param \Feralygon\Kit\Utilities\Text\Options\Plocalize|array|null $options [default = null] 
+	 * @param string $message1
+	 * <p>The message singular form to localize.</p>
+	 * @param string $message2
+	 * <p>The message plural form to localize.</p>
+	 * @param float|int $number
+	 * <p>The number to use.</p>
+	 * @param string|null $number_placeholder
+	 * <p>The message number placeholder to localize with.</p>
+	 * @param string|null $context [default = null]
+	 * <p>The message context to localize with.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Plocalize|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string <p>The localization of the given plural message.</p>
+	 * @return string
+	 * <p>The localization of the given plural message.</p>
 	 */
 	final public static function plocalize(
 		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,

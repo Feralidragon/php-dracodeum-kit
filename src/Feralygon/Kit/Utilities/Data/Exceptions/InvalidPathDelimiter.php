@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * This exception is thrown from the data utility whenever a given path delimiter is invalid.
  * 
  * @since 1.0.0
- * @property-read string $delimiter <p>The delimiter.</p>
+ * @property-read string $delimiter
+ * <p>The delimiter.</p>
  */
 class InvalidPathDelimiter extends Exception
 {

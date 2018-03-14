@@ -11,7 +11,8 @@ namespace Feralygon\Kit\Utilities\Byte\Exceptions;
  * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
  * 
  * @since 1.0.0
- * @property-read string $value <p>The value.</p>
+ * @property-read string $value
+ * <p>The value.</p>
  */
 class MvalueInvalidValue extends Mvalue
 {

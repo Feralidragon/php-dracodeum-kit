@@ -13,9 +13,12 @@ use Feralygon\Kit\Utilities\Call\Exception;
  * This exception is thrown from the call utility whenever a given function or method call is not allowed.
  * 
  * @since 1.0.0
- * @property-read string $function_name <p>The function or method name.</p>
- * @property-read object|string|null $object_class [default = null] <p>The object or class.</p>
- * @property-read string|null $hint_message [default = null] <p>The hint message.</p>
+ * @property-read string $function_name
+ * <p>The function or method name.</p>
+ * @property-read object|string|null $object_class [default = null]
+ * <p>The object or class.</p>
+ * @property-read string|null $hint_message [default = null]
+ * <p>The hint message.</p>
  */
 class NotAllowed extends Exception
 {

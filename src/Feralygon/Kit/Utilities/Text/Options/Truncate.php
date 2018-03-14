@@ -14,11 +14,16 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * Text utility <code>truncate</code> method options.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false] <p>Handle the string as Unicode.</p>
- * @property bool $ellipsis [default = false] <p>Add an ellipsis at the end of the truncated string.</p>
- * @property bool $keep_words [default = false] <p>Try to keep words preserved in the truncated string.</p>
- * @property bool $keep_sentences [default = false] <p>Try to keep sentences preserved in the truncated string.</p>
- * @property string|null $ellipsis_string [default = null] <p>The ellipsis string to use.<br>
+ * @property bool $unicode [default = false]
+ * <p>Handle the string as Unicode.</p>
+ * @property bool $ellipsis [default = false]
+ * <p>Add an ellipsis at the end of the truncated string.</p>
+ * @property bool $keep_words [default = false]
+ * <p>Try to keep words preserved in the truncated string.</p>
+ * @property bool $keep_sentences [default = false]
+ * <p>Try to keep sentences preserved in the truncated string.</p>
+ * @property string|null $ellipsis_string [default = null]
+ * <p>The ellipsis string to use.<br>
  * If not set, the internal default ellipsis string is used.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */

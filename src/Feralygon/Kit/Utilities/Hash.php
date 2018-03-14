@@ -27,11 +27,15 @@ final class Hash extends Utility
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param int $bits <p>The number of bits to evaluate with.<br>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param int $bits
+	 * <p>The number of bits to evaluate with.<br>
 	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a hash.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a hash.</p>
 	 */
 	final public static function evaluate(&$value, int $bits, bool $nullable = false) : bool
 	{
@@ -52,13 +56,17 @@ final class Hash extends Utility
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param int $bits <p>The number of bits to coerce with.<br>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param int $bits
+	 * <p>The number of bits to coerce with.<br>
 	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\InvalidBits
 	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\CoercionFailed
-	 * @return string|null <p>The given value coerced into a hash.<br>
+	 * @return string|null
+	 * <p>The given value coerced into a hash.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce($value, int $bits, bool $nullable = false) : ?string

@@ -11,8 +11,10 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
  * This exception is thrown from the type utility <code>phpfy</code> method whenever a given value type is unsupported.
  * 
  * @since 1.0.0
- * @property-read mixed $value <p>The value.</p>
- * @property-read string $type <p>The value type.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
+ * @property-read string $type
+ * <p>The value type.</p>
  */
 class PhpfyUnsupportedValueType extends Phpfy
 {

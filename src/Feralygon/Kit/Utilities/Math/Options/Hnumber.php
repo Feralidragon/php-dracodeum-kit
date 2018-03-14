@@ -18,18 +18,21 @@ use Feralygon\Kit\Utilities\{
  * Math utility <code>hnumber</code> method options.
  * 
  * @since 1.0.0
- * @property bool $long [default = false] <p>Return the long form of the human-readable number.</p>
- * @property int|null $precision [default = null] <p>The rounding precision to use, 
- * in other words, the maximum number of decimal places to keep.<br>
+ * @property bool $long [default = false]
+ * <p>Return the long form of the human-readable number.</p>
+ * @property int|null $precision [default = null]
+ * <p>The rounding precision to use, in other words, the maximum number of decimal places to keep.<br>
  * If not set, a specific precision is automatically chosen and used, 
  * otherwise it must always be greater than or equal to <code>0</code>.</p>
- * @property string|int|null $min_multiple [default = null] <p>The minimum multiple to use, which can be defined by:<br>
+ * @property string|int|null $min_multiple [default = null]
+ * <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number, such as: <code>1</code>, <code>1000</code>, <code>1000000</code>, ...<br>
  * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>K</samp>, <samp>M</samp>, <samp>B</samp>, ... <br>
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>thousand</samp>, <samp>million</samp>, <samp>billion</samp>, ...<br>
  * <br>
  * If not set, the lowest multiple supported is used.</p>
- * @property string|int|null $max_multiple [default = null] <p>The maximum multiple to use, which can be defined by:<br>
+ * @property string|int|null $max_multiple [default = null]
+ * <p>The maximum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number, such as: <code>1</code>, <code>1000</code>, <code>1000000</code>, ...<br>
  * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>K</samp>, <samp>M</samp>, <samp>B</samp>, ... <br>
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>thousand</samp>, <samp>million</samp>, <samp>billion</samp>, ...<br>

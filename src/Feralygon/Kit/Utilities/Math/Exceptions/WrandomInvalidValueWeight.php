@@ -11,8 +11,10 @@ namespace Feralygon\Kit\Utilities\Math\Exceptions;
  * This exception is thrown from the math utility <code>wrandom</code> method whenever a given weight is invalid for a given value.
  * 
  * @since 1.0.0
- * @property-read int|string $value <p>The value.</p>
- * @property-read mixed $weight <p>The weight.</p>
+ * @property-read int|string $value
+ * <p>The value.</p>
+ * @property-read mixed $weight
+ * <p>The weight.</p>
  */
 class WrandomInvalidValueWeight extends Wrandom
 {

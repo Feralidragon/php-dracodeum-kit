@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Hash\Exception;
  * This exception is thrown from the hash utility whenever a given number of bits is invalid.
  * 
  * @since 1.0.0
- * @property-read int $bits <p>The number of bits.</p>
+ * @property-read int $bits
+ * <p>The number of bits.</p>
  */
 class InvalidBits extends Exception
 {

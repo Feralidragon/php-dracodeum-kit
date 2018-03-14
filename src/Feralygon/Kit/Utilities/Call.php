@@ -19,7 +19,7 @@ use Feralygon\Kit\Root\System;
 
 /**
  * This utility implements a set of methods used to retrieve information from existing PHP functions, 
- * methods or callables.
+ * methods and callables.
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/language.functions.php
@@ -93,8 +93,10 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/class.reflectionfunction.php
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
-	 * @param callable $function <p>The function to retrieve for.</p>
-	 * @return \ReflectionFunction|\ReflectionMethod <p>A new reflection instance for the given function.</p>
+	 * @param callable $function
+	 * <p>The function to retrieve for.</p>
+	 * @return \ReflectionFunction|\ReflectionMethod
+	 * <p>A new reflection instance for the given function.</p>
 	 */
 	final public static function reflection(callable $function) : \ReflectionFunctionAbstract
 	{
@@ -125,12 +127,14 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.hash.php
-	 * @param callable $function <p>The function to calculate from.</p>
-	 * @param string $algorithm [default = 'SHA1'] <p>The hash algorithm to use, 
-	 * which can be any supported by the PHP <code>hash</code> function.</p>
-	 * @param bool $raw [default = false] <p>Return the raw binary form of the hash, 
-	 * instead of its human-readable hexadecimal representation.</p>
-	 * @return string <p>The hash from the given function.</p>
+	 * @param callable $function
+	 * <p>The function to calculate from.</p>
+	 * @param string $algorithm [default = 'SHA1']
+	 * <p>The hash algorithm to use, which can be any supported by the PHP <code>hash</code> function.</p>
+	 * @param bool $raw [default = false]
+	 * <p>Return the raw binary form of the hash, instead of its human-readable hexadecimal representation.</p>
+	 * @return string
+	 * <p>The hash from the given function.</p>
 	 */
 	final public static function hash(callable $function, string $algorithm = 'SHA1', bool $raw = false) : string
 	{
@@ -147,8 +151,10 @@ final class Call extends Utility
 	 * Retrieve modifiers from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string[] <p>The modifiers from the given function.</p>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @return string[]
+	 * <p>The modifiers from the given function.</p>
 	 */
 	final public static function modifiers(callable $function) : array
 	{
@@ -188,12 +194,14 @@ final class Call extends Utility
 	 * In every other case only the name itself is returned.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param bool $full [default = false] <p>Return the full name, including the class it's declared in.</p>
-	 * @param bool $short [default = false] <p>Return the short form of the class name 
-	 * instead of the full namespaced one.</p>
-	 * @return string|null <p>The name from the given function 
-	 * or <code>null</code> if the function has no name (anonymous).</p>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @param bool $full [default = false]
+	 * <p>Return the full name, including the class it's declared in.</p>
+	 * @param bool $short [default = false]
+	 * <p>Return the short form of the class name instead of the full namespaced one.</p>
+	 * @return string|null
+	 * <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
 	 */
 	final public static function name(callable $function, bool $full = false, bool $short = false) : ?string
 	{
@@ -229,9 +237,10 @@ final class Call extends Utility
 	 * In variadic parameters, an additional <code>...</code> is also prepended.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The parameters bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The parameters bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_SHORT_NAMES</code> : 
@@ -239,9 +248,9 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_LEADING_SLASH</code> : 
 	 * Return classes with the leading slash.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_NO_MIXED_TYPE</code> : 
-	 * Do not return mixed parameters with the <code>mixed</code> type keyword.
-	 * </p>
-	 * @return string[] <p>The parameters from the given function.</p>
+	 * Do not return mixed parameters with the <code>mixed</code> type keyword.</p>
+	 * @return string[]
+	 * <p>The parameters from the given function.</p>
 	 */
 	final public static function parameters(callable $function, int $flags = 0x00) : array
 	{
@@ -320,17 +329,18 @@ final class Call extends Utility
 	 * Retrieve type from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The type bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The type bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : 
 	 * Do not return the <code>mixed</code> type keyword.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_SHORT_NAME</code> : 
 	 * Return a short name for a class instead of a full namespaced name.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_LEADING_SLASH</code> : 
-	 * Return class with the leading slash.
-	 * </p>
-	 * @return string <p>The type from the given function.</p>
+	 * Return class with the leading slash.</p>
+	 * @return string
+	 * <p>The type from the given function.</p>
 	 */
 	final public static function type(callable $function, int $flags = 0x00) : string
 	{
@@ -360,9 +370,10 @@ final class Call extends Utility
 	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...) : type</samp> .
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The header bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The header bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_SHORT_NAMES</code> : 
@@ -370,9 +381,9 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_LEADING_SLASH</code> : 
 	 * Return classes with the leading slash.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_NO_MIXED_TYPE</code> : 
-	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
-	 * </p>
-	 * @return string <p>The header from the given function.</p>
+	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.</p>
+	 * @return string
+	 * <p>The header from the given function.</p>
 	 */
 	final public static function header(callable $function, int $flags = 0x00) : string
 	{
@@ -430,8 +441,10 @@ final class Call extends Utility
 	 * The returning body from the given function is its PHP code.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string <p>The body from the given function.</p>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @return string
+	 * <p>The body from the given function.</p>
 	 */
 	final public static function body(callable $function) : string
 	{
@@ -465,9 +478,10 @@ final class Call extends Utility
 	 * The returning source from the given function is the entirety of its PHP code (both header and body).
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @param int $flags [default = 0x00] <p>The source bitwise flags, 
-	 * which can be any combination of the following:<br><br>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The source bitwise flags, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : 
 	 * Return the parameters constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_SHORT_NAMES</code> : 
@@ -475,9 +489,9 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_LEADING_SLASH</code> : 
 	 * Return classes with the leading slash.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_NO_MIXED_TYPE</code> : 
-	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.
-	 * </p>
-	 * @return string <p>The source from the given function.</p>
+	 * Do not return a mixed type nor parameters with the <code>mixed</code> type keyword.</p>
+	 * @return string
+	 * <p>The source from the given function.</p>
 	 */
 	final public static function source(callable $function, int $flags = 0x00) : string
 	{
@@ -514,8 +528,10 @@ final class Call extends Utility
 	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ) : return_type</samp>
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string <p>The signature from the given function.</p>
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @return string
+	 * <p>The signature from the given function.</p>
 	 */
 	final public static function signature(callable $function) : string
 	{
@@ -579,13 +595,18 @@ final class Call extends Utility
 	 * This assertion is only performed in a debug environment.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The name to assert under.</p>
-	 * @param callable $function <p>The function to assert.</p>
-	 * @param callable $template <p>The template callable declaration to assert against.</p>
-	 * @param bool $throw_exception [default = false] <p>Throw an exception if the assertion fails.</p>
+	 * @param string $name
+	 * <p>The name to assert under.</p>
+	 * @param callable $function
+	 * <p>The function to assert.</p>
+	 * @param callable $template
+	 * <p>The template callable declaration to assert against.</p>
+	 * @param bool $throw_exception [default = false]
+	 * <p>Throw an exception if the assertion fails.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\AssertionFailed
-	 * @return bool <p>Boolean <code>true</code> if the assertion succeeded with the given function 
-	 * being compatible with the given template, under the given name.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the assertion succeeded with the given function being compatible with 
+	 * the given template, under the given name.</p>
 	 */
 	final public static function assert(
 		string $name, callable $function, callable $template, bool $throw_exception = false
@@ -623,9 +644,12 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; the function return type must be an invariant or covariant of the template return type.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to check.</p>
-	 * @param callable $template <p>The template callable declaration to check against.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
+	 * @param callable $function
+	 * <p>The function to check.</p>
+	 * @param callable $template
+	 * <p>The template callable declaration to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
 	 */
 	final public static function isCompatible(callable $function, callable $template) : bool
 	{
@@ -709,8 +733,10 @@ final class Call extends Utility
 	 * Retrieve extension from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function <p>The function to retrieve from.</p>
-	 * @return string <p>The extension from the given function 
+	 * @param callable $function
+	 * <p>The function to retrieve from.</p>
+	 * @return string
+	 * <p>The extension from the given function 
 	 * or <code>null</code> if the function does not belong to any extension.</p>
 	 */
 	final public static function extension(callable $function) : ?string
@@ -723,13 +749,17 @@ final class Call extends Utility
 	 * Evaluate a given value as a callable.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value [reference] <p>The value to evaluate (validate and sanitize).</p>
-	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the compatibility against.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to evaluate as <code>null</code>.</p>
-	 * @param bool $assertive [default = false] <p>Evaluate in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
-	 * @return bool <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param callable|null $template [default = null]
+	 * <p>The template callable declaration to validate the compatibility against.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @param bool $assertive [default = false]
+	 * <p>Evaluate in an assertive manner, in other words, perform the heavier validations, 
+	 * such as the template compatibility one, only when in a debug environment.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(
 		&$value, ?callable $template = null, bool $nullable = false, bool $assertive = false
@@ -747,14 +777,18 @@ final class Call extends Utility
 	 * Coerce a given value into a callable.
 	 * 
 	 * @since 1.0.0
-	 * @param mixed $value <p>The value to coerce (validate and sanitize).</p>
-	 * @param callable|null $template [default = null] <p>The template callable declaration 
-	 * to validate the compatibility against.</p>
-	 * @param bool $nullable [default = false] <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $assertive [default = false] <p>Coerce in an assertive manner, in other words, 
-	 * perform the heavier validations, such as the template compatibility one, only when in a debug environment.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param callable|null $template [default = null]
+	 * <p>The template callable declaration to validate the compatibility against.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $assertive [default = false]
+	 * <p>Coerce in an assertive manner, in other words, perform the heavier validations, 
+	 * such as the template compatibility one, only when in a debug environment.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\CoercionFailed
-	 * @return callable|null <p>The given value coerced into a callable.<br>
+	 * @return callable|null
+	 * <p>The given value coerced into a callable.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
@@ -793,10 +827,12 @@ final class Call extends Utility
 	 * Retrieve previous class from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return string|null <p>The previous class from the current stack 
+	 * @return string|null
+	 * <p>The previous class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from a class.</p>
 	 */
 	final public static function stackPreviousClass(int $offset = 0) : ?string
@@ -812,13 +848,16 @@ final class Call extends Utility
 	 * Retrieve previous classes from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param int|null $limit [default = null] <p>The stack limit on the number of classes to retrieve from.<br>
+	 * @param int|null $limit [default = null]
+	 * <p>The stack limit on the number of classes to retrieve from.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return string[] <p>The previous classes from the current stack.</p>
+	 * @return string[]
+	 * <p>The previous classes from the current stack.</p>
 	 */
 	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null) : array
 	{
@@ -846,10 +885,12 @@ final class Call extends Utility
 	 * Retrieve previous object from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|null <p>The previous object from the current stack 
+	 * @return object|null
+	 * <p>The previous object from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
 	final public static function stackPreviousObject(int $offset = 0) : ?object
@@ -865,13 +906,16 @@ final class Call extends Utility
 	 * Retrieve previous objects from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param int|null $limit [default = null] <p>The stack limit on the number of objects to retrieve from.<br>
+	 * @param int|null $limit [default = null]
+	 * <p>The stack limit on the number of objects to retrieve from.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return object[] <p>The previous objects from the current stack.</p>
+	 * @return object[]
+	 * <p>The previous objects from the current stack.</p>
 	 */
 	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null) : array
 	{
@@ -899,10 +943,12 @@ final class Call extends Utility
 	 * Retrieve previous object or class from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @return object|string|null <p>The previous object or class from the current stack 
+	 * @return object|string|null
+	 * <p>The previous object or class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
 	 */
 	final public static function stackPreviousObjectClass(int $offset = 0)
@@ -919,14 +965,16 @@ final class Call extends Utility
 	 * Retrieve previous objects and classes from the current stack.
 	 * 
 	 * @since 1.0.0
-	 * @param int $offset [default = 0] <p>The stack offset to retrieve from.<br>
+	 * @param int $offset [default = 0]
+	 * <p>The stack offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param int|null $limit [default = null] <p>The stack limit on the number of objects 
-	 * and classes to retrieve from.<br>
+	 * @param int|null $limit [default = null]
+	 * <p>The stack limit on the number of objects and classes to retrieve from.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return object[]|string[] <p>The previous objects and classes from the current stack.</p>
+	 * @return object[]|string[]
+	 * <p>The previous objects and classes from the current stack.</p>
 	 */
 	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null) : array
 	{
@@ -964,11 +1012,11 @@ final class Call extends Utility
 	 * Guard the current function or method in the stack from being called depending on a given assertion.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $assertion <p>The assertion to depend on.<br>
+	 * @param bool $assertion
+	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, an exception is thrown, 
-	 * preventing the execution of the current function or method in the stack.
-	 * </p>
-	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null] 
+	 * preventing the execution of the current function or method in the stack.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
@@ -1006,8 +1054,7 @@ final class Call extends Utility
 		$hint_message = $options->hint_message;
 		if (isset($hint_message) && !empty($options->parameters)) {
 			$hint_message = Text::fill($hint_message, $options->parameters, null, [
-				'string_options' => $options->string_options,
-				'stringifier' => $stringifier
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
 			]);
 		}
 		
@@ -1024,13 +1071,15 @@ final class Call extends Utility
 	 * relative a given parameter name and value.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name <p>The parameter name.</p>
-	 * @param mixed $value <p>The parameter value.</p>
-	 * @param bool $assertion <p>The assertion to depend on.<br>
+	 * @param string $name
+	 * <p>The parameter name.</p>
+	 * @param mixed $value
+	 * <p>The parameter value.</p>
+	 * @param bool $assertion
+	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, an exception is thrown, 
-	 * preventing the execution of the current function or method in the stack.
-	 * </p>
-	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null] 
+	 * preventing the execution of the current function or method in the stack.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null]
 	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
 	 * @return void
@@ -1064,8 +1113,7 @@ final class Call extends Utility
 		$hint_message = $options->hint_message;
 		if (isset($hint_message) && !empty($options->parameters)) {
 			$hint_message = Text::fill($hint_message, $options->parameters, null, [
-				'string_options' => $options->string_options,
-				'stringifier' => $stringifier
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
 			]);
 		}
 		

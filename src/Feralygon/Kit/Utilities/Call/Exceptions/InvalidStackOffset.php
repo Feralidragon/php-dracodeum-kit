@@ -13,7 +13,8 @@ use Feralygon\Kit\Utilities\Call\Exception;
  * This exception is thrown from the call utility whenever a given stack offset is invalid.
  * 
  * @since 1.0.0
- * @property-read int $offset <p>The offset.</p>
+ * @property-read int $offset
+ * <p>The offset.</p>
  */
 class InvalidStackOffset extends Exception
 {
