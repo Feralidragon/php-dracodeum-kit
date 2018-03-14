@@ -56,6 +56,9 @@ class Properties
 	/** @var \Closure|null */
 	private $builder = null;
 	
+	/** @var \Closure|null */
+	private $remainderer = null;
+	
 	/** @var \Feralygon\Kit\Managers\Properties\Objects\Property[] */
 	private $properties = [];
 	
@@ -298,6 +301,7 @@ class Properties
 	 * Set builder function.
 	 * 
 	 * A builder function is required to be set when lazy-loading is enabled.<br>
+	 * <br>
 	 * This method may only be called before initialization and with lazy-loading enabled.
 	 * 
 	 * @since 1.0.0
@@ -325,6 +329,40 @@ class Properties
 		]);
 		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
 		$this->builder = \Closure::fromCallable($builder);
+		return $this;
+	}
+	
+	/**
+	 * Set remainderer function.
+	 * 
+	 * A remainderer function is meant to handle any remaining properties which were not found during initialization, 
+	 * and is executed before any given properties are set.<br>
+	 * It is also executed even if all given properties were found without any remaining properties left to handle, 
+	 * resulting in an execution with an empty properties array.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $remainderer
+	 * <p>The function to handle a given set of remaining properties.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties) : void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setRemainderer(callable $remainderer) : Properties
+	{
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		UCall::assert('remainderer', $remainderer, function (array $properties) : void {}, true);
+		$this->remainderer = \Closure::fromCallable($remainderer);
 		return $this;
 	}
 	
@@ -358,9 +396,9 @@ class Properties
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
-	 * @param array|null $remaining [reference output] [default = null]
-	 * <p>If set, it is gracefully filled with all properties, from the given <var>$properties</var> above, 
-	 * which have not been found, as <samp>name => value</samp> pairs.</p>
+	 * @param array|null $remainder [reference output] [default = null]
+	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
+	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\AlreadyInitialized
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\NoBuilderSet
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\MissingRequiredProperties
@@ -369,11 +407,11 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize(array $properties = [], ?array &$remaining = null) : Properties
+	final public function initialize(array $properties = [], ?array &$remainder = null) : Properties
 	{
-		//pre-initialize
-		if (isset($remaining)) {
-			$remaining = [];
+		//initialize remainder
+		if (isset($remainder) || isset($this->remainderer)) {
+			$remainder = [];
 		}
 		
 		//validate
@@ -406,14 +444,24 @@ class Properties
 				}
 			}
 			
-			//properties (set value)
-			foreach ($properties as $name => $value) {
-				//remaining
-				if (isset($remaining) && !$this->hasProperty($name)) {
-					$remaining[$name] = $value;
-					continue;
+			//remainder properties
+			if (isset($remainder)) {
+				//remainder
+				foreach ($properties as $name => $value) {
+					if (!$this->hasProperty($name)) {
+						$remainder[$name] = $value;
+						unset($properties[$name]);
+					}
 				}
 				
+				//remainderer
+				if (isset($this->remainderer)) {
+					($this->remainderer)($remainder);
+				}
+			}
+			
+			//properties (set value)
+			foreach ($properties as $name => $value) {
 				//property
 				$property = $this->getProperty($name);
 				if ($property->getMode() === 'r') {

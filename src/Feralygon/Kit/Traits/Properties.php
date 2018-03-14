@@ -294,18 +294,29 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
-	 * @param array|null $remaining [reference output] [default = null]
-	 * <p>If set, it is gracefully filled with all properties, from the given <var>$properties</var> above, 
-	 * which have not been found, as <samp>name => value</samp> pairs.</p>
+	 * @param callable|null $remainderer [default = null]
+	 * <p>The function to handle a given set of remaining properties.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties) : void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @param array|null $remainder [reference output] [default = null]
+	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
+	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Traits\Properties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
 	 */
 	final private function initializeProperties(
-		callable $builder, array $properties = [], string $mode = 'rw', ?array &$remaining = null
+		callable $builder, array $properties = [], string $mode = 'rw', ?callable $remainderer = null, 
+		?array &$remainder = null
 	) : void
 	{
 		//manager
-		if (isset($this->properties_manager)) {
+		if (isset($this->properties_manager) && $this->properties_manager->isInitialized()) {
 			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
 		}
 		$this->properties_manager = new Manager($this, false, $mode);
@@ -314,8 +325,13 @@ trait Properties
 		UCall::assert('builder', $builder, function () : void {}, true);
 		$builder();
 		
+		//remainderer
+		if (isset($remainderer)) {
+			$this->properties_manager->setRemainderer($remainderer);
+		}
+		
 		//initialize
-		$this->properties_manager->initialize($properties, $remaining);
+		$this->properties_manager->initialize($properties, $remainder);
 	}
 	
 	/**
