@@ -48,8 +48,7 @@ class AssertionFailed extends Exception implements IAssertive
 		}
 		
 		//return
-		return "{$message}\n" . 
-			"HINT: Only a compatible signature with {{template_signature}} is allowed.";
+		return "{$message}\nHINT: Only a compatible signature with {{template_signature}} is allowed.";
 	}
 	
 	

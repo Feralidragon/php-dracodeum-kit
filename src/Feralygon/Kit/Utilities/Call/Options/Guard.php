@@ -40,9 +40,9 @@ use Feralygon\Kit\Utilities\Type as UType;
  * If not set, the object or class of the current function or method in the stack is used.</p>
  * @property array $parameters [default = []]
  * <p>The parameters to replace the hint message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $string_options [default = null] 
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use for 
- * the hint message, as an instance or <samp>name => value</samp> pairs.</p>
+ * the hint message.</p>
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to stringify a given value for a given hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>

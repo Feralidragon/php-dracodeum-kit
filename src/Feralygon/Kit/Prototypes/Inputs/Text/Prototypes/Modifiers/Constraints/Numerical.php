@@ -23,7 +23,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false]
- * <p>Check as an Unicode text or string.</p>
+ * <p>Check a given text or string as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Numerical extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData

@@ -27,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property int[]|float[] $powers
- * <p>The allowed powers to restrict to.<br>
+ * <p>The allowed powers to restrict a given number to.<br>
  * They must all be greater than <code>0</code>.</p>
  * @property bool $negate [default = false]
  * <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>

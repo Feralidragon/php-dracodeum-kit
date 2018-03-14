@@ -24,9 +24,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @property mixed $min_value
- * <p>The minimum allowed value to restrict to (inclusive).</p>
+ * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
  * @property mixed $max_value
- * <p>The maximum allowed value to restrict to (inclusive).</p>
+ * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
  * @property bool $min_exclusive [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>

@@ -27,10 +27,10 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property int $length
- * <p>The length to truncate to.<br>
+ * <p>The length to truncate a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property bool $unicode [default = false]
- * <p>Handle as an Unicode value.</p>
+ * <p>Handle a given value as Unicode.</p>
  * @property bool $ellipsis [default = false]
  * <p>Add an ellipsis at the end of the truncated value.</p>
  * @property string|null $ellipsis_string [default = null]

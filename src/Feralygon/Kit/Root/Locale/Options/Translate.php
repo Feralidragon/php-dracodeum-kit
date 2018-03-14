@@ -24,9 +24,8 @@ use Feralygon\Kit\Root\Locale;
  * @property string|null $language [default = null]
  * <p>The language ISO 639 code to translate the message to.<br>
  * If not set, the currently set locale language is used.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $string_options [default = null]
- * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options, 
- * as an instance or <samp>name => value</samp> pairs.</p>
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = auto]
+ * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>

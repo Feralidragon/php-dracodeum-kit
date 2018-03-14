@@ -27,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property int[]|float[] $multiples
- * <p>The allowed multiples to restrict to.<br>
+ * <p>The allowed multiples to restrict a given number to.<br>
  * They must all be different from <code>0</code>.</p>
  * @property bool $negate [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>

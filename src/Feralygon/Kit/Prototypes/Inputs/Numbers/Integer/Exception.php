@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Numbers\Integer;
 
 use Feralygon\Kit\Exception as KitException;
-use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer;
+use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer as Prototype;
 
 /**
  * @since 1.0.0
@@ -22,6 +22,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function buildProperties() : void
 	{
-		$this->addProperty('prototype')->setAsStrictObject(Integer::class)->setAsRequired();
+		$this->addProperty('prototype')->setAsStrictObject(Prototype::class)->setAsRequired();
 	}
 }

@@ -16,7 +16,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * 
  * @since 1.0.0
  * @property string $format
- * <p>The format to convert into, as supported by the PHP <code>date</code> function.<br>
+ * <p>The format to convert a given date and time into, as supported by the PHP <code>date</code> function.<br>
  * It cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime

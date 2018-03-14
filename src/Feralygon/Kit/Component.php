@@ -194,20 +194,20 @@ abstract class Component
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties) : \Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?\Feralygon\Kit\Component
+	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
 	 * </code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -216,7 +216,7 @@ abstract class Component
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component|null</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
@@ -246,20 +246,20 @@ abstract class Component
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties) : \Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?\Feralygon\Kit\Component
+	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
 	 * </code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -268,7 +268,7 @@ abstract class Component
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Component|null</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\CoercionFailed
 	 * @return static

@@ -21,7 +21,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false]
- * <p>Convert as an Unicode value.</p>
+ * <p>Convert a given value as Unicode.</p>
  */
 class Uppercase extends Filter implements IPrototypeProperties, IName, ISchemaData
 {

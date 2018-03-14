@@ -864,7 +864,7 @@ class Input extends Component
 	 * &nbsp; &nbsp; &#8594; signature: 
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
 	 * &nbsp; &nbsp; &#8594; parameters:<br>
-	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>\Feralygon\Kit\Options\Text $text_options</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>Feralygon\Kit\Options\Text $text_options</code><br>
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
 	 * &nbsp; &nbsp; &#8594; return: <code>string|null</code><br>
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The error message or <code>null</code> if no error is set.<br>

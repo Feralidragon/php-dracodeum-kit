@@ -31,8 +31,7 @@ class InvalidEncoding extends Exception
 	{
 		$message = "Invalid encoding {{encoding}}.";
 		if (!empty($this->get('encodings'))) {
-			$message .= "\n" . 
-				"HINT: Only the following encodings are allowed: {{encodings}}.";
+			$message .= "\nHINT: Only the following encodings are allowed: {{encodings}}.";
 		}
 		return $message;
 	}

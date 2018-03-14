@@ -32,9 +32,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property-read string $enumeration
  * <p>The enumeration class to use.</p>
  * @property-read int[]|float[]|string[] $values [default = []]
- * <p>The enumerated element values to restrict to.</p>
+ * <p>The enumerated element values to restrict a given value to.</p>
  * @property-read int[]|float[]|string[] $non_values [default = []]
- * <p>The enumerated element values to restrict from.</p>
+ * <p>The enumerated element values to restrict a given value from.</p>
  * @property-read bool $names_only [default = false]
  * <p>Only allow enumerated element names to be set.</p>
  * @property-read bool $values_only [default = false]

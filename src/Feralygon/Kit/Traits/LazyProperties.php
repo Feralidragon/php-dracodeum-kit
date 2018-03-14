@@ -278,13 +278,13 @@ trait LazyProperties
 	 * @param callable $builder
 	 * <p>The function to build a property instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name) : ?\Feralygon\Kit\Traits\LazyProperties\Objects\Property</code><br>
+	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The property name to build for.<br>
 	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Traits\LazyProperties\Objects\Property|null</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Objects\Property|null</b></code><br>
 	 * The built property instance for the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>

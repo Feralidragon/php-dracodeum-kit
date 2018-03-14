@@ -39,7 +39,7 @@ final class Error
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Feralygon\Kit\Options\Text $text_options</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Options\Text $text_options</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>

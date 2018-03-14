@@ -33,8 +33,7 @@ class NotAllowed extends Exception
 		
 		//hint message
 		if ($this->isset('hint_message')) {
-			$message .= "\n" . 
-				"HINT: {{hint_message}}";
+			$message .= "\nHINT: {{hint_message}}";
 		}
 		
 		//return

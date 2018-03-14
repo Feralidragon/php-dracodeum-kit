@@ -23,7 +23,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false]
- * <p>Check as an Unicode value.</p>
+ * <p>Check a given value as Unicode.</p>
  */
 class Uppercase extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
 {

@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @property array $values
- * <p>The allowed values to restrict to.</p>
+ * <p>The allowed values to restrict a given value to.</p>
  * @property bool $negate [default = false]
  * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  */

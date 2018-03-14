@@ -28,7 +28,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property string[] $wildcards
- * <p>The allowed wildcard matches to restrict to.</p>
+ * <p>The allowed wildcard matches to restrict a given value to.</p>
  * @property bool $insensitive [default = false]
  * <p>Match the given wildcards in a case-insensitive manner.</p>
  * @property bool $negate [default = false]
