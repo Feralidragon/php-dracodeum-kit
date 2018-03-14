@@ -114,7 +114,7 @@ abstract class Component
 		$prototype_properties = [];
 		$this->initializeProperties(
 			\Closure::fromCallable([$this, 'buildProperty']), $properties, $this->getRequiredPropertyNames(), 'rw',
-			function (array $p) {var_dump($p);}, $prototype_properties
+			null, $prototype_properties
 		);
 		
 		//prototype base class
