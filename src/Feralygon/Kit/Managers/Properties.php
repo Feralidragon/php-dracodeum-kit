@@ -457,6 +457,7 @@ class Properties
 				//remainderer
 				if (isset($this->remainderer)) {
 					($this->remainderer)($remainder);
+					$this->remainderer = null;
 				}
 			}
 			

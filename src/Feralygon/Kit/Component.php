@@ -110,59 +110,61 @@ abstract class Component
 		//pre-initialize
 		$this->preInitialize();
 		
+		//remainderer
+		$remainderer = function (array $properties) use ($prototype) : void {
+			//prototype base class
+			$prototype_base_class = $this->getBasePrototypeClass();
+			if (!UType::isA($prototype_base_class, Prototype::class)) {
+				throw new Exceptions\InvalidBasePrototypeClass([
+					'component' => $this, 'base_class' => $prototype_base_class
+				]);
+			}
+			
+			//prototype
+			if (!isset($prototype)) {
+				$prototype = $this->buildDefaultPrototype($properties);
+				if (isset($prototype)) {
+					$properties = [];
+				} else {
+					$prototype = $prototype_base_class;
+				}
+			} elseif (!is_string($prototype) && !is_object($prototype)) {
+				throw new Exceptions\InvalidPrototype(['component' => $this, 'prototype' => $prototype]);
+			}
+			
+			//build prototype
+			if (is_string($prototype)) {
+				$instance = $this->buildPrototype($prototype, $properties);
+				if (isset($instance)) {
+					$prototype = $instance;
+					$properties = [];
+				} elseif (!class_exists($prototype)) {
+					throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
+				}
+			}
+			
+			//check prototype
+			if (!UType::isA($prototype, $prototype_base_class)) {
+				throw new Exceptions\InvalidPrototypeClass([
+					'component' => $this, 'class' => UType::class($prototype), 'base_class' => $prototype_base_class
+				]);
+			}
+			
+			//prototype instantiation
+			if (is_string($prototype)) {
+				$prototype = new $prototype($properties);
+			} elseif (!empty($properties)) {
+				throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
+			}
+			$this->initializePrototype($prototype);
+			$this->prototype = $prototype;
+		};
+		
 		//properties
-		$prototype_properties = [];
 		$this->initializeProperties(
 			\Closure::fromCallable([$this, 'buildProperty']), $properties, $this->getRequiredPropertyNames(), 'rw',
-			null, $prototype_properties
+			$remainderer
 		);
-		
-		//prototype base class
-		$prototype_base_class = $this->getBasePrototypeClass();
-		if (!UType::isA($prototype_base_class, Prototype::class)) {
-			throw new Exceptions\InvalidBasePrototypeClass([
-				'component' => $this, 'base_class' => $prototype_base_class
-			]);
-		}
-		
-		//prototype
-		if (!isset($prototype)) {
-			$prototype = $this->buildDefaultPrototype($prototype_properties);
-			if (isset($prototype)) {
-				$prototype_properties = [];
-			} else {
-				$prototype = $prototype_base_class;
-			}
-		} elseif (!is_string($prototype) && !is_object($prototype)) {
-			throw new Exceptions\InvalidPrototype(['component' => $this, 'prototype' => $prototype]);
-		}
-		
-		//build prototype
-		if (is_string($prototype)) {
-			$instance = $this->buildPrototype($prototype, $prototype_properties);
-			if (isset($instance)) {
-				$prototype = $instance;
-				$prototype_properties = [];
-			} elseif (!class_exists($prototype)) {
-				throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
-			}
-		}
-		
-		//check prototype
-		if (!UType::isA($prototype, $prototype_base_class)) {
-			throw new Exceptions\InvalidPrototypeClass([
-				'component' => $this, 'class' => UType::class($prototype), 'base_class' => $prototype_base_class
-			]);
-		}
-		
-		//prototype instantiation
-		if (is_string($prototype)) {
-			$prototype = new $prototype($prototype_properties);
-		} elseif (!empty($prototype_properties)) {
-			throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
-		}
-		$this->initializePrototype($prototype);
-		$this->prototype = $prototype;
 		
 		//initialize
 		$this->initialize();
