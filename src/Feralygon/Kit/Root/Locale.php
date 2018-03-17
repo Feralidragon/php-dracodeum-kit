@@ -131,7 +131,7 @@ final class Locale
 				'error_code' => Exceptions\LanguageCoercionFailed::ERROR_CODE_INVALID_TYPE,
 				'error_message' => "Only a language given as a string is allowed."
 			]);
-		} elseif (!preg_match('/^[a-z]{2,3}([_\-][A-Z]{2,3})?$/', $value)) {
+		} elseif (!preg_match('/^[a-z]{2,3}(?:[_\-][A-Z]{2,3})?$/', $value)) {
 			throw new Exceptions\LanguageCoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\LanguageCoercionFailed::ERROR_CODE_INVALID,

@@ -894,19 +894,20 @@ final class Time extends Utility
 	final public static function mperiod(string $period) : float
 	{
 		//parse
-		if (!preg_match_all('/([\-+])?(\d+([\.,]\d+)?)\s*([^\s,]+)?/i', $period, $matches)) {
+		$pattern = '/(?P<signs>[\-+])?(?P<times>\d+(?:[\.,]\d+)?)\s*(?P<multiples>[^\s,]+)?/i';
+		if (!preg_match_all($pattern, $period, $matches)) {
 			throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
 		}
 		
 		//calculate
 		$number = 0.0;
-		foreach ($matches[2] as $i => $time) {
+		foreach ($matches['times'] as $i => $time) {
 			$time = str_replace(',', '.', $time);
-			$multiple = empty($matches[4][$i]) ? 's' : $matches[4][$i];
+			$multiple = empty($matches['multiples'][$i]) ? 's' : $matches['multiples'][$i];
 			if (!self::evaluateMultiple($multiple)) {
 				throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
 			}
-			$number += (float)$time * $multiple * ($matches[1][$i] === '-' ? -1 : 1);
+			$number += (float)$time * $multiple * ($matches['signs'][$i] === '-' ? -1 : 1);
 		}
 		return $number;
 	}

@@ -500,7 +500,7 @@ final class Text extends Utility
 	 */
 	final public static function isIdentifier(string $string, bool $extended = false) : bool
 	{
-		return (bool)preg_match($extended ? '/^[a-z_]\w*(\.[a-z_]\w*)*$/i' : '/^[a-z_]\w*$/i', $string);
+		return (bool)preg_match($extended ? '/^[a-z_]\w*(?:\.[a-z_]\w*)*$/i' : '/^[a-z_]\w*$/i', $string);
 	}
 	
 	/**
@@ -731,7 +731,7 @@ final class Text extends Utility
 	 */
 	final public static function isPlaceholder(string $string) : bool
 	{
-		return (bool)preg_match('/^([a-z_]\w*(\(\))?)(\.[a-z_]\w*(\(\))?)*$/i', $string);
+		return (bool)preg_match('/^(?:[a-z_]\w*(?:\(\))?)(?:\.[a-z_]\w*(?:\(\))?)*$/i', $string);
 	}
 	
 	/**
@@ -820,8 +820,8 @@ final class Text extends Utility
 	final public static function placeholders(string $string) : array
 	{
 		$placeholders = [];
-		if (preg_match_all('/\{{2}(.*)\}{2}/U', $string, $matches) > 0) {
-			foreach ($matches[1] as $placeholder) {
+		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/U', $string, $matches) > 0) {
+			foreach ($matches['placeholders'] as $placeholder) {
 				if (!self::isPlaceholder($placeholder)) {
 					throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder]);
 				}
@@ -1081,9 +1081,14 @@ final class Text extends Utility
 	 */
 	final public static function capitalize(string $string, bool $unicode = false) : string
 	{
-		$pattern = $unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism';
-		if (preg_match($pattern, $string, $matches) && self::lower($matches[2], $unicode) === $matches[2]) {
-			return $matches[1] . self::ucfirst($matches[2], $unicode) . $matches[3];
+		$pattern = $unicode
+			? '/^(?P<start>[^\pL]*)(?P<first_word>\pL[\pL\-]*)(?P<end>.*)$/usm'
+			: '/^(?P<start>[^a-z]*)(?P<first_word>[a-z][a-z\-]*)(?P<end>.*)$/ism';
+		if (
+			preg_match($pattern, $string, $matches) && 
+			self::lower($matches['first_word'], $unicode) === $matches['first_word']
+		) {
+			return $matches['start'] . self::ucfirst($matches['first_word'], $unicode) . $matches['end'];
 		}
 		return $string;
 	}
@@ -1104,12 +1109,14 @@ final class Text extends Utility
 	 */
 	final public static function uncapitalize(string $string, bool $unicode = false) : string
 	{
-		$pattern = $unicode ? '/^([^\pL]*)(\pL[\pL\-]*)(.*)$/usm' : '/^([^a-z]*)([a-z][a-z\-]*)(.*)$/ism';
+		$pattern = $unicode
+			? '/^(?P<start>[^\pL]*)(?P<first_word>\pL[\pL\-]*)(?P<end>.*)$/usm'
+			: '/^(?P<start>[^a-z]*)(?P<first_word>[a-z][a-z\-]*)(?P<end>.*)$/ism';
 		if (
 			preg_match($pattern, $string, $matches) && 
-			self::ucfirst(self::lower($matches[2], $unicode), $unicode) === $matches[2]
+			self::ucfirst(self::lower($matches['first_word'], $unicode), $unicode) === $matches['first_word']
 		) {
-			return $matches[1] . self::lcfirst($matches[2], $unicode) . $matches[3];
+			return $matches['start'] . self::lcfirst($matches['first_word'], $unicode) . $matches['end'];
 		}
 		return $string;
 	}
@@ -1391,7 +1398,7 @@ final class Text extends Utility
 	 */
 	final public static function isSnakeCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][a-z\d]*(_[a-z\d]+)*$/', $string);
+		return (bool)preg_match('/^[a-z][a-z\d]*(?:_[a-z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1413,7 +1420,7 @@ final class Text extends Utility
 	 */
 	final public static function isKebabCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][a-z\d]*(-[a-z\d]+)*$/', $string);
+		return (bool)preg_match('/^[a-z][a-z\d]*(?:-[a-z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1435,7 +1442,7 @@ final class Text extends Utility
 	 */
 	final public static function isMacroCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][A-Z\d]*(_[A-Z\d]+)*$/', $string);
+		return (bool)preg_match('/^[A-Z][A-Z\d]*(?:_[A-Z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1457,7 +1464,7 @@ final class Text extends Utility
 	 */
 	final public static function isCobolCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][A-Z\d]*(-[A-Z\d]+)*$/', $string);
+		return (bool)preg_match('/^[A-Z][A-Z\d]*(?:-[A-Z\d]+)*$/', $string);
 	}
 	
 	/**

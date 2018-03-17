@@ -104,9 +104,9 @@ final class Loader
 		//initialize
 		if (!self::$initialized) {
 			spl_autoload_register(function (string $class) : void {
-				if (preg_match('/^(\w+)\\\\(\w+)\\\\/', $class, $matches)) {
-					if (self::hasPackage($matches[1], $matches[2])) {
-						@include_once self::getPackage($matches[1], $matches[2])->getPath() . 
+				if (preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', $class, $matches)) {
+					if (self::hasPackage($matches['vendor'], $matches['name'])) {
+						@include_once self::getPackage($matches['vendor'], $matches['name'])->getPath() . 
 							'/' . str_replace('\\', '/', $class) . '.php';
 					}
 				}
@@ -138,10 +138,10 @@ final class Loader
 	final public static function getClassPackage($object_class) : ?Objects\Package
 	{
 		if (
-			preg_match('/^(\w+)\\\\(\w+)\\\\/', UType::class($object_class), $matches) && 
-			self::hasPackage($matches[1], $matches[2])
+			preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', UType::class($object_class), $matches) && 
+			self::hasPackage($matches['vendor'], $matches['name'])
 		) {
-			return self::getPackage($matches[1], $matches[2]);
+			return self::getPackage($matches['vendor'], $matches['name']);
 		}
 		return null;
 	}

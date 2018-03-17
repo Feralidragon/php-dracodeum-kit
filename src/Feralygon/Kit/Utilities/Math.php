@@ -308,12 +308,13 @@ final class Math extends Utility
 	final public static function mnumber(string $number) : int
 	{
 		//parse
-		if (!preg_match('/^\s*([\-+])?(\d+([\.,]\d+)?)\s*([^\s]+)?\s*$/', $number, $matches)) {
+		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
+		if (!preg_match($pattern, $number, $matches)) {
 			throw new Exceptions\MnumberInvalidNumber(['number' => $number]);
 		}
-		$sign = $matches[1];
-		$n = (float)str_replace(',', '.', $matches[2]);
-		$multiple = $matches[4] ?? '';
+		$sign = $matches['sign'];
+		$n = (float)str_replace(',', '.', $matches['number']);
+		$multiple = $matches['multiple'] ?? '';
 		
 		//calculate
 		if (!self::evaluateMultiple($multiple)) {

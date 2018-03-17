@@ -36,7 +36,7 @@ class Parse extends Options
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
 						return UType::evaluateString($value) && 
-							($value === '' || (bool)preg_match('/^[imsxADSUXJu]+$/', $value));
+							($value === '' || preg_match('/^[imsxADSUXJu]+$/', $value));
 					})
 					->setDefaultValue('')
 				;

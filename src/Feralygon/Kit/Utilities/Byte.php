@@ -159,12 +159,13 @@ final class Byte extends Utility
 	final public static function mvalue(string $value) : int
 	{
 		//parse
-		if (!preg_match('/^\s*([\-+])?(\d+([\.,]\d+)?)\s*([^\s]+)?\s*$/', $value, $matches)) {
+		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
+		if (!preg_match($pattern, $value, $matches)) {
 			throw new Exceptions\MvalueInvalidValue(['value' => $value]);
 		}
-		$sign = $matches[1];
-		$number = (float)str_replace(',', '.', $matches[2]);
-		$multiple = $matches[4] ?? '';
+		$sign = $matches['sign'];
+		$number = (float)str_replace(',', '.', $matches['number']);
+		$multiple = $matches['multiple'] ?? '';
 		
 		//calculate
 		if (!self::evaluateMultiple($multiple)) {

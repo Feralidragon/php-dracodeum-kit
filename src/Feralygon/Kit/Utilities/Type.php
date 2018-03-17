@@ -89,8 +89,8 @@ final class Type extends Utility
 		if (is_object($value) && !self::isA($value, \Closure::class)) {
 			$properties = [];
 			foreach ((array)$value as $name => $v) {
-				if (preg_match('/\0[*\w\\\\]+\0(\w+)$/', $name, $matches)) {
-					$name = $matches[1];
+				if (preg_match('/\0[*\w\\\\]+\0(?P<name>\w+)$/', $name, $matches)) {
+					$name = $matches['name'];
 				}
 				$properties[$name] = $v;
 			}
