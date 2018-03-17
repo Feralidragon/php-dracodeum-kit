@@ -103,6 +103,48 @@ final class Text extends Utility
 	}
 	
 	/**
+	 * Coalesce string from a given set of strings.
+	 * 
+	 * The returning string is the first one from the given set of strings which is not empty 
+	 * (not <code>null</code> nor <code>''</code>).
+	 * 
+	 * @since 1.0.0
+	 * @param string[]|null[] $strings
+	 * <p>The strings to coalesce from.</p>
+	 * @param int[]|string[] $keys [default = []]
+	 * <p>The keys to coalesce by.<br>
+	 * If empty, then all strings from the given set are used to coalesce by, 
+	 * otherwise only the strings in the matching keys are used.<br>
+	 * The order of these keys also establish the order of the coalesce operation.</p>
+	 * @param bool $ignore_whitespace [default = false]
+	 * <p>Ignore whitespace characters from the given strings.<br>
+	 * These characters are defined as follows:<br>
+	 * &nbsp; &#8226; &nbsp; space (<code>' '</code>);<br>
+	 * &nbsp; &#8226; &nbsp; tab (<code>"\t"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; new line (<code>"\n"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
+	 * @param int|string|null $coalesced_key [reference output] [default = null]
+	 * <p>The coalesced key corresponding to the returned string.</p>
+	 * @return string|null
+	 * <p>The coalesced string from the given set of strings or <code>null</code> if all strings are empty.</p>
+	 */
+	final public static function coalesce(
+		array $strings, array $keys = [], bool $ignore_whitespace = false, &$coalesced_key = null
+	) : ?string
+	{
+		$coalesced_key = null;
+		foreach (empty($keys) ? array_keys($strings) : $keys as $key) {
+			if (isset($strings[$key]) && !self::empty($strings[$key], $ignore_whitespace)) {
+				$coalesced_key = $key;
+				return $strings[$key];
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Generate a string from a given value.
 	 * 
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
