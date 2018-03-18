@@ -39,11 +39,13 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * While every method declared in a prototype must be implemented, additional interfaces recognized by the component 
  * may be defined and implemented in the prototype to enable additional optional internal features.<br>
  * <br>
- * A prototype is never aware of which specific component is using it, given that there is no back reference to it, 
- * and a component never exposes its prototype to other outside objects, ensuring that every public method defined 
+ * A component never exposes its prototype to other outside objects, ensuring that every public method defined 
  * in a prototype remains hidden from other objects and to be exclusively used by its component alone.<br>
  * Additionally, a component may be extended or recreated to modify or refactor any internal behavior and still be able 
  * to reuse all the existing prototypes in the same way.<br>
+ * <br>
+ * A prototype may require the implementation of a specific contract interface by any component which uses it, 
+ * so that a prototype may call specific methods from a component, without exposing the component itself.
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
@@ -157,6 +159,7 @@ abstract class Component
 				throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
 			}
 			$this->initializePrototype($prototype);
+			$prototype->setComponent($this);
 			$this->prototype = $prototype;
 		};
 		

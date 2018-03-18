@@ -11,6 +11,10 @@ use Feralygon\Kit\Prototype\{
 	Exceptions,
 	Interfaces
 };
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Type as UType
+};
 
 /**
  * This class is the base to be extended from when creating a prototype.
@@ -19,6 +23,7 @@ use Feralygon\Kit\Prototype\{
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
+ * @see \Feralygon\Kit\Prototype\Interfaces\Contract
  * @see \Feralygon\Kit\Prototype\Interfaces\Properties
  * @see \Feralygon\Kit\Prototype\Interfaces\Functions
  * @see \Feralygon\Kit\Prototype\Interfaces\Initialization
@@ -28,6 +33,12 @@ abstract class Prototype
 	//Traits
 	use Traits\LazyProperties;
 	use Traits\Functions;
+	
+	
+	
+	//Private properties
+	/** @var \Feralygon\Kit\Component|null */
+	private $component = null;
 	
 	
 	
@@ -58,5 +69,78 @@ abstract class Prototype
 		if ($this instanceof Interfaces\Initialization) {
 			$this->initialize();
 		}
+	}
+	
+	
+	
+	//Final public methods
+	/**
+	 * Set component instance.
+	 * 
+	 * This method may only be called if no component instance is already set.<br>
+	 * If a contract interface is set, the given component must also implement that interface.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Component $component
+	 * <p>The component instance to set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setComponent(Component $component) : Prototype
+	{
+		//guard
+		UCall::guard(!isset($this->component) || $component === $this->component, [
+			'hint_message' => "This method may only be called if no component instance is already set."
+		]);
+		
+		//contract
+		$contract = $this instanceof Interfaces\Contract ? $this->getContract() : null;
+		UCall::guard(!isset($contract) || UType::implements($component, $contract), [
+			'hint_message' => "The given component {{component}} must implement the contract {{contract}}.",
+			'parameters' => ['component' => $component, 'contract' => $contract]
+		]);
+		
+		//set
+		$this->component = $component;
+		
+		//return
+		return $this;
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Call component method with a given name.
+	 * 
+	 * This method may only be called after a component instance and a contract have already been set, 
+	 * and only existing methods within the contract implemented by the component instance are allowed to be called.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The component method name to call.</p>
+	 * @param mixed ...$arguments
+	 * <p>The component method arguments to call with.</p>
+	 * @return mixed
+	 * <p>The returning value from the called component method with the given name.</p>
+	 */
+	final protected function componentCall(string $name, ...$arguments)
+	{
+		//guard
+		UCall::guard(isset($this->component) && $this instanceof Interfaces\Contract, [
+			'hint_message' => "This method may only be called after a component instance and a contract " . 
+				"have already been set."
+		]);
+		
+		//contract
+		$contract = UType::interface($this->getContract());
+		UCall::guardParameter('name', $name, method_exists($contract, $name), [
+			'hint_message' => "The given method name has not been found in contract {{contract}} " . 
+				"implemented by component {{component}}.",
+			'parameters' => ['contract' => $contract, 'component' => $this->component]
+		]);
+		
+		//return
+		return $this->component->$name(...$arguments);
 	}
 }
