@@ -15,7 +15,7 @@ namespace Feralygon\Kit\Prototype\Interfaces;
  */
 interface Contract
 {
-	//Public methods
+	//Public static methods
 	/**
 	 * Get contract interface.
 	 * 
@@ -25,5 +25,5 @@ interface Contract
 	 * @return string
 	 * <p>The contract interface.</p>
 	 */
-	public function getContract() : string;
+	public static function getContract() : string;
 }

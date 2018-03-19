@@ -23,29 +23,29 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * This class is the base to be extended from when creating a component.
  * 
  * A component is an object which represents a specific functional part of an application and is expected to have 
- * a very high number of implementations, each one tailored to each specific purpose, but with its core behavior, 
- * functionality and interface mostly intact.<br>
+ * a high number of different implementations, each one tailored to a specific purpose, but with their core behavior, 
+ * functionality and interface intact.<br>
  * <br>
- * Examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, controllers, 
- * handlers, and others, all of which are expected to have tens or even hundreds of different internal implementations 
- * under a common functional interface when seen and used by other objects.<br>
+ * Some examples of this kind of object are inputs, outputs, tables, parameters, filters, constraints, models, 
+ * controllers, handlers, and others, all of which are expected to have tens or even hundreds of different 
+ * implementations under a common functional interface and behavior when seen and used by other objects.<br>
  * <br>
- * The implementation of a component is performed through a <b>prototype</b> object.<br>
+ * This implementation is performed through a <b>prototype</b>.<br>
  * <br>
- * Any methods meant to internally implement a component are declared as abstract in a prototype instead, 
- * generally sharing the same class name as the component, but under a different namespace, resulting in the component 
- * using the prototype to define the details of its internal behavior.<br>
+ * Any methods meant to implement a component are publicly declared as abstract in a prototype instead, 
+ * which generally shares the same class name as that component, but reside under different namespaces, 
+ * resulting in a component using a prototype to define specific details of its internal behavior.<br>
  * <br>
  * While every method declared in a prototype must be implemented, additional interfaces recognized by the component 
- * may be defined and implemented in the prototype to enable additional optional internal features.<br>
+ * may be defined and implemented in the prototype to enable additional optional features.<br>
  * <br>
  * A component never exposes its prototype to other outside objects, ensuring that every public method defined 
- * in a prototype remains hidden from other objects and to be exclusively used by its component alone.<br>
+ * in a prototype remains hidden from other objects, to be exclusively used by its component alone.<br>
  * Additionally, a component may be extended or recreated to modify or refactor any internal behavior and still be able 
  * to reuse all the existing prototypes in the same way.<br>
  * <br>
- * A prototype may require the implementation of a specific contract interface by any component which uses it, 
- * so that a prototype may call specific methods from a component, without exposing the component itself.
+ * A prototype may require the implementation of a specific contract, as an interface, by any component which uses it, 
+ * so that a prototype may call specific methods from a component safely, without exposing the component itself.<br>
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
@@ -59,8 +59,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * While the prototype to use may be given through its class or an instance (dependency injection pattern), 
  * a component may also map specific names towards specific prototypes, so that a prototype may also be instantiated 
  * and used through the usage of a name instead, so that the class to use does not need to be known ahead of time 
- * (factory pattern).<br>
- * This allows for both dependency injection and factory patterns to be used with prototypes, simultaneously.
+ * (factory pattern).
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
@@ -158,8 +157,8 @@ abstract class Component
 			} elseif (!empty($properties)) {
 				throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
 			}
-			$this->initializePrototype($prototype);
 			$prototype->setComponent($this);
+			$this->initializePrototype($prototype);
 			$this->prototype = $prototype;
 		};
 		

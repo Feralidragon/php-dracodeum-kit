@@ -77,8 +77,8 @@ abstract class Prototype
 	/**
 	 * Set component instance.
 	 * 
-	 * This method may only be called if no component instance is already set.<br>
-	 * If a contract interface is set, the given component must also implement that interface.
+	 * This method may only be called if no component instance has already been set.<br>
+	 * If a contract interface is defined, the given component instance must also implement that interface.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Component $component
@@ -89,8 +89,8 @@ abstract class Prototype
 	final public function setComponent(Component $component) : Prototype
 	{
 		//guard
-		UCall::guard(!isset($this->component) || $component === $this->component, [
-			'hint_message' => "This method may only be called if no component instance is already set."
+		UCall::guard(!isset($this->component), [
+			'hint_message' => "This method may only be called if no component instance has already been set."
 		]);
 		
 		//contract
@@ -111,25 +111,24 @@ abstract class Prototype
 	
 	//Final protected methods
 	/**
-	 * Call component method with a given name.
+	 * Call contract method with a given name.
 	 * 
-	 * This method may only be called after a component instance and a contract have already been set, 
-	 * and only existing methods within the contract implemented by the component instance are allowed to be called.
+	 * This method may only be called if a contract interface is defined and a component instance has already been set.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The component method name to call.</p>
+	 * <p>The contract method name to call.</p>
 	 * @param mixed ...$arguments
-	 * <p>The component method arguments to call with.</p>
+	 * <p>The contract method arguments to call with.</p>
 	 * @return mixed
-	 * <p>The returning value from the called component method with the given name.</p>
+	 * <p>The returning value from the called contract method with the given name.</p>
 	 */
-	final protected function componentCall(string $name, ...$arguments)
+	final protected function contractCall(string $name, ...$arguments)
 	{
 		//guard
-		UCall::guard(isset($this->component) && $this instanceof Interfaces\Contract, [
-			'hint_message' => "This method may only be called after a component instance and a contract " . 
-				"have already been set."
+		UCall::guard($this instanceof Interfaces\Contract && isset($this->component), [
+			'hint_message' => "This method may only be called if a contract interface is defined " . 
+				"and a component instance has already been set."
 		]);
 		
 		//contract
