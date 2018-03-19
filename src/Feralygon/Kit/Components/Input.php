@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Components;
 
 use Feralygon\Kit\Component;
+use Feralygon\Kit\Prototypes\Input\Contract as IPrototypeContract;
 use Feralygon\Kit\Components\Input\{
 	Components,
 	Exceptions,
@@ -67,7 +68,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  * [prototype, name = 'datetime' or 'timestamp']
  */
-class Input extends Component
+class Input extends Component implements IPrototypeContract
 {
 	//Private properties
 	/** @var bool */
@@ -99,13 +100,17 @@ class Input extends Component
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeInitialization)
-	protected function initializePrototype(ComponentPrototype $prototype) : void
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Contract)
+	/** {@inheritdoc} */
+	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
 	{
-		$prototype
-			->bind('createConstraint', [$this, 'createConstraint'])
-			->bind('createFilter', [$this, 'createFilter'])
-		;
+		return new Components\Modifiers\Constraint($prototype, $properties);
+	}
+	
+	/** {@inheritdoc} */
+	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
+	{
+		return new Components\Modifiers\Filter($prototype, $properties);
 	}
 	
 	
@@ -524,38 +529,6 @@ class Input extends Component
 		
 		//return
 		return $set;
-	}
-	
-	/**
-	 * Create a constraint instance with a given prototype.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype
-	 * <p>The constraint prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []]
-	 * <p>The constraint properties to use, as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
-	 * <p>The created constraint instance with the given prototype.</p>
-	 */
-	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
-	{
-		return new Components\Modifiers\Constraint($prototype, $properties);
-	}
-	
-	/**
-	 * Create a filter instance with a given prototype.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype
-	 * <p>The filter prototype instance, class or name to create with.</p>
-	 * @param array $properties [default = []]
-	 * <p>The filter properties to use, as <samp>name => value</samp> pairs.</p>
-	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
-	 * <p>The created filter instance with the given prototype.</p>
-	 */
-	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
-	{
-		return new Components\Modifiers\Filter($prototype, $properties);
 	}
 	
 	/**

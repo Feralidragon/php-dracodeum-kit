@@ -8,7 +8,8 @@
 namespace Feralygon\Kit\Prototypes;
 
 use Feralygon\Kit\Prototype;
-use Feralygon\Kit\Prototype\Interfaces\Functions as IFunctions;
+use Feralygon\Kit\Prototype\Interfaces\Contract as IContract;
+use Feralygon\Kit\Prototypes\Input\Contract;
 use Feralygon\Kit\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -17,6 +18,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 /**
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
+ * @see \Feralygon\Kit\Prototypes\Input\Contract
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorInformation
@@ -24,7 +26,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers
  */
-abstract class Input extends Prototype implements IFunctions
+abstract class Input extends Prototype implements IContract
 {
 	//Abstract public methods
 	/**
@@ -51,17 +53,11 @@ abstract class Input extends Prototype implements IFunctions
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Functions)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Contract)
 	/** {@inheritdoc} */
-	public function getFunctionTemplate(string $name) : ?callable
+	public static function getContract() : string
 	{
-		switch ($name) {
-			case 'createConstraint':
-				return function ($prototype, array $properties) : Constraint {};
-			case 'createFilter':
-				return function ($prototype, array $properties) : Filter {};
-		}
-		return null;
+		return Contract::class;
 	}
 	
 	
@@ -80,7 +76,7 @@ abstract class Input extends Prototype implements IFunctions
 	 */
 	protected function createConstraint($prototype, array $properties = []) : Constraint
 	{
-		return $this->call('createConstraint', $prototype, $properties);
+		return $this->contractCall('createConstraint', $prototype, $properties);
 	}
 	
 	/**
@@ -96,6 +92,6 @@ abstract class Input extends Prototype implements IFunctions
 	 */
 	protected function createFilter($prototype, array $properties = []) : Filter
 	{
-		return $this->call('createFilter', $prototype, $properties);
+		return $this->contractCall('createFilter', $prototype, $properties);
 	}
 }
