@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Enumeration\Traits;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * This trait defines a set of methods to retrieve information from an enumeration, namely a label and a description.
+ * This trait defines a set of methods to retrieve information from an enumeration, namely the label and description.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Enumeration

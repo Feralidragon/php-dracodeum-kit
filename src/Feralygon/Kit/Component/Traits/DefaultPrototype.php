@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Component\Traits;
 use Feralygon\Kit\Prototype;
 
 /** 
- * This trait defines a method to build a default prototype in a component.
+ * This trait defines a method to build the default prototype for a component.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
