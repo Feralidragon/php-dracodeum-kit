@@ -25,14 +25,12 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Component
  * @see \Feralygon\Kit\Prototype\Interfaces\Contract
  * @see \Feralygon\Kit\Prototype\Interfaces\Properties
- * @see \Feralygon\Kit\Prototype\Interfaces\Functions
  * @see \Feralygon\Kit\Prototype\Interfaces\Initialization
  */
 abstract class Prototype
 {
 	//Traits
 	use Traits\LazyProperties;
-	use Traits\Functions;
 	
 	
 	
@@ -58,11 +56,6 @@ abstract class Prototype
 			$this->initializeProperties([$this, 'buildProperty'], $properties, $this->getRequiredPropertyNames());
 		} elseif (!empty($properties)) {
 			throw new Exceptions\PropertiesNotImplemented(['prototype' => $this]);
-		}
-		
-		//functions
-		if ($this instanceof Interfaces\Functions) {
-			$this->initializeFunctions([$this, 'getFunctionTemplate'], true);
 		}
 		
 		//initialization

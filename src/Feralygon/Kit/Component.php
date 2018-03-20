@@ -52,10 +52,6 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * While all readable properties from a component may be accessed from any scope, in the case of a prototype they 
  * are effectively only visible to itself and the component using it.<br>
  * <br>
- * A prototype may also require to have existing functions bound to itself by a component, which must be compatible 
- * with the function templates defined by the prototype itself, and which may or may not correspond to 
- * actual methods from the component itself.<br>
- * <br>
  * While the prototype to use may be given through its class or an instance (dependency injection pattern), 
  * a component may also map specific names towards specific prototypes, so that a prototype may also be instantiated 
  * and used through the usage of a name instead, so that the class to use does not need to be known ahead of time 
