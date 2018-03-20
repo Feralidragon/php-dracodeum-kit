@@ -17,7 +17,7 @@ use Feralygon\Kit\Prototype;
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\ErrorUnset
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\ErrorInformation
+ * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\ErrorMessage
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData
  */
 abstract class Modifier extends Prototype {}

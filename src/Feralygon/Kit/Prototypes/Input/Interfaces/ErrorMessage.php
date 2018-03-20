@@ -5,18 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
+namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * This interface defines a method to retrieve error information from an input modifier prototype, 
- * namely an error message.
+ * This interface defines a method to retrieve the error message from an input prototype.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier
+ * @see \Feralygon\Kit\Prototypes\Input
  */
-interface ErrorInformation
+interface ErrorMessage
 {
 	//Public methods
 	/**

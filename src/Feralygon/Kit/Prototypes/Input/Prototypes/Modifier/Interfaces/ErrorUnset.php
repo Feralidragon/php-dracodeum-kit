@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
 
 /**
- * This interface defines a method to unset an error from an input modifier prototype.
+ * This interface defines a method to unset the error from an input modifier prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier

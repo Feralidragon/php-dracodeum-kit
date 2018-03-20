@@ -196,7 +196,7 @@ abstract class Modifier extends Component
 		
 		//prototype
 		$prototype = $this->getPrototype();
-		if ($prototype instanceof PrototypeInterfaces\ErrorInformation) {
+		if ($prototype instanceof PrototypeInterfaces\ErrorMessage) {
 			return $prototype->getErrorMessage($text_options);
 		} elseif ($prototype instanceof PrototypeInterfaces\Information) {
 			return $prototype->getMessage($text_options);

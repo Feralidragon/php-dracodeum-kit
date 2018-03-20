@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototype\Interfaces;
 
 /**
- * This interface defines a method to retrieve a contract interface from a prototype.
+ * This interface defines a method to retrieve the contract interface from a prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype

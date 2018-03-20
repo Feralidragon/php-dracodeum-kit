@@ -13,7 +13,8 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 };
 
 /**
- * This interface defines a contract as a set of methods to be implemented by a component to use an input prototype.
+ * This interface defines a contract as a set of methods to be implemented by any component set 
+ * to use an input prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
