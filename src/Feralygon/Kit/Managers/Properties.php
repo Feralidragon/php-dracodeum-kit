@@ -464,12 +464,15 @@ class Properties
 			//properties (set value)
 			foreach ($properties as $name => $value) {
 				$property = $this->getProperty($name);
-				if ($property->getMode() === 'r') {
+				$property_mode = $property->getMode();
+				if ($property_mode === 'r') {
 					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
 				} elseif (!$property->setValue($value, true)) {
 					throw new Exceptions\InvalidPropertyValue([
 						'manager' => $this, 'property' => $property, 'value' => $value
 					]);
+				} elseif ($this->lazy && $property_mode === 'w-') {
+					unset($this->properties[$name]);
 				}
 			}
 			
