@@ -591,19 +591,18 @@ class Input extends Component implements IPrototypeContract
 	/**
 	 * Set value.
 	 * 
-	 * By omission, this method throws an exception if the given value is invalid, 
-	 * instead of returning boolean <code>false</code>.
-	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidValue
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the value was successfully set.</p>
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the given value 
+	 * was successfully set, or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public function setValue($value, bool $no_throw = false) : bool
+	final public function setValue($value, bool $no_throw = false)
 	{
 		//initialize
 		$this->unsetError();
@@ -692,7 +691,7 @@ class Input extends Component implements IPrototypeContract
 		$this->initialized = true;
 		
 		//return
-		return true;
+		return $no_throw ? true : $this;
 	}
 	
 	/**
