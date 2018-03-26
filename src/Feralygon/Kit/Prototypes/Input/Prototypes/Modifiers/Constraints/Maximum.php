@@ -158,7 +158,7 @@ class Maximum extends Constraint implements IPrototypeProperties, IName, IInform
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
 	protected function evaluateValue(&$value) : bool
 	{

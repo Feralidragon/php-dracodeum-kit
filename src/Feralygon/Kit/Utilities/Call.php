@@ -759,7 +759,7 @@ final class Call extends Utility
 	 * <p>Evaluate in an assertive manner, in other words, perform the heavier validations, 
 	 * such as the template compatibility one, only when in a debug environment.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a callable.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(
 		&$value, ?callable $template = null, bool $nullable = false, bool $assertive = false

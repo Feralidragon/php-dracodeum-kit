@@ -163,7 +163,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a date and time.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date and time.</p>
 	 */
 	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -284,7 +284,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a date.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date.</p>
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -404,7 +404,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a time.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a time.</p>
 	 */
 	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
 	{
@@ -926,7 +926,7 @@ final class Time extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a multiple.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a multiple.</p>
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
 	{

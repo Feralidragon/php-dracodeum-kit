@@ -47,7 +47,7 @@ abstract class Input extends Prototype implements IContract
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
 	abstract public function evaluateValue(&$value) : bool;
 	

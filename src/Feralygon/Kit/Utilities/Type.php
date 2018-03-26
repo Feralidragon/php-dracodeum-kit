@@ -160,7 +160,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a boolean.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a boolean.</p>
 	 */
 	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
 	{
@@ -257,7 +257,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a number.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a number.</p>
 	 */
 	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
 	{
@@ -375,7 +375,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an integer.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an integer.</p>
 	 */
 	final public static function evaluateInteger(&$value, bool $nullable = false) : bool
 	{
@@ -469,7 +469,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a float.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a float.</p>
 	 */
 	final public static function evaluateFloat(&$value, bool $nullable = false) : bool
 	{
@@ -553,7 +553,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a string.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a string.</p>
 	 */
 	final public static function evaluateString(&$value, bool $non_empty = false, bool $nullable = false) : bool
 	{
@@ -625,7 +625,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a class.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a class.</p>
 	 */
 	final public static function evaluateClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{
@@ -708,7 +708,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an object.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an object.</p>
 	 */
 	final public static function evaluateObject(
 		&$value, $base_object_class = null, array $arguments = [], bool $nullable = false
@@ -811,7 +811,7 @@ final class Type extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an object or class.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an object or class.</p>
 	 */
 	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
 	{

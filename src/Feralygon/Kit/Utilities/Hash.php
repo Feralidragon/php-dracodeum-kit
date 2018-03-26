@@ -35,7 +35,7 @@ final class Hash extends Utility
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into a hash.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a hash.</p>
 	 */
 	final public static function evaluate(&$value, int $bits, bool $nullable = false) : bool
 	{

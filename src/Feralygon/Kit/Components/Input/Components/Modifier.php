@@ -43,7 +43,7 @@ abstract class Modifier extends Component
 	 * @param mixed $value [reference]
 	 * <p>The value to handle the evaluation of (validate and sanitize).</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is evaluated as being valid.</p>
+	 * <p>Boolean <code>true</code> if the given value was evaluated as being valid.</p>
 	 */
 	abstract protected function handleValueEvaluation(&$value) : bool;
 	
@@ -261,7 +261,7 @@ abstract class Modifier extends Component
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
 	final public function evaluateValue(&$value) : bool
 	{

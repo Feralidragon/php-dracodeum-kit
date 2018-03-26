@@ -224,7 +224,7 @@ abstract class Component
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
 		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null

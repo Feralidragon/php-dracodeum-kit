@@ -109,7 +109,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated into an instance.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false) : bool
 	{

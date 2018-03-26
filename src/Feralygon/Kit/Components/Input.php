@@ -950,7 +950,7 @@ class Input extends Component implements IPrototypeContract
 	 * @param array $properties [default = []]
 	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated with the given prototype.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the given prototype.</p>
 	 */
 	final public static function evaluateValue(&$value, $prototype, array $properties = []) : bool
 	{
@@ -1002,7 +1002,7 @@ class Input extends Component implements IPrototypeContract
 	 * @param bool $before_modifiers [default = false]
 	 * <p>Execute the evaluator functions set to be executed before the modifiers.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
 	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false) : bool
 	{

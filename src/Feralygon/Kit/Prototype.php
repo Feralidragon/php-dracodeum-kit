@@ -114,7 +114,7 @@ abstract class Prototype
 	 * @param mixed ...$arguments
 	 * <p>The contract method arguments to call with.</p>
 	 * @return mixed
-	 * <p>The returning value from the called contract method with the given name.</p>
+	 * <p>The returned value from the called contract method with the given name.</p>
 	 */
 	final protected function contractCall(string $name, ...$arguments)
 	{

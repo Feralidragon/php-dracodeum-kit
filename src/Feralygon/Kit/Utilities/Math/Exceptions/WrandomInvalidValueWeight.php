@@ -8,7 +8,8 @@
 namespace Feralygon\Kit\Utilities\Math\Exceptions;
 
 /**
- * This exception is thrown from the math utility <code>wrandom</code> method whenever a given weight is invalid for a given value.
+ * This exception is thrown from the math utility <code>wrandom</code> method whenever a given weight is invalid 
+ * for a given value.
  * 
  * @since 1.0.0
  * @property-read int|string $value

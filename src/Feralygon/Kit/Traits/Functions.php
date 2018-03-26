@@ -101,7 +101,7 @@ trait Functions
 	 * <p>The function arguments to call with.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
 	 * @return mixed
-	 * <p>The returning value from the called function with the given name.</p>
+	 * <p>The returned value from the called function with the given name.</p>
 	 */
 	final protected function call(string $name, ...$arguments)
 	{

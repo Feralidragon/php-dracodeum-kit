@@ -8,7 +8,8 @@
 namespace Feralygon\Kit\Utilities\Text\Exceptions;
 
 /**
- * This exception is thrown from the text utility <code>mparse</code> method whenever a given delimiter pattern is invalid.
+ * This exception is thrown from the text utility <code>mparse</code> method whenever a given delimiter pattern 
+ * is invalid.
  * 
  * @since 1.0.0
  * @property-read string $pattern
