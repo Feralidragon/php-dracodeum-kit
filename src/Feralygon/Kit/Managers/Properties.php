@@ -327,7 +327,7 @@ class Properties
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
+		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {});
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;
 	}
@@ -361,7 +361,7 @@ class Properties
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		UCall::assert('remainderer', $remainderer, function (array $properties) : void {}, true);
+		UCall::assert('remainderer', $remainderer, function (array $properties) : void {});
 		$this->remainderer = \Closure::fromCallable($remainderer);
 		return $this;
 	}

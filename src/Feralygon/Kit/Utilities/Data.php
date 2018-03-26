@@ -1933,7 +1933,7 @@ final class Data extends Utility
 				'error_message' => "An associative array value is not allowed."
 			]);
 		} elseif (isset($evaluator)) {
-			Call::assert('evaluator', $evaluator, function (&$key, &$value) : bool {}, true);
+			Call::assert('evaluator', $evaluator, function (&$key, &$value) : bool {});
 			$evaluator = \Closure::fromCallable($evaluator);
 			$f_array = [];
 			foreach ($array as $k => $v) {

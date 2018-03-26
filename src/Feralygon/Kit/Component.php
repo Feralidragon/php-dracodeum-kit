@@ -301,9 +301,7 @@ abstract class Component
 		//named builder
 		if (isset($named_builder) && is_string($value)) {
 			//assert
-			UCall::assert(
-				'named_builder', $named_builder, function (string $name, array $properties) : ?Component {}, true
-			);
+			UCall::assert('named_builder', $named_builder, function (string $name, array $properties) : ?Component {});
 			
 			//build
 			$instance = null;
@@ -347,7 +345,7 @@ abstract class Component
 		
 		//builder
 		if (isset($builder)) {
-			UCall::assert('builder', $builder, function ($prototype, array $properties) : Component {}, true);
+			UCall::assert('builder', $builder, function ($prototype, array $properties) : Component {});
 			try {
 				return UType::coerceObject($builder($value, $properties), static::class);
 			} catch (\Exception $exception) {

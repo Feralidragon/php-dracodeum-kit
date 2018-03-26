@@ -337,7 +337,7 @@ trait LazyProperties
 		$this->properties_manager = new Manager($this, true, $mode);
 		
 		//builder
-		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {}, true);
+		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {});
 		$this->properties_manager->setBuilder(function (string $name) use ($builder) : ?Objects\Property {
 			try {
 				$this->properties_builder_current_name = $name;

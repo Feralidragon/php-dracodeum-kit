@@ -145,7 +145,7 @@ trait Functions
 		}
 		
 		//templater
-		UCall::assert('templater', $templater, function (string $name) : ?callable {}, true);
+		UCall::assert('templater', $templater, function (string $name) : ?callable {});
 		$this->functions_templater = \Closure::fromCallable($templater);
 		
 		//finish

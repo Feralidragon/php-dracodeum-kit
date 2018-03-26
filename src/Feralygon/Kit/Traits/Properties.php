@@ -322,7 +322,7 @@ trait Properties
 		$this->properties_manager = new Manager($this, false, $mode);
 		
 		//build
-		UCall::assert('builder', $builder, function () : void {}, true);
+		UCall::assert('builder', $builder, function () : void {});
 		$builder();
 		
 		//remainderer

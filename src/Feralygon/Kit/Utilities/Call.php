@@ -601,29 +601,29 @@ final class Call extends Utility
 	 * <p>The function to assert.</p>
 	 * @param callable $template
 	 * <p>The template callable declaration to assert against.</p>
-	 * @param bool $throw_exception [default = false]
-	 * <p>Throw an exception if the assertion fails.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\AssertionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the assertion succeeded with the given function being compatible with 
-	 * the given template, under the given name.</p>
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the assertion 
+	 * succeeded, with the given function being compatible with the given template, 
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function assert(
-		string $name, callable $function, callable $template, bool $throw_exception = false
-	) : bool
+	final public static function assert(string $name, callable $function, callable $template, bool $no_throw = false)
 	{
 		if (System::isDebug() && !self::isCompatible($function, $template)) {
-			if ($throw_exception) {
-				throw new Exceptions\AssertionFailed([
-					'name' => $name,
-					'function' => $function,
-					'template' => $template,
-					'object_class' => self::stackPreviousObjectClass()
-				]);
+			if ($no_throw) {
+				return false;
 			}
-			return false;
+			throw new Exceptions\AssertionFailed([
+				'name' => $name,
+				'function' => $function,
+				'template' => $template,
+				'object_class' => self::stackPreviousObjectClass()
+			]);
+		} elseif ($no_throw) {
+			return true;
 		}
-		return true;
 	}
 	
 	/**

@@ -106,7 +106,7 @@ class Readonly
 		UCall::guard(!$this->enabled, [
 			'hint_message' => "This method may only be called before enablement."
 		]);
-		UCall::assert('callback', $callback, function () : void {}, true);
+		UCall::assert('callback', $callback, function () : void {});
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
 	}

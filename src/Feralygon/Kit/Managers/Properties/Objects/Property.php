@@ -389,7 +389,7 @@ class Property
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		UCall::assert('default_getter', $getter, function () {}, true);
+		UCall::assert('default_getter', $getter, function () {});
 		$this->default_getter = \Closure::fromCallable($getter);
 		return $this;
 	}
@@ -437,7 +437,7 @@ class Property
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		UCall::assert('evaluator', $evaluator, function (&$value) : bool {}, true);
+		UCall::assert('evaluator', $evaluator, function (&$value) : bool {});
 		$this->evaluator = \Closure::fromCallable($evaluator);
 		return $this;
 	}
@@ -1109,8 +1109,8 @@ class Property
 		]);
 		
 		//set
-		UCall::assert('getter', $getter, function () {}, true);
-		UCall::assert('setter', $setter, function ($value) : void {}, true);
+		UCall::assert('getter', $getter, function () {});
+		UCall::assert('setter', $setter, function ($value) : void {});
 		$this->getter = \Closure::fromCallable($getter);
 		$this->setter = \Closure::fromCallable($setter);
 		
