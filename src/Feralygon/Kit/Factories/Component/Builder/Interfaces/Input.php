@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Factories\Component\Builder\Interfaces;
 use Feralygon\Kit\Components\Input as Component;
 
 /**
- * This interface defines a method to build an input component.
+ * This interface defines a method to build an input instance.
  * 
  * @since 1.0.0
  */
