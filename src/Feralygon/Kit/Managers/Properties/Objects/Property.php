@@ -275,11 +275,15 @@ class Property
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to set.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidValue
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the given value 
+	 * was successfully set, or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public function setValue($value) : Property
+	final public function setValue($value, bool $no_throw = false)
 	{
 		//guard
 		UCall::guard($this->manager->isInitialized() || $this->manager->isInitializing(), [
@@ -288,6 +292,9 @@ class Property
 		
 		//set
 		if (isset($this->evaluator) && !($this->evaluator)($value)) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
 		} elseif (isset($this->setter)) {
 			($this->setter)($value);
@@ -299,7 +306,7 @@ class Property
 		$this->initialized = true;
 		
 		//return
-		return $this;
+		return $no_throw ? true : $this;
 	}
 	
 	/**

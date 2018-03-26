@@ -978,7 +978,7 @@ class Input extends Component implements IPrototypeContract
 	final public static function coerceValue($value, $prototype, array $properties = [])
 	{
 		$input = new static($prototype, $properties);
-		if (!$input->setValue($value)) {
+		if (!$input->setValue($value, true)) {
 			throw new Exceptions\ValueCoercionFailed([
 				'value' => $value,
 				'component' => $input,

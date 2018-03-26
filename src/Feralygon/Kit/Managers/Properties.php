@@ -463,16 +463,10 @@ class Properties
 			
 			//properties (set value)
 			foreach ($properties as $name => $value) {
-				//property
 				$property = $this->getProperty($name);
 				if ($property->getMode() === 'r') {
 					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
-				}
-				
-				//set value
-				try {
-					$property->setValue($value);
-				} catch (PropertyExceptions\InvalidValue $exception) {
+				} elseif (!$property->setValue($value, true)) {
 					throw new Exceptions\InvalidPropertyValue([
 						'manager' => $this, 'property' => $property, 'value' => $value
 					]);
@@ -597,23 +591,15 @@ class Properties
 	 */
 	final public function set(string $name, $value) : Properties
 	{
-		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		if ($property_mode === 'r' || $property_mode === 'r+') {
 			throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
 		} elseif ($property_mode === 'w-') {
 			throw new Exceptions\CannotSetWriteonceProperty(['manager' => $this, 'property' => $property]);
-		}
-		
-		//set
-		try {
-			$property->setValue($value);
-		} catch (PropertyExceptions\InvalidValue $exception) {
+		} elseif (!$property->setValue($value, true)) {
 			throw new Exceptions\InvalidPropertyValue(['manager' => $this, 'property' => $property, 'value' => $value]);
 		}
-		
-		//return
 		return $this;
 	}
 	
