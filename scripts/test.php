@@ -33,7 +33,7 @@ $input->addModifier('constraints.range', [
 
 echo "INPUT:\n";
 var_dump($input->getName());
-var_dump($input->setValue($value));
+var_dump($input->setValue($value, true));
 var_dump($input->isInitialized() ? $input->getValue() : null);
 var_dump($input->isInitialized() ? $input->getValueString($text_options) : null);
 var_dump($input->getLabel($text_options));

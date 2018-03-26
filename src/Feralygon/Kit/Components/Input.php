@@ -591,22 +591,37 @@ class Input extends Component implements IPrototypeContract
 	/**
 	 * Set value.
 	 * 
+	 * By omission, this method throws an exception if the given value is invalid, 
+	 * instead of returning boolean <code>false</code>.
+	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to set.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidValue
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the value was set successfully.</p>
+	 * <p>Boolean <code>true</code> if the value was successfully set.</p>
 	 */
-	final public function setValue($value) : bool
+	final public function setValue($value, bool $no_throw = false) : bool
 	{
 		//initialize
 		$this->unsetError();
+		$prototype = $this->getPrototype();
 		
 		//evaluate
 		$v = $value;
-		if ((!isset($v) && !$this->nullable) || (isset($v) && !$this->getPrototype()->evaluateValue($v))) {
+		if ((!isset($v) && !$this->nullable) || (isset($v) && !$prototype->evaluateValue($v))) {
 			$this->error = new Objects\Error($value);
-			return false;
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\InvalidValue([
+				'component' => $this,
+				'prototype' => $prototype,
+				'value' => $value,
+				'error_message' => $this->getErrorMessage()
+			]);
 		}
 		$value = $v;
 		unset($v);
@@ -615,7 +630,15 @@ class Input extends Component implements IPrototypeContract
 		if (isset($value)) {
 			//value evaluators (before modifiers)
 			if (!$this->evaluateValueWithValueEvaluators($value, true)) {
-				return false;
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\InvalidValue([
+					'component' => $this,
+					'prototype' => $prototype,
+					'value' => $value,
+					'error_message' => $this->getErrorMessage()
+				]);
 			}
 			
 			//modifiers
@@ -634,7 +657,15 @@ class Input extends Component implements IPrototypeContract
 				//error
 				if (!empty($error_messengers)) {
 					$this->error = new Objects\Error($value, $error_messengers);
-					return false;
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\InvalidValue([
+						'component' => $this,
+						'prototype' => $prototype,
+						'value' => $value,
+						'error_message' => $this->getErrorMessage()
+					]);
 				}
 				
 				//finish
@@ -644,7 +675,15 @@ class Input extends Component implements IPrototypeContract
 			
 			//value evaluators (after modifiers)
 			if (!$this->evaluateValueWithValueEvaluators($value, false)) {
-				return false;
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\InvalidValue([
+					'component' => $this,
+					'prototype' => $prototype,
+					'value' => $value,
+					'error_message' => $this->getErrorMessage()
+				]);
 			}
 		}
 		
