@@ -618,7 +618,7 @@ class Input extends Component implements IPrototypeContract
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the given value 
+	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the value 
 	 * was successfully set, or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public function setValue($value, bool $no_throw = false)

@@ -606,7 +606,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\AssertionFailed
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the assertion 
-	 * succeeded, with the given function being compatible with the given template, 
+	 * has succeeded, with the given function being compatible with the given template, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public static function assert(string $name, callable $function, callable $template, bool $no_throw = false)

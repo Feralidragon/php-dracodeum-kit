@@ -280,7 +280,7 @@ class Property
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the given value 
+	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the value 
 	 * was successfully set, or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public function setValue($value, bool $no_throw = false)
