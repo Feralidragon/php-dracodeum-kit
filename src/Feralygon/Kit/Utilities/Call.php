@@ -1144,4 +1144,67 @@ final class Call extends Utility
 			'hint_message' => $hint_message
 		]);
 	}
+	
+	/**
+	 * Guard the current function or method in the stack from continuing its execution depending on a given assertion.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $assertion
+	 * <p>The assertion to depend on.<br>
+	 * If set to boolean <code>false</code>, an exception is thrown, 
+	 * preventing the current function or method in the stack from continuing to execute.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|null $options [default = null]
+	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InternalError
+	 * @return void
+	 */
+	final public static function guardInternal(bool $assertion, $options = null) : void
+	{
+		//initialize
+		if ($assertion) {
+			return;
+		}
+		$options = Options\GuardInternal::coerce($options);
+		
+		//backtrace
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		self::guard(isset($backtrace[$stack_index]['function']), [
+			'hint_message' => "This method may only be called from within a function or method."
+		]);
+		$backtrace = $backtrace[$stack_index];
+		
+		//stringifier
+		$stringifier = $options->stringifier;
+		if (!isset($stringifier)) {
+			$stringifier = function (string $placeholder, $value) : ?string {
+				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			};
+		}
+		
+		//error message
+		$error_message = $options->error_message;
+		if (isset($error_message) && !empty($options->parameters)) {
+			$error_message = Text::fill($error_message, $options->parameters, null, [
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
+			]);
+		}
+		
+		//hint message
+		$hint_message = $options->hint_message;
+		if (isset($hint_message) && !empty($options->parameters)) {
+			$hint_message = Text::fill($hint_message, $options->parameters, null, [
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
+			]);
+		}
+		
+		//exception
+		throw new Exceptions\InternalError([
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
+			'error_message' => $error_message,
+			'hint_message' => $hint_message
+		]);
+	}
 }
