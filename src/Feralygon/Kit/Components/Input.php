@@ -599,10 +599,11 @@ class Input extends Component implements IPrototypeContract
 	final public function getValue()
 	{
 		UCall::guard($this->initialized, [
-			'hint_message' => $this->hasError()
+			'error_message' => $this->hasError()
 				? "No value has been set due to the following error: " . 
 					UText::uncapitalize($this->getErrorMessage(), true)
-				: "This method may only be called after initialization."
+				: null,
+			'hint_message' => "This method may only be called after initialization."
 		]);
 		return $this->value;
 	}

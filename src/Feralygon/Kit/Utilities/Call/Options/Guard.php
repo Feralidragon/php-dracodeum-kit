@@ -16,6 +16,19 @@ use Feralygon\Kit\Utilities\Type as UType;
  * Call utility <code>guard</code> method options.
  * 
  * @since 1.0.0
+ * @property string|null $error_message [default = null]
+ * <p>The error message to use in the thrown exception, 
+ * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+ * If set, placeholders must be exclusively composed by identifiers, 
+ * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+ * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+ * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+ * <br>
+ * They may also be used with pointers to specific object properties or associative array values, 
+ * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+ * with no limit on the number of chained pointers.<br>
+ * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+ * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
  * @property string|null $hint_message [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
@@ -65,6 +78,8 @@ class Guard extends Options
 	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
+			case 'error_message':
+				//no break
 			case 'hint_message':
 				//no break
 			case 'function_name':

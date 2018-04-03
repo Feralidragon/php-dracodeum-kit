@@ -1050,6 +1050,14 @@ final class Call extends Utility
 			};
 		}
 		
+		//error message
+		$error_message = $options->error_message;
+		if (isset($error_message) && !empty($options->parameters)) {
+			$error_message = Text::fill($error_message, $options->parameters, null, [
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
+			]);
+		}
+		
 		//hint message
 		$hint_message = $options->hint_message;
 		if (isset($hint_message) && !empty($options->parameters)) {
@@ -1062,6 +1070,7 @@ final class Call extends Utility
 		throw new Exceptions\NotAllowed([
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
+			'error_message' => $error_message,
 			'hint_message' => $hint_message
 		]);
 	}
@@ -1072,9 +1081,9 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The parameter name.</p>
+	 * <p>The parameter name to use.</p>
 	 * @param mixed $value
-	 * <p>The parameter value.</p>
+	 * <p>The parameter value to use.</p>
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, an exception is thrown, 
@@ -1109,6 +1118,14 @@ final class Call extends Utility
 			};
 		}
 		
+		//error message
+		$error_message = $options->error_message;
+		if (isset($error_message) && !empty($options->parameters)) {
+			$error_message = Text::fill($error_message, $options->parameters, null, [
+				'string_options' => $options->string_options, 'stringifier' => $stringifier
+			]);
+		}
+		
 		//hint message
 		$hint_message = $options->hint_message;
 		if (isset($hint_message) && !empty($options->parameters)) {
@@ -1123,6 +1140,7 @@ final class Call extends Utility
 			'value' => $value,
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
+			'error_message' => $error_message,
 			'hint_message' => $hint_message
 		]);
 	}

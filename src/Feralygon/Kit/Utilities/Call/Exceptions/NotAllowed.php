@@ -17,6 +17,8 @@ use Feralygon\Kit\Utilities\Call\Exception;
  * <p>The function or method name.</p>
  * @property-read object|string|null $object_class [default = null]
  * <p>The object or class.</p>
+ * @property-read string|null $error_message [default = null]
+ * <p>The error message.</p>
  * @property-read string|null $hint_message [default = null]
  * <p>The hint message.</p>
  */
@@ -30,6 +32,11 @@ class NotAllowed extends Exception
 		$message = $this->isset('object_class')
 			? "Method {{function_name}} call not allowed in {{object_class}}."
 			: "Function {{function_name}} call not allowed.";
+		
+		//error message
+		if ($this->isset('error_message')) {
+			$message .= "\nERROR: {{error_message}}";
+		}
 		
 		//hint message
 		if ($this->isset('hint_message')) {
@@ -48,6 +55,7 @@ class NotAllowed extends Exception
 	{
 		$this->addProperty('function_name')->setAsString()->setAsRequired();
 		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
+		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 		$this->addProperty('hint_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
@@ -57,7 +65,7 @@ class NotAllowed extends Exception
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value) : string
 	{
-		if ($placeholder === 'hint_message' && is_string($value)) {
+		if (($placeholder === 'error_message' || $placeholder === 'hint_message') && is_string($value)) {
 			return $value;
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);

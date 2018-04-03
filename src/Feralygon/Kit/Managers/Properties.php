@@ -228,7 +228,7 @@ class Properties
 				"please use the \"setAsRequired\" method instead from the corresponding property instance."
 		]);
 		UCall::guard($this->mode !== 'r', [
-			'hint_message' => "Required property names cannot be set as all properties are strictly read-only."
+			'error_message' => "Required property names cannot be set as all properties are strictly read-only."
 		]);
 		
 		//add

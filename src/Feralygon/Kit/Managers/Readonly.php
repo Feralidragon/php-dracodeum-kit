@@ -123,7 +123,7 @@ class Readonly
 	final public function guardCall(int $stack_offset = 0) : void
 	{
 		UCall::guard(!$this->enabled, [
-			'hint_message' => "This method cannot be called as this object is currently set as read-only.",
+			'error_message' => "This method cannot be called as this object is currently set as read-only.",
 			'stack_offset' => $stack_offset + 1
 		]);
 	}

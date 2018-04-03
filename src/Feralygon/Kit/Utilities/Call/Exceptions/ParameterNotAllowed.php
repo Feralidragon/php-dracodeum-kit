@@ -30,6 +30,11 @@ class ParameterNotAllowed extends NotAllowed
 			: "Parameter {{name}} not allowed to be given as {{value}} " . 
 				"in function {{function_name}} call.";
 		
+		//error message
+		if ($this->isset('error_message')) {
+			$message .= "\nERROR: {{error_message}}";
+		}
+		
 		//hint message
 		if ($this->isset('hint_message')) {
 			$message .= "\nHINT: {{hint_message}}";

@@ -89,7 +89,7 @@ abstract class Prototype
 		//contract
 		$contract = $this instanceof Interfaces\Contract ? $this->getContract() : null;
 		UCall::guard(!isset($contract) || UType::implements($component, $contract), [
-			'hint_message' => "The given component {{component}} must implement the contract {{contract}}.",
+			'error_message' => "The given component {{component}} must implement the contract {{contract}}.",
 			'parameters' => ['component' => $component, 'contract' => $contract]
 		]);
 		
@@ -127,7 +127,7 @@ abstract class Prototype
 		//contract
 		$contract = UType::interface($this->getContract());
 		UCall::guardParameter('name', $name, method_exists($contract, $name), [
-			'hint_message' => "The given method name has not been found in contract {{contract}} " . 
+			'error_message' => "The given method name has not been found in contract {{contract}} " . 
 				"implemented by component {{component}}.",
 			'parameters' => ['contract' => $contract, 'component' => $this->component]
 		]);
