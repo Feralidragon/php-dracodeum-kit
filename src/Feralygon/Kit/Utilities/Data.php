@@ -1763,6 +1763,8 @@ final class Data extends Utility
 					$f_array[$key] = [];
 				}
 				$f_array[$key][$path2] = $value;
+			} elseif (isset($f_array[$key]) && is_array($f_array[$key]) && is_array($value)) {
+				$f_array[$key] += $value;
 			} else {
 				$f_array[$key] = $value;
 			}
