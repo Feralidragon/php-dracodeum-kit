@@ -37,7 +37,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values
- * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
  * [modifier, name = 'filters.raw']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
@@ -168,8 +168,12 @@ abstract class Hash extends Input implements IInformation, IModifiers
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
+				//no break
+			case 'values':
 				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
+				//no break
+			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			
 			//filters

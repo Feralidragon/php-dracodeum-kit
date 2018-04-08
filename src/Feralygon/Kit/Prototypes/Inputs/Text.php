@@ -46,39 +46,39 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values
- * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Wildcards
- * [modifier, name = 'constraints.wildcards' or 'constraints.non_wildcards']
+ * [modifier, name = 'constraints.wildcards' or 'wildcards' or 'constraints.non_wildcards' or 'non_wildcards']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\NonEmpty
- * [modifier, name = 'constraints.non_empty']
+ * [modifier, name = 'constraints.non_empty' or 'non_empty']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Length
- * [modifier, name = 'constraints.length']
+ * [modifier, name = 'constraints.length' or 'length']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MinLength
- * [modifier, name = 'constraints.min_length']
+ * [modifier, name = 'constraints.min_length' or 'min_length']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MaxLength
- * [modifier, name = 'constraints.max_length']
+ * [modifier, name = 'constraints.max_length' or 'max_length']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange
- * [modifier, name = 'constraints.length_range']
+ * [modifier, name = 'constraints.length_range' or 'length_range']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase
- * [modifier, name = 'constraints.lowercase']
+ * [modifier, name = 'constraints.lowercase' or 'lowercase']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase
- * [modifier, name = 'constraints.uppercase']
+ * [modifier, name = 'constraints.uppercase' or 'uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical
- * [modifier, name = 'constraints.alphabetical']
+ * [modifier, name = 'constraints.alphabetical' or 'alphabetical']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical
- * [modifier, name = 'constraints.numerical']
+ * [modifier, name = 'constraints.numerical' or 'numerical']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical
- * [modifier, name = 'constraints.alphanumerical']
+ * [modifier, name = 'constraints.alphanumerical' or 'alphanumerical']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Identifier
- * [modifier, name = 'constraints.identifier']
+ * [modifier, name = 'constraints.identifier' or 'identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
- * [modifier, name = 'constraints.hexadecimal']
+ * [modifier, name = 'constraints.hexadecimal' or 'hexadecimal']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase
  * [modifier, name = 'filters.lowercase']
  * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase
  * [modifier, name = 'filters.uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
- * [modifier, name = 'filters.truncate']
+ * [modifier, name = 'filters.truncate' or 'truncate']
  */
 class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
 {
@@ -216,54 +216,86 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
+				//no break
+			case 'values':
 				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
+				//no break
+			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			case 'constraints.wildcards':
+				//no break
+			case 'wildcards':
 				return $this->createConstraint(InputConstraints\Wildcards::class, $properties);
 			case 'constraints.non_wildcards':
+				//no break
+			case 'non_wildcards':
 				return $this->createConstraint(InputConstraints\Wildcards::class, ['negate' => true] + $properties);
 			case 'constraints.non_empty':
+				//no break
+			case 'non_empty':
 				return $this->createConstraint(Constraints\NonEmpty::class, $properties);
 			case 'constraints.length':
+				//no break
+			case 'length':
 				return $this->createConstraint(
 					InputConstraints\Length::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.min_length':
+				//no break
+			case 'min_length':
 				return $this->createConstraint(
 					InputConstraints\MinLength::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.max_length':
+				//no break
+			case 'max_length':
 				return $this->createConstraint(
 					InputConstraints\MaxLength::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.length_range':
+				//no break
+			case 'length_range':
 				return $this->createConstraint(
 					InputConstraints\LengthRange::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.lowercase':
+				//no break
+			case 'lowercase':
 				return $this->createConstraint(
 					InputConstraints\Lowercase::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.uppercase':
+				//no break
+			case 'uppercase':
 				return $this->createConstraint(
 					InputConstraints\Uppercase::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.alphabetical':
+				//no break
+			case 'alphabetical':
 				return $this->createConstraint(
 					Constraints\Alphabetical::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.numerical':
+				//no break
+			case 'numerical':
 				return $this->createConstraint(
 					Constraints\Numerical::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.alphanumerical':
+				//no break
+			case 'alphanumerical':
 				return $this->createConstraint(
 					Constraints\Alphanumerical::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.identifier':
+				//no break
+			case 'identifier':
 				return $this->createConstraint(Constraints\Identifier::class, $properties);
 			case 'constraints.hexadecimal':
+				//no break
+			case 'hexadecimal':
 				return $this->createConstraint(Constraints\Hexadecimal::class, $properties);
 			
 			//filters
@@ -272,6 +304,8 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 			case 'filters.uppercase':
 				return $this->createFilter(InputFilters\Uppercase::class, $properties + ['unicode' => $this->unicode]);
 			case 'filters.truncate':
+				//no break
+			case 'truncate':
 				return $this->createFilter(Filters\Truncate::class, $properties + ['unicode' => $this->unicode]);
 		}
 		return null;

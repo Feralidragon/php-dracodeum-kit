@@ -40,17 +40,18 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values
- * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum
- * [modifier, name = 'constraints.minimum' or 'constraints.positive']
+ * [modifier, name = 'constraints.minimum' or 'minimum' or 'constraints.positive' or 'positive']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum
- * [modifier, name = 'constraints.maximum' or 'constraints.negative']
+ * [modifier, name = 'constraints.maximum' or 'maximum' or 'constraints.negative' or 'negative']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range
- * [modifier, name = 'constraints.range' or 'constraints.non_range']
+ * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples
- * [modifier, name = 'constraints.multiples' or 'constraints.non_multiples' or 'constraints.even' or 'constraints.odd']
+ * [modifier, name = 'constraints.multiples' or 'multiples' or 'constraints.non_multiples' or 'non_multiples' or 
+ * 'constraints.even' or 'even' or 'constraints.odd' or 'odd']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers
- * [modifier, name = 'constraints.powers' or 'constraints.non_powers']
+ * [modifier, name = 'constraints.powers' or 'powers' or 'constraints.non_powers' or 'non_powers']
  */
 class Number extends Input implements IInformation, IModifiers
 {
@@ -149,38 +150,66 @@ class Number extends Input implements IInformation, IModifiers
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
+				//no break
+			case 'values':
 				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
+				//no break
+			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			case 'constraints.minimum':
+				//no break
+			case 'minimum':
 				return $this->createConstraint(Constraints\Minimum::class, $properties);
 			case 'constraints.positive':
+				//no break
+			case 'positive':
 				return $this->createConstraint(
 					Constraints\Minimum::class, ['value' => 0, 'exclusive' => true] + $properties
 				);
 			case 'constraints.maximum':
+				//no break
+			case 'maximum':
 				return $this->createConstraint(Constraints\Maximum::class, $properties);
 			case 'constraints.negative':
+				//no break
+			case 'negative':
 				return $this->createConstraint(
 					Constraints\Maximum::class, ['value' => 0, 'exclusive' => true] + $properties
 				);
 			case 'constraints.range':
+				//no break
+			case 'range':
 				return $this->createConstraint(Constraints\Range::class, $properties);
 			case 'constraints.non_range':
+				//no break
+			case 'non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
 			case 'constraints.multiples':
+				//no break
+			case 'multiples':
 				return $this->createConstraint(Constraints\Multiples::class, $properties);
 			case 'constraints.non_multiples':
+				//no break
+			case 'non_multiples':
 				return $this->createConstraint(Constraints\Multiples::class, ['negate' => true] + $properties);
 			case 'constraints.even':
+				//no break
+			case 'even':
 				return $this->createConstraint(Constraints\Multiples::class, ['multiples' => [2]] + $properties);
 			case 'constraints.odd':
+				//no break
+			case 'odd':
 				return $this->createConstraint(
 					Constraints\Multiples::class, ['multiples' => [2], 'negate' => true] + $properties
 				);
 			case 'constraints.powers':
+				//no break
+			case 'powers':
 				return $this->createConstraint(Constraints\Powers::class, $properties);
 			case 'constraints.non_powers':
+				//no break
+			case 'non_powers':
 				return $this->createConstraint(Constraints\Powers::class, ['negate' => true] + $properties);
 		}
 		return null;

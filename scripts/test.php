@@ -16,10 +16,10 @@ $text_options = [
 $value = 'hasd';
 
 $input = CF::input('string');
-$input->addModifier('constraints.values', ['values' => ['asd', 'ggg', 12345678]]);
-//$input->addModifier('constraints.maximum', ['value' => 'January 3rd 2017, 8PM', 'exclusive' => 1]);
+$input->addModifier('values', ['values' => ['asd', 'ggg', 12345678]]);
+//$input->addModifier('maximum', ['value' => 'January 3rd 2017, 8PM', 'exclusive' => 1]);
 /*
-$input->addModifier('constraints.range', [
+$input->addModifier('range', [
 	'min_value' => '2/12/04 02:54:23', 
 	'max_value' => 'January 3rd 2017, 8PM',
 	'min_exclusive' => 0,

@@ -38,13 +38,13 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Values
- * [modifier, name = 'constraints.values' or 'constraints.non_values']
+ * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Minimum
- * [modifier, name = 'constraints.minimum']
+ * [modifier, name = 'constraints.minimum' or 'minimum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Maximum
- * [modifier, name = 'constraints.maximum']
+ * [modifier, name = 'constraints.maximum' or 'maximum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints\Range
- * [modifier, name = 'constraints.range' or 'constraints.non_range']
+ * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Format
  * [modifier, name = 'filters.format']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Iso8601
@@ -147,16 +147,28 @@ class Time extends Input implements IInformation, IValueStringification, IModifi
 		switch ($name) {
 			//constraints
 			case 'constraints.values':
+				//no break
+			case 'values':
 				return $this->createConstraint(Constraints\Values::class, $properties);
 			case 'constraints.non_values':
+				//no break
+			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			case 'constraints.minimum':
+				//no break
+			case 'minimum':
 				return $this->createConstraint(Constraints\Minimum::class, $properties);
 			case 'constraints.maximum':
+				//no break
+			case 'maximum':
 				return $this->createConstraint(Constraints\Maximum::class, $properties);
 			case 'constraints.range':
+				//no break
+			case 'range':
 				return $this->createConstraint(Constraints\Range::class, $properties);
 			case 'constraints.non_range':
+				//no break
+			case 'non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
 			
 			//filters
