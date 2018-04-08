@@ -14,7 +14,7 @@ use Feralygon\Kit\Components\Input\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The modifier name.</p>
+ * <p>The name.</p>
  */
 class ModifierNameNotFound extends Exception
 {

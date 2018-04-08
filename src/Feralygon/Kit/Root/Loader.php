@@ -46,10 +46,10 @@ final class Loader
 	 * 
 	 * @since 1.0.0
 	 * @param string $vendor
-	 * <p>The package vendor to check for.<br>
+	 * <p>The vendor to check for.<br>
 	 * It is checked in a case-insensitive manner.</p>
 	 * @param string $name
-	 * <p>The package name to check for.<br>
+	 * <p>The name to check for.<br>
 	 * It is checked in a case-insensitive manner.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
@@ -64,10 +64,10 @@ final class Loader
 	 * 
 	 * @since 1.0.0
 	 * @param string $vendor
-	 * <p>The package vendor to get with.<br>
+	 * <p>The vendor to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
 	 * @param string $name
-	 * <p>The package name to get with.<br>
+	 * <p>The name to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
 	 * @throws \RuntimeException
 	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
@@ -88,13 +88,13 @@ final class Loader
 	 * 
 	 * @since 1.0.0
 	 * @param string $vendor
-	 * <p>The package vendor to set with.<br>
+	 * <p>The vendor to set with.<br>
 	 * It is set in a case-insensitive manner and converted to lowercase.</p>
 	 * @param string $name
-	 * <p>The package name to set with.<br>
+	 * <p>The name to set with.<br>
 	 * It is set in a case-insensitive manner and converted to lowercase.</p>
 	 * @param string $path
-	 * <p>The package path to set with.</p>
+	 * <p>The path to set with.</p>
 	 * @throws \RuntimeException
 	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
 	 * <p>The package instance set with the given vendor, name and path.</p>

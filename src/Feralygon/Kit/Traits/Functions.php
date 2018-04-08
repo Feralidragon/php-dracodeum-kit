@@ -45,7 +45,7 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The function name to bind to.</p>
+	 * <p>The name to bind to.</p>
 	 * @param callable $function
 	 * <p>The function to bind.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionAlreadyBound
@@ -96,9 +96,9 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The function name to call.</p>
+	 * <p>The name to call.</p>
 	 * @param mixed ...$arguments
-	 * <p>The function arguments to call with.</p>
+	 * <p>The arguments to call with.</p>
 	 * @throws \Feralygon\Kit\Traits\Functions\Exceptions\FunctionNotFound
 	 * @return mixed
 	 * <p>The returned value from the called function with the given name.</p>
@@ -122,13 +122,13 @@ trait Functions
 	 * 
 	 * @since 1.0.0
 	 * @param callable $templater
-	 * <p>The function to retrieve the function template for a given name.<br>
+	 * <p>The function to use to retrieve the function template for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?callable</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The function name to retrieve the template for.<br>
+	 * &nbsp; &nbsp; &nbsp; The name to retrieve for.<br>
 	 * <br>
 	 * Return: <code><b>callable|null</b></code><br>
 	 * The function template for the given name or <code>null</code> if none exists.</p>

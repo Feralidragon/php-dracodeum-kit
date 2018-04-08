@@ -15,7 +15,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read string $placeholder
  * <p>The placeholder.</p>
  * @property-read string $identifier
- * <p>The key identifier.</p>
+ * <p>The identifier.</p>
  */
 class FillPlaceholderKeyIdentifierNotFound extends Fill
 {

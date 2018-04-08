@@ -205,15 +205,14 @@ class Properties
 	/**
 	 * Add a given set of required property names.
 	 * 
-	 * The properties, corresponding to the given required property names added here, 
-	 * must be given during initialization.<br>
+	 * The properties, corresponding to the given names added here, must be given during initialization.<br>
 	 * <br>
 	 * This method may only be called before initialization, with lazy-loading enabled 
 	 * and only if the base access mode is not set to strict read-only.
 	 * 
 	 * @since 1.0.0
 	 * @param string[] $names
-	 * <p>The required property names to add.</p>
+	 * <p>The names to add.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -243,7 +242,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check.</p>
+	 * <p>The name to check.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given property name is required.</p>
 	 */
@@ -259,7 +258,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to add.</p>
+	 * <p>The name to add.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyAlreadyAdded
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyManagerMismatch
@@ -306,13 +305,13 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param callable $builder
-	 * <p>The function to build a property instance for a given name.<br>
+	 * <p>The function to set to build a property instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?Feralygon\Kit\Managers\Properties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The property name to build for.<br>
+	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Managers\Properties\Objects\Property|null</b></code><br>
 	 * The built property instance for the given name or <code>null</code> if none was built.</p>
@@ -344,7 +343,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param callable $remainderer
-	 * <p>The function to handle a given set of remaining properties.<br>
+	 * <p>The function to set to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (array $properties) : void</code><br>
 	 * <br>
@@ -498,7 +497,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -512,7 +511,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonceProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNoDefaultValueSet
@@ -548,7 +547,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidBooleanPropertyValue
 	 * @return bool
 	 * <p>The boolean property value from the given name.</p>
@@ -569,7 +568,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
@@ -583,9 +582,9 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param mixed $value
-	 * <p>The property value to set with.</p>
+	 * <p>The value to set with.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetWriteonceProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
@@ -607,11 +606,11 @@ class Properties
 	}
 	
 	/**
-	 * Unset property from a given name.
+	 * Unset property with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to unset from.</p>
+	 * <p>The name to unset for.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetReadonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetWriteonceProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetRequiredProperty
@@ -672,7 +671,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNameMismatch
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyManagerMismatch
 	 * @return bool
@@ -708,14 +707,14 @@ class Properties
 	}
 	
 	/**
-	 * Get property instance from a given name.
+	 * Get property instance for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get for.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
-	 * <p>The property instance from the given name.</p>
+	 * <p>The property instance for the given name.</p>
 	 */
 	final protected function getProperty(string $name) : Objects\Property
 	{

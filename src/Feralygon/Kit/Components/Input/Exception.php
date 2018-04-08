@@ -13,9 +13,9 @@ use Feralygon\Kit\Components\Input as Component;
 /**
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Components\Input $component
- * <p>The input component instance.</p>
+ * <p>The component instance.</p>
  * @property-read \Feralygon\Kit\Prototypes\Input $prototype
- * <p>The input prototype instance.</p>
+ * <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Components\Input
  */
 abstract class Exception extends KitException

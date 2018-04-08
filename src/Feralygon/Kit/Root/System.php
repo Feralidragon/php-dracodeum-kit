@@ -121,9 +121,9 @@ final class System
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ini-set.php
 	 * @param string $name
-	 * <p>The <samp>php.ini</samp> configuration option name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param string|int|float|bool|null $value
-	 * <p>The <samp>php.ini</samp> configuration option value to set.</p>
+	 * <p>The value to set.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionInvalidValueType
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionFailed
 	 * @return void
@@ -165,7 +165,7 @@ final class System
 	 * @see https://php.net/manual/en/function.error-reporting.php
 	 * @see https://php.net/manual/en/errorfunc.constants.php
 	 * @param int $flags
-	 * <p>The error reporting flags to set.</p>
+	 * <p>The flags to set.</p>
 	 * @return void
 	 */
 	final public static function setErrorReportingFlags(int $flags) : void
@@ -237,7 +237,7 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The command name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidCommandName
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has a command with the given name.</p>
@@ -275,7 +275,7 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The environment name to build for.</p>
+	 * <p>The name to build for.</p>
 	 * @return \Feralygon\Kit\Root\System\Environment|null
 	 * <p>The built environment instance for the given name or <code>null</code> if none was built.</p>
 	 */

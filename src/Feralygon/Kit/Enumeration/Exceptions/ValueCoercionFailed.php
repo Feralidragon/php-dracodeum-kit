@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This exception is thrown from an enumeration whenever the coercion into an enumerated element value 
+ * This exception is thrown from an enumeration whenever the coercion into an element value 
  * has failed with a given value.
  * 
  * @since 1.0.0

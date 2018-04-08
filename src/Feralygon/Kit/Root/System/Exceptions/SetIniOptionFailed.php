@@ -12,9 +12,9 @@ namespace Feralygon\Kit\Root\System\Exceptions;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The option name.</p>
+ * <p>The name.</p>
  * @property-read mixed $value
- * <p>The option value.</p>
+ * <p>The value.</p>
  */
 class SetIniOptionFailed extends SetIniOption
 {

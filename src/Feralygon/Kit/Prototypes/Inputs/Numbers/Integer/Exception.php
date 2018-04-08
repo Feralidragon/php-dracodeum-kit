@@ -13,7 +13,7 @@ use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer as Prototype;
 /**
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer $prototype
- * <p>The integer prototype instance.</p>
+ * <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer
  */
 abstract class Exception extends KitException

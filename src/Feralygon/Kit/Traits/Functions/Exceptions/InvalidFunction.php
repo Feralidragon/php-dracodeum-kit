@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The function name.</p>
+ * <p>The name.</p>
  * @property-read \Closure $function
  * <p>The function.</p>
  * @property-read \Closure $template

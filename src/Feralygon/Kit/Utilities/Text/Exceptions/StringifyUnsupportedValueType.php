@@ -15,7 +15,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type
- * <p>The value type.</p>
+ * <p>The type.</p>
  */
 class StringifyUnsupportedValueType extends Stringify
 {

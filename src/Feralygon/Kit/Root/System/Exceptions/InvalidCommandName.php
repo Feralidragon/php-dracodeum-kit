@@ -14,7 +14,7 @@ use Feralygon\Kit\Root\System\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The command name.</p>
+ * <p>The name.</p>
  */
 class InvalidCommandName extends Exception
 {

@@ -192,9 +192,9 @@ final class Locale
 	 * @param string $message
 	 * <p>The message to translate.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The message context to translate with.</p>
+	 * <p>The context to translate for.</p>
 	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The translation of the given message.</p>
 	 */
@@ -274,11 +274,11 @@ final class Locale
 	 * @param float|int $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
-	 * <p>The message number placeholder to translate with.</p>
+	 * <p>The number placeholder to translate with.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The message context to translate with.</p>
+	 * <p>The context to translate for.</p>
 	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The translation of the given plural message.</p>
 	 */

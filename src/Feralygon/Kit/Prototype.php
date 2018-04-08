@@ -110,9 +110,9 @@ abstract class Prototype
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The contract method name to call.</p>
+	 * <p>The name to call.</p>
 	 * @param mixed ...$arguments
-	 * <p>The contract method arguments to call with.</p>
+	 * <p>The arguments to call with.</p>
 	 * @return mixed
 	 * <p>The returned value from the called contract method with the given name.</p>
 	 */

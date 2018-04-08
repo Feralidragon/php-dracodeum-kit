@@ -19,7 +19,7 @@ use Feralygon\Kit\Traits as KitTraits;
  * This class is the base to be extended from when creating an enumeration.
  * 
  * An enumeration is defined by declaring its possible elements as public constants of the class.<br>
- * All enumerated values must be integers, floats or strings.
+ * All enumeration values must be integers, floats or strings.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Enumerated_type
@@ -35,7 +35,7 @@ abstract class Enumeration
 	
 	//Public constants
 	/**
-	 * Define the enumerated elements as public constants here.
+	 * Define the enumeration elements as public constants here.
 	 * Example:
 	 * 	public const ELEMENT1 = 1;
 	 * 	public const ELEMENT2 = 2;
@@ -55,14 +55,14 @@ abstract class Enumeration
 	
 	//Final public static methods
 	/**
-	 * Check if has a given enumerated element.
+	 * Check if has a given element.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $element
-	 * <p>The enumerated element to check for, by value or name.<br>
+	 * <p>The element to check for, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is checked only by its value.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has the given enumerated element.</p>
+	 * <p>Boolean <code>true</code> if has the given element.</p>
 	 */
 	final public static function has($element) : bool
 	{
@@ -70,13 +70,13 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Check if has an enumerated element with a given value.
+	 * Check if has element with a given value.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value
-	 * <p>The enumerated element value to check for.</p>
+	 * <p>The value to check for.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has the enumerated element with the given value.</p>
+	 * <p>Boolean <code>true</code> if has the element with the given value.</p>
 	 */
 	final public static function hasValue($value) : bool
 	{
@@ -84,13 +84,13 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Check if has an enumerated element with a given name.
+	 * Check if has element with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The enumerated element name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has the enumerated element with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the element with the given name.</p>
 	 */
 	final public static function hasName(string $name) : bool
 	{
@@ -98,14 +98,14 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get value from a given enumerated element.
+	 * Get value from a given element.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $element
-	 * <p>The enumerated element to get for, by value or name.<br>
+	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
 	 * @return int|float|string
-	 * <p>The value from the given enumerated element.</p>
+	 * <p>The value from the given element.</p>
 	 */
 	final public static function getValue($element)
 	{
@@ -113,15 +113,15 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get name from a given enumerated element.
+	 * Get name from a given element.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $element
-	 * <p>The enumerated element to get for, by value or name.<br>
+	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string
-	 * <p>The name from the given enumerated element.</p>
+	 * <p>The name from the given element.</p>
 	 */
 	final public static function getName($element) : string
 	{
@@ -134,14 +134,14 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get name from the enumerated element with a given value.
+	 * Get name from the element with a given value.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value
-	 * <p>The enumerated element value to get for.</p>
+	 * <p>The value to get from.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueNotFound
 	 * @return string
-	 * <p>The name from the enumerated element with the given value.</p>
+	 * <p>The name from the element with the given value.</p>
 	 */
 	final public static function getValueName($value) : string
 	{
@@ -153,14 +153,14 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get value from the enumerated element with a given name.
+	 * Get value from the element with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The enumerated element name to get for.</p>
+	 * <p>The name to get from.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return int|float|string
-	 * <p>The value from the enumerated element with the given name.</p>
+	 * <p>The value from the element with the given name.</p>
 	 */
 	final public static function getNameValue(string $name)
 	{
@@ -172,10 +172,9 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Evaluate a given value as an enumerated element value.
+	 * Evaluate a given value as an element value.
 	 * 
-	 * Only an enumerated element given as an integer, float or string can be evaluated 
-	 * into an enumerated element value.
+	 * Only an element given as an integer, float or string can be evaluated into an element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -183,8 +182,7 @@ abstract class Enumeration
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is a valid enumerated element 
-	 * and was sanitized into an enumerated element value.</p>
+	 * <p>Boolean <code>true</code> if the given value is a valid element and was sanitized into an element value.</p>
 	 */
 	final public static function evaluateValue(&$value, bool $nullable = false) : bool
 	{
@@ -197,9 +195,9 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Coerce a given value into an enumerated element value.
+	 * Coerce a given value into an element value.
 	 * 
-	 * Only an enumerated element given as an integer, float or string can be coerced into an enumerated element value.
+	 * Only an element given as an integer, float or string can be coerced into an element value.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -208,7 +206,7 @@ abstract class Enumeration
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueCoercionFailed
 	 * @return int|float|string|null
-	 * <p>The given value coerced into an enumerated element value.<br>
+	 * <p>The given value coerced into an element value.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceValue($value, bool $nullable = false)
@@ -228,8 +226,8 @@ abstract class Enumeration
 				'enumeration' => static::class,
 				'value' => $value,
 				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumerated element given as an integer, float or string " . 
-					"can be coerced into an enumerated element value."
+				'error_message' => "Only an enumeration element given as an integer, float or string " . 
+					"can be coerced into an enumeration element value."
 			]);
 		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
 			return static::getValue($value);
@@ -238,14 +236,14 @@ abstract class Enumeration
 			'enumeration' => static::class,
 			'value' => $value,
 			'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NOT_FOUND,
-			'error_message' => "No such enumerated element has been found."
+			'error_message' => "No such enumeration element has been found."
 		]);
 	}
 	
 	/**
-	 * Evaluate a given value as an enumerated element name.
+	 * Evaluate a given value as an element name.
 	 * 
-	 * Only an enumerated element given as an integer, float or string can be evaluated into an enumerated element name.
+	 * Only an element given as an integer, float or string can be evaluated into an element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -253,8 +251,7 @@ abstract class Enumeration
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value is a valid enumerated element 
-	 * and was sanitized into an enumerated element name.</p>
+	 * <p>Boolean <code>true</code> if the given value is a valid element and was sanitized into an element name.</p>
 	 */
 	final public static function evaluateName(&$value, bool $nullable = false) : bool
 	{
@@ -267,9 +264,9 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Coerce a given value into an enumerated element name.
+	 * Coerce a given value into an element name.
 	 * 
-	 * Only an enumerated element given as an integer, float or string can be coerced into an enumerated element name.
+	 * Only an element given as an integer, float or string can be coerced into an element name.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -278,7 +275,7 @@ abstract class Enumeration
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameCoercionFailed
 	 * @return string|null
-	 * <p>The given value coerced into an enumerated element name.<br>
+	 * <p>The given value coerced into an element name.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceName($value, bool $nullable = false) : ?string
@@ -298,8 +295,8 @@ abstract class Enumeration
 				'enumeration' => static::class,
 				'value' => $value,
 				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumerated element given as an integer, float or string " . 
-					"can be coerced into an enumerated element name."
+				'error_message' => "Only an enumeration element given as an integer, float or string " . 
+					"can be coerced into an enumeration element name."
 			]);
 		} elseif (is_string($value) && static::hasName($value)) {
 			return $value;
@@ -310,21 +307,21 @@ abstract class Enumeration
 			'enumeration' => static::class,
 			'value' => $value,
 			'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NOT_FOUND,
-			'error_message' => "No such enumerated element has been found."
+			'error_message' => "No such enumeration element has been found."
 		]);
 	}
 	
 	/**
-	 * Get label from a given enumerated element.
+	 * Get label from a given element.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $element
-	 * <p>The enumerated element to get for, by value or name.<br>
+	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
-	 * <p>The label from the given enumerated element.</p>
+	 * <p>The label from the given element.</p>
 	 */
 	final public static function getLabel($element, $text_options = null) : string
 	{
@@ -332,15 +329,15 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get label from the enumerated element with a given value.
+	 * Get label from the element with a given value.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value
-	 * <p>The enumerated element value to get for.</p>
+	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
-	 * <p>The label from the enumerated element with the given value.</p>
+	 * <p>The label from the element with the given value.</p>
 	 */
 	final public static function getValueLabel($value, $text_options = null) : string
 	{
@@ -348,16 +345,16 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get label from the enumerated element with a given name.
+	 * Get label from the element with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The enumerated element name to get for.</p>
+	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return string
-	 * <p>The label from the enumerated element with the given name.</p>
+	 * <p>The label from the element with the given name.</p>
 	 */
 	final public static function getNameLabel(string $name, $text_options = null) : string
 	{
@@ -369,16 +366,16 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get description from a given enumerated element.
+	 * Get description from a given element.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $element
-	 * <p>The enumerated element to get for, by value or name.<br>
+	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The description from the given enumerated element or <code>null</code> if none exists.</p>
+	 * <p>The description from the given element or <code>null</code> if none exists.</p>
 	 */
 	final public static function getDescription($element, $text_options = null) : ?string
 	{
@@ -386,15 +383,15 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get description from the enumerated element with a given value.
+	 * Get description from the element with a given value.
 	 * 
 	 * @since 1.0.0
 	 * @param int|float|string $value
-	 * <p>The enumerated element value to get for.</p>
+	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The description from the enumerated element with the given value or <code>null</code> if none exists.</p>
+	 * <p>The description from the element with the given value or <code>null</code> if none exists.</p>
 	 */
 	final public static function getValueDescription($value, $text_options = null) : ?string
 	{
@@ -402,15 +399,15 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get description from the enumerated element with a given name.
+	 * Get description from the element with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The enumerated element name to get for.</p>
+	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The description from the enumerated element with the given name or <code>null</code> if none exists.</p>
+	 * <p>The description from the element with the given name or <code>null</code> if none exists.</p>
 	 */
 	final public static function getNameDescription(string $name, $text_options = null) : ?string
 	{
@@ -421,11 +418,11 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get the enumerated values names.
+	 * Get values names.
 	 * 
 	 * @since 1.0.0
 	 * @return string[]
-	 * <p>The enumerated values names, as <samp>value => name</samp> pairs.</p>
+	 * <p>The values names, as <samp>value => name</samp> pairs.</p>
 	 */
 	final public static function getValuesNames() : array
 	{
@@ -436,11 +433,11 @@ abstract class Enumeration
 	}
 	
 	/**
-	 * Get the enumerated names values.
+	 * Get names values.
 	 * 
 	 * @since 1.0.0
 	 * @return int[]|float[]|string[]
-	 * <p>The enumerated names values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getNamesValues() : array
 	{

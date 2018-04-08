@@ -17,7 +17,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property \Closure|null $stringifier [default = null]
- * <p>The function to stringify a given value for a given placeholder.<br>
+ * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>

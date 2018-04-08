@@ -240,7 +240,7 @@ final class Call extends Utility
 	 * @param callable $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The parameters bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_SHORT_NAMES</code> : 
@@ -332,7 +332,7 @@ final class Call extends Utility
 	 * @param callable $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The type bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : 
 	 * Do not return the <code>mixed</code> type keyword.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_SHORT_NAME</code> : 
@@ -373,7 +373,7 @@ final class Call extends Utility
 	 * @param callable $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The header bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_SHORT_NAMES</code> : 
@@ -481,7 +481,7 @@ final class Call extends Utility
 	 * @param callable $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The source bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : 
 	 * Return the parameters constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_SHORT_NAMES</code> : 
@@ -590,13 +590,13 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Assert if a given function is compatible with a given template, under a given name.
+	 * Assert if a given function is compatible with a given template, with a given name.
 	 * 
 	 * This assertion is only performed in a debug environment.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to assert under.</p>
+	 * <p>The name to assert with.</p>
 	 * @param callable $function
 	 * <p>The function to assert.</p>
 	 * @param callable $template
@@ -828,7 +828,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return string|null
@@ -849,10 +849,10 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The stack limit on the number of classes to retrieve from.<br>
+	 * <p>The limit to use on the number of classes to retrieve.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
@@ -886,7 +886,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return object|null
@@ -907,10 +907,10 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The stack limit on the number of objects to retrieve from.<br>
+	 * <p>The limit to use on the number of objects to retrieve.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
@@ -944,7 +944,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return object|string|null
@@ -966,10 +966,10 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The stack offset to retrieve from.<br>
+	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The stack limit on the number of objects and classes to retrieve from.<br>
+	 * <p>The limit to use on the number of objects and classes to retrieve.<br>
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
@@ -1017,7 +1017,7 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
 	 */
@@ -1081,15 +1081,15 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The parameter name to use.</p>
+	 * <p>The name to use.</p>
 	 * @param mixed $value
-	 * <p>The parameter value to use.</p>
+	 * <p>The value to use.</p>
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
 	 * @return void
 	 */
@@ -1154,7 +1154,7 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, an exception is thrown, 
 	 * preventing the current function or method in the stack from continuing to execute.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InternalError
 	 * @return void
 	 */

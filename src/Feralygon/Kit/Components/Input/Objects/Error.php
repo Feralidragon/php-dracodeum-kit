@@ -34,7 +34,7 @@ final class Error
 	 * @param mixed $value
 	 * <p>The value.</p>
 	 * @param callable[] $messengers [default = []]
-	 * <p>The messenger functions to retrieve error messages from.<br>
+	 * <p>The messenger functions to use to retrieve error messages from.<br>
 	 * They are expected to be compatible with the following signature:<br><br>
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
 	 * <br>

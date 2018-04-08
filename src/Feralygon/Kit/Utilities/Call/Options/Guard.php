@@ -57,7 +57,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use for 
  * the hint message.</p>
  * @property \Closure|null $stringifier [default = null]
- * <p>The function to stringify a given value for a given hint message placeholder.<br>
+ * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>

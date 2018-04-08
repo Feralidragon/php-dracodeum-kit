@@ -14,7 +14,7 @@ use Feralygon\Kit\Factory\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The type name.</p>
+ * <p>The name.</p>
  */
 class TypeNotFound extends Exception
 {

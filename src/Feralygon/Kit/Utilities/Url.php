@@ -35,7 +35,7 @@ final class Url extends Utility
 	 * @param array $parameters
 	 * <p>The parameters to querify, as <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Url\Options\Querify|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Url\Exceptions\Querify\UnsupportedParameterType
 	 * @return string|null
 	 * <p>The querified parameters into a query string or <code>null</code> if an empty set of parameters was given.</p>
@@ -101,7 +101,7 @@ final class Url extends Utility
 	 * @param string $string
 	 * <p>The string to unquerify.</p>
 	 * @param \Feralygon\Kit\Utilities\Url\Options\Unquerify|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return array
 	 * <p>The unquerified array from the given string, as <samp>name => value</samp> pairs.</p>
 	 */

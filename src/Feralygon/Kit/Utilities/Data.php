@@ -257,7 +257,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the merging at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x000]
-	 * <p>The merge bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
 	 * Merge associative arrays using the union operation, in other words,
 	 * with this flag keys present in the first array won't get replaced by the same keys present in the second.<br><br>
@@ -386,7 +386,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the removal at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The unique bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from the removal of duplicates.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : 
@@ -456,7 +456,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The sort bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -525,7 +525,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The sort bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -592,7 +592,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The filter bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, 
 	 * strictly filter array from all non-array values but the given ones.<br><br>
@@ -673,7 +673,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The filter bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, filter array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : 
@@ -750,7 +750,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The trim bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, strictly trim array from all non-array values but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -852,7 +852,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The trim bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, trim array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -951,7 +951,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_ASSOC</code> : 
@@ -1051,7 +1051,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The intersection bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
@@ -1124,7 +1124,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The difference bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_ASSOC</code> : 
@@ -1219,7 +1219,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The difference bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
@@ -1285,7 +1285,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the shuffling at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The shuffle bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from shuffling.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_ASSOC</code> : 
@@ -1345,7 +1345,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the alignment at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The alignment bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from aligning.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : 
@@ -1652,7 +1652,7 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the collapse at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The collapse bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from collapsing.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_NONASSOC_EXCLUDE</code> : 
@@ -1828,9 +1828,9 @@ final class Data extends Utility
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
@@ -1873,9 +1873,9 @@ final class Data extends Utility
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>

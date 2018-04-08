@@ -17,7 +17,7 @@ use Feralygon\Kit\Prototype;
  * @property-read string $class
  * <p>The class.</p>
  * @property-read string $base_class
- * <p>The prototype base class.</p>
+ * <p>The base class.</p>
  */
 class InvalidPrototypeClass extends Exception
 {

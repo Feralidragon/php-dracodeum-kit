@@ -17,7 +17,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * <p>The name.<br>
  * It cannot be empty.</p>
  * @property bool $nullable [default = false]
- * <p>The nullable state.</p>
+ * <p>Allow null values.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
  * @property \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []]

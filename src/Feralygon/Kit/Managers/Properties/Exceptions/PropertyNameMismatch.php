@@ -15,7 +15,7 @@ use Feralygon\Kit\Managers\Properties\Objects\Property;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The expected property name.</p>
+ * <p>The expected name.</p>
  * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
  * <p>The property instance.</p>
  */

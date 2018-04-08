@@ -195,9 +195,9 @@ abstract class Component
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to build an instance.<br>
+	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
 	 * <br>
@@ -210,7 +210,7 @@ abstract class Component
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
 	 * </code><br>
@@ -247,9 +247,9 @@ abstract class Component
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to build an instance.<br>
+	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
 	 * <br>
@@ -262,7 +262,7 @@ abstract class Component
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
 	 * </code><br>

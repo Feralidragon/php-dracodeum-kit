@@ -830,7 +830,7 @@ class Input extends Component implements IPrototypeContract
 	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The modifier properties to use if a component name is given, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidModifier
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierPropertiesNotAllowed
@@ -967,7 +967,7 @@ class Input extends Component implements IPrototypeContract
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to evaluate with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the given prototype.</p>
 	 */
@@ -990,7 +990,7 @@ class Input extends Component implements IPrototypeContract
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to use, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ValueCoercionFailed
 	 * @return mixed
 	 * <p>The given value coerced with the given prototype.</p>

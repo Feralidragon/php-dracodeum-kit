@@ -14,7 +14,7 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type
- * <p>The value type.</p>
+ * <p>The type.</p>
  */
 class KeyfyUnsupportedValueType extends Keyfy
 {

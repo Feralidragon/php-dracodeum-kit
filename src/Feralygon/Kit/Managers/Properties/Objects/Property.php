@@ -891,9 +891,9 @@ class Property
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
@@ -929,9 +929,9 @@ class Property
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The array element value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
@@ -1062,13 +1062,12 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @param string $class
-	 * <p>The structure class to use.</p>
+	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
-	 * <p>If a structure instance is given, clone it into a new one with the same properties.</p>
+	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
 	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only structure instance.<br>
-	 * If a structure instance is given and is not read-only, a new one is created with the same properties 
-	 * and as read-only.</p>
+	 * <p>Evaluate into a read-only instance.<br>
+	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -1145,7 +1144,7 @@ class Property
 	 * <p>The class scope to use.<br>
 	 * If not set, the manager owner object of this instance is used.</p>
 	 * @param string|null $name [default = null]
-	 * <p>The property name to bind to.<br>
+	 * <p>The name to bind to.<br>
 	 * If not set, the name set in this instance is used.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>

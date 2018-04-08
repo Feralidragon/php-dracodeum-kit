@@ -113,14 +113,13 @@ class Method extends Enumeration
 	
 	//Public static methods
 	/**
-	 * Check if a given enumerated element represents an HTTP method which has a request body.
+	 * Check if a given element represents an HTTP method which has a request body.
 	 * 
 	 * @since 1.0.0
 	 * @param string $element
-	 * <p>The enumerated element to check.</p>
+	 * <p>The element to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents an HTTP method which has a request body.</p>
+	 * <p>Boolean <code>true</code> if the given element represents an HTTP method which has a request body.</p>
 	 */
 	public static function hasRequestBody(string $element) : bool
 	{
@@ -128,14 +127,13 @@ class Method extends Enumeration
 	}
 	
 	/**
-	 * Check if a given enumerated element represents an HTTP method which has a response body.
+	 * Check if a given element represents an HTTP method which has a response body.
 	 * 
 	 * @since 1.0.0
 	 * @param string $element
-	 * <p>The enumerated element to check.</p>
+	 * <p>The element to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given enumerated element 
-	 * represents an HTTP method which has a response body.</p>
+	 * <p>Boolean <code>true</code> if the given element represents an HTTP method which has a response body.</p>
 	 */
 	public static function hasResponseBody(string $element) : bool
 	{
@@ -145,13 +143,13 @@ class Method extends Enumeration
 	}
 	
 	/**
-	 * Check if a given enumerated element represents a cacheable HTTP method.
+	 * Check if a given element represents a cacheable HTTP method.
 	 * 
 	 * @since 1.0.0
 	 * @param string $element
-	 * <p>The enumerated element to check.</p>
+	 * <p>The element to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given enumerated element represents a cacheable HTTP method.</p>
+	 * <p>Boolean <code>true</code> if the given element represents a cacheable HTTP method.</p>
 	 */
 	public static function isCacheable(string $element) : bool
 	{
@@ -159,13 +157,13 @@ class Method extends Enumeration
 	}
 	
 	/**
-	 * Check if a given enumerated element represents a nullipotent HTTP method.
+	 * Check if a given element represents a nullipotent HTTP method.
 	 * 
 	 * @since 1.0.0
 	 * @param string $element
-	 * <p>The enumerated element to check.</p>
+	 * <p>The element to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given enumerated element represents a nullipotent HTTP method.</p>
+	 * <p>Boolean <code>true</code> if the given element represents a nullipotent HTTP method.</p>
 	 */
 	public static function isNullipotent(string $element) : bool
 	{
@@ -173,13 +171,13 @@ class Method extends Enumeration
 	}
 	
 	/**
-	 * Check if a given enumerated element represents an idempotent HTTP method.
+	 * Check if a given element represents an idempotent HTTP method.
 	 * 
 	 * @since 1.0.0
 	 * @param string $element
-	 * <p>The enumerated element to check.</p>
+	 * <p>The element to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given enumerated element represents an idempotent HTTP method.</p>
+	 * <p>Boolean <code>true</code> if the given element represents an idempotent HTTP method.</p>
 	 */
 	public static function isIdempotent(string $element) : bool
 	{

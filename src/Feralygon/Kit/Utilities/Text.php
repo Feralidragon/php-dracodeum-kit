@@ -157,7 +157,7 @@ final class Text extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\StringifyUnsupportedValueType
 	 * @return string
 	 * <p>The generated string from the given value.</p>
@@ -374,7 +374,7 @@ final class Text extends Utility
 	 * @param bool $keep_case [default = false]
 	 * <p>Keep the original string case.</p>
 	 * @param string $delimiter [default = '-']
-	 * <p>The delimiter character to be used between words.<br>
+	 * <p>The delimiter character to use between words.<br>
 	 * It must be a single ASCII character.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\SlugifyInvalidDelimiter
 	 * @return string
@@ -406,7 +406,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to unslugify.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The unslugification bitwise flags, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_FIRST</code> : 
 	 * Capitalize the first word of the unslugified string.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_ALL</code> : 
@@ -437,7 +437,7 @@ final class Text extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Bulletify|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The bulletified string from the given one.</p>
 	 */
@@ -471,7 +471,7 @@ final class Text extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Mbulletify|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string
 	 * <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
@@ -623,7 +623,7 @@ final class Text extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Fill|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderMethodIdentifierNotFound
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderPropertyIdentifierNotFound
@@ -724,13 +724,13 @@ final class Text extends Utility
 	 * @param float|int $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
-	 * <p>The string number placeholder to fill with.</p>
+	 * <p>The number placeholder to fill with.</p>
 	 * @param array $parameters [default = []]
 	 * <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Pfill|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The given plural string filled with the given set of parameters.</p>
 	 */
@@ -890,7 +890,7 @@ final class Text extends Utility
 	 * @param string[] $fields_patterns
 	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Parse|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return array|null
 	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs, 
 	 * or <code>null</code> if no data could be parsed.</p>
@@ -917,7 +917,7 @@ final class Text extends Utility
 	 * @param string[] $fields_patterns
 	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidString
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidFieldPattern
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidDelimiterPattern
@@ -1261,7 +1261,7 @@ final class Text extends Utility
 	 * <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\TruncateInvalidLength
 	 * @return string
 	 * <p>The given string truncated to the given length.</p>
@@ -1841,11 +1841,11 @@ final class Text extends Utility
 	 * @param string $message
 	 * <p>The message to localize.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The message context to localize with.</p>
+	 * <p>The context to localize for.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Localize|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The localization of the given message.</p>
 	 */
@@ -1928,13 +1928,13 @@ final class Text extends Utility
 	 * @param float|int $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
-	 * <p>The message number placeholder to localize with.</p>
+	 * <p>The number placeholder to localize with.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The message context to localize with.</p>
+	 * <p>The context to localize for.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Plocalize|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The localization of the given plural message.</p>
 	 */

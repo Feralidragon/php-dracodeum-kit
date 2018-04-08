@@ -28,7 +28,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * the identifiers are interpreted as getter method calls, 
  * but they cannot be given any custom parameters.</p>
  * @property \Closure|null $stringifier [default = null]
- * <p>The function to stringify a given value for a given placeholder.<br>
+ * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
  * <code>function (string $placeholder, $value) : ?string</code><br>
  * <br>

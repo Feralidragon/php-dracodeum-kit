@@ -40,7 +40,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return mixed
 	 * <p>The property value from the given name.</p>
 	 */
@@ -54,7 +54,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
@@ -68,9 +68,9 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param mixed $value
-	 * <p>The property value to set with.</p>
+	 * <p>The value to set with.</p>
 	 * @return void
 	 */
 	final public function __set(string $name, $value) : void
@@ -79,11 +79,11 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Unset property from a given name.
+	 * Unset property for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to unset from.</p>
+	 * <p>The name to unset for.</p>
 	 * @return void
 	 */
 	final public function __unset(string $name) : void
@@ -101,7 +101,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -118,7 +118,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return mixed
 	 * <p>The property value from the given name.</p>
 	 */
@@ -139,7 +139,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return bool
 	 * <p>The boolean property value from the given name.</p>
 	 */
@@ -156,7 +156,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
@@ -173,9 +173,9 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param mixed $value
-	 * <p>The property value to set with.</p>
+	 * <p>The value to set with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -187,13 +187,13 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Unset property from a given name.
+	 * Unset property for a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to unset from.</p>
+	 * <p>The name to unset for.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -276,20 +276,20 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param callable $builder
-	 * <p>The function to build a property instance for a given name.<br>
+	 * <p>The function to use to build a property instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The property name to build for.<br>
+	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Objects\Property|null</b></code><br>
 	 * The built property instance for the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
 	 * @param string[] $required [default = []]
-	 * <p>The required property names.</p>
+	 * <p>The required property names to use.</p>
 	 * @param string $mode [default = 'rw']
 	 * <p>The base access mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
@@ -310,7 +310,7 @@ trait LazyProperties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
 	 * @param callable|null $remainderer [default = null]
-	 * <p>The function to handle a given set of remaining properties.<br>
+	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (array $properties) : void</code><br>
 	 * <br>

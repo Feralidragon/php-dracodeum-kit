@@ -13,7 +13,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * 
  * @since 1.0.0
  * @property-read string $pattern
- * <p>The delimiter pattern.</p>
+ * <p>The pattern.</p>
  */
 class MparseInvalidDelimiterPattern extends Mparse
 {

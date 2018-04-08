@@ -36,7 +36,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return mixed
 	 * <p>The property value from the given name.</p>
 	 */
@@ -50,7 +50,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
@@ -64,9 +64,9 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param mixed $value
-	 * <p>The property value to set with.</p>
+	 * <p>The value to set with.</p>
 	 * @return void
 	 */
 	final public function __set(string $name, $value) : void
@@ -75,11 +75,11 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property from a given name.
+	 * Unset property for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to unset from.</p>
+	 * <p>The name to unset for.</p>
 	 * @return void
 	 */
 	final public function __unset(string $name) : void
@@ -97,7 +97,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -114,7 +114,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return mixed
 	 * <p>The property value from the given name.</p>
 	 */
@@ -135,7 +135,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to get from.</p>
+	 * <p>The name to get from.</p>
 	 * @return bool
 	 * <p>The boolean property value from the given name.</p>
 	 */
@@ -152,7 +152,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to check for.</p>
+	 * <p>The name to check for.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
 	 */
@@ -169,9 +169,9 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to set for.</p>
+	 * <p>The name to set for.</p>
 	 * @param mixed $value
-	 * <p>The property value to set with.</p>
+	 * <p>The value to set with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -183,13 +183,13 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property from a given name.
+	 * Unset property for a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to unset from.</p>
+	 * <p>The name to unset for.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -240,7 +240,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The property name to add.</p>
+	 * <p>The name to add.</p>
 	 * @return \Feralygon\Kit\Traits\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
@@ -270,7 +270,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param callable $builder
-	 * <p>The function to build all properties.<br>
+	 * <p>The function to use to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function () : void</code></p>
 	 * @param array $properties [default = []]
@@ -295,7 +295,7 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
 	 * @param callable|null $remainderer [default = null]
-	 * <p>The function to handle a given set of remaining properties.<br>
+	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (array $properties) : void</code><br>
 	 * <br>

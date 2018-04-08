@@ -14,7 +14,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read string $field
  * <p>The field.</p>
  * @property-read mixed $pattern
- * <p>The field pattern.</p>
+ * <p>The pattern.</p>
  */
 class MparseInvalidFieldPattern extends Mparse
 {

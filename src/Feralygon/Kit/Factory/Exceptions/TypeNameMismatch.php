@@ -15,7 +15,7 @@ use Feralygon\Kit\Factory\Objects\Type;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The expected type name.</p>
+ * <p>The expected name.</p>
  * @property-read \Feralygon\Kit\Factory\Objects\Type $type
  * <p>The type instance.</p>
  */

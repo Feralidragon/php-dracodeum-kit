@@ -194,7 +194,7 @@ final class Math extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Math\Options\Hnumber|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The human-readable number from the given machine one.</p>
 	 */

@@ -14,7 +14,7 @@ use Feralygon\Kit\Component\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The prototype name.</p>
+ * <p>The name.</p>
  */
 class PrototypeNameNotFound extends Exception
 {

@@ -18,7 +18,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @property-read string[] $names
- * <p>The property names.</p>
+ * <p>The names.</p>
  */
 class MissingRequiredProperties extends Exception
 {

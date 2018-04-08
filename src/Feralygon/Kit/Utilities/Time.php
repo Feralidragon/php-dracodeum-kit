@@ -660,7 +660,7 @@ final class Time extends Utility
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Time\Options\Hperiod|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The human-readable period from the given machine one.</p>
 	 */
@@ -1023,7 +1023,7 @@ final class Time extends Utility
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
-	 * <p>Additional options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateInvalidInterval
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateStartLaterThanEnd
 	 * @return float[]|string[]

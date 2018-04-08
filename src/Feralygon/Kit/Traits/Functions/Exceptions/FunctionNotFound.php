@@ -14,7 +14,7 @@ use Feralygon\Kit\Traits\Functions\Exception;
  * 
  * @since 1.0.0
  * @property-read string $name
- * <p>The function name.</p>
+ * <p>The name.</p>
  */
 class FunctionNotFound extends Exception
 {

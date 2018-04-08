@@ -76,7 +76,7 @@ trait Readonly
 	 * 
 	 * @since 1.0.0
 	 * @param callable $callback
-	 * <p>The read-only callback function to add.<br>
+	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function () : void</code></p>
 	 * @return $this

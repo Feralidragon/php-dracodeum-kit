@@ -48,7 +48,7 @@ abstract class Factory
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The type name to build for.</p>
+	 * <p>The name to build for.</p>
 	 * @return \Feralygon\Kit\Factory\Objects\Type|null
 	 * <p>The built type instance for the given name or <code>null</code> if none was built.</p>
 	 */
@@ -77,15 +77,15 @@ abstract class Factory
 	
 	//Final protected static methods
 	/**
-	 * Get type instance with a given name.
+	 * Get type instance for a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get with.</p>
+	 * <p>The name to get for.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNameMismatch
 	 * @return \Feralygon\Kit\Factory\Objects\Type
-	 * <p>The type instance with the given name.</p>
+	 * <p>The type instance for the given name.</p>
 	 */
 	final protected static function getType(string $name) : Objects\Type
 	{
@@ -135,17 +135,17 @@ abstract class Factory
 	}
 	
 	/**
-	 * Build object from a given type.
+	 * Build object for a given type.
 	 * 
 	 * @since 1.0.0
 	 * @param string $type
-	 * <p>The type to build from.</p>
+	 * <p>The type to build for.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to build with.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
 	 * @throws \Feralygon\Kit\Factory\Exceptions\InvalidObjectBuilt
 	 * @return object
-	 * <p>The built object from the given type.</p>
+	 * <p>The built object for the given type.</p>
 	 */
 	final protected static function build(string $type, ...$arguments) : object
 	{

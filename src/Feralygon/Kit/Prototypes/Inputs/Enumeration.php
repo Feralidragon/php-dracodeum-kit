@@ -22,29 +22,29 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This input prototype represents an enumerated element, as an integer, float or string.
+ * This input prototype represents an enumeration element, as an integer, float or string.
  * 
- * Only the following types of values may be evaluated as an enumerated element:<br>
- * &nbsp; &#8226; &nbsp; an integer, float or string as the enumerated element value;<br>
- * &nbsp; &#8226; &nbsp; a string as the enumerated element name.
+ * Only the following types of values may be evaluated as an enumeration element:<br>
+ * &nbsp; &#8226; &nbsp; an integer, float or string as the enumeration element value;<br>
+ * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
  * @since 1.0.0
  * @property-read string $enumeration
  * <p>The enumeration class to use.</p>
  * @property-read int[]|float[]|string[] $values [default = []]
- * <p>The enumerated element values to restrict a given value to.</p>
+ * <p>The enumeration element values to restrict a given value to.</p>
  * @property-read int[]|float[]|string[] $non_values [default = []]
- * <p>The enumerated element values to restrict a given value from.</p>
+ * <p>The enumeration element values to restrict a given value from.</p>
  * @property-read bool $names_only [default = false]
- * <p>Only allow enumerated element names to be set.</p>
+ * <p>Only allow enumeration element names to be set.</p>
  * @property-read bool $values_only [default = false]
- * <p>Only allow enumerated element values to be set.</p>
+ * <p>Only allow enumeration element values to be set.</p>
  * @property-read bool $hide_names [default = false]
- * <p>Hide enumerated element names in labels, descriptions and messages.</p>
+ * <p>Hide enumeration element names in labels, descriptions and messages.</p>
  * @property-read bool $hide_values [default = false]
- * <p>Hide enumerated element values in labels, descriptions and messages.</p>
+ * <p>Hide enumeration element values in labels, descriptions and messages.</p>
  * @property-read bool $namify [default = false]
- * <p>Set as an enumerated element name.</p>
+ * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
 class Enumeration extends Input implements IPrototypeProperties, IInformation, IValueStringification, ISchemaData
@@ -179,9 +179,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		foreach ($this->getNamesValues() as $name => $value) {
 			if ($show_names || $show_values) {
 				/**
-				 * @description Enumerated element label.
-				 * @placeholder label The enumerated element label.
-				 * @placeholder name_value The enumerated element name and value.
+				 * @description Enumeration element label.
+				 * @placeholder label The enumeration element label.
+				 * @placeholder name_value The enumeration element name and value.
 				 * @example Not Modified: "NOT_MODIFIED" or 304
 				 */
 				$labels[] = UText::localize(
@@ -218,7 +218,7 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		
 		//non-end-user
 		/**
-		 * @placeholder labels The enumerated element labels.
+		 * @placeholder labels The enumeration element labels.
 		 * @tags non-end-user
 		 * @example Enumeration {
 		 *    OK: "OK" or 200
@@ -242,14 +242,14 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
 		if (empty($names_descriptions)) {
-			return UText::localize("An enumerated element.", self::class, $text_options);
+			return UText::localize("An enumeration element.", self::class, $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags end-user
 			 * @example One of the following:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
@@ -265,54 +265,54 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//non-end-user
 		if ($show_names && $show_values) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example An enumerated element name or value, as one of the following:
+			 * @example An enumeration element name or value, as one of the following:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST" or 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"An enumerated element name or value, as one of the following:\n{{descriptions}}",
+				"An enumeration element name or value, as one of the following:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_names) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example An enumerated element name, as one of the following:
+			 * @example An enumeration element name, as one of the following:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST"): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"An enumerated element name, as one of the following:\n{{descriptions}}",
+				"An enumeration element name, as one of the following:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_values) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example An enumerated element value, as one of the following:
+			 * @example An enumeration element value, as one of the following:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"An enumerated element value, as one of the following:\n{{descriptions}}",
+				"An enumeration element value, as one of the following:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 		/**
-		 * @placeholder descriptions The enumerated element descriptions.
+		 * @placeholder descriptions The enumeration element descriptions.
 		 * @tags non-end-user
-		 * @example An enumerated element, as one of the following:
+		 * @example An enumeration element, as one of the following:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
 		 *  &#8226; Bad Request: client error "Bad Request" HTTP status code.
 		 */
 		return UText::localize(
-			"An enumerated element, as one of the following:\n{{descriptions}}",
+			"An enumeration element, as one of the following:\n{{descriptions}}",
 			self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 		);
 	}
@@ -327,14 +327,14 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//descriptions
 		$names_descriptions = $this->getNamesDescriptions($text_options);
 		if (empty($names_descriptions)) {
-			return UText::localize("Only an enumerated element is allowed.", self::class, $text_options);
+			return UText::localize("Only an enumeration element is allowed.", self::class, $text_options);
 		}
 		$merged_descriptions = UText::mbulletify($names_descriptions, $text_options, ['merge' => true]);
 		
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags end-user
 			 * @example Only the following is allowed:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
@@ -350,54 +350,54 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		//non-end-user
 		if ($show_names && $show_values) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example Only an enumerated element name or value is allowed, as follows:
+			 * @example Only an enumeration element name or value is allowed, as follows:
 			 *  &#8226; OK (given as "OK" or 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED" or 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST" or 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only an enumerated element name or value is allowed, as follows:\n{{descriptions}}",
+				"Only an enumeration element name or value is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_names) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example Only an enumerated element name is allowed, as follows:
+			 * @example Only an enumeration element name is allowed, as follows:
 			 *  &#8226; OK (given as "OK"): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as "NOT_MODIFIED"): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as "BAD_REQUEST"): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only an enumerated element name is allowed, as follows:\n{{descriptions}}",
+				"Only an enumeration element name is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		} elseif ($show_values) {
 			/**
-			 * @placeholder descriptions The enumerated element descriptions.
+			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
-			 * @example Only an enumerated element value is allowed, as follows:
+			 * @example Only an enumeration element value is allowed, as follows:
 			 *  &#8226; OK (given as 200): success "OK" HTTP status code.
 			 *  &#8226; Not Modified (given as 304): redirection "Not Modified" HTTP status code.
 			 *  &#8226; Bad Request (given as 400): client error "Bad Request" HTTP status code.
 			 */
 			return UText::localize(
-				"Only an enumerated element value is allowed, as follows:\n{{descriptions}}",
+				"Only an enumeration element value is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
 		/**
-		 * @placeholder descriptions The enumerated element descriptions.
+		 * @placeholder descriptions The enumeration element descriptions.
 		 * @tags non-end-user
-		 * @example Only an enumerated element is allowed, as follows:
+		 * @example Only an enumeration element is allowed, as follows:
 		 *  &#8226; OK: success "OK" HTTP status code.
 		 *  &#8226; Not Modified: redirection "Not Modified" HTTP status code.
 		 *  &#8226; Bad Request: client error "Bad Request" HTTP status code.
 		 */
 		return UText::localize(
-			"Only an enumerated element is allowed, as follows:\n{{descriptions}}",
+			"Only an enumeration element is allowed, as follows:\n{{descriptions}}",
 			self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 		);
 	}
@@ -462,11 +462,11 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	}
 	
 	/**
-	 * Get enumerated element names values.
+	 * Get names values.
 	 * 
 	 * @since 1.0.0
 	 * @return int[]|float[]|string[]
-	 * <p>The enumerated element names values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */
 	protected function getNamesValues() : array
 	{
@@ -499,13 +499,13 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 	}
 	
 	/**
-	 * Get enumerated element names descriptions.
+	 * Get names descriptions.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]
-	 * <p>The enumerated element names descriptions, as <samp>name => description</samp> pairs.</p>
+	 * <p>The names descriptions, as <samp>name => description</samp> pairs.</p>
 	 */
 	protected function getNamesDescriptions(TextOptions $text_options) : array
 	{
@@ -522,10 +522,10 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				$description = UText::uncapitalize($description, true);
 				if ($show_names || $show_values) {
 					/**
-					 * @description Enumerated element description (with name and value).
-					 * @placeholder label The enumerated element label.
-					 * @placeholder name_value The enumerated element name and value.
-					 * @placeholder description The enumerated element description.
+					 * @description Enumeration element description (with name and value).
+					 * @placeholder label The enumeration element label.
+					 * @placeholder name_value The enumeration element name and value.
+					 * @placeholder description The enumeration element description.
 					 * @example Not Modified (given as "NOT_MODIFIED" or 304): \
 					 * redirection "Not Modified" HTTP status code.
 					 */
@@ -549,9 +549,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 					);
 				} else {
 					/**
-					 * @description Enumerated element description.
-					 * @placeholder label The enumerated element label.
-					 * @placeholder description The enumerated element description.
+					 * @description Enumeration element description.
+					 * @placeholder label The enumeration element label.
+					 * @placeholder description The enumeration element description.
 					 * @example Not Modified: redirection "Not Modified" HTTP status code.
 					 */
 					$descriptions[$name] = UText::localize(
@@ -566,9 +566,9 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 				}
 			} else {
 				/**
-				 * @description Enumerated element description (no description).
-				 * @placeholder label The enumerated element label.
-				 * @placeholder name_value The enumerated element name and value.
+				 * @description Enumeration element description (no description).
+				 * @placeholder label The enumeration element label.
+				 * @placeholder name_value The enumeration element name and value.
 				 * @example Not Modified: given as "NOT_MODIFIED" or 304.
 				 */
 				$descriptions[$name] = UText::localize(
