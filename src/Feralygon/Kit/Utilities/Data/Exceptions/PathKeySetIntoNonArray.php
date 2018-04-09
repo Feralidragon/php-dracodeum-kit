@@ -35,7 +35,7 @@ class PathKeySetIntoNonArray extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('path')->setAsString()->setAsRequired();
 		$this->addProperty('key')->setAsString()->setAsRequired();

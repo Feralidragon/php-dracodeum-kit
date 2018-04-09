@@ -27,7 +27,7 @@ class MnumberInvalidNumber extends Mnumber
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('number')->setAsString()->setAsRequired();
 	}

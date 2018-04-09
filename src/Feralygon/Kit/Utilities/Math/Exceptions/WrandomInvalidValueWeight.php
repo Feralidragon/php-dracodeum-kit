@@ -31,7 +31,7 @@ class WrandomInvalidValueWeight extends Wrandom
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('value')
 			->setEvaluator(function (&$value) : bool {

@@ -52,7 +52,7 @@ class MultipleCoercionFailed extends Exception implements ICoercive
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('value')->setAsRequired();
 		$this->addProperty('error_code')

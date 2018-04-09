@@ -35,7 +35,7 @@ class DecodeInvalidData extends Decode
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('data')->setAsStrictString()->setAsRequired();
 		$this->addProperty('error_code')->setAsStrictInteger(true)->setDefaultValue(null);

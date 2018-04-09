@@ -30,7 +30,7 @@ class SetIniOptionFailed extends SetIniOption
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('value')->setAsRequired();

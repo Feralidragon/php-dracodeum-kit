@@ -30,7 +30,7 @@ class StringifyUnsupportedValueType extends Stringify
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('value')->setAsRequired();
 		$this->addProperty('type')->setAsString()->setAsRequired();

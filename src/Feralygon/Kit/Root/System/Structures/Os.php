@@ -34,7 +34,7 @@ final class Os extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('name')->setAsString(true)->setAsRequired();
 		$this->addProperty('hostname')->setAsString(true)->setAsRequired();

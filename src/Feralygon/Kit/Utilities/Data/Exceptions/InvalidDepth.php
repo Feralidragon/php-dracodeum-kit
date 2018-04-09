@@ -30,7 +30,7 @@ class InvalidDepth extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('depth')->setAsInteger()->setAsRequired();
 	}

@@ -34,7 +34,7 @@ class NoMemoizedValueFound extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('key')->setAsString()->setAsRequired();
 		$this->addProperty('namespace')->setAsString()->setDefaultValue('');

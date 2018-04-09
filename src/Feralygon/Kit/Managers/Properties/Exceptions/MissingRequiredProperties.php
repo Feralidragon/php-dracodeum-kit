@@ -35,10 +35,10 @@ class MissingRequiredProperties extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		//parent
-		parent::buildProperties();
+		parent::loadProperties();
 		
 		//properties
 		$this->addProperty('names')

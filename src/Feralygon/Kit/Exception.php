@@ -41,7 +41,7 @@ abstract class Exception extends \Exception implements IArrayable
 	{
 		//initialize
 		$options = Options\Construct::coerce($options);
-		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperties']), $properties, 'r+');
+		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'r+');
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();
@@ -97,12 +97,12 @@ abstract class Exception extends \Exception implements IArrayable
 	
 	//Abstract protected methods
 	/**
-	 * Build properties.
+	 * Load properties.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract protected function buildProperties() : void;
+	abstract protected function loadProperties() : void;
 	
 	
 	

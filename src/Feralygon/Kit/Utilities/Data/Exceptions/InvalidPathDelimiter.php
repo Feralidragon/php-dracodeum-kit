@@ -30,7 +30,7 @@ class InvalidPathDelimiter extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('delimiter')->setAsString()->setAsRequired();
 	}

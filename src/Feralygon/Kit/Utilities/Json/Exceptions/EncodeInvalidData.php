@@ -35,7 +35,7 @@ class EncodeInvalidData extends Encode
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('data')->setAsRequired();
 		$this->addProperty('error_code')->setAsStrictInteger(true)->setDefaultValue(null);

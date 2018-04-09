@@ -30,7 +30,7 @@ class FillInvalidPlaceholderIdentifier extends Fill
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('placeholder')->setAsString()->setAsRequired();
 		$this->addProperty('identifier')->setAsString()->setAsRequired();

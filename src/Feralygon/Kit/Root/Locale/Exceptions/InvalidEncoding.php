@@ -40,7 +40,7 @@ class InvalidEncoding extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('encoding')->setAsString()->setAsRequired();
 		$this->addProperty('encodings')

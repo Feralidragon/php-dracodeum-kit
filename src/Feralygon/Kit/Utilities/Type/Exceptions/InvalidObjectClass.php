@@ -29,7 +29,7 @@ class InvalidObjectClass extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('object_class')->setAsRequired();
 	}

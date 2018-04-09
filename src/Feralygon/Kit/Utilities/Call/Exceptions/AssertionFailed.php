@@ -55,7 +55,7 @@ class AssertionFailed extends Exception implements IAssertive
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('function')->setAsCallable()->setAsRequired();

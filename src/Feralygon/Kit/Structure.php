@@ -53,7 +53,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	{
 		//properties
 		$mode = $readonly ? 'r+' : 'rw';
-		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperties']), $properties, $mode);
+		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, $mode);
 		
 		//read-only
 		$this->initializeReadonly(
@@ -66,12 +66,12 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	//Abstract protected methods
 	/**
-	 * Build properties.
+	 * Load properties.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract protected function buildProperties() : void;
+	abstract protected function loadProperties() : void;
 	
 	
 	

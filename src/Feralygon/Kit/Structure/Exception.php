@@ -20,7 +20,7 @@ abstract class Exception extends KitException
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('structure')->setAsObjectClass(Structure::class)->setAsRequired();
 	}

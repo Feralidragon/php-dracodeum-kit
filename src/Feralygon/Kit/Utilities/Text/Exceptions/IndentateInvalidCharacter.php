@@ -28,7 +28,7 @@ class IndentateInvalidCharacter extends Indentate
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('character')->setAsString()->setAsRequired();
 	}

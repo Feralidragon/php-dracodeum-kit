@@ -51,7 +51,7 @@ class NotAllowed extends Exception
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('function_name')->setAsString()->setAsRequired();
 		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);

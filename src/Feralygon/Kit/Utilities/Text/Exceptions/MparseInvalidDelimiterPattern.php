@@ -29,7 +29,7 @@ class MparseInvalidDelimiterPattern extends Mparse
 	
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperties() : void
+	protected function loadProperties() : void
 	{
 		$this->addProperty('pattern')->setAsString()->setAsRequired();
 	}
