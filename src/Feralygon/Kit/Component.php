@@ -60,6 +60,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  * @see \Feralygon\Kit\Component\Traits\PreInitialization
+ * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNames
  * @see \Feralygon\Kit\Component\Traits\Properties
  * @see \Feralygon\Kit\Component\Traits\Initialization
  * @see \Feralygon\Kit\Component\Traits\DefaultPrototype
@@ -71,6 +72,7 @@ abstract class Component
 	//Traits
 	use KitTraits\LazyProperties;
 	use Traits\PreInitialization;
+	use Traits\RequiredPropertyNames;
 	use Traits\Properties;
 	use Traits\Initialization;
 	use Traits\DefaultPrototype;
@@ -160,8 +162,8 @@ abstract class Component
 		
 		//properties
 		$this->initializeProperties(
-			\Closure::fromCallable([$this, 'buildProperty']), $properties, $this->getRequiredPropertyNames(), 'rw',
-			$remainderer
+			\Closure::fromCallable([$this, 'buildProperty']), $properties,
+			\Closure::fromCallable([$this, 'loadRequiredPropertyNames']), 'rw', $remainderer
 		);
 		
 		//initialize

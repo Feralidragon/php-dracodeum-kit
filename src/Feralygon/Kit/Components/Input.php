@@ -120,15 +120,6 @@ class Input extends Component implements IPrototypeContract
 	
 	
 	
-	//Implemented public static methods (Feralygon\Kit\Component\Traits\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
-	}
-	
-	
-	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\Properties)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name) : ?Property

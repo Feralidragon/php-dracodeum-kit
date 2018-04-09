@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
@@ -36,7 +35,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property bool $negate [default = false]
  * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
-class Range extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
+class Range extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var mixed */
@@ -64,39 +63,6 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			($this->min_exclusive ? $value > $this->min_value : $value >= $this->min_value) && 
 			($this->max_exclusive ? $value < $this->max_value : $value <= $this->max_value)
 		);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'min_value':
-				//no break
-			case 'max_value':
-				return $this->createProperty()
-					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
-					->bind(self::class)
-				;
-			case 'min_exclusive':
-				//no break
-			case 'max_exclusive':
-				//no break
-			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['min_value', 'max_value'];
 	}
 	
 	
@@ -306,6 +272,39 @@ class Range extends Constraint implements IPrototypeProperties, IName, IInformat
 			],
 			'negate' => $this->negate
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['min_value', 'max_value']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'min_value':
+				//no break
+			case 'max_value':
+				return $this->createProperty()
+					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
+					->bind(self::class)
+				;
+			case 'min_exclusive':
+				//no break
+			case 'max_exclusive':
+				//no break
+			case 'negate':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 	
 	

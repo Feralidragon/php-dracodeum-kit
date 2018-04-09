@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs;
 
 use Feralygon\Kit\Prototypes\Input;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	ValueStringification as IValueStringification,
@@ -47,7 +46,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
-class Enumeration extends Input implements IPrototypeProperties, IInformation, IValueStringification, ISchemaData
+class Enumeration extends Input implements IInformation, IValueStringification, ISchemaData
 {
 	//Private properties
 	/** @var string */
@@ -115,52 +114,6 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 		
 		//return
 		return true;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'enumeration':
-				return $this->createProperty()
-					->setMode('r+')
-					->setAsStrictClass(KitEnumeration::class)
-					->bind(self::class)
-				;
-			case 'values':
-				//no break
-			case 'non_values':
-				return $this->createProperty()
-					->setMode('r+')
-					->setAsArray(function (&$key, &$value) : bool {
-						return is_int($value) || is_float($value) || is_string($value);
-					}, true)
-					->bind(self::class)
-				;
-			case 'names_only':
-				//no break
-			case 'values_only':
-				//no break
-			case 'hide_names':
-				//no break
-			case 'hide_values':
-				//no break
-			case 'namify':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['enumeration'];
 	}
 	
 	
@@ -430,6 +383,52 @@ class Enumeration extends Input implements IPrototypeProperties, IInformation, I
 			return ['names' => array_keys($this->getNamesValues())];
 		} elseif ($show_values) {
 			return ['values' => array_values($this->getNamesValues())];
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['enumeration']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'enumeration':
+				return $this->createProperty()
+					->setMode('r+')
+					->setAsStrictClass(KitEnumeration::class)
+					->bind(self::class)
+				;
+			case 'values':
+				//no break
+			case 'non_values':
+				return $this->createProperty()
+					->setMode('r+')
+					->setAsArray(function (&$key, &$value) : bool {
+						return is_int($value) || is_float($value) || is_string($value);
+					}, true)
+					->bind(self::class)
+				;
+			case 'names_only':
+				//no break
+			case 'values_only':
+				//no break
+			case 'hide_names':
+				//no break
+			case 'hide_values':
+				//no break
+			case 'namify':
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

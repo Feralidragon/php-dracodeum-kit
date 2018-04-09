@@ -47,7 +47,7 @@ abstract class Options implements \ArrayAccess
 	{
 		//properties
 		$mode = $readonly ? 'r+' : 'rw';
-		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperty']), $properties, [], $mode);
+		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperty']), $properties, null, $mode);
 		
 		//read-only
 		$this->initializeReadonly(

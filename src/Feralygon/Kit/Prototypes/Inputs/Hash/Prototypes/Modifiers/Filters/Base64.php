@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Base64 as UBase64;
 
@@ -22,7 +21,7 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * in order to be safely put in an URL.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
-class Base64 extends Filter implements IPrototypeProperties
+class Base64 extends Filter
 {
 	//Private properties
 	/** @var bool */
@@ -46,23 +45,14 @@ class Base64 extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'url_safe':
 				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}
 		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
 	}
 }

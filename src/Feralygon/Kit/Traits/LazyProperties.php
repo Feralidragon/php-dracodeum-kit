@@ -257,6 +257,22 @@ trait LazyProperties
 	}
 	
 	/**
+	 * Add required property names.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string[] $names
+	 * <p>The names to add.</p>
+	 * @return void
+	 */
+	final protected function addRequiredPropertyNames(array $names) : void
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->addRequiredPropertyNames($names);
+	}
+	
+	/**
 	 * Set properties as read-only.
 	 * 
 	 * @since 1.0.0
@@ -288,8 +304,12 @@ trait LazyProperties
 	 * The built property instance for the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
-	 * @param string[] $required [default = []]
-	 * <p>The required property names to use.</p>
+	 * @param callable|null $required_names_loader [default = null]
+	 * <p>The function to use to load required property names.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function () : void</code><br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
 	 * @param string $mode [default = 'rw']
 	 * <p>The base access mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
@@ -326,7 +346,7 @@ trait LazyProperties
 	 * @return void
 	 */
 	final private function initializeProperties(
-		callable $builder, array $properties = [], array $required = [], string $mode = 'rw', 
+		callable $builder, array $properties = [], ?callable $required_names_loader = null, string $mode = 'rw', 
 		?callable $remainderer = null, ?array &$remainder = null
 	) : void
 	{
@@ -347,9 +367,10 @@ trait LazyProperties
 			}
 		});
 		
-		//required
-		if (!empty($required)) {
-			$this->properties_manager->addRequiredPropertyNames($required);
+		//required names loader
+		if (isset($required_names_loader)) {
+			UCall::assert('required_names_loader', $required_names_loader, function () : void {});
+			$required_names_loader();
 		}
 		
 		//remainderer

@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	SchemaData as ISchemaData
@@ -23,7 +22,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property bool $unicode [default = false]
  * <p>Convert a given value as Unicode.</p>
  */
-class Lowercase extends Filter implements IPrototypeProperties, IName, ISchemaData
+class Lowercase extends Filter implements IName, ISchemaData
 {
 	//Private properties
 	/** @var bool */
@@ -44,28 +43,6 @@ class Lowercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
-	}
-	
-	
-	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
@@ -82,5 +59,18 @@ class Lowercase extends Filter implements IPrototypeProperties, IName, ISchemaDa
 		return [
 			'unicode' => $this->unicode
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'unicode':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }

@@ -10,30 +10,13 @@ namespace Feralygon\Kit\Component\Traits;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
- * This trait defines a set of methods to build and retrieve properties from a component.
+ * This trait defines a method to build properties for a component.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait Properties
 {
-	//Public static methods
-	/**
-	 * Get required property names.
-	 * 
-	 * All the required properties returned here must be given during instantiation.
-	 * 
-	 * @since 1.0.0
-	 * @return string[]
-	 * <p>The required property names.</p>
-	 */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
-	}
-	
-	
-	
 	//Protected methods
 	/**
 	 * Build property instance for a given name.

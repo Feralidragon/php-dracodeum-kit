@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
@@ -26,7 +25,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>Check a given text or string as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
-class Numerical extends Constraint implements IPrototypeProperties, IName, IInformation, ISchemaData
+class Numerical extends Constraint implements IName, IInformation, ISchemaData
 {
 	//Private properties
 	/** @var bool */
@@ -39,28 +38,6 @@ class Numerical extends Constraint implements IPrototypeProperties, IName, IInfo
 	public function checkValue($value) : bool
 	{
 		return (bool)preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
 	}
 	
 	
@@ -96,5 +73,18 @@ class Numerical extends Constraint implements IPrototypeProperties, IName, IInfo
 		return [
 			'unicode' => $this->unicode
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'unicode':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }

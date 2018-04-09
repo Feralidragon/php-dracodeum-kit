@@ -8,10 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 
 use Feralygon\Kit\Prototypes\Inputs\Number;
-use Feralygon\Kit\Prototype\Interfaces\{
-	Initialization as IPrototypeInitialization,
-	Properties as IPrototypeProperties
-};
 use Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData as ISchemaData;
 use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
@@ -52,7 +48,7 @@ use Feralygon\Kit\Utilities\{
  * If not set, the number of bits to use becomes system dependent.</p>
  * @see https://en.wikipedia.org/wiki/Integer_(computer_science)
  */
-class Integer extends Number implements IPrototypeInitialization, IPrototypeProperties, ISchemaData
+class Integer extends Number implements ISchemaData
 {
 	//Public constants
 	/** Maximum supported number of bits (signed). */
@@ -84,12 +80,45 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Initialization)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
+	/** {@inheritdoc} */
+	public function getSchemaData()
+	{
+		return [
+			'unsigned' => $this->unsigned,
+			'bits' => $this->bits
+		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'unsigned':
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
+			case 'bits':
+				return $this->createProperty()
+					->setMode('r+')
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateInteger($value, true) && (!isset($value) || $value > 0);
+					})
+					->bind(self::class)
+				;
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Initialization)
 	/**
 	 * {@inheritdoc}
 	 * @throws \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions\InvalidBits
 	 */
-	public function initialize() : void
+	protected function initialize() : void
 	{
 		if ($this->unsigned) {
 			$this->minimum = 0;
@@ -115,48 +144,6 @@ class Integer extends Number implements IPrototypeInitialization, IPrototypeProp
 			$this->maximum = self::BITS_FULL >> (self::BITS_MAX_SIGNED - $this->bits);
 			$this->minimum = -$this->maximum - 1;
 		}
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'unsigned':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
-			case 'bits':
-				return $this->createProperty()
-					->setMode('r+')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value, true) && (!isset($value) || $value > 0);
-					})
-					->bind(self::class)
-				;
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
-	/** {@inheritdoc} */
-	public function getSchemaData()
-	{
-		return [
-			'unsigned' => $this->unsigned,
-			'bits' => $this->bits
-		];
 	}
 	
 	

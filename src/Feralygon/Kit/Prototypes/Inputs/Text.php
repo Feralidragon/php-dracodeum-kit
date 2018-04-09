@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs;
 
 use Feralygon\Kit\Prototypes\Input;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	SchemaData as ISchemaData,
@@ -80,7 +79,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']
  */
-class Text extends Input implements IPrototypeProperties, IInformation, ISchemaData, IModifiers
+class Text extends Input implements IInformation, ISchemaData, IModifiers
 {
 	//Private properties
 	/** @var bool */
@@ -124,30 +123,6 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 		
 		//return
 		return true;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'unicode':
-				//no break
-			case 'trim':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return [];
 	}
 	
 	
@@ -307,6 +282,21 @@ class Text extends Input implements IPrototypeProperties, IInformation, ISchemaD
 				//no break
 			case 'truncate':
 				return $this->createFilter(Filters\Truncate::class, $properties + ['unicode' => $this->unicode]);
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'unicode':
+				//no break
+			case 'trim':
+				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

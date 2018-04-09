@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Priority as IPriority,
@@ -33,8 +32,7 @@ use Feralygon\Kit\Utilities\{
  * @property bool $unicode [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class MaxLength extends Constraint
-implements IPrototypeProperties, IName, IPriority, IInformation, IStringification, ISchemaData
+class MaxLength extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int */
@@ -50,35 +48,6 @@ implements IPrototypeProperties, IName, IPriority, IInformation, IStringificatio
 	public function checkValue($value) : bool
 	{
 		return UText::length($value, $this->unicode) <= $this->length;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'length':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->bind(self::class)
-				;
-			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['length'];
 	}
 	
 	
@@ -141,5 +110,34 @@ implements IPrototypeProperties, IName, IPriority, IInformation, IStringificatio
 			'length' => $this->length,
 			'unicode' => $this->unicode
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['length']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'length':
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateInteger($value) && $value >= 0;
+					})
+					->bind(self::class)
+				;
+			case 'unicode':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }

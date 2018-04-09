@@ -5,22 +5,22 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototype\Interfaces;
+namespace Feralygon\Kit\Prototype\Traits;
 
 /**
- * This interface defines a method to initialize a prototype.
+ * This trait defines a method to initialize a prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  */
-interface Initialization
+trait Initialization
 {
-	//Public methods
+	//Protected methods
 	/**
 	 * Initialize.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function initialize() : void;
+	protected function initialize() : void {}
 }

@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
@@ -34,7 +33,7 @@ use Feralygon\Kit\Utilities\{
  * @property bool $negate [default = false]
  * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
-class Wildcards extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
+class Wildcards extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var string[] */
@@ -53,37 +52,6 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 	public function checkValue($value) : bool
 	{
 		return UText::isAnyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'wildcards':
-				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
-						return UType::evaluateString($value);
-					}, true, true)
-					->bind(self::class)
-				;
-			case 'insensitive':
-				//no break
-			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['wildcards'];
 	}
 	
 	
@@ -271,5 +239,36 @@ class Wildcards extends Constraint implements IPrototypeProperties, IName, IInfo
 			'insensitive' => $this->insensitive,
 			'negate' => $this->negate
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['wildcards']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'wildcards':
+				return $this->createProperty()
+					->setAsArray(function (&$key, &$value) : bool {
+						return UType::evaluateString($value);
+					}, true, true)
+					->bind(self::class)
+				;
+			case 'insensitive':
+				//no break
+			case 'negate':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }

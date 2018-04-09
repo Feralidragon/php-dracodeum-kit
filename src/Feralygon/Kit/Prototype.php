@@ -8,9 +8,10 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Prototype\{
-	Exceptions,
-	Interfaces
+	Interfaces,
+	Traits
 };
+use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Type as UType
@@ -24,13 +25,17 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  * @see \Feralygon\Kit\Prototype\Interfaces\Contract
- * @see \Feralygon\Kit\Prototype\Interfaces\Properties
- * @see \Feralygon\Kit\Prototype\Interfaces\Initialization
+ * @see \Feralygon\Kit\Prototype\Traits\RequiredPropertyNames
+ * @see \Feralygon\Kit\Prototype\Traits\Properties
+ * @see \Feralygon\Kit\Prototype\Traits\Initialization
  */
 abstract class Prototype
 {
 	//Traits
-	use Traits\LazyProperties;
+	use KitTraits\LazyProperties;
+	use Traits\RequiredPropertyNames;
+	use Traits\Properties;
+	use Traits\Initialization;
 	
 	
 	
@@ -43,25 +48,21 @@ abstract class Prototype
 	//Final public magic methods
 	/**
 	 * Instantiate class.
-	 *
+	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Prototype\Exceptions\PropertiesNotImplemented
 	 */
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		if ($this instanceof Interfaces\Properties) {
-			$this->initializeProperties([$this, 'buildProperty'], $properties, $this->getRequiredPropertyNames());
-		} elseif (!empty($properties)) {
-			throw new Exceptions\PropertiesNotImplemented(['prototype' => $this]);
-		}
+		$this->initializeProperties(
+			\Closure::fromCallable([$this, 'buildProperty']), $properties,
+			\Closure::fromCallable([$this, 'loadRequiredPropertyNames'])
+		);
 		
 		//initialization
-		if ($this instanceof Interfaces\Initialization) {
-			$this->initialize();
-		}
+		$this->initialize();
 	}
 	
 	

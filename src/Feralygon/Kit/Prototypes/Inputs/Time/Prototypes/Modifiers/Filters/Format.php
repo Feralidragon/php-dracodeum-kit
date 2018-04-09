@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**
@@ -21,7 +20,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * @see https://php.net/manual/en/function.date.php
  * @see \Feralygon\Kit\Prototypes\Inputs\Time
  */
-class Format extends Filter implements IPrototypeProperties
+class Format extends Filter
 {
 	//Private properties
 	/** @var string */
@@ -42,23 +41,23 @@ class Format extends Filter implements IPrototypeProperties
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['format']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
 	{
 		switch ($name) {
 			case 'format':
 				return $this->createProperty()->setAsString(true)->bind(self::class);
 		}
 		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['format'];
 	}
 }

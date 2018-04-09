@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
@@ -33,7 +32,7 @@ use Feralygon\Kit\Utilities\{
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
-class Multiples extends Constraint implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
+class Multiples extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int[]|float[] */
@@ -59,35 +58,6 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 			}
 		}
 		return $this->negate;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'multiples':
-				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
-						return UType::evaluateNumber($value) && !empty($value);
-					}, true, true)
-					->bind(self::class)
-				;
-			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['multiples'];
 	}
 	
 	
@@ -163,5 +133,34 @@ class Multiples extends Constraint implements IPrototypeProperties, IName, IInfo
 			'multiples' => $this->multiples,
 			'negate' => $this->negate
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['multiples']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'multiples':
+				return $this->createProperty()
+					->setAsArray(function (&$key, &$value) : bool {
+						return UType::evaluateNumber($value) && !empty($value);
+					}, true, true)
+					->bind(self::class)
+				;
+			case 'negate':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }

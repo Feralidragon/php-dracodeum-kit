@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Prototype\Interfaces\Properties as IPrototypeProperties;
 use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
@@ -41,7 +40,7 @@ use Feralygon\Kit\Utilities\{
  * @property bool $keep_sentences [default = false]
  * <p>Try to keep sentences preserved in the truncated value.</p>
  */
-class Truncate extends Filter implements IPrototypeProperties, IName, IInformation, IStringification, ISchemaData
+class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int */
@@ -79,43 +78,6 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 			return true;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public function buildProperty(string $name) : ?Property
-	{
-		switch ($name) {
-			case 'length':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->bind(self::class)
-				;
-			case 'unicode':
-				//no break
-			case 'ellipsis':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-			case 'ellipsis_string':
-				return $this->createProperty()->setAsString(false, true)->bind(self::class);
-			case 'keep_words':
-				//no break
-			case 'keep_sentences':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
-		}
-		return null;
-	}
-	
-	
-	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Properties)
-	/** {@inheritdoc} */
-	public static function getRequiredPropertyNames() : array
-	{
-		return ['length'];
 	}
 	
 	
@@ -177,5 +139,42 @@ class Truncate extends Filter implements IPrototypeProperties, IName, IInformati
 				'sentences' => $this->keep_sentences
 			]
 		];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	/** {@inheritdoc} */
+	protected function loadRequiredPropertyNames() : void
+	{
+		$this->addRequiredPropertyNames(['length']);
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name) : ?Property
+	{
+		switch ($name) {
+			case 'length':
+				return $this->createProperty()
+					->setEvaluator(function (&$value) : bool {
+						return UType::evaluateInteger($value) && $value >= 0;
+					})
+					->bind(self::class)
+				;
+			case 'unicode':
+				//no break
+			case 'ellipsis':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+			case 'ellipsis_string':
+				return $this->createProperty()->setAsString(false, true)->bind(self::class);
+			case 'keep_words':
+				//no break
+			case 'keep_sentences':
+				return $this->createProperty()->setAsBoolean()->bind(self::class);
+		}
+		return null;
 	}
 }
