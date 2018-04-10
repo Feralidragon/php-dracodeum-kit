@@ -93,6 +93,25 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	
 	
+	//Final public methods
+	/**
+	 * Clone into a new instance.
+	 * 
+	 * The returning cloned instance is just a new instance with the same properties.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $readonly [default = false]
+	 * <p>Set the new cloned instance as read-only.</p>
+	 * @return static
+	 * <p>The new cloned instance from this one.</p>
+	 */
+	final public function clone(bool $readonly = false) : Structure
+	{
+		return new static($this->getAll(), $readonly);
+	}
+	
+	
+	
 	//Final public static methods
 	/**
 	 * Evaluate a given value as an instance.
