@@ -856,7 +856,7 @@ final class Call extends Utility
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return string[]
+	 * @return string[]|null[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
 	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null) : array
@@ -875,10 +875,14 @@ final class Call extends Utility
 		} else {
 			$limit = 0;
 		}
-	
-		//return
+		
+		//classes
+		$classes = [];
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		return array_column(array_slice(debug_backtrace($debug_flags, $limit), $offset + 2), 'class');
+		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
+			$classes[] = $backtrace['class'] ?? null;
+		}
+		return $classes;
 	}
 	
 	/**
@@ -914,7 +918,7 @@ final class Call extends Utility
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return object[]
+	 * @return object[]|null[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
 	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null) : array
@@ -934,9 +938,13 @@ final class Call extends Utility
 			$limit = 0;
 		}
 		
-		//return
+		//objects
+		$objects = [];
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		return array_column(array_slice(debug_backtrace($debug_flags, $limit), $offset + 2), 'object');
+		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
+			$objects[] = $backtrace['object'] ?? null;
+		}
+		return $objects;
 	}
 	
 	/**
@@ -973,7 +981,7 @@ final class Call extends Utility
 	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
-	 * @return object[]|string[]
+	 * @return object[]|string[]|null[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
 	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null) : array
@@ -997,14 +1005,8 @@ final class Call extends Utility
 		$objects_classes = [];
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
-			if (isset($backtrace['object'])) {
-				$objects_classes[] = $backtrace['object'];
-			} elseif (isset($backtrace['class'])) {
-				$objects_classes[] = $backtrace['class'];
-			}
+			$objects_classes[] = $backtrace['object'] ?? $backtrace['class'] ?? null;
 		}
-		
-		//return
 		return $objects_classes;
 	}
 	
