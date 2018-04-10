@@ -25,6 +25,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  * @see \Feralygon\Kit\Prototype\Interfaces\Contract
+ * @see \Feralygon\Kit\Prototype\Interfaces\Subcontracts
  * @see \Feralygon\Kit\Prototype\Traits\RequiredPropertyNames
  * @see \Feralygon\Kit\Prototype\Traits\Properties
  * @see \Feralygon\Kit\Prototype\Traits\Initialization
@@ -105,19 +106,19 @@ abstract class Prototype
 	
 	//Final protected methods
 	/**
-	 * Call contract method with a given name.
+	 * Call method with a given name using a contract.
 	 * 
 	 * This method may only be called if a contract interface is defined and a component instance has already been set.
 	 * 
 	 * @since 1.0.0
-	 * @param string $name
-	 * <p>The name to call.</p>
+	 * @param string $method_name
+	 * <p>The method name to call.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to call with.</p>
 	 * @return mixed
-	 * <p>The returned value from the called contract method with the given name.</p>
+	 * <p>The returned value from the called method with the given name using the contract.</p>
 	 */
-	final protected function contractCall(string $name, ...$arguments)
+	final protected function contractCall(string $method_name, ...$arguments)
 	{
 		//guard
 		UCall::guard($this instanceof Interfaces\Contract && isset($this->component), [
@@ -127,13 +128,59 @@ abstract class Prototype
 		
 		//contract
 		$contract = UType::interface($this->getContract());
-		UCall::guardParameter('name', $name, method_exists($contract, $name), [
+		UCall::guardParameter('method_name', $method_name, method_exists($contract, $method_name), [
 			'error_message' => "The given method name has not been found in contract {{contract}} " . 
 				"implemented by component {{component}}.",
 			'parameters' => ['contract' => $contract, 'component' => $this->component]
 		]);
 		
 		//return
-		return $this->component->$name(...$arguments);
+		return $this->component->$method_name(...$arguments);
+	}
+	
+	/**
+	 * Call method with a given name using a subcontract for a given name.
+	 * 
+	 * This method may only be called if a component instance has already been set.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The subcontract name to call for.</p>
+	 * @param string $method_name
+	 * <p>The method name to call.</p>
+	 * @param callable $fallback
+	 * <p>The fallback function to call if the component does not implement the subcontract with the given name.<br>
+	 * It is expected to be compatible with the signature from the corresponding method with the given name in the 
+	 * subcontract for the given name.</p>
+	 * @param mixed ...$arguments
+	 * <p>The arguments to call with.</p>
+	 * @return mixed
+	 * <p>The returned value from the called method with the given name using the subcontract for the given name.</p>
+	 */
+	final protected function subcontractCall(string $name, string $method_name, callable $fallback, ...$arguments)
+	{
+		//guard
+		UCall::guard(isset($this->component), [
+			'hint_message' => "This method may only be called if a component instance has already been set."
+		]);
+		
+		
+		
+		
+		//TODO
+		
+		
+		
+		
+		//contract
+		$contract = UType::interface($this->getContract());
+		UCall::guardParameter('method_name', $method_name, method_exists($contract, $method_name), [
+			'error_message' => "The given method name has not been found in contract {{contract}} " . 
+				"implemented by component {{component}}.",
+			'parameters' => ['contract' => $contract, 'component' => $this->component]
+		]);
+		
+		//return
+		return $this->component->$method_name(...$arguments);
 	}
 }
