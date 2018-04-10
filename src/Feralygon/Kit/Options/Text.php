@@ -23,6 +23,7 @@ use Feralygon\Kit\Root\Locale;
  * If not set, the currently set locale language is used.<br>
  * This property is only relevant if the property <var>$translate</var> above is set to <code>true</code>.</p>
  * @see https://en.wikipedia.org/wiki/ISO_639
+ * @see \Feralygon\Kit\Enumerations\InfoScope
  */
 class Text extends Options
 {
