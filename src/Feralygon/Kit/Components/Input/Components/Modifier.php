@@ -210,23 +210,22 @@ abstract class Modifier extends Component
 	 * Unset error.
 	 * 
 	 * @since 1.0.0
-	 * @return bool
-	 * <p>Boolean <code>true</code> if an error was previously set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function unsetError() : bool
+	public function unsetError() : Modifier
 	{
-		//initialize
-		$set = isset($this->error);
-		$this->error = null;
-		
 		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\ErrorUnset) {
 			$prototype->unsetError();
 		}
 		
+		//unset
+		$this->error = null;
+		
 		//return
-		return $set;
+		return $this;
 	}
 	
 	/**

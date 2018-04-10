@@ -515,15 +515,11 @@ class Input extends Component implements IPrototypeContract
 	 * Unset error.
 	 * 
 	 * @since 1.0.0
-	 * @return bool
-	 * <p>Boolean <code>true</code> if an error was previously set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function unsetError() : bool
+	public function unsetError() : Input
 	{
-		//initialize
-		$set = isset($this->error);
-		$this->error = null;
-		
 		//modifiers
 		foreach ($this->modifiers_tree as $modifiers) {
 			foreach ($modifiers as $modifier) {
@@ -537,8 +533,11 @@ class Input extends Component implements IPrototypeContract
 			$prototype->unsetError();
 		}
 		
+		//unset
+		$this->error = null;
+		
 		//return
-		return $set;
+		return $this;
 	}
 	
 	/**
@@ -711,17 +710,14 @@ class Input extends Component implements IPrototypeContract
 	 * By unsetting the value, the input reverts back to an uninitialized state.
 	 * 
 	 * @since 1.0.0
-	 * @return bool
-	 * <p>Boolean <code>true</code> if a value was previously set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unsetValue() : bool
+	final public function unsetValue() : Input
 	{
-		if (!$this->initialized) {
-			return false;
-		}
 		$this->value = null;
 		$this->initialized = false;
-		return true;
+		return $this;
 	}
 	
 	/**
