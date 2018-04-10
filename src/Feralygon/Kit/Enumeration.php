@@ -418,6 +418,30 @@ abstract class Enumeration
 	}
 	
 	/**
+	 * Get names.
+	 * 
+	 * @since 1.0.0
+	 * @return string[]
+	 * <p>The names.</p>
+	 */
+	final public static function getNames() : array
+	{
+		return array_values(self::getValuesNames());
+	}
+	
+	/**
+	 * Get values.
+	 * 
+	 * @since 1.0.0
+	 * @return int[]|float[]|string[]
+	 * <p>The values.</p>
+	 */
+	final public static function getValues() : array
+	{
+		return array_values(self::getNamesValues());
+	}
+	
+	/**
 	 * Get values names.
 	 * 
 	 * @since 1.0.0
