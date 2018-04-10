@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Priority as IPriority,
 	Information as IInformation,
@@ -23,16 +23,16 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a minimum length.
+ * This constraint prototype restricts a value to an exact length.
  * 
  * @since 1.0.0
  * @property int $length
- * <p>The minimum length to restrict a given value to.<br>
+ * <p>The length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property bool $unicode [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class MinLength extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
+class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var int */
@@ -47,21 +47,21 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return UText::length($value, $this->unicode) >= $this->length;
+		return UText::length($value, $this->unicode) === $this->length;
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
-		return 'constraints.min_length';
+		return 'constraints.length';
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Priority)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Priority)
 	/** {@inheritdoc} */
 	public function getPriority() : int
 	{
@@ -70,30 +70,30 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		return UText::localize("Minimum allowed length", self::class, $text_options);
+		return UText::localize("Allowed length", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options) : string
 	{
 		/**
-		 * @placeholder length The minimum allowed length.
-		 * @example Only a minimum of 10 characters are allowed.
+		 * @placeholder length The allowed length.
+		 * @example Only exactly 10 characters are allowed.
 		 */
 		return UText::plocalize(
-			"Only a minimum of {{length}} character is allowed.",
-			"Only a minimum of {{length}} characters are allowed.",
+			"Only exactly {{length}} character is allowed.",
+			"Only exactly {{length}} characters are allowed.",
 			$this->length, 'length', self::class, $text_options
 		);
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
@@ -102,7 +102,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

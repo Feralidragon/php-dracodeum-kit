@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 
 /**
  * This filter prototype converts a hash string in hexadecimal notation into a raw binary string.

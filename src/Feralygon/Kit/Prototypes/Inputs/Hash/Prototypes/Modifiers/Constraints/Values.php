@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Text as UText,

@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -19,16 +19,16 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This constraint prototype restricts a value to a minimum value.
+ * This constraint prototype restricts a value to a maximum value.
  * 
  * @since 1.0.0
  * @property mixed $value
- * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
+ * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
  * @property bool $exclusive [default = false]
- * <p>Set the minimum allowed value as exclusive, 
- * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
+ * <p>Set the maximum allowed value as exclusive, 
+ * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  */
-class Minimum extends Constraint implements IName, IInformation, IStringification, ISchemaData
+class Maximum extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
 	//Private properties
 	/** @var mixed */
@@ -43,25 +43,25 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return $this->exclusive ? $value > $this->value : $value >= $this->value;
+		return $this->exclusive ? $value < $this->value : $value <= $this->value;
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
-		return 'constraints.minimum';
+		return 'constraints.maximum';
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
-		return UText::localize("Minimum allowed value", self::class, $text_options);
+		return UText::localize("Maximum allowed value", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -70,34 +70,34 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @placeholder value The minimum allowed value.
-			 * @example Only a value greater than 250 is allowed.
+			 * @placeholder value The maximum allowed value.
+			 * @example Only a value less than 250 is allowed.
 			 */
 			return UText::localize(
-				"Only a value greater than {{value}} is allowed.",
+				"Only a value less than {{value}} is allowed.",
 				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
 		/**
-		 * @placeholder value The minimum allowed value.
-		 * @example Only a value greater than or equal to 250 is allowed.
+		 * @placeholder value The maximum allowed value.
+		 * @example Only a value less than or equal to 250 is allowed.
 		 */
 		return UText::localize(
-			"Only a value greater than or equal to {{value}} is allowed.",
+			"Only a value less than or equal to {{value}} is allowed.",
 			self::class, $text_options, ['parameters' => ['value' => $value_string]]
 		);
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
 			/**
-			 * @placeholder value The minimum allowed value.
+			 * @placeholder value The maximum allowed value.
 			 * @example 250 (exclusive)
 			 */
 			return UText::localize(
@@ -110,7 +110,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

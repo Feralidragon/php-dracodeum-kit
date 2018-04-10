@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	SchemaData as ISchemaData
 };
@@ -16,13 +16,13 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This filter prototype converts a value to lowercase.
+ * This filter prototype converts a value to uppercase.
  * 
  * @since 1.0.0
  * @property bool $unicode [default = false]
  * <p>Convert a given value as Unicode.</p>
  */
-class Lowercase extends Filter implements IName, ISchemaData
+class Uppercase extends Filter implements IName, ISchemaData
 {
 	//Private properties
 	/** @var bool */
@@ -35,7 +35,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	public function processValue(&$value) : bool
 	{
 		if (is_string($value)) {
-			$value = UText::lower($value, $this->unicode);
+			$value = UText::upper($value, $this->unicode);
 			return true;
 		}
 		return false;
@@ -43,16 +43,16 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
-		return 'filters.lowercase';
+		return 'filters.uppercase';
 	}
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

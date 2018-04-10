@@ -5,9 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier;
 
 /**
  * @since 1.0.0

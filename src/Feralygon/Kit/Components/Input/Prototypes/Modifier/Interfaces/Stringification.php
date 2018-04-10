@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 
 use Feralygon\Kit\Options\Text as TextOptions;
 
@@ -13,7 +13,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * This interface defines a method to retrieve the string from an input modifier prototype.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 interface Stringification
 {

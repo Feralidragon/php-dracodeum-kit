@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 
 /**
  * This filter prototype converts a date and time, as an Unix timestamp, into a string using an ISO-8601 format.

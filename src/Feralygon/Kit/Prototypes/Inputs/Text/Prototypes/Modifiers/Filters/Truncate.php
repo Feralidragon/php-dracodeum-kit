@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;

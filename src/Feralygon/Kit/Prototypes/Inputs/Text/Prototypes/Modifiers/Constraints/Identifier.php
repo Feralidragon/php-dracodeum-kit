@@ -7,8 +7,8 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	SchemaData as ISchemaData
@@ -43,7 +43,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -52,7 +52,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -230,7 +230,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

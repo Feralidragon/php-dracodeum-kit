@@ -67,7 +67,7 @@ abstract class Input extends Prototype implements IContract
 	 * Create a constraint instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint|string $prototype
+	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to create with, as <samp>name => value</samp> pairs.</p>
@@ -83,7 +83,7 @@ abstract class Input extends Prototype implements IContract
 	 * Create a filter instance with a given prototype.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter|string $prototype
+	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to create with, as <samp>name => value</samp> pairs.</p>

@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 
 /**

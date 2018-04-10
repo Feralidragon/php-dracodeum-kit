@@ -7,8 +7,8 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation
 };
@@ -33,7 +33,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -42,7 +42,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{

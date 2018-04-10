@@ -18,7 +18,7 @@ use Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\{
 	Constraints,
 	Filters
 };
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\{
 	Constraints as InputConstraints,
 	Filters as InputFilters
 };
@@ -46,21 +46,21 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Wildcards
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Wildcards
  * [modifier, name = 'constraints.wildcards' or 'wildcards' or 'constraints.non_wildcards' or 'non_wildcards']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\NonEmpty
  * [modifier, name = 'constraints.non_empty' or 'non_empty']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Length
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Length
  * [modifier, name = 'constraints.length' or 'length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MinLength
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\MinLength
  * [modifier, name = 'constraints.min_length' or 'min_length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\MaxLength
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\MaxLength
  * [modifier, name = 'constraints.max_length' or 'max_length']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\LengthRange
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\LengthRange
  * [modifier, name = 'constraints.length_range' or 'length_range']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Lowercase
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Lowercase
  * [modifier, name = 'constraints.lowercase' or 'lowercase']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraints\Uppercase
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Uppercase
  * [modifier, name = 'constraints.uppercase' or 'uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical
  * [modifier, name = 'constraints.alphabetical' or 'alphabetical']
@@ -72,9 +72,9 @@ use Feralygon\Kit\Utilities\{
  * [modifier, name = 'constraints.identifier' or 'identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
  * [modifier, name = 'constraints.hexadecimal' or 'hexadecimal']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Lowercase
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Lowercase
  * [modifier, name = 'filters.lowercase']
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filters\Uppercase
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Uppercase
  * [modifier, name = 'filters.uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']

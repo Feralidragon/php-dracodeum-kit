@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Components\Input\Components\Modifiers;
 
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter as Prototype;
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter as Prototype;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
@@ -16,7 +16,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This component represents a filter modifier which processes an input value.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Filter
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter
  */
 class Filter extends Modifier
 {

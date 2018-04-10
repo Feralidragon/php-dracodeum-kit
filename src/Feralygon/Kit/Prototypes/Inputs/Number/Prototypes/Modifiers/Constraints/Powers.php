@@ -7,8 +7,8 @@
 
 namespace Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints;
 
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifiers\Constraint;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\{
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -58,7 +58,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Name)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName() : string
 	{
@@ -67,7 +67,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Information)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options) : string
 	{
@@ -110,7 +110,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\Stringification)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options) : string
 	{
@@ -121,7 +121,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
 	{

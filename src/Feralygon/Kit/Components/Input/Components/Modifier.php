@@ -12,8 +12,8 @@ use Feralygon\Kit\Components\Input\Components\Modifier\{
 	Objects,
 	Structures
 };
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier as Prototype;
-use Feralygon\Kit\Prototypes\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier as Prototype;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
@@ -22,7 +22,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
- * @see \Feralygon\Kit\Prototypes\Input\Prototypes\Modifier
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 abstract class Modifier extends Component
 {
