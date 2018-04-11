@@ -18,9 +18,9 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @since 1.0.0
  * @property-read string $name
  * <p>The name.</p>
- * @property-read \Closure $function
+ * @property-read callable|array|string $function
  * <p>The function.</p>
- * @property-read \Closure $template
+ * @property-read callable|array|string $template
  * <p>The template.</p>
  * @property-read string $function_signature [readonly] [default = auto]
  * <p>The function signature.<br>
@@ -58,8 +58,18 @@ class AssertionFailed extends Exception implements IAssertive
 	protected function loadProperties() : void
 	{
 		$this->addProperty('name')->setAsString()->setAsRequired();
-		$this->addProperty('function')->setAsCallable()->setAsRequired();
-		$this->addProperty('template')->setAsCallable()->setAsRequired();
+		$this->addProperty('function')
+			->setEvaluator(function (&$value) : bool {
+				return UCall::validate($value, true);
+			})
+			->setAsRequired()
+		;
+		$this->addProperty('template')
+			->setEvaluator(function (&$value) : bool {
+				return UCall::validate($value, true);
+			})
+			->setAsRequired()
+		;
 		$this->addProperty('function_signature')
 			->setMode('r')
 			->setAsString(true)

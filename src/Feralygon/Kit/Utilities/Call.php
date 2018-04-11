@@ -82,6 +82,63 @@ final class Call extends Utility
 	
 	//Final public static methods
 	/**
+	 * Validate a given function reference.
+	 * 
+	 * @since 1.0.0
+	 * @param callable|array|string $function
+	 * <p>The function to validate.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the validation 
+	 * has succeeded, or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public static function validate($function, bool $no_throw = false)
+	{
+		//callable
+		if (is_callable($function)) {
+			if ($no_throw) {
+				return true;
+			}
+			return;
+		}
+		
+		//array
+		if (
+			is_array($function) && count($function) === 2 && isset($function[0]) && isset($function[1]) && (
+				is_object($function[0]) || 
+				(is_string($function[0]) && (class_exists($function[0]) || interface_exists($function[0])))
+			) && is_string($function[1]) && method_exists($function[0], $function[1])
+		) {
+			if ($no_throw) {
+				return true;
+			}
+			return;
+		}
+		
+		//string
+		if (is_string($function)) {
+			$f = explode('::', str_replace('->', '::', $function));
+			if (
+				(count($f) === 1 && function_exists($f[0])) || 
+				(count($f) === 2 && (class_exists($f[0]) || interface_exists($f[0])) && method_exists($f[0], $f[1]))
+			) {
+				if ($no_throw) {
+					return true;
+				}
+				return;
+			}
+		}
+		
+		//exception
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\InvalidFunction(['function' => $function]);
+	}
+	
+	/**
 	 * Retrieve a new reflection instance for a given function.
 	 * 
 	 * The returning reflection instance depends on the type of function given.<br>
@@ -93,19 +150,20 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/class.reflectionfunction.php
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve for.</p>
 	 * @return \ReflectionFunction|\ReflectionMethod
 	 * <p>A new reflection instance for the given function.</p>
 	 */
-	final public static function reflection(callable $function) : \ReflectionFunctionAbstract
+	final public static function reflection($function) : \ReflectionFunctionAbstract
 	{
-		//array form
+		//validate
+		self::validate($function);
+		
+		//method
 		if (is_array($function)) {
 			$function = (is_object($function[0]) ? get_class($function[0]) : $function[0]) . '::' . $function[1];
 		}
-		
-		//method
 		if (is_string($function)) {
 			$function = str_replace('->', '::', $function);
 			if (strpos($function, '::') !== false) {
@@ -127,7 +185,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.hash.php
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to calculate from.</p>
 	 * @param string $algorithm [default = 'SHA1']
 	 * <p>The hash algorithm to use, which can be any supported by the PHP <code>hash</code> function.</p>
@@ -136,7 +194,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The hash from the given function.</p>
 	 */
-	final public static function hash(callable $function, string $algorithm = 'SHA1', bool $raw = false) : string
+	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false) : string
 	{
 		return self::memoize(function () use ($function, $algorithm, $raw) : string {
 			$reflection = self::reflection($function);
@@ -151,12 +209,12 @@ final class Call extends Utility
 	 * Retrieve modifiers from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @return string[]
 	 * <p>The modifiers from the given function.</p>
 	 */
-	final public static function modifiers(callable $function) : array
+	final public static function modifiers($function) : array
 	{
 		//reflection
 		$reflection = self::reflection($function);
@@ -194,7 +252,7 @@ final class Call extends Utility
 	 * In every other case only the name itself is returned.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @param bool $full [default = false]
 	 * <p>Return the full name, including the class it's declared in.</p>
@@ -203,7 +261,7 @@ final class Call extends Utility
 	 * @return string|null
 	 * <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
 	 */
-	final public static function name(callable $function, bool $full = false, bool $short = false) : ?string
+	final public static function name($function, bool $full = false, bool $short = false) : ?string
 	{
 		//optimization
 		if (!$full) {
@@ -213,6 +271,8 @@ final class Call extends Utility
 				$parts = explode('::', $function);
 				return end($parts);
 			}
+		} elseif (!$short && is_callable($function, false, $name)) {
+			return $name === 'Closure::__invoke' ? null : $name;
 		}
 		
 		//reflection
@@ -237,7 +297,7 @@ final class Call extends Utility
 	 * In variadic parameters, an additional <code>...</code> is also prepended.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
@@ -252,7 +312,7 @@ final class Call extends Utility
 	 * @return string[]
 	 * <p>The parameters from the given function.</p>
 	 */
-	final public static function parameters(callable $function, int $flags = 0x00) : array
+	final public static function parameters($function, int $flags = 0x00) : array
 	{
 		return self::memoize(function () use ($function, $flags) : array {
 			//initialize
@@ -329,7 +389,7 @@ final class Call extends Utility
 	 * Retrieve type from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
@@ -342,7 +402,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The type from the given function.</p>
 	 */
-	final public static function type(callable $function, int $flags = 0x00) : string
+	final public static function type($function, int $flags = 0x00) : string
 	{
 		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
@@ -370,7 +430,7 @@ final class Call extends Utility
 	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...) : type</samp> .
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
@@ -385,7 +445,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The header from the given function.</p>
 	 */
-	final public static function header(callable $function, int $flags = 0x00) : string
+	final public static function header($function, int $flags = 0x00) : string
 	{
 		//initialize
 		$modifiers = self::modifiers($function);
@@ -441,12 +501,12 @@ final class Call extends Utility
 	 * The returning body from the given function is its PHP code.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @return string
 	 * <p>The body from the given function.</p>
 	 */
-	final public static function body(callable $function) : string
+	final public static function body($function) : string
 	{
 		return self::memoize(function () use ($function) : string {
 			//initialize
@@ -478,7 +538,7 @@ final class Call extends Utility
 	 * The returning source from the given function is the entirety of its PHP code (both header and body).
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
@@ -493,7 +553,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The source from the given function.</p>
 	 */
-	final public static function source(callable $function, int $flags = 0x00) : string
+	final public static function source($function, int $flags = 0x00) : string
 	{
 		return self::memoize(function () use ($function, $flags) : string {
 			//initialize header
@@ -528,12 +588,12 @@ final class Call extends Utility
 	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ) : return_type</samp>
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @return string
 	 * <p>The signature from the given function.</p>
 	 */
-	final public static function signature(callable $function) : string
+	final public static function signature($function) : string
 	{
 		return self::memoize(function () use ($function) : string {
 			//initialize
@@ -597,9 +657,9 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to assert with.</p>
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to assert.</p>
-	 * @param callable $template
+	 * @param callable|array|string $template
 	 * <p>The template callable declaration to assert against.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -609,7 +669,7 @@ final class Call extends Utility
 	 * has succeeded, with the given function being compatible with the given template, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function assert(string $name, callable $function, callable $template, bool $no_throw = false)
+	final public static function assert(string $name, $function, $template, bool $no_throw = false)
 	{
 		if (System::isDebug() && !self::isCompatible($function, $template)) {
 			if ($no_throw) {
@@ -644,14 +704,14 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; the function return type must be an invariant or covariant of the template return type.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to check.</p>
-	 * @param callable $template
+	 * @param callable|array|string $template
 	 * <p>The template callable declaration to check against.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
 	 */
-	final public static function isCompatible(callable $function, callable $template) : bool
+	final public static function isCompatible($function, $template) : bool
 	{
 		return self::memoize(function () use ($function, $template) : bool {
 			//initialize
@@ -733,13 +793,13 @@ final class Call extends Utility
 	 * Retrieve extension from a given function.
 	 * 
 	 * @since 1.0.0
-	 * @param callable $function
+	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
 	 * @return string
 	 * <p>The extension from the given function 
 	 * or <code>null</code> if the function does not belong to any extension.</p>
 	 */
-	final public static function extension(callable $function) : ?string
+	final public static function extension($function) : ?string
 	{
 		$extension = self::reflection($function)->getExtensionName();
 		return $extension === false ? null : $extension;
@@ -751,7 +811,7 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param callable|null $template [default = null]
+	 * @param callable|array|string|null $template [default = null]
 	 * <p>The template callable declaration to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
@@ -762,7 +822,7 @@ final class Call extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a callable.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?callable $template = null, bool $nullable = false, bool $assertive = false
+		&$value, $template = null, bool $nullable = false, bool $assertive = false
 	) : bool
 	{
 		try {
@@ -779,7 +839,7 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param callable|null $template [default = null]
+	 * @param callable|array|string|null $template [default = null]
 	 * <p>The template callable declaration to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
@@ -792,7 +852,7 @@ final class Call extends Utility
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?callable $template = null, bool $nullable = false, bool $assertive = false
+		$value, $template = null, bool $nullable = false, bool $assertive = false
 	) : ?callable
 	{
 		if (!isset($value)) {
