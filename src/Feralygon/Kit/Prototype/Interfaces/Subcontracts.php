@@ -19,7 +19,8 @@ interface Subcontracts
 	/**
 	 * Get subcontract interface for a given name.
 	 * 
-	 * The returning subcontract interface may be implemented by the component using this prototype.
+	 * The returning subcontract interface should be implemented by the component using this prototype, 
+	 * but such is not required.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name

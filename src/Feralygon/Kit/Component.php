@@ -46,6 +46,8 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * <br>
  * A prototype may require the implementation of a specific contract, as an interface, by any component which uses it, 
  * so that a prototype may call specific methods from a component safely, without exposing the component itself.<br>
+ * Additional subcontracts, as interfaces, may also be implemented so a component may safely override some other 
+ * internal method calls from a prototype, but they are not required to be implemented by a component.<br>
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>

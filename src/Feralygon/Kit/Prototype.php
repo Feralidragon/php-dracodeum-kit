@@ -141,7 +141,8 @@ abstract class Prototype
 	/**
 	 * Call method with a given name using a subcontract for a given name.
 	 * 
-	 * This method may only be called if a component instance has already been set.
+	 * This method may only be called if any subcontract interface is defined 
+	 * and a component instance has already been set.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
@@ -149,9 +150,8 @@ abstract class Prototype
 	 * @param string $method_name
 	 * <p>The method name to call.</p>
 	 * @param callable $fallback
-	 * <p>The fallback function to call if the component does not implement the subcontract with the given name.<br>
-	 * It is expected to be compatible with the signature from the corresponding method with the given name in the 
-	 * subcontract for the given name.</p>
+	 * <p>The fallback function to call if the component does not implement the subcontract for the given name.<br>
+	 * It is expected to be compatible with the signature from the corresponding method with the given name.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to call with.</p>
 	 * @return mixed
@@ -160,27 +160,27 @@ abstract class Prototype
 	final protected function subcontractCall(string $name, string $method_name, callable $fallback, ...$arguments)
 	{
 		//guard
-		UCall::guard(isset($this->component), [
-			'hint_message' => "This method may only be called if a component instance has already been set."
+		UCall::guard($this instanceof Interfaces\Subcontracts && isset($this->component), [
+			'hint_message' => "This method may only be called if any subcontract interface is defined " . 
+				"and a component instance has already been set."
 		]);
 		
-		
-		
-		
-		//TODO
-		
-		
-		
-		
-		//contract
-		$contract = UType::interface($this->getContract());
-		UCall::guardParameter('method_name', $method_name, method_exists($contract, $method_name), [
-			'error_message' => "The given method name has not been found in contract {{contract}} " . 
-				"implemented by component {{component}}.",
-			'parameters' => ['contract' => $contract, 'component' => $this->component]
+		//subcontract
+		$subcontract = $this->getSubcontract($name);
+		UCall::guardParameter('name', $name, isset($subcontract), [
+			'error_message' => "No subcontract has been found for the given name."
+		]);
+		$subcontract = UType::interface($subcontract);
+		UCall::guardParameter('method_name', $method_name, method_exists($subcontract, $method_name), [
+			'error_message' => "The given method name has not been found in subcontract {{subcontract}}.",
+			'parameters' => ['subcontract' => $subcontract]
 		]);
 		
 		//return
-		return $this->component->$method_name(...$arguments);
+		if (UType::implements($this->component, $subcontract)) {
+			return $this->component->$method_name(...$arguments);
+		}
+		UCall::assert('fallback', $fallback, [$subcontract, $method_name]);
+		return $fallback(...$arguments);
 	}
 }

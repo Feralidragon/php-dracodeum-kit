@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Components;
 
 use Feralygon\Kit\Component;
-use Feralygon\Kit\Prototypes\Input\Contract as IPrototypeContract;
+use Feralygon\Kit\Prototypes\Input\Subcontracts\{
+	Constraints as IPrototypeConstraints,
+	Filters as IPrototypeFilters
+};
 use Feralygon\Kit\Components\Input\{
 	Components,
 	Exceptions,
@@ -73,7 +76,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  * [prototype, name = 'datetime' or 'timestamp']
  */
-class Input extends Component implements IPrototypeContract
+class Input extends Component implements IPrototypeConstraints, IPrototypeFilters
 {
 	//Private properties
 	/** @var bool */
@@ -105,13 +108,16 @@ class Input extends Component implements IPrototypeContract
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Contract)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Constraints)
 	/** {@inheritdoc} */
 	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
 	{
 		return new Components\Modifiers\Constraint($prototype, $properties);
 	}
 	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Filters)
 	/** {@inheritdoc} */
 	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
 	{

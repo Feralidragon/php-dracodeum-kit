@@ -8,8 +8,8 @@
 namespace Feralygon\Kit\Prototypes;
 
 use Feralygon\Kit\Prototype;
-use Feralygon\Kit\Prototype\Interfaces\Contract as IContract;
-use Feralygon\Kit\Prototypes\Input\Contract;
+use Feralygon\Kit\Prototype\Interfaces\Subcontracts as ISubcontracts;
+use Feralygon\Kit\Prototypes\Input\Subcontracts;
 use Feralygon\Kit\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -18,7 +18,10 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 /**
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
- * @see \Feralygon\Kit\Prototypes\Input\Contract
+ * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\Constraints
+ * [subcontract, name = 'constraints']
+ * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\Filters
+ * [subcontract, name = 'filters']
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorMessage
@@ -26,7 +29,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers
  */
-abstract class Input extends Prototype implements IContract
+abstract class Input extends Prototype implements ISubcontracts
 {
 	//Abstract public methods
 	/**
@@ -53,11 +56,17 @@ abstract class Input extends Prototype implements IContract
 	
 	
 	
-	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Contract)
+	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Subcontracts)
 	/** {@inheritdoc} */
-	public static function getContract() : string
+	public static function getSubcontract(string $name) : ?string
 	{
-		return Contract::class;
+		switch ($name) {
+			case 'constraints':
+				return Subcontracts\Constraints::class;
+			case 'filters':
+				return Subcontracts\Filters::class;
+		}
+		return null;
 	}
 	
 	
@@ -76,7 +85,10 @@ abstract class Input extends Prototype implements IContract
 	 */
 	protected function createConstraint($prototype, array $properties = []) : Constraint
 	{
-		return $this->contractCall('createConstraint', $prototype, $properties);
+		$fallback = function ($prototype, array $properties = []) : Constraint {
+			return new Constraint($prototype, $properties);
+		};
+		return $this->subcontractCall('constraints', 'createConstraint', $fallback, $prototype, $properties);
 	}
 	
 	/**
@@ -92,6 +104,9 @@ abstract class Input extends Prototype implements IContract
 	 */
 	protected function createFilter($prototype, array $properties = []) : Filter
 	{
-		return $this->contractCall('createFilter', $prototype, $properties);
+		$fallback = function ($prototype, array $properties = []) : Filter {
+			return new Filter($prototype, $properties);
+		};
+		return $this->subcontractCall('filters', 'createFilter', $fallback, $prototype, $properties);
 	}
 }
