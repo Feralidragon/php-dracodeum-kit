@@ -19,6 +19,7 @@ use Feralygon\Kit\Components\Input\{
 	Options,
 	Structures
 };
+use Feralygon\Kit\Components\Input\Factories\Component as FComponent;
 use Feralygon\Kit\Prototypes\{
 	Input as Prototype,
 	Inputs as Prototypes
@@ -112,7 +113,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	/** {@inheritdoc} */
 	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
 	{
-		return new Components\Modifiers\Constraint($prototype, $properties);
+		return FComponent::constraint($prototype, $properties);
 	}
 	
 	
@@ -121,7 +122,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	/** {@inheritdoc} */
 	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
 	{
-		return new Components\Modifiers\Filter($prototype, $properties);
+		return FComponent::filter($prototype, $properties);
 	}
 	
 	

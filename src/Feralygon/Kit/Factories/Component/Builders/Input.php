@@ -12,7 +12,7 @@ use Feralygon\Kit\Factories\Component\Builder\Interfaces\Input as IBuilder;
 use Feralygon\Kit\Components\Input as Component;
 
 /**
- * This builder is used to build input component instances.
+ * This builder is used to build input instances.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component

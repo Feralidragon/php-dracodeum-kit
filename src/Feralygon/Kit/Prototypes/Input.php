@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes;
 use Feralygon\Kit\Prototype;
 use Feralygon\Kit\Prototype\Interfaces\Subcontracts as ISubcontracts;
 use Feralygon\Kit\Prototypes\Input\Subcontracts;
+use Feralygon\Kit\Components\Input\Factories\Component as FComponent;
 use Feralygon\Kit\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -86,7 +87,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createConstraint($prototype, array $properties = []) : Constraint
 	{
 		$fallback = function ($prototype, array $properties = []) : Constraint {
-			return new Constraint($prototype, $properties);
+			return FComponent::constraint($prototype, $properties);
 		};
 		return $this->subcontractCall('constraints', 'createConstraint', $fallback, $prototype, $properties);
 	}
@@ -105,7 +106,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createFilter($prototype, array $properties = []) : Filter
 	{
 		$fallback = function ($prototype, array $properties = []) : Filter {
-			return new Filter($prototype, $properties);
+			return FComponent::filter($prototype, $properties);
 		};
 		return $this->subcontractCall('filters', 'createFilter', $fallback, $prototype, $properties);
 	}
