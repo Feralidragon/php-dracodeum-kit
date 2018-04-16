@@ -34,7 +34,7 @@ final class Type extends Utility
 	/** Integer maximum supported number of bits (unsigned). */
 	private const INTEGER_BITS_MAX_UNSIGNED = 63;
 	
-	/** All supported unsigned integer bits fully on. */
+	/** All supported integer bits fully on (unsigned). */
 	private const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
 	
@@ -208,6 +208,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -229,6 +230,8 @@ final class Type extends Utility
 				return in_array($value, ['1', 't', 'true', 'on', 'yes'], true);
 			}
 		}
+		
+		//throw
 		throw new Exceptions\BooleanCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
@@ -309,6 +312,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceNumber($value, bool $nullable = false)
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -345,6 +349,8 @@ final class Type extends Utility
 				return Byte::mvalue($value);
 			} catch (Byte\Exceptions\Mvalue $exception) {}
 		}
+		
+		//throw
 		throw new Exceptions\NumberCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_INVALID,
@@ -509,6 +515,8 @@ final class Type extends Utility
 			}
 			return $value;
 		}
+		
+		//throw
 		throw new Exceptions\IntegerCoercionFailed([
 			'value' => $value,
 			'unsigned' => $unsigned,
@@ -594,6 +602,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceFloat($value, bool $nullable = false) : ?float
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -606,6 +615,8 @@ final class Type extends Utility
 		} elseif (self::evaluateNumber($value)) {
 			return (float)$value;
 		}
+		
+		//throw
 		throw new Exceptions\FloatCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_INVALID,
@@ -666,6 +677,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false) : ?string
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -687,6 +699,8 @@ final class Type extends Utility
 		} elseif (is_int($value) || is_float($value)) {
 			return (string)$value;
 		}
+		
+		//throw
 		throw new Exceptions\StringCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_INVALID,

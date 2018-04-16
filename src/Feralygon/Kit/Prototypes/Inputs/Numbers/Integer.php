@@ -57,7 +57,7 @@ class Integer extends Number implements ISchemaData
 	/** Maximum supported number of bits (unsigned). */
 	private const BITS_MAX_UNSIGNED = 63;
 	
-	/** All supported unsigned bits fully on. */
+	/** All supported bits fully on (unsigned). */
 	private const BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
 	

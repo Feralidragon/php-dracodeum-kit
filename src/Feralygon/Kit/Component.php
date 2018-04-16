@@ -373,6 +373,8 @@ abstract class Component
 				'error_message' => $exception->getMessage()
 			]);
 		}
+		
+		//throw
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
 	}
 	

@@ -160,6 +160,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 */
 	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Structure
 	{
+		//coerce
 		try {
 			if (!isset($value)) {
 				return new static([], $readonly);
@@ -178,6 +179,8 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 				'error_message' => $exception->getMessage()
 			]);
 		}
+		
+		//throw
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'structure' => static::class,

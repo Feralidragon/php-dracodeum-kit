@@ -99,6 +99,8 @@ final class Hash extends Utility
 		} elseif (strlen($value) === $bits / 8) {
 			return bin2hex($value);
 		}
+		
+		//throw
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID,

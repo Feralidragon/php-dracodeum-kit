@@ -139,6 +139,7 @@ abstract class Options implements \ArrayAccess
 	 */
 	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Options
 	{
+		//coerce
 		try {
 			if (!isset($value)) {
 				return new static([], $readonly);
@@ -157,6 +158,8 @@ abstract class Options implements \ArrayAccess
 				'error_message' => $exception->getMessage()
 			]);
 		}
+		
+		//throw
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'options' => static::class,

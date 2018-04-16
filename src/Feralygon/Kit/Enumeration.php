@@ -211,6 +211,7 @@ abstract class Enumeration
 	 */
 	final public static function coerceValue($value, bool $nullable = false)
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -232,6 +233,8 @@ abstract class Enumeration
 		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
 			return static::getValue($value);
 		}
+		
+		//throw
 		throw new Exceptions\ValueCoercionFailed([
 			'enumeration' => static::class,
 			'value' => $value,
@@ -280,6 +283,7 @@ abstract class Enumeration
 	 */
 	final public static function coerceName($value, bool $nullable = false) : ?string
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -303,6 +307,8 @@ abstract class Enumeration
 		} elseif (static::hasValue($value)) {
 			return static::getName($value);
 		}
+		
+		//throw
 		throw new Exceptions\NameCoercionFailed([
 			'enumeration' => static::class,
 			'value' => $value,
