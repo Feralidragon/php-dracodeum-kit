@@ -43,12 +43,7 @@ class Localize extends Options
 			case 'parameters':
 				return $this->createProperty()->setAsArray()->setDefaultValue([]);
 			case 'string_options':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return Stringify::evaluate($value);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setEvaluator([Stringify::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)

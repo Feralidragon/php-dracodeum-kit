@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Utilities\Call\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\Text\Options\Stringify as StringifyOptions;
+use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
 
 /**
  * Call utility <code>guard</code> method options.
@@ -90,12 +90,7 @@ class Guard extends Options
 			case 'parameters':
 				return $this->createProperty()->setAsArray()->setDefaultValue([]);
 			case 'string_options':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return StringifyOptions::evaluate($value);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)

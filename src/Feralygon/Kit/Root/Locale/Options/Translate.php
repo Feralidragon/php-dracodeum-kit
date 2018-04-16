@@ -65,12 +65,7 @@ class Translate extends Options
 					->setDefaultValue(null)
 				;
 			case 'string_options':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return StringOptions::evaluate($value);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
