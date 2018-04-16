@@ -31,7 +31,7 @@ class Encode extends Options
 			case 'flags':
 				return $this->createProperty()->setAsStrictInteger()->setDefaultValue(0x00);
 			case 'depth':
-				return $this->createProperty()->setAsInteger(true)->setDefaultValue(null);
+				return $this->createProperty()->setAsInteger(false, null, true)->setDefaultValue(null);
 		}
 		return null;
 	}

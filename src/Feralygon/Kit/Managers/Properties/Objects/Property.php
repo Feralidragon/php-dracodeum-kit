@@ -574,15 +574,24 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $unsigned [default = false]
+	 * <p>Set as an unsigned integer.</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to use.<br>
+	 * If set, it must be greater than <code>0</code>.<br>
+	 * <br>
+	 * For signed integers, the maximum allowed number is <code>64</code>, 
+	 * while for unsigned integers this number is <code>63</code>.<br>
+	 * If not set, the number of bits to use becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsInteger(bool $nullable = false) : Property
+	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return UType::evaluateInteger($value, $nullable);
+		$this->setEvaluator(function (&$value) use ($unsigned, $bits, $nullable) : bool {
+			return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
 		});
 		return $this;
 	}
@@ -593,15 +602,31 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $unsigned [default = false]
+	 * <p>Set as an unsigned integer.</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to use.<br>
+	 * If set, it must be greater than <code>0</code>.<br>
+	 * <br>
+	 * For signed integers, the maximum allowed number is <code>64</code>, 
+	 * while for unsigned integers this number is <code>63</code>.<br>
+	 * If not set, the number of bits to use becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictInteger(bool $nullable = false) : Property
+	final public function setAsStrictInteger(
+		bool $unsigned = false, ?int $bits = null, bool $nullable = false
+	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return isset($value) ? is_int($value) : $nullable;
+		$this->setEvaluator(function (&$value) use ($unsigned, $bits, $nullable) : bool {
+			if (!isset($value)) {
+				return $nullable;
+			} elseif (is_int($value)) {
+				return UType::evaluateInteger($value, $unsigned, $bits);
+			}
+			return false;
 		});
 		return $this;
 	}

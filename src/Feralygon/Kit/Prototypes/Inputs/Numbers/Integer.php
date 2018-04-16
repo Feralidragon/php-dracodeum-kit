@@ -50,18 +50,15 @@ use Feralygon\Kit\Utilities\{
  */
 class Integer extends Number implements ISchemaData
 {
-	//Public constants
+	//Private constants
 	/** Maximum supported number of bits (signed). */
-	public const BITS_MAX_SIGNED = 64;
+	private const BITS_MAX_SIGNED = 64;
 	
 	/** Maximum supported number of bits (unsigned). */
-	public const BITS_MAX_UNSIGNED = 63;
+	private const BITS_MAX_UNSIGNED = 63;
 	
-	
-	
-	//Private constants
-	/** All supported bits fully on. */
-	private const BITS_FULL = 0x7fffffffffffffff;
+	/** All supported unsigned bits fully on. */
+	private const BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
 	
 	
@@ -103,7 +100,7 @@ class Integer extends Number implements ISchemaData
 				return $this->createProperty()
 					->setMode('r+')
 					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value, true) && (!isset($value) || $value > 0);
+						return UType::evaluateInteger($value, false, null, true) && (!isset($value) || $value > 0);
 					})
 					->bind(self::class)
 				;
@@ -131,7 +128,7 @@ class Integer extends Number implements ISchemaData
 						'unsigned' => true
 					]);
 				}
-				$this->maximum = self::BITS_FULL >> (self::BITS_MAX_UNSIGNED - $this->bits);
+				$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_UNSIGNED - $this->bits);
 			}
 		} elseif (isset($this->bits)) {
 			if ($this->bits > self::BITS_MAX_SIGNED) {
@@ -141,7 +138,7 @@ class Integer extends Number implements ISchemaData
 					'prototype' => $this
 				]);
 			}
-			$this->maximum = self::BITS_FULL >> (self::BITS_MAX_SIGNED - $this->bits);
+			$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_SIGNED - $this->bits);
 			$this->minimum = -$this->maximum - 1;
 		}
 	}

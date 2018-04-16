@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Byte\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\{
-	Byte as UByte,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Byte as UByte;
 
 /**
  * Byte utility <code>hvalue</code> method options.
@@ -56,12 +53,7 @@ class Hvalue extends Options
 			case 'long':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'precision':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setAsInteger(true, null, true)->setDefaultValue(null);
 			case 'min_multiple':
 				//no break
 			case 'max_multiple':

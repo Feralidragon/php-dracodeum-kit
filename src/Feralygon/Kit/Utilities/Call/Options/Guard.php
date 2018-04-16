@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Utilities\Call\Options;
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Utilities\Text\Options\Stringify as StringifyOptions;
-use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * Call utility <code>guard</code> method options.
@@ -85,12 +84,7 @@ class Guard extends Options
 			case 'function_name':
 				return $this->createProperty()->setAsString(false, true)->setDefaultValue(null);
 			case 'stack_offset':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->setDefaultValue(0)
-				;
+				return $this->createProperty()->setAsInteger(true)->setDefaultValue(0);
 			case 'object_class':
 				return $this->createProperty()->setAsObjectClass(null, true)->setDefaultValue(null);
 			case 'parameters':

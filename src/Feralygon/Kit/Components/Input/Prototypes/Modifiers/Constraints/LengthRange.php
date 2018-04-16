@@ -17,10 +17,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * This constraint prototype restricts a value to a range of lengths.
@@ -156,12 +153,7 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 			case 'min_length':
 				//no break
 			case 'max_length':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->bind(self::class)
-				;
+				return $this->createProperty()->setAsInteger(true)->bind(self::class);
 			case 'unicode':
 				return $this->createProperty()->setAsBoolean()->bind(self::class);
 		}

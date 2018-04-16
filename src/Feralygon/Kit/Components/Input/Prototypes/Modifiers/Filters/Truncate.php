@@ -16,10 +16,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * This filter prototype truncates a value to a specific length.
@@ -158,12 +155,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value) && $value >= 0;
-					})
-					->bind(self::class)
-				;
+				return $this->createProperty()->setAsInteger(true)->bind(self::class);
 			case 'unicode':
 				//no break
 			case 'ellipsis':

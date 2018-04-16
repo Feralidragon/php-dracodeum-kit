@@ -28,6 +28,15 @@ final class Type extends Utility
 	/** Phpfy non-associative array maximum pretty output horizontal length. */
 	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
 	
+	/** Integer maximum supported number of bits (signed). */
+	private const INTEGER_BITS_MAX_SIGNED = 64;
+	
+	/** Integer maximum supported number of bits (unsigned). */
+	private const INTEGER_BITS_MAX_UNSIGNED = 63;
+	
+	/** All supported unsigned integer bits fully on. */
+	private const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
+	
 	
 	
 	//Final public static methods
@@ -372,15 +381,26 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $unsigned [default = false]
+	 * <p>Evaluate as an unsigned integer.</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to evaluate with.<br>
+	 * If set, it must be greater than <code>0</code>.<br>
+	 * <br>
+	 * For signed integers, the maximum allowed number is <code>64</code>, 
+	 * while for unsigned integers this number is <code>63</code>.<br>
+	 * If not set, the number of bits to evaluate with becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an integer.</p>
 	 */
-	final public static function evaluateInteger(&$value, bool $nullable = false) : bool
+	final public static function evaluateInteger(
+		&$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false
+	) : bool
 	{
 		try {
-			$value = self::coerceInteger($value, $nullable);
+			$value = self::coerceInteger($value, $unsigned, $bits, $nullable);
 		} catch (Exceptions\IntegerCoercionFailed $exception) {
 			return false;
 		}
@@ -408,6 +428,15 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $unsigned [default = false]
+	 * <p>Coerce as an unsigned integer.</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to coerce with.<br>
+	 * If set, it must be greater than <code>0</code>.<br>
+	 * <br>
+	 * For signed integers, the maximum allowed number is <code>64</code>, 
+	 * while for unsigned integers this number is <code>63</code>.<br>
+	 * If not set, the number of bits to coerce with becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\IntegerCoercionFailed
@@ -415,22 +444,75 @@ final class Type extends Utility
 	 * <p>The given value coerced into an integer.<br>
 	 * If nullable, <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceInteger($value, bool $nullable = false) : ?int
+	final public static function coerceInteger(
+		$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false
+	) : ?int
 	{
+		//guard
+		Call::guardParameter(
+			'bits', $bits,
+			!isset($bits) || ($bits > 0 && (
+				(!$unsigned && $bits <= self::INTEGER_BITS_MAX_SIGNED) || 
+				($unsigned && $bits <= self::INTEGER_BITS_MAX_UNSIGNED)
+			)), [
+				'error_message' => "The given number of bits must be greater than {{minimum}} " . 
+					"and less than or equal to {{maximum}}.",
+				'parameters' => [
+					'minimum' => 0,
+					'maximum' => $unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED
+				]
+			]
+		);
+		
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
 			}
 			throw new Exceptions\IntegerCoercionFailed([
 				'value' => $value,
+				'unsigned' => $unsigned,
+				'bits' => $bits,
 				'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_NULL,
 				'error_message' => "A null value is not allowed."
 			]);
 		} elseif (self::evaluateNumber($value) && is_int($value)) {
+			if ($unsigned && $value < 0) {
+				throw new Exceptions\IntegerCoercionFailed([
+					'value' => $value,
+					'unsigned' => $unsigned,
+					'bits' => $bits,
+					'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_UNSIGNED,
+					'error_message' => "Only an unsigned integer is allowed."
+				]);
+			} elseif (isset($bits)) {
+				$maximum = self::INTEGER_BITS_FULL_UNSIGNED 
+					>> (($unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED) - $bits);
+				$minimum = $unsigned ? 0 : -$maximum - 1;
+				if ($value < $minimum || $value > $maximum) {
+					throw new Exceptions\IntegerCoercionFailed([
+						'value' => $value,
+						'unsigned' => $unsigned,
+						'bits' => $bits,
+						'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_BITS,
+						'error_message' => Text::pfill(
+							$unsigned
+								? "Only an unsigned integer of {{bits}} bit is allowed."
+								: "Only an integer of {{bits}} bit is allowed.",
+							$unsigned
+								? "Only an unsigned integer of {{bits}} bits is allowed."
+								: "Only an integer of {{bits}} bits is allowed.",
+							$bits, 'bits'
+						)
+					]);
+				}
+			}
 			return $value;
 		}
 		throw new Exceptions\IntegerCoercionFailed([
 			'value' => $value,
+			'unsigned' => $unsigned,
+			'bits' => $bits,
 			'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_INVALID,
 			'error_message' => "Only the following types and formats can be coerced into an integer:\n" . 
 				" - an integer, such as: 123000 for 123000;\n" . 

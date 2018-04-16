@@ -20,6 +20,10 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
+ * @property-read bool $unsigned [default = false]
+ * <p>Set as unsigned.</p>
+ * @property-read int|null $bits [default = null]
+ * <p>The number of bits.</p>
  * @property-read string|null $error_code [default = null]
  * <p>The error code.</p>
  * @property-read string|null $error_message [default = null]
@@ -30,6 +34,12 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	//Public constants
 	/** Null error code. */
 	public const ERROR_CODE_NULL = 'NULL';
+	
+	/** Unsigned error code. */
+	public const ERROR_CODE_UNSIGNED = 'UNSIGNED';
+	
+	/** Bits error code. */
+	public const ERROR_CODE_BITS = 'BITS';
 	
 	/** Invalid error code. */
 	public const ERROR_CODE_INVALID = 'INVALID';
@@ -52,10 +62,14 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	protected function loadProperties() : void
 	{
 		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('unsigned')->setAsBoolean()->setDefaultValue(false);
+		$this->addProperty('bits')->setAsInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_code')
 			->setEvaluator(function (&$value) : bool {
 				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
 					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_UNSIGNED,
+					self::ERROR_CODE_BITS,
 					self::ERROR_CODE_INVALID
 				], true));
 			})

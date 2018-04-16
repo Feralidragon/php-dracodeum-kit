@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Math\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\{
-	Math as UMath,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Math as UMath;
 
 /**
  * Math utility <code>hnumber</code> method options.
@@ -50,12 +47,7 @@ class Hnumber extends Options
 			case 'long':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'precision':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setAsInteger(true, null, true)->setDefaultValue(null);
 			case 'min_multiple':
 				//no break
 			case 'max_multiple':

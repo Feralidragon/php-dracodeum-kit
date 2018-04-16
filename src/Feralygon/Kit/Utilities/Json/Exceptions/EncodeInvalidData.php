@@ -38,7 +38,7 @@ class EncodeInvalidData extends Encode
 	protected function loadProperties() : void
 	{
 		$this->addProperty('data')->setAsRequired();
-		$this->addProperty('error_code')->setAsStrictInteger(true)->setDefaultValue(null);
+		$this->addProperty('error_code')->setAsStrictInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	

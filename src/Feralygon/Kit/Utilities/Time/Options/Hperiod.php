@@ -54,12 +54,7 @@ class Hperiod extends Options
 			case 'short':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'precision':
-				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateInteger($value) && $value >= 0);
-					})
-					->setDefaultValue(null)
-				;
+				return $this->createProperty()->setAsInteger(true, null, true)->setDefaultValue(null);
 			case 'limit':
 				return $this->createProperty()
 					->setEvaluator(function (&$value) : bool {
