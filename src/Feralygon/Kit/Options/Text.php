@@ -41,7 +41,7 @@ class Text extends Options
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'language':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value) : bool {
 						return Locale::evaluateLanguage($value, true);
 					})
 					->setDefaultValue(null)

@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Text\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * Text utility <code>bulletify</code> method options.
@@ -31,8 +28,9 @@ class Bulletify extends Options
 		switch ($name) {
 			case 'bullet':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value) && UText::length($value, true) === 1;
+					->setAsString(true)
+					->addEvaluator(function (&$value) : bool {
+						return UText::length($value, true) === 1;
 					})
 					->setDefaultValue("\u{2022}")
 				;

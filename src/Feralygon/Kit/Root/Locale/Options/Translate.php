@@ -59,13 +59,13 @@ class Translate extends Options
 				;
 			case 'language':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value) : bool {
 						return Locale::evaluateLanguage($value, true);
 					})
 					->setDefaultValue(null)
 				;
 			case 'string_options':
-				return $this->createProperty()->setEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
+				return $this->createProperty()->addEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)

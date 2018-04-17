@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Text\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * Text utility <code>stringify</code> method options.
@@ -61,13 +58,14 @@ class Stringify extends Options
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'non_assoc_mode':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+					->setAsString(true, true)
+					->addEvaluator(function (&$value) : bool {
+						return !isset($value) || in_array($value, [
 							UText::STRING_NONASSOC_MODE_COMMA_LIST,
 							UText::STRING_NONASSOC_MODE_COMMA_LIST_AND,
 							UText::STRING_NONASSOC_MODE_COMMA_LIST_OR,
 							UText::STRING_NONASSOC_MODE_COMMA_LIST_NOR
-						], true));
+						], true);
 					})
 					->setDefaultValue(null)
 				;

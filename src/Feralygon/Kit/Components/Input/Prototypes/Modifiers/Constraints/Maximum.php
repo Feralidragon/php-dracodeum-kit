@@ -138,7 +138,7 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 		switch ($name) {
 			case 'value':
 				return $this->createProperty()
-					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
+					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
 			case 'exclusive':

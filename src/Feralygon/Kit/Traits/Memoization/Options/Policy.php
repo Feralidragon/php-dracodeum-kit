@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Traits\Memoization\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * @since 1.0.0
@@ -33,8 +32,9 @@ final class Policy extends Options
 				//no break
 			case 'limit':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateInteger($value) && $value > 0);
+					->setAsInteger(true, null, true)
+					->addEvaluator(function (&$value) : bool {
+						return !isset($value) || $value > 0;
 					})
 					->setDefaultValue(null)
 				;

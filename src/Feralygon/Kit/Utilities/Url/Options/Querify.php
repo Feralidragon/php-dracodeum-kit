@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Utilities\Url\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * URL utility <code>querify</code> method options.
@@ -33,8 +32,9 @@ class Querify extends Options
 		switch ($name) {
 			case 'delimiter':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value) && strlen($value) === 1;
+					->setAsString(true)
+					->addEvaluator(function (&$value) : bool {
+						return strlen($value) === 1;
 					})
 					->setDefaultValue('&')
 				;

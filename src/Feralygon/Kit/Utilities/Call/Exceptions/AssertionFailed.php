@@ -59,13 +59,13 @@ class AssertionFailed extends Exception implements IAssertive
 	{
 		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('function')
-			->setEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value) : bool {
 				return UCall::validate($value, true);
 			})
 			->setAsRequired()
 		;
 		$this->addProperty('template')
-			->setEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value) : bool {
 				return UCall::validate($value, true);
 			})
 			->setAsRequired()

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Utilities\Text\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * Text utility <code>parse</code> method options.
@@ -34,16 +33,17 @@ class Parse extends Options
 				return $this->createProperty()->setAsString()->setDefaultValue('\s+');
 			case 'pattern_modifiers':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value) && 
-							($value === '' || preg_match('/^[imsxADSUXJu]+$/', $value));
+					->setAsString()
+					->addEvaluator(function (&$value) : bool {
+						return $value === '' || preg_match('/^[imsxADSUXJu]+$/', $value);
 					})
 					->setDefaultValue('')
 				;
 			case 'pattern_delimiter':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateString($value) && strlen($value) === 1;
+					->setAsString(true)
+					->addEvaluator(function (&$value) : bool {
+						return strlen($value) === 1;
 					})
 					->setDefaultValue('/')
 				;

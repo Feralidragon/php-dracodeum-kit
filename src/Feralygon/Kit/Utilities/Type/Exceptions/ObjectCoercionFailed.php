@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
 
 use Feralygon\Kit\Utilities\Type\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
-use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Text as UText;
 
 /**
  * This exception is thrown from the type utility whenever the coercion into an object has failed with a given value.
@@ -59,13 +56,14 @@ class ObjectCoercionFailed extends Exception implements ICoercive
 	{
 		$this->addProperty('value')->setAsRequired();
 		$this->addProperty('error_code')
-			->setEvaluator(function (&$value) : bool {
-				return !isset($value) || (UType::evaluateString($value) && in_array($value, [
+			->setAsString(true, true)
+			->addEvaluator(function (&$value) : bool {
+				return !isset($value) || in_array($value, [
 					self::ERROR_CODE_NULL,
 					self::ERROR_CODE_INVALID_CLASS,
 					self::ERROR_CODE_INSTANCE_EXCEPTION,
 					self::ERROR_CODE_INVALID
-				], true));
+				], true);
 			})
 			->setDefaultValue(null)
 		;

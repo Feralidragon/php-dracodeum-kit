@@ -47,8 +47,8 @@ class Property
 	/** @var \Closure|null */
 	private $default_getter = null;
 	
-	/** @var \Closure|null */
-	private $evaluator = null;
+	/** @var \Closure[] */
+	private $evaluators = [];
 	
 	/** @var \Closure|null */
 	private $getter = null;
@@ -290,13 +290,21 @@ class Property
 			'hint_message' => "This method may only be called during or after the manager initialization."
 		]);
 		
-		//set
-		if (isset($this->evaluator) && !($this->evaluator)($value)) {
-			if ($no_throw) {
-				return false;
+		//evaluate
+		$v = $value;
+		foreach ($this->evaluators as $evaluator) {
+			if (!$evaluator($v)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
 			}
-			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
-		} elseif (isset($this->setter)) {
+		}
+		$value = $v;
+		unset($v);
+		
+		//set
+		if (isset($this->setter)) {
 			($this->setter)($value);
 		} else {
 			$this->value = $value;
@@ -339,9 +347,18 @@ class Property
 		
 		//value
 		$value = ($this->default_getter)();
-		if (isset($this->evaluator) && !($this->evaluator)($value)) {
-			throw new Exceptions\InvalidDefaultValue(['property' => $this, 'value' => $value]);
+		
+		//evaluate
+		$v = $value;
+		foreach ($this->evaluators as $evaluator) {
+			if (!$evaluator($v)) {
+				throw new Exceptions\InvalidDefaultValue(['property' => $this, 'value' => $value]);
+			}
 		}
+		$value = $v;
+		unset($v);
+		
+		//return
 		return $value;
 	}
 	
@@ -420,13 +437,13 @@ class Property
 	}
 	
 	/**
-	 * Set evaluator function.
+	 * Add evaluator function.
 	 * 
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param callable $evaluator
-	 * <p>The evaluator function to set.<br>
+	 * <p>The evaluator function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$value) : bool</code><br>
 	 * <br>
@@ -439,13 +456,31 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setEvaluator(callable $evaluator) : Property
+	final public function addEvaluator(callable $evaluator) : Property
 	{
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
 		UCall::assert('evaluator', $evaluator, function (&$value) : bool {});
-		$this->evaluator = \Closure::fromCallable($evaluator);
+		$this->evaluators[] = \Closure::fromCallable($evaluator);
+		return $this;
+	}
+	
+	/**
+	 * Clear all evaluator functions.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function clearEvaluators() : Property
+	{
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		$this->evaluators = [];
 		return $this;
 	}
 	
@@ -474,9 +509,11 @@ class Property
 	 */
 	final public function setAsBoolean(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return UType::evaluateBoolean($value, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return UType::evaluateBoolean($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -493,9 +530,11 @@ class Property
 	 */
 	final public function setAsStrictBoolean(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return isset($value) ? is_bool($value) : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return isset($value) ? is_bool($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -528,9 +567,11 @@ class Property
 	 */
 	final public function setAsNumber(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return UType::evaluateNumber($value, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return UType::evaluateNumber($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -547,9 +588,11 @@ class Property
 	 */
 	final public function setAsStrictNumber(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return isset($value) ? is_int($value) || is_float($value) : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return isset($value) ? is_int($value) || is_float($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -590,9 +633,11 @@ class Property
 	 */
 	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($unsigned, $bits, $nullable) : bool {
-			return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($unsigned, $bits, $nullable) : bool {
+				return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -620,14 +665,13 @@ class Property
 		bool $unsigned = false, ?int $bits = null, bool $nullable = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($unsigned, $bits, $nullable) : bool {
-			if (!isset($value)) {
-				return $nullable;
-			} elseif (is_int($value)) {
-				return UType::evaluateInteger($value, $unsigned, $bits);
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($unsigned, $bits, $nullable) : bool {
+				return isset($value)
+					? (is_int($value) ? UType::evaluateInteger($value, $unsigned, $bits) : false)
+					: $nullable;
 			}
-			return false;
-		});
+		);
 		return $this;
 	}
 	
@@ -660,9 +704,11 @@ class Property
 	 */
 	final public function setAsFloat(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return UType::evaluateFloat($value, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return UType::evaluateFloat($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -679,9 +725,11 @@ class Property
 	 */
 	final public function setAsStrictFloat(bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($nullable) : bool {
-			return isset($value) ? is_float($value) : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return isset($value) ? is_float($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -702,9 +750,11 @@ class Property
 	 */
 	final public function setAsString(bool $non_empty = false, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($non_empty, $nullable) : bool {
-			return UType::evaluateString($value, $non_empty, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($non_empty, $nullable) : bool {
+				return UType::evaluateString($value, $non_empty, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -723,9 +773,11 @@ class Property
 	 */
 	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($non_empty, $nullable) : bool {
-			return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($non_empty, $nullable) : bool {
+				return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -746,9 +798,11 @@ class Property
 	 */
 	final public function setAsClass($base_object_class = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
-			return UType::evaluateClass($value, $base_object_class, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($base_object_class, $nullable) : bool {
+				return UType::evaluateClass($value, $base_object_class, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -767,9 +821,13 @@ class Property
 	 */
 	final public function setAsStrictClass($base_object_class = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
-			return isset($value) ? is_string($value) && UType::evaluateClass($value, $base_object_class) : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($base_object_class, $nullable) : bool {
+				return isset($value)
+					? is_string($value) && UType::evaluateClass($value, $base_object_class)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -794,9 +852,11 @@ class Property
 		$base_object_class = null, array $arguments = [], bool $nullable = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
-			return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
+				return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -815,9 +875,13 @@ class Property
 	 */
 	final public function setAsStrictObject($base_object_class = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
-			return isset($value) ? is_object($value) && UType::evaluateObject($value, $base_object_class) : $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($base_object_class, $nullable) : bool {
+				return isset($value)
+					? is_object($value) && UType::evaluateObject($value, $base_object_class)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -838,9 +902,11 @@ class Property
 	 */
 	final public function setAsObjectClass($base_object_class = null, bool $nullable = false) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($base_object_class, $nullable) : bool {
-			return UType::evaluateObjectClass($value, $base_object_class, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($base_object_class, $nullable) : bool {
+				return UType::evaluateObjectClass($value, $base_object_class, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -864,9 +930,11 @@ class Property
 		?callable $template = null, bool $nullable = false, bool $assertive = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($template, $nullable, $assertive) : bool {
-			return UCall::evaluate($value, $template, $nullable, $assertive);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($template, $nullable, $assertive) : bool {
+				return UCall::evaluate($value, $template, $nullable, $assertive);
+			}
+		);
 		return $this;
 	}
 	
@@ -890,12 +958,14 @@ class Property
 		?callable $template = null, bool $nullable = false, bool $assertive = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($template, $nullable, $assertive) : bool {
-			return isset($value)
-				? is_object($value) && UType::isA($value, \Closure::class) && 
-					UCall::evaluate($value, $template, false, $assertive)
-				: $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($template, $nullable, $assertive) : bool {
+				return isset($value)
+					? is_object($value) && UType::isA($value, \Closure::class) && 
+						UCall::evaluate($value, $template, false, $assertive)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -935,9 +1005,11 @@ class Property
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
-			return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -973,11 +1045,13 @@ class Property
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
 	) : Property
 	{
-		$this->setEvaluator(function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
-			return isset($value)
-				? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
-				: $nullable;
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+				return isset($value)
+					? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -999,9 +1073,11 @@ class Property
 	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false) : Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
-			return $enumeration::evaluateValue($value, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($enumeration, $nullable) : bool {
+				return $enumeration::evaluateValue($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -1021,13 +1097,15 @@ class Property
 	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false) : Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
-			if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
-				$value = $enumeration::getValue($value);
-				return true;
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($enumeration, $nullable) : bool {
+				if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
+					$value = $enumeration::getValue($value);
+					return true;
+				}
+				return false;
 			}
-			return false;
-		});
+		);
 		return $this;
 	}
 	
@@ -1049,9 +1127,11 @@ class Property
 	final public function setAsEnumerationName(string $enumeration, bool $nullable = false) : Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
-			return $enumeration::evaluateName($value, $nullable);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($enumeration, $nullable) : bool {
+				return $enumeration::evaluateName($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -1071,9 +1151,11 @@ class Property
 	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false) : Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->setEvaluator(function (&$value) use ($enumeration, $nullable) : bool {
-			return is_string($value) && $enumeration::hasName($value);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($enumeration, $nullable) : bool {
+				return is_string($value) && $enumeration::hasName($value);
+			}
+		);
 		return $this;
 	}
 	
@@ -1099,9 +1181,11 @@ class Property
 	final public function setAsStructure(string $class, bool $clone = false, bool $readonly = false) : Property
 	{
 		$class = UType::coerceClass($class, Structure::class);
-		$this->setEvaluator(function (&$value) use ($class, $clone, $readonly) : bool {
-			return $class::evaluate($value, $clone, $readonly);
-		});
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($class, $clone, $readonly) : bool {
+				return $class::evaluate($value, $clone, $readonly);
+			}
+		);
 		return $this;
 	}
 	

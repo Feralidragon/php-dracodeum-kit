@@ -36,7 +36,7 @@ class ElementNotFound extends Exception
 		
 		//properties
 		$this->addProperty('element')
-			->setEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value) : bool {
 				return is_int($value) || is_float($value) || is_string($value);
 			})
 			->setAsRequired()

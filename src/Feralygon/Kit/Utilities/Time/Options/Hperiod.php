@@ -9,10 +9,7 @@ namespace Feralygon\Kit\Utilities\Time\Options;
 
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
-use Feralygon\Kit\Utilities\{
-	Time as UTime,
-	Type as UType
-};
+use Feralygon\Kit\Utilities\Time as UTime;
 
 /**
  * Time utility <code>hperiod</code> method options.
@@ -57,8 +54,9 @@ class Hperiod extends Options
 				return $this->createProperty()->setAsInteger(true, null, true)->setDefaultValue(null);
 			case 'limit':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
-						return !isset($value) || (UType::evaluateInteger($value) && $value > 0);
+					->setAsInteger(true, null, true)
+					->addEvaluator(function (&$value) : bool {
+						return !isset($value) || $value > 0;
 					})
 					->setDefaultValue(null)
 				;
@@ -66,7 +64,7 @@ class Hperiod extends Options
 				//no break
 			case 'max_multiple':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value) : bool {
 						return UTime::evaluateMultiple($value, true);
 					})
 					->setDefaultValue(null)

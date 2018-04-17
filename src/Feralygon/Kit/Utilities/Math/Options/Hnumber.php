@@ -52,7 +52,7 @@ class Hnumber extends Options
 				//no break
 			case 'max_multiple':
 				return $this->createProperty()
-					->setEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value) : bool {
 						return UMath::evaluateMultiple($value, true);
 					})
 					->setDefaultValue(null)

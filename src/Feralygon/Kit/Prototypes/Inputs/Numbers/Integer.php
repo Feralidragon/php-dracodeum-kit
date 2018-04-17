@@ -99,8 +99,9 @@ class Integer extends Number implements ISchemaData
 			case 'bits':
 				return $this->createProperty()
 					->setMode('r+')
-					->setEvaluator(function (&$value) : bool {
-						return UType::evaluateInteger($value, false, null, true) && (!isset($value) || $value > 0);
+					->setAsInteger(true, null, true)
+					->addEvaluator(function (&$value) : bool {
+						return !isset($value) || $value > 0;
 					})
 					->bind(self::class)
 				;

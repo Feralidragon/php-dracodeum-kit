@@ -34,7 +34,7 @@ class WrandomInvalidValueWeight extends Wrandom
 	protected function loadProperties() : void
 	{
 		$this->addProperty('value')
-			->setEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value) : bool {
 				return is_int($value) || is_string($value);
 			})
 			->setAsRequired()

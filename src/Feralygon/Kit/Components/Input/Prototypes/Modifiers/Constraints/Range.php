@@ -294,7 +294,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 				//no break
 			case 'max_value':
 				return $this->createProperty()
-					->setEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
+					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
 			case 'min_exclusive':
