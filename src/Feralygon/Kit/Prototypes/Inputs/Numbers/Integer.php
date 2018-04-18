@@ -41,11 +41,11 @@ use Feralygon\Kit\Utilities\{
  * <p>Set as an unsigned integer.</p>
  * @property-read int|null $bits [default = null]
  * <p>The number of bits to use.<br>
- * If set, it must be greater than <code>0</code>.<br>
+ * If set, then it must be greater than <code>0</code>.<br>
  * <br>
  * For signed integers, the maximum allowed number is <code>64</code>, 
  * while for unsigned integers this number is <code>63</code>.<br>
- * If not set, the number of bits to use becomes system dependent.</p>
+ * If not set, then the number of bits to use becomes system dependent.</p>
  * @see https://en.wikipedia.org/wiki/Integer_(computer_science)
  */
 class Integer extends Number implements ISchemaData

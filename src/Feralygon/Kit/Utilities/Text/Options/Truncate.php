@@ -24,7 +24,7 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * <p>Try to keep sentences preserved in the truncated string.</p>
  * @property string|null $ellipsis_string [default = null]
  * <p>The ellipsis string to use.<br>
- * If not set, the internal default ellipsis string is used.</p>
+ * If not set, then the internal default ellipsis string is used.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Truncate extends Options

@@ -23,7 +23,7 @@ use Feralygon\Kit\Root\Locale;
  * <p>The info scope to use, as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property string|null $language [default = null]
  * <p>The language ISO 639 code to translate the message to.<br>
- * If not set, the currently set locale language is used.</p>
+ * If not set, then the currently set locale language is used.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = auto]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property \Closure|null $stringifier [default = null]

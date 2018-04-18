@@ -73,7 +73,7 @@ abstract class Prototype
 	 * Set component instance.
 	 * 
 	 * This method may only be called if no component instance has already been set.<br>
-	 * If a contract interface is defined, the given component instance must also implement that interface.
+	 * If a contract interface is defined, then the given component instance must also implement that interface.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Component $component

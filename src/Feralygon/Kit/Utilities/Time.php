@@ -159,7 +159,7 @@ final class Time extends Utility
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -189,13 +189,13 @@ final class Time extends Utility
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
 	 * @return int|string|null
 	 * <p>The given value coerced into a date and time.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDateTime($value, ?string $format = null, bool $nullable = false)
 	{
@@ -280,7 +280,7 @@ final class Time extends Utility
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -310,13 +310,13 @@ final class Time extends Utility
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateCoercionFailed
 	 * @return int|string|null
 	 * <p>The given value coerced into a date.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
 	{
@@ -400,7 +400,7 @@ final class Time extends Utility
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -430,13 +430,13 @@ final class Time extends Utility
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
-	 * If not set, the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
 	 * @return int|string|null
 	 * <p>The given value coerced into a time.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
 	{
@@ -954,7 +954,7 @@ final class Time extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\MultipleCoercionFailed
 	 * @return int|float|null
 	 * <p>The given value coerced into a multiple.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false)
 	{
@@ -1018,7 +1018,7 @@ final class Time extends Utility
 	 * @param int|float|string|null $end [default = null]
 	 * <p>The end timestamp to generate to, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.<br>
-	 * If not set, the current system time is used.</p>
+	 * If not set, then the current system time is used.</p>
 	 * @param int|float $interval [default = \Feralygon\Kit\Enumerations\Time::T1_DAY]
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>

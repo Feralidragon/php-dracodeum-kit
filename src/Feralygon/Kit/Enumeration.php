@@ -60,7 +60,7 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to check for, by value or name.<br>
-	 * If any existing value matches an existing name, the given element is checked only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is checked only by its value.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the given element.</p>
 	 */
@@ -103,7 +103,7 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @return int|float|string
 	 * <p>The value from the given element.</p>
 	 */
@@ -118,7 +118,7 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string
 	 * <p>The name from the given element.</p>
@@ -207,7 +207,7 @@ abstract class Enumeration
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueCoercionFailed
 	 * @return int|float|string|null
 	 * <p>The given value coerced into an element value.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceValue($value, bool $nullable = false)
 	{
@@ -279,7 +279,7 @@ abstract class Enumeration
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameCoercionFailed
 	 * @return string|null
 	 * <p>The given value coerced into an element name.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceName($value, bool $nullable = false) : ?string
 	{
@@ -323,7 +323,7 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -377,7 +377,7 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, the given element is retrieved only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null

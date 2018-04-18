@@ -159,7 +159,7 @@ abstract class Modifier extends Component
 	 * Get string.
 	 * 
 	 * The returning string represents the full set of properties which defines how a value is evaluated.<br>
-	 * If no such properties are set, <code>null</code> is returned instead.
+	 * If no such properties are set, then <code>null</code> is returned instead.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]

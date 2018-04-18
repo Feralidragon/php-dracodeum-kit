@@ -31,7 +31,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>Add an ellipsis at the end of the truncated value.</p>
  * @property string|null $ellipsis_string [default = null]
  * <p>The ellipsis string to use.<br>
- * If not set, the internal default ellipsis string is used.</p>
+ * If not set, then the internal default ellipsis string is used.</p>
  * @property bool $keep_words [default = false]
  * <p>Try to keep words preserved in the truncated value.</p>
  * @property bool $keep_sentences [default = false]

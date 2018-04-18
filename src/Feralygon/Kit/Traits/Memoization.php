@@ -228,7 +228,7 @@ trait Memoization
 	 * <p>The function to memoize.</p>
 	 * @param string|null $key [default = null]
 	 * <p>The key to memoize with.<br>
-	 * If not set, the key is automatically generated from the caller function parameters.</p>
+	 * If not set, then the key is automatically generated from the caller function parameters.</p>
 	 * @param string $namespace [default = '']
 	 * <p>The namespace to memoize with.</p>
 	 * @param bool $local [default = false]

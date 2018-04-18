@@ -67,7 +67,7 @@ final class Hash extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\CoercionFailed
 	 * @return string|null
 	 * <p>The given value coerced into a hash.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce($value, int $bits, bool $nullable = false) : ?string
 	{

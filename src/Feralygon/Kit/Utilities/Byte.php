@@ -226,7 +226,7 @@ final class Byte extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\MultipleCoercionFailed
 	 * @return int|null
 	 * <p>The given value coerced into a multiple.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false) : ?int
 	{

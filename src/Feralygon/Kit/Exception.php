@@ -76,7 +76,7 @@ abstract class Exception extends \Exception implements IArrayable
 	/**
 	 * Get default message.
 	 * 
-	 * If set, placeholders must be exclusively composed by identifiers, set as <samp>{{placeholder}}</samp>.<br>
+	 * If set, then placeholders must be exclusively composed by identifiers, set as <samp>{{placeholder}}</samp>.<br>
 	 * Identifiers are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -85,7 +85,7 @@ abstract class Exception extends \Exception implements IArrayable
 	 * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of chained pointers.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @return string

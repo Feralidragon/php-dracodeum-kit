@@ -22,7 +22,7 @@ trait DefaultPrototype
 	 * Build default prototype instance.
 	 * 
 	 * The returning prototype instance is used if no prototype is given during instantiation.<br>
-	 * If none is built, the base prototype class is used instead.
+	 * If none is built, then the base prototype class is used instead.
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]

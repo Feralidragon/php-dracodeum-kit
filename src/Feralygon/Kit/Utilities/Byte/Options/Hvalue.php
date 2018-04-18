@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\Byte as UByte;
  * <p>Return the long form of the human-readable value.</p>
  * @property int|null $precision [default = null]
  * <p>The rounding precision to use, in other words, the maximum number of decimal places to keep.<br>
- * If not set, a specific precision is automatically chosen and used, 
+ * If not set, then a specific precision is automatically chosen and used, 
  * otherwise it must always be greater than or equal to <code>0</code>.</p>
  * @property int|null $min_multiple [default = null]
  * <p>The minimum multiple to use, which can be defined by:<br>
@@ -30,7 +30,7 @@ use Feralygon\Kit\Utilities\Byte as UByte;
  * &nbsp; &#8226; &nbsp; a label, 
  * such as: <samp>byte</samp>, <samp>kilobyte</samp>, <samp>megabyte</samp>, ...<br>
  * <br>
- * If not set, the lowest multiple supported is used.</p>
+ * If not set, then the lowest multiple supported is used.</p>
  * @property int|null $max_multiple [default = null]
  * <p>The maximum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of bytes, 
@@ -40,7 +40,7 @@ use Feralygon\Kit\Utilities\Byte as UByte;
  * &nbsp; &#8226; &nbsp; a label, 
  * such as: <samp>byte</samp>, <samp>kilobyte</samp>, <samp>megabyte</samp>, ...<br>
  * <br>
- * If not set, the highest multiple supported is used.</p>
+ * If not set, then the highest multiple supported is used.</p>
  * @see \Feralygon\Kit\Utilities\Byte
  */
 class Hvalue extends Options

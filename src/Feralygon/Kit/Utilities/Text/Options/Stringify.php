@@ -42,7 +42,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * with a "nor" conjunction for the last two elements.<br><br>
  * <br>
  * NOTE: If the used text info scope is of an end-user, 
- * the mode applied is <code>STRING_NONASSOC_MODE_COMMA_LIST</code> by default.</p>
+ * then the mode applied is <code>STRING_NONASSOC_MODE_COMMA_LIST</code> by default.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Stringify extends Options

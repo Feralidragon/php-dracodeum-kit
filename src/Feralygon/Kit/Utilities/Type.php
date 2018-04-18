@@ -204,7 +204,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\BooleanCoercionFailed
 	 * @return bool|null
 	 * <p>The given value coerced into a boolean.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
 	{
@@ -308,7 +308,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NumberCoercionFailed
 	 * @return int|float|null
 	 * <p>The given value coerced into a number.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceNumber($value, bool $nullable = false)
 	{
@@ -391,11 +391,11 @@ final class Type extends Utility
 	 * <p>Evaluate as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to evaluate with.<br>
-	 * If set, it must be greater than <code>0</code>.<br>
+	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
-	 * If not set, the number of bits to evaluate with becomes system dependent.</p>
+	 * If not set, then the number of bits to evaluate with becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -438,17 +438,17 @@ final class Type extends Utility
 	 * <p>Coerce as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to coerce with.<br>
-	 * If set, it must be greater than <code>0</code>.<br>
+	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
-	 * If not set, the number of bits to coerce with becomes system dependent.</p>
+	 * If not set, then the number of bits to coerce with becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\IntegerCoercionFailed
 	 * @return int|null
 	 * <p>The given value coerced into an integer.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceInteger(
 		$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false
@@ -598,7 +598,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\FloatCoercionFailed
 	 * @return float|null
 	 * <p>The given value coerced into a float.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceFloat($value, bool $nullable = false) : ?float
 	{
@@ -673,7 +673,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\StringCoercionFailed
 	 * @return string|null
 	 * <p>The given value coerced into a string.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false) : ?string
 	{
@@ -748,7 +748,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
 	 * @return string|null
 	 * <p>The given value coerced into a class.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceClass($value, $base_object_class = null, bool $nullable = false) : ?string
 	{
@@ -835,7 +835,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectCoercionFailed
 	 * @return object|null
 	 * <p>The given value coerced into an object.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObject(
 		$value, $base_object_class = null, array $arguments = [], bool $nullable = false
@@ -934,7 +934,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
 	 * @return object|string|null
 	 * <p>The given value coerced into an object or class.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObjectClass($value, $base_object_class = null, bool $nullable = false)
 	{
@@ -1254,8 +1254,8 @@ final class Type extends Utility
 	 * @param int|null $depth [default = null]
 	 * <p>The depth limit to retrieve with.<br>
 	 * If set to a number less than <code>0</code>, 
-	 * the limit is applied backwards (starting at the end of the namespace).<br>
-	 * If not set, no limit is applied.</p>
+	 * then the limit is applied backwards (starting at the end of the namespace).<br>
+	 * If not set, then no limit is applied.</p>
 	 * @return string
 	 * <p>The namespace from the given object or class.</p>
 	 */

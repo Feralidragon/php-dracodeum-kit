@@ -19,11 +19,11 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * <p>Return the short form of the human-readable period.</p>
  * @property int|null $precision [default = null]
  * <p>The rounding precision to use, in other words, the maximum number of decimal places to keep.<br>
- * If not set, a specific precision is automatically chosen and used, 
+ * If not set, then a specific precision is automatically chosen and used, 
  * otherwise it must always be greater than or equal to <code>0</code>.</p>
  * @property int|null $limit [default = null]
  * <p>The limit to use on the number of multiples returned.<br>
- * If not set, a specific limit is automatically chosen and used, 
+ * If not set, then a specific limit is automatically chosen and used, 
  * otherwise it must always be greater than <code>0</code>.</p>
  * @property int|float|null $min_multiple [default = null]
  * <p>The minimum multiple to use, which can be defined by:<br>
@@ -31,14 +31,14 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>s</samp>, <samp>min</samp>, <samp>h</samp>, ... <br>
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>second</samp>, <samp>minute</samp>, <samp>hour</samp>, ...<br>
  * <br>
- * If not set, a specific multiple is automatically chosen and used.</p>
+ * If not set, then a specific multiple is automatically chosen and used.</p>
  * @property int|float|null $max_multiple [default = null]
  * <p>The maximum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of seconds, such as: <code>1</code>, <code>60</code>, <code>3600</code>, ...<br>
  * &nbsp; &#8226; &nbsp; a symbol, such as: <samp>s</samp>, <samp>min</samp>, <samp>h</samp>, ... <br>
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>second</samp>, <samp>minute</samp>, <samp>hour</samp>, ...<br>
  * <br>
- * If not set, the highest multiple supported is used.</p>
+ * If not set, then the highest multiple supported is used.</p>
  * @see \Feralygon\Kit\Utilities\Time
  */
 class Hperiod extends Options

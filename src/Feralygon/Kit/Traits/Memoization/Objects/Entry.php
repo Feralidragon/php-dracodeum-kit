@@ -33,7 +33,7 @@ final class Entry
 	 * <p>The value.</p>
 	 * @param int|null $expire [default = null]
 	 * <p>The expiration timestamp, in seconds (Unix timestamp).<br>
-	 * If not set, the entry will never expire.</p>
+	 * If not set, then the entry will never expire.</p>
 	 */
 	final public function __construct($value, ?int $expire = null)
 	{

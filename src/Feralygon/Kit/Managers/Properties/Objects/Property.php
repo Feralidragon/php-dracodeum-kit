@@ -280,8 +280,9 @@ class Property
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the value 
-	 * was successfully set, or boolean <code>false</code> if otherwise.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the value was successfully set, 
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public function setValue($value, bool $no_throw = false)
 	{
@@ -621,11 +622,11 @@ class Property
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to use.<br>
-	 * If set, it must be greater than <code>0</code>.<br>
+	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
-	 * If not set, the number of bits to use becomes system dependent.</p>
+	 * If not set, then the number of bits to use becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -651,11 +652,11 @@ class Property
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to use.<br>
-	 * If set, it must be greater than <code>0</code>.<br>
+	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
-	 * If not set, the number of bits to use becomes system dependent.</p>
+	 * If not set, then the number of bits to use becomes system dependent.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -1171,10 +1172,11 @@ class Property
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
+	 * If an instance is given and is not read-only, 
+	 * then a new one is created with the same properties and as read-only.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -1251,10 +1253,10 @@ class Property
 	 * @since 1.0.0
 	 * @param string|null $class [default = null]
 	 * <p>The class scope to use.<br>
-	 * If not set, the manager owner object of this instance is used.</p>
+	 * If not set, then the manager owner object of this instance is used.</p>
 	 * @param string|null $name [default = null]
 	 * <p>The name to bind to.<br>
-	 * If not set, the name set in this instance is used.</p>
+	 * If not set, then the name set in this instance is used.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

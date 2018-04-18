@@ -78,7 +78,7 @@ final class Math extends Utility
 	 * <p>The minimum integer number to generate with (inclusive).</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
-	 * If not set, an internally generated seed is used.</p>
+	 * If not set, then an internally generated seed is used.</p>
 	 * @return int
 	 * <p>The generated random integer number.</p>
 	 */
@@ -102,7 +102,7 @@ final class Math extends Utility
 	 * <p>The minimum float number to generate with (inclusive).</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
-	 * If not set, an internally generated seed is used.</p>
+	 * If not set, then an internally generated seed is used.</p>
 	 * @return float
 	 * <p>The generated random float number.</p>
 	 */
@@ -132,7 +132,7 @@ final class Math extends Utility
 	 * Each weight must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
-	 * If not set, an internally generated seed is used.</p>
+	 * If not set, then an internally generated seed is used.</p>
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\WrandomInvalidValueWeight
 	 * @return int|string|null
 	 * <p>A random integer or string value from the given set of weighted values 
@@ -369,7 +369,7 @@ final class Math extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\MultipleCoercionFailed
 	 * @return int|null
 	 * <p>The given value coerced into a multiple.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false) : ?int
 	{

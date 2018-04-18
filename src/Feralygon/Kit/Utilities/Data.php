@@ -1888,7 +1888,7 @@ final class Data extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\CoercionFailed
 	 * @return array|null
 	 * <p>The given value coerced into an array.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
 		$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,

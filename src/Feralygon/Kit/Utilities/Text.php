@@ -476,7 +476,7 @@ final class Text extends Utility
 	 * <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
 	 * If <var>$options->merge</var> is set to boolean <code>true</code>, 
-	 * a single merged string with all the given strings is returned instead, with each string in a new line.</p>
+	 * then a single merged string with all the given strings is returned instead, with each string in a new line.</p>
 	 */
 	final public static function mbulletify(array $strings, $text_options = null, $options = null)
 	{
@@ -613,7 +613,7 @@ final class Text extends Utility
 	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string
@@ -714,7 +714,7 @@ final class Text extends Utility
 	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string1
@@ -761,9 +761,8 @@ final class Text extends Utility
 	 * It may also have pointers to specific object properties or associative array values, 
 	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, 
-	 * such as <samp>{{object.method()}}</samp>, the identifiers are interpreted as getter method calls, 
-	 * but they cannot be given any custom parameters.
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string
@@ -850,7 +849,7 @@ final class Text extends Utility
 	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
 	 * @param string $string
@@ -1089,12 +1088,12 @@ final class Text extends Utility
 	 * <p>The string to retrieve from.</p>
 	 * @param int $start
 	 * <p>The starting index to retrieve from, with <code>0</code> corresponding to the first character.<br>
-	 * If negative, it is interpreted as starting at the end of the given string, 
+	 * If negative, then it is interpreted as starting at the end of the given string, 
 	 * with the last character corresponding to <code>-1</code>.</p>
 	 * @param int|null $length [default = null]
 	 * <p>The maximum length of the returning sub-string.<br>
-	 * If negative, it is interpreted as the number of characters to remove from the end of the given string.<br>
-	 * If not set, it is interpreted as being the exact length of the given string.</p>
+	 * If negative, then it is interpreted as the number of characters to remove from the end of the given string.<br>
+	 * If not set, then it is interpreted as being the exact length of the given string.</p>
 	 * @param bool $unicode [default = false]
 	 * <p>Retrieve as an Unicode string.</p>
 	 * @return string
@@ -1578,7 +1577,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in pascal, snake, kebab, macro or cobol case notation.<br>
-	 * If given in camel case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in camel case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
@@ -1616,7 +1616,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in camel, snake, kebab, macro or cobol case notation.<br>
-	 * If given in pascal case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in pascal case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/PascalCase
@@ -1647,7 +1648,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in camel, pascal, kebab, macro or cobol case notation.<br>
-	 * If given in snake case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in snake case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1684,7 +1686,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in camel, pascal, snake, macro or cobol case notation.<br>
-	 * If given in kebab case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in kebab case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1721,7 +1724,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in camel, pascal, snake, kebab or cobol case notation.<br>
-	 * If given in macro case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in macro case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1758,7 +1762,8 @@ final class Text extends Utility
 	 * 
 	 * The given string can only be converted if it is already 
 	 * in camel, pascal, snake, kebab or macro case notation.<br>
-	 * If given in cobol case notation already, no conversion is performed whatsoever and the same string is returned.
+	 * If given in cobol case notation already, 
+	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1807,7 +1812,7 @@ final class Text extends Utility
 	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>
@@ -1889,7 +1894,7 @@ final class Text extends Utility
 	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>

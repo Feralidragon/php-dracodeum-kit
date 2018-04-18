@@ -91,8 +91,9 @@ final class Call extends Utility
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the validation 
-	 * has succeeded, or boolean <code>false</code> if otherwise.</p>
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the validation has succeeded, 
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public static function validate($function, bool $no_throw = false)
 	{
@@ -246,7 +247,7 @@ final class Call extends Utility
 	/**
 	 * Retrieve name from a given function.
 	 * 
-	 * If the given function is anonymous then <code>null</code> is returned.<br>
+	 * If the given function is anonymous, then <code>null</code> is returned.<br>
 	 * If the given function belongs to a class and the <var>$full</var> parameter is passed as <code>true</code>, 
 	 * then a string in the format <code>Class::name</code> is returned.<br>
 	 * In every other case only the name itself is returned.
@@ -665,9 +666,9 @@ final class Call extends Utility
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\AssertionFailed
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, boolean <code>true</code> is returned if the assertion 
-	 * has succeeded, with the given function being compatible with the given template, 
-	 * or boolean <code>false</code> if otherwise.</p>
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the assertion has succeeded, 
+	 * with the given function being compatible with the given template, or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public static function assert(string $name, $function, $template, bool $no_throw = false)
 	{
@@ -849,7 +850,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\CoercionFailed
 	 * @return callable|null
 	 * <p>The given value coerced into a callable.<br>
-	 * If nullable, <code>null</code> may also be returned.</p>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
 		$value, $template = null, bool $nullable = false, bool $assertive = false
@@ -913,7 +914,7 @@ final class Call extends Utility
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of classes to retrieve.<br>
-	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return string[]|null[]
@@ -975,7 +976,7 @@ final class Call extends Utility
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects to retrieve.<br>
-	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return object[]|null[]
@@ -1038,7 +1039,7 @@ final class Call extends Utility
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects and classes to retrieve.<br>
-	 * If not set, no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return object[]|string[]|null[]
@@ -1076,7 +1077,7 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
-	 * If set to boolean <code>false</code>, an exception is thrown, 
+	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
@@ -1148,7 +1149,7 @@ final class Call extends Utility
 	 * <p>The value to use.</p>
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
-	 * If set to boolean <code>false</code>, an exception is thrown, 
+	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
@@ -1213,7 +1214,7 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
-	 * If set to boolean <code>false</code>, an exception is thrown, 
+	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the current function or method in the stack from continuing to execute.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>

@@ -47,7 +47,7 @@ final class Base64 extends Utility
 	 * <p>Use URL-safe decoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) got replaced 
 	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
 	 * as well as the padding equal signs (<samp>=</samp>) removed, in order to have been safely put in an URL.<br>
-	 * If not set, the used encoding is automatically detected from the given string.</p>
+	 * If not set, then the used encoding is automatically detected from the given string.</p>
 	 * @throws \Feralygon\Kit\Utilities\Base64\Exceptions\DecodeInvalidString
 	 * @return string
 	 * <p>The given string decoded.</p>

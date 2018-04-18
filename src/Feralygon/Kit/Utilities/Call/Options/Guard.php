@@ -18,7 +18,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property string|null $error_message [default = null]
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
- * If set, placeholders must be exclusively composed by identifiers, 
+ * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -27,11 +27,11 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
  * @property string|null $hint_message [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
- * If set, placeholders must be exclusively composed by identifiers, 
+ * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -40,16 +40,16 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
  * @property string|null $function_name [default = null]
  * <p>The function or method name to use.<br>
- * If not set, the name of the current function or method in the stack is used.</p>
+ * If not set, then the name of the current function or method in the stack is used.</p>
  * @property int $stack_offset [default = 0]
  * <p>The stack offset to use.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property object|string|null $object_class [default = null]
  * <p>The object or class to use.<br>
- * If not set, the object or class of the current function or method in the stack is used.</p>
+ * If not set, then the object or class of the current function or method in the stack is used.</p>
  * @property array $parameters [default = []]
  * <p>The parameters to replace the hint message placeholders with, as <samp>name => value</samp> pairs.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]

@@ -645,7 +645,7 @@ class Properties
 	/**
 	 * Get all properties.
 	 * 
-	 * If lazy-loading is enabled, only the currently loaded properties are returned.<br>
+	 * If lazy-loading is enabled, then only the currently loaded properties are returned.<br>
 	 * Only properties which allow read access are returned.
 	 * 
 	 * @since 1.0.0

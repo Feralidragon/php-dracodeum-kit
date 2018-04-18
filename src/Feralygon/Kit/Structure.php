@@ -123,10 +123,11 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
+	 * If an instance is given and is not read-only, 
+	 * then a new one is created with the same properties and as read-only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
@@ -150,10 +151,11 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, clone it into a new one with the same properties.</p>
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Coerce into a read-only instance.<br>
-	 * If an instance is given and is not read-only, a new one is created with the same properties and as read-only.</p>
+	 * If an instance is given and is not read-only, 
+	 * then a new one is created with the same properties and as read-only.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
 	 * @return static
 	 * <p>The given value coerced into an instance.</p>

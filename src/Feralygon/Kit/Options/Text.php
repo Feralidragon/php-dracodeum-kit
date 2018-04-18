@@ -20,7 +20,7 @@ use Feralygon\Kit\Root\Locale;
  * <p>Translate the returning text.</p>
  * @property string|null $language [default = null]
  * <p>The language ISO 639 code to translate the returning text to.<br>
- * If not set, the currently set locale language is used.<br>
+ * If not set, then the currently set locale language is used.<br>
  * This property is only relevant if the property <var>$translate</var> above is set to <code>true</code>.</p>
  * @see https://en.wikipedia.org/wiki/ISO_639
  * @see \Feralygon\Kit\Enumerations\InfoScope
