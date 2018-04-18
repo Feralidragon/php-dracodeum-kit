@@ -86,10 +86,9 @@ abstract class Input extends Prototype implements ISubcontracts
 	 */
 	protected function createConstraint($prototype, array $properties = []) : Constraint
 	{
-		$fallback = function ($prototype, array $properties = []) : Constraint {
-			return FComponent::constraint($prototype, $properties);
-		};
-		return $this->subcontractCall('constraints', 'createConstraint', $fallback, $prototype, $properties);
+		return $this->subcontractCall(
+			'constraints', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
+		);
 	}
 	
 	/**
@@ -105,9 +104,8 @@ abstract class Input extends Prototype implements ISubcontracts
 	 */
 	protected function createFilter($prototype, array $properties = []) : Filter
 	{
-		$fallback = function ($prototype, array $properties = []) : Filter {
-			return FComponent::filter($prototype, $properties);
-		};
-		return $this->subcontractCall('filters', 'createFilter', $fallback, $prototype, $properties);
+		return $this->subcontractCall(
+			'filters', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
+		);
 	}
 }
