@@ -759,9 +759,9 @@ final class Text extends Utility
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * It may also have pointers to specific object properties or associative array values, 
-	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * by using a dot between identifiers, such as <samp>object.property</samp>, 
 	 * with no limit on the number of pointers chained.<br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * If suffixed with opening and closing parenthesis, such as <samp>object.method()</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
 	 * @since 1.0.0
@@ -870,6 +870,99 @@ final class Text extends Utility
 			}
 		}
 		return $placeholders;
+	}
+	
+	/**
+	 * Extract parameters from a given string using a given mask.
+	 * 
+	 * The extraction of parameters from a given string uses a given mask composed by placeholders.<br>
+	 * These placeholders are used as the matching wildcards and the corresponding parameter keys to extract the 
+	 * corresponding values from the given string.<br>
+	 * <br>
+	 * Example:<br>
+	 * <var>$string</var> = <code>'/home/foo/bar'</code><br>
+	 * <var>$mask</var> = <code>'/home/{{user}}/{{path}}'</code><br>
+	 * returns:<br>
+	 * <code>['user' => 'foo', 'path' => 'bar']</code><br>
+	 * <br>
+	 * Placeholders must be set in the mask as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * <br>
+	 * They may also be used as pointers to specific associative array keys resulting from the extracted parameters, 
+	 * by using a dot between identifiers, such as <samp>{{placeholder.key}}</samp>, 
+	 * with no limit on the number of pointers chained.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string
+	 * <p>The string to extract from.</p>
+	 * @param string $mask
+	 * <p>The mask to use.</p>
+	 * @param \Feralygon\Kit\Utilities\Text\Options\Extract|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Extract\MatchFailed
+	 * @return array|null
+	 * <p>The extracted parameters from the given string using the given mask, as <samp>key => value</samp> pairs.<br>
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the parameters could not be fully extracted.</p>
+	 */
+	final public static function extract(string $string, string $mask, $options = null) : ?array
+	{
+		//initialize
+		$options = Options\Extract::coerce($options);
+		$subpatterns = $options->patterns;
+		$pattern_modifiers = $options->pattern_modifiers;
+		$pattern_delimiter = $options->pattern_delimiter;
+		
+		//pattern
+		$map = [];
+		$pattern = '';
+		foreach (preg_split('/\{{2}(.*)\}{2}/U', $mask, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+			if ($i % 2 === 0) {
+				$pattern .= preg_quote($token, $pattern_delimiter);
+			} else {
+				//guard
+				Call::guardParameter('mask', $mask, self::isPlaceholder($token), [
+					'error_message' => "Invalid placeholder {{placeholder}}.",
+					'parameters' => ['placeholder' => $token]
+				]);
+				
+				//subpattern
+				$subpattern = $subpatterns[$token] ?? '.*';
+				Call::guardParameter(
+					'options', $options->getAll(),
+					preg_match("{$pattern_delimiter}{$subpattern}{$pattern_delimiter}", null) !== false, [
+						'error_message' => "Invalid pattern {{pattern}} for placeholder {{placeholder}}.",
+						'parameters' => ['placeholder' => $token, 'pattern' => $subpattern]
+					]
+				);
+				
+				//map
+				$subpattern_name = "__{$i}";
+				$map[$subpattern_name] = $token;
+				$pattern .= "(?P<{$subpattern_name}>{$subpattern})";
+			}
+		}
+		$pattern = "{$pattern_delimiter}^{$pattern}\${$pattern_delimiter}{$pattern_modifiers}";
+		
+		//match
+		if (!preg_match($pattern, $string, $matches)) {
+			if ($options->no_throw) {
+				return null;
+			}
+			throw new Exceptions\Extract\MatchFailed(['string' => $string, 'mask' => $mask]);
+		}
+		
+		//parameters
+		$parameters = [];
+		foreach ($map as $subpattern_name => $placeholder) {
+			$parameters[$placeholder] = $matches[$subpattern_name] ?? null;
+		}
+		$parameters = Data::expand($parameters);
+		
+		//return
+		return $parameters;
 	}
 	
 	/**
