@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Utilities\Url\Exceptions\Querify;
 
-use Feralygon\Kit\Utilities\Url\Exceptions\Querify;
+use Feralygon\Kit\Utilities\Url\Exceptions\Querify as Exception;
 
 /**
  * This exception is thrown from the URL utility <code>querify</code> method whenever a given parameter type 
@@ -21,7 +21,7 @@ use Feralygon\Kit\Utilities\Url\Exceptions\Querify;
  * @property-read string $type [default = auto]
  * <p>The type.</p>
  */
-class UnsupportedParameterType extends Querify
+class UnsupportedParameterType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
