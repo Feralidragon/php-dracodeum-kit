@@ -827,8 +827,6 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param array $properties [default = []]
 	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
-	 * @throws \Feralygon\Kit\Components\Input\Exceptions\InvalidModifier
-	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierPropertiesNotAllowed
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -852,12 +850,17 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 					'name' => $modifier, 'component' => $this, 'prototype' => $prototype
 				]);
 			}
-		} elseif (!is_object($modifier) || !UType::isA($modifier, Components\Modifier::class)) {
-			throw new Exceptions\InvalidModifier([
-				'modifier' => $modifier, 'component' => $this, 'prototype' => $prototype
+		} else {
+			UCall::guardParameter(
+				'modifier', $modifier,
+				is_object($modifier) && UType::isA($modifier, Components\Modifier::class), [
+					'hint_message' => "Only a modifier instance or name is allowed."
+				]
+			);
+			UCall::guardParameter('properties', $properties, empty($properties), [
+				'hint_message' => "Modifier properties are only allowed to be given whenever " . 
+					"the modifier is given as a name."
 			]);
-		} elseif (!empty($properties)) {
-			throw new Exceptions\ModifierPropertiesNotAllowed(['component' => $this, 'prototype' => $prototype]);
 		}
 		
 		//add

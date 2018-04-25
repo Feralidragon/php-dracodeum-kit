@@ -104,12 +104,18 @@ abstract class Enumeration
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
-	 * @return int|float|string
-	 * <p>The value from the given element.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
+	 * @return int|float|string|null
+	 * <p>The value from the given element.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given element has not been found.</p>
 	 */
-	final public static function getValue($element)
+	final public static function getValue($element, bool $no_throw = false)
 	{
-		return static::getNamesValues()[static::getName($element)];
+		$name = static::getName($element, $no_throw);
+		return isset($name) ? static::getNamesValues()[$name] : null;
 	}
 	
 	/**
@@ -119,16 +125,22 @@ abstract class Enumeration
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
-	 * @return string
-	 * <p>The name from the given element.</p>
+	 * @return string|null
+	 * <p>The name from the given element.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given element has not been found.</p>
 	 */
-	final public static function getName($element) : string
+	final public static function getName($element, bool $no_throw = false) : ?string
 	{
 		if (static::hasValue($element)) {
 			return static::getValuesNames()[(string)$element];
 		} elseif (static::hasName($element)) {
 			return (string)$element;
+		} elseif ($no_throw) {
+			return null;
 		}
 		throw new Exceptions\ElementNotFound(['enumeration' => static::class, 'element' => $element]);
 	}
@@ -139,14 +151,21 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueNotFound
-	 * @return string
-	 * <p>The name from the element with the given value.</p>
+	 * @return string|null
+	 * <p>The name from the element with the given value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given value has not been found.</p>
 	 */
-	final public static function getValueName($value) : string
+	final public static function getValueName($value, bool $no_throw = false) : ?string
 	{
 		$name = static::getValuesNames()[(string)$value] ?? null;
 		if (!isset($name)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\ValueNotFound(['enumeration' => static::class, 'value' => $value]);
 		}
 		return $name;
@@ -158,14 +177,21 @@ abstract class Enumeration
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameNotFound
-	 * @return int|float|string
-	 * <p>The value from the element with the given name.</p>
+	 * @return int|float|string|null
+	 * <p>The value from the element with the given name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given name has not been found.</p>
 	 */
-	final public static function getNameValue(string $name)
+	final public static function getNameValue(string $name, bool $no_throw = false)
 	{
 		$value = static::getNamesValues()[$name] ?? null;
 		if (!isset($value)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
 		return $value;
@@ -326,12 +352,18 @@ abstract class Enumeration
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string
-	 * <p>The label from the given element.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
+	 * @return string|null
+	 * <p>The label from the given element.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given element has not been found.</p>
 	 */
-	final public static function getLabel($element, $text_options = null) : string
+	final public static function getLabel($element, $text_options = null, bool $no_throw = false) : ?string
 	{
-		return static::getNameLabel(static::getName($element), $text_options);
+		$name = static::getName($element, $no_throw);
+		return isset($name) ? static::getNameLabel($name, $text_options) : null;
 	}
 	
 	/**
@@ -342,12 +374,18 @@ abstract class Enumeration
 	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string
-	 * <p>The label from the element with the given value.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueNotFound
+	 * @return string|null
+	 * <p>The label from the element with the given value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given value has not been found.</p>
 	 */
-	final public static function getValueLabel($value, $text_options = null) : string
+	final public static function getValueLabel($value, $text_options = null, bool $no_throw = false) : ?string
 	{
-		return static::getNameLabel(static::getValueName($value), $text_options);
+		$name = static::getValueName($value, $no_throw);
+		return isset($name) ? static::getNameLabel($name, $text_options) : null;
 	}
 	
 	/**
@@ -358,13 +396,20 @@ abstract class Enumeration
 	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameNotFound
-	 * @return string
-	 * <p>The label from the element with the given name.</p>
+	 * @return string|null
+	 * <p>The label from the element with the given name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given name has not been found.</p>
 	 */
-	final public static function getNameLabel(string $name, $text_options = null) : string
+	final public static function getNameLabel(string $name, $text_options = null, bool $no_throw = false) : ?string
 	{
 		if (!static::hasName($name)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
 		return static::retrieveLabel($name, TextOptions::coerce($text_options))
@@ -380,12 +425,18 @@ abstract class Enumeration
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string|null
-	 * <p>The description from the given element or <code>null</code> if none exists.</p>
+	 * <p>The description from the given element or <code>null</code> if none exists.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given element has not been found.</p>
 	 */
-	final public static function getDescription($element, $text_options = null) : ?string
+	final public static function getDescription($element, $text_options = null, bool $no_throw = false) : ?string
 	{
-		return static::getNameDescription(static::getName($element), $text_options);
+		$name = static::getName($element, $no_throw);
+		return isset($name) ? static::getNameDescription($name, $text_options) : null;
 	}
 	
 	/**
@@ -396,12 +447,18 @@ abstract class Enumeration
 	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueNotFound
 	 * @return string|null
-	 * <p>The description from the element with the given value or <code>null</code> if none exists.</p>
+	 * <p>The description from the element with the given value or <code>null</code> if none exists.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given value has not been found.</p>
 	 */
-	final public static function getValueDescription($value, $text_options = null) : ?string
+	final public static function getValueDescription($value, $text_options = null, bool $no_throw = false) : ?string
 	{
-		return static::getNameDescription(static::getValueName($value), $text_options);
+		$name = static::getValueName($value, $no_throw);
+		return isset($name) ? static::getNameDescription($name, $text_options) : null;
 	}
 	
 	/**
@@ -412,12 +469,22 @@ abstract class Enumeration
 	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return string|null
-	 * <p>The description from the element with the given name or <code>null</code> if none exists.</p>
+	 * <p>The description from the element with the given name or <code>null</code> if none exists.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given name has not been found.</p>
 	 */
-	final public static function getNameDescription(string $name, $text_options = null) : ?string
+	final public static function getNameDescription(
+		string $name, $text_options = null, bool $no_throw = false
+	) : ?string
 	{
 		if (!static::hasName($name)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
 		}
 		return static::retrieveDescription($name, TextOptions::coerce($text_options)) ?? null;

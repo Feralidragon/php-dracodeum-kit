@@ -100,11 +100,8 @@ abstract class Component
 	 * @param array $properties [default = []]
 	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
 	 * They are applied to both the component and prototype.</p>
-	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidBasePrototypeClass
-	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototype
 	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypeNameNotFound
 	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototypeClass
-	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypePropertiesNotAllowed
 	 */
 	final public function __construct($prototype = null, array $properties = [])
 	{
@@ -115,11 +112,11 @@ abstract class Component
 		$remainderer = function (array $properties) use ($prototype) : void {
 			//prototype base class
 			$prototype_base_class = $this->getBasePrototypeClass();
-			if (!UType::isA($prototype_base_class, Prototype::class)) {
-				throw new Exceptions\InvalidBasePrototypeClass([
-					'component' => $this, 'base_class' => $prototype_base_class
-				]);
-			}
+			UCall::guardInternal(UType::isA($prototype_base_class, Prototype::class), [
+				'error_message' => "Invalid base prototype class {{base_class}}.",
+				'parameters' => ['base_class' => $prototype_base_class],
+				'function_name' => '__construct'
+			]);
 			
 			//prototype
 			if (!isset($prototype)) {
@@ -129,8 +126,11 @@ abstract class Component
 				} else {
 					$prototype = $prototype_base_class;
 				}
-			} elseif (!is_string($prototype) && !is_object($prototype)) {
-				throw new Exceptions\InvalidPrototype(['component' => $this, 'prototype' => $prototype]);
+			} else {
+				UCall::guardParameter('prototype', $prototype, is_string($prototype) || is_object($prototype), [
+					'hint_message' => "Only an instance, class or name is allowed.",
+					'function_name' => '__construct'
+				]);
 			}
 			
 			//build prototype
@@ -154,8 +154,12 @@ abstract class Component
 			//prototype instantiation
 			if (is_string($prototype)) {
 				$prototype = new $prototype($properties);
-			} elseif (!empty($properties)) {
-				throw new Exceptions\PrototypePropertiesNotAllowed(['component' => $this]);
+			} else {
+				UCall::guardParameter('properties', $properties, empty($properties), [
+					'hint_message' => "Prototype specific properties are only allowed to be given whenever " . 
+						"the prototype is given as a class, a name or not given at all.",
+					'function_name' => '__construct'
+				]);
 			}
 			$prototype->setComponent($this);
 			$this->initializePrototype($prototype);

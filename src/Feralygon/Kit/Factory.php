@@ -83,7 +83,6 @@ abstract class Factory
 	 * @param string $name
 	 * <p>The name to get for.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
-	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNameMismatch
 	 * @return \Feralygon\Kit\Factory\Objects\Type
 	 * <p>The type instance for the given name.</p>
 	 */
@@ -102,9 +101,11 @@ abstract class Factory
 			//check
 			if (!isset($type)) {
 				throw new Exceptions\TypeNotFound(['factory' => static::class, 'name' => $name]);
-			} elseif ($type->getName() !== $name) {
-				throw new Exceptions\TypeNameMismatch(['factory' => static::class, 'name' => $name, 'type' => $type]);
 			}
+			UCall::guardInternal($type->getName() === $name, [
+				'error_message' => "Type name {{type.getName()}} mismatches the expected name {{name}}.",
+				'parameters' => ['type' => $type, 'name' => $name]
+			]);
 			
 			//set
 			self::$types[static::class][$name] = $type;
@@ -142,20 +143,29 @@ abstract class Factory
 	 * <p>The type to build for.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to build with.</p>
-	 * @throws \Feralygon\Kit\Factory\Exceptions\NoObjectBuilt
-	 * @throws \Feralygon\Kit\Factory\Exceptions\InvalidObjectBuilt
 	 * @return object
 	 * <p>The built object for the given type.</p>
 	 */
 	final protected static function build(string $type, ...$arguments) : object
 	{
+		//build
 		$type = static::getType($type);
 		$object = $type->getBuilder()->build(...$arguments);
-		if (!isset($object)) {
-			throw new Exceptions\NoObjectBuilt(['factory' => static::class, 'type' => $type]);
-		} elseif (!is_object($object)) {
-			throw new Exceptions\InvalidObjectBuilt(['factory' => static::class, 'type' => $type, 'object' => $object]);
-		}
+		
+		//guard
+		UCall::guardInternal(isset($object), [
+			'error_message' => "No object has been built for type {{type.getName()}} " . 
+				"from builder {{type.getBuilder()}}.",
+			'parameters' => ['type' => $type]
+		]);
+		UCall::guardInternal(is_object($object), [
+			'error_message' => "An invalid object {{object}} has been built for type {{type.getName()}} " . 
+				"from builder {{type.getBuilder()}}.",
+			'hint_message' => "Only an object is allowed to be built.",
+			'parameters' => ['type' => $type, 'object' => $object]
+		]);
+		
+		//return
 		return $object;
 	}
 }
