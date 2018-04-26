@@ -1108,8 +1108,11 @@ final class Call extends Utility
 		//stringifier
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) : ?string {
-				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
+				$string_options = $options->string_options->clone();
+				$string_options->quote_strings = true;
+				$string_options->prepend_type = is_bool($value);
+				return Text::stringify($value, null, $string_options);
 			};
 		}
 		
@@ -1176,8 +1179,11 @@ final class Call extends Utility
 		//stringifier
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) : ?string {
-				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
+				$string_options = $options->string_options->clone();
+				$string_options->quote_strings = true;
+				$string_options->prepend_type = is_bool($value);
+				return Text::stringify($value, null, $string_options);
 			};
 		}
 		
@@ -1241,8 +1247,11 @@ final class Call extends Utility
 		//stringifier
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) : ?string {
-				return Text::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
+			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
+				$string_options = $options->string_options->clone();
+				$string_options->quote_strings = true;
+				$string_options->prepend_type = is_bool($value);
+				return Text::stringify($value, null, $string_options);
 			};
 		}
 		
