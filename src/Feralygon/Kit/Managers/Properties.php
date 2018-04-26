@@ -12,7 +12,10 @@ use Feralygon\Kit\Managers\Properties\{
 	Exceptions
 };
 use Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions as PropertyExceptions;
-use Feralygon\Kit\Utilities\Call as UCall;
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Text as UText
+};
 
 /**
  * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded 
@@ -94,18 +97,19 @@ class Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidMode
 	 */
 	final public function __construct(object $owner, bool $lazy = false, string $mode = 'rw')
 	{
+		//guard
+		UCall::guardParameter('mode', $mode, in_array($mode, self::MODES, true), [
+			'hint_message' => "Only the following modes are allowed: {{modes}}.",
+			'parameters' => ['modes' => self::MODES],
+			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+		]);
+		
 		//initialize
 		$this->owner = $owner;
 		$this->lazy = $lazy;
-		
-		//mode
-		if (!in_array($mode, self::MODES, true)) {
-			throw new Exceptions\InvalidMode(['manager' => $this, 'mode' => $mode, 'modes' => self::MODES]);
-		}
 		$this->mode = $mode;
 	}
 	
@@ -260,8 +264,6 @@ class Properties
 	 * @param string $name
 	 * <p>The name to add.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyAlreadyAdded
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNameMismatch
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyManagerMismatch
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
@@ -283,13 +285,16 @@ class Properties
 		
 		//property
 		$property = $this->createProperty($name);
-		if ($property->getName() !== $name) {
-			throw new Exceptions\PropertyNameMismatch([
-				'manager' => $this, 'name' => $name, 'property' => $property
-			]);
-		} elseif ($property->getManager() !== $this) {
-			throw new Exceptions\PropertyManagerMismatch(['manager' => $this, 'property' => $property]);
-		}
+		UCall::guardInternal($property->getName() === $name, [
+			'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}.",
+			'parameters' => ['property' => $property, 'name' => $name]
+		]);
+		UCall::guardInternal($property->getManager() === $this, [
+			'error_message' => "Property manager mismatch for {{property.getName()}}.",
+			'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
+				"must be exactly the same.",
+			'parameters' => ['property' => $property]
+		]);
 		$this->properties[$name] = $property;
 		
 		//return
@@ -672,8 +677,6 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check for.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNameMismatch
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyManagerMismatch
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -692,15 +695,19 @@ class Properties
 			//check
 			if (!isset($property)) {
 				return false;
-			} elseif ($property->getName() !== $name) {
-				throw new Exceptions\PropertyNameMismatch([
-					'manager' => $this, 'name' => $name, 'property' => $property
-				]);
-			} elseif ($property->getManager() !== $this) {
-				throw new Exceptions\PropertyManagerMismatch(['manager' => $this, 'property' => $property]);
 			}
 			
-			//set
+			//property
+			UCall::guardInternal($property->getName() === $name, [
+				'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}.",
+				'parameters' => ['property' => $property, 'name' => $name]
+			]);
+			UCall::guardInternal($property->getManager() === $this, [
+				'error_message' => "Property manager mismatch for {{property.getName()}}.",
+				'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
+					"must be exactly the same.",
+				'parameters' => ['property' => $property]
+			]);
 			$this->properties[$name] = $property;
 		}
 		return true;
