@@ -13,5 +13,18 @@ use Feralygon\Kit\Root\System\Exception;
  * Root system <code>setIniOption</code> method exception.
  * 
  * @since 1.0.0
+ * @property-read string $name
+ * <p>The name.</p>
+ * @property-read mixed $value
+ * <p>The value.</p>
  */
-abstract class SetIniOption extends Exception {}
+abstract class SetIniOption extends Exception
+{
+	//Implemented protected methods
+	/** {@inheritdoc} */
+	protected function loadProperties() : void
+	{
+		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('value')->setAsRequired();
+	}
+}

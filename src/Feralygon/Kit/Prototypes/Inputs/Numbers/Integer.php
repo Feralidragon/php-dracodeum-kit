@@ -9,12 +9,12 @@ namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 
 use Feralygon\Kit\Prototypes\Inputs\Number;
 use Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData as ISchemaData;
-use Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions;
 use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
+	Call as UCall,
 	Math as UMath,
 	Text as UText,
 	Type as UType
@@ -112,33 +112,25 @@ class Integer extends Number implements ISchemaData
 	
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Initialization)
-	/**
-	 * {@inheritdoc}
-	 * @throws \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer\Exceptions\InvalidBits
-	 */
+	/** {@inheritdoc} */
 	protected function initialize() : void
 	{
 		if ($this->unsigned) {
 			$this->minimum = 0;
 			if (isset($this->bits)) {
-				if ($this->bits > self::BITS_MAX_UNSIGNED) {
-					throw new Exceptions\InvalidBits([
-						'bits' => $this->bits,
-						'max_bits' => self::BITS_MAX_UNSIGNED,
-						'prototype' => $this,
-						'unsigned' => true
-					]);
-				}
+				UCall::guardInternal($this->bits <= self::BITS_MAX_UNSIGNED, [
+					'error_message' => "Invalid bits {{bits}}.",
+					'hint_message' => "Only up to {{max_bits}} bits are allowed for unsigned integers.",
+					'parameters' => ['bits' => $this->bits, 'max_bits' => self::BITS_MAX_UNSIGNED]
+				]);
 				$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_UNSIGNED - $this->bits);
 			}
 		} elseif (isset($this->bits)) {
-			if ($this->bits > self::BITS_MAX_SIGNED) {
-				throw new Exceptions\InvalidBits([
-					'bits' => $this->bits,
-					'max_bits' => self::BITS_MAX_SIGNED,
-					'prototype' => $this
-				]);
-			}
+			UCall::guardInternal($this->bits <= self::BITS_MAX_SIGNED, [
+				'error_message' => "Invalid bits {{bits}}.",
+				'hint_message' => "Only up to {{max_bits}} bits are allowed for signed integers.",
+				'parameters' => ['bits' => $this->bits, 'max_bits' => self::BITS_MAX_SIGNED]
+			]);
 			$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_SIGNED - $this->bits);
 			$this->minimum = -$this->maximum - 1;
 		}

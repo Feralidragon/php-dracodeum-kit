@@ -15,6 +15,7 @@ use Feralygon\Kit\Root\System\{
 };
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Utilities\{
+	Call as UCall,
 	Text as UText,
 	Type as UType
 };
@@ -124,18 +125,26 @@ final class System
 	 * <p>The name to set for.</p>
 	 * @param string|int|float|bool|null $value
 	 * <p>The value to set.</p>
-	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionInvalidValueType
-	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOptionFailed
-	 * @return void
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOption\Failed
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the configuration option with the given name was successfully set 
+	 * with the given value, or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function setIniOption(string $name, $value) : void
+	final public static function setIniOption(string $name, $value, bool $no_throw = false)
 	{
-		//validate
-		if (isset($value) && !is_scalar($value)) {
-			throw new Exceptions\SetIniOptionInvalidValueType([
-				'name' => $name, 'value' => $value, 'type' => gettype($value)
-			]);
-		} elseif (Vendor::isLibrary()) {
+		//guard
+		UCall::guardParameter('value', $value, !isset($value) || is_scalar($value), [
+			'hint_message' => "Only a string, integer, float, boolean or null value is allowed."
+		]);
+		
+		//check
+		if (Vendor::isLibrary()) {
+			if ($no_throw) {
+				return false;
+			}
 			return;
 		}
 		
@@ -144,14 +153,19 @@ final class System
 		if (!isset($ini_value)) {
 			$ini_value = '';
 		} elseif (is_bool($ini_value)) {
-			$ini_value = $ini_value ? '1' : '0';
+			$ini_value = $ini_value ? 'On' : 'Off';
 		} else {
 			$ini_value = (string)$ini_value;
 		}
 		
 		//set
 		if (ini_set($name, $ini_value) === false) {
-			throw new Exceptions\SetIniOptionFailed(['name' => $name, 'value' => $value]);
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\SetIniOption\Failed(['name' => $name, 'value' => $value]);
+		} elseif ($no_throw) {
+			return true;
 		}
 	}
 	
@@ -238,16 +252,17 @@ final class System
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check for.</p>
-	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidCommandName
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has a command with the given name.</p>
 	 */
 	final public static function hasCommand(string $name) : bool
 	{
 		return self::memoize(function () use ($name) {
-			if (!UText::isIdentifier($name)) {
-				throw new Exceptions\InvalidCommandName(['name' => $name]);
-			}
+			UCall::guardParameter('name', $name, UText::isIdentifier($name), [
+				'hint_message' => "Only alphanumeric ASCII characters (a-z, A-Z and 0-9) and " . 
+					"underscore (_) are allowed, however the first character cannot be a number (0-9).",
+				'function_name' => 'hasCommand'
+			]);
 			return !empty(self::getOs()->isWindows() ? `where {$name}` : `command -v {$name}`);
 		});
 	}
