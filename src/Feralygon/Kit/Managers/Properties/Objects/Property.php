@@ -132,15 +132,14 @@ class Property
 	 * Initialize.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\AlreadyInitialized
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function initialize() : Property
 	{
-		if ($this->initialized) {
-			throw new Exceptions\AlreadyInitialized(['property' => $this]);
-		}
+		UCall::guard(!$this->initialized, [
+			'error_message' => "This property has already been initialized."
+		]);
 		$this->setValue($this->getDefaultValue());
 		return $this;
 	}

@@ -263,7 +263,6 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyAlreadyAdded
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
@@ -277,11 +276,10 @@ class Properties
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		
-		//check
-		if (isset($this->properties[$name])) {
-			throw new Exceptions\PropertyAlreadyAdded(['manager' => $this, 'name' => $name]);
-		}
+		UCall::guardParameter('name', $name, !isset($this->properties[$name]), [
+			'error_message' => "Property {{name}} has already been added.",
+			'parameters' => ['name' => $name]
+		]);
 		
 		//property
 		$property = $this->createProperty($name);
@@ -403,8 +401,6 @@ class Properties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\AlreadyInitialized
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\NoBuilderSet
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\MissingRequiredProperties
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
@@ -413,16 +409,18 @@ class Properties
 	 */
 	final public function initialize(array $properties = [], ?array &$remainder = null) : Properties
 	{
+		//guard
+		UCall::guard(!$this->initialized, [
+			'error_message' => "This manager has already been initialized."
+		]);
+		UCall::guard(!$this->lazy || isset($this->builder), [
+			'error_message' => "No builder function has been set.",
+			'hint_message' => "A builder function is required to be set when lazy-loading is enabled."
+		]);
+		
 		//initialize remainder
 		if (isset($remainder) || isset($this->remainderer)) {
 			$remainder = [];
-		}
-		
-		//validate
-		if ($this->initialized) {
-			throw new Exceptions\AlreadyInitialized(['manager' => $this]);
-		} elseif ($this->lazy && !isset($this->builder)) {
-			throw new Exceptions\NoBuilderSet(['manager' => $this]);
 		}
 		
 		//initialize
@@ -682,6 +680,25 @@ class Properties
 	 */
 	final protected function hasProperty(string $name) : bool
 	{
+		return $this->getProperty($name, true) !== null;
+	}
+	
+	/**
+	 * Get property instance for a given name.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to get for.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property|null
+	 * <p>The property instance for the given name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the property instance for the given name has not been found.</p>
+	 */
+	final protected function getProperty(string $name, bool $no_throw = false) : ?Objects\Property
+	{
 		if (!isset($this->properties[$name])) {
 			//build
 			$property = null;
@@ -691,10 +708,11 @@ class Properties
 					$property->initialize();
 				}
 			}
-			
-			//check
 			if (!isset($property)) {
-				return false;
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
 			}
 			
 			//property
@@ -709,24 +727,6 @@ class Properties
 				'parameters' => ['property' => $property]
 			]);
 			$this->properties[$name] = $property;
-		}
-		return true;
-	}
-	
-	/**
-	 * Get property instance for a given name.
-	 * 
-	 * @since 1.0.0
-	 * @param string $name
-	 * <p>The name to get for.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
-	 * <p>The property instance for the given name.</p>
-	 */
-	final protected function getProperty(string $name) : Objects\Property
-	{
-		if (!$this->hasProperty($name)) {
-			throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
 		}
 		return $this->properties[$name];
 	}

@@ -82,11 +82,15 @@ abstract class Factory
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get for.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
-	 * @return \Feralygon\Kit\Factory\Objects\Type
-	 * <p>The type instance for the given name.</p>
+	 * @return \Feralygon\Kit\Factory\Objects\Type|null
+	 * <p>The type instance for the given name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the type instance for the given name has not been found.</p>
 	 */
-	final protected static function getType(string $name) : Objects\Type
+	final protected static function getType(string $name, bool $no_throw = false) : ?Objects\Type
 	{
 		if (!isset(self::$types[static::class][$name])) {
 			//build
@@ -100,6 +104,9 @@ abstract class Factory
 			
 			//check
 			if (!isset($type)) {
+				if ($no_throw) {
+					return null;
+				}
 				throw new Exceptions\TypeNotFound(['factory' => static::class, 'name' => $name]);
 			}
 			UCall::guardInternal($type->getName() === $name, [
