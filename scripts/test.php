@@ -7,8 +7,6 @@ use Feralygon\Kit\Factories\Component as FComponent;
 
 System::setEnvironment('development');
 
-var_dump(System::hasCommand('0lsa'));die();
-
 
 $text_options = [
 	'info_scope' => 0

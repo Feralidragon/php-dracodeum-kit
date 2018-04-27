@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Managers\Readonly as Manager;
-use Feralygon\Kit\Traits\Readonly\Exceptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -102,15 +101,14 @@ trait Readonly
 	 * <p>The callback functions to call upon read-only enablement.<br>
 	 * Each one is expected to be compatible with the following signature:<br><br>
 	 * <code>function () : void</code></p>
-	 * @throws \Feralygon\Kit\Traits\Readonly\Exceptions\ReadonlyAlreadyInitialized
 	 * @return void
 	 */
 	final private function initializeReadonly(bool $enable = false, array $callbacks = []) : void
 	{
-		//manager
-		if (isset($this->readonly_manager)) {
-			throw new Exceptions\ReadonlyAlreadyInitialized(['object' => $this]);
-		}
+		//initialize
+		UCall::guard(!isset($this->readonly_manager), [
+			'error_message' => "Read-only support has already been initialized."
+		]);
 		$this->readonly_manager = new Manager($this);
 		
 		//callbacks

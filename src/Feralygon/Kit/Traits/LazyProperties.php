@@ -9,8 +9,7 @@ namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Traits\LazyProperties\{
 	Manager,
-	Objects,
-	Exceptions
+	Objects
 };
 use Feralygon\Kit\Utilities\Call as UCall;
 
@@ -342,7 +341,6 @@ trait LazyProperties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Traits\LazyProperties\Exceptions\PropertiesAlreadyInitialized
 	 * @return void
 	 */
 	final private function initializeProperties(
@@ -350,10 +348,10 @@ trait LazyProperties
 		?callable $remainderer = null, ?array &$remainder = null
 	) : void
 	{
-		//manager
-		if (isset($this->properties_manager) && $this->properties_manager->isInitialized()) {
-			throw new Exceptions\PropertiesAlreadyInitialized(['object' => $this]);
-		}
+		//initialize
+		UCall::guard(!isset($this->properties_manager) || !$this->properties_manager->isInitialized(), [
+			'error_message' => "Properties have already been initialized."
+		]);
 		$this->properties_manager = new Manager($this, true, $mode);
 		
 		//builder

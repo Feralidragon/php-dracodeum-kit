@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Traits;
 
-use Feralygon\Kit\Traits\NonInstantiable\Exceptions;
+use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
  * This trait turns a class into a non-instantiable one by preventing its instantiation.
@@ -21,10 +21,9 @@ trait NonInstantiable
 	 * Prevent class from being instantiated.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Traits\NonInstantiable\Exceptions\CannotInstantiate
 	 */
 	final public function __construct()
 	{
-		throw new Exceptions\CannotInstantiate(['class' => static::class]);
+		UCall::guard(false, ['error_message' => "This class cannot be instantiated."]);
 	}
 }
