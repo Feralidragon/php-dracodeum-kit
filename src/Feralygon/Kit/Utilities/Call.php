@@ -153,13 +153,22 @@ final class Call extends Utility
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
 	 * <p>The function to retrieve for.</p>
-	 * @return \ReflectionFunction|\ReflectionMethod
-	 * <p>A new reflection instance for the given function.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
+	 * @return \ReflectionFunction|\ReflectionMethod|null
+	 * <p>A new reflection instance for the given function.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function reflection($function) : \ReflectionFunctionAbstract
+	final public static function reflection($function, bool $no_throw = false) : ?\ReflectionFunctionAbstract
 	{
 		//validate
-		self::validate($function);
+		if ($no_throw && !self::validate($function, true)) {
+			return null;
+		} else {
+			self::validate($function);
+		}
 		
 		//method
 		if (is_array($function)) {
@@ -796,7 +805,7 @@ final class Call extends Utility
 	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to retrieve from.</p>
-	 * @return string
+	 * @return string|null
 	 * <p>The extension from the given function 
 	 * or <code>null</code> if the function does not belong to any extension.</p>
 	 */
@@ -891,16 +900,15 @@ final class Call extends Utility
 	 * @param int $offset [default = 0]
 	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return string|null
 	 * <p>The previous class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from a class.</p>
 	 */
 	final public static function stackPreviousClass(int $offset = 0) : ?string
 	{
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['class'] ?? null;
 	}
@@ -915,30 +923,22 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of classes to retrieve.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return string[]|null[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
 	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null) : array
 	{
-		//offset
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
-		
-		//limit
-		if (isset($limit)) {
-			if ($limit <= 0) {
-				throw new Exceptions\InvalidStackLimit(['limit' => $limit]);
-			}
-			$limit += $offset + 2;
-		} else {
-			$limit = 0;
-		}
+		//guard
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		self::guardParameter('limit', $limit, !isset($limit) || $limit > 0, [
+			'hint_message' => "Only null or a value greater than 0 is allowed."
+		]);
 		
 		//classes
 		$classes = [];
+		$limit = isset($limit) ? $limit + $offset + 2 : 0;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
 			$classes[] = $backtrace['class'] ?? null;
@@ -953,16 +953,15 @@ final class Call extends Utility
 	 * @param int $offset [default = 0]
 	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return object|null
 	 * <p>The previous object from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
 	final public static function stackPreviousObject(int $offset = 0) : ?object
 	{
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['object'] ?? null;
 	}
@@ -977,30 +976,22 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects to retrieve.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return object[]|null[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
 	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null) : array
 	{
-		//offset
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
-		
-		//limit
-		if (isset($limit)) {
-			if ($limit <= 0) {
-				throw new Exceptions\InvalidStackLimit(['limit' => $limit]);
-			}
-			$limit += $offset + 2;
-		} else {
-			$limit = 0;
-		}
+		//guard
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		self::guardParameter('limit', $limit, !isset($limit) || $limit > 0, [
+			'hint_message' => "Only null or a value greater than 0 is allowed."
+		]);
 		
 		//objects
 		$objects = [];
+		$limit = isset($limit) ? $limit + $offset + 2 : 0;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
 			$objects[] = $backtrace['object'] ?? null;
@@ -1015,16 +1006,15 @@ final class Call extends Utility
 	 * @param int $offset [default = 0]
 	 * <p>The offset to retrieve from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
 	 * @return object|string|null
 	 * <p>The previous object or class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
 	 */
 	final public static function stackPreviousObjectClass(int $offset = 0)
 	{
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		$backtrace = debug_backtrace($debug_flags, $offset + 3)[$offset + 2] ?? null;
 		return isset($backtrace) ? ($backtrace['object'] ?? $backtrace['class'] ?? null) : null;
@@ -1040,30 +1030,22 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects and classes to retrieve.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackOffset
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidStackLimit
 	 * @return object[]|string[]|null[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
 	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null) : array
 	{
-		//offset
-		if ($offset < 0) {
-			throw new Exceptions\InvalidStackOffset(['offset' => $offset]);
-		}
-		
-		//limit
-		if (isset($limit)) {
-			if ($limit <= 0) {
-				throw new Exceptions\InvalidStackLimit(['limit' => $limit]);
-			}
-			$limit += $offset + 2;
-		} else {
-			$limit = 0;
-		}
+		//guard
+		self::guardParameter('offset', $offset, $offset >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		self::guardParameter('limit', $limit, !isset($limit) || $limit > 0, [
+			'hint_message' => "Only null or a value greater than 0 is allowed."
+		]);
 		
 		//objects and classes
 		$objects_classes = [];
+		$limit = isset($limit) ? $limit + $offset + 2 : 0;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
 			$objects_classes[] = $backtrace['object'] ?? $backtrace['class'] ?? null;

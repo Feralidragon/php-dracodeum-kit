@@ -198,11 +198,15 @@ final class Data extends Utility
 	 * @param bool|null $safe [reference output] [default = null]
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the generated key may be used for longer term purposes, such as internal cache keys.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\KeyfyUnsupportedValueType
-	 * @return string
-	 * <p>An unique key from the given value.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\Keyfy\UnsupportedValueType
+	 * @return string|null
+	 * <p>An unique key from the given value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it failed.</p>
 	 */
-	final public static function keyfy($value, ?bool &$safe = null) : string
+	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false) : ?string
 	{
 		$safe = null;
 		if (!isset($value)) {
@@ -236,8 +240,10 @@ final class Data extends Utility
 			$safe = $array_safe;
 			$value = json_encode($value);
 			return strlen($value) > self::KEYFY_MAX_RAW_ARRAY_LENGTH ? 'A:' . sha1($value) : "a:{$value}";
+		} elseif ($no_throw) {
+			return null;
 		}
-		throw new Exceptions\KeyfyUnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		throw new Exceptions\Keyfy\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
 	}
 	
 	/**
@@ -284,16 +290,15 @@ final class Data extends Utility
 	 * Merge non-associative arrays by keeping the first entirely.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNIQUE</code> : 
 	 * When merging non-associative arrays, ensure that only unique values are present in the merged array.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The merged array from the two given ones.</p>
 	 */
 	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x000) : array
 	{
 		//initialize
-		if (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
 		$is_union = ($is_assoc && ($flags & self::MERGE_ASSOC_UNION)) || 
 			(!$is_assoc && ($flags & self::MERGE_NONASSOC_UNION));
@@ -393,12 +398,16 @@ final class Data extends Utility
 	 * Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from the removal of duplicates.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The given array without duplicated values.</p>
 	 */
 	final public static function unique(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//unique
 		$is_assoc = self::isAssociative($array);
 		if (
@@ -417,26 +426,21 @@ final class Data extends Utility
 			unset($map);
 		}
 		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::unique($v, $next_depth, $flags);
+				}
+			}
+			unset($v);
+		}
+		
 		//non-associative
 		if (!$is_assoc && !($flags & self::UNIQUE_NONASSOC_ASSOC)) {
 			$array = array_values($array);
 		}
-		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		
-		//recursion
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		foreach ($array as &$v) {
-			if (is_array($v)) {
-				$v = self::unique($v, $next_depth, $flags);
-			}
-		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -465,12 +469,16 @@ final class Data extends Utility
 	 * Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from sorting.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The sorted array.</p>
 	 */
 	final public static function sort(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//sort
 		$is_assoc = self::isAssociative($array);
 		if (
@@ -492,21 +500,16 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as &$v) {
-			if (is_array($v)) {
-				$v = self::sort($v, $next_depth, $flags);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::sort($v, $next_depth, $flags);
+				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -532,12 +535,16 @@ final class Data extends Utility
 	 * Exclude associative arrays from sorting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from sorting.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The sorted array by key.</p>
 	 */
 	final public static function ksort(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//sort
 		$is_assoc = self::isAssociative($array);
 		if (
@@ -551,21 +558,16 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as &$v) {
-			if (is_array($v)) {
-				$v = self::ksort($v, $next_depth, $flags);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::ksort($v, $next_depth, $flags);
+				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -604,12 +606,16 @@ final class Data extends Utility
 	 * Filter non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from filtering.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The filtered array from the given set of non-array values.</p>
 	 */
 	final public static function filter(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//filter
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
@@ -626,31 +632,21 @@ final class Data extends Utility
 					unset($array[$k]);
 				}
 			}
-			
-			//non-associative
-			if (!$is_assoc && !($flags & self::FILTER_NONASSOC_ASSOC)) {
-				$array = array_values($array);
-			}
 		}
-		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
 		
 		//recursion
-		foreach ($array as $k => &$v) {
-			if (is_array($v)) {
-				$v = self::filter($v, $values, $next_depth, $flags);
-				if ($is_empty && empty($v)) {
-					unset($array[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::filter($v, $values, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 			
 		//non-associative
 		if (!$is_assoc && !($flags & self::FILTER_NONASSOC_ASSOC)) {
@@ -682,12 +678,16 @@ final class Data extends Utility
 	 * Exclude associative arrays from filtering.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from filtering.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The filtered array from the given set of keys.</p>
 	 */
 	final public static function kfilter(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//filter
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
@@ -707,24 +707,19 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as $k => &$v) {
-			if (is_array($v)) {
-				$v = self::kfilter($v, $keys, $next_depth, $flags);
-				if ($is_empty && empty($v)) {
-					unset($array[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::kfilter($v, $keys, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -765,12 +760,16 @@ final class Data extends Utility
 	 * Trim non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from trimming.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The trimmed array from the given set of non-array values.</p>
 	 */
 	final public static function trim(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//trim
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
@@ -805,31 +804,21 @@ final class Data extends Utility
 					unset($array[$k]);
 				}
 			}
-			
-			//non-associative
-			if (!$is_assoc && !($flags & self::TRIM_NONASSOC_ASSOC)) {
-				$array = array_values($array);
-			}
 		}
-		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
 		
 		//recursion
-		foreach ($array as $k => &$v) {
-			if (is_array($v)) {
-				$v = self::trim($v, $values, $next_depth, $flags);
-				if ($is_empty && empty($v)) {
-					unset($array[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::trim($v, $values, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 			
 		//non-associative
 		if (!$is_assoc && !($flags & self::TRIM_NONASSOC_ASSOC)) {
@@ -865,12 +854,16 @@ final class Data extends Utility
 	 * Exclude associative arrays from trimming.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from trimming.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The trimmed array from the given set of keys.</p>
 	 */
 	final public static function ktrim(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//trim
 		$is_assoc = self::isAssociative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
@@ -907,24 +900,19 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as $k => &$v) {
-			if (is_array($v)) {
-				$v = self::ktrim($v, $keys, $next_depth, $flags);
-				if ($is_empty && empty($v)) {
-					unset($array[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::ktrim($v, $keys, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -959,12 +947,16 @@ final class Data extends Utility
 	 * consider the keys in the intersection and keep them intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from intersecting.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The intersected array from the two given arrays.</p>
 	 */
 	final public static function intersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//empty arrays
 		if (empty($array1) || empty($array2)) {
 			return [];
@@ -1006,28 +998,23 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array1;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array1 as $k => &$v) {
-			if (is_array($v)) {
-				if (isset($array2[$k]) && is_array($array2[$k])) {
-					$v = self::intersect($v, $array2[$k], $next_depth, $flags);
-					if (empty($v)) {
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array1 as $k => &$v) {
+				if (is_array($v)) {
+					if (isset($array2[$k]) && is_array($array2[$k])) {
+						$v = self::intersect($v, $array2[$k], $next_depth, $flags);
+						if (empty($v)) {
+							unset($array1[$k]);
+						}
+					} else {
 						unset($array1[$k]);
 					}
-				} else {
-					unset($array1[$k]);
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 			
 		//non-associative
 		if (!$is_assoc && !($flags & self::INTERSECT_NONASSOC_ASSOC)) {
@@ -1056,12 +1043,16 @@ final class Data extends Utility
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from intersecting.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The intersected array by key from the two given arrays.</p>
 	 */
 	final public static function kintersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//empty arrays
 		if (empty($array1) || empty($array2)) {
 			return [];
@@ -1076,28 +1067,23 @@ final class Data extends Utility
 			$array1 = array_intersect_key($array1, $array2);
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array1;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array1 as $k => &$v) {
-			if (is_array($v)) {
-				if (isset($array2[$k]) && is_array($array2[$k])) {
-					$v = self::kintersect($v, $array2[$k], $next_depth, $flags);
-					if (empty($v)) {
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array1 as $k => &$v) {
+				if (is_array($v)) {
+					if (isset($array2[$k]) && is_array($array2[$k])) {
+						$v = self::kintersect($v, $array2[$k], $next_depth, $flags);
+						if (empty($v)) {
+							unset($array1[$k]);
+						}
+					} else {
 						unset($array1[$k]);
 					}
-				} else {
-					unset($array1[$k]);
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array1;
@@ -1132,18 +1118,22 @@ final class Data extends Utility
 	 * consider the keys in the difference and keep them intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from differentiating.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The differentiated array from the two given arrays.</p>
 	 */
 	final public static function diff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//empty arrays
 		if (empty($array1) || empty($array2)) {
 			return $array1;
 		}
 		
-		//differenciate
+		//differentiate
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
 		if (
 			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
@@ -1178,24 +1168,19 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array1;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array1 as $k => &$v) {
-			if (is_array($v) && isset($array2[$k]) && is_array($array2[$k])) {
-				$v = self::diff($v, $array2[$k], $next_depth, $flags);
-				if (empty($v)) {
-					unset($array1[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array1 as $k => &$v) {
+				if (is_array($v) && isset($array2[$k]) && is_array($array2[$k])) {
+					$v = self::diff($v, $array2[$k], $next_depth, $flags);
+					if (empty($v)) {
+						unset($array1[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 			
 		//non-associative
 		if (!$is_assoc && !($flags & self::DIFF_NONASSOC_ASSOC)) {
@@ -1224,18 +1209,22 @@ final class Data extends Utility
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from differentiating.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The differentiated array by key from the two given arrays.</p>
 	 */
 	final public static function kdiff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//empty arrays
 		if (empty($array1) || empty($array2)) {
 			return $array1;
 		}
 		
-		//differenciate
+		//differentiate
 		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
 		if (
 			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
@@ -1248,24 +1237,19 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array1;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array1 as $k => &$v) {
-			if (is_array($v) && isset($array2[$k]) && is_array($array2[$k])) {
-				$v = self::kdiff($v, $array2[$k], $next_depth, $flags);
-				if (empty($v)) {
-					unset($array1[$k]);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array1 as $k => &$v) {
+				if (is_array($v) && isset($array2[$k]) && is_array($array2[$k])) {
+					$v = self::kdiff($v, $array2[$k], $next_depth, $flags);
+					if (empty($v)) {
+						unset($array1[$k]);
+					}
 				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array1;
@@ -1292,12 +1276,16 @@ final class Data extends Utility
 	 * Shuffle non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from shuffling.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The shuffled array.</p>
 	 */
 	final public static function shuffle(array $array, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//shuffle
 		$is_assoc = self::isAssociative($array);
 		if (
@@ -1313,21 +1301,16 @@ final class Data extends Utility
 			}
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as &$v) {
-			if (is_array($v)) {
-				$v = self::shuffle($v, $next_depth, $flags);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::shuffle($v, $next_depth, $flags);
+				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -1350,12 +1333,16 @@ final class Data extends Utility
 	 * Exclude associative arrays from aligning.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from aligning.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The aligned array with the given set of keys.</p>
 	 */
 	final public static function align(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
 	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
 		//align
 		$is_assoc = self::isAssociative($array);
 		if (
@@ -1372,21 +1359,16 @@ final class Data extends Utility
 			unset($alignment);
 		}
 		
-		//depth
-		if ($depth === 0) {
-			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
-		}
-		$next_depth = isset($depth) ? $depth - 1 : null;
-		
 		//recursion
-		foreach ($array as &$v) {
-			if (is_array($v)) {
-				$v = self::align($v, $keys, $next_depth, $flags);
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::align($v, $keys, $next_depth, $flags);
+				}
 			}
+			unset($v);
 		}
-		unset($v);
 		
 		//return
 		return $array;
@@ -1408,16 +1390,15 @@ final class Data extends Utility
 	 * @param string $delimiter [default = '.']
 	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given array has the given path.</p>
 	 */
 	final public static function has(array $array, string $path, string $delimiter = '.') : bool
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
 		
 		//check
 		$pointer = $array;
@@ -1446,22 +1427,28 @@ final class Data extends Utility
 	 * @param string $delimiter [default = '.']
 	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathNotFound
 	 * @return mixed
-	 * <p>The value from the given array at the given path.</p>
+	 * <p>The value from the given array at the given path.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be found.</p>
 	 */
-	final public static function get(array $array, string $path, string $delimiter = '.')
+	final public static function get(array $array, string $path, string $delimiter = '.', bool $no_throw = false)
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
 		
 		//get
 		$pointer = $array;
 		foreach (explode($delimiter, $path) as $key) {
 			if (!is_array($pointer) || !isset($pointer[$key])) {
+				if ($no_throw) {
+					return null;
+				}
 				throw new Exceptions\PathNotFound(['path' => $path]);
 			}
 			$pointer = $pointer[$key];
@@ -1487,27 +1474,41 @@ final class Data extends Utility
 	 * @param string $delimiter [default = '.']
 	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathKeySetIntoNonArray
-	 * @return void
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the given value was successfully set 
+	 * in the given array at the given path, or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function set(array &$array, string $path, $value, string $delimiter = '.') : void
+	final public static function set(
+		array &$array, string $path, $value, string $delimiter = '.', bool $no_throw = false
+	)
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
 		
 		//set
 		$pointer = &$array;
 		foreach (explode($delimiter, $path) as $key) {
 			if (isset($pointer) && !is_array($pointer)) {
+				if ($no_throw) {
+					return false;
+				}
 				throw new Exceptions\PathKeySetIntoNonArray(['path' => $path, 'key' => $key, 'value' => $pointer]);
 			}
 			$pointer = &$pointer[$key];
 		}
 		$pointer = $value;
 		unset($pointer);
+		
+		//return
+		if ($no_throw) {
+			return true;
+		}
 	}
 	
 	/**
@@ -1526,16 +1527,20 @@ final class Data extends Utility
 	 * @param string $delimiter [default = '.']
 	 * <p>The path delimiter character to use.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\PathKeyDeleteFromNonArray
-	 * @return void
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the given path was successfully deleted from the given array,  
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function delete(array &$array, string $path, string $delimiter = '.') : void
+	final public static function delete(array &$array, string $path, string $delimiter = '.', bool $no_throw = false)
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
 		
 		//crumbs
 		$crumbs = [];
@@ -1544,6 +1549,9 @@ final class Data extends Utility
 		foreach ($keys as $key) {
 			if (isset($pointer)) {
 				if (!is_array($pointer)) {
+					if ($no_throw) {
+						return false;
+					}
 					throw new Exceptions\PathKeyDeleteFromNonArray([
 						'path' => $path, 'key' => $key, 'value' => $pointer
 					]);
@@ -1567,6 +1575,11 @@ final class Data extends Utility
 			}
 		}
 		unset($crumb, $crumbs);
+		
+		//return
+		if ($no_throw) {
+			return true;
+		}
 	}
 	
 	/**
@@ -1657,8 +1670,6 @@ final class Data extends Utility
 	 * Exclude associative arrays from collapsing.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from collapsing.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The collapsed array.</p>
 	 */
@@ -1666,16 +1677,17 @@ final class Data extends Utility
 		array $array, string $delimiter = '.', ?int $depth = null, int $flags = 0x00
 	) : array
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
 		
 		//depth
 		if ($depth === 0) {
 			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
 		}
 		$next_depth = isset($depth) ? $depth - 1 : null;
 		
@@ -1734,23 +1746,22 @@ final class Data extends Utility
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the expansion at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidPathDelimiter
-	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\InvalidDepth
 	 * @return array
 	 * <p>The expanded array.</p>
 	 */
 	final public static function expand(array $array, string $delimiter = '.', ?int $depth = null) : array
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\InvalidPathDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
 		
 		//depth
 		if ($depth === 0) {
 			return $array;
-		} elseif (isset($depth) && $depth < 0) {
-			throw new Exceptions\InvalidDepth(['depth' => $depth]);
 		}
 		$next_depth = isset($depth) ? $depth - 1 : null;
 		

@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Data\Exceptions;
+namespace Feralygon\Kit\Utilities\Data\Exceptions\Keyfy;
+
+use Feralygon\Kit\Utilities\Data\Exceptions\Keyfy as Exception;
 
 /**
  * This exception is thrown from the data utility <code>keyfy</code> method whenever a given value type is unsupported.
@@ -16,7 +18,7 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
  * @property-read string $type
  * <p>The type.</p>
  */
-class KeyfyUnsupportedValueType extends Keyfy
+class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

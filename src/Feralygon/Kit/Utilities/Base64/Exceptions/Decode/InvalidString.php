@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Base64\Exceptions;
+namespace Feralygon\Kit\Utilities\Base64\Exceptions\Decode;
+
+use Feralygon\Kit\Utilities\Base64\Exceptions\Decode as Exception;
 
 /**
  * This exception is thrown from the Base64 utility <code>decode</code> method whenever a given string is invalid.
@@ -16,7 +18,7 @@ namespace Feralygon\Kit\Utilities\Base64\Exceptions;
  * @property-read bool $url_safe [default = false]
  * <p>URL-safe decoding.</p>
  */
-class DecodeInvalidString extends Decode
+class InvalidString extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

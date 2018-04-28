@@ -48,17 +48,24 @@ final class Base64 extends Utility
 	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
 	 * as well as the padding equal signs (<samp>=</samp>) removed, in order to have been safely put in an URL.<br>
 	 * If not set, then the used encoding is automatically detected from the given string.</p>
-	 * @throws \Feralygon\Kit\Utilities\Base64\Exceptions\DecodeInvalidString
-	 * @return string
-	 * <p>The given string decoded.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Base64\Exceptions\Decode\InvalidString
+	 * @return string|null
+	 * <p>The given string decoded.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be decoded.</p>
 	 */
-	final public static function decode(string $string, ?bool $url_safe = null) : string
+	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false) : ?string
 	{
 		if (!isset($url_safe)) {
 			$url_safe = (bool)preg_match('/[_\-]/', $string);
 		}
 		if (!preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string)) {
-			throw new Exceptions\DecodeInvalidString(['string' => $string, 'url_safe' => $url_safe]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Decode\InvalidString(['string' => $string, 'url_safe' => $url_safe]);
 		}
 		return $url_safe ? base64_decode(strtr($string, '-_', '+/')) : base64_decode($string);
 	}

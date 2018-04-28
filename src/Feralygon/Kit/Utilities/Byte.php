@@ -152,16 +152,23 @@ final class Byte extends Utility
 	 * @since 1.0.0
 	 * @param string $value
 	 * <p>The human-readable value to retrieve from.</p>
-	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\MvalueInvalidValue
-	 * @return int
-	 * <p>The machine-readable value in bytes from the given human one.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\Mvalue\InvalidValue
+	 * @return int|null
+	 * <p>The machine-readable value in bytes from the given human one.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function mvalue(string $value) : int
+	final public static function mvalue(string $value, bool $no_throw = false) : ?int
 	{
 		//parse
 		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
 		if (!preg_match($pattern, $value, $matches)) {
-			throw new Exceptions\MvalueInvalidValue(['value' => $value]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mvalue\InvalidValue(['value' => $value]);
 		}
 		$sign = $matches['sign'];
 		$number = (float)str_replace(',', '.', $matches['number']);
@@ -169,7 +176,10 @@ final class Byte extends Utility
 		
 		//calculate
 		if (!self::evaluateMultiple($multiple)) {
-			throw new Exceptions\MvalueInvalidValue(['value' => $value]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mvalue\InvalidValue(['value' => $value]);
 		}
 		$number *= $multiple;
 		if ($sign === '-') {

@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Byte\Exceptions;
+namespace Feralygon\Kit\Utilities\Byte\Exceptions\Mvalue;
+
+use Feralygon\Kit\Utilities\Byte\Exceptions\Mvalue as Exception;
 
 /**
  * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
@@ -14,7 +16,7 @@ namespace Feralygon\Kit\Utilities\Byte\Exceptions;
  * @property-read string $value
  * <p>The value.</p>
  */
-class MvalueInvalidValue extends Mvalue
+class InvalidValue extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
