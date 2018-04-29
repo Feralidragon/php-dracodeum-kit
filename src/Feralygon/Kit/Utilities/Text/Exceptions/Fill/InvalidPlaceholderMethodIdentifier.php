@@ -5,11 +5,13 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Text\Exceptions;
+namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
+
+use Feralygon\Kit\Utilities\Text\Exceptions\Fill as Exception;
 
 /**
  * This exception is thrown from the text utility <code>fill</code> method whenever 
- * a given placeholder property identifier is not found.
+ * a given placeholder method identifier is invalid.
  * 
  * @since 1.0.0
  * @property-read string $placeholder
@@ -17,13 +19,13 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read string $identifier
  * <p>The identifier.</p>
  */
-class FillPlaceholderPropertyIdentifierNotFound extends Fill
+class InvalidPlaceholderMethodIdentifier extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Placeholder {{placeholder}} property identifier {{identifier}} not found.";
+		return "Invalid method identifier {{identifier}} in placeholder {{placeholder}}.";
 	}
 	
 	

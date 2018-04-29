@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Math\Exceptions;
+namespace Feralygon\Kit\Utilities\Math\Exceptions\Mnumber;
+
+use Feralygon\Kit\Utilities\Math\Exceptions\Mnumber as Exception;
 
 /**
  * This exception is thrown from the math utility <code>mnumber</code> method whenever a given number is invalid.
@@ -14,7 +16,7 @@ namespace Feralygon\Kit\Utilities\Math\Exceptions;
  * @property-read string $number
  * <p>The number.</p>
  */
-class MnumberInvalidNumber extends Mnumber
+class InvalidNumber extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

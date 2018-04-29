@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Text\Exceptions;
+namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
+
+use Feralygon\Kit\Utilities\Text\Exceptions\Fill as Exception;
 
 /**
  * This exception is thrown from the text utility <code>fill</code> method whenever 
@@ -17,7 +19,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read string $identifier
  * <p>The identifier.</p>
  */
-class FillPlaceholderMethodIdentifierNotFound extends Fill
+class PlaceholderMethodIdentifierNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

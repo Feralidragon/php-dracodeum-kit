@@ -5,22 +5,27 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Text\Exceptions;
+namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
+
+use Feralygon\Kit\Utilities\Text\Exceptions\Fill as Exception;
 
 /**
- * This exception is thrown from the text utility <code>fill</code> method whenever a given placeholder is invalid.
+ * This exception is thrown from the text utility <code>fill</code> method whenever 
+ * a given placeholder identifier is invalid.
  * 
  * @since 1.0.0
  * @property-read string $placeholder
  * <p>The placeholder.</p>
+ * @property-read string $identifier
+ * <p>The identifier.</p>
  */
-class FillInvalidPlaceholder extends Fill
+class InvalidPlaceholderIdentifier extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid placeholder {{placeholder}}.";
+		return "Invalid identifier {{identifier}} in placeholder {{placeholder}}.";
 	}
 	
 	
@@ -30,5 +35,6 @@ class FillInvalidPlaceholder extends Fill
 	protected function loadProperties() : void
 	{
 		$this->addProperty('placeholder')->setAsString()->setAsRequired();
+		$this->addProperty('identifier')->setAsString()->setAsRequired();
 	}
 }

@@ -133,7 +133,6 @@ final class Math extends Utility
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
 	 * If not set, then an internally generated seed is used.</p>
-	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\WrandomInvalidValueWeight
 	 * @return int|string|null
 	 * <p>A random integer or string value from the given set of weighted values 
 	 * or <code>null</code> if the given set is empty.</p>
@@ -142,15 +141,23 @@ final class Math extends Utility
 	{
 		//initialize
 		foreach ($values_weights as $value => &$weight) {
-			if (!is_numeric($weight) || $weight < 0) {
-				throw new Exceptions\WrandomInvalidValueWeight(['value' => $value, 'weight' => $weight]);
-			} elseif (empty($weight)) {
+			//guard
+			Call::guardParameter('values_weights', $values_weights, is_numeric($weight) && $weight >= 0, [
+				'error_message' => "Invalid weight {{weight}} for value {{value}}.",
+				'hint_message' => "Only a numeric weight greater than or equal to 0 is allowed.",
+				'parameters' => ['weight' => $weight, 'value' => $value]
+			]);
+			
+			//weight
+			if (empty($weight)) {
 				unset($values_weights[$value]);
 				continue;
 			}
 			$weight = (float)$weight;
 		}
 		unset($weight);
+		
+		//empty
 		if (empty($values_weights)) {
 			return null;
 		}
@@ -301,16 +308,23 @@ final class Math extends Utility
 	 * @since 1.0.0
 	 * @param string $number
 	 * <p>The human-readable number to retrieve from.</p>
-	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\MnumberInvalidNumber
-	 * @return int
-	 * <p>The machine-readable number from the given human one.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\Mnumber\InvalidNumber
+	 * @return int|null
+	 * <p>The machine-readable number from the given human one.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function mnumber(string $number) : int
+	final public static function mnumber(string $number, bool $no_throw = false) : ?int
 	{
 		//parse
 		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
 		if (!preg_match($pattern, $number, $matches)) {
-			throw new Exceptions\MnumberInvalidNumber(['number' => $number]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mnumber\InvalidNumber(['number' => $number]);
 		}
 		$sign = $matches['sign'];
 		$n = (float)str_replace(',', '.', $matches['number']);
@@ -318,7 +332,10 @@ final class Math extends Utility
 		
 		//calculate
 		if (!self::evaluateMultiple($multiple)) {
-			throw new Exceptions\MnumberInvalidNumber(['number' => $number]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mnumber\InvalidNumber(['number' => $number]);
 		}
 		$n *= $multiple;
 		if ($sign === '-') {

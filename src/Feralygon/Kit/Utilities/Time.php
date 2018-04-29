@@ -124,12 +124,17 @@ final class Time extends Utility
 	 * @param int|float|string $timestamp
 	 * <p>The timestamp to retrieve from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\InvalidTimestamp
-	 * @return int
-	 * <p>The Unix timestamp from the given timestamp.</p>
+	 * @return int|null
+	 * <p>The Unix timestamp from the given timestamp.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function timestamp($timestamp) : int
+	final public static function timestamp($timestamp, bool $no_throw = false) : ?int
 	{
+		//timestamp
 		if (Type::evaluateInteger($timestamp)) {
 			return $timestamp;
 		} elseif (Type::evaluateString($timestamp, true)) {
@@ -137,6 +142,11 @@ final class Time extends Utility
 			if ($t !== false) {
 				return $t;
 			}
+		}
+		
+		//finish
+		if ($no_throw) {
+			return null;
 		}
 		throw new Exceptions\InvalidTimestamp(['timestamp' => $timestamp]);
 	}
@@ -217,13 +227,9 @@ final class Time extends Utility
 			]);
 		}
 		
-		//coerce
-		try {
-			$value = self::timestamp($value);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-		} catch (Exceptions\InvalidTimestamp $exception) {
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (!isset($timestamp)) {
 			throw new Exceptions\DateTimeCoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_INVALID,
@@ -234,7 +240,13 @@ final class Time extends Utility
 					"such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\"."
 			]);
 		}
-		return $value;
+		
+		//datetime
+		$datetime = $timestamp;
+		if (isset($format)) {
+			$datetime = date($format, $datetime);
+		}
+		return $datetime;
 	}
 	
 	/**
@@ -338,13 +350,9 @@ final class Time extends Utility
 			]);
 		}
 		
-		//coerce
-		try {
-			$value = (int)(floor(self::timestamp($value) / ETime::T1_DAY) * ETime::T1_DAY);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-		} catch (Exceptions\InvalidTimestamp $exception) {
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (!isset($timestamp)) {
 			throw new Exceptions\DateCoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_INVALID,
@@ -354,7 +362,13 @@ final class Time extends Utility
 					"such as: \"2017-Jan-01\" for \"2017-01-01\"."
 			]);
 		}
-		return $value;
+		
+		//date
+		$date = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+		if (isset($format)) {
+			$date = date($format, $date);
+		}
+		return $date;
 	}
 	
 	/**
@@ -458,14 +472,9 @@ final class Time extends Utility
 			]);
 		}
 		
-		//coerce
-		try {
-			$value = self::timestamp($value);
-			$value -= (int)(floor($value / ETime::T1_DAY) * ETime::T1_DAY);
-			if (isset($format)) {
-				$value = date($format, $value);
-			}
-		} catch (Exceptions\InvalidTimestamp $exception) {
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (!isset($timestamp)) {
 			throw new Exceptions\TimeCoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_INVALID,
@@ -475,7 +484,13 @@ final class Time extends Utility
 					"such as: \"2:05PM\" for \"14:05:00\"."
 			]);
 		}
-		return $value;
+		
+		//time
+		$time = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+		if (isset($format)) {
+			$time = date($format, $time);
+		}
+		return $time;
 	}
 	
 	/**
@@ -887,16 +902,23 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @param string $period
 	 * <p>The human-readable period to retrieve from.</p>
-	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\MperiodInvalidPeriod
-	 * @return float
-	 * <p>The machine-readable period, in seconds, from the given human one.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\Mperiod\InvalidPeriod
+	 * @return float|null
+	 * <p>The machine-readable period, in seconds, from the given human one.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function mperiod(string $period) : float
+	final public static function mperiod(string $period, bool $no_throw = false) : ?float
 	{
 		//parse
 		$pattern = '/(?P<signs>[\-+])?(?P<times>\d+(?:[\.,]\d+)?)\s*(?P<multiples>[^\s,]+)?/i';
 		if (!preg_match_all($pattern, $period, $matches)) {
-			throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mperiod\InvalidPeriod(['period' => $period]);
 		}
 		
 		//calculate
@@ -905,7 +927,10 @@ final class Time extends Utility
 			$time = str_replace(',', '.', $time);
 			$multiple = empty($matches['multiples'][$i]) ? 's' : $matches['multiples'][$i];
 			if (!self::evaluateMultiple($multiple)) {
-				throw new Exceptions\MperiodInvalidPeriod(['period' => $period]);
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\Mperiod\InvalidPeriod(['period' => $period]);
 			}
 			$number += (float)$time * $multiple * ($matches['signs'][$i] === '-' ? -1 : 1);
 		}
@@ -1024,37 +1049,38 @@ final class Time extends Utility
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateInvalidInterval
-	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\GenerateStartLaterThanEnd
 	 * @return float[]|string[]
 	 * <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>
 	 */
 	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
 	{
 		//initialize
-		if ($interval <= 0.0) {
-			throw new Exceptions\GenerateInvalidInterval(['interval' => $interval]);
+		$start_timestamp = $start;
+		$end_timestamp = $end;
+		if (!is_float($start_timestamp)) {
+			$start_timestamp = (float)self::timestamp($start_timestamp);
 		}
-		if (!is_float($start)) {
-			$start = (float)self::timestamp($start);
+		if (!isset($end_timestamp)) {
+			$end_timestamp = microtime(true);
+		} elseif (!is_float($end_timestamp)) {
+			$end_timestamp = (float)self::timestamp($end_timestamp);
 		}
-		if (!isset($end)) {
-			$end = microtime(true);
-		} elseif (!is_float($end)) {
-			$end = (float)self::timestamp($end);
-		}
-		if ($start > $end) {
-			throw new Exceptions\GenerateStartLaterThanEnd(['start' => $start, 'end' => $end]);
-		}
+		Call::guardParameter('end', $end, $end_timestamp >= $start_timestamp, [
+			'hint_message' => "Only a value before or at the given start {{start}} is allowed.",
+			'parameters' => ['start' => $start]
+		]);
+		Call::guardParameter('interval', $interval, $interval > 0.0, [
+			'hint_message' => "Only a value greater than 0 is allowed."
+		]);
 		$options = Options\Generate::coerce($options);
 		
 		//values
 		$values = [];
-		$current = $start;
+		$current = $start_timestamp;
 		do {
 			$values[(string)$current] = $current;
 			$current += $interval;
-		} while ($current < $end);
+		} while ($current <= $end_timestamp);
 		
 		//format
 		if (isset($options->format)) {

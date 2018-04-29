@@ -63,7 +63,6 @@ final class Hash extends Utility
 	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\InvalidBits
 	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\CoercionFailed
 	 * @return string|null
 	 * <p>The given value coerced into a hash.<br>
@@ -71,10 +70,10 @@ final class Hash extends Utility
 	 */
 	final public static function coerce($value, int $bits, bool $nullable = false) : ?string
 	{
-		//validate
-		if ($bits <= 0 || $bits % 8 !== 0) {
-			throw new Exceptions\InvalidBits(['bits' => $bits]);
-		}
+		//guard
+		Call::guardParameter('bits', $bits, $bits > 0 && $bits % 8 === 0, [
+			'hint_message' => "Only a multiple of 8 and a value greater than 0 is allowed."
+		]);
 		
 		//coerce
 		if (!isset($value)) {

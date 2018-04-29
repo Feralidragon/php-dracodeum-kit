@@ -56,11 +56,15 @@ final class Type extends Utility
 	 * <p>The value to generate from.</p>
 	 * @param bool $pretty [default = false]
 	 * <p>Return human-readable and visually appealing PHP code.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\PhpfyUnsupportedValueType
-	 * @return string
-	 * <p>The generated PHP code from the given value.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\Phpfy\UnsupportedValueType
+	 * @return string|null
+	 * <p>The generated PHP code from the given value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be generated.</p>
 	 */
-	final public static function phpfy($value, bool $pretty = false) : string
+	final public static function phpfy($value, bool $pretty = false, bool $no_throw = false) : ?string
 	{
 		//null
 		if (!isset($value)) {
@@ -103,7 +107,8 @@ final class Type extends Utility
 				}
 				$properties[$name] = $v;
 			}
-			return '\\' . get_class($value) . '::__set_state(' . self::phpfy($properties, $pretty) . ')';
+			$php = self::phpfy($properties, $pretty, $no_throw);
+			return isset($php) ? '\\' . get_class($value) . "::__set_state({$php})" : null;
 		}
 		
 		//array
@@ -117,11 +122,28 @@ final class Type extends Utility
 			$is_assoc = Data::isAssociative($value);
 			$array = [];
 			foreach ($value as $k => $v) {
-				$array[] = (
-					$is_assoc
-						? (is_int($k) ? $k : self::phpfy((string)$k, $pretty)) . ($pretty ? ' => ' : '=>')
-						: ''
-				) . self::phpfy($v, $pretty);
+				//key
+				$k_php = '';
+				if ($is_assoc) {
+					if (is_int($k)) {
+						$k_php = (string)$k;
+					} else {
+						$k_php = self::phpfy($k, $pretty, $no_throw);
+						if (!isset($k_php)) {
+							return null;
+						}
+					}
+					$k_php .= $pretty ? ' => ' : '=>';
+				}
+				
+				//value
+				$v_php = self::phpfy($v, $pretty, $no_throw);
+				if (!isset($v_php)) {
+					return null;
+				}
+				
+				//array
+				$array[] = $k_php . $v_php;
 			}
 			
 			//return
@@ -144,8 +166,11 @@ final class Type extends Utility
 			);
 		}
 		
-		//exception
-		throw new Exceptions\PhpfyUnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		//finish
+		if ($no_throw) {
+			return null;
+		}
+		throw new Exceptions\Phpfy\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
 	}
 	
 	/**
@@ -340,14 +365,10 @@ final class Type extends Utility
 			}
 				
 			//human-readable
-			try {
-				return Math::mnumber($value);
-			} catch (Math\Exceptions\Mnumber $exception) {}
-				
-			//human-readable (bytes)
-			try {
-				return Byte::mvalue($value);
-			} catch (Byte\Exceptions\Mvalue $exception) {}
+			$v = Math::mnumber($value, true) ?? Byte::mvalue($value, true);
+			if (isset($v)) {
+				return $v;
+			}
 		}
 		
 		//throw
@@ -1122,20 +1143,18 @@ final class Type extends Utility
 	 * <p>The object or class to check.</p>
 	 * @param string[] $interfaces
 	 * <p>The interfaces to check against.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidInterface
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class implements any of the given interfaces.</p>
 	 */
 	final public static function implementsAny($object_class, array $interfaces) : bool
 	{
-		foreach ($interfaces as $interface) {
-			if (!is_string($interface)) {
-				throw new Exceptions\InvalidInterface(['interface' => $interface]);
-			} elseif (!interface_exists($interface)) {
-				throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
-			}
+		//interfaces
+		foreach ($interfaces as &$interface) {
+			$interface = self::interface($interface);
 		}
+		unset($interface);
+		
+		//return
 		return !empty(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces)));
 	}
 	
@@ -1148,20 +1167,18 @@ final class Type extends Utility
 	 * <p>The object or class to check.</p>
 	 * @param string[] $interfaces
 	 * <p>The interfaces to check against.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidInterface
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class implements all the given interfaces.</p>
 	 */
 	final public static function implementsAll($object_class, array $interfaces) : bool
 	{
-		foreach ($interfaces as $interface) {
-			if (!is_string($interface)) {
-				throw new Exceptions\InvalidInterface(['interface' => $interface]);
-			} elseif (!interface_exists($interface)) {
-				throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
-			}
+		//interfaces
+		foreach ($interfaces as &$interface) {
+			$interface = self::interface($interface);
 		}
+		unset($interface);
+		
+		//return
 		$count = count(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces)));
 		return $count === count($interfaces);
 	}
@@ -1188,18 +1205,28 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to retrieve from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidObjectClass
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassNotFound
-	 * @return string
-	 * <p>The class from the given object or class.</p>
+	 * @return string|null
+	 * <p>The class from the given object or class.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
 	 */
-	final public static function class($object_class) : string
+	final public static function class($object_class, bool $no_throw = false) : ?string
 	{
 		if (is_object($object_class)) {
 			return get_class($object_class);
 		} elseif (!is_string($object_class)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\InvalidObjectClass(['object_class' => $object_class]);
 		} elseif (!class_exists($object_class)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\ClassNotFound(['class' => $object_class]);
 		}
 		return ltrim($object_class, '\\');
@@ -1213,13 +1240,20 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param string $interface
 	 * <p>The interface to validate and sanitize.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
-	 * @return string
-	 * <p>The given interface validated and sanitized.</p>
+	 * @return string|null
+	 * <p>The given interface validated and sanitized.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be found.</p>
 	 */
-	final public static function interface(string $interface) : string
+	final public static function interface(string $interface, bool $no_throw = false) : ?string
 	{
 		if (!interface_exists($interface)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
 		}
 		return ltrim($interface, '\\');

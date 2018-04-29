@@ -30,11 +30,13 @@ final class Json extends Utility
 	 * <p>The data to encode.</p>
 	 * @param \Feralygon\Kit\Utilities\Json\Options\Encode|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\EncodeInvalidData
-	 * @return string
-	 * <p>The given data encoded.</p>
+	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\Encode\InvalidData
+	 * @return string|null
+	 * <p>The given data encoded.<br>
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be encoded.</p>
 	 */
-	final public static function encode($data, $options = null) : string
+	final public static function encode($data, $options = null) : ?string
 	{
 		//encode
 		$options = Options\Encode::coerce($options);
@@ -45,7 +47,10 @@ final class Json extends Utility
 		//error
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
-			throw new Exceptions\EncodeInvalidData([
+			if ($options->no_throw) {
+				return null;
+			}
+			throw new Exceptions\Encode\InvalidData([
 				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}
@@ -62,9 +67,11 @@ final class Json extends Utility
 	 * <p>The data to decode.</p>
 	 * @param \Feralygon\Kit\Utilities\Json\Options\Decode|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\DecodeInvalidData
+	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\Decode\InvalidData
 	 * @return mixed
-	 * <p>The given data decoded.</p>
+	 * <p>The given data decoded.<br>
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be decoded.</p>
 	 */
 	final public static function decode(string $data, $options = null)
 	{
@@ -77,7 +84,10 @@ final class Json extends Utility
 		//error
 		$error_code = json_last_error();
 		if ($error_code !== JSON_ERROR_NONE) {
-			throw new Exceptions\DecodeInvalidData([
+			if ($options->no_throw) {
+				return null;
+			}
+			throw new Exceptions\Decode\InvalidData([
 				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}

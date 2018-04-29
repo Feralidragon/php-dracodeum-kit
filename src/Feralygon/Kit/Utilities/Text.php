@@ -158,11 +158,13 @@ final class Text extends Utility
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Stringify|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\StringifyUnsupportedValueType
-	 * @return string
-	 * <p>The generated string from the given value.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Stringify\UnsupportedValueType
+	 * @return string|null
+	 * <p>The generated string from the given value.<br>
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be generated.</p>
 	 */
-	final public static function stringify($value, $text_options = null, $options = null) : string
+	final public static function stringify($value, $text_options = null, $options = null) : ?string
 	{
 		//initialize
 		$text_options = TextOptions::coerce($text_options);
@@ -268,7 +270,7 @@ final class Text extends Utility
 			$is_associative = Data::isAssociative($value);
 			$assoc_options = null;
 			if ($is_associative) {
-				$assoc_options = Options\Stringify::coerce($options, true);
+				$assoc_options = $options->clone();
 				$assoc_options->prepend_type = false;
 				$assoc_options->quote_strings = $options->prepend_type;
 			}
@@ -277,8 +279,15 @@ final class Text extends Utility
 			$strings = [];
 			foreach ($value as $k => $v) {
 				$v_string = self::stringify($v, $text_options, $options);
-				if ($is_associative) {
-					$v_string = self::stringify($k, $text_options, $assoc_options) . ": {$v_string}";
+				if (!isset($v_string)) {
+					return null;
+				} elseif ($is_associative) {
+					$k_string = self::stringify($k, $text_options, $assoc_options);
+					if (!isset($k_string)) {
+						return null;
+					}
+					$v_string = "{$k_string}: {$v_string}";
+					unset($k_string);
 				}
 				$strings[] = $v_string;
 				unset($v_string);
@@ -354,8 +363,11 @@ final class Text extends Utility
 			return $prepend_type ? "(array){$string}" : $string;
 		}
 		
-		//exception
-		throw new Exceptions\StringifyUnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		//finish
+		if ($options->no_throw) {
+			return null;
+		}
+		throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
 	}
 	
 	/**
@@ -376,16 +388,15 @@ final class Text extends Utility
 	 * @param string $delimiter [default = '-']
 	 * <p>The delimiter character to use between words.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\SlugifyInvalidDelimiter
 	 * @return string
 	 * <p>The slugified string from the given one.</p>
 	 */
 	final public static function slugify(string $string, bool $keep_case = false, string $delimiter = '-') : string
 	{
-		//validate
-		if (strlen($delimiter) !== 1) {
-			throw new Exceptions\SlugifyInvalidDelimiter(['delimiter' => $delimiter]);
-		}
+		//guard
+		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
 		
 		//slugify
 		$string = preg_replace('/[^\pL\d]+/iu', $delimiter, $string);
@@ -624,12 +635,12 @@ final class Text extends Utility
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Fill|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderMethodIdentifier
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderMethodIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderPropertyIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillPlaceholderKeyIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholderIdentifier
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\FillInvalidPlaceholder
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderMethodIdentifier
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderMethodIdentifierNotFound
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderPropertyIdentifierNotFound
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderKeyIdentifierNotFound
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderIdentifier
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholder
 	 * @return string
 	 * <p>The given string filled with the given set of parameters.</p>
 	 */
@@ -650,31 +661,31 @@ final class Text extends Utility
 					if ($identifier[-1] === ')') {
 						$identifier = substr($identifier, 0, -2);
 						if (!is_object($pointer)) {
-							throw new Exceptions\FillInvalidPlaceholderMethodIdentifier([
+							throw new Exceptions\Fill\InvalidPlaceholderMethodIdentifier([
 								'placeholder' => $token, 'identifier' => "{$identifier}()"
 							]);
 						} elseif (!method_exists($pointer, $identifier)) {
-							throw new Exceptions\FillPlaceholderMethodIdentifierNotFound([
+							throw new Exceptions\Fill\PlaceholderMethodIdentifierNotFound([
 								'placeholder' => $token, 'identifier' => "{$identifier}()"
 							]);
 						}
 						$pointer = $pointer->$identifier();
 					} elseif (is_object($pointer)) {
 						if (!property_exists($pointer, $identifier)) {
-							throw new Exceptions\FillPlaceholderPropertyIdentifierNotFound([
+							throw new Exceptions\Fill\PlaceholderPropertyIdentifierNotFound([
 								'placeholder' => $token, 'identifier' => $identifier
 							]);
 						}
 						$pointer = $pointer->$identifier;
 					} elseif (is_array($pointer)) {
 						if (!array_key_exists($identifier, $pointer)) {
-							throw new Exceptions\FillPlaceholderKeyIdentifierNotFound([
+							throw new Exceptions\Fill\PlaceholderKeyIdentifierNotFound([
 								'placeholder' => $token, 'identifier' => $identifier
 							]);
 						}
 						$pointer = $pointer[$identifier];
 					} else {
-						throw new Exceptions\FillInvalidPlaceholderIdentifier([
+						throw new Exceptions\Fill\InvalidPlaceholderIdentifier([
 							'placeholder' => $token, 'identifier' => $identifier
 						]);
 					}
@@ -686,14 +697,14 @@ final class Text extends Utility
 					$pointer_string = ($options->stringifier)($token, $pointer);
 				}
 				if (!isset($pointer_string)) {
-					$pointer_string = self::stringify($pointer, $text_options, $options->string_options);
+					$pointer_string = self::stringify($pointer, $text_options, $options->string_options) ?? '';
 				}
 				
 				//finish
 				$f_string .= $pointer_string;
 				unset($pointer);
 			} else {
-				throw new Exceptions\FillInvalidPlaceholder(['placeholder' => $token]);
+				throw new Exceptions\Fill\InvalidPlaceholder(['placeholder' => $token]);
 			}
 		}
 		return $f_string;
@@ -783,15 +794,12 @@ final class Text extends Utility
 	 * <p>The string to check.</p>
 	 * @param string $placeholder
 	 * <p>The placeholder to check for.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string has the given placeholder.</p>
 	 */
 	final public static function hasPlaceholder(string $string, string $placeholder) : bool
 	{
-		if (!self::isPlaceholder($placeholder)) {
-			throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder]);
-		}
+		Call::guardParameter('placeholder', $placeholder, self::isPlaceholder($placeholder));
 		return strpos($string, "{{{$placeholder}}}") !== false;
 	}
 	
@@ -854,16 +862,22 @@ final class Text extends Utility
 	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to get from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return string[]
-	 * <p>The placeholders from the given string.</p>
+	 * <p>The placeholders from the given string.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then any invalid placeholders found are ignored.</p>
 	 */
-	final public static function placeholders(string $string) : array
+	final public static function placeholders(string $string, bool $no_throw = false) : array
 	{
 		$placeholders = [];
 		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/U', $string, $matches) > 0) {
 			foreach ($matches['placeholders'] as $placeholder) {
 				if (!self::isPlaceholder($placeholder)) {
+					if ($no_throw) {
+						continue;
+					}
 					throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder]);
 				}
 				$placeholders[] = $placeholder;
@@ -905,7 +919,7 @@ final class Text extends Utility
 	 * @return array|null
 	 * <p>The extracted parameters from the given string using the given mask, as <samp>key => value</samp> pairs.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if the parameters could not be fully extracted.</p>
+	 * then <code>null</code> may also be returned if they could not be extracted.</p>
 	 */
 	final public static function extract(string $string, string $mask, $options = null) : ?array
 	{
@@ -1010,9 +1024,6 @@ final class Text extends Utility
 	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidString
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidFieldPattern
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\MparseInvalidDelimiterPattern
 	 * @return array
 	 * <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string, 
 	 * or <code>null</code> per string if <var>$options->keep_nulls = true</var> 
@@ -1026,31 +1037,36 @@ final class Text extends Utility
 		$pattern_delimiter = $options->pattern_delimiter;
 		$delimiter_pattern = $options->delimiter_pattern;
 		$pattern_modifiers = $options->pattern_modifiers;
+		$strings = Data::coerce($strings, function (&$key, &$value) : bool {
+			return Type::evaluateString($value);
+		});
 		
-		//validate strings
-		foreach ($strings as &$string) {
-			if (!Type::evaluateString($string)) {
-				throw new Exceptions\MparseInvalidString(['string' => $string]);
-			}
-		}
-		unset($string);
-		
-		//validate fields patterns
+		//fields patterns
 		if (empty($fields_patterns)) {
 			return $options->keep_nulls ? array_fill_keys(array_keys($strings), null) : [];
 		} else {
 			foreach ($fields_patterns as $field => $pattern) {
 				$field_pattern = $pattern_delimiter . $pattern . $pattern_delimiter;
-				if (!is_string($pattern) || preg_match($field_pattern, null) === false) {
-					throw new Exceptions\MparseInvalidFieldPattern(['field' => $field, 'pattern' => $pattern]);
-				}
+				Call::guardParameter(
+					'fields_patterns', $fields_patterns,
+					is_string($pattern) && preg_match($field_pattern, null) !== false, [
+						'error_message' => "Invalid pattern {{pattern}} for field {{field}}.",
+						'hint_message' => "Only a valid regular expression is allowed.",
+						'parameters' => ['pattern' => $pattern, 'field' => $field]
+					]
+				);
 			}
 		}
 		
-		//validate pattern
-		if (preg_match($pattern_delimiter . $delimiter_pattern . $pattern_delimiter, null) === false) {
-			throw new Exceptions\MparseInvalidDelimiterPattern(['pattern' => $delimiter_pattern]);
-		}
+		//guard delimiter pattern
+		Call::guardParameter(
+			'options', $options->getAll(),
+			preg_match($pattern_delimiter . $delimiter_pattern . $pattern_delimiter, null) !== false, [
+				'error_message' => "Invalid delimiter pattern {{pattern}}.",
+				'hint_message' => "Only a valid regular expression is allowed.",
+				'parameters' => ['pattern' => $delimiter_pattern]
+			]
+		);
 		
 		//prepare
 		$group = 1;
@@ -1354,19 +1370,23 @@ final class Text extends Utility
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\TruncateInvalidLength
 	 * @return string
 	 * <p>The given string truncated to the given length.</p>
 	 */
 	final public static function truncate(string $string, int $length, $options = null) : string
 	{
+		//guard
+		Call::guardParameter('length', $length, $length >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		
 		//initialize
 		$options = Options\Truncate::coerce($options);
 		$unicode = $options->unicode;
 		$end_string = '';
-		if ($length < 0) {
-			throw new Exceptions\TruncateInvalidLength(['length' => $length]);
-		} elseif (self::length($string, $unicode) <= $length) {
+		
+		//check
+		if (self::length($string, $unicode) <= $length) {
 			return $string;
 		}
 		
@@ -1437,21 +1457,20 @@ final class Text extends Utility
 	 * @param string $character [default = "\t"]
 	 * <p>The character to indentate with.<br>
 	 * It must be a single ASCII character.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\IndentateInvalidLevel
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\IndentateInvalidCharacter
 	 * @return string
 	 * <p>The given string indentated.</p>
 	 */
 	final public static function indentate(string $string, int $level = 1, string $character = "\t") : string
 	{
-		if ($level < 0) {
-			throw new Exceptions\IndentateInvalidLevel(['level' => $level]);
-		} elseif (self::length($character) !== 1) {
-			throw new Exceptions\IndentateInvalidCharacter(['character' => $character]);
-		} elseif ($level === 0 || $character === '') {
-			return $string;
-		}
-		return preg_replace('/^/mu', str_repeat($character, $level), $string);
+		Call::guardParameter('level', $level, $level >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		Call::guardParameter('character', $character, strlen($character) === 1, [
+			'hint_message' => "Only a single ASCII character is allowed."
+		]);
+		return $level > 0 && $character !== ''
+			? preg_replace('/^/mu', str_repeat($character, $level), $string)
+			: $string;
 	}
 	
 	/**

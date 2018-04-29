@@ -5,20 +5,22 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Json\Exceptions;
+namespace Feralygon\Kit\Utilities\Json\Exceptions\Encode;
+
+use Feralygon\Kit\Utilities\Json\Exceptions\Encode as Exception;
 
 /**
- * This exception is thrown from the JSON utility <code>decode</code> method whenever given data is invalid.
+ * This exception is thrown from the JSON utility <code>encode</code> method whenever given data is invalid.
  * 
  * @since 1.0.0
- * @property-read string $data
+ * @property-read mixed $data
  * <p>The data.</p>
  * @property-read int|null $error_code [default = null]
  * <p>The error code.</p>
  * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  */
-class DecodeInvalidData extends Decode
+class InvalidData extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -37,7 +39,7 @@ class DecodeInvalidData extends Decode
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('data')->setAsStrictString()->setAsRequired();
+		$this->addProperty('data')->setAsRequired();
 		$this->addProperty('error_code')->setAsStrictInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}

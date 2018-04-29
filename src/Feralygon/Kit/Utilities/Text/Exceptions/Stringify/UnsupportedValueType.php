@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Text\Exceptions;
+namespace Feralygon\Kit\Utilities\Text\Exceptions\Stringify;
+
+use Feralygon\Kit\Utilities\Text\Exceptions\Stringify as Exception;
 
 /**
  * This exception is thrown from the text utility <code>stringify</code> method whenever a given value type 
@@ -17,7 +19,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions;
  * @property-read string $type
  * <p>The type.</p>
  */
-class StringifyUnsupportedValueType extends Stringify
+class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

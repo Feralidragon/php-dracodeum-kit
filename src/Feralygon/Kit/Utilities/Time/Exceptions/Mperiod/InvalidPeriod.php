@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Time\Exceptions;
+namespace Feralygon\Kit\Utilities\Time\Exceptions\Mperiod;
+
+use Feralygon\Kit\Utilities\Time\Exceptions\Mperiod as Exception;
 
 /**
  * This exception is thrown from the time utility <code>mperiod</code> method whenever a given period is invalid.
@@ -14,7 +16,7 @@ namespace Feralygon\Kit\Utilities\Time\Exceptions;
  * @property-read string $period
  * <p>The period.</p>
  */
-class MperiodInvalidPeriod extends Mperiod
+class InvalidPeriod extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

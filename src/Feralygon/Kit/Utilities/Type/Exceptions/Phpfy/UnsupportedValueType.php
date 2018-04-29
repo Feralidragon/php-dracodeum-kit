@@ -5,7 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Type\Exceptions;
+namespace Feralygon\Kit\Utilities\Type\Exceptions\Phpfy;
+
+use Feralygon\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
 
 /**
  * This exception is thrown from the type utility <code>phpfy</code> method whenever a given value type is unsupported.
@@ -16,7 +18,7 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
  * @property-read string $type
  * <p>The type.</p>
  */
-class PhpfyUnsupportedValueType extends Phpfy
+class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

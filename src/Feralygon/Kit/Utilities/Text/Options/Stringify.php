@@ -43,6 +43,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <br>
  * NOTE: If the used text info scope is of an end-user, 
  * then the mode applied is <code>STRING_NONASSOC_MODE_COMMA_LIST</code> by default.</p>
+ * @property bool $no_throw [default = false]
+ * <p>Do not throw an exception.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Stringify extends Options
@@ -69,6 +71,8 @@ class Stringify extends Options
 					})
 					->setDefaultValue(null)
 				;
+			case 'no_throw':
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
 		return null;
 	}

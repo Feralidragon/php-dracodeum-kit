@@ -233,7 +233,10 @@ final class Data extends Utility
 		} elseif (is_array($value)) {
 			$array_safe = true;
 			foreach ($value as &$v) {
-				$v = self::keyfy($v, $s);
+				$v = self::keyfy($v, $s, $no_throw);
+				if (!isset($v)) {
+					return null;
+				}
 				$array_safe = $array_safe && $s;
 			}
 			unset($v);
