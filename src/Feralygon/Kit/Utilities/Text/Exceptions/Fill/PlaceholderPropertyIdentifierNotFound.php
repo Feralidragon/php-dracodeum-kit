@@ -7,21 +7,17 @@
 
 namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
 
-use Feralygon\Kit\Utilities\Text\Exceptions\Fill as Exception;
-
 /**
  * This exception is thrown from the text utility <code>fill</code> method whenever 
  * a given placeholder property identifier is not found.
  * 
  * @since 1.0.0
- * @property-read string $placeholder
- * <p>The placeholder.</p>
  * @property-read string $identifier
  * <p>The identifier.</p>
  */
-class PlaceholderPropertyIdentifierNotFound extends Exception
+class PlaceholderPropertyIdentifierNotFound extends InvalidPlaceholder
 {
-	//Implemented public methods
+	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
@@ -30,11 +26,14 @@ class PlaceholderPropertyIdentifierNotFound extends Exception
 	
 	
 	
-	//Implemented protected methods
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('placeholder')->setAsString()->setAsRequired();
+		//parent
+		parent::loadProperties();
+		
+		//properties
 		$this->addProperty('identifier')->setAsString()->setAsRequired();
 	}
 }

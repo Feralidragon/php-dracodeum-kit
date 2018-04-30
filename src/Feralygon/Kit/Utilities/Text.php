@@ -878,7 +878,7 @@ final class Text extends Utility
 					if ($no_throw) {
 						continue;
 					}
-					throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder]);
+					throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder, 'string' => $string]);
 				}
 				$placeholders[] = $placeholder;
 			}

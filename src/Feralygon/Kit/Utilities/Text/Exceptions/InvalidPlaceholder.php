@@ -15,6 +15,8 @@ use Feralygon\Kit\Utilities\Text\Exception;
  * @since 1.0.0
  * @property-read string $placeholder
  * <p>The placeholder.</p>
+ * @property-read string|null $string [default = null]
+ * <p>The string.</p>
  */
 class InvalidPlaceholder extends Exception
 {
@@ -22,7 +24,9 @@ class InvalidPlaceholder extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid placeholder {{placeholder}}.";
+		return $this->isset('string')
+			? "Invalid placeholder {{placeholder}} in string {{string}}."
+			: "Invalid placeholder {{placeholder}}.";
 	}
 	
 	
@@ -32,5 +36,6 @@ class InvalidPlaceholder extends Exception
 	protected function loadProperties() : void
 	{
 		$this->addProperty('placeholder')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString(false, true)->setDefaultValue(null);
 	}
 }
