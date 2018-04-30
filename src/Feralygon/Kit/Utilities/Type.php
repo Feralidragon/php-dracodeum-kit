@@ -785,11 +785,20 @@ final class Type extends Utility
 			]);
 		}
 		
-		//coerce
-		$base_class = isset($base_object_class) ? self::class($base_object_class) : null;
-		try {
-			$class = self::class($value);
-			if (isset($base_class) && !self::isA($class, $base_class)) {
+		//class
+		$class = self::class($value, true);
+		if (!isset($class)) {
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into a class."
+			]);
+		}
+		
+		//base class
+		if (isset($base_object_class)) {
+			$base_class = self::class($base_object_class);
+			if (!self::isA($class, $base_class)) {
 				throw new Exceptions\ClassCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
@@ -799,15 +808,10 @@ final class Type extends Utility
 					)
 				]);
 			}
-			$value = $class;
-		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
-			throw new Exceptions\ClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into a class."
-			]);
 		}
-		return $value;
+		
+		//return
+		return $class;
 	}
 	
 	/**
@@ -874,11 +878,41 @@ final class Type extends Utility
 			]);
 		}
 		
-		//coerce
-		$base_class = isset($base_object_class) ? self::class($base_object_class) : null;
-		try {
-			$class = self::class($value);
-			if (isset($base_class) && !self::isA($class, $base_class)) {
+		//class
+		$class = self::class($value, true);
+		if (!isset($class)) {
+			throw new Exceptions\ObjectCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into an object."
+			]);
+		}
+		
+		//object
+		$object = $value;
+		if (!is_object($object)) {
+			try {
+				$object = self::construct($class, ...$arguments);
+			} catch (\Exception $exception) {
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+					'error_message' => Text::fill(
+						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
+							"with the following message: {{message}}", [
+							'class' => Text::stringify($class, null, ['quote_strings' => true]),
+							'exception' => $exception,
+							'message' => Text::uncapitalize($exception->getMessage(), true)
+						]
+					)
+				]);
+			}
+		}
+		
+		//base class
+		if (isset($base_object_class)) {
+			$base_class = self::class($base_object_class);
+			if (!self::isA($class, $base_class)) {
 				throw new Exceptions\ObjectCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
@@ -887,32 +921,11 @@ final class Type extends Utility
 						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
 					)
 				]);
-			} elseif (!is_object($value)) {
-				try {
-					$value = self::construct($class, ...$arguments);
-				} catch (\Exception $exception) {
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => $exception,
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
 			}
-		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
-			throw new Exceptions\ObjectCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into an object."
-			]);
 		}
-		return $value;
+		
+		//return
+		return $object;
 	}
 	
 	/**
@@ -971,11 +984,20 @@ final class Type extends Utility
 			]);
 		}
 		
-		//coerce
-		$base_class = isset($base_object_class) ? self::class($base_object_class) : null;
-		try {
-			$class = self::class($value);
-			if (isset($base_class) && !self::isA($class, $base_class)) {
+		//class
+		$class = self::class($value, true);
+		if (!isset($class)) {
+			throw new Exceptions\ObjectClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into an object or class."
+			]);
+		}
+		
+		//base class
+		if (isset($base_object_class)) {
+			$base_class = self::class($base_object_class);
+			if (!self::isA($class, $base_class)) {
 				throw new Exceptions\ObjectClassCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
@@ -985,14 +1007,10 @@ final class Type extends Utility
 					)
 				]);
 			}
-		} catch (Exceptions\InvalidObjectClass | Exceptions\ClassNotFound $exception) {
-			throw new Exceptions\ObjectClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into an object or class."
-			]);
 		}
-		return $value;
+		
+		//return
+		return is_object($value) ? $value : $class;
 	}
 	
 	/**
