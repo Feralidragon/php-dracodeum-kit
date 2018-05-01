@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
 
 /**
  * This exception is thrown from the text utility <code>fill</code> method whenever 
- * a given placeholder identifier is invalid.
+ * a given placeholder identifier is not found.
  * 
  * @since 1.0.0
  * @property-read string $identifier
@@ -17,15 +17,13 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
  * @property-read mixed $pointer
  * <p>The pointer.</p>
  */
-class InvalidPlaceholderIdentifier extends InvalidPlaceholder
+class PlaceholderIdentifierNotFound extends InvalidPlaceholder
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid identifier {{identifier}} for {{pointer}} in placeholder {{placeholder}} " . 
-			"in string {{string}}.\n" . 
-			"HINT: The corresponding pointer must be an array or object.";
+		return "Placeholder {{placeholder}} identifier {{identifier}} not found in {{pointer}} in string {{string}}.";
 	}
 	
 	

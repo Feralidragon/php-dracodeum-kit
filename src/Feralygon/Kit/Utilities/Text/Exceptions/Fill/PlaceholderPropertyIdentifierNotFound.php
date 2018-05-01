@@ -12,28 +12,14 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
  * a given placeholder property identifier is not found.
  * 
  * @since 1.0.0
- * @property-read string $identifier
- * <p>The identifier.</p>
  */
-class PlaceholderPropertyIdentifierNotFound extends InvalidPlaceholder
+class PlaceholderPropertyIdentifierNotFound extends PlaceholderIdentifierNotFound
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Placeholder {{placeholder}} property identifier {{identifier}} not found.";
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void
-	{
-		//parent
-		parent::loadProperties();
-		
-		//properties
-		$this->addProperty('identifier')->setAsString()->setAsRequired();
+		return "Placeholder {{placeholder}} property identifier {{identifier}} not found " . 
+			"in {{pointer}} in string {{string}}.";
 	}
 }

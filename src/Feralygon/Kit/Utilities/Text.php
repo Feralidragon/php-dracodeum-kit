@@ -662,31 +662,36 @@ final class Text extends Utility
 						$identifier = substr($identifier, 0, -2);
 						if (!is_object($pointer)) {
 							throw new Exceptions\Fill\InvalidPlaceholderMethodIdentifier([
-								'placeholder' => $token, 'identifier' => "{$identifier}()"
+								'string' => $string, 'placeholder' => $token, 'identifier' => "{$identifier}()",
+								'pointer' => $pointer
 							]);
 						} elseif (!method_exists($pointer, $identifier)) {
 							throw new Exceptions\Fill\PlaceholderMethodIdentifierNotFound([
-								'placeholder' => $token, 'identifier' => "{$identifier}()"
+								'string' => $string, 'placeholder' => $token, 'identifier' => "{$identifier}()",
+								'pointer' => $pointer
 							]);
 						}
 						$pointer = $pointer->$identifier();
 					} elseif (is_object($pointer)) {
 						if (!property_exists($pointer, $identifier)) {
 							throw new Exceptions\Fill\PlaceholderPropertyIdentifierNotFound([
-								'placeholder' => $token, 'identifier' => $identifier
+								'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
+								'pointer' => $pointer
 							]);
 						}
 						$pointer = $pointer->$identifier;
 					} elseif (is_array($pointer)) {
 						if (!array_key_exists($identifier, $pointer)) {
 							throw new Exceptions\Fill\PlaceholderKeyIdentifierNotFound([
-								'placeholder' => $token, 'identifier' => $identifier
+								'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
+								'pointer' => $pointer
 							]);
 						}
 						$pointer = $pointer[$identifier];
 					} else {
 						throw new Exceptions\Fill\InvalidPlaceholderIdentifier([
-							'placeholder' => $token, 'identifier' => $identifier
+							'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
+							'pointer' => $pointer
 						]);
 					}
 				}
@@ -704,7 +709,7 @@ final class Text extends Utility
 				$f_string .= $pointer_string;
 				unset($pointer);
 			} else {
-				throw new Exceptions\Fill\InvalidPlaceholder(['placeholder' => $token]);
+				throw new Exceptions\Fill\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
 			}
 		}
 		return $f_string;

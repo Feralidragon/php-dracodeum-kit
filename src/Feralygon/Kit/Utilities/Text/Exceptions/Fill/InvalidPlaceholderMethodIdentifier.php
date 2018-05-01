@@ -12,28 +12,15 @@ namespace Feralygon\Kit\Utilities\Text\Exceptions\Fill;
  * a given placeholder method identifier is invalid.
  * 
  * @since 1.0.0
- * @property-read string $identifier
- * <p>The identifier.</p>
  */
-class InvalidPlaceholderMethodIdentifier extends InvalidPlaceholder
+class InvalidPlaceholderMethodIdentifier extends InvalidPlaceholderIdentifier
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid method identifier {{identifier}} in placeholder {{placeholder}}.";
-	}
-	
-	
-	
-	//Overridden protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void
-	{
-		//parent
-		parent::loadProperties();
-		
-		//properties
-		$this->addProperty('identifier')->setAsString()->setAsRequired();
+		return "Invalid method identifier {{identifier}} for {{pointer}} in placeholder {{placeholder}} " . 
+			"in string {{string}}.\n" . 
+			"HINT: The corresponding pointer must be an object.";
 	}
 }
