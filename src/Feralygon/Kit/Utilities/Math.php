@@ -135,7 +135,7 @@ final class Math extends Utility
 	 * If not set, then an internally generated seed is used.</p>
 	 * @return int|string|null
 	 * <p>A random integer or string value from the given set of weighted values 
-	 * or <code>null</code> if the given set is empty.</p>
+	 * or <code>null</code> if the given set is empty or has all of its weights set to <code>0</code>.</p>
 	 */
 	final public static function wrandom(array $values_weights, ?int $seed = null)
 	{
@@ -151,29 +151,20 @@ final class Math extends Utility
 			//weight
 			if (empty($weight)) {
 				unset($values_weights[$value]);
-				continue;
+			} else {
+				$weight = (float)$weight;
 			}
-			$weight = (float)$weight;
 		}
 		unset($weight);
 		
-		//empty
-		if (empty($values_weights)) {
-			return null;
-		}
-		
-		//weights
-		$max_weight = $min_weight = min($values_weights);
-		foreach ($values_weights as $value => $weight) {
-			$values_weights[$value] = $max_weight;
-			$max_weight += $weight;
-		}
-		
 		//randomize
-		$w = self::frandom($max_weight, $min_weight, $seed);
-		foreach (array_reverse($values_weights, true) as $value => $weight) {
-			if ($w >= $weight) {
-				return $value;
+		if (!empty($values_weights)) {
+			$w = self::frandom(array_sum($values_weights), 0.0, $seed);
+			foreach ($values_weights as $value => $weight) {
+				$w -= $weight;
+				if ($w <= 0.0) {
+					return $value;
+				}
 			}
 		}
 		return null;

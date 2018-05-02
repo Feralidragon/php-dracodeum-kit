@@ -20,6 +20,8 @@ use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
  * <p>The regular expression pattern modifiers to use.</p>
  * @property string $pattern_delimiter [default = '/']
  * <p>The regular expression delimiter character to use.</p>
+ * @property bool $no_throw [default = false]
+ * <p>Do not throw an exception.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Parse extends Options
@@ -47,6 +49,8 @@ class Parse extends Options
 					})
 					->setDefaultValue('/')
 				;
+			case 'no_throw':
+				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
 		return null;
 	}

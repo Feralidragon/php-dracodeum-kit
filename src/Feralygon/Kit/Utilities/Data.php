@@ -1591,12 +1591,23 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to retrieve from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return mixed
-	 * <p>The first value from the given array or <code>null</code> if none exists.</p>
+	 * <p>The first value from the given array.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
-	final public static function first(array $array)
+	final public static function first(array $array, bool $no_throw = false)
 	{
-		return empty($array) ? null : reset($array);
+		if (empty($array)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\EmptyArray();
+		}
+		return reset($array);
 	}
 	
 	/**
@@ -1605,13 +1616,21 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to retrieve from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return int|string|null
-	 * <p>The first key from the given array or <code>null</code> if none exists.</p>
+	 * <p>The first key from the given array.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
-	final public static function kfirst(array $array)
+	final public static function kfirst(array $array, bool $no_throw = false)
 	{
 		if (empty($array)) {
-			return null;
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\EmptyArray();
 		}
 		reset($array);
 		return key($array);
@@ -1623,12 +1642,23 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to retrieve from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return mixed
-	 * <p>The last value from the given array or <code>null</code> if none exists.</p>
+	 * <p>The last value from the given array.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
-	final public static function last(array $array)
+	final public static function last(array $array, bool $no_throw = false)
 	{
-		return empty($array) ? null : end($array);
+		if (empty($array)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\EmptyArray();
+		}
+		return end($array);
 	}
 	
 	/**
@@ -1637,13 +1667,21 @@ final class Data extends Utility
 	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to retrieve from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return int|string|null
-	 * <p>The last key from the given array or <code>null</code> if none exists.</p>
+	 * <p>The last key from the given array.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
-	final public static function klast(array $array)
+	final public static function klast(array $array, bool $no_throw = false)
 	{
 		if (empty($array)) {
-			return null;
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\EmptyArray();
 		}
 		end($array);
 		return key($array);

@@ -193,36 +193,59 @@ final class System
 	 * Get hostname.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Root\System\Exceptions\HostnameNotSet
 	 * @return string|null
-	 * <p>The hostname or <code>null</code> if none is set.</p>
+	 * <p>The hostname.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
-	final public static function getHostname() : ?string
+	final public static function getHostname(bool $no_throw = false) : ?string
 	{
 		$hostname = gethostname();
-		return $hostname !== false ? $hostname : null;
+		if ($hostname === false) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\HostnameNotSet();
+		}
+		return $hostname;
 	}
 	
 	/**
 	 * Get IP address.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Root\System\Exceptions\IpAddressNotSet
 	 * @return string|null
-	 * <p>The IP address or <code>null</code> if none is set.</p>
+	 * <p>The IP address.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
-	final public static function getIpAddress() : ?string
+	final public static function getIpAddress(bool $no_throw = false) : ?string
 	{
-		$ip_address = $_SERVER['SERVER_ADDR'] ?? null;
-		if (!isset($ip_address)) {
-			$hostname = self::getHostname();
-			if (!isset($hostname)) {
-				return null;
-			}
+		//server
+		if (isset($_SERVER['SERVER_ADDR'])) {
+			return $_SERVER['SERVER_ADDR'];
+		}
+		
+		//hostname
+		$hostname = self::getHostname(true);
+		if (isset($hostname)) {
 			$ip_address = gethostbyname($hostname);
-			if ($ip_address === $hostname) {
-				return null;
+			if ($ip_address !== $hostname) {
+				return $ip_address;
 			}
 		}
-		return $ip_address;
+		
+		//finish
+		if ($no_throw) {
+			return null;
+		}
+		throw new Exceptions\IpAddressNotSet();
 	}
 	
 	/**

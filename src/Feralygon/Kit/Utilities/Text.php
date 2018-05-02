@@ -1002,13 +1002,26 @@ final class Text extends Utility
 	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Parse|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array|null
-	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs, 
-	 * or <code>null</code> if no data could be parsed.</p>
+	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs.<br>
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
 	{
-		return self::mparse([$string], $fields_patterns, Options\Parse::coerce($options))[0] ?? null;
+		//initialize
+		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true);
+		$no_throw = $options->no_throw;
+		$options->no_throw = true;
+		$options->keep_nulls = true;
+		
+		//parse
+		$data = self::mparse([$string], $fields_patterns, $options)[0];
+		if (!isset($data) && !$no_throw) {
+			throw new Exceptions\ParseFailed(['string' => $string, 'fields_patterns' => $fields_patterns]);
+		}
+		return $data;
 	}
 	
 	/**
@@ -1029,9 +1042,10 @@ final class Text extends Utility
 	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array
 	 * <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string, 
-	 * or <code>null</code> per string if <var>$options->keep_nulls = true</var> 
+	 * or <code>null</code> per string if <var>$options->keep_nulls</var> is set to <code>true</code> 
 	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
@@ -1042,13 +1056,15 @@ final class Text extends Utility
 		$pattern_delimiter = $options->pattern_delimiter;
 		$delimiter_pattern = $options->delimiter_pattern;
 		$pattern_modifiers = $options->pattern_modifiers;
+		$keep_nulls = $options->keep_nulls;
+		$no_throw = $options->no_throw;
 		$strings = Data::coerce($strings, function (&$key, &$value) : bool {
 			return Type::evaluateString($value);
 		});
 		
 		//fields patterns
 		if (empty($fields_patterns)) {
-			return $options->keep_nulls ? array_fill_keys(array_keys($strings), null) : [];
+			return $keep_nulls ? array_fill_keys(array_keys($strings), null) : [];
 		} else {
 			foreach ($fields_patterns as $field => $pattern) {
 				$field_pattern = $pattern_delimiter . $pattern . $pattern_delimiter;
@@ -1092,8 +1108,12 @@ final class Text extends Utility
 				foreach ($groups_fields as $group => $field) {
 					$strings_fields_values[$key][$field] = $matches[$group] ?? null;
 				}
-			} elseif ($options->keep_nulls) {
+			} elseif ($keep_nulls) {
 				$strings_fields_values[$key] = null;
+			} elseif (!$no_throw) {
+				throw new Exceptions\ParseFailed([
+					'string' => $string, 'fields_patterns' => $fields_patterns, 'key' => $key
+				]);
 			}
 		}
 		
