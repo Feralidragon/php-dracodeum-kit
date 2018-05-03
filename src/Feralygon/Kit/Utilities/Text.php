@@ -1681,6 +1681,9 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to get from.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The case notation of a given string as:<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_SNAKE</code> for snake case;<br>
@@ -1688,10 +1691,12 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_MACRO</code> for macro case;<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_COBOL</code> for cobol case;<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_CAMEL</code> for camel case;<br>
-	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_PASCAL</code> for pascal case;<br>
-	 * or <code>null</code> if no notation was recognized.</p>
+	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_PASCAL</code> for pascal case.<br>
+	 * <br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if no notation was recognized.</p>
 	 */
-	final public static function caseNotation(string $string) : ?string
+	final public static function caseNotation(string $string, bool $no_throw = false) : ?string
 	{
 		if (self::isSnakeCase($string)) {
 			return self::CASE_SNAKE;
@@ -1705,8 +1710,10 @@ final class Text extends Utility
 			return self::CASE_CAMEL;
 		} elseif (self::isPascalCase($string)) {
 			return self::CASE_PASCAL;
+		} elseif ($no_throw) {
+			return null;
 		}
-		return null;
+		throw new Exceptions\UnknownCaseNotation(['string' => $string]);
 	}
 	
 	/**
@@ -1724,12 +1731,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to camel case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to camel case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toCamelCase(string $string) : ?string
+	final public static function toCamelCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_CAMEL) {
 			return $string;
 		} elseif ($notation === self::CASE_PASCAL) {
@@ -1763,12 +1775,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to pascal case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to pascal case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toPascalCase(string $string) : ?string
+	final public static function toPascalCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_PASCAL) {
 			return $string;
 		} elseif ($notation === self::CASE_CAMEL) {
@@ -1795,12 +1812,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to snake case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to snake case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toSnakeCase(string $string) : ?string
+	final public static function toSnakeCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_SNAKE) {
 			return $string;
 		} elseif ($notation === self::CASE_MACRO) {
@@ -1833,12 +1855,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to kebab case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to kebab case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toKebabCase(string $string) : ?string
+	final public static function toKebabCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_KEBAB) {
 			return $string;
 		} elseif ($notation === self::CASE_COBOL) {
@@ -1871,12 +1898,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to macro case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to macro case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toMacroCase(string $string) : ?string
+	final public static function toMacroCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_MACRO) {
 			return $string;
 		} elseif ($notation === self::CASE_SNAKE) {
@@ -1909,12 +1941,17 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to convert.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
-	 * <p>The given string converted to cobol case notation or <code>null</code> if it could not be converted.</p>
+	 * <p>The given string converted to cobol case notation.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if it could not be converted.</p>
 	 */
-	final public static function toCobolCase(string $string) : ?string
+	final public static function toCobolCase(string $string, bool $no_throw = false) : ?string
 	{
-		$notation = self::caseNotation($string);
+		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_COBOL) {
 			return $string;
 		} elseif ($notation === self::CASE_KEBAB) {
