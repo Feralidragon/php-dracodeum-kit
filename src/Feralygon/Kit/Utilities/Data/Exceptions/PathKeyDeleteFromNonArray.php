@@ -14,6 +14,8 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * from a non-array value.
  * 
  * @since 1.0.0
+ * @property-read array $array
+ * <p>The array.</p>
  * @property-read string $path
  * <p>The path.</p>
  * @property-read string $key
@@ -27,7 +29,8 @@ class PathKeyDeleteFromNonArray extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot delete key {{key}} using the path {{path}} since a non-array value was found as {{value}}.";
+		return "Cannot delete key {{key}} using the path {{path}} " . 
+			"since a non-array value was found as {{value}} in {{array}}.";
 	}
 	
 	
@@ -36,6 +39,7 @@ class PathKeyDeleteFromNonArray extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
+		$this->addProperty('array')->setAsArray()->setAsRequired();
 		$this->addProperty('path')->setAsString()->setAsRequired();
 		$this->addProperty('key')->setAsString()->setAsRequired();
 		$this->addProperty('value')->setAsRequired();

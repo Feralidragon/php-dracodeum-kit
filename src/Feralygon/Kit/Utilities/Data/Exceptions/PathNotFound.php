@@ -13,6 +13,8 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * This exception is thrown from the data utility whenever a given path is not found.
  * 
  * @since 1.0.0
+ * @property-read array $array
+ * <p>The array.</p>
  * @property-read string $path
  * <p>The path.</p>
  */
@@ -22,7 +24,7 @@ class PathNotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Path {{path}} not found.";
+		return "Path {{path}} not found in {{array}}.";
 	}
 	
 	
@@ -31,6 +33,7 @@ class PathNotFound extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
+		$this->addProperty('array')->setAsArray()->setAsRequired();
 		$this->addProperty('path')->setAsString()->setAsRequired();
 	}
 }

@@ -14,6 +14,8 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * into a non-array value.
  * 
  * @since 1.0.0
+ * @property-read array $array
+ * <p>The array.</p>
  * @property-read string $path
  * <p>The path.</p>
  * @property-read string $key
@@ -28,7 +30,7 @@ class PathKeySetIntoNonArray extends Exception
 	public function getDefaultMessage() : string
 	{
 		return "Cannot set value at key {{key}} using the path {{path}} " . 
-			"since a non-array value was found as {{value}}.";
+			"since a non-array value was found as {{value}} in {{array}}.";
 	}
 	
 	
@@ -37,6 +39,7 @@ class PathKeySetIntoNonArray extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
+		$this->addProperty('array')->setAsArray()->setAsRequired();
 		$this->addProperty('path')->setAsString()->setAsRequired();
 		$this->addProperty('key')->setAsString()->setAsRequired();
 		$this->addProperty('value')->setAsRequired();

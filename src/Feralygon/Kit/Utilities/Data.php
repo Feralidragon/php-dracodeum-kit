@@ -1452,7 +1452,7 @@ final class Data extends Utility
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\PathNotFound(['path' => $path]);
+				throw new Exceptions\PathNotFound(['array' => $array, 'path' => $path]);
 			}
 			$pointer = $pointer[$key];
 		}
@@ -1501,7 +1501,9 @@ final class Data extends Utility
 				if ($no_throw) {
 					return false;
 				}
-				throw new Exceptions\PathKeySetIntoNonArray(['path' => $path, 'key' => $key, 'value' => $pointer]);
+				throw new Exceptions\PathKeySetIntoNonArray([
+					'array' => $array, 'path' => $path, 'key' => $key, 'value' => $pointer
+				]);
 			}
 			$pointer = &$pointer[$key];
 		}
@@ -1556,7 +1558,7 @@ final class Data extends Utility
 						return false;
 					}
 					throw new Exceptions\PathKeyDeleteFromNonArray([
-						'path' => $path, 'key' => $key, 'value' => $pointer
+						'array' => $array, 'path' => $path, 'key' => $key, 'value' => $pointer
 					]);
 				} elseif (!array_key_exists($key, $pointer)) {
 					break;
