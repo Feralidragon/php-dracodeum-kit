@@ -22,10 +22,4 @@ class IpAddressNotSet extends Exception
 	{
 		return "No IP address is set.";
 	}
-	
-	
-	
-	//Implemented protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void {}
 }

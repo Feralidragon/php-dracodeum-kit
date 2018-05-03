@@ -32,7 +32,7 @@ class NoMemoizedValueFound extends Exception
 	
 	
 	
-	//Implemented protected methods
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{

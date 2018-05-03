@@ -54,7 +54,28 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented protected methods
+	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
+	/** {@inheritdoc} */
+	public function getValue()
+	{
+		return $this->get('value');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorCode() : ?string
+	{
+		return $this->get('error_code');
+	}
+	
+	/** {@inheritdoc} */
+	public function getErrorMessage() : ?string
+	{
+		return $this->get('error_message');
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
@@ -74,27 +95,6 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 			->setDefaultValue(null)
 		;
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
-	/** {@inheritdoc} */
-	public function getValue()
-	{
-		return $this->get('value');
-	}
-	
-	/** {@inheritdoc} */
-	public function getErrorCode() : ?string
-	{
-		return $this->get('error_code');
-	}
-	
-	/** {@inheritdoc} */
-	public function getErrorMessage() : ?string
-	{
-		return $this->get('error_message');
 	}
 	
 	

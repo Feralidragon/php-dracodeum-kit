@@ -8,7 +8,11 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
-use Feralygon\Kit\Exception\Options;
+use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Exception\{
+	Options,
+	Traits
+};
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
@@ -19,11 +23,13 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
+ * @see \Feralygon\Kit\Exception\Traits\Properties
  */
 abstract class Exception extends \Exception implements IArrayable
 {
 	//Traits
-	use Traits\Properties\Arrayable;
+	use KitTraits\Properties\Arrayable;
+	use Traits\Properties;
 	
 	
 	
@@ -92,17 +98,6 @@ abstract class Exception extends \Exception implements IArrayable
 	 * <p>The default message.</p>
 	 */
 	abstract public function getDefaultMessage() : string;
-	
-	
-	
-	//Abstract protected methods
-	/**
-	 * Load properties.
-	 * 
-	 * @since 1.0.0
-	 * @return void
-	 */
-	abstract protected function loadProperties() : void;
 	
 	
 	

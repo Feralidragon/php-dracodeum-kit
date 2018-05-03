@@ -22,10 +22,4 @@ class EmptyArray extends Exception
 	{
 		return "An empty array has been given.";
 	}
-	
-	
-	
-	//Implemented protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void {}
 }

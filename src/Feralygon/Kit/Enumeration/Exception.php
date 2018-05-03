@@ -18,7 +18,7 @@ use Feralygon\Kit\Enumeration;
  */
 abstract class Exception extends KitException
 {
-	//Implemented protected methods
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{

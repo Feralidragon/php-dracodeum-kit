@@ -22,10 +22,4 @@ class HostnameNotSet extends Exception
 	{
 		return "No hostname is set.";
 	}
-	
-	
-	
-	//Implemented protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void {}
 }

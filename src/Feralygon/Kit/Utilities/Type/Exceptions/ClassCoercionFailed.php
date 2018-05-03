@@ -47,27 +47,6 @@ class ClassCoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented protected methods
-	/** {@inheritdoc} */
-	protected function loadProperties() : void
-	{
-		$this->addProperty('value')->setAsRequired();
-		$this->addProperty('error_code')
-			->setAsString(true, true)
-			->addEvaluator(function (&$value) : bool {
-				return !isset($value) || in_array($value, [
-					self::ERROR_CODE_NULL,
-					self::ERROR_CODE_INVALID_CLASS,
-					self::ERROR_CODE_INVALID
-				], true);
-			})
-			->setDefaultValue(null)
-		;
-		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
-	}
-	
-	
-	
 	//Implemented public methods (Feralygon\Kit\Interfaces\Throwables\Coercive)
 	/** {@inheritdoc} */
 	public function getValue()
@@ -85,6 +64,27 @@ class ClassCoercionFailed extends Exception implements ICoercive
 	public function getErrorMessage() : ?string
 	{
 		return $this->get('error_message');
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function loadProperties() : void
+	{
+		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('error_code')
+			->setAsString(true, true)
+			->addEvaluator(function (&$value) : bool {
+				return !isset($value) || in_array($value, [
+					self::ERROR_CODE_NULL,
+					self::ERROR_CODE_INVALID_CLASS,
+					self::ERROR_CODE_INVALID
+				], true);
+			})
+			->setDefaultValue(null)
+		;
+		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}
 	
 	
