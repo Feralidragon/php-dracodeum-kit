@@ -51,8 +51,7 @@ abstract class Options implements \ArrayAccess
 		
 		//read-only
 		$this->initializeReadonly(
-			$readonly,
-			$readonly ? [] : [\Closure::fromCallable([$this, 'setPropertiesAsReadonly'])]
+			$readonly, $readonly ? [] : [\Closure::fromCallable([$this, 'setPropertiesAsReadonly'])]
 		);
 	}
 	

@@ -57,8 +57,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 		
 		//read-only
 		$this->initializeReadonly(
-			$readonly,
-			$readonly ? [] : [\Closure::fromCallable([$this, 'setPropertiesAsReadonly'])]
+			$readonly, $readonly ? [] : [\Closure::fromCallable([$this, 'setPropertiesAsReadonly'])]
 		);
 	}
 	
