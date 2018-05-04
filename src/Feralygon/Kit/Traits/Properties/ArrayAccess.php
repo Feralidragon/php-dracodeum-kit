@@ -23,7 +23,7 @@ trait ArrayAccess
 	
 	
 	
-	//Implemented final public methods (PHP array access interface)
+	//Implemented final public methods (ArrayAccess)
 	/** {@inheritdoc} */
 	final public function offsetExists($offset) : bool
 	{

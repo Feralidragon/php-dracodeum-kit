@@ -25,7 +25,7 @@ trait ArrayableAccess
 	
 	
 	
-	//Implemented final public methods (arrayable interface)
+	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
 	final public function toArray() : array
 	{
@@ -34,7 +34,7 @@ trait ArrayableAccess
 	
 	
 	
-	//Implemented final public methods (PHP array access interface)
+	//Implemented final public methods (ArrayAccess)
 	/** {@inheritdoc} */
 	final public function offsetExists($offset) : bool
 	{
