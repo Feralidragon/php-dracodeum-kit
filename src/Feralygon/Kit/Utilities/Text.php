@@ -640,6 +640,7 @@ final class Text extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderPropertyIdentifierNotFound
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderKeyIdentifierNotFound
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderIdentifier
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderValue
 	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholder
 	 * @return string
 	 * <p>The given string filled with the given set of parameters.</p>
@@ -694,6 +695,18 @@ final class Text extends Utility
 							'pointer' => $pointer
 						]);
 					}
+				}
+				
+				//evaluate
+				if (isset($options->evaluator)) {
+					$value = $pointer;
+					if (!($options->evaluator)($token, $value)) {
+						throw new Exceptions\Fill\InvalidPlaceholderValue([
+							'string' => $string, 'placeholder' => $token, 'value' => $pointer
+						]);
+					}
+					$pointer = $value;
+					unset($value);
 				}
 				
 				//stringify
