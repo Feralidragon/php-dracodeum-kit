@@ -170,7 +170,7 @@ final class Type extends Utility
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\Phpfy\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		throw new Exceptions\Phpfy\UnsupportedValueType(['value' => $value]);
 	}
 	
 	/**

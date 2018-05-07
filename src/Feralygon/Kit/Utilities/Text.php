@@ -367,7 +367,7 @@ final class Text extends Utility
 		if ($options->no_throw) {
 			return null;
 		}
-		throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value]);
 	}
 	
 	/**

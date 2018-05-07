@@ -16,7 +16,7 @@ use Feralygon\Kit\Utilities\Text\Exceptions\Stringify as Exception;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $type
+ * @property-read string $type [default = auto]
  * <p>The type.</p>
  */
 class UnsupportedValueType extends Exception
@@ -35,6 +35,11 @@ class UnsupportedValueType extends Exception
 	protected function loadProperties() : void
 	{
 		$this->addProperty('value')->setAsRequired();
-		$this->addProperty('type')->setAsString()->setAsRequired();
+		$this->addProperty('type')
+			->setAsString(true)
+			->setDefaultGetter(function () {
+				return gettype($this->get('value'));
+			})
+		;
 	}
 }

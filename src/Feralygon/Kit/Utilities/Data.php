@@ -246,7 +246,7 @@ final class Data extends Utility
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\Keyfy\UnsupportedValueType(['value' => $value, 'type' => gettype($value)]);
+		throw new Exceptions\Keyfy\UnsupportedValueType(['value' => $value]);
 	}
 	
 	/**
