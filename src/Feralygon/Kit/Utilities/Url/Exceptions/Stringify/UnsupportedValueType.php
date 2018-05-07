@@ -5,29 +5,27 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Url\Exceptions\Querify;
+namespace Feralygon\Kit\Utilities\Url\Exceptions\Stringify;
 
-use Feralygon\Kit\Utilities\Url\Exceptions\Querify as Exception;
+use Feralygon\Kit\Utilities\Url\Exceptions\Stringify as Exception;
 
 /**
- * This exception is thrown from the URL utility <code>querify</code> method whenever a given parameter type 
+ * This exception is thrown from the URL utility <code>stringify</code> method whenever a given value type 
  * is unsupported.
  * 
  * @since 1.0.0
- * @property-read string $name
- * <p>The name.</p>
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [default = auto]
  * <p>The type.</p>
  */
-class UnsupportedParameterType extends Exception
+class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Unsupported parameter type {{type}} for {{name}} given as {{value}}.";
+		return "Unsupported value type {{type}} given as {{value}}.";
 	}
 	
 	
@@ -36,7 +34,6 @@ class UnsupportedParameterType extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString()->setAsRequired();
 		$this->addProperty('value')->setAsRequired();
 		$this->addProperty('type')
 			->setAsString(true)

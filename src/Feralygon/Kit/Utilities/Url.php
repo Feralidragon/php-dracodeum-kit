@@ -26,6 +26,46 @@ final class Url extends Utility
 {
 	//Final public static methods
 	/**
+	 * Generate a string from a given value.
+	 * 
+	 * The returning string represents the given value in order to be used in an URL path or query string.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value
+	 * <p>The value to stringify.</p>
+	 * @param bool $no_encode [default = false]
+	 * <p>Do not encode the returning string.</p>
+	 * @throws \Feralygon\Kit\Utilities\Url\Exceptions\Stringify\UnsupportedValueType
+	 * @return string
+	 * <p>The generated string from the given value.</p>
+	 */
+	final public static function stringify($value, bool $no_encode = false) : string
+	{
+		//value
+		if (!is_string($value)) {
+			if (is_bool($value)) {
+				$value = $value ? '1' : '0';
+			} elseif (is_int($value) || is_float($value)) {
+				$value = (string)$value;
+			} elseif (is_object($value) && $value instanceof IStringifiable) {
+				$value = $value->toString();
+			} elseif (is_object($value) && method_exists($value, '__toString')) {
+				$value = (string)$value;
+			} else {
+				throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value]);
+			}
+		}
+		
+		//encode
+		if (!$no_encode) {
+			$value = urlencode($value);
+		}
+		
+		//return
+		return $value;
+	}
+	
+	/**
 	 * Querify a given set of parameters.
 	 * 
 	 * The process of querification of a given set of parameters consists in converting all the given parameters 
@@ -36,7 +76,6 @@ final class Url extends Utility
 	 * <p>The parameters to querify, as <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Url\Options\Querify|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Url\Exceptions\Querify\UnsupportedParameterType
 	 * @return string|null
 	 * <p>The querified parameters into a query string or <code>null</code> if an empty set of parameters was given.</p>
 	 */
@@ -67,22 +106,10 @@ final class Url extends Utility
 				$k = isset($name) ? ($associative ? "{$name}[{$key}]" : "{$name}[]") : $key;
 				
 				//value
-				$v = null;
 				if (!isset($value)) {
 					continue;
-				} elseif (is_bool($value)) {
-					$v = $value ? '1' : '0';
-				} elseif (is_int($value) || is_float($value)) {
-					$v = (string)$value;
-				} elseif (is_string($value)) {
-					$v = $value;
-				} elseif (is_object($value) && $value instanceof IStringifiable) {
-					$v = $value->toString();
-				} elseif (is_object($value) && method_exists($value, '__toString')) {
-					$v = (string)$value;
-				} else {
-					throw new Exceptions\Querify\UnsupportedParameterType(['name' => $k, 'value' => $value]);
 				}
+				$v = self::stringify($value, true);
 				
 				//query
 				$query[] = $no_encode ? "{$k}={$v}" : urlencode($k) . '=' . urlencode($v);

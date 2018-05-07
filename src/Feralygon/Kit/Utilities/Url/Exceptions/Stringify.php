@@ -10,8 +10,8 @@ namespace Feralygon\Kit\Utilities\Url\Exceptions;
 use Feralygon\Kit\Utilities\Url\Exception;
 
 /**
- * URL utility <code>querify</code> method exception.
+ * URL utility <code>stringify</code> method exception.
  * 
  * @since 1.0.0
  */
-abstract class Querify extends Exception {}
+abstract class Stringify extends Exception {}
