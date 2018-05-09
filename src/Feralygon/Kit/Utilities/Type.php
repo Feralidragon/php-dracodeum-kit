@@ -8,7 +8,10 @@
 namespace Feralygon\Kit\Utilities;
 
 use Feralygon\Kit\Utility;
-use Feralygon\Kit\Utilities\Type\Exceptions;
+use Feralygon\Kit\Utilities\Type\{
+	Options,
+	Exceptions
+};
 
 /**
  * This utility implements a set of methods used to check, validate and retrieve information from PHP types, 
@@ -45,27 +48,28 @@ final class Type extends Utility
 	 * 
 	 * The returning PHP code can be evaluated in order to run as PHP.<br>
 	 * <br>
-	 * By omission, the return is optimized to be as short as possible, but the <var>$pretty</var> parameter may 
-	 * optionally be set to <code>true</code> to get a more human-readable and visually appealing return.<br>
+	 * By omission, the returning code is optimized to be as short as possible, but <var>$options->pretty</var> may be 
+	 * optionally set to <code>true</code> to get a more human-readable and visually appealing PHP code.<br>
 	 * <br>
-	 * This function is similar to <code>var_export</code>, but it gives more control on the return, 
+	 * This function is similar to <code>var_export</code>, but it provides more control on the returning code style, 
 	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
-	 * @param bool $pretty [default = false]
-	 * <p>Return human-readable and visually appealing PHP code.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * @param \Feralygon\Kit\Utilities\Type\Options\Phpfy|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\Phpfy\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated PHP code from the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> may also be returned if it could not be generated.</p>
 	 */
-	final public static function phpfy($value, bool $pretty = false, bool $no_throw = false) : ?string
+	final public static function phpfy($value, $options = null) : ?string
 	{
+		//initialize
+		$options = Options\Phpfy::coerce($options);
+		
 		//null
 		if (!isset($value)) {
 			return 'null';
@@ -84,7 +88,7 @@ final class Type extends Utility
 		//string
 		if (is_string($value)) {
 			$string = preg_replace('/[$"\\\\]/', '\\\\$0', $value);
-			$string = $pretty
+			$string = $options->pretty
 				? implode("\\n\" . \n\"", explode("\n", $string))
 				: str_replace(["\n", "\t"], ['\\n', '\\t'], $string);
 			$string = str_replace(["\v", "\f", "\r", "\e"], ['\\v', '\\f', '\\r', '\\e'], $string);
@@ -107,7 +111,7 @@ final class Type extends Utility
 				}
 				$properties[$name] = $v;
 			}
-			$php = self::phpfy($properties, $pretty, $no_throw);
+			$php = self::phpfy($properties, $options);
 			return isset($php) ? '\\' . get_class($value) . "::__set_state({$php})" : null;
 		}
 		
@@ -128,16 +132,16 @@ final class Type extends Utility
 					if (is_int($k)) {
 						$k_php = (string)$k;
 					} else {
-						$k_php = self::phpfy($k, $pretty, $no_throw);
+						$k_php = self::phpfy($k, $options);
 						if (!isset($k_php)) {
 							return null;
 						}
 					}
-					$k_php .= $pretty ? ' => ' : '=>';
+					$k_php .= $options->pretty ? ' => ' : '=>';
 				}
 				
 				//value
-				$v_php = self::phpfy($v, $pretty, $no_throw);
+				$v_php = self::phpfy($v, $options);
 				if (!isset($v_php)) {
 					return null;
 				}
@@ -147,14 +151,16 @@ final class Type extends Utility
 			}
 			
 			//return
-			if ($pretty) {
+			if ($options->pretty) {
 				if (!$is_assoc) {
 					$string = '[' . implode(', ', $array) . ']';
 					if (strlen($string) <= self::PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH) {
 						return $string;
 					}
 				}
-				return "[\n" . Text::indentate(implode(",\n", $array)) . "\n]";
+				$spaces = $options->spaces;
+				$array_php = Text::indentate(implode(",\n", $array), $spaces ?? 1, isset($spaces) ? ' ' : "\t");
+				return "[\n{$array_php}\n]";
 			}
 			return '[' . implode(',', $array) . ']';
 		}
@@ -167,7 +173,7 @@ final class Type extends Utility
 		}
 		
 		//finish
-		if ($no_throw) {
+		if ($options->no_throw) {
 			return null;
 		}
 		throw new Exceptions\Phpfy\UnsupportedValueType(['value' => $value]);
