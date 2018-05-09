@@ -75,7 +75,7 @@ abstract class Options implements \ArrayAccess
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * The returning cloned instance is just a new instance with the same properties.
+	 * The returning cloned instance is a new instance with the same properties.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $readonly [default = false]
