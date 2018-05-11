@@ -87,14 +87,14 @@ trait Memoization
 	 * <p>The key to get from.</p>
 	 * @param string $namespace [default = '']
 	 * <p>The namespace to get from.</p>
-	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\NoMemoizedValueFound
+	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\MemoizedValueNotFound
 	 * @return mixed
 	 * <p>The memoized value from the given key.</p>
 	 */
 	final protected function getMemoizedValue(string $key, string $namespace = '')
 	{
 		if (!$this->hasMemoizedKey($key, $namespace, $value)) {
-			throw new Exceptions\NoMemoizedValueFound(['key' => $key, 'namespace' => $namespace]);
+			throw new Exceptions\MemoizedValueNotFound(['key' => $key, 'namespace' => $namespace]);
 		}
 		return $value;
 	}
@@ -360,14 +360,14 @@ trait Memoization
 	 * @param bool $local [default = false]
 	 * <p>Use the local class as reference, in other words, use the calling class (late static binding) instead of 
 	 * the declaring class.</p>
-	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\NoMemoizedValueFound
+	 * @throws \Feralygon\Kit\Traits\Memoization\Exceptions\MemoizedValueNotFound
 	 * @return mixed
 	 * <p>The memoized static value from the given key.</p>
 	 */
 	final protected static function getMemoizedStaticValue(string $key, string $namespace = '', bool $local = false)
 	{
 		if (!static::hasMemoizedStaticKey($key, $namespace, $local, $value)) {
-			throw new Exceptions\NoMemoizedValueFound(['key' => $key, 'namespace' => $namespace]);
+			throw new Exceptions\MemoizedValueNotFound(['key' => $key, 'namespace' => $namespace]);
 		}
 		return $value;
 	}

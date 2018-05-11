@@ -333,7 +333,7 @@ class Property
 	 * Get default value.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\NoDefaultValueSet
+	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\DefaultValueNotSet
 	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidDefaultValue
 	 * @return mixed
 	 * <p>The default value.</p>
@@ -342,7 +342,7 @@ class Property
 	{
 		//check
 		if (!isset($this->default_getter)) {
-			throw new Exceptions\NoDefaultValueSet(['property' => $this]);
+			throw new Exceptions\DefaultValueNotSet(['property' => $this]);
 		}
 		
 		//value

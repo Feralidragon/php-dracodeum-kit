@@ -11,7 +11,7 @@ use Feralygon\Kit\Traits\Memoization\Exception;
 
 /**
  * This exception is thrown from a class or object using the memoization trait whenever no memoized value 
- * is found at a given key.
+ * has been found at a given key.
  * 
  * @since 1.0.0
  * @property-read string $key
@@ -19,15 +19,15 @@ use Feralygon\Kit\Traits\Memoization\Exception;
  * @property-read string $namespace [default = '']
  * <p>The namespace.</p>
  */
-class NoMemoizedValueFound extends Exception
+class MemoizedValueNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
 		return $this->get('namespace') !== ''
-			? "No memoized value found at key {{key}} in namespace {{namespace}}."
-			: "No memoized value found at key {{key}}.";
+			? "No memoized value has been found at key {{key}} in namespace {{namespace}}."
+			: "No memoized value has been found at key {{key}}.";
 	}
 	
 	

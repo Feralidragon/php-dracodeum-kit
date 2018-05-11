@@ -517,7 +517,7 @@ class Properties
 	 * <p>The name to get from.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonceProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNoDefaultValueSet
+	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyDefaultValueNotSet
 	 * @return mixed
 	 * <p>The property value from the given name.</p>
 	 */
@@ -535,8 +535,8 @@ class Properties
 		//get
 		try {
 			return $property->getValue();
-		} catch (PropertyExceptions\NoDefaultValueSet $exception) {
-			throw new Exceptions\PropertyNoDefaultValueSet(['manager' => $this, 'property' => $property]);
+		} catch (PropertyExceptions\DefaultValueNotSet $exception) {
+			throw new Exceptions\PropertyDefaultValueNotSet(['manager' => $this, 'property' => $property]);
 		}
 		return null;
 	}
@@ -637,7 +637,7 @@ class Properties
 		//unset
 		try {
 			$property->resetValue();
-		} catch (PropertyExceptions\NoDefaultValueSet $exception) {
+		} catch (PropertyExceptions\DefaultValueNotSet $exception) {
 			throw new Exceptions\CannotUnsetProperty(['manager' => $this, 'property' => $property]);
 		}
 		

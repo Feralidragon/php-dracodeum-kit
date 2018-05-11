@@ -14,7 +14,7 @@ use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
  * 
  * @since 1.0.0
  */
-class NoDefaultValueSet extends Exception
+class DefaultValueNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
