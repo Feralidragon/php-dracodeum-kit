@@ -945,9 +945,8 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	{
 		$schemas = [];
 		foreach ($this->getModifiers() as $modifier) {
-			$schema = $modifier->getSchema();
-			if (isset($schema)) {
-				$schemas[] = $schema;
+			if ($modifier->hasSchema()) {
+				$schemas[] = $modifier->getSchema();
 			}
 		}
 		return $schemas;

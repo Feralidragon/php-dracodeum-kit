@@ -10,7 +10,8 @@ namespace Feralygon\Kit\Components\Input\Components;
 use Feralygon\Kit\Component;
 use Feralygon\Kit\Components\Input\Components\Modifier\{
 	Objects,
-	Structures
+	Structures,
+	Exceptions
 };
 use Feralygon\Kit\Components\Input\Prototypes\Modifier as Prototype;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
@@ -105,18 +106,39 @@ abstract class Modifier extends Component
 	
 	//Public methods
 	/**
+	 * Check if has name.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has name.</p>
+	 */
+	public function hasName() : bool
+	{
+		return $this->getPrototype() instanceof PrototypeInterfaces\Name;
+	}
+	
+	/**
 	 * Get name.
 	 * 
 	 * The returning name is a canonical string, which uniquely identifies this modifier within an input.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Components\Input\Components\Modifier\Exceptions\NameNotSet
 	 * @return string|null
-	 * <p>The name or <code>null</code> if none exists.</p>
+	 * <p>The name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	public function getName() : ?string
+	public function getName(bool $no_throw = false) : ?string
 	{
 		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\Name ? $prototype->getName() : null;
+		if ($prototype instanceof PrototypeInterfaces\Name) {
+			return $prototype->getName();
+		} elseif (!$no_throw) {
+			throw new Exceptions\NameNotSet(['component' => $this, 'prototype' => $prototype]);
+		}
+		return null;
 	}
 	
 	/**
@@ -229,23 +251,40 @@ abstract class Modifier extends Component
 	}
 	
 	/**
+	 * Check if has schema.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has schema.</p>
+	 */
+	public function hasSchema() : bool
+	{
+		return $this->hasName();
+	}
+	
+	/**
 	 * Get schema instance.
 	 * 
 	 * The returning schema describes this modifier by using a structure.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Components\Input\Components\Modifier\Exceptions\SchemaNotSet
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema|null
-	 * <p>The schema instance or <code>null</code> if none exists.</p>
+	 * <p>The schema.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	public function getSchema() : ?Structures\Schema
+	public function getSchema(bool $no_throw = false) : ?Structures\Schema
 	{
-		$name = $this->getName();
-		if (isset($name)) {
-			$prototype = $this->getPrototype();
+		$prototype = $this->getPrototype();
+		if ($this->hasSchema()) {
 			return new Structures\Schema([
-				'name' => $name,
+				'name' => $this->getName(),
 				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
 			], true);
+		} elseif (!$no_throw) {
+			throw new Exceptions\SchemaNotSet(['component' => $this, 'prototype' => $prototype]);
 		}
 		return null;
 	}
