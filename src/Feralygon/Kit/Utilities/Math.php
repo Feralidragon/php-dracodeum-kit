@@ -305,7 +305,7 @@ final class Math extends Utility
 	 * @return int|null
 	 * <p>The machine-readable number from the given human one.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function mnumber(string $number, bool $no_throw = false) : ?int
 	{

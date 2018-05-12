@@ -130,7 +130,7 @@ final class Time extends Utility
 	 * @return int|null
 	 * <p>The Unix timestamp from the given timestamp.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function timestamp($timestamp, bool $no_throw = false) : ?int
 	{
@@ -908,7 +908,7 @@ final class Time extends Utility
 	 * @return float|null
 	 * <p>The machine-readable period, in seconds, from the given human one.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function mperiod(string $period, bool $no_throw = false) : ?float
 	{

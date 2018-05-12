@@ -317,7 +317,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The default null label or <code>null</code> if none exists.</p>
+	 * <p>The default null label or <code>null</code> if none is set.</p>
 	 */
 	public function getDefaultNullLabel($text_options = null) : ?string
 	{
@@ -338,7 +338,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
 	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The description or <code>null</code> if none exists.</p>
+	 * <p>The description or <code>null</code> if none is set.</p>
 	 */
 	public function getDescription($text_options = null, $info_options = null) : ?string
 	{
@@ -381,7 +381,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The default null description or <code>null</code> if none exists.</p>
+	 * <p>The default null description or <code>null</code> if none is set.</p>
 	 */
 	public function getDefaultNullDescription($text_options = null) : ?string
 	{
@@ -405,7 +405,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
 	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The message or <code>null</code> if none exists.</p>
+	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
 	public function getMessage($text_options = null, $info_options = null) : ?string
 	{
@@ -448,7 +448,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The default null message or <code>null</code> if none exists.</p>
+	 * <p>The default null message or <code>null</code> if none is set.</p>
 	 */
 	public function getDefaultNullMessage($text_options = null) : ?string
 	{

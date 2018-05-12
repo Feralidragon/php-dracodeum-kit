@@ -63,7 +63,7 @@ final class Type extends Utility
 	 * @return string|null
 	 * <p>The generated PHP code from the given value.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be generated.</p>
+	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
 	final public static function phpfy($value, $options = null) : ?string
 	{
@@ -1236,7 +1236,7 @@ final class Type extends Utility
 	 * @return string|null
 	 * <p>The class from the given object or class.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function class($object_class, bool $no_throw = false) : ?string
 	{
@@ -1270,7 +1270,7 @@ final class Type extends Utility
 	 * @return string|null
 	 * <p>The given interface validated and sanitized.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be found.</p>
+	 * then <code>null</code> is returned if it could not be found.</p>
 	 */
 	final public static function interface(string $interface, bool $no_throw = false) : ?string
 	{

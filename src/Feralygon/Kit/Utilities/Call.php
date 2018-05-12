@@ -159,7 +159,7 @@ final class Call extends Utility
 	 * @return \ReflectionFunction|\ReflectionMethod|null
 	 * <p>A new reflection instance for the given function.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function reflection($function, bool $no_throw = false) : ?\ReflectionFunctionAbstract
 	{

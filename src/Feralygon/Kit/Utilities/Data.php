@@ -203,8 +203,7 @@ final class Data extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\Keyfy\UnsupportedValueType
 	 * @return string|null
 	 * <p>An unique key from the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it failed.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it failed.</p>
 	 */
 	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false) : ?string
 	{
@@ -1624,7 +1623,7 @@ final class Data extends Utility
 	 * @return int|string|null
 	 * <p>The first key from the given array.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if the given array is empty.</p>
+	 * then <code>null</code> is returned if the given array is empty.</p>
 	 */
 	final public static function kfirst(array $array, bool $no_throw = false)
 	{
@@ -1675,7 +1674,7 @@ final class Data extends Utility
 	 * @return int|string|null
 	 * <p>The last key from the given array.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if the given array is empty.</p>
+	 * then <code>null</code> is returned if the given array is empty.</p>
 	 */
 	final public static function klast(array $array, bool $no_throw = false)
 	{

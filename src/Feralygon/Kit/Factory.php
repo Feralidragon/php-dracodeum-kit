@@ -88,7 +88,7 @@ abstract class Factory
 	 * @return \Feralygon\Kit\Factory\Objects\Type|null
 	 * <p>The type instance for the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it has not been found.</p>
+	 * then <code>null</code> is returned if it has not been found.</p>
 	 */
 	final protected static function getType(string $name, bool $no_throw = false) : ?Objects\Type
 	{

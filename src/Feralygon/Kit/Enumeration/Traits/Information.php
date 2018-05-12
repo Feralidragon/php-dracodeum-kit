@@ -27,7 +27,7 @@ trait Information
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string|null
-	 * <p>The label for the given element name or <code>null</code> if none exists.</p>
+	 * <p>The label for the given element name or <code>null</code> if none is set.</p>
 	 */
 	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
 	{
@@ -43,7 +43,7 @@ trait Information
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string|null
-	 * <p>The description for the given element name or <code>null</code> if none exists.</p>
+	 * <p>The description for the given element name or <code>null</code> if none is set.</p>
 	 */
 	protected static function retrieveDescription(string $name, TextOptions $text_options) : ?string
 	{

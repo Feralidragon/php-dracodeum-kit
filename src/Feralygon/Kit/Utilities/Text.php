@@ -162,7 +162,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The generated string from the given value.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be generated.</p>
+	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
 	final public static function stringify($value, $text_options = null, $options = null) : ?string
 	{
@@ -937,7 +937,7 @@ final class Text extends Utility
 	 * @return array|null
 	 * <p>The extracted parameters from the given string using the given mask, as <samp>key => value</samp> pairs.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if they could not be extracted.</p>
+	 * then <code>null</code> is returned if they could not be extracted.</p>
 	 */
 	final public static function extract(string $string, string $mask, $options = null) : ?array
 	{
@@ -1019,7 +1019,7 @@ final class Text extends Utility
 	 * @return array|null
 	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if no data could be parsed.</p>
+	 * then <code>null</code> is returned if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
 	{
@@ -1707,7 +1707,7 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_PASCAL</code> for pascal case.<br>
 	 * <br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if no notation was recognized.</p>
+	 * then <code>null</code> is returned if no notation was recognized.</p>
 	 */
 	final public static function caseNotation(string $string, bool $no_throw = false) : ?string
 	{
@@ -1750,7 +1750,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to camel case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toCamelCase(string $string, bool $no_throw = false) : ?string
 	{
@@ -1794,7 +1794,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to pascal case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toPascalCase(string $string, bool $no_throw = false) : ?string
 	{
@@ -1831,7 +1831,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to snake case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toSnakeCase(string $string, bool $no_throw = false) : ?string
 	{
@@ -1874,7 +1874,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to kebab case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toKebabCase(string $string, bool $no_throw = false) : ?string
 	{
@@ -1917,7 +1917,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to macro case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toMacroCase(string $string, bool $no_throw = false) : ?string
 	{
@@ -1960,7 +1960,7 @@ final class Text extends Utility
 	 * @return string|null
 	 * <p>The given string converted to cobol case notation.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be converted.</p>
+	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toCobolCase(string $string, bool $no_throw = false) : ?string
 	{

@@ -198,8 +198,7 @@ final class System
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\HostnameNotSet
 	 * @return string|null
 	 * <p>The hostname.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if none is set.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
 	final public static function getHostname(bool $no_throw = false) : ?string
 	{
@@ -222,8 +221,7 @@ final class System
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\IpAddressNotSet
 	 * @return string|null
 	 * <p>The IP address.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if none is set.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
 	final public static function getIpAddress(bool $no_throw = false) : ?string
 	{

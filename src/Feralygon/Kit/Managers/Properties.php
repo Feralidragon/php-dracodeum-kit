@@ -695,7 +695,7 @@ class Properties
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property|null
 	 * <p>The property instance for the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it has not been found.</p>
+	 * then <code>null</code> is returned if none has been found.</p>
 	 */
 	final protected function getProperty(string $name, bool $no_throw = false) : ?Objects\Property
 	{

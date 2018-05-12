@@ -54,7 +54,7 @@ final class Base64 extends Utility
 	 * @return string|null
 	 * <p>The given string decoded.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be decoded.</p>
+	 * then <code>null</code> is returned if it could not be decoded.</p>
 	 */
 	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false) : ?string
 	{

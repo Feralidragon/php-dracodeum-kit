@@ -34,7 +34,7 @@ final class Json extends Utility
 	 * @return string|null
 	 * <p>The given data encoded.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be encoded.</p>
+	 * then <code>null</code> is returned if it could not be encoded.</p>
 	 */
 	final public static function encode($data, $options = null) : ?string
 	{

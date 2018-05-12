@@ -148,7 +148,7 @@ abstract class Modifier extends Component
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The label or <code>null</code> if none exists.</p>
+	 * <p>The label or <code>null</code> if none is set.</p>
 	 */
 	public function getLabel($text_options = null) : ?string
 	{
@@ -167,7 +167,7 @@ abstract class Modifier extends Component
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The message or <code>null</code> if none exists.</p>
+	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
 	public function getMessage($text_options = null) : ?string
 	{
@@ -187,7 +187,7 @@ abstract class Modifier extends Component
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
-	 * <p>The string or <code>null</code> if none exists.</p>
+	 * <p>The string or <code>null</code> if none is set.</p>
 	 */
 	public function getString($text_options = null) : ?string
 	{
