@@ -1253,7 +1253,7 @@ final class Type extends Utility
 			}
 			throw new Exceptions\ClassNotFound(['class' => $object_class]);
 		}
-		return ltrim($object_class, '\\');
+		return $object_class[0] === '\\' ? substr($object_class, 1) : $object_class;
 	}
 	
 	/**
@@ -1280,7 +1280,7 @@ final class Type extends Utility
 			}
 			throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
 		}
-		return ltrim($interface, '\\');
+		return $interface[0] === '\\' ? substr($interface, 1) : $interface;
 	}
 	
 	/**
