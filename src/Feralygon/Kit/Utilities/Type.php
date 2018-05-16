@@ -743,17 +743,18 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a class.</p>
 	 */
-	final public static function evaluateClass(&$value, $base_object_class = null, bool $nullable = false) : bool
+	final public static function evaluateClass(&$value, $object_class_interface = null, bool $nullable = false) : bool
 	{
 		try {
-			$value = self::coerceClass($value, $base_object_class, $nullable);
+			$value = self::coerceClass($value, $object_class_interface, $nullable);
 		} catch (Exceptions\ClassCoercionFailed $exception) {
 			return false;
 		}
@@ -768,8 +769,9 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
@@ -777,7 +779,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into a class.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceClass($value, $base_object_class = null, bool $nullable = false) : ?string
+	final public static function coerceClass($value, $object_class_interface = null, bool $nullable = false) : ?string
 	{
 		//nullable
 		if (!isset($value)) {
@@ -801,16 +803,30 @@ final class Type extends Utility
 			]);
 		}
 		
-		//base class
-		if (isset($base_object_class)) {
-			$base_class = self::class($base_object_class);
-			if (!self::isA($class, $base_class)) {
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (!isset($interface)) {
+				if (!self::isA($class, $object_class_interface)) {
+					throw new Exceptions\ClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+						'error_message' => Text::fill(
+							"Only a class which is or extends from {{base_class}} is allowed.", [
+								'base_class' => Text::stringify(
+									self::class($object_class_interface), null, ['quote_strings' => true]
+								)
+							]
+						)
+					]);
+				}
+			} elseif (!self::implements($class, $interface)) {
 				throw new Exceptions\ClassCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
-						"Only a class which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
+						"Only a class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
 					)
 				]);
 			}
@@ -828,8 +844,9 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param array $arguments [default = []]
 	 * <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false]
@@ -838,11 +855,11 @@ final class Type extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an object.</p>
 	 */
 	final public static function evaluateObject(
-		&$value, $base_object_class = null, array $arguments = [], bool $nullable = false
+		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
 	) : bool
 	{
 		try {
-			$value = self::coerceObject($value, $base_object_class, $arguments, $nullable);
+			$value = self::coerceObject($value, $object_class_interface, $arguments, $nullable);
 		} catch (Exceptions\ObjectCoercionFailed $exception) {
 			return false;
 		}
@@ -857,8 +874,9 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param array $arguments [default = []]
 	 * <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false]
@@ -869,7 +887,7 @@ final class Type extends Utility
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceObject(
-		$value, $base_object_class = null, array $arguments = [], bool $nullable = false
+		$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
 	) : ?object
 	{
 		//nullable
@@ -884,19 +902,20 @@ final class Type extends Utility
 			]);
 		}
 		
-		//class
-		$class = self::class($value, true);
-		if (!isset($class)) {
-			throw new Exceptions\ObjectCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into an object."
-			]);
-		}
-		
 		//object
 		$object = $value;
 		if (!is_object($object)) {
+			//class
+			$class = self::class($object, true);
+			if (!isset($class)) {
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only a class string or object can be coerced into an object."
+				]);
+			}
+			
+			//instantiate
 			try {
 				$object = self::construct($class, ...$arguments);
 			} catch (\Exception $exception) {
@@ -915,16 +934,30 @@ final class Type extends Utility
 			}
 		}
 		
-		//base class
-		if (isset($base_object_class)) {
-			$base_class = self::class($base_object_class);
-			if (!self::isA($class, $base_class)) {
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (!isset($interface)) {
+				if (!self::isA($object, $object_class_interface)) {
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+						'error_message' => Text::fill(
+							"Only an object which is or extends from {{base_class}} is allowed.", [
+								'base_class' => Text::stringify(
+									self::class($object_class_interface), null, ['quote_strings' => true]
+								)
+							]
+						)
+					]);
+				}
+			} elseif (!self::implements($object, $interface)) {
 				throw new Exceptions\ObjectCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
-						"Only an object which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
+						"Only an object which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
 					)
 				]);
 			}
@@ -942,17 +975,20 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an object or class.</p>
 	 */
-	final public static function evaluateObjectClass(&$value, $base_object_class = null, bool $nullable = false) : bool
+	final public static function evaluateObjectClass(
+		&$value, $object_class_interface = null, bool $nullable = false
+	) : bool
 	{
 		try {
-			$value = self::coerceObjectClass($value, $base_object_class, $nullable);
+			$value = self::coerceObjectClass($value, $object_class_interface, $nullable);
 		} catch (Exceptions\ObjectClassCoercionFailed $exception) {
 			return false;
 		}
@@ -967,8 +1003,9 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which the given value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
@@ -976,7 +1013,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into an object or class.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceObjectClass($value, $base_object_class = null, bool $nullable = false)
+	final public static function coerceObjectClass($value, $object_class_interface = null, bool $nullable = false)
 	{
 		//nullable
 		if (!isset($value)) {
@@ -990,33 +1027,50 @@ final class Type extends Utility
 			]);
 		}
 		
-		//class
-		$class = self::class($value, true);
-		if (!isset($class)) {
-			throw new Exceptions\ObjectClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into an object or class."
-			]);
+		//object or class
+		$object_class = $value;
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class, true);
+			if (!isset($object_class)) {
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only an object or class are allowed."
+				]);
+			}
 		}
 		
-		//base class
-		if (isset($base_object_class)) {
-			$base_class = self::class($base_object_class);
-			if (!self::isA($class, $base_class)) {
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (!isset($interface)) {
+				if (!self::isA($object_class, $object_class_interface)) {
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+						'error_message' => Text::fill(
+							"Only an object or class which is or extends from {{base_class}} is allowed.", [
+								'base_class' => Text::stringify(
+									self::class($object_class_interface), null, ['quote_strings' => true]
+								)
+							]
+						)
+					]);
+				}
+			} elseif (!self::implements($object_class, $interface)) {
 				throw new Exceptions\ObjectClassCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
 					'error_message' => Text::fill(
-						"Only a class or object which is or extends from {{base_class}} is allowed.",
-						['base_class' => Text::stringify($base_class, null, ['quote_strings' => true])]
+						"Only an object or class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
 					)
 				]);
 			}
 		}
 		
 		//return
-		return is_object($value) ? $value : $class;
+		return $object_class;
 	}
 	
 	/**
@@ -1050,7 +1104,10 @@ final class Type extends Utility
 	 */
 	final public static function isA($object_class, $base_object_class) : bool
 	{
-		return is_a(self::class($object_class), self::class($base_object_class), true);
+		return is_a(
+			is_object($object_class) ? $object_class : self::class($object_class),
+			self::class($base_object_class), true
+		);
 	}
 	
 	/**
@@ -1069,7 +1126,7 @@ final class Type extends Utility
 	{
 		$base_class = self::class($base_object_class);
 		foreach ($objects_classes as $object_class) {
-			if (!is_a(self::class($object_class), $base_class, true)) {
+			if (!is_a(is_object($object_class) ? $object_class : self::class($object_class), $base_class, true)) {
 				return false;
 			}
 		}
@@ -1090,9 +1147,11 @@ final class Type extends Utility
 	 */
 	final public static function isAny($object_class, array $base_objects_classes) : bool
 	{
-		$class = self::class($object_class);
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class);
+		}
 		foreach ($base_objects_classes as $base_object_class) {
-			if (is_a($class, self::class($base_object_class), true)) {
+			if (is_a($object_class, self::class($base_object_class), true)) {
 				return true;
 			}
 		}
@@ -1113,11 +1172,13 @@ final class Type extends Utility
 	 */
 	final public static function areAny(array $objects_classes, array $base_objects_classes) : bool
 	{
-		//classes
-		$classes = [];
-		foreach ($objects_classes as $object_class) {
-			$classes[] = self::class($object_class);
+		//objects and classes
+		foreach ($objects_classes as &$object_class) {
+			if (!is_object($object_class)) {
+				$object_class = self::class($object_class);
+			}
 		}
+		unset($object_class);
 		
 		//base classes
 		$base_classes = [];
@@ -1126,10 +1187,10 @@ final class Type extends Utility
 		}
 		
 		//check
-		foreach ($classes as $class) {
+		foreach ($objects_classes as $object_class) {
 			$is_any = false;
 			foreach ($base_classes as $base_class) {
-				if (is_a($class, $base_class, true)) {
+				if (is_a($object_class, $base_class, true)) {
 					$is_any = true;
 					break;
 				}
@@ -1155,7 +1216,9 @@ final class Type extends Utility
 	 */
 	final public static function implements($object_class, string $interface) : bool
 	{
-		return self::implementsAny($object_class, [$interface]);
+		return is_a(
+			is_object($object_class) ? $object_class : self::class($object_class), self::interface($interface), true
+		);
 	}
 	
 	/**
@@ -1172,14 +1235,15 @@ final class Type extends Utility
 	 */
 	final public static function implementsAny($object_class, array $interfaces) : bool
 	{
-		//interfaces
-		foreach ($interfaces as &$interface) {
-			$interface = self::interface($interface);
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class);
 		}
-		unset($interface);
-		
-		//return
-		return !empty(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces)));
+		foreach ($interfaces as $interface) {
+			if (is_a($object_class, self::interface($interface), true)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -1196,15 +1260,15 @@ final class Type extends Utility
 	 */
 	final public static function implementsAll($object_class, array $interfaces) : bool
 	{
-		//interfaces
-		foreach ($interfaces as &$interface) {
-			$interface = self::interface($interface);
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class);
 		}
-		unset($interface);
-		
-		//return
-		$count = count(array_intersect_key(class_implements(self::class($object_class)), array_flip($interfaces)));
-		return $count === count($interfaces);
+		foreach ($interfaces as $interface) {
+			if (!is_a($object_class, self::interface($interface), true)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**

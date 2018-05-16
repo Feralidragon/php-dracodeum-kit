@@ -789,18 +789,18 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsClass($base_object_class = null, bool $nullable = false) : Property
+	final public function setAsClass($object_class_interface = null, bool $nullable = false) : Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($base_object_class, $nullable) : bool {
-				return UType::evaluateClass($value, $base_object_class, $nullable);
+			function (&$value) use ($object_class_interface, $nullable) : bool {
+				return UType::evaluateClass($value, $object_class_interface, $nullable);
 			}
 		);
 		return $this;
@@ -812,19 +812,19 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictClass($base_object_class = null, bool $nullable = false) : Property
+	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false) : Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($base_object_class, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable) : bool {
 				return isset($value)
-					? is_string($value) && UType::evaluateClass($value, $base_object_class)
+					? is_string($value) && UType::evaluateClass($value, $object_class_interface)
 					: $nullable;
 			}
 		);
@@ -839,8 +839,8 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param array $arguments [default = []]
 	 * <p>The class constructor arguments to instantiate with.</p>
 	 * @param bool $nullable [default = false]
@@ -849,12 +849,12 @@ class Property
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsObject(
-		$base_object_class = null, array $arguments = [], bool $nullable = false
+		$object_class_interface = null, array $arguments = [], bool $nullable = false
 	) : Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($base_object_class, $arguments, $nullable) : bool {
-				return UType::evaluateObject($value, $base_object_class, $arguments, $nullable);
+			function (&$value) use ($object_class_interface, $arguments, $nullable) : bool {
+				return UType::evaluateObject($value, $object_class_interface, $arguments, $nullable);
 			}
 		);
 		return $this;
@@ -866,19 +866,19 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictObject($base_object_class = null, bool $nullable = false) : Property
+	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false) : Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($base_object_class, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable) : bool {
 				return isset($value)
-					? is_object($value) && UType::evaluateObject($value, $base_object_class)
+					? is_object($value) && UType::evaluateObject($value, $object_class_interface)
 					: $nullable;
 			}
 		);
@@ -893,18 +893,18 @@ class Property
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0
-	 * @param object|string|null $base_object_class [default = null]
-	 * <p>The base object or class which a value must be or extend from.</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsObjectClass($base_object_class = null, bool $nullable = false) : Property
+	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false) : Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($base_object_class, $nullable) : bool {
-				return UType::evaluateObjectClass($value, $base_object_class, $nullable);
+			function (&$value) use ($object_class_interface, $nullable) : bool {
+				return UType::evaluateObjectClass($value, $object_class_interface, $nullable);
 			}
 		);
 		return $this;
