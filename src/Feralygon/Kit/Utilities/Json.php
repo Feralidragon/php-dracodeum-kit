@@ -23,6 +23,21 @@ final class Json extends Utility
 {
 	//Final public static methods
 	/**
+	 * Check if given data is encoded.
+	 * 
+	 * @since 1.0.0
+	 * @param string $data
+	 * <p>The data to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given data is encoded.</p>
+	 */
+	final public static function isEncoded(string $data) : bool
+	{
+		json_decode($data);
+		return json_last_error() === JSON_ERROR_NONE;
+	}
+	
+	/**
 	 * Encode data.
 	 * 
 	 * @since 1.0.0

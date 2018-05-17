@@ -20,6 +20,28 @@ final class Base64 extends Utility
 {
 	//Final public static methods
 	/**
+	 * Check if a given string is encoded.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param bool|null $url_safe [default = null]
+	 * <p>Check URL-safe encoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) got replaced 
+	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
+	 * as well as the padding equal signs (<samp>=</samp>) removed, in order to have been safely put in an URL.<br>
+	 * If not set, then the used encoding is automatically detected from the given string.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is encoded.</p>
+	 */
+	final public static function isEncoded(string $string, ?bool $url_safe = null) : bool
+	{
+		if (!isset($url_safe)) {
+			$url_safe = (bool)preg_match('/[_\-]/', $string);
+		}
+		return (bool)preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string);
+	}
+	
+	/**
 	 * Encode a given string.
 	 * 
 	 * @since 1.0.0
@@ -58,15 +80,12 @@ final class Base64 extends Utility
 	 */
 	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false) : ?string
 	{
-		if (!isset($url_safe)) {
-			$url_safe = (bool)preg_match('/[_\-]/', $string);
-		}
-		if (!preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string)) {
+		if (!self::isEncoded($string, $url_safe)) {
 			if ($no_throw) {
 				return null;
 			}
 			throw new Exceptions\Decode\InvalidString(['string' => $string, 'url_safe' => $url_safe]);
 		}
-		return $url_safe ? base64_decode(strtr($string, '-_', '+/')) : base64_decode($string);
+		return base64_decode(strtr($string, '-_', '+/'));
 	}
 }
