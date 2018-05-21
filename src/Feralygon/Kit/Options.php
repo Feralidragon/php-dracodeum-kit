@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * by representing an additional set of optional parameters.<br>
  * <br>
  * All properties are lazy-loaded, and validated and sanitized, guaranteeing their type and integrity, 
- * and may be retrieved and modified directly just like public object properties.<br>
+ * and may be got and set directly just like public object properties.<br>
  * <br>
  * It may also be set to read-only during instantiation to prevent any further changes.
  * 

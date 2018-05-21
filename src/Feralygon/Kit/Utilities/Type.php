@@ -14,7 +14,7 @@ use Feralygon\Kit\Utilities\Type\{
 };
 
 /**
- * This utility implements a set of methods used to check, validate and retrieve information from PHP types, 
+ * This utility implements a set of methods used to check, validate and get information from PHP types, 
  * being mostly focused in scalars, objects and classes.
  * 
  * For functions or callables see the <code>Feralygon\Kit\Utilities\Call</code> class, 
@@ -1286,13 +1286,13 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve class from a given object or class.
+	 * Get class from a given object or class.
 	 * 
 	 * The leading backslash character <samp>\</samp> is never prepended to the returned class.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InvalidObjectClass
@@ -1300,7 +1300,7 @@ final class Type extends Utility
 	 * @return string|null
 	 * <p>The class from the given object or class.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function class($object_class, bool $no_throw = false) : ?string
 	{
@@ -1348,13 +1348,13 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve basename from a given object or class.
+	 * Get basename from a given object or class.
 	 * 
 	 * The returning basename is the class name without its namespace (class short name).
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @return string
 	 * <p>The basename from the given object or class.</p>
 	 */
@@ -1364,7 +1364,7 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve namespace from a given object or class.
+	 * Get namespace from a given object or class.
 	 * 
 	 * The returning namespace does not have the leading backslash character <samp>\</samp>, 
 	 * thus an empty namespace is returned for the global one.
@@ -1372,9 +1372,9 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.namespaces.php
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @param int|null $depth [default = null]
-	 * <p>The depth limit to retrieve with.<br>
+	 * <p>The depth limit to get with.<br>
 	 * If set to a number less than <code>0</code>, 
 	 * then the limit is applied backwards (starting at the end of the namespace).<br>
 	 * If not set, then no limit is applied.</p>
@@ -1394,13 +1394,13 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve filepath from a given object or class.
+	 * Get filepath from a given object or class.
 	 * 
 	 * The returning filepath is the absolute file path in the filesystem where the class is declared.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @return string
 	 * <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
@@ -1411,13 +1411,13 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve directory from a given object or class.
+	 * Get directory from a given object or class.
 	 * 
 	 * The returning directory is the absolute directory path in the filesystem where the class is declared.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @return string
 	 * <p>The directory from the given object or class 
 	 * or <code>null</code> if the class is not declared in any file.</p>
@@ -1429,13 +1429,13 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Retrieve filename from a given object or class.
+	 * Get filename from a given object or class.
 	 * 
 	 * The returning filename is the complete name of the file where the class is declared.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to retrieve from.</p>
+	 * <p>The object or class to get from.</p>
 	 * @return string
 	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */

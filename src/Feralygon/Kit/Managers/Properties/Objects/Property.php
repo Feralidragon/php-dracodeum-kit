@@ -392,7 +392,7 @@ class Property
 	/**
 	 * Set default getter function.
 	 * 
-	 * By setting a default getter function, the default value will always be retrieved using that function.<br>
+	 * By setting a default getter function, the default value will always be got using that function.<br>
 	 * It is only called after all properties have been initialized through the manager.<br>
 	 * <br>
 	 * This method may only be called before initialization.
@@ -1193,8 +1193,7 @@ class Property
 	/**
 	 * Set accessor functions.
 	 * 
-	 * By setting a getter and a setter function, 
-	 * the value will always be retrieved and modified using those functions.<br>
+	 * By setting a getter and a setter function, the value will always be got and set using those functions.<br>
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 

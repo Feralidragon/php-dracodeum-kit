@@ -24,10 +24,10 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * <p>The template.</p>
  * @property-read string $function_signature [readonly] [default = auto]
  * <p>The function signature.<br>
- * It is automatically retrieved from the given <var>$function</var> property above.</p>
+ * It is automatically got from the given <var>$function</var> property above.</p>
  * @property-read string $template_signature [readonly] [default = auto]
  * <p>The template signature.<br>
- * It is automatically retrieved from the given <var>$template</var> property above.</p>
+ * It is automatically got from the given <var>$template</var> property above.</p>
  * @property-read object|string|null $object_class [default = null]
  * <p>The object or class.</p>
  */

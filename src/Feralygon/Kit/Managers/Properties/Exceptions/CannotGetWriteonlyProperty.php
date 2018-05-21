@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
 /**
- * This exception is thrown from a properties manager whenever a given write-only property is attempted to be retrieved.
+ * This exception is thrown from a properties manager whenever a given write-only property is attempted to be got.
  * 
  * @since 1.0.0
  */

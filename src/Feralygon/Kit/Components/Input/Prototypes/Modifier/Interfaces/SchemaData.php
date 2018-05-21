@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 
 /**
- * This interface defines a method to retrieve the schema data from an input modifier prototype.
+ * This interface defines a method to get the schema data from an input modifier prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier

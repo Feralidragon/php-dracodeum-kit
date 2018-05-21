@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Interfaces\Throwables;
 
 /**
- * This interface defines a set of methods to retrieve the value, error code and message from a coercive throwable.
+ * This interface defines a set of methods to get the value, error code and message from a coercive throwable.
  * 
  * @since 1.0.0
  */

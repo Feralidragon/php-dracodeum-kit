@@ -18,7 +18,7 @@ use Feralygon\Kit\Utilities\Call\{
 use Feralygon\Kit\Root\System;
 
 /**
- * This utility implements a set of methods used to retrieve information from existing PHP functions, 
+ * This utility implements a set of methods used to get information from existing PHP functions, 
  * methods and callables.
  * 
  * @since 1.0.0
@@ -140,7 +140,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve a new reflection instance for a given function.
+	 * Get a new reflection instance for a given function.
 	 * 
 	 * The returning reflection instance depends on the type of function given.<br>
 	 * In the case of a class or instance method, 
@@ -152,14 +152,14 @@ final class Call extends Utility
 	 * @see https://php.net/manual/en/class.reflectionfunction.php
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve for.</p>
+	 * <p>The function to get for.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
 	 * @return \ReflectionFunction|\ReflectionMethod|null
 	 * <p>A new reflection instance for the given function.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function reflection($function, bool $no_throw = false) : ?\ReflectionFunctionAbstract
 	{
@@ -216,11 +216,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve modifiers from a given function.
+	 * Get modifiers from a given function.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @return string[]
 	 * <p>The modifiers from the given function.</p>
 	 */
@@ -254,7 +254,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve name from a given function.
+	 * Get name from a given function.
 	 * 
 	 * If the given function is anonymous, then <code>null</code> is returned.<br>
 	 * If the given function belongs to a class and the <var>$full</var> parameter is passed as <code>true</code>, 
@@ -263,7 +263,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @param bool $full [default = false]
 	 * <p>Return the full name, including the class it's declared in.</p>
 	 * @param bool $short [default = false]
@@ -298,7 +298,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve parameters from a given function.
+	 * Get parameters from a given function.
 	 * 
 	 * The returning parameters from the given function are represented by their types, names and default values.<br>
 	 * The expected return format for each parameter is <samp>type name</samp> or <samp>type name = value</samp>.<br>
@@ -308,7 +308,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : 
@@ -396,11 +396,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve type from a given function.
+	 * Get type from a given function.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : 
@@ -433,7 +433,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve header from a given function.
+	 * Get header from a given function.
 	 * 
 	 * The returning header from the given function is represented by its modifiers, name, parameters and type.<br>
 	 * The expected return format is 
@@ -441,7 +441,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : 
@@ -506,13 +506,13 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve body from a given function.
+	 * Get body from a given function.
 	 * 
 	 * The returning body from the given function is its PHP code.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @return string
 	 * <p>The body from the given function.</p>
 	 */
@@ -543,13 +543,13 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve source from a given function.
+	 * Get source from a given function.
 	 * 
 	 * The returning source from the given function is the entirety of its PHP code (both header and body).
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : 
@@ -591,7 +591,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve signature from a given function.
+	 * Get signature from a given function.
 	 * 
 	 * The returning signature from the given function is represented only by its parameters and return types.<br>
 	 * The expected return format is as follows:<br>
@@ -599,7 +599,7 @@ final class Call extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @return string
 	 * <p>The signature from the given function.</p>
 	 */
@@ -800,11 +800,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve extension from a given function.
+	 * Get extension from a given function.
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
-	 * <p>The function to retrieve from.</p>
+	 * <p>The function to get from.</p>
 	 * @return string|null
 	 * <p>The extension from the given function 
 	 * or <code>null</code> if the function does not belong to any extension.</p>
@@ -894,11 +894,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous class from the current stack.
+	 * Get previous class from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @return string|null
 	 * <p>The previous class from the current stack 
@@ -914,14 +914,14 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous classes from the current stack.
+	 * Get previous classes from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The limit to use on the number of classes to retrieve.<br>
+	 * <p>The limit to use on the number of classes to get.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @return string[]|null[]
 	 * <p>The previous classes from the current stack.</p>
@@ -947,11 +947,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous object from the current stack.
+	 * Get previous object from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @return object|null
 	 * <p>The previous object from the current stack 
@@ -967,14 +967,14 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous objects from the current stack.
+	 * Get previous objects from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The limit to use on the number of objects to retrieve.<br>
+	 * <p>The limit to use on the number of objects to get.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @return object[]|null[]
 	 * <p>The previous objects from the current stack.</p>
@@ -1000,11 +1000,11 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous object or class from the current stack.
+	 * Get previous object or class from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @return object|string|null
 	 * <p>The previous object or class from the current stack 
@@ -1021,14 +1021,14 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Retrieve previous objects and classes from the current stack.
+	 * Get previous objects and classes from the current stack.
 	 * 
 	 * @since 1.0.0
 	 * @param int $offset [default = 0]
-	 * <p>The offset to retrieve from.<br>
+	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $limit [default = null]
-	 * <p>The limit to use on the number of objects and classes to retrieve.<br>
+	 * <p>The limit to use on the number of objects and classes to get.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @return object[]|string[]|null[]
 	 * <p>The previous objects and classes from the current stack.</p>

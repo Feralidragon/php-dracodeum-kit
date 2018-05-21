@@ -11,7 +11,7 @@ use Feralygon\Kit\Managers\Properties\Exception;
 use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
- * This exception is thrown from a properties manager whenever a given property is attempted to be retrieved.
+ * This exception is thrown from a properties manager whenever a given property is attempted to be got.
  * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property

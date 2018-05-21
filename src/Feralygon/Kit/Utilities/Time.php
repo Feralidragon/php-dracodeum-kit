@@ -16,7 +16,7 @@ use Feralygon\Kit\Utilities\Time\{
 };
 
 /**
- * This utility implements a set of methods used to manipulate and retrieve information about time.
+ * This utility implements a set of methods used to manipulate and get information about time.
  * 
  * @since 1.0.0
  */
@@ -116,13 +116,13 @@ final class Time extends Utility
 	
 	//Final public static methods
 	/**
-	 * Retrieve Unix timestamp from a given timestamp.
+	 * Get Unix timestamp from a given timestamp.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param int|float|string $timestamp
-	 * <p>The timestamp to retrieve from, as supported by the PHP <code>strtotime</code> function 
+	 * <p>The timestamp to get from, as supported by the PHP <code>strtotime</code> function 
 	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -130,7 +130,7 @@ final class Time extends Utility
 	 * @return int|null
 	 * <p>The Unix timestamp from the given timestamp.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function timestamp($timestamp, bool $no_throw = false) : ?int
 	{
@@ -269,7 +269,7 @@ final class Time extends Utility
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d H:i:s e';
 		
-		//TODO: use Localization to retrieve the correct date and time format
+		//TODO: use Localization to get the correct date and time format
 		
 		return self::coerceDateTime($datetime, $format);
 	}
@@ -391,7 +391,7 @@ final class Time extends Utility
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d';
 		
-		//TODO: use Localization to retrieve the correct date format
+		//TODO: use Localization to get the correct date format
 		
 		return self::coerceDate($date, $format);
 	}
@@ -513,7 +513,7 @@ final class Time extends Utility
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'H:i:s e';
 		
-		//TODO: use Localization to retrieve the correct time format
+		//TODO: use Localization to get the correct time format
 		
 		return self::coerceTime($time, $format);
 	}
@@ -644,7 +644,7 @@ final class Time extends Utility
 	}
 	
 	/**
-	 * Retrieve human-readable period from a given machine one.
+	 * Get human-readable period from a given machine one.
 	 * 
 	 * The returning period represents the given one in a human-readable format, 
 	 * by rounding it to the nearest most significant time multiples, as shown in the examples below:<br>
@@ -671,7 +671,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param float $period
-	 * <p>The machine-readable period to retrieve from, in seconds.</p>
+	 * <p>The machine-readable period to get from, in seconds.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Time\Options\Hperiod|array|null $options [default = null]
@@ -874,7 +874,7 @@ final class Time extends Utility
 	}
 	
 	/**
-	 * Retrieve machine-readable period from a given human one.
+	 * Get machine-readable period from a given human one.
 	 * 
 	 * The returning period represents the given one in a machine-readable format and in seconds, 
 	 * by converting it as shown in the examples below:<br>
@@ -901,14 +901,14 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $period
-	 * <p>The human-readable period to retrieve from.</p>
+	 * <p>The human-readable period to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\Mperiod\InvalidPeriod
 	 * @return float|null
 	 * <p>The machine-readable period, in seconds, from the given human one.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mperiod(string $period, bool $no_throw = false) : ?float
 	{

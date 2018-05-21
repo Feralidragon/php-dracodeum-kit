@@ -11,7 +11,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 
 /**
- * This interface defines a set of methods to retrieve information from an input prototype, 
+ * This interface defines a set of methods to get information from an input prototype, 
  * namely the label, description and message.
  * 
  * @since 1.0.0

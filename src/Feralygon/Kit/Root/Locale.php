@@ -179,7 +179,7 @@ final class Locale
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, 
-	 * these descriptions and examples will also be retrieved and saved into the resulting file with all 
+	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
 	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
@@ -257,7 +257,7 @@ final class Locale
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, 
-	 * these descriptions and examples will also be retrieved and saved into the resulting file with all 
+	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
 	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>

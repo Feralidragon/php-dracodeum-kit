@@ -115,7 +115,7 @@ final class Math extends Utility
 	/**
 	 * Get a random integer or string value from a given set of weighted values.
 	 * 
-	 * The returning value is retrieved as one of the keys from the <var>$values_weights</var> parameter, 
+	 * The returning value is got as one of the keys from the <var>$values_weights</var> parameter, 
 	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, 
 	 * hence only an integer or string value can be returned.<br>
 	 * <br>
@@ -171,7 +171,7 @@ final class Math extends Utility
 	}
 	
 	/**
-	 * Retrieve human-readable number from a given machine one.
+	 * Get human-readable number from a given machine one.
 	 * 
 	 * The returning number represents the given one in a human-readable format, 
 	 * by rounding it to the nearest most significant multiple, as shown in the examples below:<br>
@@ -188,7 +188,7 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $number
-	 * <p>The machine-readable number to retrieve from.</p>
+	 * <p>The machine-readable number to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Math\Options\Hnumber|array|null $options [default = null]
@@ -284,7 +284,7 @@ final class Math extends Utility
 	}
 	
 	/**
-	 * Retrieve machine-readable number from a given human one.
+	 * Get machine-readable number from a given human one.
 	 * 
 	 * The returning number represents the given one in a machine-readable format, 
 	 * by converting it as shown in the examples below:<br>
@@ -298,14 +298,14 @@ final class Math extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $number
-	 * <p>The human-readable number to retrieve from.</p>
+	 * <p>The human-readable number to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Math\Exceptions\Mnumber\InvalidNumber
 	 * @return int|null
 	 * <p>The machine-readable number from the given human one.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mnumber(string $number, bool $no_throw = false) : ?int
 	{

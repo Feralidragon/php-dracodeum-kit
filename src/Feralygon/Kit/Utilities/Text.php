@@ -17,7 +17,7 @@ use Feralygon\Kit\Utilities\Text\{
 use Feralygon\Kit\Root\Locale;
 
 /**
- * This utility implements a set of methods used to manipulate and retrieve information from text and strings.
+ * This utility implements a set of methods used to manipulate and get information from text and strings.
  * 
  * @since 1.0.0
  */
@@ -864,7 +864,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Retrieve placeholders from a given string.
+	 * Get placeholders from a given string.
 	 * 
 	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, 
 	 * and they must be exclusively composed by identifiers, which are defined as words which must start with 
@@ -1227,14 +1227,14 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Retrieve sub-string from a given string from a given starting index.
+	 * Get sub-string from a given string from a given starting index.
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.substr.php
 	 * @param string $string
-	 * <p>The string to retrieve from.</p>
+	 * <p>The string to get from.</p>
 	 * @param int $start
-	 * <p>The starting index to retrieve from, with <code>0</code> corresponding to the first character.<br>
+	 * <p>The starting index to get from, with <code>0</code> corresponding to the first character.<br>
 	 * If negative, then it is interpreted as starting at the end of the given string, 
 	 * with the last character corresponding to <code>-1</code>.</p>
 	 * @param int|null $length [default = null]
@@ -1242,7 +1242,7 @@ final class Text extends Utility
 	 * If negative, then it is interpreted as the number of characters to remove from the end of the given string.<br>
 	 * If not set, then it is interpreted as being the exact length of the given string.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Retrieve as an Unicode string.</p>
+	 * <p>Get as an Unicode string.</p>
 	 * @return string
 	 * <p>The sub-string from the given string from the given starting index.</p>
 	 */
@@ -1659,7 +1659,7 @@ final class Text extends Utility
 	}
 	
 	/**
-	 * Retrieve case notation from a given string.
+	 * Get case notation from a given string.
 	 * 
 	 * The returning case notation from the given string is recognized by checking mostly the case of each character, 
 	 * and only strings exclusively composed by ASCII alphanumeric characters 
@@ -2021,7 +2021,7 @@ final class Text extends Utility
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, these descriptions and examples 
-	 * will also be retrieved and saved into the resulting file with all the messages to translate.<br>
+	 * will also be exported and saved into the resulting file with all the messages to translate.<br>
 	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
@@ -2103,7 +2103,7 @@ final class Text extends Utility
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, 
-	 * these descriptions and examples will also be retrieved and saved into the resulting file with all 
+	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
 	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>

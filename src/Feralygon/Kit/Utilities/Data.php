@@ -1587,11 +1587,11 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Retrieve the first value from a given array.
+	 * Get the first value from a given array.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array
-	 * <p>The array to retrieve from.</p>
+	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
@@ -1612,11 +1612,11 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Retrieve the first key from a given array.
+	 * Get the first key from a given array.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array
-	 * <p>The array to retrieve from.</p>
+	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
@@ -1638,11 +1638,11 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Retrieve the last value from a given array.
+	 * Get the last value from a given array.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array
-	 * <p>The array to retrieve from.</p>
+	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray
@@ -1663,11 +1663,11 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Retrieve the last key from a given array.
+	 * Get the last key from a given array.
 	 * 
 	 * @since 1.0.0
 	 * @param array $array
-	 * <p>The array to retrieve from.</p>
+	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\EmptyArray

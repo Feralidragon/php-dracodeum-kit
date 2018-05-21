@@ -888,7 +888,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
 	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>callable|null $error_messenger</b> [reference output]</code><br>
-	 * &nbsp; &nbsp; &nbsp; The set error messenger function to retrieve the error message from, 
+	 * &nbsp; &nbsp; &nbsp; The set error messenger function to get the error message from, 
 	 * when the given value is not successfully evaluated, with the following characteristics:<br>
 	 * &nbsp; &nbsp; &#8594; signature: 
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>

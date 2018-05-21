@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Enumeration\Traits;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
- * This trait defines a set of methods to retrieve information from an enumeration, namely the label and description.
+ * This trait defines a set of methods to return information from an enumeration, namely the label and description.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Enumeration
@@ -19,33 +19,33 @@ trait Information
 {
 	//Protected static methods
 	/**
-	 * Retrieve label for a given element name.
+	 * Return label for a given element name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to retrieve for.</p>
+	 * <p>The name to return for.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string|null
 	 * <p>The label for the given element name or <code>null</code> if none is set.</p>
 	 */
-	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
 	{
 		return null;
 	}
 	
 	/**
-	 * Retrieve description for a given element name.
+	 * Return description for a given element name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to retrieve for.</p>
+	 * <p>The name to return for.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string|null
 	 * <p>The description for the given element name or <code>null</code> if none is set.</p>
 	 */
-	protected static function retrieveDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
 	{
 		return null;
 	}

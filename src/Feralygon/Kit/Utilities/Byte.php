@@ -14,7 +14,7 @@ use Feralygon\Kit\Utilities\Byte\{
 };
 
 /**
- * This utility implements a set of methods used to retrieve information at the byte level.
+ * This utility implements a set of methods used to get information at the byte level.
  * 
  * @since 1.0.0
  */
@@ -83,7 +83,7 @@ final class Byte extends Utility
 	
 	//Final public static methods
 	/**
-	 * Retrieve human-readable value from a given machine one.
+	 * Get human-readable value from a given machine one.
 	 * 
 	 * The returning value represents the given one in a human-readable format and in bytes, 
 	 * by rounding it to the nearest most significant byte multiple, as shown in the examples below:<br>
@@ -98,7 +98,7 @@ final class Byte extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param int $value
-	 * <p>The machine-readable value to retrieve from, in bytes.</p>
+	 * <p>The machine-readable value to get from, in bytes.</p>
 	 * @param \Feralygon\Kit\Utilities\Byte\Options\Hvalue|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -136,7 +136,7 @@ final class Byte extends Utility
 	}
 	
 	/**
-	 * Retrieve machine-readable value from a given human one.
+	 * Get machine-readable value from a given human one.
 	 * 
 	 * The returning value represents the given one in a machine-readable format and in bytes, 
 	 * by converting it as shown in the examples below:<br>
@@ -151,14 +151,14 @@ final class Byte extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param string $value
-	 * <p>The human-readable value to retrieve from.</p>
+	 * <p>The human-readable value to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\Mvalue\InvalidValue
 	 * @return int|null
 	 * <p>The machine-readable value in bytes from the given human one.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be retrieved.</p>
+	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mvalue(string $value, bool $no_throw = false) : ?int
 	{

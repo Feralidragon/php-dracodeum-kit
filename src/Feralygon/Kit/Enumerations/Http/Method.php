@@ -20,10 +20,10 @@ use Feralygon\Kit\Options\Text as TextOptions;
 class Method extends Enumeration
 {
 	//Public constants
-	/** Retrieve the head of an HTTP resource (headers only). */
+	/** Get the head of an HTTP resource (headers only). */
 	public const HEAD = 'HEAD';
 	
-	/** Retrieve a full HTTP resource (both headers and content). */
+	/** Get a full HTTP resource (both headers and content). */
 	public const GET = 'GET';
 	
 	/** Create a new HTTP resource. */
@@ -38,10 +38,10 @@ class Method extends Enumeration
 	/** Eliminate an existing HTTP resource permanently. */
 	public const DELETE = 'DELETE';
 	
-	/** Retrieve back the current request exactly as it arrived to the remote web server. */
+	/** Get back the current request exactly as it arrived to the remote web server. */
 	public const TRACE = 'TRACE';
 	
-	/** Retrieve the allowed HTTP methods of an HTTP resource. */
+	/** Get the allowed HTTP methods of an HTTP resource. */
 	public const OPTIONS = 'OPTIONS';
 	
 	/** Open a TCP/IP tunnel for bidireccional communication with an HTTP resource through a proxy. */
@@ -51,23 +51,23 @@ class Method extends Enumeration
 	
 	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
-	protected static function retrieveLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
 	{
 		return $name;
 	}
 	
 	/** {@inheritdoc} */
-	protected static function retrieveDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
 	{
 		switch ($name) {
 			case 'HEAD':
 				return UText::localize(
-					"Retrieve the head of an HTTP resource (headers only).",
+					"Get the head of an HTTP resource (headers only).",
 					self::class, $text_options
 				);
 			case 'GET':
 				return UText::localize(
-					"Retrieve a full HTTP resource (both headers and content).",
+					"Get a full HTTP resource (both headers and content).",
 					self::class, $text_options
 				);
 			case 'POST':
@@ -92,12 +92,12 @@ class Method extends Enumeration
 				);
 			case 'TRACE':
 				return UText::localize(
-					"Retrieve back the current request exactly as it arrived to the remote web server.",
+					"Get back the current request exactly as it arrived to the remote web server.",
 					self::class, $text_options
 				);
 			case 'OPTIONS':
 				return UText::localize(
-					"Retrieve the allowed HTTP methods of an HTTP resource.",
+					"Get the allowed HTTP methods of an HTTP resource.",
 					self::class, $text_options
 				);
 			case 'CONNECT':

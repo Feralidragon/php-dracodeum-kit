@@ -18,7 +18,7 @@ use Feralygon\Kit\Interfaces\{
 };
 
 /**
- * This utility implements a set of methods used to manipulate and retrieve URL information.
+ * This utility implements a set of methods used to manipulate and get URL information.
  * 
  * @since 1.0.0
  */
