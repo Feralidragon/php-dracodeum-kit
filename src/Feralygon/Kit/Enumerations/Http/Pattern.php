@@ -57,4 +57,13 @@ class Pattern extends Enumeration
 	
 	/** COMMENT regular expression pattern. */
 	public const COMMENT = '\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\)';
+	
+	/** QVALUE regular expression pattern. */
+	public const QVALUE = '(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)';
+	
+	/** WEIGHT regular expression pattern. */
+	public const WEIGHT = self::OWS . '\;' . self::OWS . 'q\=' . self::QVALUE;
+	
+	/** PARAMETER regular expression pattern. */
+	public const PARAMETER = self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . ')';
 }
