@@ -23,47 +23,50 @@ class Pattern extends Enumeration
 {
 	//Public constants
 	/** SCHEME regular expression pattern. */
-	public const SCHEME = '[A-z][A-z0-9\+\-\.]*';
+	public const SCHEME = '(?:[A-z][A-z0-9\+\-\.]*)';
 	
 	/** OWS regular expression pattern. */
-	public const OWS = '[\t\ ]*';
+	public const OWS = '(?:[\t\ ]*)';
 	
 	/** RWS regular expression pattern. */
-	public const RWS = '[\t\ ]+';
+	public const RWS = '(?:[\t\ ]+)';
 	
 	/** VCHAR regular expression pattern. */
 	public const VCHAR = '[\x21-\x7e]';
+	
+	/** VCHAR-WS regular expression pattern. */
+	public const VCHAR_WS = '[\t\ \x21-\x7e]';
 	
 	/** TCHAR regular expression pattern. */
 	public const TCHAR = '[\!\#\$\%\&\\\'\*\+\-\.\^\`\|\~\w]';
 	
 	/** TOKEN regular expression pattern. */
-	public const TOKEN = self::TCHAR . '+';
+	public const TOKEN = '(?:' . self::TCHAR . '+)';
 	
 	/** TOKEN68 regular expression pattern. */
-	public const TOKEN68 = '[\w\-\.\~\+\/]+\=*';
+	public const TOKEN68 = '(?:[\w\-\.\~\+\/]+\=*)';
 	
 	/** QDTEXT regular expression pattern. */
 	public const QDTEXT = '[\t\ \!\x23-\x5b\x5d-\x7e]';
 	
 	/** QUOTED-PAIR regular expression pattern. */
-	public const QUOTED_PAIR = '\\\\[\t\ \x21-\x7e]';
+	public const QUOTED_PAIR = '(?:\\\\[\t\ \x21-\x7e])';
 	
 	/** QUOTED-STRING regular expression pattern. */
-	public const QUOTED_STRING = '\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\"';
+	public const QUOTED_STRING = '(?:\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\")';
 	
 	/** CTEXT regular expression pattern. */
 	public const CTEXT = '[\t\ \x21-x27\x2a-\x5b\x5d-\x7e]';
 	
 	/** COMMENT regular expression pattern. */
-	public const COMMENT = '\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\)';
+	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
 	
 	/** QVALUE regular expression pattern. */
 	public const QVALUE = '(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)';
 	
 	/** WEIGHT regular expression pattern. */
-	public const WEIGHT = self::OWS . '\;' . self::OWS . 'q\=' . self::QVALUE;
+	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . 'q\=' . self::QVALUE . ')';
 	
 	/** PARAMETER regular expression pattern. */
-	public const PARAMETER = self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . ')';
+	public const PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
 }
