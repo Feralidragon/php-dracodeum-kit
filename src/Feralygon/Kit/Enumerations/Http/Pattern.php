@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Enumerations\Http;
 
 use Feralygon\Kit\Enumeration;
+use Feralygon\Kit\Enumerations\Abnf\Pattern as EAbnfPattern;
 
 /**
  * This enumeration represents HTTP specification regular expression patterns.
@@ -32,10 +33,10 @@ class Pattern extends Enumeration
 	public const RWS = '(?:[\t\ ]+)';
 	
 	/** VCHAR regular expression pattern. */
-	public const VCHAR = '[\x21-\x7e]';
+	public const VCHAR = EAbnfPattern::VCHAR;
 	
 	/** VCHAR-WS regular expression pattern. */
-	public const VCHAR_WS = '[\t\ \x21-\x7e]';
+	public const VCHAR_WS = '(?:[\t\ ]|' . self::VCHAR . ')';
 	
 	/** TCHAR regular expression pattern. */
 	public const TCHAR = '[\!\#\$\%\&\\\'\*\+\-\.\^\`\|\~\w]';
