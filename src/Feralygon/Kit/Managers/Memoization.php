@@ -93,17 +93,17 @@ class Memoization
 	}
 	
 	/**
-	 * Check if has value for a given key.
+	 * Check if has value at a given key.
 	 * 
 	 * @since 1.0.0
 	 * @param string $key
-	 * <p>The key to check for.</p>
+	 * <p>The key to check at.</p>
 	 * @param string $namespace [default = '']
-	 * <p>The namespace to check from.</p>
+	 * <p>The namespace to check at.</p>
 	 * @param mixed $value [reference output] [default = null]
-	 * <p>The value from the given key.</p>
+	 * <p>The value at the given key.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has value for the given key.</p>
+	 * <p>Boolean <code>true</code> if has value at the given key.</p>
 	 */
 	final public function hasValue(string $key, string $namespace = '', &$value = null) : bool
 	{
@@ -153,15 +153,15 @@ class Memoization
 	}
 	
 	/**
-	 * Set a given value with a given key.
+	 * Set a given value at a given key.
 	 * 
 	 * @since 1.0.0
 	 * @param string $key
-	 * <p>The key to set with.</p>
+	 * <p>The key to set at.</p>
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param string $namespace [default = '']
-	 * <p>The namespace to set with.</p>
+	 * <p>The namespace to set at.</p>
 	 * 
 	 * @todo
 	 * 

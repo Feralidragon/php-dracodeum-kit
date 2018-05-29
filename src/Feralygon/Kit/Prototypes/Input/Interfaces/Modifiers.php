@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 use Feralygon\Kit\Components\Input\Components\Modifier;
 
 /**
- * This interface defines a method to build modifier instances for an input prototype.
+ * This interface defines a method to build modifier instances from an input prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input

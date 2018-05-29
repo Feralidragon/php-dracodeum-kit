@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Exception\Traits;
 
 /**
- * This trait defines a method to load properties for an exception.
+ * This trait defines a method to load properties in an exception.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Exception
