@@ -553,7 +553,7 @@ final class Text extends Utility
 	 */
 	final public static function isIdentifier(string $string, bool $extended = false) : bool
 	{
-		return (bool)preg_match($extended ? '/^[a-z_]\w*(?:\.[a-z_]\w*)*$/i' : '/^[a-z_]\w*$/i', $string);
+		return preg_match($extended ? '/^[a-z_]\w*(?:\.[a-z_]\w*)*$/i' : '/^[a-z_]\w*$/i', $string);
 	}
 	
 	/**
@@ -580,7 +580,7 @@ final class Text extends Utility
 		if ($insensitive) {
 			$pattern .= 'i';
 		}
-		return (bool)preg_match($pattern, $string);
+		return preg_match($pattern, $string);
 	}
 	
 	/**
@@ -801,7 +801,7 @@ final class Text extends Utility
 	 */
 	final public static function isPlaceholder(string $string) : bool
 	{
-		return (bool)preg_match('/^(?:[a-z_]\w*(?:\(\))?)(?:\.[a-z_]\w*(?:\(\))?)*$/i', $string);
+		return preg_match('/^(?:[a-z_]\w*(?:\(\))?)(?:\.[a-z_]\w*(?:\(\))?)*$/i', $string);
 	}
 	
 	/**
@@ -1544,7 +1544,7 @@ final class Text extends Utility
 	 */
 	final public static function isCamelCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][A-z\d]*$/', $string);
+		return preg_match('/^[a-z][A-z\d]*$/', $string);
 	}
 	
 	/**
@@ -1566,7 +1566,7 @@ final class Text extends Utility
 	 */
 	final public static function isPascalCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][A-z\d]*$/', $string);
+		return preg_match('/^[A-Z][A-z\d]*$/', $string);
 	}
 	
 	/**
@@ -1589,7 +1589,7 @@ final class Text extends Utility
 	 */
 	final public static function isSnakeCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][a-z\d]*(?:_[a-z\d]+)*$/', $string);
+		return preg_match('/^[a-z][a-z\d]*(?:_[a-z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1611,7 +1611,7 @@ final class Text extends Utility
 	 */
 	final public static function isKebabCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][a-z\d]*(?:-[a-z\d]+)*$/', $string);
+		return preg_match('/^[a-z][a-z\d]*(?:-[a-z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1633,7 +1633,7 @@ final class Text extends Utility
 	 */
 	final public static function isMacroCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][A-Z\d]*(?:_[A-Z\d]+)*$/', $string);
+		return preg_match('/^[A-Z][A-Z\d]*(?:_[A-Z\d]+)*$/', $string);
 	}
 	
 	/**
@@ -1655,7 +1655,7 @@ final class Text extends Utility
 	 */
 	final public static function isCobolCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][A-Z\d]*(?:-[A-Z\d]+)*$/', $string);
+		return preg_match('/^[A-Z][A-Z\d]*(?:-[A-Z\d]+)*$/', $string);
 	}
 	
 	/**

@@ -37,7 +37,7 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (bool)preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
+		return preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
 	}
 	
 	

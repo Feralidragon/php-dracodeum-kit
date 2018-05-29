@@ -185,7 +185,7 @@ final class Byte extends Utility
 		if ($sign === '-') {
 			$number *= -1;
 		}
-		return (int)$number;
+		return $number;
 	}
 	
 	/**

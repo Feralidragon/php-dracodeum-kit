@@ -38,7 +38,7 @@ final class Base64 extends Utility
 		if (!isset($url_safe)) {
 			$url_safe = (bool)preg_match('/[_\-]/', $string);
 		}
-		return (bool)preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string);
+		return preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string);
 	}
 	
 	/**

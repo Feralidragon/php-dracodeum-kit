@@ -37,7 +37,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (bool)preg_match($this->unicode ? '/^\pL*$/u' : '/^[a-z]*$/i', $value);
+		return preg_match($this->unicode ? '/^\pL*$/u' : '/^[a-z]*$/i', $value);
 	}
 	
 	

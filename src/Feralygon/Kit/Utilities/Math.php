@@ -332,7 +332,7 @@ final class Math extends Utility
 		if ($sign === '-') {
 			$n *= -1;
 		}
-		return (int)$n;
+		return $n;
 	}
 	
 	/**

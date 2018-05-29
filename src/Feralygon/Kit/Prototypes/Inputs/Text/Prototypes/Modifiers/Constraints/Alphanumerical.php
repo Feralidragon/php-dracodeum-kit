@@ -37,7 +37,7 @@ class Alphanumerical extends Constraint implements IName, IInformation, ISchemaD
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (bool)preg_match($this->unicode ? '/^[\pL\pN]*$/u' : '/^[a-z\d]*$/i', $value);
+		return preg_match($this->unicode ? '/^[\pL\pN]*$/u' : '/^[a-z\d]*$/i', $value);
 	}
 	
 	

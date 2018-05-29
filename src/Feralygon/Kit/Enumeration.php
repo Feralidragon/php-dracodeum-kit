@@ -138,7 +138,7 @@ abstract class Enumeration
 		if (static::hasValue($element)) {
 			return static::getValuesNames()[(string)$element];
 		} elseif (static::hasName($element)) {
-			return (string)$element;
+			return $element;
 		} elseif ($no_throw) {
 			return null;
 		}

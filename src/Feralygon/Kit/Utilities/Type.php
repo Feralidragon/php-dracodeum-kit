@@ -1282,7 +1282,7 @@ final class Type extends Utility
 	 */
 	final public static function isAnonymous($object_class) : bool
 	{
-		return (bool)preg_match('/^class@anonymous/', self::class($object_class));
+		return preg_match('/^class@anonymous/', self::class($object_class));
 	}
 	
 	/**

@@ -28,7 +28,7 @@ class Hexadecimal extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value) : bool
 	{
-		return (bool)preg_match('/^[\da-f]*$/i', $value);
+		return preg_match('/^[\da-f]*$/i', $value);
 	}
 	
 	
