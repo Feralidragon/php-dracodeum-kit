@@ -1544,7 +1544,7 @@ final class Text extends Utility
 	 */
 	final public static function isCamelCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[a-z][a-zA-Z\d]*$/', $string);
+		return (bool)preg_match('/^[a-z][A-z\d]*$/', $string);
 	}
 	
 	/**
@@ -1566,7 +1566,7 @@ final class Text extends Utility
 	 */
 	final public static function isPascalCase(string $string) : bool
 	{
-		return (bool)preg_match('/^[A-Z][a-zA-Z\d]*$/', $string);
+		return (bool)preg_match('/^[A-Z][A-z\d]*$/', $string);
 	}
 	
 	/**
