@@ -207,7 +207,7 @@ class Properties
 	}
 	
 	/**
-	 * Add a given set of required property names.
+	 * Add required property names.
 	 * 
 	 * The properties, corresponding to the given names added here, must be given during initialization.<br>
 	 * <br>
@@ -262,7 +262,7 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to add.</p>
+	 * <p>The name to add with.</p>
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
