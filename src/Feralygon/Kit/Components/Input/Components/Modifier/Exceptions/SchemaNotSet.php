@@ -20,6 +20,6 @@ class SchemaNotSet extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "No schema is set in modifier {{component}} (with prototype {{prototype}}).";
+		return "No schema set in modifier {{component}} (with prototype {{prototype}}).";
 	}
 }

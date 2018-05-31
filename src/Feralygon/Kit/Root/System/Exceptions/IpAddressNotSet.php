@@ -20,6 +20,6 @@ class IpAddressNotSet extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "No IP address is set.";
+		return "No IP address set.";
 	}
 }
