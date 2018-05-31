@@ -192,7 +192,7 @@ final class Locale
 	 * @param string $message
 	 * <p>The message to translate.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The context to translate for.</p>
+	 * <p>The context to translate with.</p>
 	 * @param \Feralygon\Kit\Root\Locale\Options\Translate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -276,7 +276,7 @@ final class Locale
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to translate with.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The context to translate for.</p>
+	 * <p>The context to translate with.</p>
 	 * @param \Feralygon\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string

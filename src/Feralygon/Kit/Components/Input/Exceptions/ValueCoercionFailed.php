@@ -12,7 +12,7 @@ use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from an input whenever a value coercion has failed with a given value and prototype.
+ * This exception is thrown from an input whenever a value coercion fails with a given value and prototype.
  * 
  * @since 1.0.0
  * @property-read mixed $value

@@ -11,7 +11,7 @@ use Feralygon\Kit\Managers\Properties\Exception;
 use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
- * This exception is thrown from a properties manager whenever no default value has been set in a given property.
+ * This exception is thrown from a properties manager whenever no default value is set in a given property.
  * 
  * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
@@ -23,7 +23,7 @@ class PropertyDefaultValueNotSet extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "No default value has been set in property {{property.getName()}} in properties manager " . 
+		return "No default value set in property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.\n" . 
 			"HINT: Optional properties must be set with a default value.";
 	}

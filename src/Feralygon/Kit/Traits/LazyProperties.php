@@ -35,13 +35,13 @@ trait LazyProperties
 	
 	//Final public magic methods
 	/**
-	 * Get property value from a given name.
+	 * Get property value with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return mixed
-	 * <p>The property value from the given name.</p>
+	 * <p>The property value with the given name.</p>
 	 */
 	final public function __get(string $name)
 	{
@@ -49,13 +49,13 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Check if property is set for a given name.
+	 * Check if property is set with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
 	final public function __isset(string $name) : bool
 	{
@@ -63,11 +63,11 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Set property with a given name with a given value.
+	 * Set property with a given name and value.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to set for.</p>
+	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
 	 * @return void
@@ -78,11 +78,11 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Unset property for a given name.
+	 * Unset property with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to unset for.</p>
+	 * <p>The name to unset with.</p>
 	 * @return void
 	 */
 	final public function __unset(string $name) : void
@@ -100,7 +100,7 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -111,15 +111,15 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Get property value from a given name.
+	 * Get property value with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return mixed
-	 * <p>The property value from the given name.</p>
+	 * <p>The property value with the given name.</p>
 	 */
 	final public function get(string $name)
 	{
@@ -128,7 +128,7 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Get boolean property value from a given name.
+	 * Get boolean property value with a given name.
 	 * 
 	 * This method is an alias of the <code>get</code> method, 
 	 * however it only allows properties which hold boolean values, 
@@ -138,9 +138,9 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return bool
-	 * <p>The boolean property value from the given name.</p>
+	 * <p>The boolean property value with the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
@@ -149,15 +149,15 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Check if property is set for a given name.
+	 * Check if property is set with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
@@ -166,13 +166,13 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Set property with a given name with a given value.
+	 * Set property with a given name and value.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to set for.</p>
+	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
 	 * @return $this
@@ -186,13 +186,13 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Unset property for a given name.
+	 * Unset property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to unset for.</p>
+	 * <p>The name to unset with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -291,16 +291,16 @@ trait LazyProperties
 	 * 
 	 * @since 1.0.0
 	 * @param callable $builder
-	 * <p>The function to use to build a property instance for a given name.<br>
+	 * <p>The function to use to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Objects\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
+	 * &nbsp; &nbsp; &nbsp; The name to build with.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Objects\Property|null</b></code><br>
-	 * The built property instance for the given name or <code>null</code> if none was built.</p>
+	 * The built property instance with the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
 	 * @param callable|null $required_names_loader [default = null]

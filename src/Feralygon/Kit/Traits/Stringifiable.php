@@ -11,7 +11,7 @@ use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * This trait adds the ability for a class to be converted into a string, 
+ * This trait adds the ability for an object to be cast to a string, 
  * by using the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
  * 
  * @since 1.0.0
@@ -20,14 +20,14 @@ trait Stringifiable
 {
 	//Final public magic methods
 	/**
-	 * Convert this object into a string.
+	 * Cast this object to a string.
 	 * 
 	 * This method requires this object to have 
 	 * the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface implemented.
 	 * 
 	 * @since 1.0.0
 	 * @return string
-	 * <p>This object converted into a string.</p>
+	 * <p>This object cast to a string.</p>
 	 */
 	final public function __toString() : string
 	{

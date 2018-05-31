@@ -46,10 +46,10 @@ final class Loader
 	 * 
 	 * @since 1.0.0
 	 * @param string $vendor
-	 * <p>The vendor to check for.<br>
+	 * <p>The vendor to check with.<br>
 	 * It is checked in a case-insensitive manner.</p>
 	 * @param string $name
-	 * <p>The name to check for.<br>
+	 * <p>The name to check with.<br>
 	 * It is checked in a case-insensitive manner.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>

@@ -129,8 +129,7 @@ abstract class Prototype
 		//contract
 		$contract = UType::interface($this->getContract());
 		UCall::guardParameter('method_name', $method_name, method_exists($contract, $method_name), [
-			'error_message' => "The given method name has not been found in contract {{contract}} " . 
-				"implemented by component {{component}}.",
+			'error_message' => "Method name not found in contract {{contract}} implemented by component {{component}}.",
 			'parameters' => ['contract' => $contract, 'component' => $this->component]
 		]);
 		
@@ -146,7 +145,7 @@ abstract class Prototype
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The subcontract name to call for.</p>
+	 * <p>The subcontract name to use.</p>
 	 * @param string $method_name
 	 * <p>The method name to call.</p>
 	 * @param callable $fallback
@@ -168,11 +167,11 @@ abstract class Prototype
 		//subcontract
 		$subcontract = $this->getSubcontract($name);
 		UCall::guardParameter('name', $name, isset($subcontract), [
-			'error_message' => "No subcontract has been found for the given name."
+			'error_message' => "No subcontract found for the given name."
 		]);
 		$subcontract = UType::interface($subcontract);
 		UCall::guardParameter('method_name', $method_name, method_exists($subcontract, $method_name), [
-			'error_message' => "The given method name has not been found in subcontract {{subcontract}}.",
+			'error_message' => "Method name not found in subcontract {{subcontract}}.",
 			'parameters' => ['subcontract' => $subcontract]
 		]);
 		

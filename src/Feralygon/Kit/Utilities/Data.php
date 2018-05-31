@@ -155,10 +155,10 @@ final class Data extends Utility
 		self::MERGE_NONASSOC_SWAP | 
 		self::MERGE_NONASSOC_KEEP;
 	
-	/** Keyfy maximum raw string length before transforming into a hash. */
+	/** Keyfy maximum raw string length before converting into a hash. */
 	private const KEYFY_MAX_RAW_STRING_LENGTH = 40;
 	
-	/** Keyfy maximum raw array length before transforming into a hash. */
+	/** Keyfy maximum raw array length before converting into a hash. */
 	private const KEYFY_MAX_RAW_ARRAY_LENGTH = 40;
 	
 	
@@ -186,7 +186,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Transform a given value into an unique key.
+	 * Convert a given value into an unique key.
 	 * 
 	 * The returning key is not intended to be restored to its original value (and cannot in most cases), 
 	 * given that this function is only meant to efficiently produce a key which can be used in associative arrays 
@@ -194,7 +194,7 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
-	 * <p>The value to transform.</p>
+	 * <p>The value to convert.</p>
 	 * @param bool|null $safe [reference output] [default = null]
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the generated key may be used for longer term purposes, such as internal cache keys.</p>

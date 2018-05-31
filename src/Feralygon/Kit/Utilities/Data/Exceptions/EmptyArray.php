@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
 use Feralygon\Kit\Utilities\Data\Exception;
 
 /**
- * This exception is thrown from the data utility whenever an empty array has been given.
+ * This exception is thrown from the data utility whenever an empty array is given.
  * 
  * @since 1.0.0
  */
@@ -20,6 +20,6 @@ class EmptyArray extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "An empty array has been given.";
+		return "Empty array given.";
 	}
 }

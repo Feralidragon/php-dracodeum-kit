@@ -18,7 +18,7 @@ class CannotUnsetRequiredProperty extends CannotUnsetProperty
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset required property {{property.getName()}} from properties manager " . 
+		return "Cannot unset required property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.";
 	}
 }

@@ -31,13 +31,13 @@ trait Properties
 	
 	//Final public magic methods
 	/**
-	 * Get property value from a given name.
+	 * Get property value with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return mixed
-	 * <p>The property value from the given name.</p>
+	 * <p>The property value with the given name.</p>
 	 */
 	final public function __get(string $name)
 	{
@@ -45,13 +45,13 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property is set for a given name.
+	 * Check if property is set with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
 	final public function __isset(string $name) : bool
 	{
@@ -59,11 +59,11 @@ trait Properties
 	}
 	
 	/**
-	 * Set property with a given name with a given value.
+	 * Set property with a given name and value.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to set for.</p>
+	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
 	 * @return void
@@ -74,11 +74,11 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property for a given name.
+	 * Unset property with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to unset for.</p>
+	 * <p>The name to unset with.</p>
 	 * @return void
 	 */
 	final public function __unset(string $name) : void
@@ -96,7 +96,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
@@ -107,15 +107,15 @@ trait Properties
 	}
 	
 	/**
-	 * Get property value from a given name.
+	 * Get property value with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return mixed
-	 * <p>The property value from the given name.</p>
+	 * <p>The property value with the given name.</p>
 	 */
 	final public function get(string $name)
 	{
@@ -124,7 +124,7 @@ trait Properties
 	}
 	
 	/**
-	 * Get boolean property value from a given name.
+	 * Get boolean property value with a given name.
 	 * 
 	 * This method is an alias of the <code>get</code> method, 
 	 * however it only allows properties which hold boolean values, 
@@ -134,9 +134,9 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get from.</p>
+	 * <p>The name to get with.</p>
 	 * @return bool
-	 * <p>The boolean property value from the given name.</p>
+	 * <p>The boolean property value with the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
@@ -145,15 +145,15 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property is set for a given name.
+	 * Check if property is set with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set for the given name.</p>
+	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
 	final public function isset(string $name) : bool
 	{
@@ -162,13 +162,13 @@ trait Properties
 	}
 	
 	/**
-	 * Set property with a given name with a given value.
+	 * Set property with a given name and value.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to set for.</p>
+	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
 	 * @return $this
@@ -182,13 +182,13 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property for a given name.
+	 * Unset property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to unset for.</p>
+	 * <p>The name to unset with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -239,7 +239,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to add.</p>
+	 * <p>The name to add with.</p>
 	 * @return \Feralygon\Kit\Traits\Properties\Objects\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */

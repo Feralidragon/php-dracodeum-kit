@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Managers\Memoization\Exceptions;
 use Feralygon\Kit\Managers\Memoization\Exception;
 
 /**
- * This exception is thrown from a memoization manager whenever a value has not been found at a given key.
+ * This exception is thrown from a memoization manager whenever a value is not found at a given key.
  * 
  * @since 1.0.0
  * @property-read string $key
@@ -25,9 +25,9 @@ class ValueNotFound extends Exception
 	public function getDefaultMessage() : string
 	{
 		return $this->get('namespace') !== ''
-			? "No value has been found at key {{key}} in namespace {{namespace}} " . 
+			? "No value found at key {{key}} in namespace {{namespace}} " . 
 				"in memoization manager with owner {{manager.getOwner()}}."
-			: "No value has been found at key {{key}} in memoization manager with owner {{manager.getOwner()}}.";
+			: "No value found at key {{key}} in memoization manager with owner {{manager.getOwner()}}.";
 	}
 	
 	

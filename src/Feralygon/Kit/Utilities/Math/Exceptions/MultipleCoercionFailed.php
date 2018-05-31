@@ -12,7 +12,7 @@ use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
 /**
- * This exception is thrown from the math utility whenever the coercion into a multiple has failed with a given value.
+ * This exception is thrown from the math utility whenever the coercion into a multiple fails with a given value.
  * 
  * @since 1.0.0
  */

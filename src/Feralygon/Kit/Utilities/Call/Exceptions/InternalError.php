@@ -8,8 +8,7 @@
 namespace Feralygon\Kit\Utilities\Call\Exceptions;
 
 /**
- * This exception is thrown from the call utility whenever an internal error has occurred in a given function 
- * or method call.
+ * This exception is thrown from the call utility whenever an internal error occurs in a given function or method call.
  * 
  * @since 1.0.0
  */
@@ -21,8 +20,8 @@ class InternalError extends NotAllowed
 	{
 		//message
 		$message = $this->isset('object_class')
-			? "An internal error has occurred in method {{function_name}} call in {{object_class}}."
-			: "An internal error has occurred in function {{function_name}} call.";
+			? "Internal error occurred in method {{function_name}} call in {{object_class}}."
+			: "Internal error occurred in function {{function_name}} call.";
 		
 		//error message
 		if ($this->isset('error_message')) {

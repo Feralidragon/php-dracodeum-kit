@@ -343,7 +343,7 @@ abstract class Component
 					'component' => static::class,
 					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
 					'error_message' => UText::fill(
-						"Component name {{name}} has not been found.", ['name' => $value], null, [
+						"Component name {{name}} not found.", ['name' => $value], null, [
 							'string_options' => ['quote_strings' => true]
 						]
 					)

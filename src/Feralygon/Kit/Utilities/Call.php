@@ -92,7 +92,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the validation has succeeded, 
+	 * then boolean <code>true</code> is returned if the validation succeeded, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public static function validate($function, bool $no_throw = false)
@@ -140,7 +140,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Get a new reflection instance for a given function.
+	 * Get a new reflection instance from a given function.
 	 * 
 	 * The returning reflection instance depends on the type of function given.<br>
 	 * In the case of a class or instance method, 
@@ -152,12 +152,12 @@ final class Call extends Utility
 	 * @see https://php.net/manual/en/class.reflectionfunction.php
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
-	 * <p>The function to get for.</p>
+	 * <p>The function to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InvalidFunction
 	 * @return \ReflectionFunction|\ReflectionMethod|null
-	 * <p>A new reflection instance for the given function.<br>
+	 * <p>A new reflection instance from the given function.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
@@ -676,7 +676,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\AssertionFailed
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the assertion has succeeded, 
+	 * then boolean <code>true</code> is returned if the assertion succeeded, 
 	 * with the given function being compatible with the given template, or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public static function assert(string $name, $function, $template, bool $no_throw = false)

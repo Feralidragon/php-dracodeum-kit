@@ -23,7 +23,7 @@ final class Json extends Utility
 {
 	//Final public static methods
 	/**
-	 * Check if given data is encoded.
+	 * Check if a given data is encoded.
 	 * 
 	 * @since 1.0.0
 	 * @param string $data

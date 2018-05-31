@@ -18,7 +18,7 @@ class CannotUnsetWriteonceProperty extends CannotUnsetProperty
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset write-once property {{property.getName()}} from properties manager " . 
+		return "Cannot unset write-once property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.";
 	}
 }

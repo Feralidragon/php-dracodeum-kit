@@ -44,13 +44,13 @@ abstract class Factory
 	
 	//Abstract protected static methods
 	/**
-	 * Build type instance for a given name.
+	 * Build type instance with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to build for.</p>
+	 * <p>The name to build with.</p>
 	 * @return \Feralygon\Kit\Factory\Objects\Type|null
-	 * <p>The built type instance for the given name or <code>null</code> if none was built.</p>
+	 * <p>The built type instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected static function buildType(string $name) : ?Objects\Type;
 	
@@ -77,18 +77,17 @@ abstract class Factory
 	
 	//Final protected static methods
 	/**
-	 * Get type instance for a given name.
+	 * Get type instance with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to get for.</p>
+	 * <p>The name to get with.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
 	 * @return \Feralygon\Kit\Factory\Objects\Type|null
-	 * <p>The type instance for the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it has not been found.</p>
+	 * <p>The type instance with the given name.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it is not found.</p>
 	 */
 	final protected static function getType(string $name, bool $no_throw = false) : ?Objects\Type
 	{
@@ -161,12 +160,11 @@ abstract class Factory
 		
 		//guard
 		UCall::guardInternal(isset($object), [
-			'error_message' => "No object has been built for type {{type.getName()}} " . 
-				"from builder {{type.getBuilder()}}.",
+			'error_message' => "No object built for type {{type.getName()}} from builder {{type.getBuilder()}}.",
 			'parameters' => ['type' => $type]
 		]);
 		UCall::guardInternal(is_object($object), [
-			'error_message' => "An invalid object {{object}} has been built for type {{type.getName()}} " . 
+			'error_message' => "Invalid object {{object}} built for type {{type.getName()}} " . 
 				"from builder {{type.getBuilder()}}.",
 			'hint_message' => "Only an object is allowed to be built.",
 			'parameters' => ['type' => $type, 'object' => $object]

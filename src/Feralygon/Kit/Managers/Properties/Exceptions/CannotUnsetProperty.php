@@ -23,7 +23,7 @@ class CannotUnsetProperty extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset property {{property.getName()}} from properties manager " . 
+		return "Cannot unset property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.";
 	}
 	

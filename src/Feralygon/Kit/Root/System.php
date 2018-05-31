@@ -113,7 +113,7 @@ final class System
 	}
 	
 	/**
-	 * Set <samp>php.ini</samp> configuration option with a given name with a given value.
+	 * Set <samp>php.ini</samp> configuration option with a given name and value.
 	 * 
 	 * This method is mostly equivalent to the PHP <code>ini_set</code> function, however it holds no effect 
 	 * if the package is set to be used as a library, throws an exception instead of failing silently, 
@@ -122,9 +122,9 @@ final class System
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ini-set.php
 	 * @param string $name
-	 * <p>The name to set for.</p>
+	 * <p>The name to set with.</p>
 	 * @param string|int|float|bool|null $value
-	 * <p>The value to set.</p>
+	 * <p>The value to set with.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\SetIniOption\Failed
@@ -268,13 +268,13 @@ final class System
 	}
 	
 	/**
-	 * Check if has a command with a given name.
+	 * Check if has command with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to check for.</p>
+	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has a command with the given name.</p>
+	 * <p>Boolean <code>true</code> if has command with the given name.</p>
 	 */
 	final public static function hasCommand(string $name) : bool
 	{

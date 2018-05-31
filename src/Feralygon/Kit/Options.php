@@ -59,13 +59,13 @@ abstract class Options implements \ArrayAccess
 	
 	//Abstract protected methods
 	/**
-	 * Build property instance for a given name.
+	 * Build property instance with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to build for.</p>
+	 * <p>The name to build with.</p>
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property|null
-	 * <p>The built property instance for the given name or <code>null</code> if none was built.</p>
+	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected function buildProperty(string $name) : ?Property;
 	

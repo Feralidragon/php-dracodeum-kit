@@ -597,8 +597,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	{
 		UCall::guard($this->initialized, [
 			'error_message' => $this->hasError()
-				? "No value has been set due to the following error: " . 
-					UText::uncapitalize($this->getErrorMessage(), true)
+				? "No value set due to the following error: " . UText::uncapitalize($this->getErrorMessage(), true)
 				: null,
 			'hint_message' => "This method may only be called after initialization."
 		]);

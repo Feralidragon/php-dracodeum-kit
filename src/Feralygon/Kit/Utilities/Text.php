@@ -1314,7 +1314,7 @@ final class Text extends Utility
 	 * 
 	 * The returning distance between the two given strings is calculated by using the Levenshtein distance algorithm, 
 	 * which defines the distance as the minimum number of inserts, deletes and substitutions which need to take place 
-	 * to transform one string into another.<br>
+	 * to convert one string into another.<br>
 	 * <br>
 	 * Alternatively, its Damerau variation (Damerau-Levenshtein) can be used to also consider transpositions 
 	 * of 2 adjacent characters to result into a distance of 1 (1 transposition) instead of 2 (2 substitutions).
@@ -1323,9 +1323,9 @@ final class Text extends Utility
 	 * @see https://en.wikipedia.org/wiki/Levenshtein_distance
 	 * @see https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 	 * @param string $string1
-	 * <p>The first string, to calculate from.</p>
+	 * <p>The first string, to calculate with.</p>
 	 * @param string $string2
-	 * <p>The second string, to calculate from.</p>
+	 * <p>The second string, to calculate with.</p>
 	 * @param bool $damerau [default = false]
 	 * <p>Use the Damerau variation of the algorithm (Damerau-Levenshtein).</p>
 	 * @param bool $insensitive [default = false]
@@ -2033,7 +2033,7 @@ final class Text extends Utility
 	 * @param string $message
 	 * <p>The message to localize.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The context to localize for.</p>
+	 * <p>The context to localize with.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Localize|array|null $options [default = null]
@@ -2122,7 +2122,7 @@ final class Text extends Utility
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to localize with.</p>
 	 * @param string|null $context [default = null]
-	 * <p>The context to localize for.</p>
+	 * <p>The context to localize with.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Plocalize|array|null $options [default = null]

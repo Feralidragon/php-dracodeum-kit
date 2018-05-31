@@ -12,7 +12,7 @@ use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
 /**
- * This exception is thrown from the type utility whenever the coercion into a float has failed with a given value.
+ * This exception is thrown from the type utility whenever the coercion into a float fails with a given value.
  * 
  * @since 1.0.0
  */

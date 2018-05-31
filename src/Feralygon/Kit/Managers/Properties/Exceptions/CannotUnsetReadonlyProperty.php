@@ -18,7 +18,7 @@ class CannotUnsetReadonlyProperty extends CannotUnsetProperty
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Cannot unset read-only property {{property.getName()}} from properties manager " . 
+		return "Cannot unset read-only property {{property.getName()}} in properties manager " . 
 			"with owner {{manager.getOwner()}}.";
 	}
 }

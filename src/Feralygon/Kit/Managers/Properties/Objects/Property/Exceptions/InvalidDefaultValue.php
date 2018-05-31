@@ -18,7 +18,7 @@ class InvalidDefaultValue extends InvalidValue
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid default value {{value}} for property {{property.getName()}} from properties manager " . 
+		return "Invalid default value {{value}} for property {{property.getName()}} in properties manager " . 
 			"with owner {{property.getManager().getOwner()}}.";
 	}
 }

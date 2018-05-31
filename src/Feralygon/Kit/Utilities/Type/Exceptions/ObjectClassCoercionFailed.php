@@ -13,7 +13,7 @@ use Feralygon\Kit\Traits\Exception as Traits;
 
 /**
  * This exception is thrown from the type utility whenever the coercion into an object or class 
- * has failed with a given value.
+ * fails with a given value.
  * 
  * @since 1.0.0
  */

@@ -414,7 +414,7 @@ class Properties
 			'error_message' => "This manager has already been initialized."
 		]);
 		UCall::guard(!$this->lazy || isset($this->builder), [
-			'error_message' => "No builder function has been set.",
+			'error_message' => "No builder function set.",
 			'hint_message' => "A builder function is required to be set when lazy-loading is enabled."
 		]);
 		
@@ -694,8 +694,7 @@ class Properties
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
 	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property|null
 	 * <p>The property instance with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if none has been found.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it is not found.</p>
 	 */
 	final protected function getProperty(string $name, bool $no_throw = false) : ?Objects\Property
 	{
