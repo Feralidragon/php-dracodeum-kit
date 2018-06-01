@@ -57,18 +57,16 @@ class AssertionFailed extends Exception implements IAssertive
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('name')->setAsString();
 		$this->addProperty('function')
 			->addEvaluator(function (&$value) : bool {
 				return UCall::validate($value, true);
 			})
-			->setAsRequired()
 		;
 		$this->addProperty('template')
 			->addEvaluator(function (&$value) : bool {
 				return UCall::validate($value, true);
 			})
-			->setAsRequired()
 		;
 		$this->addProperty('function_signature')
 			->setMode('r')

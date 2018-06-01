@@ -42,7 +42,7 @@ class InvalidEncoding extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('encoding')->setAsString()->setAsRequired();
+		$this->addProperty('encoding')->setAsString();
 		$this->addProperty('encodings')
 			->setAsArray(function (&$key, &$value) : bool {
 				return UType::evaluateString($value, true);

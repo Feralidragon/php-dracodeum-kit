@@ -31,6 +31,6 @@ class InvalidNumber extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('number')->setAsString()->setAsRequired();
+		$this->addProperty('number')->setAsString();
 	}
 }

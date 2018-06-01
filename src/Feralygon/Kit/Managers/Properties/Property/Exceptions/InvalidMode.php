@@ -47,12 +47,11 @@ class InvalidMode extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('mode')->setAsString()->setAsRequired();
+		$this->addProperty('mode')->setAsString();
 		$this->addProperty('modes')
 			->setAsArray(function (&$key, &$value) : bool {
 				return UType::evaluateString($value, true);
 			}, true, true)
-			->setAsRequired()
 		;
 	}
 	

@@ -22,6 +22,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('options')->setAsObjectClass(Options::class)->setAsRequired();
+		$this->addProperty('options')->setAsObjectClass(Options::class);
 	}
 }

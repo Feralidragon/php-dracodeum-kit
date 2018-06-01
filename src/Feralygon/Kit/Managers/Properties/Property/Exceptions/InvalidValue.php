@@ -36,6 +36,6 @@ class InvalidValue extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('value');
 	}
 }

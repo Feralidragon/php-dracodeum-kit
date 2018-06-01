@@ -31,6 +31,6 @@ class ClassNotFound extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('class')->setAsString()->setAsRequired();
+		$this->addProperty('class')->setAsString();
 	}
 }

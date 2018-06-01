@@ -35,6 +35,6 @@ class PropertyNotFound extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('name')->setAsString()->setAsRequired();
+		$this->addProperty('name')->setAsString();
 	}
 }

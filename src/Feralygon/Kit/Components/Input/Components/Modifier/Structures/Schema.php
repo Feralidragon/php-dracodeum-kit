@@ -24,7 +24,7 @@ class Schema extends Structure
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('name')->setAsString(true);
 		$this->addProperty('data')->setDefaultValue(null);
 	}
 }

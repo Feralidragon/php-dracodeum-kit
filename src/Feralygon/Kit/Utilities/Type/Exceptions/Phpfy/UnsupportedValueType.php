@@ -33,7 +33,7 @@ class UnsupportedValueType extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('value');
 		$this->addProperty('type')
 			->setAsString(true)
 			->setDefaultGetter(function () {

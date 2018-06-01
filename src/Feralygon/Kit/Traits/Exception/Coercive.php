@@ -75,7 +75,7 @@ trait Coercive
 		}
 		
 		//properties
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('value');
 		$this->addProperty('error_code')
 			->setAsString(true, true)
 			->addEvaluator(function (&$value) use ($error_codes) : bool {

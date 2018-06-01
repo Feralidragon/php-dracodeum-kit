@@ -45,7 +45,6 @@ class MissingRequiredProperties extends Exception
 			->setAsArray(function (&$key, &$value) : bool {
 				return UType::evaluateString($value);
 			}, true, true)
-			->setAsRequired()
 		;
 	}
 	

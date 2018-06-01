@@ -33,7 +33,7 @@ class InvalidPlaceholder extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('string')->setAsString()->setAsRequired();
-		$this->addProperty('placeholder')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString();
+		$this->addProperty('placeholder')->setAsString();
 	}
 }

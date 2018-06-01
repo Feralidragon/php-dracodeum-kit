@@ -53,7 +53,7 @@ class NotAllowed extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('function_name')->setAsString()->setAsRequired();
+		$this->addProperty('function_name')->setAsString();
 		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 		$this->addProperty('hint_message')->setAsString(false, true)->setDefaultValue(null);

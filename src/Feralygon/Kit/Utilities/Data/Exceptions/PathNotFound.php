@@ -33,7 +33,7 @@ class PathNotFound extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('array')->setAsArray()->setAsRequired();
-		$this->addProperty('path')->setAsString()->setAsRequired();
+		$this->addProperty('array')->setAsArray();
+		$this->addProperty('path')->setAsString();
 	}
 }

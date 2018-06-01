@@ -22,6 +22,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('factory')->setAsStrictClass(Factory::class)->setAsRequired();
+		$this->addProperty('factory')->setAsStrictClass(Factory::class);
 	}
 }

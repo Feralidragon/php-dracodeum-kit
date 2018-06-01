@@ -39,7 +39,7 @@ class InvalidData extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('data')->setAsRequired();
+		$this->addProperty('data');
 		$this->addProperty('error_code')->setAsStrictInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
 	}

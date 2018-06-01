@@ -61,8 +61,8 @@ class ValueCoercionFailed extends Exception implements ICoercive
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('value')->setAsRequired();
-		$this->addProperty('error_message')->setAsString()->setAsRequired();
+		$this->addProperty('value');
+		$this->addProperty('error_message')->setAsString();
 	}
 	
 	/** {@inheritdoc} */

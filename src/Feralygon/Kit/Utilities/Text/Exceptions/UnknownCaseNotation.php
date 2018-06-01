@@ -31,6 +31,6 @@ class UnknownCaseNotation extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('string')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString();
 	}
 }

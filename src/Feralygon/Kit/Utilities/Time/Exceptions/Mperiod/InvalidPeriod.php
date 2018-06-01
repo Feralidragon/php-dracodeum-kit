@@ -31,6 +31,6 @@ class InvalidPeriod extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('period')->setAsString()->setAsRequired();
+		$this->addProperty('period')->setAsString();
 	}
 }

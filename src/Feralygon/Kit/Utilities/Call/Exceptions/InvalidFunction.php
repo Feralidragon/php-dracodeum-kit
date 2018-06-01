@@ -31,6 +31,6 @@ class InvalidFunction extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('function')->setAsRequired();
+		$this->addProperty('function');
 	}
 }

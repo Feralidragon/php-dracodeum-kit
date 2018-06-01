@@ -31,6 +31,6 @@ class InvalidTimestamp extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('timestamp')->setAsRequired();
+		$this->addProperty('timestamp');
 	}
 }

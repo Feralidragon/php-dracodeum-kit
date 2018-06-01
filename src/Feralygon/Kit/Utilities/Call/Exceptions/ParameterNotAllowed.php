@@ -54,7 +54,7 @@ class ParameterNotAllowed extends NotAllowed
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('name')->setAsString()->setAsRequired();
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('name')->setAsString();
+		$this->addProperty('value');
 	}
 }

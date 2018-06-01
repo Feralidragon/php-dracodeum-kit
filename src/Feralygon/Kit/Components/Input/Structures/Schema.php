@@ -30,7 +30,7 @@ class Schema extends Structure
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString(true)->setAsRequired();
+		$this->addProperty('name')->setAsString(true);
 		$this->addProperty('nullable')->setAsBoolean()->setDefaultValue(false);
 		$this->addProperty('data')->setDefaultValue(null);
 		$this->addProperty('modifiers')

@@ -41,7 +41,7 @@ class InvalidString extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('string')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString();
 		$this->addProperty('url_safe')->setAsBoolean()->setDefaultValue(false);
 	}
 }

@@ -39,7 +39,7 @@ class InvalidPrototypeClass extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('class')->setAsString()->setAsRequired();
-		$this->addProperty('base_class')->setAsClass(Prototype::class)->setAsRequired();
+		$this->addProperty('class')->setAsString();
+		$this->addProperty('base_class')->setAsClass(Prototype::class);
 	}
 }

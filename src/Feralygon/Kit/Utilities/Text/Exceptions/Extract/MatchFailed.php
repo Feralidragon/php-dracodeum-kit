@@ -34,7 +34,7 @@ class MatchFailed extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('string')->setAsString()->setAsRequired();
-		$this->addProperty('mask')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString();
+		$this->addProperty('mask')->setAsString();
 	}
 }

@@ -36,11 +36,11 @@ final class Os extends Structure
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString(true)->setAsRequired();
-		$this->addProperty('hostname')->setAsString(true)->setAsRequired();
-		$this->addProperty('release')->setAsString(true)->setAsRequired();
-		$this->addProperty('information')->setAsString(true)->setAsRequired();
-		$this->addProperty('architecture')->setAsString(true)->setAsRequired();
+		$this->addProperty('name')->setAsString(true);
+		$this->addProperty('hostname')->setAsString(true);
+		$this->addProperty('release')->setAsString(true);
+		$this->addProperty('information')->setAsString(true);
+		$this->addProperty('architecture')->setAsString(true);
 	}
 	
 	

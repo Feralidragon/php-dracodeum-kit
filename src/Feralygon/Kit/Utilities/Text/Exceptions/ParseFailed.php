@@ -38,12 +38,11 @@ class ParseFailed extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('string')->setAsString()->setAsRequired();
+		$this->addProperty('string')->setAsString();
 		$this->addProperty('fields_patterns')
 			->setAsArray(function (&$key, &$value) : bool {
 				return UType::evaluateString($value);
 			})
-			->setAsRequired()
 		;
 		$this->addProperty('key')->setAsString(false, true)->setDefaultValue(null);
 	}

@@ -39,7 +39,6 @@ class ValueNotFound extends Exception
 			->addEvaluator(function (&$value) : bool {
 				return is_int($value) || is_float($value) || is_string($value);
 			})
-			->setAsRequired()
 		;
 	}
 }

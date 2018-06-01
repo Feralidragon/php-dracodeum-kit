@@ -41,7 +41,7 @@ class InvalidPropertyValue extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('property')->setAsStrictObject(Property::class)->setAsRequired();
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('property')->setAsStrictObject(Property::class);
+		$this->addProperty('value');
 	}
 }

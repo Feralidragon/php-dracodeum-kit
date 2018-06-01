@@ -34,6 +34,6 @@ class InvalidPlaceholderValue extends InvalidPlaceholder
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('value');
 	}
 }

@@ -36,7 +36,7 @@ class MemoizedValueNotFound extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('key')->setAsString()->setAsRequired();
+		$this->addProperty('key')->setAsString();
 		$this->addProperty('namespace')->setAsString()->setDefaultValue('');
 	}
 }

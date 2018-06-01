@@ -38,6 +38,6 @@ class CannotSetProperty extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('property')->setAsStrictObject(Property::class)->setAsRequired();
+		$this->addProperty('property')->setAsStrictObject(Property::class);
 	}
 }

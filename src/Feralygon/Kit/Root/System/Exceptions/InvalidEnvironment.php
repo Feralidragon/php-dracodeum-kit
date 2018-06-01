@@ -32,6 +32,6 @@ class InvalidEnvironment extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('environment')->setAsRequired();
+		$this->addProperty('environment');
 	}
 }

@@ -31,6 +31,6 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('value')->setAsString()->setAsRequired();
+		$this->addProperty('value')->setAsString();
 	}
 }

@@ -39,9 +39,9 @@ class PathKeyDeleteFromNonArray extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('array')->setAsArray()->setAsRequired();
-		$this->addProperty('path')->setAsString()->setAsRequired();
-		$this->addProperty('key')->setAsString()->setAsRequired();
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('array')->setAsArray();
+		$this->addProperty('path')->setAsString();
+		$this->addProperty('key')->setAsString();
+		$this->addProperty('value');
 	}
 }

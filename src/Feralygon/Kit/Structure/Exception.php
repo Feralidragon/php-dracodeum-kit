@@ -22,6 +22,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('structure')->setAsObjectClass(Structure::class)->setAsRequired();
+		$this->addProperty('structure')->setAsObjectClass(Structure::class);
 	}
 }

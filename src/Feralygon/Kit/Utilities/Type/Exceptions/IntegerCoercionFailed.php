@@ -79,7 +79,7 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('value');
 		$this->addProperty('unsigned')->setAsBoolean()->setDefaultValue(false);
 		$this->addProperty('bits')->setAsInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_code')

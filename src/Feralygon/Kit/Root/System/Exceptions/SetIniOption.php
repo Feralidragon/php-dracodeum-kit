@@ -24,7 +24,7 @@ abstract class SetIniOption extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('name')->setAsString()->setAsRequired();
-		$this->addProperty('value')->setAsRequired();
+		$this->addProperty('name')->setAsString();
+		$this->addProperty('value');
 	}
 }

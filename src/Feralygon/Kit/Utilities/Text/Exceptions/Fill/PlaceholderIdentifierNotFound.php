@@ -36,7 +36,7 @@ class PlaceholderIdentifierNotFound extends InvalidPlaceholder
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('identifier')->setAsString()->setAsRequired();
-		$this->addProperty('pointer')->setAsRequired();
+		$this->addProperty('identifier')->setAsString();
+		$this->addProperty('pointer');
 	}
 }

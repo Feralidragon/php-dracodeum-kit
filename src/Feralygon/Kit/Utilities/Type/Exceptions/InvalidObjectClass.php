@@ -31,6 +31,6 @@ class InvalidObjectClass extends Exception
 	/** {@inheritdoc} */
 	protected function loadProperties() : void
 	{
-		$this->addProperty('object_class')->setAsRequired();
+		$this->addProperty('object_class');
 	}
 }
