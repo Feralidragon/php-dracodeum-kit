@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
+namespace Feralygon\Kit\Managers\Properties\Property\Exceptions;
 
-use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
+use Feralygon\Kit\Managers\Properties\Property\Exception;
 
 /**
- * This exception is thrown from a property object whenever a given value is invalid.
+ * This exception is thrown from a property whenever a given value is invalid.
  * 
  * @since 1.0.0
  * @property-read mixed $value

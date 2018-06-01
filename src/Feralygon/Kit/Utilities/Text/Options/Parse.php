@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Text\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * Text utility <code>parse</code> method options.

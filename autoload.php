@@ -23,7 +23,7 @@ define('FERALYGON_KIT_DIRECTORY', __DIR__ . '/src');
 
 //required classes
 require_once FERALYGON_KIT_DIRECTORY . '/Feralygon/Kit/Root/Loader.php';
-require_once FERALYGON_KIT_DIRECTORY . '/Feralygon/Kit/Root/Loader/Objects/Package.php';
+require_once FERALYGON_KIT_DIRECTORY . '/Feralygon/Kit/Root/Loader/Package.php';
 
 //set package
 Loader::setPackage('feralygon', 'kit', FERALYGON_KIT_DIRECTORY);

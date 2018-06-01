@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Factories;
 
 use Feralygon\Kit\Factory;
-use Feralygon\Kit\Factory\Objects\Type;
+use Feralygon\Kit\Factory\Type;
 use Feralygon\Kit\Factories\Component\Builders;
 use Feralygon\Kit\Factories\Component\Builder\Interfaces as BuilderInterfaces;
 use Feralygon\Kit\Components\Input;

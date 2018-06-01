@@ -8,8 +8,8 @@
 namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Traits\Memoization\{
+	Entry,
 	Options,
-	Objects,
 	Exceptions
 };
 use Feralygon\Kit\Utilities\Data as UData;
@@ -23,7 +23,7 @@ use Feralygon\Kit\Utilities\Data as UData;
 trait Memoization
 {
 	//Private properties
-	/** @var \Feralygon\Kit\Traits\Memoization\Objects\Entry[] */
+	/** @var \Feralygon\Kit\Traits\Memoization\Entry[] */
 	private $memoize_entries = [];
 	
 	/** @var \Feralygon\Kit\Traits\Memoization\Options\Policy[] */
@@ -35,7 +35,7 @@ trait Memoization
 	
 	
 	//Private static properties
-	/** @var \Feralygon\Kit\Traits\Memoization\Objects\Entry[] */
+	/** @var \Feralygon\Kit\Traits\Memoization\Entry[] */
 	private static $memoize_static_entries = [];
 	
 	/** @var \Feralygon\Kit\Traits\Memoization\Options\Policy[] */
@@ -153,7 +153,7 @@ trait Memoization
 		}
 		
 		//set
-		$this->memoize_entries[$selector][$namespace][$key] = new Objects\Entry(
+		$this->memoize_entries[$selector][$namespace][$key] = new Entry(
 			$value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null
 		);
 	}
@@ -437,7 +437,7 @@ trait Memoization
 		}
 		
 		//set
-		self::$memoize_static_entries[$class][$selector][$namespace][$key] = new Objects\Entry(
+		self::$memoize_static_entries[$class][$selector][$namespace][$key] = new Entry(
 			$value, isset($policy_options->ttl) ? time() + $policy_options->ttl : null
 		);
 	}

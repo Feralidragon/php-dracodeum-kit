@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Components\Input\Components\Modifier\Objects;
+namespace Feralygon\Kit\Components\Input\Components\Modifier;
 
 /**
  * @since 1.0.0

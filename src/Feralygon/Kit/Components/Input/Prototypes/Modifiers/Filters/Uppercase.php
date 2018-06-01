@@ -12,7 +12,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	SchemaData as ISchemaData
 };
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**

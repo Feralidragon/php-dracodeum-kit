@@ -14,7 +14,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Enumeration as KitEnumeration;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;

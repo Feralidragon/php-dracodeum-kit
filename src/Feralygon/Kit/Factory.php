@@ -8,7 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Factory\{
-	Objects,
+	Type,
 	Exceptions
 };
 use Feralygon\Kit\Utilities\Call as UCall;
@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Factory_method_pattern
  * @see \Feralygon\Kit\Factory\Builder
- * @see \Feralygon\Kit\Factory\Objects\Type
+ * @see \Feralygon\Kit\Factory\Type
  */
 abstract class Factory
 {
@@ -34,7 +34,7 @@ abstract class Factory
 	
 	
 	//Private static properties
-	/** @var \Feralygon\Kit\Factory\Objects\Type[] */
+	/** @var \Feralygon\Kit\Factory\Type[] */
 	private static $types = [];
 	
 	/** @var string|null */
@@ -49,10 +49,10 @@ abstract class Factory
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to build with.</p>
-	 * @return \Feralygon\Kit\Factory\Objects\Type|null
+	 * @return \Feralygon\Kit\Factory\Type|null
 	 * <p>The built type instance with the given name or <code>null</code> if none was built.</p>
 	 */
-	abstract protected static function buildType(string $name) : ?Objects\Type;
+	abstract protected static function buildType(string $name) : ?Type;
 	
 	
 	
@@ -85,11 +85,11 @@ abstract class Factory
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Factory\Exceptions\TypeNotFound
-	 * @return \Feralygon\Kit\Factory\Objects\Type|null
+	 * @return \Feralygon\Kit\Factory\Type|null
 	 * <p>The type instance with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final protected static function getType(string $name, bool $no_throw = false) : ?Objects\Type
+	final protected static function getType(string $name, bool $no_throw = false) : ?Type
 	{
 		if (!isset(self::$types[static::class][$name])) {
 			//build
@@ -130,15 +130,15 @@ abstract class Factory
 	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
 	 * @param \Feralygon\Kit\Factory\Builder|string $builder
 	 * <p>The builder instance or class to create with.</p>
-	 * @return \Feralygon\Kit\Factory\Objects\Type
+	 * @return \Feralygon\Kit\Factory\Type
 	 * <p>The created type instance with the given builder interface and instance or class.</p>
 	 */
-	final protected static function createType(string $builder_interface, $builder) : Objects\Type
+	final protected static function createType(string $builder_interface, $builder) : Type
 	{
 		UCall::guard(isset(self::$current_type_name), [
 			'hint_message' => "This method may only be called from within the \"buildType\" method."
 		]);
-		return new Objects\Type(self::$current_type_name, $builder_interface, $builder);
+		return new Type(self::$current_type_name, $builder_interface, $builder);
 	}
 	
 	/**

@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Traits\Properties\{
 	Manager,
-	Objects
+	Property
 };
 use Feralygon\Kit\Utilities\Call as UCall;
 
@@ -240,10 +240,10 @@ trait Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add with.</p>
-	 * @return \Feralygon\Kit\Traits\Properties\Objects\Property
+	 * @return \Feralygon\Kit\Traits\Properties\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
-	final protected function addProperty(string $name) : Objects\Property
+	final protected function addProperty(string $name) : Property
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->addProperty($name);

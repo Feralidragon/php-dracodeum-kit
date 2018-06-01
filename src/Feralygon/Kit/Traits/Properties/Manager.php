@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Traits\Properties;
 
 use Feralygon\Kit\Managers\Properties as PropertiesManager;
-use Feralygon\Kit\Managers\Properties\Objects\Property;
 
 /**
  * @since 1.0.0
@@ -18,8 +17,8 @@ final class Manager extends PropertiesManager
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function createProperty(string $name) : Property
+	public function createProperty(string $name) : PropertiesManager\Property
 	{
-		return new Objects\Property($this, $name);
+		return new Property($this, $name);
 	}
 }

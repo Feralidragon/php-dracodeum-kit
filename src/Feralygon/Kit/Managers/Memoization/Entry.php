@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Memoization\Objects;
+namespace Feralygon\Kit\Managers\Memoization;
 
 /**
  * @since 1.0.0

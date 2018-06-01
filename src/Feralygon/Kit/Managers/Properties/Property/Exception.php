@@ -5,16 +5,16 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Properties\Objects\Property;
+namespace Feralygon\Kit\Managers\Properties\Property;
 
 use Feralygon\Kit\Exception as KitException;
-use Feralygon\Kit\Managers\Properties\Objects\Property;
+use Feralygon\Kit\Managers\Properties\Property;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * @property-read \Feralygon\Kit\Managers\Properties\Property $property
  * <p>The property instance.</p>
- * @see \Feralygon\Kit\Managers\Properties\Objects\Property
+ * @see \Feralygon\Kit\Managers\Properties\Property
  */
 abstract class Exception extends KitException
 {

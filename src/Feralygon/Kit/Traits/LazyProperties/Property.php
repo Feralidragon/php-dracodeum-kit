@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Traits\Properties\Objects;
+namespace Feralygon\Kit\Traits\LazyProperties;
 
-use Feralygon\Kit\Managers\Properties\Objects\Property as ManagerProperty;
+use Feralygon\Kit\Managers\Properties\Property as ManagerProperty;
 
 /**
  * @since 1.0.0
- * @see \Feralygon\Kit\Traits\Properties
+ * @see \Feralygon\Kit\Traits\LazyProperties
  */
 final class Property extends ManagerProperty {}

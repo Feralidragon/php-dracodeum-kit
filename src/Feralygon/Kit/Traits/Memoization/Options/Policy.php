@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Traits\Memoization\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * @since 1.0.0

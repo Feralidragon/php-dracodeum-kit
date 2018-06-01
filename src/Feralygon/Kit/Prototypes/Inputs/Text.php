@@ -22,7 +22,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifiers\{
 	Constraints as InputConstraints,
 	Filters as InputFilters
 };
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;

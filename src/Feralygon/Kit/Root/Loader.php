@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit\Root;
 
-use Feralygon\Kit\Root\Loader\Objects;
+use Feralygon\Kit\Root\Loader\Package;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
@@ -21,7 +21,7 @@ final class Loader
 	/** @var bool */
 	private static $initialized = false;
 	
-	/** @var \Feralygon\Kit\Root\Loader\Objects\Package[] */
+	/** @var \Feralygon\Kit\Root\Loader\Package[] */
 	private static $packages = [];
 	
 	
@@ -70,10 +70,10 @@ final class Loader
 	 * <p>The name to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
 	 * @throws \RuntimeException
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
+	 * @return \Feralygon\Kit\Root\Loader\Package
 	 * <p>The package instance with the given vendor and name.</p>
 	 */
-	final public static function getPackage(string $vendor, string $name) : Objects\Package
+	final public static function getPackage(string $vendor, string $name) : Package
 	{
 		$vendor = strtolower($vendor);
 		$name = strtolower($name);
@@ -96,10 +96,10 @@ final class Loader
 	 * @param string $path
 	 * <p>The path to set with.</p>
 	 * @throws \RuntimeException
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package
+	 * @return \Feralygon\Kit\Root\Loader\Package
 	 * <p>The package instance set with the given vendor, name and path.</p>
 	 */
-	final public static function setPackage(string $vendor, string $name, string $path) : Objects\Package
+	final public static function setPackage(string $vendor, string $name, string $path) : Package
 	{
 		//initialize
 		if (!self::$initialized) {
@@ -120,7 +120,7 @@ final class Loader
 		if (isset(self::$packages[$vendor][$name])) {
 			throw new \RuntimeException("The package \"{$vendor}/{$name}\" has already been set.");
 		}
-		self::$packages[$vendor][$name] = new Objects\Package($vendor, $name, $path);
+		self::$packages[$vendor][$name] = new Package($vendor, $name, $path);
 		
 		//return
 		return self::$packages[$vendor][$name];
@@ -132,10 +132,10 @@ final class Loader
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
-	 * @return \Feralygon\Kit\Root\Loader\Objects\Package|null
+	 * @return \Feralygon\Kit\Root\Loader\Package|null
 	 * <p>The package instance from the given object or class or <code>null</code> if none is set.</p>
 	 */
-	final public static function getClassPackage($object_class) : ?Objects\Package
+	final public static function getClassPackage($object_class) : ?Package
 	{
 		if (
 			preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', UType::class($object_class), $matches) && 

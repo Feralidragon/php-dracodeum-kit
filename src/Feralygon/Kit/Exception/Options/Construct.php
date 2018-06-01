@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Exception\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * Exception <code>construct</code> method options.

@@ -7,14 +7,16 @@
 
 namespace Feralygon\Kit\Managers\Properties\Exceptions;
 
-use Feralygon\Kit\Managers\Properties\Exception;
-use Feralygon\Kit\Managers\Properties\Objects\Property;
+use Feralygon\Kit\Managers\Properties\{
+	Property,
+	Exception
+};
 
 /**
  * This exception is thrown from a properties manager whenever a given property is attempted to be set.
  * 
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties\Objects\Property $property
+ * @property-read \Feralygon\Kit\Managers\Properties\Property $property
  * <p>The property instance.</p>
  */
 class CannotSetProperty extends Exception

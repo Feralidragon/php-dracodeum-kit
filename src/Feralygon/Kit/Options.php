@@ -8,7 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Options\Exceptions;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
@@ -64,7 +64,7 @@ abstract class Options implements \ArrayAccess
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to build with.</p>
-	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property|null
+	 * @return \Feralygon\Kit\Traits\LazyProperties\Property|null
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected function buildProperty(string $name) : ?Property;

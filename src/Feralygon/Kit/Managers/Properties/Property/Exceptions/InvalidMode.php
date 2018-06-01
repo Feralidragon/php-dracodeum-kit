@@ -5,16 +5,16 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
+namespace Feralygon\Kit\Managers\Properties\Property\Exceptions;
 
-use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
+use Feralygon\Kit\Managers\Properties\Property\Exception;
 use Feralygon\Kit\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * This exception is thrown from a property object whenever a given mode is invalid.
+ * This exception is thrown from a property whenever a given mode is invalid.
  * 
  * @since 1.0.0
  * @property-read string $mode

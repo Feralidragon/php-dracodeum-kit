@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Properties\Objects;
+namespace Feralygon\Kit\Managers\Properties;
 
 use Feralygon\Kit\Managers\Properties as Manager;
-use Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
+use Feralygon\Kit\Managers\Properties\Property\Exceptions;
 use Feralygon\Kit\{
 	Enumeration,
 	Structure
@@ -213,7 +213,7 @@ class Property
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidMode
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidMode
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -276,7 +276,7 @@ class Property
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidValue
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
@@ -333,8 +333,8 @@ class Property
 	 * Get default value.
 	 * 
 	 * @since 1.0.0
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\DefaultValueNotSet
-	 * @throws \Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions\InvalidDefaultValue
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidDefaultValue
 	 * @return mixed
 	 * <p>The default value.</p>
 	 */

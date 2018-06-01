@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Url\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * URL utility <code>unquerify</code> method options.

@@ -5,9 +5,8 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Factory\Objects;
+namespace Feralygon\Kit\Factory;
 
-use Feralygon\Kit\Factory\Builder;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Type as UType

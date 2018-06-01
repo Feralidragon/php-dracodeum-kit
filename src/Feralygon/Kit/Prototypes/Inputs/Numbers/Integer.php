@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 
 use Feralygon\Kit\Prototypes\Inputs\Number;
 use Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData as ISchemaData;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;

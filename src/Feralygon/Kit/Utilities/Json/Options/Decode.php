@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Json\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * JSON utility <code>decode</code> method options.

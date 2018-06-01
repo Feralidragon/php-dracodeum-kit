@@ -8,10 +8,9 @@
 namespace Feralygon\Kit\Managers;
 
 use Feralygon\Kit\Managers\Properties\{
-	Objects,
+	Property,
 	Exceptions
 };
-use Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions as PropertyExceptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
@@ -27,7 +26,7 @@ use Feralygon\Kit\Utilities\{
  * each one may hold.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Managers\Properties\Objects\Property
+ * @see \Feralygon\Kit\Managers\Properties\Property
  */
 class Properties
 {
@@ -62,7 +61,7 @@ class Properties
 	/** @var \Closure|null */
 	private $remainderer = null;
 	
-	/** @var \Feralygon\Kit\Managers\Properties\Objects\Property[] */
+	/** @var \Feralygon\Kit\Managers\Properties\Property[] */
 	private $properties = [];
 	
 	
@@ -122,12 +121,12 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to create with.</p>
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
+	 * @return \Feralygon\Kit\Managers\Properties\Property
 	 * <p>The created property instance with the given name.</p>
 	 */
-	public function createProperty(string $name) : Objects\Property
+	public function createProperty(string $name) : Property
 	{
-		return new Objects\Property($this, $name);
+		return new Property($this, $name);
 	}
 	
 	
@@ -263,10 +262,10 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add with.</p>
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property
+	 * @return \Feralygon\Kit\Managers\Properties\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
-	final public function addProperty(string $name) : Objects\Property
+	final public function addProperty(string $name) : Property
 	{
 		//guard
 		UCall::guard(!$this->lazy, [
@@ -310,13 +309,13 @@ class Properties
 	 * @param callable $builder
 	 * <p>The function to set to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name) : ?Feralygon\Kit\Managers\Properties\Objects\Property</code><br>
+	 * <code>function (string $name) : ?Feralygon\Kit\Managers\Properties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The name to build with.<br>
 	 * <br>
-	 * Return: <code><b>Feralygon\Kit\Managers\Properties\Objects\Property|null</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Managers\Properties\Property|null</b></code><br>
 	 * The built property instance with the given name or <code>null</code> if none was built.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -329,7 +328,7 @@ class Properties
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization."
 		]);
-		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {});
+		UCall::assert('builder', $builder, function (string $name) : ?Property {});
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;
 	}
@@ -535,7 +534,7 @@ class Properties
 		//get
 		try {
 			return $property->getValue();
-		} catch (PropertyExceptions\DefaultValueNotSet $exception) {
+		} catch (Property\Exceptions\DefaultValueNotSet $exception) {
 			throw new Exceptions\PropertyDefaultValueNotSet(['manager' => $this, 'property' => $property]);
 		}
 		return null;
@@ -637,7 +636,7 @@ class Properties
 		//unset
 		try {
 			$property->resetValue();
-		} catch (PropertyExceptions\DefaultValueNotSet $exception) {
+		} catch (Property\Exceptions\DefaultValueNotSet $exception) {
 			throw new Exceptions\CannotUnsetProperty(['manager' => $this, 'property' => $property]);
 		}
 		
@@ -692,11 +691,11 @@ class Properties
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyNotFound
-	 * @return \Feralygon\Kit\Managers\Properties\Objects\Property|null
+	 * @return \Feralygon\Kit\Managers\Properties\Property|null
 	 * <p>The property instance with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final protected function getProperty(string $name, bool $no_throw = false) : ?Objects\Property
+	final protected function getProperty(string $name, bool $no_throw = false) : ?Property
 	{
 		if (!isset($this->properties[$name])) {
 			//build

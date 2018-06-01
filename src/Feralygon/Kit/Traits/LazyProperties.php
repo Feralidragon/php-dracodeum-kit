@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Traits\LazyProperties\{
 	Manager,
-	Objects
+	Property
 };
 use Feralygon\Kit\Utilities\Call as UCall;
 
@@ -242,10 +242,10 @@ trait LazyProperties
 	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Traits\LazyProperties\Objects\Property
+	 * @return \Feralygon\Kit\Traits\LazyProperties\Property
 	 * <p>The created property instance.</p>
 	 */
-	final protected function createProperty() : Objects\Property
+	final protected function createProperty() : Property
 	{
 		$this->guardPropertiesManagerCall();
 		UCall::guard(isset($this->properties_builder_current_name), [
@@ -293,13 +293,13 @@ trait LazyProperties
 	 * @param callable $builder
 	 * <p>The function to use to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Objects\Property</code><br>
+	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The name to build with.<br>
 	 * <br>
-	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Objects\Property|null</b></code><br>
+	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Property|null</b></code><br>
 	 * The built property instance with the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
@@ -355,8 +355,8 @@ trait LazyProperties
 		$this->properties_manager = new Manager($this, true, $mode);
 		
 		//builder
-		UCall::assert('builder', $builder, function (string $name) : ?Objects\Property {});
-		$this->properties_manager->setBuilder(function (string $name) use ($builder) : ?Objects\Property {
+		UCall::assert('builder', $builder, function (string $name) : ?Property {});
+		$this->properties_manager->setBuilder(function (string $name) use ($builder) : ?Property {
 			try {
 				$this->properties_builder_current_name = $name;
 				return $builder($name);

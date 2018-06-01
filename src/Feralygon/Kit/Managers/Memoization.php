@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Managers;
 
 use Feralygon\Kit\Managers\Memoization\{
-	Objects,
+	Entry,
 	Exceptions
 };
 use Feralygon\Kit\Utilities\Type as UType;
@@ -56,10 +56,10 @@ class Memoization
 	
 	
 	//Private static properties
-	/** @var \Feralygon\Kit\Managers\Memoization\Objects\Entry[] */
+	/** @var \Feralygon\Kit\Managers\Memoization\Entry[] */
 	private static $entries = [];
 	
-	/** @var \Feralygon\Kit\Managers\Memoization\Objects\Entry[] */
+	/** @var \Feralygon\Kit\Managers\Memoization\Entry[] */
 	private static $entries_tree = [];
 	
 	

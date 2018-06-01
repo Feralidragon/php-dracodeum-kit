@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Root\Locale;
 

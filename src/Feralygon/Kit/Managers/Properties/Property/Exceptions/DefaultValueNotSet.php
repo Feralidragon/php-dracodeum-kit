@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Properties\Objects\Property\Exceptions;
+namespace Feralygon\Kit\Managers\Properties\Property\Exceptions;
 
-use Feralygon\Kit\Managers\Properties\Objects\Property\Exception;
+use Feralygon\Kit\Managers\Properties\Property\Exception;
 
 /**
- * This exception is thrown from a property object whenever no default value is set.
+ * This exception is thrown from a property whenever no default value is set.
  * 
  * @since 1.0.0
  */

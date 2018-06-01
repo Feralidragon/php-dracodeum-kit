@@ -15,7 +15,7 @@ use Feralygon\Kit\Prototypes\Input\Subcontracts\{
 use Feralygon\Kit\Components\Input\{
 	Components,
 	Exceptions,
-	Objects,
+	Error,
 	Options,
 	Structures
 };
@@ -25,7 +25,7 @@ use Feralygon\Kit\Prototypes\{
 	Inputs as Prototypes
 };
 use Feralygon\Kit\Prototypes\Input\Interfaces as PrototypeInterfaces;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Prototype as ComponentPrototype;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -89,7 +89,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	/** @var bool */
 	private $nullable = false;
 	
-	/** @var \Feralygon\Kit\Components\Input\Objects\Error|null */
+	/** @var \Feralygon\Kit\Components\Input\Error|null */
 	private $error = null;
 	
 	/** @var \Feralygon\Kit\Components\Input\Components\Modifier[] */
@@ -628,7 +628,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 		//evaluate
 		$v = $value;
 		if ((!isset($v) && !$this->nullable) || (isset($v) && !$prototype->evaluateValue($v))) {
-			$this->error = new Objects\Error($value);
+			$this->error = new Error($value);
 			if ($no_throw) {
 				return false;
 			}
@@ -672,7 +672,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 				
 				//error
 				if (!empty($error_messengers)) {
-					$this->error = new Objects\Error($value, $error_messengers);
+					$this->error = new Error($value, $error_messengers);
 					if ($no_throw) {
 						return false;
 					}
@@ -1049,7 +1049,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 						return $this->getDefaultErrorMessage($text_options);
 					};
 				}
-				$this->error = new Objects\Error($value, $error_messengers);
+				$this->error = new Error($value, $error_messengers);
 				return false;
 			}
 			

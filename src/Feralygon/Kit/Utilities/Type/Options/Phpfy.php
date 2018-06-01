@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Utilities\Type\Options;
 
 use Feralygon\Kit\Options;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * Type utility <code>phpfy</code> method options.

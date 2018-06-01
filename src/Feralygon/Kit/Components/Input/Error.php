@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Components\Input\Objects;
+namespace Feralygon\Kit\Components\Input;
 
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Call as UCall;

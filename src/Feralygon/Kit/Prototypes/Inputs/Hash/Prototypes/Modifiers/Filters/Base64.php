@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Base64 as UBase64;
 
 /**

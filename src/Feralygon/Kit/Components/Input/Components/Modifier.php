@@ -9,7 +9,7 @@ namespace Feralygon\Kit\Components\Input\Components;
 
 use Feralygon\Kit\Component;
 use Feralygon\Kit\Components\Input\Components\Modifier\{
-	Objects,
+	Error,
 	Structures,
 	Exceptions
 };
@@ -31,7 +31,7 @@ abstract class Modifier extends Component
 	/** @var int */
 	private $priority = 0;
 	
-	/** @var \Feralygon\Kit\Components\Input\Components\Modifier\Objects\Error|null */
+	/** @var \Feralygon\Kit\Components\Input\Components\Modifier\Error|null */
 	private $error = null;
 	
 	
@@ -305,7 +305,7 @@ abstract class Modifier extends Component
 	{
 		$v = $value;
 		if (!$this->handleValueEvaluation($v)) {
-			$this->error = new Objects\Error($value);
+			$this->error = new Error($value);
 			return false;
 		}
 		$value = $v;

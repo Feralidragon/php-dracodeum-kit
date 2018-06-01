@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Traits\LazyProperties\Objects\Property;
+use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * This filter prototype converts a date, as an Unix timestamp, into a string using a specific format.
