@@ -101,7 +101,9 @@ class Properties
 	{
 		//guard
 		UCall::guardParameter('mode', $mode, in_array($mode, self::MODES, true), [
-			'hint_message' => "Only the following modes are allowed: {{modes}}.",
+			'hint_message' => "Only the following mode is allowed: {{modes}}.",
+			'hint_message_plural' => "Only the following modes are allowed: {{modes}}.",
+			'hint_message_number' => count(self::MODES),
 			'parameters' => ['modes' => self::MODES],
 			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 		]);

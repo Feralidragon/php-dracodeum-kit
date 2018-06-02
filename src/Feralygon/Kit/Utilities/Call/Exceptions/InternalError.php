@@ -20,8 +20,8 @@ class InternalError extends NotAllowed
 	{
 		//message
 		$message = $this->isset('object_class')
-			? "Internal error occurred in method {{function_name}} call in {{object_class}}."
-			: "Internal error occurred in function {{function_name}} call.";
+			? "Internal error occurred in method call {{function_name}} in {{object_class}}."
+			: "Internal error occurred in function call {{function_name}}.";
 		
 		//error message
 		if ($this->isset('error_message')) {

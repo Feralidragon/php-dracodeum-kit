@@ -30,8 +30,8 @@ class NotAllowed extends Exception
 	{
 		//message
 		$message = $this->isset('object_class')
-			? "Method {{function_name}} call not allowed in {{object_class}}."
-			: "Function {{function_name}} call not allowed.";
+			? "Method call {{function_name}} not allowed in {{object_class}}."
+			: "Function call {{function_name}} not allowed.";
 		
 		//error message
 		if ($this->isset('error_message')) {

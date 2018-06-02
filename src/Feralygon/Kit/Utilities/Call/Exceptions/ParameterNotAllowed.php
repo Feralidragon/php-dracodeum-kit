@@ -26,9 +26,9 @@ class ParameterNotAllowed extends NotAllowed
 		//message
 		$message = $this->isset('object_class')
 			? "Parameter {{name}} not allowed to be given as {{value}} " . 
-				"in method {{function_name}} call in {{object_class}}."
+				"in method call {{function_name}} in {{object_class}}."
 			: "Parameter {{name}} not allowed to be given as {{value}} " . 
-				"in function {{function_name}} call.";
+				"in function call {{function_name}}.";
 		
 		//error message
 		if ($this->isset('error_message')) {

@@ -1087,40 +1087,11 @@ final class Call extends Utility
 		}
 		$backtrace = $backtrace[$stack_index];
 		
-		//stringifier
-		$stringifier = $options->stringifier;
-		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
-				$string_options = $options->string_options->clone();
-				$string_options->quote_strings = true;
-				$string_options->prepend_type = is_bool($value);
-				return Text::stringify($value, null, $string_options);
-			};
-		}
-		
-		//error message
-		$error_message = $options->error_message;
-		if (isset($error_message) && !empty($options->parameters)) {
-			$error_message = Text::fill($error_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
-		}
-		
-		//hint message
-		$hint_message = $options->hint_message;
-		if (isset($hint_message) && !empty($options->parameters)) {
-			$hint_message = Text::fill($hint_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
-		}
-		
 		//exception
 		throw new Exceptions\NotAllowed([
 			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
-			'error_message' => $error_message,
-			'hint_message' => $hint_message
-		]);
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getGuardMessages($options));
 	}
 	
 	/**
@@ -1158,42 +1129,13 @@ final class Call extends Utility
 		]);
 		$backtrace = $backtrace[$stack_index];
 		
-		//stringifier
-		$stringifier = $options->stringifier;
-		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
-				$string_options = $options->string_options->clone();
-				$string_options->quote_strings = true;
-				$string_options->prepend_type = is_bool($value);
-				return Text::stringify($value, null, $string_options);
-			};
-		}
-		
-		//error message
-		$error_message = $options->error_message;
-		if (isset($error_message) && !empty($options->parameters)) {
-			$error_message = Text::fill($error_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
-		}
-		
-		//hint message
-		$hint_message = $options->hint_message;
-		if (isset($hint_message) && !empty($options->parameters)) {
-			$hint_message = Text::fill($hint_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
-		}
-		
 		//exception
 		throw new Exceptions\ParameterNotAllowed([
 			'name' => $name,
 			'value' => $value,
 			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
-			'error_message' => $error_message,
-			'hint_message' => $hint_message
-		]);
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getGuardMessages($options));
 	}
 	
 	/**
@@ -1226,6 +1168,31 @@ final class Call extends Utility
 		]);
 		$backtrace = $backtrace[$stack_index];
 		
+		//exception
+		throw new Exceptions\InternalError([
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getGuardMessages($options));
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Get guard messages from a given options instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard $options
+	 * <p>The options instance to get from.</p>
+	 * @return string[]
+	 * <p>The guard messages from the given options instance, as:<br>
+	 * <code>[<br>
+	 * &nbsp; &nbsp; 'error_message' => &lt;error_message&gt;,<br>
+	 * &nbsp; &nbsp; 'hint_message' => &lt;hint_message&gt;<br>
+	 * ]</code></p>
+	 */
+	final private static function getGuardMessages(Options\Guard $options) : array
+	{
 		//stringifier
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
@@ -1238,27 +1205,40 @@ final class Call extends Utility
 		}
 		
 		//error message
-		$error_message = $options->error_message;
-		if (isset($error_message) && !empty($options->parameters)) {
-			$error_message = Text::fill($error_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
+		$error_message = null;
+		if (isset($options->error_message)) {
+			if (isset($options->error_message_plural) && isset($options->error_message_number)) {
+				$error_message = Text::pfill(
+					$options->error_message, $options->error_message_plural, $options->error_message_number,
+					$options->error_message_number_placeholder, $options->parameters, null, [
+						'string_options' => $options->string_options, 'stringifier' => $stringifier
+					]
+				);
+			} elseif (!empty($options->parameters)) {
+				$error_message = Text::fill($options->error_message, $options->parameters, null, [
+					'string_options' => $options->string_options, 'stringifier' => $stringifier
+				]);
+			}
 		}
 		
 		//hint message
-		$hint_message = $options->hint_message;
-		if (isset($hint_message) && !empty($options->parameters)) {
-			$hint_message = Text::fill($hint_message, $options->parameters, null, [
-				'string_options' => $options->string_options, 'stringifier' => $stringifier
-			]);
+		$hint_message = null;
+		if (isset($options->hint_message)) {
+			if (isset($options->hint_message_plural) && isset($options->hint_message_number)) {
+				$hint_message = Text::pfill(
+					$options->hint_message, $options->hint_message_plural, $options->hint_message_number,
+					$options->hint_message_number_placeholder, $options->parameters, null, [
+						'string_options' => $options->string_options, 'stringifier' => $stringifier
+					]
+				);
+			} elseif (!empty($options->parameters)) {
+				$hint_message = Text::fill($options->hint_message, $options->parameters, null, [
+					'string_options' => $options->string_options, 'stringifier' => $stringifier
+				]);
+			}
 		}
 		
-		//exception
-		throw new Exceptions\InternalError([
-			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null,
-			'error_message' => $error_message,
-			'hint_message' => $hint_message
-		]);
+		//return
+		return ['error_message' => $error_message, 'hint_message' => $hint_message];
 	}
 }

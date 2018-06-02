@@ -28,6 +28,14 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * @property string|null $error_message_plural [default = null]
+ * <p>The plural version of the <var>$error_message</var> above to use in the thrown exception.</p>
+ * @property float|null $error_message_number [default = null]
+ * <p>The number to use to select either the singular (<var>$error_message</var>) 
+ * or plural (<var>$error_message_plural</var>) version of the error message to use in the thrown exception.</p>
+ * @property string|null $error_message_number_placeholder [default = null]
+ * <p>The placeholder to fill with the given <var>$error_message_number</var> above in the error message 
+ * (<var>$error_message</var> and <var>$error_message_plural</var>).</p>
  * @property string|null $hint_message [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
@@ -41,6 +49,14 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * @property string|null $hint_message_plural [default = null]
+ * <p>The plural version of the <var>$hint_message</var> above to use in the thrown exception.</p>
+ * @property float|null $hint_message_number [default = null]
+ * <p>The number to use to select either the singular (<var>$hint_message</var>) 
+ * or plural (<var>$hint_message_plural</var>) version of the hint message to use in the thrown exception.</p>
+ * @property string|null $hint_message_number_placeholder [default = null]
+ * <p>The placeholder to fill with the given <var>$hint_message_number</var> above in the hint message 
+ * (<var>$hint_message</var> and <var>$hint_message_plural</var>).</p>
  * @property string|null $function_name [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
@@ -79,10 +95,22 @@ class Guard extends Options
 		switch ($name) {
 			case 'error_message':
 				//no break
+			case 'error_message_plural':
+				//no break
+			case 'error_message_number_placeholder':
+				//no break
 			case 'hint_message':
+				//no break
+			case 'hint_message_plural':
+				//no break
+			case 'hint_message_number_placeholder':
 				//no break
 			case 'function_name':
 				return $this->createProperty()->setAsString(false, true)->setDefaultValue(null);
+			case 'error_message_number':
+				//no break
+			case 'hint_message_number':
+				return $this->createProperty()->setAsFloat(true)->setDefaultValue(null);
 			case 'stack_offset':
 				return $this->createProperty()->setAsInteger(true)->setDefaultValue(0);
 			case 'object_class':
