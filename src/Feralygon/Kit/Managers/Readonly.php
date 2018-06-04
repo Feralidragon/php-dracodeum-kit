@@ -104,7 +104,8 @@ class Readonly
 	final public function addCallback(callable $callback) : Readonly
 	{
 		UCall::guard(!$this->enabled, [
-			'hint_message' => "This method may only be called before enablement."
+			'hint_message' => "This method may only be called before enablement, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::assert('callback', $callback, function () : void {});
 		$this->callbacks[] = \Closure::fromCallable($callback);

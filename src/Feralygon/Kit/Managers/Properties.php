@@ -101,10 +101,10 @@ class Properties
 	{
 		//guard
 		UCall::guardParameter('mode', $mode, in_array($mode, self::MODES, true), [
-			'hint_message' => "Only the following mode is allowed: {{modes}}.",
-			'hint_message_plural' => "Only the following modes are allowed: {{modes}}.",
+			'hint_message' => "Only the following mode is allowed in manager with owner {{owner}}: {{modes}}.",
+			'hint_message_plural' => "Only the following modes are allowed in manager with owner {{owner}}: {{modes}}.",
 			'hint_message_number' => count(self::MODES),
-			'parameters' => ['modes' => self::MODES],
+			'parameters' => ['owner' => $owner, 'modes' => self::MODES],
 			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 		]);
 		
@@ -225,14 +225,24 @@ class Properties
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::guard($this->lazy, [
-			'hint_message' => "In order to explicitly set a property as required, with lazy-loading disabled, "  . 
-				"please use the \"setAsRequired\" method instead from the corresponding property instance."
+			'hint_message' => "In order to explicitly set property {{names}} as required " . 
+				"in manager with owner {{owner}}, please use the {{method}} method instead from " . 
+				"the corresponding property instance, as lazy-loading is disabled in this manager.",
+			'hint_message_plural' => "In order to explicitly set properties {{names}} as required " . 
+				"in manager with owner {{owner}}, please use the {{method}} method instead from " . 
+				"the corresponding property instances, as lazy-loading is disabled in this manager.",
+			'hint_message_number' => count($names),
+			'parameters' => ['names' => $names, 'owner' => $this->owner, 'method' => 'setAsRequired'],
+			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 		]);
 		UCall::guard($this->mode !== 'r', [
-			'error_message' => "Required property names cannot be set as all properties are strictly read-only."
+			'error_message' => "Required property names cannot be set as all properties are strictly read-only, " . 
+				"in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		
 		//add
@@ -271,28 +281,31 @@ class Properties
 	{
 		//guard
 		UCall::guard(!$this->lazy, [
-			'hint_message' => "In order to add new properties, with lazy-loading enabled, " . 
-				"please set and use a builder function instead."
+			'hint_message' => "In order to add new properties to manager with owner {{owner}}, " . 
+				"please set and use a builder function instead, as lazy-loading is enabled in this manager.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::guardParameter('name', $name, !isset($this->properties[$name]), [
-			'error_message' => "Property {{name}} has already been added.",
-			'parameters' => ['name' => $name]
+			'error_message' => "Property {{name}} already added to manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
 		
 		//property
 		$property = $this->createProperty($name);
 		UCall::guardInternal($property->getName() === $name, [
-			'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}.",
-			'parameters' => ['property' => $property, 'name' => $name]
+			'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}, " . 
+				"in manager with owner {{owner}}.",
+			'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
 		]);
 		UCall::guardInternal($property->getManager() === $this, [
-			'error_message' => "Property manager mismatch for {{property.getName()}}.",
+			'error_message' => "Manager mismatch for property {{property.getName()}}, in manager with owner {{owner}}.",
 			'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
 				"must be exactly the same.",
-			'parameters' => ['property' => $property]
+			'parameters' => ['property' => $property, 'owner' => $this->owner]
 		]);
 		$this->properties[$name] = $property;
 		
@@ -325,10 +338,13 @@ class Properties
 	final public function setBuilder(callable $builder) : Properties
 	{
 		UCall::guard($this->lazy, [
-			'hint_message' => "A builder function is only required when lazy-loading is enabled."
+			'hint_message' => "A builder function cannot be set in manager with owner {{owner}}, " . 
+				"as lazy-loading is disabled.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::assert('builder', $builder, function (string $name) : ?Property {});
 		$this->builder = \Closure::fromCallable($builder);
@@ -362,7 +378,8 @@ class Properties
 	final public function setRemainderer(callable $remainderer) : Properties
 	{
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::assert('remainderer', $remainderer, function (array $properties) : void {});
 		$this->remainderer = \Closure::fromCallable($remainderer);
@@ -402,7 +419,6 @@ class Properties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\MissingRequiredProperties
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetReadonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this
@@ -412,11 +428,13 @@ class Properties
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'error_message' => "This manager has already been initialized."
+			'error_message' => "Manager with owner {{owner}} already initialized.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		UCall::guard(!$this->lazy || isset($this->builder), [
-			'error_message' => "No builder function set.",
-			'hint_message' => "A builder function is required to be set when lazy-loading is enabled."
+			'error_message' => "No builder function set in manager with owner {{owner}}.",
+			'hint_message' => "A builder function is required to be set, as lazy-loading is enabled.",
+			'parameters' => ['owner' => $this->owner]
 		]);
 		
 		//initialize remainder
@@ -442,9 +460,13 @@ class Properties
 			//required (process)
 			if (!empty($required_map)) {
 				$missing_names = array_keys(array_diff_key($required_map, $properties));
-				if (!empty($missing_names)) {
-					throw new Exceptions\MissingRequiredProperties(['manager' => $this, 'names' => $missing_names]);
-				}
+				UCall::guardParameter('properties', $properties, empty($missing_names), [
+					'error_message' => "Missing required property {{names}} for manager with owner {{owner}}.",
+					'error_message_plural' => "Missing required properties {{names}} for manager with owner {{owner}}.",
+					'error_message_number' => count($missing_names),
+					'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
+					'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+				]);
 			}
 			
 			//remainder properties
@@ -518,13 +540,11 @@ class Properties
 	 * <p>The name to get with.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonlyProperty
 	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonceProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\PropertyDefaultValueNotSet
 	 * @return mixed
 	 * <p>The property value with the given name.</p>
 	 */
 	final public function get(string $name)
 	{
-		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		if ($property_mode === 'w') {
@@ -532,14 +552,7 @@ class Properties
 		} elseif ($property_mode === 'w-') {
 			throw new Exceptions\CannotGetWriteonceProperty(['manager' => $this, 'property' => $property]);
 		}
-		
-		//get
-		try {
-			return $property->getValue();
-		} catch (Property\Exceptions\DefaultValueNotSet $exception) {
-			throw new Exceptions\PropertyDefaultValueNotSet(['manager' => $this, 'property' => $property]);
-		}
-		return null;
+		return $property->getValue();
 	}
 	
 	/**
@@ -717,14 +730,16 @@ class Properties
 			
 			//property
 			UCall::guardInternal($property->getName() === $name, [
-				'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}.",
-				'parameters' => ['property' => $property, 'name' => $name]
+				'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}, " . 
+					"in manager with owner {{owner}}.",
+				'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
 			]);
 			UCall::guardInternal($property->getManager() === $this, [
-				'error_message' => "Property manager mismatch for {{property.getName()}}.",
+				'error_message' => "Manager mismatch for property {{property.getName()}}, " . 
+					"in manager with owner {{owner}}.",
 				'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
 					"must be exactly the same.",
-				'parameters' => ['property' => $property]
+				'parameters' => ['property' => $property, 'owner' => $this->owner]
 			]);
 			$this->properties[$name] = $property;
 		}

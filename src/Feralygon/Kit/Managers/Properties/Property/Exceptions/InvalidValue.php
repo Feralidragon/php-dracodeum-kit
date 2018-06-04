@@ -22,7 +22,7 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid value {{value}} for property {{property.getName()}} in properties manager " . 
+		return "Invalid value {{value}} for property {{property.getName()}} in manager " . 
 			"with owner {{property.getManager().getOwner()}}.";
 	}
 	

@@ -825,7 +825,6 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ModifierNameNotFound
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -842,13 +841,11 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 			$instance = $prototype instanceof PrototypeInterfaces\Modifiers
 				? $prototype->buildModifier($modifier, $properties)
 				: null;
-			if (isset($instance)) {
-				$modifier = $instance;
-			} else {
-				throw new Exceptions\ModifierNameNotFound([
-					'name' => $modifier, 'component' => $this, 'prototype' => $prototype
-				]);
-			}
+			UCall::guardParameter('modifier', $modifier, isset($instance), [
+				'error_message' => "Modifier name not found in prototype {{prototype}}.",
+				'parameters' => ['prototype' => $prototype]
+			]);
+			$modifier = $instance;
 		} else {
 			UCall::guardParameter(
 				'modifier', $modifier,

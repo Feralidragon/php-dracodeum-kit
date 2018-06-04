@@ -25,9 +25,8 @@ class ValueNotFound extends Exception
 	public function getDefaultMessage() : string
 	{
 		return $this->get('namespace') !== ''
-			? "No value found at key {{key}} in namespace {{namespace}} " . 
-				"in memoization manager with owner {{manager.getOwner()}}."
-			: "No value found at key {{key}} in memoization manager with owner {{manager.getOwner()}}.";
+			? "No value found at key {{key}} in namespace {{namespace}} in manager with owner {{manager.getOwner()}}."
+			: "No value found at key {{key}} in manager with owner {{manager.getOwner()}}.";
 	}
 	
 	

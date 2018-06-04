@@ -22,7 +22,7 @@ class PropertyNotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Property {{name}} not found in properties manager with owner {{manager.getOwner()}}.";
+		return "Property {{name}} not found in manager with owner {{manager.getOwner()}}.";
 	}
 	
 	

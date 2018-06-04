@@ -16,6 +16,7 @@ use Feralygon\Kit\{
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
+	Text as UText,
 	Type as UType
 };
 
@@ -138,7 +139,9 @@ class Property
 	final public function initialize() : Property
 	{
 		UCall::guard(!$this->initialized, [
-			'error_message' => "This property has already been initialized."
+			'error_message' => "Property {{property.getName()}} already initialized " . 
+				"in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		$this->setValue($this->getDefaultValue());
 		return $this;
@@ -160,17 +163,25 @@ class Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		UCall::guard(!$this->manager->isLazy(), [
-			'hint_message' => "In order to set a property as required, with lazy-loading enabled, " . 
-				"please use the manager \"addRequiredPropertyNames\" method instead."
+			'hint_message' => "In order to set property {{property.getName()}} as required " . 
+				"in manager with owner {{property.getManager().getOwner()}}, " . 
+				"please use the manager {{method}} method instead, as lazy-loading is enabled.",
+			'parameters' => ['property' => $this, 'method' => 'addRequiredPropertyNames']
 		]);
 		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization."
+			'hint_message' => "This method may only be called before the manager initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		UCall::guard($this->getMode() !== 'r', [
-			'hint_message' => "A strictly read-only property cannot be set as required."
+			'hint_message' => "Property {{property.getName()}} is strictly read-only " . 
+				"in manager with owner {{property.getManager().getOwner()}} and thus cannot be set as required.",
+			'parameters' => ['property' => $this]
 		]);
 		
 		//set
@@ -213,7 +224,6 @@ class Property
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidMode
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -240,9 +250,15 @@ class Property
 		}
 		
 		//set
-		if (!isset($map[$mode])) {
-			throw new Exceptions\InvalidMode(['property' => $this, 'mode' => $mode, 'modes' => array_keys($map)]);
-		}
+		UCall::guardParameter('mode', $mode, isset($map[$mode]), [
+			'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
+				"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
+			'hint_message_plural' => "Only the following modes are allowed for property {{property.getName()}} " . 
+				"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
+			'hint_message_number' => count($map),
+			'parameters' => ['property' => $this, 'modes' => array_keys($map)],
+			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+		]);
 		$this->mode = $map[$mode];
 		
 		//return
@@ -261,7 +277,9 @@ class Property
 	final public function getValue()
 	{
 		UCall::guard($this->initialized, [
-			'hint_message' => "This method may only be called after initialization."
+			'hint_message' => "This method may only be called after initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		return isset($this->getter) ? ($this->getter)() : $this->value;
 	}
@@ -287,7 +305,9 @@ class Property
 	{
 		//guard
 		UCall::guard($this->manager->isInitialized() || $this->manager->isInitializing(), [
-			'hint_message' => "This method may only be called during or after the manager initialization."
+			'hint_message' => "This method may only be called during or after the manager initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		
 		//evaluate
@@ -333,15 +353,21 @@ class Property
 	 * Get default value.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
-	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidDefaultValue
 	 * @return mixed
-	 * <p>The default value.</p>
+	 * <p>The default value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
-	final public function getDefaultValue()
+	final public function getDefaultValue(bool $no_throw = false)
 	{
 		//check
 		if (!isset($this->default_getter)) {
+			if ($no_throw) {
+				return null;
+			}
 			throw new Exceptions\DefaultValueNotSet(['property' => $this]);
 		}
 		
@@ -351,9 +377,11 @@ class Property
 		//evaluate
 		$v = $value;
 		foreach ($this->evaluators as $evaluator) {
-			if (!$evaluator($v)) {
-				throw new Exceptions\InvalidDefaultValue(['property' => $this, 'value' => $value]);
-			}
+			UCall::guardInternal($evaluator($v), [
+				'error_message' => "Invalid default value {{value}} for property {{property.getName()}} " . 
+					"in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this, 'value' => $value]
+			]);
 		}
 		$value = $v;
 		unset($v);
@@ -377,7 +405,9 @@ class Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		
 		//set
@@ -411,7 +441,9 @@ class Property
 	final public function setDefaultGetter(callable $getter) : Property
 	{
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		UCall::assert('default_getter', $getter, function () {});
 		$this->default_getter = \Closure::fromCallable($getter);
@@ -430,7 +462,9 @@ class Property
 	final public function resetValue() : Property
 	{
 		UCall::guard($this->initialized, [
-			'hint_message' => "This method may only be called after initialization."
+			'hint_message' => "This method may only be called after initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		$this->setValue($this->getDefaultValue());
 		return $this;
@@ -459,7 +493,9 @@ class Property
 	final public function addEvaluator(callable $evaluator) : Property
 	{
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		UCall::assert('evaluator', $evaluator, function (&$value) : bool {});
 		$this->evaluators[] = \Closure::fromCallable($evaluator);
@@ -478,7 +514,9 @@ class Property
 	final public function clearEvaluators() : Property
 	{
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		$this->evaluators = [];
 		return $this;
@@ -1220,7 +1258,9 @@ class Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		
 		//set
@@ -1262,7 +1302,9 @@ class Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
-			'hint_message' => "This method may only be called before initialization."
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
 		]);
 		
 		//initialize
