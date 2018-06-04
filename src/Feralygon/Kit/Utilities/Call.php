@@ -1218,6 +1218,8 @@ final class Call extends Utility
 				$error_message = Text::fill($options->error_message, $options->parameters, null, [
 					'string_options' => $options->string_options, 'stringifier' => $stringifier
 				]);
+			} else {
+				$error_message = $options->error_message;
 			}
 		}
 		
@@ -1235,6 +1237,8 @@ final class Call extends Utility
 				$hint_message = Text::fill($options->hint_message, $options->parameters, null, [
 					'string_options' => $options->string_options, 'stringifier' => $stringifier
 				]);
+			} else {
+				$hint_message = $options->hint_message;
 			}
 		}
 		
