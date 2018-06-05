@@ -456,18 +456,25 @@ class Property
 	 * This method may only be called after initialization.
 	 * 
 	 * @since 1.0.0
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
+	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\InvalidValue
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the value was successfully reset, 
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public function resetValue() : Property
+	final public function resetValue(bool $no_throw = false)
 	{
 		UCall::guard($this->initialized, [
 			'hint_message' => "This method may only be called after initialization, " . 
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		$this->setValue($this->getDefaultValue());
-		return $this;
+		$reset = $this->setValue($this->getDefaultValue($no_throw), $no_throw);
+		return $no_throw ? $reset : $this;
 	}
 	
 	/**

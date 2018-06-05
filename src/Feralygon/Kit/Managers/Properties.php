@@ -419,8 +419,6 @@ class Properties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetReadonlyProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -488,15 +486,24 @@ class Properties
 			
 			//properties (set value)
 			foreach ($properties as $name => $value) {
+				//initialize
 				$property = $this->getProperty($name);
 				$property_mode = $property->getMode();
-				if ($property_mode === 'r') {
-					throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
-				} elseif (!$property->setValue($value, true)) {
-					throw new Exceptions\InvalidPropertyValue([
-						'manager' => $this, 'property' => $property, 'value' => $value
-					]);
-				} elseif ($this->lazy && $property_mode === 'w-') {
+				
+				//guard
+				UCall::guardParameter('properties', $properties, $property_mode !== 'r', [
+					'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
+				
+				//set
+				UCall::guardParameter('properties', $properties, $property->setValue($value, true), [
+					'error_message' => "Invalid value {{value}} for property {{name}} in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
+				]);
+				
+				//write-once optimization
+				if ($this->lazy && $property_mode === 'w-') {
 					unset($this->properties[$name]);
 				}
 			}
@@ -509,6 +516,7 @@ class Properties
 					}
 				}
 			}
+			
 		} finally {
 			$this->initializing = false;
 		}
@@ -538,20 +546,22 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonlyProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotGetWriteonceProperty
 	 * @return mixed
 	 * <p>The property value with the given name.</p>
 	 */
 	final public function get(string $name)
 	{
+		//initialize
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
-		if ($property_mode === 'w') {
-			throw new Exceptions\CannotGetWriteonlyProperty(['manager' => $this, 'property' => $property]);
-		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotGetWriteonceProperty(['manager' => $this, 'property' => $property]);
-		}
+		
+		//guard
+		UCall::guard($property_mode[0] === 'r', [
+			'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		
+		//return
 		return $property->getValue();
 	}
 	
@@ -565,18 +575,17 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidBooleanPropertyValue
 	 * @return bool
 	 * <p>The boolean property value with the given name.</p>
 	 */
 	final public function is(string $name) : bool
 	{
 		$value = $this->get($name);
-		if (!is_bool($value)) {
-			throw new Exceptions\InvalidBooleanPropertyValue([
-				'manager' => $this, 'property' => $this->getProperty($name), 'value' => $value
-			]);
-		}
+		UCall::guard(is_bool($value), [
+			'error_message' => "Invalid boolean value {{value}} in property {{name}} in manager with owner {{owner}}.",
+			'hint_message' => "Only a boolean property is allowed be returned with this method.",
+			'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
+		]);
 		return $value;
 	}
 	
@@ -602,23 +611,32 @@ class Properties
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetReadonlyProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotSetWriteonceProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\InvalidPropertyValue
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function set(string $name, $value) : Properties
 	{
+		//initialize
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
-		if ($property_mode === 'r' || $property_mode === 'r+') {
-			throw new Exceptions\CannotSetReadonlyProperty(['manager' => $this, 'property' => $property]);
-		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotSetWriteonceProperty(['manager' => $this, 'property' => $property]);
-		} elseif (!$property->setValue($value, true)) {
-			throw new Exceptions\InvalidPropertyValue(['manager' => $this, 'property' => $property, 'value' => $value]);
-		}
+		
+		//guard
+		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
+			'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		UCall::guard($property_mode !== 'w-', [
+			'error_message' => "Cannot set write-once property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		
+		//set
+		UCall::guardParameter('value', $value, $property->setValue($value, true), [
+			'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		
+		//return
 		return $this;
 	}
 	
@@ -628,32 +646,34 @@ class Properties
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetReadonlyProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetWriteonceProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetRequiredProperty
-	 * @throws \Feralygon\Kit\Managers\Properties\Exceptions\CannotUnsetProperty
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unset(string $name) : Properties
 	{
-		//property
+		//initialize
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
-		if ($property_mode === 'r' || $property_mode === 'r+') {
-			throw new Exceptions\CannotUnsetReadonlyProperty(['manager' => $this, 'property' => $property]);
-		} elseif ($property_mode === 'w-') {
-			throw new Exceptions\CannotUnsetWriteonceProperty(['manager' => $this, 'property' => $property]);
-		} elseif ($property->isRequired()) {
-			throw new Exceptions\CannotUnsetRequiredProperty(['manager' => $this, 'property' => $property]);
-		}
+		
+		//guard
+		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
+			'error_message' => "Cannot unset read-only property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		UCall::guard($property_mode !== 'w-', [
+			'error_message' => "Cannot unset write-once property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		UCall::guard(!$property->isRequired(), [
+			'error_message' => "Cannot unset required property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		
 		//unset
-		try {
-			$property->resetValue();
-		} catch (Property\Exceptions\DefaultValueNotSet $exception) {
-			throw new Exceptions\CannotUnsetProperty(['manager' => $this, 'property' => $property]);
-		}
+		UCall::guard($property->resetValue(true), [
+			'error_message' => "Cannot unset property {{name}} in manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		
 		//return
 		return $this;

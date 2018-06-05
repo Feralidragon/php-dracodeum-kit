@@ -635,13 +635,7 @@ final class Text extends Utility
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Text\Options\Fill|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderMethodIdentifier
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderMethodIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderPropertyIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\PlaceholderKeyIdentifierNotFound
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderIdentifier
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholderValue
-	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\Fill\InvalidPlaceholder
+	 * @throws \Feralygon\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return string
 	 * <p>The given string filled with the given set of parameters.</p>
 	 */
@@ -659,52 +653,68 @@ final class Text extends Utility
 				//pointer
 				$pointer = $parameters;
 				foreach (explode('.', $token) as $identifier) {
+					//guard
+					Call::guardParameter('string', $string, is_array($pointer) || is_object($pointer), [
+						'error_message' => "Invalid identifier {{identifier}} in placeholder {{placeholder}} " . 
+							"for {{pointer}}.",
+						'hint_message' => "The corresponding parameter must be an array or object.",
+						'parameters' => [
+							'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+						]
+					]);
+					
+					//method
 					if ($identifier[-1] === ')') {
 						$identifier = substr($identifier, 0, -2);
-						if (!is_object($pointer)) {
-							throw new Exceptions\Fill\InvalidPlaceholderMethodIdentifier([
-								'string' => $string, 'placeholder' => $token, 'identifier' => "{$identifier}()",
-								'pointer' => $pointer
-							]);
-						} elseif (!method_exists($pointer, $identifier)) {
-							throw new Exceptions\Fill\PlaceholderMethodIdentifierNotFound([
-								'string' => $string, 'placeholder' => $token, 'identifier' => "{$identifier}()",
-								'pointer' => $pointer
-							]);
-						}
-						$pointer = $pointer->$identifier();
-					} elseif (is_object($pointer)) {
-						if (!property_exists($pointer, $identifier)) {
-							throw new Exceptions\Fill\PlaceholderPropertyIdentifierNotFound([
-								'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
-								'pointer' => $pointer
-							]);
-						}
-						$pointer = $pointer->$identifier;
-					} elseif (is_array($pointer)) {
-						if (!array_key_exists($identifier, $pointer)) {
-							throw new Exceptions\Fill\PlaceholderKeyIdentifierNotFound([
-								'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
-								'pointer' => $pointer
-							]);
-						}
-						$pointer = $pointer[$identifier];
-					} else {
-						throw new Exceptions\Fill\InvalidPlaceholderIdentifier([
-							'string' => $string, 'placeholder' => $token, 'identifier' => $identifier,
-							'pointer' => $pointer
+						Call::guardParameter('string', $string, is_object($pointer), [
+							'error_message' => "Invalid method identifier {{identifier}} " . 
+								"in placeholder {{placeholder}} for {{pointer}}.",
+							'hint_message' => "The corresponding parameter must be an object.",
+							'parameters' => [
+								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+							]
 						]);
+						Call::guardParameter('string', $string, method_exists($pointer, $identifier), [
+							'error_message' => "Method identifier {{identifier}} in placeholder {{placeholder}} " . 
+								"not found in {{pointer}}.",
+							'parameters' => [
+								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+							]
+						]);
+						$pointer = $pointer->$identifier();
+						
+					//object
+					} elseif (is_object($pointer)) {
+						Call::guardParameter('string', $string, property_exists($pointer, $identifier), [
+							'error_message' => "Property identifier {{identifier}} in placeholder {{placeholder}} " . 
+								"not found in {{pointer}}.",
+							'parameters' => [
+								'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+							]
+						]);
+						$pointer = $pointer->$identifier;
+						
+					//array
+					} elseif (is_array($pointer)) {
+						Call::guardParameter('string', $string, array_key_exists($identifier, $pointer), [
+							'error_message' => "Key identifier {{identifier}} in placeholder {{placeholder}} " . 
+								"not found in {{pointer}}.",
+							'parameters' => [
+								'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+							]
+						]);
+						$pointer = $pointer[$identifier];
 					}
 				}
 				
 				//evaluate
 				if (isset($options->evaluator)) {
 					$value = $pointer;
-					if (!($options->evaluator)($token, $value)) {
-						throw new Exceptions\Fill\InvalidPlaceholderValue([
-							'string' => $string, 'placeholder' => $token, 'value' => $pointer
-						]);
-					}
+					Call::guardParameter('parameters', $parameters, ($options->evaluator)($token, $value), [
+						'error_message' => "Invalid value {{value}} for placeholder {{placeholder}} " . 
+							"in string {{string}}.",
+						'parameters' => ['value' => $pointer, 'placeholder' => $token, 'string' => $string]
+					]);
 					$pointer = $value;
 					unset($value);
 				}
@@ -722,7 +732,7 @@ final class Text extends Utility
 				$f_string .= $pointer_string;
 				unset($pointer);
 			} else {
-				throw new Exceptions\Fill\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
+				throw new Exceptions\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
 			}
 		}
 		return $f_string;
