@@ -250,15 +250,17 @@ class Property
 		}
 		
 		//set
-		UCall::guardParameter('mode', $mode, isset($map[$mode]), [
-			'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
-				"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
-			'hint_message_plural' => "Only the following modes are allowed for property {{property.getName()}} " . 
-				"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
-			'hint_message_number' => count($map),
-			'parameters' => ['property' => $this, 'modes' => array_keys($map)],
-			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-		]);
+		UCall::guardParameter('mode', $mode, isset($map[$mode]), function () {
+			return [
+				'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
+					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
+				'hint_message_plural' => "Only the following modes are allowed for property {{property.getName()}} " . 
+					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
+				'hint_message_number' => count($map),
+				'parameters' => ['property' => $this, 'modes' => array_keys($map)],
+				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+			];
+		});
 		$this->mode = $map[$mode];
 		
 		//return
