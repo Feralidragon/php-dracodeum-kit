@@ -1061,8 +1061,13 @@ final class Call extends Utility
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
-	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $options [default = null]
+	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
+	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
 	 */
@@ -1071,6 +1076,9 @@ final class Call extends Utility
 		//initialize
 		if ($assertion) {
 			return;
+		} elseif (is_callable($options)) {
+			self::assert('options', $options, function () {});
+			$options = $options();
 		}
 		$options = Options\Guard::coerce($options);
 		
@@ -1107,8 +1115,13 @@ final class Call extends Utility
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
-	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|callable|null $options [default = null]
+	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardParameter|array</b></code><br>
+	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
 	 * @return void
 	 */
@@ -1117,6 +1130,9 @@ final class Call extends Utility
 		//initialize
 		if ($assertion) {
 			return;
+		} elseif (is_callable($options)) {
+			self::assert('options', $options, function () {});
+			$options = $options();
 		}
 		$options = Options\GuardParameter::coerce($options);
 		
@@ -1146,8 +1162,13 @@ final class Call extends Utility
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the current function or method in the stack from continuing to execute.</p>
-	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|callable|null $options [default = null]
+	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardInternal|array</b></code><br>
+	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InternalError
 	 * @return void
 	 */
@@ -1156,6 +1177,9 @@ final class Call extends Utility
 		//initialize
 		if ($assertion) {
 			return;
+		} elseif (is_callable($options)) {
+			self::assert('options', $options, function () {});
+			$options = $options();
 		}
 		$options = Options\GuardInternal::coerce($options);
 		
