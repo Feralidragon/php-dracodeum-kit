@@ -11,7 +11,10 @@ use Feralygon\Kit\Root\Locale\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Text as UText
+};
 
 /**
  * This class is used to statically handle localization, 
@@ -46,15 +49,18 @@ final class Locale
 	 * @since 1.0.0
 	 * @param string $encoding
 	 * <p>The encoding to set.</p>
-	 * @throws \Feralygon\Kit\Root\Locale\Exceptions\InvalidEncoding
 	 * @return void
 	 */
 	final public static function setEncoding(string $encoding) : void
 	{
 		$encodings = mb_list_encodings();
-		if (!in_array($encoding, $encodings, true)) {
-			throw new Exceptions\InvalidEncoding(['encoding' => $encoding, 'encodings' => $encodings]);
-		}
+		UCall::guardParameter('encoding', $encoding, in_array($encoding, $encodings, true), [
+			'hint_message' => "Only the following encoding is allowed: {{encodings}}.",
+			'hint_message_plural' => "Only the following encodings are allowed: {{encodings}}.",
+			'hint_message_number' => count($encodings),
+			'parameters' => ['encodings' => $encodings],
+			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+		]);
 		self::$encoding = $encoding;
 	}
 	

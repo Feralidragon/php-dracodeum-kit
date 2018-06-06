@@ -100,8 +100,6 @@ abstract class Component
 	 * @param array $properties [default = []]
 	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
 	 * They are applied to both the component and prototype.</p>
-	 * @throws \Feralygon\Kit\Component\Exceptions\PrototypeNameNotFound
-	 * @throws \Feralygon\Kit\Component\Exceptions\InvalidPrototypeClass
 	 */
 	final public function __construct($prototype = null, array $properties = [])
 	{
@@ -139,17 +137,21 @@ abstract class Component
 				if (isset($instance)) {
 					$prototype = $instance;
 					$properties = [];
-				} elseif (!class_exists($prototype)) {
-					throw new Exceptions\PrototypeNameNotFound(['component' => $this, 'name' => $prototype]);
+				} else {
+					UCall::guardParameter('prototype', $prototype, class_exists($prototype), [
+						'error_message' => "Prototype name not found.",
+						'function_name' => '__construct'
+					]);
 				}
 			}
 			
-			//check prototype
-			if (!UType::isA($prototype, $prototype_base_class)) {
-				throw new Exceptions\InvalidPrototypeClass([
-					'component' => $this, 'class' => UType::class($prototype), 'base_class' => $prototype_base_class
-				]);
-			}
+			//guard prototype
+			UCall::guardParameter('prototype', $prototype, UType::isA($prototype, $prototype_base_class), [
+				'error_message' => "Invalid prototype class.",
+				'hint_message' => "Only a class or subclass of {{base_class}} is allowed for this component.",
+				'parameters' => ['base_class' => $prototype_base_class],
+				'function_name' => '__construct'
+			]);
 			
 			//prototype instantiation
 			if (is_string($prototype)) {

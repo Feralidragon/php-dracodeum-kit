@@ -70,21 +70,22 @@ final class System
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Root\System\Environment|string $environment
 	 * <p>The environment instance, class or name to set.</p>
-	 * @throws \Feralygon\Kit\Root\System\Exceptions\InvalidEnvironment
 	 * @return void
 	 */
 	final public static function setEnvironment($environment) : void
 	{
-		//validate
+		//build
 		if (is_string($environment)) {
 			$instance = self::buildEnvironment($environment);
 			if (isset($instance)) {
 				$environment = $instance;
 			}
 		}
-		if (!UType::evaluateObject($environment, Environment::class)) {
-			throw new Exceptions\InvalidEnvironment(['environment' => $environment]);
-		}
+		
+		//guard
+		UCall::guardParameter('environment', $environment, UType::evaluateObject($environment, Environment::class), [
+			'hint_message' => "Only an environment instance, class or name is allowed."
+		]);
 		
 		//set
 		self::$environment = $environment;

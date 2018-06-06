@@ -35,11 +35,15 @@ final class Url extends Utility
 	 * <p>The value to stringify.</p>
 	 * @param bool $no_encode [default = false]
 	 * <p>Do not encode the returning string.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Url\Exceptions\Stringify\UnsupportedValueType
-	 * @return string
-	 * <p>The generated string from the given value.</p>
+	 * @return string|null
+	 * <p>The generated string from the given value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
-	final public static function stringify($value, bool $no_encode = false) : string
+	final public static function stringify($value, bool $no_encode = false, bool $no_throw = false) : ?string
 	{
 		//value
 		if (!is_string($value)) {
@@ -52,6 +56,9 @@ final class Url extends Utility
 			} elseif (is_object($value) && method_exists($value, '__toString')) {
 				$value = (string)$value;
 			} else {
+				if ($no_throw) {
+					return null;
+				}
 				throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value]);
 			}
 		}
