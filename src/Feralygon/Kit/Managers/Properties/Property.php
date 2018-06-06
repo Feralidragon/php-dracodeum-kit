@@ -250,7 +250,7 @@ class Property
 		}
 		
 		//set
-		UCall::guardParameter('mode', $mode, isset($map[$mode]), function () {
+		UCall::guardParameter('mode', $mode, isset($map[$mode]), function () use ($map) {
 			return [
 				'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
 					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
