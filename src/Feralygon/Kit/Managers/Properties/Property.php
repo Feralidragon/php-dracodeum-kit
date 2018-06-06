@@ -468,12 +468,24 @@ class Property
 	 */
 	final public function resetValue(bool $no_throw = false)
 	{
+		//guard
 		UCall::guard($this->initialized, [
 			'hint_message' => "This method may only be called after initialization, " . 
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		$reset = $this->setValue($this->getDefaultValue($no_throw), $no_throw);
+		
+		//reset
+		$reset = false;
+		try {
+			$reset = $this->setValue($this->getDefaultValue(), $no_throw);
+		} catch (Exceptions\DefaultValueNotSet $exception) {
+			if (!$no_throw) {
+				throw $exception;
+			}
+		}
+		
+		//return
 		return $no_throw ? $reset : $this;
 	}
 	
