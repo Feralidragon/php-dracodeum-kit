@@ -11,7 +11,10 @@ use Feralygon\Kit\Managers\Memoization\{
 	Entry,
 	Exceptions
 };
-use Feralygon\Kit\Utilities\Type as UType;
+use Feralygon\Kit\Utilities\{
+	Call as UCall,
+	Type as UType
+};
 
 /**
  * This manager handles global in-memory internal data caching for object classes (memoization), 
@@ -34,13 +37,13 @@ class Memoization
 	
 	/**
 	 * The TTL (Time to Live) of each entry, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must always be greater than <code>0</code>.
+	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.
 	 */
 	private const CONFIG_TTL = null;
 	
 	/**
 	 * The limit on the number of entries.<br>
-	 * If not set, then no limit is applied, otherwise it must always be greater than <code>0</code>.
+	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.
 	 */
 	private const CONFIG_LIMIT = null;
 	
@@ -114,7 +117,7 @@ class Memoization
 		
 		//check
 		if (isset(self::$entries_tree[$class][$selector][$namespace][$key])) {
-			$entry = self::$entries_tree[$selector][$namespace][$key];
+			$entry = self::$entries_tree[$class][$selector][$namespace][$key];
 			if (isset($entry->expire) && $entry->expire < time()) {
 				$this->deleteValue($key, $namespace);
 				return false;
@@ -162,17 +165,40 @@ class Memoization
 	 * <p>The value to set.</p>
 	 * @param string $namespace [default = '']
 	 * <p>The namespace to set at.</p>
+	 * @param int|null $ttl [default = null]
+	 * <p>The TTL (Time to Live) to set with, in seconds.<br>
+	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * @param bool $persist [default = false]
+	 * <p>Set the given value persistently into a shared resource (shared memory, disk or other), 
+	 * to be used across different requests and processes.<br>
+	 * 
+	 * @TODO: describe which value types are allowed to persist
+	 * 
+	 * </p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * 
 	 * @todo
 	 * 
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the value was successfully set, 
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final protected function setValue(
-		string $key, $value, string $namespace = '', ?int $ttl = null, bool $persist = false
-	) : Memoization
+	final public function setValue(
+		string $key, $value, string $namespace = '', ?int $ttl = null, bool $persist = false, bool $no_throw = false
+	)
 	{
+		//guard
+		UCall::guardParameter('ttl', $ttl, !isset($ttl) || $ttl > 0, [
+			'hint_message' => "Only null or a value greater than 0 is allowed."
+		]);
+		
+		//set
 		//TODO
+		
+		
 	}
 	
 	/**
