@@ -33,8 +33,8 @@ final class Entry
 	/** @var int */
 	public $index = 0;
 	
-	/** @var int|null */
-	public $expire = null;
+	/** @var float|null */
+	public $expiry = null;
 	
 	
 	

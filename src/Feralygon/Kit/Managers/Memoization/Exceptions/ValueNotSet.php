@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Managers\Memoization\Exceptions;
 use Feralygon\Kit\Managers\Memoization\Exception;
 
 /**
- * This exception is thrown from a memoization manager whenever a value is not found at a given key.
+ * This exception is thrown from a memoization manager whenever no value is set at a given key.
  * 
  * @since 1.0.0
  * @property-read string $key
@@ -18,15 +18,15 @@ use Feralygon\Kit\Managers\Memoization\Exception;
  * @property-read string $namespace [default = '']
  * <p>The namespace.</p>
  */
-class ValueNotFound extends Exception
+class ValueNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
 		return $this->get('namespace') !== ''
-			? "No value found at key {{key}} in namespace {{namespace}} in manager with owner {{manager.getOwner()}}."
-			: "No value found at key {{key}} in manager with owner {{manager.getOwner()}}.";
+			? "No value set at key {{key}} in namespace {{namespace}} in manager with owner {{manager.getOwner()}}."
+			: "No value set at key {{key}} in manager with owner {{manager.getOwner()}}.";
 	}
 	
 	

@@ -13,6 +13,7 @@ use Feralygon\Kit\Managers\Memoization\{
 };
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Type as UType
 };
 
@@ -65,6 +66,12 @@ class Memoization
 	/** @var \Feralygon\Kit\Managers\Memoization\Entry[] */
 	private static $entries_tree = [];
 	
+	/** @var \Feralygon\Kit\Managers\Memoization\Entry[] */
+	private static $expiring_entries = [];
+	
+	/** @var int */
+	private static $entries_index = 0;
+	
 	
 	
 	//Final public magic methods
@@ -104,7 +111,7 @@ class Memoization
 	 * @param string $namespace [default = '']
 	 * <p>The namespace to check at.</p>
 	 * @param mixed $value [reference output] [default = null]
-	 * <p>The value at the given key.</p>
+	 * <p>The value from the given key.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has value at the given key.</p>
 	 */
@@ -118,7 +125,7 @@ class Memoization
 		//check
 		if (isset(self::$entries_tree[$class][$selector][$namespace][$key])) {
 			$entry = self::$entries_tree[$class][$selector][$namespace][$key];
-			if (isset($entry->expire) && $entry->expire < time()) {
+			if (isset($entry->expiry) && $entry->expiry < microtime(true)) {
 				$this->deleteValue($key, $namespace);
 				return false;
 			}
@@ -138,7 +145,7 @@ class Memoization
 	 * <p>The namespace to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Managers\Memoization\Exceptions\ValueNotFound
+	 * @throws \Feralygon\Kit\Managers\Memoization\Exceptions\ValueNotSet
 	 * @return mixed
 	 * <p>The value from the given key.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
@@ -150,7 +157,7 @@ class Memoization
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ValueNotFound(['manager' => $this, 'key' => $key, 'namespace' => $namespace]);
+			throw new Exceptions\ValueNotSet(['manager' => $this, 'key' => $key, 'namespace' => $namespace]);
 		}
 		return $value;
 	}
@@ -165,40 +172,85 @@ class Memoization
 	 * <p>The value to set.</p>
 	 * @param string $namespace [default = '']
 	 * <p>The namespace to set at.</p>
-	 * @param int|null $ttl [default = null]
+	 * @param float|null $ttl [default = null]
 	 * <p>The TTL (Time to Live) to set with, in seconds.<br>
 	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
 	 * @param bool $persist [default = false]
-	 * <p>Set the given value persistently into a shared resource (shared memory, disk or other), 
+	 * <p>Set the given value persistently to a shared resource (shared memory, disk or other), 
 	 * to be used across different requests and processes.<br>
-	 * 
-	 * @TODO: describe which value types are allowed to persist
-	 * 
-	 * </p>
+	 * <br>
+	 * <b>NOTE:</b> This parameter is currently not implemented (see class todo).</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * 
-	 * @todo
-	 * 
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
-	 * or boolean <code>false</code> if otherwise.</p>
+	 * or boolean <code>false</code> if otherwise.<br>
+	 * <br>
+	 * <b>NOTE:</b> Currently no exception is thrown as persistence is currently not implemented (see class todo).</p>
 	 */
 	final public function setValue(
-		string $key, $value, string $namespace = '', ?int $ttl = null, bool $persist = false, bool $no_throw = false
+		string $key, $value, string $namespace = '', ?float $ttl = null, bool $persist = false, bool $no_throw = false
 	)
 	{
 		//guard
-		UCall::guardParameter('ttl', $ttl, !isset($ttl) || $ttl > 0, [
+		UCall::guardParameter('ttl', $ttl, !isset($ttl) || $ttl > 0.0, [
 			'hint_message' => "Only null or a value greater than 0 is allowed."
 		]);
 		
-		//set
-		//TODO
+		//initialize
+		$class = UType::class($this->owner);
+		$selector = $this->selector;
+		if (isset(self::$entries_tree[$class][$selector][$namespace][$key])) {
+			$this->deleteValue(key, $namespace);
+		}
 		
+		//limit
+		$limit = self::CONFIG_LIMIT;
+		while (isset($limit) && count(self::$entries) >= $limit) {
+			//initialize
+			$entry = null;
+			
+			//expiring
+			foreach (self::$expiring_entries as $expiring_entry) {
+				if ($expiring_entry->expiry < microtime(true)) {
+					$entry = $expiring_entry;
+				}
+			}
+			unset($expiring_entry);
+			
+			//evict
+			if (!isset($entry)) {
+				$entry = UData::first(self::$entries);
+			}
+			$this->deleteValue($entry->key, $entry->namespace);
+			unset($entry);
+		}
 		
+		//ttl
+		if (!isset($ttl)) {
+			$ttl = self::CONFIG_TTL;
+		} elseif (self::CONFIG_TTL !== null) {
+			$ttl = min($ttl, self::CONFIG_TTL);
+		}
+		
+		//index
+		while (isset(self::$entries[self::$entries_index])) {
+			self::$entries_index++;
+		}
+		
+		//entry
+		$entry = new Entry($class, $selector, $namespace, $key, $value);
+		$entry->index = self::$entries_index;
+		self::$entries[self::$entries_index] = self::$entries_tree[$class][$selector][$namespace][$key] = $entry;
+		if (isset($ttl)) {
+			$entry->expiry = microtime(true) + $ttl;
+			self::$expiring_entries[self::$entries_index] = $entry;
+		}
+		
+		//return
+		return $no_throw ? true : $this;
 	}
 	
 	/**
@@ -222,7 +274,11 @@ class Memoization
 		if (isset(self::$entries_tree[$class][$selector][$namespace][$key])) {
 			//entry
 			$entry = self::$entries_tree[$class][$selector][$namespace][$key];
-			unset(self::$entries_tree[$class][$selector][$namespace][$key], self::$entries[$entry->index]);
+			unset(
+				self::$entries_tree[$class][$selector][$namespace][$key],
+				self::$entries[$entry->index],
+				self::$expiring_entries[$entry->index]
+			);
 			
 			//clean
 			if (empty(self::$entries_tree[$class][$selector][$namespace])) {
