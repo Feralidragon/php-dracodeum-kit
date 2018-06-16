@@ -5,24 +5,24 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Managers\Memoization\Exceptions;
+namespace Feralygon\Kit\Managers\Memoization\Store\Exceptions;
 
-use Feralygon\Kit\Managers\Memoization\Exception;
+use Feralygon\Kit\Managers\Memoization\Store\Exception;
 
 /**
- * This exception is thrown from a memoization manager whenever no value is set at a given key.
+ * This exception is thrown from a store whenever a given key is not found.
  * 
  * @since 1.0.0
- * @property-read string $key
- * <p>The key.</p>
+ * @property-read string $name
+ * <p>The name.</p>
  */
-class ValueNotSet extends Exception
+class KeyNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "No value set at key {{key}} in manager with owner {{manager.getOwner()}}.";
+		return "Key {{name}} not found in store {{store}}.";
 	}
 	
 	
@@ -35,6 +35,6 @@ class ValueNotSet extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('key')->setAsString();
+		$this->addProperty('name')->setAsString();
 	}
 }

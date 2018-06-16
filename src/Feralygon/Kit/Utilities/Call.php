@@ -206,7 +206,7 @@ final class Call extends Utility
 	 */
 	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false) : string
 	{
-		return self::memoize(function () use ($function, $algorithm, $raw) : string {
+		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false) : string {
 			$reflection = self::reflection($function);
 			$export = Type::isA($reflection, \ReflectionMethod::class)
 				? $reflection::export($reflection->getDeclaringClass()->getName(), $reflection->getName(), true)
@@ -324,7 +324,7 @@ final class Call extends Utility
 	 */
 	final public static function parameters($function, int $flags = 0x00) : array
 	{
-		return self::memoize(function () use ($function, $flags) : array {
+		return self::memoize(function ($function, int $flags = 0x00) : array {
 			//initialize
 			$reflection = self::reflection($function);
 			$is_method = Type::isA($reflection, \ReflectionMethod::class);
@@ -518,7 +518,7 @@ final class Call extends Utility
 	 */
 	final public static function body($function) : string
 	{
-		return self::memoize(function () use ($function) : string {
+		return self::memoize(function ($function) : string {
 			//initialize
 			$reflection = self::reflection($function);
 			$filepath = $reflection->getFileName();
@@ -565,7 +565,7 @@ final class Call extends Utility
 	 */
 	final public static function source($function, int $flags = 0x00) : string
 	{
-		return self::memoize(function () use ($function, $flags) : string {
+		return self::memoize(function ($function, int $flags = 0x00) : string {
 			//initialize header
 			$header_flags = 0x00;
 			if ($flags & self::SOURCE_CONSTANTS_VALUES) {
@@ -605,7 +605,7 @@ final class Call extends Utility
 	 */
 	final public static function signature($function) : string
 	{
-		return self::memoize(function () use ($function) : string {
+		return self::memoize(function ($function) : string {
 			//initialize
 			$reflection = self::reflection($function);
 			
@@ -723,7 +723,7 @@ final class Call extends Utility
 	 */
 	final public static function isCompatible($function, $template) : bool
 	{
-		return self::memoize(function () use ($function, $template) : bool {
+		return self::memoize(function ($function, $template) : bool {
 			//initialize
 			$f_reflection = self::reflection($function);
 			$t_reflection = self::reflection($template);

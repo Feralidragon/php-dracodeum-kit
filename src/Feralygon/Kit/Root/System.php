@@ -279,7 +279,7 @@ final class System
 	 */
 	final public static function hasCommand(string $name) : bool
 	{
-		return self::memoize(function () use ($name) {
+		return self::memoize(function (string $name) : bool {
 			UCall::guardParameter('name', $name, UText::isIdentifier($name), [
 				'hint_message' => "Only alphanumeric ASCII characters (a-z, A-Z and 0-9) and " . 
 					"underscore (_) are allowed, however the first character cannot be a number (0-9).",
