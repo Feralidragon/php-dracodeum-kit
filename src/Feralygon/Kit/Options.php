@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit;
 
+use Feralygon\Kit\Interfaces\ArrayInstantiable as IArrayInstantiable;
 use Feralygon\Kit\Options\Exceptions;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Type as UType;
@@ -25,7 +26,7 @@ use Feralygon\Kit\Utilities\Type as UType;
  * 
  * @since 1.0.0
  */
-abstract class Options implements \ArrayAccess
+abstract class Options implements \ArrayAccess, IArrayInstantiable
 {
 	//Traits
 	use Traits\LazyProperties\ArrayAccess;
@@ -68,6 +69,15 @@ abstract class Options implements \ArrayAccess
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected function buildProperty(string $name) : ?Property;
+	
+	
+	
+	//Implemented final public static methods (Feralygon\Kit\Interfaces\ArrayInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromArray(array $array) : object
+	{
+		return new static($array);
+	}
 	
 	
 	

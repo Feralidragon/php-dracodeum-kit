@@ -31,6 +31,9 @@ class ObjectClassCoercionFailed extends Exception implements ICoercive
 	/** Invalid class error code. */
 	public const ERROR_CODE_INVALID_CLASS = 'INVALID_CLASS';
 	
+	/** Instance exception error code. */
+	public const ERROR_CODE_INSTANCE_EXCEPTION = 'INSTANCE_EXCEPTION';
+	
 	/** Invalid error code. */
 	public const ERROR_CODE_INVALID = 'INVALID';
 	

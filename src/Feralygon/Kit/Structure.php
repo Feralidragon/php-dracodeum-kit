@@ -9,6 +9,7 @@ namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
 	Arrayable as IArrayable,
+	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable
 };
 use Feralygon\Kit\Structure\Exceptions;
@@ -30,7 +31,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  */
-abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable, IStringifiable
+abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use Traits\Properties\ArrayableAccess;
@@ -79,6 +80,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	final public function jsonSerialize()
 	{
 		return $this->getAll();
+	}
+	
+	
+	
+	//Implemented final public static methods (Feralygon\Kit\Interfaces\ArrayInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromArray(array $array) : object
+	{
+		return new static($array);
 	}
 	
 	

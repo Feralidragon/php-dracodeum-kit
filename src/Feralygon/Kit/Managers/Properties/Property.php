@@ -893,7 +893,10 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as an object.
 	 * 
-	 * Only a class string or object can be evaluated into an object.<br>
+	 * Only the following types and formats can be evaluated into an object:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.<br>
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
@@ -947,7 +950,10 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as a class or object.
 	 * 
-	 * Only a class string or object can be evaluated into an object or class.<br>
+	 * Only the following types and formats can be evaluated into an object or class:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.<br>
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 

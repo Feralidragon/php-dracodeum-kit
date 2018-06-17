@@ -12,6 +12,7 @@ use Feralygon\Kit\Utilities\Type\{
 	Options,
 	Exceptions
 };
+use Feralygon\Kit\Interfaces\ArrayInstantiable as IArrayInstantiable;
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -839,7 +840,10 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as an object.
 	 * 
-	 * Only a class string or object can be evaluated into an object.
+	 * Only the following types and formats can be evaluated into an object:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -869,7 +873,10 @@ final class Type extends Utility
 	/**
 	 * Coerce a given value into an object.
 	 * 
-	 * Only a class string or object can be coerced into an object.
+	 * Only the following types and formats can be coerced into an object:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -902,6 +909,29 @@ final class Type extends Utility
 			]);
 		}
 		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					return $class::fromArray($value);
+				} catch (\Exception $exception) {
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => $exception,
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
 		//object
 		$object = $value;
 		if (!is_object($object)) {
@@ -911,7 +941,10 @@ final class Type extends Utility
 				throw new Exceptions\ObjectCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only a class string or object can be coerced into an object."
+					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface."
 				]);
 			}
 			
@@ -970,7 +1003,10 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as an object or class.
 	 * 
-	 * Only a class string or object can be coerced into an object or class.
+	 * Only the following types and formats can be evaluated into an object or class:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -998,7 +1034,10 @@ final class Type extends Utility
 	/**
 	 * Coerce a given value into an object or class.
 	 * 
-	 * Only a class string or object can be coerced into an object or class.
+	 * Only the following types and formats can be coerced into an object or class:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -1027,6 +1066,29 @@ final class Type extends Utility
 			]);
 		}
 		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					return $class::fromArray($value);
+				} catch (\Exception $exception) {
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => $exception,
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
 		//object or class
 		$object_class = $value;
 		if (!is_object($object_class)) {
@@ -1035,7 +1097,11 @@ final class Type extends Utility
 				throw new Exceptions\ObjectClassCoercionFailed([
 					'value' => $value,
 					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only an object or class are allowed."
+					'error_message' => "Only the following types and formats can be coerced " . 
+						"into an object or class:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface."
 				]);
 			}
 		}
