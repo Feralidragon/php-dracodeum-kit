@@ -685,11 +685,13 @@ final class Call extends Utility
 			if ($no_throw) {
 				return false;
 			}
+			$backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1] ?? [];
 			throw new Exceptions\AssertionFailed([
 				'name' => $name,
 				'function' => $function,
 				'template' => $template,
-				'object_class' => self::stackPreviousObjectClass()
+				'source_object_class' => $backtrace['object'] ?? $backtrace['class'] ?? null,
+				'source_function_name' => $backtrace['function'] ?? null
 			]);
 		} elseif ($no_throw) {
 			return true;

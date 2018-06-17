@@ -28,8 +28,10 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @property-read string $template_signature [readonly] [default = auto]
  * <p>The template signature.<br>
  * It is automatically got from the given <var>$template</var> property above.</p>
- * @property-read object|string|null $object_class [default = null]
- * <p>The object or class.</p>
+ * @property-read object|string|null $source_object_class [default = null]
+ * <p>The source object or class.</p>
+ * @property-read string|null $source_function_name [default = null]
+ * <p>The source function or method name.</p>
  */
 class AssertionFailed extends Exception implements IAssertive
 {
@@ -38,13 +40,22 @@ class AssertionFailed extends Exception implements IAssertive
 	public function getDefaultMessage() : string
 	{
 		//message
-		$message = "";
-		if ($this->isset('object_class')) {
-			$message = is_object($this->get('object_class'))
-				? "Assertion {{name}} failed in object {{object_class}} with function signature {{function_signature}}."
-				: "Assertion {{name}} failed in class {{object_class}} with function signature {{function_signature}}.";
-		} else {
-			$message = "Assertion {{name}} failed with function signature {{function_signature}}.";
+		$message = "Assertion {{name}} failed with function signature {{function_signature}}.";
+		if ($this->isset('source_object_class') && $this->isset('source_function_name')) {
+			$message = is_object($this->get('source_object_class'))
+				? "Assertion {{name}} failed in method call {{source_function_name}} " . 
+					"in object {{source_object_class}} with function signature {{function_signature}}."
+				: "Assertion {{name}} failed in method call {{source_function_name}} " . 
+					"in class {{source_object_class}} with function signature {{function_signature}}.";
+		} elseif ($this->isset('source_object_class')) {
+			$message = is_object($this->get('source_object_class'))
+				? "Assertion {{name}} failed in object {{source_object_class}} " . 
+					"with function signature {{function_signature}}."
+				: "Assertion {{name}} failed in class {{source_object_class}} " . 
+					"with function signature {{function_signature}}.";
+		} elseif ($this->isset('source_function_name')) {
+			$message = "Assertion {{name}} failed in function call {{source_function_name}} " . 
+				"with function signature {{function_signature}}.";
 		}
 		
 		//return
@@ -82,6 +93,7 @@ class AssertionFailed extends Exception implements IAssertive
 				return UCall::signature($this->get('template'));
 			})
 		;
-		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
+		$this->addProperty('source_object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
+		$this->addProperty('source_function_name')->setAsString(false, true)->setDefaultValue(null);
 	}
 }
