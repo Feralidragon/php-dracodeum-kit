@@ -12,7 +12,10 @@ use Feralygon\Kit\Utilities\Type\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Interfaces\ArrayInstantiable as IArrayInstantiable;
+use Feralygon\Kit\Interfaces\{
+	Arrayable as IArrayable,
+	ArrayInstantiable as IArrayInstantiable
+};
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -53,9 +56,14 @@ final class Type extends Utility
 	 * optionally set to <code>true</code> to get a more human-readable and visually appealing PHP code.<br>
 	 * <br>
 	 * This function is similar to <code>var_export</code>, but it provides more control on the returning code style, 
-	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).
+	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).<br>
+	 * <br>
+	 * For objects, only those implementing the <code>__set_state</code> method, 
+	 * or both <code>Feralygon\Kit\Interfaces\Arrayable</code> 
+	 * and <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interfaces, are supported.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.set-state
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Feralygon\Kit\Utilities\Type\Options\Phpfy|array|null $options [default = null]
@@ -105,15 +113,28 @@ final class Type extends Utility
 		
 		//object
 		if (is_object($value) && !self::isA($value, \Closure::class)) {
-			$properties = [];
-			foreach ((array)$value as $name => $v) {
-				if (preg_match('/\0[*\w\\\\]+\0(?P<name>\w+)$/', $name, $matches)) {
-					$name = $matches['name'];
+			if (method_exists($value, '__set_state')) {
+				$properties = [];
+				foreach ((array)$value as $name => $v) {
+					if (preg_match('/\0[*\w\\\\]+\0(?P<name>\w+)$/', $name, $matches)) {
+						$name = $matches['name'];
+					}
+					$properties[$name] = $v;
 				}
-				$properties[$name] = $v;
+				$php = self::phpfy($properties, $options);
+				return isset($php) ? '\\' . get_class($value) . "::__set_state({$php})" : null;
+			} elseif ($value instanceof IArrayable && $value instanceof IArrayInstantiable) {
+				$php = self::phpfy($value->toArray(), $options);
+				return isset($php) ? '\\' . get_class($value) . "::fromArray({$php})" : null;
+			} elseif ($options->no_throw) {
+				return null;
 			}
-			$php = self::phpfy($properties, $options);
-			return isset($php) ? '\\' . get_class($value) . "::__set_state({$php})" : null;
+			throw new Exceptions\Phpfy\UnsupportedValueType([
+				'value' => $value,
+				'hint_message' => "Only an object implementing the \"__set_state\" method, " . 
+					"or both \"Feralygon\\Kit\\Interfaces\\Arrayable\" " . 
+					"and \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interfaces, is supported."
+			]);
 		}
 		
 		//array

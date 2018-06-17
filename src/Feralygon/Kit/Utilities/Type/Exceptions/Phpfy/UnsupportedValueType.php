@@ -17,6 +17,8 @@ use Feralygon\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
  * <p>The value.</p>
  * @property-read string $type [default = auto]
  * <p>The type.</p>
+ * @property-read string|null $hint_message [default = null]
+ * <p>The hint message.</p>
  */
 class UnsupportedValueType extends Exception
 {
@@ -24,7 +26,11 @@ class UnsupportedValueType extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Unsupported value type {{type}} given as {{value}}.";
+		$message = "Unsupported value type {{type}} given as {{value}}.";
+		if ($this->isset('hint_message')) {
+			$message .= "\nHINT: {{hint_message}}";
+		}
+		return $message;
 	}
 	
 	
@@ -40,5 +46,18 @@ class UnsupportedValueType extends Exception
 				return gettype($this->get('value'));
 			})
 		;
+		$this->addProperty('hint_message')->setAsString(false, true)->setDefaultValue(null);
+	}
+	
+	
+	
+	//Overridden protected methods
+	/** {@inheritdoc} */
+	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	{
+		if ($placeholder === 'hint_message' && is_string($value)) {
+			return $value;
+		}
+		return parent::getPlaceholderValueString($placeholder, $value);
 	}
 }
