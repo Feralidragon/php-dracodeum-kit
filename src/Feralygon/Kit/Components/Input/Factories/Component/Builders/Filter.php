@@ -21,7 +21,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Filter as Component;
  */
 class Filter extends Builder implements IBuilder
 {
-	//Implemented public methods (Feralygon\Kit\Components\Input\Factories\Component\Builder\Filter)
+	//Implemented public methods (Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces\Filter)
 	/** {@inheritdoc} */
 	public function build($prototype, array $properties = []) : Component
 	{
