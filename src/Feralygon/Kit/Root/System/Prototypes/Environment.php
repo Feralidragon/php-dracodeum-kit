@@ -5,23 +5,16 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Root\System;
+namespace Feralygon\Kit\Root\System\Prototypes;
 
-use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Prototype;
 
 /**
- * This class is the base to be extended from when creating a system environment.
- * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Root\System
+ * @see \Feralygon\Kit\Root\System\Components\Environment
  */
-abstract class Environment
+abstract class Environment extends Prototype
 {
-	//Traits
-	use KitTraits\NoConstructor;
-	
-	
-	
 	//Abstract public methods
 	/**
 	 * Get name.
@@ -39,8 +32,8 @@ abstract class Environment
 	 * Check if is debug.
 	 * 
 	 * In a debug environment, the system behaves in such a way so that code can be easily debugged, 
-	 * by performing additional integrity checks during runtime, at the potential cost of lower performance 
-	 * and a higher memory footprint.
+	 * by performing additional integrity checks during runtime (assertions), 
+	 * at the potential cost of lower performance and a higher memory footprint.
 	 * 
 	 * @since 1.0.0
 	 * @return bool
@@ -48,14 +41,11 @@ abstract class Environment
 	 */
 	abstract public function isDebug() : bool;
 	
-	
-	
-	//Abstract protected methods
 	/**
-	 * Initialize.
+	 * Apply.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract protected function initialize() : void;
+	abstract public function apply() : void;
 }

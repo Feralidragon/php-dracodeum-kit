@@ -8,16 +8,15 @@
 namespace Feralygon\Kit\Root;
 
 use Feralygon\Kit\Root\System\{
+	Components,
 	Structures,
-	Environment,
-	Environments,
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Root\System\Factories\Component as FComponent;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
-	Text as UText,
-	Type as UType
+	Text as UText
 };
 
 /**
@@ -27,12 +26,6 @@ use Feralygon\Kit\Utilities\{
  * all of which can be accessed statically from anywhere through this class.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Root\System\Environments\Development
- * [environment, name = 'development']
- * @see \Feralygon\Kit\Root\System\Environments\Staging
- * [environment, name = 'staging']
- * @see \Feralygon\Kit\Root\System\Environments\Production
- * [environment, name = 'production']
  */
 final class System
 {
@@ -43,8 +36,11 @@ final class System
 	
 	
 	//Private static properties
-	/** @var \Feralygon\Kit\Root\System\Environment|null */
+	/** @var \Feralygon\Kit\Root\System\Components\Environment|null */
 	private static $environment = null;
+	
+	/** @var bool */
+	private static $setting_environment = false;
 	
 	/** @var \Feralygon\Kit\Root\System\Structures\Os|null */
 	private static $os = null;
@@ -56,10 +52,10 @@ final class System
 	 * Get environment instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Environment
+	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The environment instance.</p>
 	 */
-	final public static function getEnvironment() : Environment
+	final public static function getEnvironment() : Components\Environment
 	{
 		return self::loadEnvironment();
 	}
@@ -68,33 +64,37 @@ final class System
 	 * Set environment.
 	 * 
 	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Root\System\Environment|string $environment
-	 * <p>The environment instance, class or name to set.</p>
+	 * @param \Feralygon\Kit\Root\System\Components\Environment|\Feralygon\Kit\Root\System\Prototypes\Environment|string $environment
+	 * <p>The environment component instance, prototype instance, class or name to set.</p>
 	 * @return void
 	 */
 	final public static function setEnvironment($environment) : void
 	{
-		//build
-		if (is_string($environment)) {
-			$instance = self::buildEnvironment($environment);
-			if (isset($instance)) {
-				$environment = $instance;
+		try {
+			self::$setting_environment = true;
+			$environment = Components\Environment::coerce($environment, [], [FComponent::class, 'environment']);
+			$environment->apply();
+			self::$environment = $environment;
+		} catch (\Throwable $throwable) {
+			if (isset(self::$environment)) {
+				self::$environment->apply();
 			}
+			throw $throwable;
+		} finally {
+			self::$setting_environment = false;
 		}
-		
-		//guard
-		UCall::guardParameter('environment', $environment, UType::evaluateObject($environment, Environment::class), [
-			'hint_message' => "Only an environment instance, class or name is allowed."
-		]);
-		
-		//set
-		self::$environment = $environment;
-		
-		//initialize
-		$initializer = (function () : void {
-			$this->initialize();
-		})->bindTo($environment, $environment);
-		$initializer();
+	}
+	
+	/**
+	 * Check if is setting environment.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is setting environment.</p>
+	 */
+	final public static function isSettingEnvironment() : bool
+	{
+		return self::$setting_environment;
 	}
 	
 	/**
@@ -110,7 +110,7 @@ final class System
 	 */
 	final public static function isDebug() : bool
 	{
-		return self::getEnvironment()->isDebug();
+		return isset(self::$environment) ? self::$environment->isDebug() : false;
 	}
 	
 	/**
@@ -296,36 +296,14 @@ final class System
 	 * Load environment instance.
 	 * 
 	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Root\System\Environment
+	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The loaded environment instance.</p>
 	 */
-	final private static function loadEnvironment() : Environment
+	final private static function loadEnvironment() : Components\Environment
 	{
 		if (!isset(self::$environment)) {
 			self::setEnvironment('production');
 		}
 		return self::$environment;
-	}
-	
-	/**
-	 * Build environment instance for a given name.
-	 * 
-	 * @since 1.0.0
-	 * @param string $name
-	 * <p>The name to build for.</p>
-	 * @return \Feralygon\Kit\Root\System\Environment|null
-	 * <p>The built environment instance for the given name or <code>null</code> if none was built.</p>
-	 */
-	final private static function buildEnvironment(string $name) : ?Environment
-	{
-		switch ($name) {
-			case 'development':
-				return new Environments\Development();
-			case 'staging':
-				return new Environments\Staging();
-			case 'production':
-				return new Environments\Production();
-		}
-		return null;
 	}
 }

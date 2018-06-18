@@ -5,12 +5,16 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Root\System\Environments;
+namespace Feralygon\Kit\Root\System\Prototypes\Environments;
 
-use Feralygon\Kit\Root\System\Environment;
+use Feralygon\Kit\Root\System\Prototypes\Environment;
 use Feralygon\Kit\Root\System;
 
-/** @since 1.0.0 */
+/**
+ * This environment prototype sets the system for production.
+ * 
+ * @since 1.0.0
+ */
 class Production extends Environment
 {
 	//Implemented public methods
@@ -26,11 +30,8 @@ class Production extends Environment
 		return false;
 	}
 	
-	
-	
-	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function initialize() : void
+	public function apply() : void
 	{
 		System::setIniOption('display_errors', false);
 		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
