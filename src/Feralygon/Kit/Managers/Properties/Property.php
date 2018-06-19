@@ -826,8 +826,11 @@ class Property
 	/**
 	 * Set to only allow a value evaluated as a string.
 	 * 
-	 * Only a string, integer or float can be evaluated into a string.<br>
-	 * <br>
+	 * Only the following types and formats can be evaluated into a string:<br>
+	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
+	 * <br><br>
 	 * This method may only be called before initialization.
 	 * 
 	 * @since 1.0.0

@@ -14,7 +14,8 @@ use Feralygon\Kit\Utilities\Type\{
 };
 use Feralygon\Kit\Interfaces\{
 	Arrayable as IArrayable,
-	ArrayInstantiable as IArrayInstantiable
+	ArrayInstantiable as IArrayInstantiable,
+	Stringifiable as IStringifiable
 };
 
 /**
@@ -669,7 +670,10 @@ final class Type extends Utility
 	/**
 	 * Evaluate a given value as a string.
 	 * 
-	 * Only a string, integer or float can be evaluated into a string.
+	 * Only the following types and formats can be evaluated into a string:<br>
+	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -694,7 +698,10 @@ final class Type extends Utility
 	/**
 	 * Coerce a given value into a string.
 	 * 
-	 * Only a string, integer or float can be coerced into a string.
+	 * Only the following types and formats can be coerced into a string:<br>
+	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -731,13 +738,22 @@ final class Type extends Utility
 			return $value;
 		} elseif (is_int($value) || is_float($value)) {
 			return (string)$value;
+		} elseif (is_object($value)) {
+			if ($value instanceof IStringifiable) {
+				return $value->toString();
+			} elseif (method_exists($value, '__toString')) {
+				return $value->__toString();
+			}
 		}
 		
 		//throw
 		throw new Exceptions\StringCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only a string, integer or float can be coerced into a string."
+			'error_message' => "Only the following types and formats can be coerced into a string:\n" . 
+				" - a string, integer or float;\n" . 
+				" - an object implementing the \"__toString\" method;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface."
 		]);
 	}
 	
