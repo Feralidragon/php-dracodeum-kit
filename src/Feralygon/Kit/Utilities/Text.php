@@ -646,94 +646,99 @@ final class Text extends Utility
 		
 		//tokenize
 		$f_string = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/U', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+			//string
 			if ($i % 2 === 0) {
 				$f_string .= $token;
-			} elseif (self::isPlaceholder($token)) {
-				//pointer
-				$pointer = $parameters;
-				foreach (explode('.', $token) as $identifier) {
-					//guard
-					Call::guardParameter('string', $string, is_array($pointer) || is_object($pointer), [
-						'error_message' => "Invalid identifier {{identifier}} in placeholder {{placeholder}} " . 
-							"for {{pointer}}.",
-						'hint_message' => "The corresponding parameter must be an array or object.",
+				continue;
+			}
+			
+			//token
+			$token = trim($token);
+			if (!self::isPlaceholder($token)) {
+				throw new Exceptions\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
+			}
+			
+			//pointer
+			$pointer = $parameters;
+			foreach (explode('.', $token) as $identifier) {
+				//guard
+				Call::guardParameter('string', $string, is_array($pointer) || is_object($pointer), [
+					'error_message' => "Invalid identifier {{identifier}} in placeholder {{placeholder}} " . 
+						"for {{pointer}}.",
+					'hint_message' => "The corresponding parameter must be an array or object.",
+					'parameters' => [
+						'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+					]
+				]);
+				
+				//method
+				if ($identifier[-1] === ')') {
+					$identifier = substr($identifier, 0, -2);
+					Call::guardParameter('string', $string, is_object($pointer), [
+						'error_message' => "Invalid method identifier {{identifier}} " . 
+							"in placeholder {{placeholder}} for {{pointer}}.",
+						'hint_message' => "The corresponding parameter must be an object.",
+						'parameters' => [
+							'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+						]
+					]);
+					Call::guardParameter('string', $string, method_exists($pointer, $identifier), [
+						'error_message' => "Method identifier {{identifier}} in placeholder {{placeholder}} " . 
+							"not found in {{pointer}}.",
+						'parameters' => [
+							'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
+						]
+					]);
+					$pointer = $pointer->$identifier();
+					
+				//object
+				} elseif (is_object($pointer)) {
+					Call::guardParameter('string', $string, property_exists($pointer, $identifier), [
+						'error_message' => "Property identifier {{identifier}} in placeholder {{placeholder}} " . 
+							"not found in {{pointer}}.",
 						'parameters' => [
 							'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
 						]
 					]);
+					$pointer = $pointer->$identifier;
 					
-					//method
-					if ($identifier[-1] === ')') {
-						$identifier = substr($identifier, 0, -2);
-						Call::guardParameter('string', $string, is_object($pointer), [
-							'error_message' => "Invalid method identifier {{identifier}} " . 
-								"in placeholder {{placeholder}} for {{pointer}}.",
-							'hint_message' => "The corresponding parameter must be an object.",
-							'parameters' => [
-								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
-							]
-						]);
-						Call::guardParameter('string', $string, method_exists($pointer, $identifier), [
-							'error_message' => "Method identifier {{identifier}} in placeholder {{placeholder}} " . 
-								"not found in {{pointer}}.",
-							'parameters' => [
-								'identifier' => "{$identifier}()", 'placeholder' => $token, 'pointer' => $pointer
-							]
-						]);
-						$pointer = $pointer->$identifier();
-						
-					//object
-					} elseif (is_object($pointer)) {
-						Call::guardParameter('string', $string, property_exists($pointer, $identifier), [
-							'error_message' => "Property identifier {{identifier}} in placeholder {{placeholder}} " . 
-								"not found in {{pointer}}.",
-							'parameters' => [
-								'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
-							]
-						]);
-						$pointer = $pointer->$identifier;
-						
-					//array
-					} elseif (is_array($pointer)) {
-						Call::guardParameter('string', $string, array_key_exists($identifier, $pointer), [
-							'error_message' => "Key identifier {{identifier}} in placeholder {{placeholder}} " . 
-								"not found in {{pointer}}.",
-							'parameters' => [
-								'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
-							]
-						]);
-						$pointer = $pointer[$identifier];
-					}
-				}
-				
-				//evaluate
-				if (isset($options->evaluator)) {
-					$value = $pointer;
-					Call::guardParameter('parameters', $parameters, ($options->evaluator)($token, $value), [
-						'error_message' => "Invalid value {{value}} for placeholder {{placeholder}} " . 
-							"in string {{string}}.",
-						'parameters' => ['value' => $pointer, 'placeholder' => $token, 'string' => $string]
+				//array
+				} elseif (is_array($pointer)) {
+					Call::guardParameter('string', $string, array_key_exists($identifier, $pointer), [
+						'error_message' => "Key identifier {{identifier}} in placeholder {{placeholder}} " . 
+							"not found in {{pointer}}.",
+						'parameters' => [
+							'identifier' => $identifier, 'placeholder' => $token, 'pointer' => $pointer
+						]
 					]);
-					$pointer = $value;
-					unset($value);
+					$pointer = $pointer[$identifier];
 				}
-				
-				//stringify
-				$pointer_string = null;
-				if (isset($options->stringifier)) {
-					$pointer_string = ($options->stringifier)($token, $pointer);
-				}
-				if (!isset($pointer_string)) {
-					$pointer_string = self::stringify($pointer, $text_options, $options->string_options) ?? '';
-				}
-				
-				//finish
-				$f_string .= $pointer_string;
-				unset($pointer);
-			} else {
-				throw new Exceptions\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
 			}
+			
+			//evaluate
+			if (isset($options->evaluator)) {
+				$value = $pointer;
+				Call::guardParameter('parameters', $parameters, ($options->evaluator)($token, $value), [
+					'error_message' => "Invalid value {{value}} for placeholder {{placeholder}} in string {{string}}.",
+					'parameters' => ['value' => $pointer, 'placeholder' => $token, 'string' => $string]
+				]);
+				$pointer = $value;
+				unset($value);
+			}
+			
+			//stringify
+			$pointer_string = null;
+			if (isset($options->stringifier)) {
+				$pointer_string = ($options->stringifier)($token, $pointer);
+			}
+			if (!isset($pointer_string)) {
+				$pointer_string = self::stringify($pointer, $text_options, $options->string_options) ?? '';
+			}
+			
+			//finish
+			$f_string .= $pointer_string;
+			unset($pointer);
 		}
 		return $f_string;
 	}
@@ -900,8 +905,9 @@ final class Text extends Utility
 	final public static function placeholders(string $string, bool $no_throw = false) : array
 	{
 		$placeholders = [];
-		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/U', $string, $matches) > 0) {
+		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/Us', $string, $matches) > 0) {
 			foreach ($matches['placeholders'] as $placeholder) {
+				$placeholder = trim($placeholder);
 				if (!self::isPlaceholder($placeholder)) {
 					if ($no_throw) {
 						continue;
@@ -960,11 +966,12 @@ final class Text extends Utility
 		//pattern
 		$map = [];
 		$pattern = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/U', $mask, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $mask, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			if ($i % 2 === 0) {
 				$pattern .= preg_quote($token, $pattern_delimiter);
 			} else {
 				//guard
+				$token = trim($token);
 				Call::guardParameter('mask', $mask, self::isPlaceholder($token), [
 					'error_message' => "Invalid placeholder {{placeholder}}.",
 					'parameters' => ['placeholder' => $token]
