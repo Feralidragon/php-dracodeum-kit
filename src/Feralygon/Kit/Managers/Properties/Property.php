@@ -14,6 +14,7 @@ use Feralygon\Kit\{
 	Structure
 };
 use Feralygon\Kit\Utilities\{
+	Byte as UByte,
 	Call as UCall,
 	Data as UData,
 	Text as UText,
@@ -781,6 +782,42 @@ class Property
 		$this->clearEvaluators()->addEvaluator(
 			function (&$value) use ($nullable) : bool {
 				return isset($value) ? is_float($value) : $nullable;
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a size in bytes.
+	 * 
+	 * Only the following types and formats can be evaluated into a size in bytes:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsSize(bool $nullable = false) : Property
+	{
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($nullable) : bool {
+				return UByte::evaluateSize($value, $nullable);
 			}
 		);
 		return $this;

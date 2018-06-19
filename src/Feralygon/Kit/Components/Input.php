@@ -66,6 +66,8 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Integer
  * [prototype, name = 'integer' or 'int' or 'uint' or 'int64' or 'uint63' or 'int32' or 'uint32' or 'uint31' or 
  * 'int16' or 'uint16' or 'uint15' or 'int8' or 'uint8' or 'uint7']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size
+ * [prototype, name = 'size']
  * @see \Feralygon\Kit\Prototypes\Inputs\Enumeration
  * [prototype, name = 'enumeration' or 'enum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
@@ -209,6 +211,8 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 				return new Prototypes\Numbers\Integer(['unsigned' => true, 'bits' => 8] + $properties);
 			case 'uint7':
 				return new Prototypes\Numbers\Integer(['unsigned' => true, 'bits' => 7] + $properties);
+			case 'size':
+				return new Prototypes\Numbers\Size($properties);
 			case 'enumeration':
 				//no break
 			case 'enum':

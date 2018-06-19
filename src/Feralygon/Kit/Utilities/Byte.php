@@ -189,6 +189,107 @@ final class Byte extends Utility
 	}
 	
 	/**
+	 * Evaluate a given value as a size.
+	 * 
+	 * Only the following types and formats can be evaluated into a size:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a size.</p>
+	 */
+	final public static function evaluateSize(&$value, bool $nullable = false) : bool
+	{
+		try {
+			$value = self::coerceSize($value, $nullable);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into a size.
+	 * 
+	 * Only the following types and formats can be coerced into a size:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Utilities\Byte\Exceptions\SizeCoercionFailed
+	 * @return int|null
+	 * <p>The given value coerced into a size.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceSize($value, bool $nullable = false) : ?int
+	{
+		//coerce
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\SizeCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\SizeCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (Type::evaluateInteger($value)) {
+			return $value;
+		} else {
+			$v = self::mvalue($value, true);
+			if (isset($v)) {
+				return $v;
+			}
+		}
+		
+		//throw
+		throw new Exceptions\SizeCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\SizeCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a size:\n" . 
+				" - an integer, such as: 123000 for 123000;\n" . 
+				" - a whole float, such as: 123000.0 for 123000;\n" . 
+				" - a numeric string, such as: \"123000\" for 123000;\n" . 
+				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
+				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
+				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000;\n" . 
+				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as a multiple.
 	 * 
 	 * Only the following types and formats can be evaluated into a multiple:<br>
