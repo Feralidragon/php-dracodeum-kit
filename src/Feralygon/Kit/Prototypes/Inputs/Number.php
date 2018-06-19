@@ -33,9 +33,7 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
  * such as <code>"0x03e8"</code> or <code>"0x03E8"</code>;<br>
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
- * such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
- * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
- * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
+ * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number

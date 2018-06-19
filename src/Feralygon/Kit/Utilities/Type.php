@@ -312,9 +312,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -349,9 +347,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -393,7 +389,7 @@ final class Type extends Utility
 			}
 				
 			//human-readable
-			$v = Math::mnumber($value, true) ?? Byte::mvalue($value, true);
+			$v = Math::mnumber($value, true);
 			if (isset($v)) {
 				return $v;
 			}
@@ -410,8 +406,7 @@ final class Type extends Utility
 				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
 				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
 				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
-				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000;\n" . 
-				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000."
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
 		]);
 	}
 	
@@ -429,9 +424,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -476,9 +469,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -578,8 +569,7 @@ final class Type extends Utility
 				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
 				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
 				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
-				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000;\n" . 
-				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000."
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
 		]);
 	}
 	
@@ -598,9 +588,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -635,9 +623,7 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123.45kB"</code> or <code>"123.45 kilobytes"</code> for <code>123450.0</code>.
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -676,9 +662,7 @@ final class Type extends Utility
 				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000.0;\n" . 
 				" - a numeric string in octal notation, such as: \"0360170\" for 123000.0;\n" . 
 				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000.0;\n" . 
-				" - a human-readable numeric string, such as: \"123.45k\" or \"123.45 thousand\" for 123450.0;\n" . 
-				" - a human-readable numeric string in bytes, " . 
-				"such as: \"123.45kB\" or \"123.45 kilobytes\" for 123450.0."
+				" - a human-readable numeric string, such as: \"123.45k\" or \"123.45 thousand\" for 123450.0."
 		]);
 	}
 	
