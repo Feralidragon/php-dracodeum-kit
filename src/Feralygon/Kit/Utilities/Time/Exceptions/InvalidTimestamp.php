@@ -22,7 +22,11 @@ class InvalidTimestamp extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage() : string
 	{
-		return "Invalid timestamp {{timestamp}}.";
+		return "Invalid timestamp {{timestamp}}.\n" . 
+			"HINT: Only one of the following is allowed:\n" . 
+			" - a string as supported by the PHP \"strtotime\" function;\n" . 
+			" - an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;\n" . 
+			" - an object implementing the \"DateTimeInterface\" interface.";
 	}
 	
 	

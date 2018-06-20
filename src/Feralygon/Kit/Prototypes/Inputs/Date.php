@@ -18,6 +18,7 @@ use Feralygon\Kit\Prototypes\Inputs\Date\Prototypes\Modifiers\{
 	Constraints,
 	Filters
 };
+use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp as TimestampFilters;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -31,7 +32,8 @@ use Feralygon\Kit\Utilities\{
  * 
  * Only the following types of values may be evaluated as a date:<br>
  * &nbsp; &#8226; &nbsp; an Unix timestamp;<br>
- * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP <code>strtotime</code> function.
+ * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP <code>strtotime</code> function;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/ISO_8601
@@ -45,7 +47,7 @@ use Feralygon\Kit\Utilities\{
  * [modifier, name = 'constraints.maximum' or 'maximum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Date\Prototypes\Modifiers\Constraints\Range
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Format
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp\Format
  * [modifier, name = 'filters.format']
  * @see \Feralygon\Kit\Prototypes\Inputs\Date\Prototypes\Modifiers\Filters\Iso8601
  * [modifier, name = 'filters.iso8601']
@@ -132,12 +134,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options) : string
 	{
-		if (is_int($value)) {
-			return UTime::stringifyDate($value, $text_options);
-		} elseif (is_string($value)) {
-			return $value;
-		}
-		return UText::stringify($value, $text_options);
+		return is_string($value) ? $value : UTime::stringifyDate($value, $text_options);
 	}
 	
 	
@@ -175,7 +172,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 			
 			//filters
 			case 'filters.format':
-				return $this->createFilter(Filters\Format::class, $properties);
+				return $this->createFilter(TimestampFilters\Format::class, $properties);
 			case 'filters.iso8601':
 				return $this->createFilter(Filters\Iso8601::class, $properties);
 		}

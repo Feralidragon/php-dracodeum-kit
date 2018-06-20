@@ -5,20 +5,23 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters;
+namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Traits\LazyProperties\Property;
+use Feralygon\Kit\Utilities\Time as UTime;
 
 /**
- * This filter prototype converts a date and time, as an Unix timestamp, into a string using a specific format.
+ * This filter prototype converts a timestamp value into a string or object using a specific format.
  * 
  * @since 1.0.0
  * @property string $format
- * <p>The format to convert a given date and time into, as supported by the PHP <code>date</code> function.<br>
+ * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
+ * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
  * It cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
+ * @see https://php.net/manual/en/class.datetime.php
+ * @see https://php.net/manual/en/class.datetimeimmutable.php
  */
 class Format extends Filter
 {
@@ -32,11 +35,8 @@ class Format extends Filter
 	/** {@inheritdoc} */
 	public function processValue(&$value) : bool
 	{
-		if (is_int($value)) {
-			$value = date($this->format, $value);
-			return $value !== false;
-		}
-		return false;
+		$value = UTime::format($value, $this->format, true);
+		return isset($value);
 	}
 	
 	

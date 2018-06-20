@@ -27,9 +27,6 @@ class DateCoercionFailed extends Exception implements ICoercive
 	/** Null error code. */
 	public const ERROR_CODE_NULL = 'NULL';
 	
-	/** Invalid type error code. */
-	public const ERROR_CODE_INVALID_TYPE = 'INVALID_TYPE';
-	
 	/** Invalid error code. */
 	public const ERROR_CODE_INVALID = 'INVALID';
 	

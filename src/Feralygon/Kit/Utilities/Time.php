@@ -121,9 +121,11 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $timestamp
-	 * <p>The timestamp to get from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param int|float|string|\DateTimeInterface $timestamp
+	 * <p>The timestamp to get from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\InvalidTimestamp
@@ -135,7 +137,9 @@ final class Time extends Utility
 	final public static function timestamp($timestamp, bool $no_throw = false) : ?int
 	{
 		//timestamp
-		if (Type::evaluateInteger($timestamp)) {
+		if (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
+			return $timestamp->getTimestamp();
+		} elseif (Type::evaluateInteger($timestamp)) {
 			return $timestamp;
 		} elseif (Type::evaluateString($timestamp, true)) {
 			$t = strtotime($timestamp);
@@ -152,13 +156,45 @@ final class Time extends Utility
 	}
 	
 	/**
+	 * Format a given timestamp.
+	 * 
+	 * @since 1.0.0
+	 * @param int|float|string|\DateTimeInterface $timestamp
+	 * <p>The timestamp to format, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
+	 * @param string $format
+	 * <p>The format to use, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\InvalidTimestamp
+	 * @return string|\DateTime|\DateTimeImmutable|null
+	 * <p>The formatted timestamp from the given one.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be formatted.</p>
+	 */
+	final public static function format($timestamp, string $format, bool $no_throw = false)
+	{
+		$timestamp = self::timestamp($timestamp, $no_throw);
+		if (isset($timestamp)) {
+			return class_exists($format) && Type::isAny($format, [\DateTime::class, \DateTimeImmutable::class])
+				? new $format(date('c', $timestamp))
+				: date($format, $timestamp);
+		}
+		return null;
+	}
+	
+	/**
 	 * Evaluate a given value as a date and time.
 	 * 
 	 * Only the following types and formats can be evaluated into a date and time:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, 
 	 * such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <code>"2017-Jan-01 12:00:00"</code> for <samp>2017-01-01 12:00:00</samp>.
+	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -168,7 +204,8 @@ final class Time extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
@@ -189,21 +226,23 @@ final class Time extends Utility
 	 * Coerce a given value into a date and time.
 	 * 
 	 * Only the following types and formats can be coerced into a date and time:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01 00:00:00 UTC, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, 
 	 * such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>.
+	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
-	 * @return int|string|null
+	 * @return int|string|\DateTime|\DateTimeImmutable|null
 	 * <p>The given value coerced into a date and time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -219,12 +258,6 @@ final class Time extends Utility
 				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_NULL,
 				'error_message' => "A null value is not allowed."
 			]);
-		} elseif (!is_int($value) && !is_float($value) && !is_string($value)) {
-			throw new Exceptions\DateTimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a date and time given as an integer, float or string is allowed."
-			]);
 		}
 		
 		//timestamp
@@ -234,19 +267,14 @@ final class Time extends Utility
 				'value' => $value,
 				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_INVALID,
 				'error_message' => "Only the following types and formats can be coerced into a date and time:\n" . 
-					" - a number in seconds since 1970-01-01 00:00:00 UTC, " . 
+					" - an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, " . 
 					"such as: 1483268400 for \"2017-01-01 12:00:00\";\n" . 
 					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\"."
+					"such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\";\n" . 
+					" - an object implementing the \"DateTimeInterface\" interface."
 			]);
 		}
-		
-		//datetime
-		$datetime = $timestamp;
-		if (isset($format)) {
-			$datetime = date($format, $datetime);
-		}
-		return $datetime;
+		return isset($format) ? self::format($timestamp, $format) : $timestamp;
 	}
 	
 	/**
@@ -256,9 +284,11 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $datetime
-	 * <p>The date and time to generate from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param int|float|string|\DateTimeInterface $datetime
+	 * <p>The date and time to generate from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -278,10 +308,11 @@ final class Time extends Utility
 	 * Evaluate a given value as a date.
 	 * 
 	 * Only the following types and formats can be evaluated into a date:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01, 
 	 * such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <code>"2017-Jan-01"</code> for <samp>2017-01-01</samp>.
+	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -291,7 +322,8 @@ final class Time extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
@@ -312,21 +344,23 @@ final class Time extends Utility
 	 * Coerce a given value into a date.
 	 * 
 	 * Only the following types and formats can be coerced into a date:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds since 1970-01-01, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01, 
 	 * such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>.
+	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateCoercionFailed
-	 * @return int|string|null
+	 * @return int|string|\DateTime|\DateTimeImmutable|null
 	 * <p>The given value coerced into a date.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -342,12 +376,6 @@ final class Time extends Utility
 				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_NULL,
 				'error_message' => "A null value is not allowed."
 			]);
-		} elseif (!is_int($value) && !is_float($value) && !is_string($value)) {
-			throw new Exceptions\DateCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a date given as an integer, float or string is allowed."
-			]);
 		}
 		
 		//timestamp
@@ -357,18 +385,15 @@ final class Time extends Utility
 				'value' => $value,
 				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_INVALID,
 				'error_message' => "Only the following types and formats can be coerced into a date:\n" . 
-					" - a number in seconds since 1970-01-01, such as: 1483228800 for \"2017-01-01\";\n" . 
+					" - an integer or float as the number of seconds since 1970-01-01, " . 
+					"such as: 1483228800 for \"2017-01-01\";\n" . 
 					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2017-Jan-01\" for \"2017-01-01\"."
+					"such as: \"2017-Jan-01\" for \"2017-01-01\";\n" . 
+					" - an object implementing the \"DateTimeInterface\" interface."
 			]);
 		}
-		
-		//date
-		$date = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		if (isset($format)) {
-			$date = date($format, $date);
-		}
-		return $date;
+		$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+		return isset($format) ? self::format($timestamp, $format) : $timestamp;
 	}
 	
 	/**
@@ -378,9 +403,11 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $date
-	 * <p>The date to generate from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01.</p>
+	 * @param int|float|string|\DateTimeInterface $date
+	 * <p>The date to generate from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -400,10 +427,11 @@ final class Time extends Utility
 	 * Evaluate a given value as a time.
 	 * 
 	 * Only the following types and formats can be evaluated into a time:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds, 
 	 * such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <code>"2:05PM"</code> for <samp>14:05:00</samp>.
+	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
@@ -413,7 +441,8 @@ final class Time extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
@@ -434,21 +463,23 @@ final class Time extends Utility
 	 * Coerce a given value into a time.
 	 * 
 	 * Only the following types and formats can be coerced into a time:<br>
-	 * &nbsp; &#8226; &nbsp; a number in seconds, 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds, 
 	 * such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
-	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>.
+	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
-	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function.<br>
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
-	 * @return int|string|null
+	 * @return int|string|\DateTime|\DateTimeImmutable|null
 	 * <p>The given value coerced into a time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -464,12 +495,6 @@ final class Time extends Utility
 				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_NULL,
 				'error_message' => "A null value is not allowed."
 			]);
-		} elseif (!is_int($value) && !is_float($value) && !is_string($value)) {
-			throw new Exceptions\TimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a time given as an integer, float or string is allowed."
-			]);
 		}
 		
 		//timestamp
@@ -479,18 +504,14 @@ final class Time extends Utility
 				'value' => $value,
 				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_INVALID,
 				'error_message' => "Only the following types and formats can be coerced into a time:\n" . 
-					" - a number in seconds, such as: 50700 for \"14:05:00\";\n" . 
+					" - an integer or float as the number of seconds, such as: 50700 for \"14:05:00\";\n" . 
 					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2:05PM\" for \"14:05:00\"."
+					"such as: \"2:05PM\" for \"14:05:00\";\n" . 
+					" - an object implementing the \"DateTimeInterface\" interface."
 			]);
 		}
-		
-		//time
-		$time = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		if (isset($format)) {
-			$time = date($format, $time);
-		}
-		return $time;
+		$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+		return isset($format) ? self::format($timestamp, $format) : $timestamp;
 	}
 	
 	/**
@@ -500,9 +521,11 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $time
-	 * <p>The time to generate from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds.</p>
+	 * @param int|float|string|\DateTimeInterface $time
+	 * <p>The time to generate from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -532,9 +555,11 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $timestamp
-	 * <p>The timestamp to calculate from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
+	 * @param int|float|string|\DateTimeInterface $timestamp
+	 * <p>The timestamp to calculate from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -1037,20 +1062,25 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
-	 * @param int|float|string $start
-	 * <p>The start timestamp to generate from, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.</p>
-	 * @param int|float|string|null $end [default = null]
-	 * <p>The end timestamp to generate to, as supported by the PHP <code>strtotime</code> function 
-	 * or as the number of seconds since 1970-01-01 00:00:00 UTC.<br>
+	 * @param int|float|string|\DateTimeInterface $start
+	 * <p>The start timestamp to generate from, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
+	 * @param int|float|string|\DateTimeInterface|null $end [default = null]
+	 * <p>The end timestamp to generate to, as one of the following:<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.<br>
+	 * <br>
 	 * If not set, then the current system time is used.</p>
 	 * @param int|float $interval [default = \Feralygon\Kit\Enumerations\Time::T1_DAY]
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Feralygon\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return float[]|string[]
-	 * <p>The generated time series from the given start timestamp, as <samp>time => time</samp> pairs.</p>
+	 * @return float[]|string[]|\DateTime[]|\DateTimeImmutable[]
+	 * <p>The generated time series from the given start timestamp, as <samp>timestamp => timestamp</samp> pairs.</p>
 	 */
 	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
 	{
@@ -1085,17 +1115,17 @@ final class Time extends Utility
 		//format
 		if (isset($options->format)) {
 			foreach ($values as &$value) {
-				$value = date($options->format, (int)$value);
+				$value = self::format($value, $options->format);
 			}
 			unset($value);
-			$values = array_unique($values);
+			$values = array_unique($values, SORT_REGULAR);
 		}
 		
 		//keys format
 		if (isset($options->keys_format)) {
 			$keys = array_keys($values);
 			foreach ($keys as &$key) {
-				$key = date($options->keys_format, (int)$key);
+				$key = date($options->keys_format, $key);
 			}
 			unset($key);
 			$values = array_combine($keys, $values);
