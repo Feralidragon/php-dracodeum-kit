@@ -18,6 +18,7 @@ use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
 	Text as UText,
+	Time as UTime,
 	Type as UType
 };
 
@@ -1253,6 +1254,102 @@ class Property
 		$this->clearEvaluators()->addEvaluator(
 			function (&$value) use ($enumeration, $nullable) : bool {
 				return is_string($value) && $enumeration::hasName($value);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a date and time.
+	 * 
+	 * Only the following types and formats can be evaluated into a date and time:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, 
+	 * such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsDateTime(?string $format = null, bool $nullable = false) : Property
+	{
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($format, $nullable) : bool {
+				return UTime::evaluateDateTime($value, $format, $nullable);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a date.
+	 * 
+	 * Only the following types and formats can be evaluated into a date:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01, 
+	 * such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsDate(?string $format = null, bool $nullable = false) : Property
+	{
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($format, $nullable) : bool {
+				return UTime::evaluateDate($value, $format, $nullable);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a time.
+	 * 
+	 * Only the following types and formats can be evaluated into a time:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds, 
+	 * such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string|null $format [default = null]
+	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsTime(?string $format = null, bool $nullable = false) : Property
+	{
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($format, $nullable) : bool {
+				return UTime::evaluateTime($value, $format, $nullable);
 			}
 		);
 		return $this;
