@@ -1124,7 +1124,7 @@ final class Text extends Utility
 		$groups_fields = [];
 		foreach ($fields_patterns as $field => $pattern) {
 			$groups_fields[$group] = $field;
-			$group += preg_match_all('/(^|[^\\\\])\(/', $pattern) + 1;
+			$group += preg_match_all('/(?<!\\\\)\((?!\?[!:=<>])/', $pattern) + 1;
 		}
 		unset($group);
 		$pattern = "{$pattern_delimiter}^(" . 
