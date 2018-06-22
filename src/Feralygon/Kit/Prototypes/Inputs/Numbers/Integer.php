@@ -48,18 +48,6 @@ use Feralygon\Kit\Utilities\{
  */
 class Integer extends Number implements ISchemaData
 {
-	//Private constants
-	/** Maximum supported number of bits (signed). */
-	private const BITS_MAX_SIGNED = 64;
-	
-	/** Maximum supported number of bits (unsigned). */
-	private const BITS_MAX_UNSIGNED = 63;
-	
-	/** All supported bits fully on (unsigned). */
-	private const BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
-	
-	
-	
 	//Private properties
 	/** @var bool */
 	private $unsigned = false;
@@ -116,20 +104,20 @@ class Integer extends Number implements ISchemaData
 		if ($this->unsigned) {
 			$this->minimum = 0;
 			if (isset($this->bits)) {
-				UCall::guardInternal($this->bits <= self::BITS_MAX_UNSIGNED, [
+				UCall::guardInternal($this->bits <= UType::INTEGER_BITS_MAX_UNSIGNED, [
 					'error_message' => "Invalid bits {{bits}}.",
 					'hint_message' => "Only up to {{max_bits}} bits are allowed for unsigned integers.",
-					'parameters' => ['bits' => $this->bits, 'max_bits' => self::BITS_MAX_UNSIGNED]
+					'parameters' => ['bits' => $this->bits, 'max_bits' => UType::INTEGER_BITS_MAX_UNSIGNED]
 				]);
-				$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_UNSIGNED - $this->bits);
+				$this->maximum = UType::INTEGER_BITS_FULL_UNSIGNED >> (UType::INTEGER_BITS_MAX_UNSIGNED - $this->bits);
 			}
 		} elseif (isset($this->bits)) {
-			UCall::guardInternal($this->bits <= self::BITS_MAX_SIGNED, [
+			UCall::guardInternal($this->bits <= UType::INTEGER_BITS_MAX_SIGNED, [
 				'error_message' => "Invalid bits {{bits}}.",
 				'hint_message' => "Only up to {{max_bits}} bits are allowed for signed integers.",
-				'parameters' => ['bits' => $this->bits, 'max_bits' => self::BITS_MAX_SIGNED]
+				'parameters' => ['bits' => $this->bits, 'max_bits' => UType::INTEGER_BITS_MAX_SIGNED]
 			]);
-			$this->maximum = self::BITS_FULL_UNSIGNED >> (self::BITS_MAX_SIGNED - $this->bits);
+			$this->maximum = UType::INTEGER_BITS_FULL_UNSIGNED >> (UType::INTEGER_BITS_MAX_SIGNED - $this->bits);
 			$this->minimum = -$this->maximum - 1;
 		}
 	}

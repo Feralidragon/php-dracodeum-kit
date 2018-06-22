@@ -32,18 +32,27 @@ use Feralygon\Kit\Interfaces\{
  */
 final class Type extends Utility
 {
+	//Public constants
+	/** Boolean <code>false</code> strings. */
+	public const BOOLEAN_FALSE_STRINGS = ['0', 'f', 'false', 'off', 'no'];
+	
+	/** Boolean <code>true</code> strings. */
+	public const BOOLEAN_TRUE_STRINGS = ['1', 't', 'true', 'on', 'yes'];
+	
+	/** Integer maximum supported number of bits (signed). */
+	public const INTEGER_BITS_MAX_SIGNED = 64;
+	
+	/** Integer maximum supported number of bits (unsigned). */
+	public const INTEGER_BITS_MAX_UNSIGNED = 63;
+	
+	/** All supported integer bits fully on (unsigned). */
+	public const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
+	
+	
+	
 	//Private constants
 	/** Phpfy non-associative array maximum pretty output horizontal length. */
 	private const PHPFY_NONASSOC_ARRAY_PRETTY_MAX_HORIZONTAL_LENGTH = 50;
-	
-	/** Integer maximum supported number of bits (signed). */
-	private const INTEGER_BITS_MAX_SIGNED = 64;
-	
-	/** Integer maximum supported number of bits (unsigned). */
-	private const INTEGER_BITS_MAX_UNSIGNED = 63;
-	
-	/** All supported integer bits fully on (unsigned). */
-	private const INTEGER_BITS_FULL_UNSIGNED = 0x7fffffffffffffff;
 	
 	
 	
@@ -280,12 +289,20 @@ final class Type extends Utility
 			return $value === 1.0;
 		} elseif (is_string($value)) {
 			$value = strtolower($value);
-			if (in_array($value, ['0', '1', 'f', 't', 'false', 'true', 'off', 'on', 'no', 'yes'], true)) {
-				return in_array($value, ['1', 't', 'true', 'on', 'yes'], true);
+			if (in_array($value, self::BOOLEAN_FALSE_STRINGS, true)) {
+				return false;
+			} elseif (in_array($value, self::BOOLEAN_TRUE_STRINGS, true)) {
+				return true;
 			}
 		}
 		
 		//throw
+		$false_list = Text::stringify(self::BOOLEAN_FALSE_STRINGS, null, [
+			'quote_strings' => true, 'non_assoc_mode' => Text::STRING_NONASSOC_MODE_COMMA_LIST_OR
+		]);
+		$true_list = Text::stringify(self::BOOLEAN_TRUE_STRINGS, null, [
+			'quote_strings' => true, 'non_assoc_mode' => Text::STRING_NONASSOC_MODE_COMMA_LIST_OR
+		]);
 		throw new Exceptions\BooleanCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
@@ -293,8 +310,7 @@ final class Type extends Utility
 				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
 				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
 				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
-				" - a string, as: \"0\", \"f\", \"false\", \"off\" or \"no\" for boolean false, " . 
-				"and \"1\", \"t\", \"true\", \"on\" or \"yes\" for boolean true."
+				" - a string, as: {$false_list} for boolean false, and {$true_list} for boolean true."
 		]);
 	}
 	

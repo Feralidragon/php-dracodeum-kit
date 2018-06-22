@@ -71,8 +71,8 @@ class Boolean extends Input implements IInformation
 			self::class, $text_options, [
 				'parameters' => [
 					'values' => [
-						'false' => $this->getFalseValueStrings($text_options), 
-						'true' => $this->getTrueValueStrings($text_options)
+						'false' => UType::BOOLEAN_FALSE_STRINGS,
+						'true' => UType::BOOLEAN_TRUE_STRINGS
 					]
 				],
 				'string_options' => [
@@ -99,8 +99,8 @@ class Boolean extends Input implements IInformation
 			self::class, $text_options, [
 				'parameters' => [
 					'values' => [
-						'false' => $this->getFalseValueStrings($text_options), 
-						'true' => $this->getTrueValueStrings($text_options)
+						'false' => UType::BOOLEAN_FALSE_STRINGS,
+						'true' => UType::BOOLEAN_TRUE_STRINGS
 					]
 				],
 				'string_options' => [
@@ -109,36 +109,5 @@ class Boolean extends Input implements IInformation
 				]
 			]
 		);
-	}
-	
-	
-	
-	//Protected methods
-	/**
-	 * Get <code>false</code> value strings.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options
-	 * <p>The text options instance to use.</p>
-	 * @return string[]
-	 * <p>The <code>false</code> value strings.</p>
-	 */
-	protected function getFalseValueStrings(TextOptions $text_options) : array
-	{
-		return ['0', 'f', 'false', 'off', 'no'];
-	}
-	
-	/**
-	 * Get <code>true</code> value strings.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Options\Text $text_options
-	 * <p>The text options instance to use.</p>
-	 * @return string[]
-	 * <p>The <code>true</code> value strings.</p>
-	 */
-	protected function getTrueValueStrings(TextOptions $text_options) : array
-	{
-		return ['1', 't', 'true', 'on', 'yes'];
 	}
 }
