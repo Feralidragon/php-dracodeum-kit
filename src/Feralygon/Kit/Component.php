@@ -222,8 +222,7 @@ abstract class Component
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
-	 * </code><br>
+	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -274,8 +273,7 @@ abstract class Component
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component
-	 * </code><br>
+	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>

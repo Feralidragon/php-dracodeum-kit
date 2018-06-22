@@ -10,13 +10,16 @@ namespace Feralygon\Kit\Managers\Properties;
 use Feralygon\Kit\Managers\Properties as Manager;
 use Feralygon\Kit\Managers\Properties\Property\Exceptions;
 use Feralygon\Kit\{
+	Component,
 	Enumeration,
-	Structure
+	Structure,
+	Options
 };
 use Feralygon\Kit\Utilities\{
 	Byte as UByte,
 	Call as UCall,
 	Data as UData,
+	Hash as UHash,
 	Text as UText,
 	Time as UTime,
 	Type as UType
@@ -1260,6 +1263,35 @@ class Property
 	}
 	
 	/**
+	 * Set to only allow a value evaluated as a hash.
+	 * 
+	 * Only the following types and formats can be evaluated into a hash:<br>
+	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a raw binary string.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param int $bits
+	 * <p>The number of bits to evaluate with.<br>
+	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsHash(int $bits, bool $nullable = false) : Property
+	{
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($bits, $nullable) : bool {
+				return UHash::evaluate($value, $bits, $nullable);
+			}
+		);
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as a date and time.
 	 * 
 	 * Only the following types and formats can be evaluated into a date and time:<br>
@@ -1350,6 +1382,91 @@ class Property
 		$this->clearEvaluators()->addEvaluator(
 			function (&$value) use ($format, $nullable) : bool {
 				return UTime::evaluateTime($value, $format, $nullable);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a component instance.
+	 * 
+	 * Only a component instance or name, or a prototype instance, class or name, can be evaluated into an instance.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string $class
+	 * <p>The class to use.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
+	 * The built instance.</p>
+	 * @param callable|null $named_builder [default = null]
+	 * <p>The function to use to build an instance for a given name.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
+	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsComponent(
+		string $class, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
+	) : Property
+	{
+		$class = UType::coerceClass($class, Component::class);
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($class, $properties, $builder, $named_builder) : bool {
+				return $class::evaluate($value, $properties, $builder, $named_builder);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as an options instance.
+	 * 
+	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
+	 * can be evaluated into an options instance.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string $class
+	 * <p>The class to use.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Evaluate into a read-only instance.<br>
+	 * If an instance is given and is not read-only, 
+	 * then a new one is created with the same properties and as read-only.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsOptions(string $class, bool $clone = false, bool $readonly = false) : Property
+	{
+		$class = UType::coerceClass($class, Options::class);
+		$this->clearEvaluators()->addEvaluator(
+			function (&$value) use ($class, $clone, $readonly) : bool {
+				return $class::evaluate($value, $clone, $readonly);
 			}
 		);
 		return $this;
