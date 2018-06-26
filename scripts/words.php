@@ -9,68 +9,56 @@ if (isset($len1) && isset($len2)) {
 }
 $lite = isset($argv[3]) && $argv[3] === 'lite';
 
-//urls
-$urls = [
-    'http://source-code-wordle.de/NounsVariables.html',
-    'http://source-code-wordle.de/NounsClasses.html'
-];
+//files (lite)
+$files = [];
 if ($type === 'verbs') {
-    $urls = [
-        'http://source-code-wordle.de/VerbsAll.html',
-        'http://source-code-wordle.de/VerbsBoolean.html'
-    ];
+	$files[] = 'source-code-wordle.de_NounsClasses.txt';
+	$files[] = 'source-code-wordle.de_NounsVariables.txt';
+} else {
+	$files[] = 'source-code-wordle.de_VerbsAll.txt';
+	$files[] = 'source-code-wordle.de_VerbsBoolean.txt';
 }
 
-//get words
-$words = [];
-foreach ($urls as $url) {
-    preg_match_all("/javascript:show\('(\w+)'\)/", file_get_contents($url), $m);
-    $words = array_merge($words, $m[1]);
-}
-
-//json urls
+//files (full)
 if (!$lite) {
-	$json_urls = [
-		'https://anvaka.github.io/common-words/static/data/js/index.json',
-		'https://anvaka.github.io/common-words/static/data/jsx/index.json',
-		'https://anvaka.github.io/common-words/static/data/css/index.json',
-		'https://anvaka.github.io/common-words/static/data/html/index.json',
-		'https://anvaka.github.io/common-words/static/data/java/index.json',
-		'https://anvaka.github.io/common-words/static/data/py/index.json',
-		'https://anvaka.github.io/common-words/static/data/lua/index.json',
-		'https://anvaka.github.io/common-words/static/data/php/index.json',
-		'https://anvaka.github.io/common-words/static/data/rb/index.json',
-		'https://anvaka.github.io/common-words/static/data/cpp/index.json',
-		'https://anvaka.github.io/common-words/static/data/pl/index.json',
-		'https://anvaka.github.io/common-words/static/data/cs/index.json',
-		'https://anvaka.github.io/common-words/static/data/scala/index.json',
-		'https://anvaka.github.io/common-words/static/data/go/index.json',
-		'https://anvaka.github.io/common-words/static/data/sql/index.json',
-		'https://anvaka.github.io/common-words/static/data/rs/index.json',
-		'https://anvaka.github.io/common-words/static/data/lisp/index.json',
-		'https://anvaka.github.io/common-words/static/data/clj/index.json',
-		'https://anvaka.github.io/common-words/static/data/kt/index.json',
-		'https://anvaka.github.io/common-words/static/data/swift/index.json',
-		'https://anvaka.github.io/common-words/static/data/hs/index.json',
-		'https://anvaka.github.io/common-words/static/data/ex/index.json',
-		'https://anvaka.github.io/common-words/static/data/objc/index.json',
-		'https://anvaka.github.io/common-words/static/data/objc/index.json',
-	];
-	foreach ($json_urls as $json_url) {
-		$words = array_merge($words, array_column(json_decode(file_get_contents($json_url), true), 'text'));
-	}
+	$files[] = 'anvaka.github.io_common-words_clj.txt';
+	$files[] = 'anvaka.github.io_common-words_cpp.txt';
+	$files[] = 'anvaka.github.io_common-words_cs.txt';
+	$files[] = 'anvaka.github.io_common-words_css.txt';
+	$files[] = 'anvaka.github.io_common-words_ex.txt';
+	$files[] = 'anvaka.github.io_common-words_go.txt';
+	$files[] = 'anvaka.github.io_common-words_hs.txt';
+	$files[] = 'anvaka.github.io_common-words_html.txt';
+	$files[] = 'anvaka.github.io_common-words_java.txt';
+	$files[] = 'anvaka.github.io_common-words_js.txt';
+	$files[] = 'anvaka.github.io_common-words_jsx.txt';
+	$files[] = 'anvaka.github.io_common-words_kt.txt';
+	$files[] = 'anvaka.github.io_common-words_lisp.txt';
+	$files[] = 'anvaka.github.io_common-words_lua.txt';
+	$files[] = 'anvaka.github.io_common-words_objc.txt';
+	$files[] = 'anvaka.github.io_common-words_php.txt';
+	$files[] = 'anvaka.github.io_common-words_pl.txt';
+	$files[] = 'anvaka.github.io_common-words_py.txt';
+	$files[] = 'anvaka.github.io_common-words_rb.txt';
+	$files[] = 'anvaka.github.io_common-words_rs.txt';
+	$files[] = 'anvaka.github.io_common-words_scala.txt';
+	$files[] = 'anvaka.github.io_common-words_sql.txt';
+	$files[] = 'anvaka.github.io_common-words_swift.txt';
 }
 
-//merge
+//words (load)
+$words = [];
+foreach ($files as $file) {
+	$words = array_merge($words, explode("\n", file_get_contents(__DIR__ . "/words/{$file}")));
+}
+
+//words (prepare)
 $words = array_values(array_unique(array_map('strtolower', $words)));
-
-//sort
 usort($words, function ($a, $b) {
-    $la = strlen($a);
-    $lb = strlen($b);
-    return $la === $lb ? strcmp($a, $b) : $la - $lb;
+	$la = strlen($a);
+	$lb = strlen($b);
+	return $la === $lb ? strcmp($a, $b) : $la - $lb;
 });
-
 
 //print words
 $row_size = 8;
@@ -79,12 +67,12 @@ echo "\n\n";
 foreach ($words as $word) {
 	$len = strlen($word);
 	if (preg_match('/^[a-z]+$/', $word) && (!isset($len1) || !isset($len2) || ($len >= $len1 && $len <= $len2))) {
-        echo "  $word  ";
-        $row++;
-        if ($row >= $row_size) {
-            echo "\n";
-            $row = 0;
-        }
-    }
+		echo "  $word  ";
+		$row++;
+		if ($row >= $row_size) {
+			echo "\n";
+			$row = 0;
+		}
+	}
 }
 echo "\n\n";
