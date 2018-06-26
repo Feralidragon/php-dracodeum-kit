@@ -29,7 +29,7 @@ abstract class Environment extends Prototype
 	abstract public function getName() : string;
 	
 	/**
-	 * Check if is debug.
+	 * Check if is a debug environment.
 	 * 
 	 * In a debug environment, the system behaves in such a way so that code can be easily debugged, 
 	 * by performing additional integrity checks during runtime (assertions), 
@@ -37,7 +37,7 @@ abstract class Environment extends Prototype
 	 * 
 	 * @since 1.0.0
 	 * @return bool
-	 * <p>Boolean <code>true</code> if is debug.</p>
+	 * <p>Boolean <code>true</code> if is a debug environment.</p>
 	 */
 	abstract public function isDebug() : bool;
 	

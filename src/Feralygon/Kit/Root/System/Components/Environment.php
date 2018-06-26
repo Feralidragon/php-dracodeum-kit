@@ -75,7 +75,7 @@ class Environment extends Component
 	}
 	
 	/**
-	 * Check if is debug.
+	 * Check if is a debug environment.
 	 * 
 	 * In a debug environment, the system behaves in such a way so that code can be easily debugged, 
 	 * by performing additional integrity checks during runtime (assertions), 
@@ -83,7 +83,7 @@ class Environment extends Component
 	 * 
 	 * @since 1.0.0
 	 * @return bool
-	 * <p>Boolean <code>true</code> if is debug.</p>
+	 * <p>Boolean <code>true</code> if is a debug environment.</p>
 	 */
 	public function isDebug() : bool
 	{
