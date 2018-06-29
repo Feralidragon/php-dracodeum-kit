@@ -64,7 +64,7 @@ abstract class Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the given element.</p>
 	 */
-	final public static function has($element) : bool
+	final public static function has($element): bool
 	{
 		return static::hasValue($element) || static::hasName($element);
 	}
@@ -78,7 +78,7 @@ abstract class Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the element with the given value.</p>
 	 */
-	final public static function hasValue($value) : bool
+	final public static function hasValue($value): bool
 	{
 		return isset(static::getValuesNames()[(string)$value]);
 	}
@@ -92,7 +92,7 @@ abstract class Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the element with the given name.</p>
 	 */
-	final public static function hasName(string $name) : bool
+	final public static function hasName(string $name): bool
 	{
 		return isset(static::getNamesValues()[$name]);
 	}
@@ -131,7 +131,7 @@ abstract class Enumeration
 	 * <p>The name from the given element.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function getName($element, bool $no_throw = false) : ?string
+	final public static function getName($element, bool $no_throw = false): ?string
 	{
 		if (static::hasValue($element)) {
 			return static::getValuesNames()[(string)$element];
@@ -156,7 +156,7 @@ abstract class Enumeration
 	 * <p>The name from the element with the given value.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function getValueName($value, bool $no_throw = false) : ?string
+	final public static function getValueName($value, bool $no_throw = false): ?string
 	{
 		$name = static::getValuesNames()[(string)$value] ?? null;
 		if (!isset($name)) {
@@ -206,7 +206,7 @@ abstract class Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is a valid element and was sanitized into an element value.</p>
 	 */
-	final public static function evaluateValue(&$value, bool $nullable = false) : bool
+	final public static function evaluateValue(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceValue($value, $nullable);
@@ -278,7 +278,7 @@ abstract class Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is a valid element and was sanitized into an element name.</p>
 	 */
-	final public static function evaluateName(&$value, bool $nullable = false) : bool
+	final public static function evaluateName(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceName($value, $nullable);
@@ -303,7 +303,7 @@ abstract class Enumeration
 	 * <p>The given value coerced into an element name.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceName($value, bool $nullable = false) : ?string
+	final public static function coerceName($value, bool $nullable = false): ?string
 	{
 		//coerce
 		if (!isset($value)) {
@@ -355,7 +355,7 @@ abstract class Enumeration
 	 * <p>The label from the given element.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function getLabel($element, $text_options = null, bool $no_throw = false) : ?string
+	final public static function getLabel($element, $text_options = null, bool $no_throw = false): ?string
 	{
 		$name = static::getName($element, $no_throw);
 		return isset($name) ? static::getNameLabel($name, $text_options) : null;
@@ -376,7 +376,7 @@ abstract class Enumeration
 	 * <p>The label from the element with the given value.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function getValueLabel($value, $text_options = null, bool $no_throw = false) : ?string
+	final public static function getValueLabel($value, $text_options = null, bool $no_throw = false): ?string
 	{
 		$name = static::getValueName($value, $no_throw);
 		return isset($name) ? static::getNameLabel($name, $text_options) : null;
@@ -397,7 +397,7 @@ abstract class Enumeration
 	 * <p>The label from the element with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function getNameLabel(string $name, $text_options = null, bool $no_throw = false) : ?string
+	final public static function getNameLabel(string $name, $text_options = null, bool $no_throw = false): ?string
 	{
 		if (!static::hasName($name)) {
 			if ($no_throw) {
@@ -426,7 +426,7 @@ abstract class Enumeration
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
-	final public static function getDescription($element, $text_options = null, bool $no_throw = false) : ?string
+	final public static function getDescription($element, $text_options = null, bool $no_throw = false): ?string
 	{
 		$name = static::getName($element, $no_throw);
 		return isset($name) ? static::getNameDescription($name, $text_options) : null;
@@ -448,7 +448,7 @@ abstract class Enumeration
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
-	final public static function getValueDescription($value, $text_options = null, bool $no_throw = false) : ?string
+	final public static function getValueDescription($value, $text_options = null, bool $no_throw = false): ?string
 	{
 		$name = static::getValueName($value, $no_throw);
 		return isset($name) ? static::getNameDescription($name, $text_options) : null;
@@ -472,7 +472,7 @@ abstract class Enumeration
 	 */
 	final public static function getNameDescription(
 		string $name, $text_options = null, bool $no_throw = false
-	) : ?string
+	): ?string
 	{
 		if (!static::hasName($name)) {
 			if ($no_throw) {
@@ -490,7 +490,7 @@ abstract class Enumeration
 	 * @return string[]
 	 * <p>The names.</p>
 	 */
-	final public static function getNames() : array
+	final public static function getNames(): array
 	{
 		return array_values(self::getValuesNames());
 	}
@@ -502,7 +502,7 @@ abstract class Enumeration
 	 * @return int[]|float[]|string[]
 	 * <p>The values.</p>
 	 */
-	final public static function getValues() : array
+	final public static function getValues(): array
 	{
 		return array_values(self::getNamesValues());
 	}
@@ -514,7 +514,7 @@ abstract class Enumeration
 	 * @return string[]
 	 * <p>The values names, as <samp>value => name</samp> pairs.</p>
 	 */
-	final public static function getValuesNames() : array
+	final public static function getValuesNames(): array
 	{
 		if (!isset(self::$values_names[static::class])) {
 			self::$values_names[static::class] = array_flip(array_map('strval', static::getNamesValues()));
@@ -529,7 +529,7 @@ abstract class Enumeration
 	 * @return int[]|float[]|string[]
 	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public static function getNamesValues() : array
+	final public static function getNamesValues(): array
 	{
 		if (!isset(self::$names_values[static::class])) {
 			self::$names_values[static::class] = (new \ReflectionClass(static::class))->getConstants();

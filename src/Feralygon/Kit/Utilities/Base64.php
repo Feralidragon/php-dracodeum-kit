@@ -33,7 +33,7 @@ final class Base64 extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is encoded.</p>
 	 */
-	final public static function isEncoded(string $string, ?bool $url_safe = null) : bool
+	final public static function isEncoded(string $string, ?bool $url_safe = null): bool
 	{
 		if (!isset($url_safe)) {
 			$url_safe = (bool)preg_match('/[_\-]/', $string);
@@ -54,7 +54,7 @@ final class Base64 extends Utility
 	 * @return string
 	 * <p>The given string encoded.</p>
 	 */
-	final public static function encode(string $string, bool $url_safe = false) : string
+	final public static function encode(string $string, bool $url_safe = false): string
 	{
 		return $url_safe ? strtr(rtrim(base64_encode($string), '='), '+/', '-_') : base64_encode($string);
 	}
@@ -78,7 +78,7 @@ final class Base64 extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be decoded.</p>
 	 */
-	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false) : ?string
+	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false): ?string
 	{
 		if (!self::isEncoded($string, $url_safe)) {
 			if ($no_throw) {

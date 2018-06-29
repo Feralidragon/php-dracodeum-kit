@@ -71,7 +71,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract protected function loadProperties() : void;
+	abstract protected function loadProperties(): void;
 	
 	
 	
@@ -86,7 +86,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	//Implemented final public static methods (Feralygon\Kit\Interfaces\ArrayInstantiable)
 	/** {@inheritdoc} */
-	final public static function fromArray(array $array) : object
+	final public static function fromArray(array $array): object
 	{
 		return new static($array);
 	}
@@ -95,7 +95,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	
 	//Implemented public methods (Feralygon\Kit\Interfaces\Stringifiable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null) : string
+	public function toString(?TextOptions $text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}
@@ -114,7 +114,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(bool $readonly = false) : Structure
+	final public function clone(bool $readonly = false): Structure
 	{
 		return new static($this->getAll(), $readonly);
 	}
@@ -140,7 +140,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
-	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false) : bool
+	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false): bool
 	{
 		try {
 			$value = static::coerce($value, $clone, $readonly);
@@ -169,7 +169,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * @return static
 	 * <p>The given value coerced into an instance.</p>
 	 */
-	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Structure
+	final public static function coerce($value, bool $clone = false, bool $readonly = false): Structure
 	{
 		//coerce
 		try {

@@ -82,7 +82,7 @@ final class Math extends Utility
 	 * @return int
 	 * <p>The generated random integer number.</p>
 	 */
-	final public static function random(int $maximum = 1, int $minimum = 0, ?int $seed = null) : int
+	final public static function random(int $maximum = 1, int $minimum = 0, ?int $seed = null): int
 	{
 		mt_srand($seed ?? (int)(microtime(true) * 1e6));
 		return mt_rand($minimum, $maximum);
@@ -106,7 +106,7 @@ final class Math extends Utility
 	 * @return float
 	 * <p>The generated random float number.</p>
 	 */
-	final public static function frandom(float $maximum = 1.0, float $minimum = 0.0, ?int $seed = null) : float
+	final public static function frandom(float $maximum = 1.0, float $minimum = 0.0, ?int $seed = null): float
 	{
 		mt_srand($seed ?? (int)(microtime(true) * 1e6));
 		return mt_rand() / mt_getrandmax() * ($maximum - $minimum) + $minimum;
@@ -196,7 +196,7 @@ final class Math extends Utility
 	 * @return string
 	 * <p>The human-readable number from the given machine one.</p>
 	 */
-	final public static function hnumber(int $number, $text_options = null, $options = null) : string
+	final public static function hnumber(int $number, $text_options = null, $options = null): string
 	{
 		//initialize
 		$text_options = TextOptions::coerce($text_options);
@@ -307,7 +307,7 @@ final class Math extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function mnumber(string $number, bool $no_throw = false) : ?int
+	final public static function mnumber(string $number, bool $no_throw = false): ?int
 	{
 		//parse
 		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
@@ -351,7 +351,7 @@ final class Math extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a multiple.</p>
 	 */
-	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
+	final public static function evaluateMultiple(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceMultiple($value, $nullable);
@@ -379,7 +379,7 @@ final class Math extends Utility
 	 * <p>The given value coerced into a multiple.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceMultiple($value, bool $nullable = false) : ?int
+	final public static function coerceMultiple($value, bool $nullable = false): ?int
 	{
 		//nullable
 		if (!isset($value)) {

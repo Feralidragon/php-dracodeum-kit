@@ -31,7 +31,7 @@ final class Json extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given data is encoded.</p>
 	 */
-	final public static function isEncoded(string $data) : bool
+	final public static function isEncoded(string $data): bool
 	{
 		json_decode($data);
 		return json_last_error() === JSON_ERROR_NONE;
@@ -51,7 +51,7 @@ final class Json extends Utility
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be encoded.</p>
 	 */
-	final public static function encode($data, $options = null) : ?string
+	final public static function encode($data, $options = null): ?string
 	{
 		//encode
 		$options = Options\Encode::coerce($options);

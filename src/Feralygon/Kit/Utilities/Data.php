@@ -176,7 +176,7 @@ final class Data extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given array is associative.</p>
 	 */
-	final public static function isAssociative(array $array) : bool
+	final public static function isAssociative(array $array): bool
 	{
 		return !empty($array) && (
 			!array_key_exists(0, $array) || 
@@ -205,7 +205,7 @@ final class Data extends Utility
 	 * <p>An unique key from the given value.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it failed.</p>
 	 */
-	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false) : ?string
+	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false): ?string
 	{
 		$safe = null;
 		if (!isset($value)) {
@@ -295,7 +295,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The merged array from the two given ones.</p>
 	 */
-	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x000) : array
+	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x000): array
 	{
 		//initialize
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -403,7 +403,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The given array without duplicated values.</p>
 	 */
-	final public static function unique(array $array, ?int $depth = null, int $flags = 0x00) : array
+	final public static function unique(array $array, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -474,7 +474,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The sorted array.</p>
 	 */
-	final public static function sort(array $array, ?int $depth = null, int $flags = 0x00) : array
+	final public static function sort(array $array, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -540,7 +540,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The sorted array by key.</p>
 	 */
-	final public static function ksort(array $array, ?int $depth = null, int $flags = 0x00) : array
+	final public static function ksort(array $array, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -611,7 +611,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The filtered array from the given set of non-array values.</p>
 	 */
-	final public static function filter(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
+	final public static function filter(array $array, array $values, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -683,7 +683,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The filtered array from the given set of keys.</p>
 	 */
-	final public static function kfilter(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
+	final public static function kfilter(array $array, array $keys, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -765,7 +765,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The trimmed array from the given set of non-array values.</p>
 	 */
-	final public static function trim(array $array, array $values, ?int $depth = null, int $flags = 0x00) : array
+	final public static function trim(array $array, array $values, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -859,7 +859,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The trimmed array from the given set of keys.</p>
 	 */
-	final public static function ktrim(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
+	final public static function ktrim(array $array, array $keys, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -952,7 +952,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The intersected array from the two given arrays.</p>
 	 */
-	final public static function intersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
+	final public static function intersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1048,7 +1048,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The intersected array by key from the two given arrays.</p>
 	 */
-	final public static function kintersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
+	final public static function kintersect(array $array1, array $array2, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1123,7 +1123,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The differentiated array from the two given arrays.</p>
 	 */
-	final public static function diff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
+	final public static function diff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1214,7 +1214,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The differentiated array by key from the two given arrays.</p>
 	 */
-	final public static function kdiff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00) : array
+	final public static function kdiff(array $array1, array $array2, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1281,7 +1281,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The shuffled array.</p>
 	 */
-	final public static function shuffle(array $array, ?int $depth = null, int $flags = 0x00) : array
+	final public static function shuffle(array $array, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1338,7 +1338,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The aligned array with the given set of keys.</p>
 	 */
-	final public static function align(array $array, array $keys, ?int $depth = null, int $flags = 0x00) : array
+	final public static function align(array $array, array $keys, ?int $depth = null, int $flags = 0x00): array
 	{
 		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
@@ -1395,7 +1395,7 @@ final class Data extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given array has the given path.</p>
 	 */
-	final public static function has(array $array, string $path, string $delimiter = '.') : bool
+	final public static function has(array $array, string $path, string $delimiter = '.'): bool
 	{
 		//guard
 		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
@@ -1717,7 +1717,7 @@ final class Data extends Utility
 	 */
 	final public static function collapse(
 		array $array, string $delimiter = '.', ?int $depth = null, int $flags = 0x00
-	) : array
+	): array
 	{
 		//guard
 		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
@@ -1791,7 +1791,7 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The expanded array.</p>
 	 */
-	final public static function expand(array $array, string $delimiter = '.', ?int $depth = null) : array
+	final public static function expand(array $array, string $delimiter = '.', ?int $depth = null): array
 	{
 		//guard
 		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
@@ -1877,7 +1877,7 @@ final class Data extends Utility
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
@@ -1899,7 +1899,7 @@ final class Data extends Utility
 	final public static function evaluate(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
 		bool $nullable = false
-	) : bool
+	): bool
 	{
 		try {
 			$value = self::coerce($value, $evaluator, $non_associative, $non_empty, $nullable);
@@ -1922,7 +1922,7 @@ final class Data extends Utility
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
@@ -1946,7 +1946,7 @@ final class Data extends Utility
 	final public static function coerce(
 		$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
 		bool $nullable = false
-	) : ?array
+	): ?array
 	{
 		//nullable
 		if (!isset($value)) {
@@ -1988,7 +1988,7 @@ final class Data extends Utility
 				'error_message' => "An associative array value is not allowed."
 			]);
 		} elseif (isset($evaluator)) {
-			Call::assert('evaluator', $evaluator, function (&$key, &$value) : bool {});
+			Call::assert('evaluator', $evaluator, function (&$key, &$value): bool {});
 			$evaluator = \Closure::fromCallable($evaluator);
 			$f_array = [];
 			foreach ($array as $k => $v) {

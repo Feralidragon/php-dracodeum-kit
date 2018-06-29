@@ -161,7 +161,7 @@ final class Call extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function reflection($function, bool $no_throw = false) : ?\ReflectionFunctionAbstract
+	final public static function reflection($function, bool $no_throw = false): ?\ReflectionFunctionAbstract
 	{
 		//validate
 		if ($no_throw && !self::validate($function, true)) {
@@ -204,9 +204,9 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The hash from the given function.</p>
 	 */
-	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false) : string
+	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false): string
 	{
-		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false) : string {
+		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false): string {
 			$reflection = self::reflection($function);
 			$export = Type::isA($reflection, \ReflectionMethod::class)
 				? $reflection::export($reflection->getDeclaringClass()->getName(), $reflection->getName(), true)
@@ -224,7 +224,7 @@ final class Call extends Utility
 	 * @return string[]
 	 * <p>The modifiers from the given function.</p>
 	 */
-	final public static function modifiers($function) : array
+	final public static function modifiers($function): array
 	{
 		//reflection
 		$reflection = self::reflection($function);
@@ -271,7 +271,7 @@ final class Call extends Utility
 	 * @return string|null
 	 * <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
 	 */
-	final public static function name($function, bool $full = false, bool $short = false) : ?string
+	final public static function name($function, bool $full = false, bool $short = false): ?string
 	{
 		//optimization
 		if (!$full) {
@@ -322,9 +322,9 @@ final class Call extends Utility
 	 * @return string[]
 	 * <p>The parameters from the given function.</p>
 	 */
-	final public static function parameters($function, int $flags = 0x00) : array
+	final public static function parameters($function, int $flags = 0x00): array
 	{
-		return self::memoize(function ($function, int $flags = 0x00) : array {
+		return self::memoize(function ($function, int $flags = 0x00): array {
 			//initialize
 			$reflection = self::reflection($function);
 			$is_method = Type::isA($reflection, \ReflectionMethod::class);
@@ -412,7 +412,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The type from the given function.</p>
 	 */
-	final public static function type($function, int $flags = 0x00) : string
+	final public static function type($function, int $flags = 0x00): string
 	{
 		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
@@ -437,7 +437,7 @@ final class Call extends Utility
 	 * 
 	 * The returning header from the given function is represented by its modifiers, name, parameters and type.<br>
 	 * The expected return format is 
-	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...) : type</samp> .
+	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...): type</samp> .
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
@@ -455,7 +455,7 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The header from the given function.</p>
 	 */
-	final public static function header($function, int $flags = 0x00) : string
+	final public static function header($function, int $flags = 0x00): string
 	{
 		//initialize
 		$modifiers = self::modifiers($function);
@@ -500,7 +500,7 @@ final class Call extends Utility
 		}
 		$header .= '(' . implode(', ', $parameters) . ')';
 		if ($type !== '') {
-			$header .= " : {$type}";
+			$header .= ": {$type}";
 		}
 		return $header;
 	}
@@ -516,9 +516,9 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The body from the given function.</p>
 	 */
-	final public static function body($function) : string
+	final public static function body($function): string
 	{
-		return self::memoize(function ($function) : string {
+		return self::memoize(function ($function): string {
 			//initialize
 			$reflection = self::reflection($function);
 			$filepath = $reflection->getFileName();
@@ -563,9 +563,9 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The source from the given function.</p>
 	 */
-	final public static function source($function, int $flags = 0x00) : string
+	final public static function source($function, int $flags = 0x00): string
 	{
-		return self::memoize(function ($function, int $flags = 0x00) : string {
+		return self::memoize(function ($function, int $flags = 0x00): string {
 			//initialize header
 			$header_flags = 0x00;
 			if ($flags & self::SOURCE_CONSTANTS_VALUES) {
@@ -595,7 +595,7 @@ final class Call extends Utility
 	 * 
 	 * The returning signature from the given function is represented only by its parameters and return types.<br>
 	 * The expected return format is as follows:<br>
-	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ) : return_type</samp>
+	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ): return_type</samp>
 	 * 
 	 * @since 1.0.0
 	 * @param callable|array|string $function
@@ -603,9 +603,9 @@ final class Call extends Utility
 	 * @return string
 	 * <p>The signature from the given function.</p>
 	 */
-	final public static function signature($function) : string
+	final public static function signature($function): string
 	{
-		return self::memoize(function ($function) : string {
+		return self::memoize(function ($function): string {
 			//initialize
 			$reflection = self::reflection($function);
 			
@@ -652,7 +652,7 @@ final class Call extends Utility
 					$return_type = "?{$return_type}";
 				}
 			}
-			$signature .= " : {$return_type}";
+			$signature .= ": {$return_type}";
 			
 			//return
 			return $signature;
@@ -723,9 +723,9 @@ final class Call extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
 	 */
-	final public static function isCompatible($function, $template) : bool
+	final public static function isCompatible($function, $template): bool
 	{
-		return self::memoize(function ($function, $template) : bool {
+		return self::memoize(function ($function, $template): bool {
 			//initialize
 			$f_reflection = self::reflection($function);
 			$t_reflection = self::reflection($template);
@@ -811,7 +811,7 @@ final class Call extends Utility
 	 * <p>The extension from the given function 
 	 * or <code>null</code> if the function does not belong to any extension.</p>
 	 */
-	final public static function extension($function) : ?string
+	final public static function extension($function): ?string
 	{
 		$extension = self::reflection($function)->getExtensionName();
 		return $extension === false ? null : $extension;
@@ -835,7 +835,7 @@ final class Call extends Utility
 	 */
 	final public static function evaluate(
 		&$value, $template = null, bool $nullable = false, bool $assertive = false
-	) : bool
+	): bool
 	{
 		try {
 			$value = self::coerce($value, $template, $nullable, $assertive);
@@ -865,7 +865,7 @@ final class Call extends Utility
 	 */
 	final public static function coerce(
 		$value, $template = null, bool $nullable = false, bool $assertive = false
-	) : ?callable
+	): ?callable
 	{
 		if (!isset($value)) {
 			if ($nullable) {
@@ -906,7 +906,7 @@ final class Call extends Utility
 	 * <p>The previous class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from a class.</p>
 	 */
-	final public static function stackPreviousClass(int $offset = 0) : ?string
+	final public static function stackPreviousClass(int $offset = 0): ?string
 	{
 		self::guardParameter('offset', $offset, $offset >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
@@ -928,7 +928,7 @@ final class Call extends Utility
 	 * @return string[]|null[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
-	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null) : array
+	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null): array
 	{
 		//guard
 		self::guardParameter('offset', $offset, $offset >= 0, [
@@ -959,7 +959,7 @@ final class Call extends Utility
 	 * <p>The previous object from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
 	 */
-	final public static function stackPreviousObject(int $offset = 0) : ?object
+	final public static function stackPreviousObject(int $offset = 0): ?object
 	{
 		self::guardParameter('offset', $offset, $offset >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
@@ -981,7 +981,7 @@ final class Call extends Utility
 	 * @return object[]|null[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
-	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null) : array
+	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null): array
 	{
 		//guard
 		self::guardParameter('offset', $offset, $offset >= 0, [
@@ -1035,7 +1035,7 @@ final class Call extends Utility
 	 * @return object[]|string[]|null[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
-	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null) : array
+	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null): array
 	{
 		//guard
 		self::guardParameter('offset', $offset, $offset >= 0, [
@@ -1073,7 +1073,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
 	 * @return void
 	 */
-	final public static function guard(bool $assertion, $options = null) : void
+	final public static function guard(bool $assertion, $options = null): void
 	{
 		//initialize
 		if ($assertion) {
@@ -1127,7 +1127,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
 	 * @return void
 	 */
-	final public static function guardParameter(string $name, $value, bool $assertion, $options = null) : void
+	final public static function guardParameter(string $name, $value, bool $assertion, $options = null): void
 	{
 		//initialize
 		if ($assertion) {
@@ -1174,7 +1174,7 @@ final class Call extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InternalError
 	 * @return void
 	 */
-	final public static function guardInternal(bool $assertion, $options = null) : void
+	final public static function guardInternal(bool $assertion, $options = null): void
 	{
 		//initialize
 		if ($assertion) {
@@ -1217,12 +1217,12 @@ final class Call extends Utility
 	 * &nbsp; &nbsp; 'hint_message' => &lt;hint_message&gt;<br>
 	 * ]</code></p>
 	 */
-	final private static function getGuardMessages(Options\Guard $options) : array
+	final private static function getGuardMessages(Options\Guard $options): array
 	{
 		//stringifier
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
-			$stringifier = function (string $placeholder, $value) use ($options) : ?string {
+			$stringifier = function (string $placeholder, $value) use ($options): ?string {
 				$string_options = $options->string_options->clone();
 				$string_options->quote_strings = true;
 				$string_options->prepend_type = is_bool($value);

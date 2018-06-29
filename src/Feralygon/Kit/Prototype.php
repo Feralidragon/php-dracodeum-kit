@@ -81,7 +81,7 @@ abstract class Prototype
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setComponent(Component $component) : Prototype
+	final public function setComponent(Component $component): Prototype
 	{
 		//guard
 		UCall::guard(!isset($this->component), [

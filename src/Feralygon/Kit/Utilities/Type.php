@@ -84,7 +84,7 @@ final class Type extends Utility
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
-	final public static function phpfy($value, $options = null) : ?string
+	final public static function phpfy($value, $options = null): ?string
 	{
 		//initialize
 		$options = Options\Phpfy::coerce($options);
@@ -113,7 +113,7 @@ final class Type extends Utility
 			$string = str_replace(["\v", "\f", "\r", "\e"], ['\\v', '\\f', '\\r', '\\e'], $string);
 			$string = preg_replace_callback(
 				'/[\x00-\x08\x0e-\x1a\x1c-\x1f\x7f-\xff]/',
-				function (array $matches) : string {
+				function (array $matches): string {
 					return '\\x' . bin2hex($matches[0]);
 				},
 				$string
@@ -234,7 +234,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a boolean.</p>
 	 */
-	final public static function evaluateBoolean(&$value, bool $nullable = false) : bool
+	final public static function evaluateBoolean(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceBoolean($value, $nullable);
@@ -269,7 +269,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into a boolean.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceBoolean($value, bool $nullable = false) : ?bool
+	final public static function coerceBoolean($value, bool $nullable = false): ?bool
 	{
 		//coerce
 		if (!isset($value)) {
@@ -339,7 +339,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a number.</p>
 	 */
-	final public static function evaluateNumber(&$value, bool $nullable = false) : bool
+	final public static function evaluateNumber(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceNumber($value, $nullable);
@@ -462,7 +462,7 @@ final class Type extends Utility
 	 */
 	final public static function evaluateInteger(
 		&$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false
-	) : bool
+	): bool
 	{
 		try {
 			$value = self::coerceInteger($value, $unsigned, $bits, $nullable);
@@ -509,7 +509,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceInteger(
 		$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false
-	) : ?int
+	): ?int
 	{
 		//guard
 		Call::guardParameter(
@@ -615,7 +615,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a float.</p>
 	 */
-	final public static function evaluateFloat(&$value, bool $nullable = false) : bool
+	final public static function evaluateFloat(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceFloat($value, $nullable);
@@ -652,7 +652,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into a float.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceFloat($value, bool $nullable = false) : ?float
+	final public static function coerceFloat($value, bool $nullable = false): ?float
 	{
 		//coerce
 		if (!isset($value)) {
@@ -701,7 +701,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a string.</p>
 	 */
-	final public static function evaluateString(&$value, bool $non_empty = false, bool $nullable = false) : bool
+	final public static function evaluateString(&$value, bool $non_empty = false, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceString($value, $non_empty, $nullable);
@@ -731,7 +731,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into a string.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false) : ?string
+	final public static function coerceString($value, bool $non_empty = false, bool $nullable = false): ?string
 	{
 		//coerce
 		if (!isset($value)) {
@@ -789,7 +789,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a class.</p>
 	 */
-	final public static function evaluateClass(&$value, $object_class_interface = null, bool $nullable = false) : bool
+	final public static function evaluateClass(&$value, $object_class_interface = null, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceClass($value, $object_class_interface, $nullable);
@@ -817,7 +817,7 @@ final class Type extends Utility
 	 * <p>The given value coerced into a class.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceClass($value, $object_class_interface = null, bool $nullable = false) : ?string
+	final public static function coerceClass($value, $object_class_interface = null, bool $nullable = false): ?string
 	{
 		//nullable
 		if (!isset($value)) {
@@ -897,7 +897,7 @@ final class Type extends Utility
 	 */
 	final public static function evaluateObject(
 		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
-	) : bool
+	): bool
 	{
 		try {
 			$value = self::coerceObject($value, $object_class_interface, $arguments, $nullable);
@@ -932,7 +932,7 @@ final class Type extends Utility
 	 */
 	final public static function coerceObject(
 		$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
-	) : ?object
+	): ?object
 	{
 		//nullable
 		if (!isset($value)) {
@@ -1058,7 +1058,7 @@ final class Type extends Utility
 	 */
 	final public static function evaluateObjectClass(
 		&$value, $object_class_interface = null, bool $nullable = false
-	) : bool
+	): bool
 	{
 		try {
 			$value = self::coerceObjectClass($value, $object_class_interface, $nullable);
@@ -1187,7 +1187,7 @@ final class Type extends Utility
 	 * @return object
 	 * <p>The new instance from the given object or class reference.</p>
 	 */
-	final public static function construct($object_class, ...$arguments) : object
+	final public static function construct($object_class, ...$arguments): object
 	{
 		$class = self::class($object_class);
 		return new $class(...$arguments);
@@ -1205,7 +1205,7 @@ final class Type extends Utility
 	 * <p>Boolean <code>true</code> if the given object or class extends from or 
 	 * is of the same class as the given base object or class.</p>
 	 */
-	final public static function isA($object_class, $base_object_class) : bool
+	final public static function isA($object_class, $base_object_class): bool
 	{
 		return is_a(
 			is_object($object_class) ? $object_class : self::class($object_class),
@@ -1225,7 +1225,7 @@ final class Type extends Utility
 	 * <p>Boolean <code>true</code> if all the given objects or classes extend from or
 	 * are of the same class as the given base object or class.</p>
 	 */
-	final public static function areA(array $objects_classes, $base_object_class) : bool
+	final public static function areA(array $objects_classes, $base_object_class): bool
 	{
 		$base_class = self::class($base_object_class);
 		foreach ($objects_classes as $object_class) {
@@ -1248,7 +1248,7 @@ final class Type extends Utility
 	 * <p>Boolean <code>true</code> if the given object or class extends from or
 	 * is of the same class as any of the given base objects or classes.</p>
 	 */
-	final public static function isAny($object_class, array $base_objects_classes) : bool
+	final public static function isAny($object_class, array $base_objects_classes): bool
 	{
 		if (!is_object($object_class)) {
 			$object_class = self::class($object_class);
@@ -1273,7 +1273,7 @@ final class Type extends Utility
 	 * <p>Boolean <code>true</code> if the given objects or classes extend from or
 	 * are of the same class as any of the given base objects or classes.</p>
 	 */
-	final public static function areAny(array $objects_classes, array $base_objects_classes) : bool
+	final public static function areAny(array $objects_classes, array $base_objects_classes): bool
 	{
 		//objects and classes
 		foreach ($objects_classes as &$object_class) {
@@ -1317,7 +1317,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class implements the given interface.</p>
 	 */
-	final public static function implements($object_class, string $interface) : bool
+	final public static function implements($object_class, string $interface): bool
 	{
 		return is_a(
 			is_object($object_class) ? $object_class : self::class($object_class), self::interface($interface), true
@@ -1336,7 +1336,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class implements any of the given interfaces.</p>
 	 */
-	final public static function implementsAny($object_class, array $interfaces) : bool
+	final public static function implementsAny($object_class, array $interfaces): bool
 	{
 		if (!is_object($object_class)) {
 			$object_class = self::class($object_class);
@@ -1361,7 +1361,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class implements all the given interfaces.</p>
 	 */
-	final public static function implementsAll($object_class, array $interfaces) : bool
+	final public static function implementsAll($object_class, array $interfaces): bool
 	{
 		if (!is_object($object_class)) {
 			$object_class = self::class($object_class);
@@ -1383,7 +1383,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class is anonymous.</p>
 	 */
-	final public static function isAnonymous($object_class) : bool
+	final public static function isAnonymous($object_class): bool
 	{
 		return preg_match('/^class@anonymous/', self::class($object_class));
 	}
@@ -1405,7 +1405,7 @@ final class Type extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function class($object_class, bool $no_throw = false) : ?string
+	final public static function class($object_class, bool $no_throw = false): ?string
 	{
 		if (is_object($object_class)) {
 			return get_class($object_class);
@@ -1439,7 +1439,7 @@ final class Type extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be found.</p>
 	 */
-	final public static function interface(string $interface, bool $no_throw = false) : ?string
+	final public static function interface(string $interface, bool $no_throw = false): ?string
 	{
 		if (!interface_exists($interface)) {
 			if ($no_throw) {
@@ -1461,7 +1461,7 @@ final class Type extends Utility
 	 * @return string
 	 * <p>The basename from the given object or class.</p>
 	 */
-	final public static function basename($object_class) : string
+	final public static function basename($object_class): string
 	{
 		return (new \ReflectionClass(self::class($object_class)))->getShortName();
 	}
@@ -1484,7 +1484,7 @@ final class Type extends Utility
 	 * @return string
 	 * <p>The namespace from the given object or class.</p>
 	 */
-	final public static function namespace($object_class, ?int $depth = null) : string
+	final public static function namespace($object_class, ?int $depth = null): string
 	{
 		$namespace = (new \ReflectionClass(self::class($object_class)))->getNamespaceName();
 		if (isset($depth)) {
@@ -1507,7 +1507,7 @@ final class Type extends Utility
 	 * @return string
 	 * <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
-	final public static function filepath($object_class) : ?string
+	final public static function filepath($object_class): ?string
 	{
 		$filepath = (new \ReflectionClass(self::class($object_class)))->getFileName();
 		return $filepath === false ? null : $filepath;
@@ -1525,7 +1525,7 @@ final class Type extends Utility
 	 * <p>The directory from the given object or class 
 	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
-	final public static function directory($object_class) : ?string
+	final public static function directory($object_class): ?string
 	{
 		$filepath = self::filepath($object_class);
 		return isset($filepath) ? dirname($filepath) : null;
@@ -1542,7 +1542,7 @@ final class Type extends Utility
 	 * @return string
 	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
-	final public static function filename($object_class) : ?string
+	final public static function filename($object_class): ?string
 	{
 		$filepath = self::filepath($object_class);
 		return isset($filepath) ? basename($filepath) : null;

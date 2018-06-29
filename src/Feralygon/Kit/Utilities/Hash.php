@@ -37,7 +37,7 @@ final class Hash extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a hash.</p>
 	 */
-	final public static function evaluate(&$value, int $bits, bool $nullable = false) : bool
+	final public static function evaluate(&$value, int $bits, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerce($value, $bits, $nullable);
@@ -68,7 +68,7 @@ final class Hash extends Utility
 	 * <p>The given value coerced into a hash.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerce($value, int $bits, bool $nullable = false) : ?string
+	final public static function coerce($value, int $bits, bool $nullable = false): ?string
 	{
 		//guard
 		Call::guardParameter('bits', $bits, $bits > 0 && $bits % 8 === 0, [

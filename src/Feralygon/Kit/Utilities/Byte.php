@@ -104,7 +104,7 @@ final class Byte extends Utility
 	 * @return string
 	 * <p>The human-readable value from the given machine one.</p>
 	 */
-	final public static function hvalue(int $value, $options = null) : string
+	final public static function hvalue(int $value, $options = null): string
 	{
 		//initialize
 		$options = Options\Hvalue::coerce($options);
@@ -160,7 +160,7 @@ final class Byte extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function mvalue(string $value, bool $no_throw = false) : ?int
+	final public static function mvalue(string $value, bool $no_throw = false): ?int
 	{
 		//parse
 		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
@@ -214,7 +214,7 @@ final class Byte extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a size.</p>
 	 */
-	final public static function evaluateSize(&$value, bool $nullable = false) : bool
+	final public static function evaluateSize(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceSize($value, $nullable);
@@ -252,7 +252,7 @@ final class Byte extends Utility
 	 * <p>The given value coerced into a size.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceSize($value, bool $nullable = false) : ?int
+	final public static function coerceSize($value, bool $nullable = false): ?int
 	{
 		//coerce
 		if (!isset($value)) {
@@ -308,7 +308,7 @@ final class Byte extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a multiple.</p>
 	 */
-	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
+	final public static function evaluateMultiple(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceMultiple($value, $nullable);
@@ -339,7 +339,7 @@ final class Byte extends Utility
 	 * <p>The given value coerced into a multiple.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceMultiple($value, bool $nullable = false) : ?int
+	final public static function coerceMultiple($value, bool $nullable = false): ?int
 	{
 		//nullable
 		if (!isset($value)) {

@@ -68,13 +68,13 @@ abstract class Options implements \ArrayAccess, IArrayInstantiable
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property|null
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
-	abstract protected function buildProperty(string $name) : ?Property;
+	abstract protected function buildProperty(string $name): ?Property;
 	
 	
 	
 	//Implemented final public static methods (Feralygon\Kit\Interfaces\ArrayInstantiable)
 	/** {@inheritdoc} */
-	final public static function fromArray(array $array) : object
+	final public static function fromArray(array $array): object
 	{
 		return new static($array);
 	}
@@ -93,7 +93,7 @@ abstract class Options implements \ArrayAccess, IArrayInstantiable
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(bool $readonly = false) : Options
+	final public function clone(bool $readonly = false): Options
 	{
 		return new static($this->getAll(), $readonly);
 	}
@@ -119,7 +119,7 @@ abstract class Options implements \ArrayAccess, IArrayInstantiable
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
-	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false) : bool
+	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false): bool
 	{
 		try {
 			$value = static::coerce($value, $clone, $readonly);
@@ -148,7 +148,7 @@ abstract class Options implements \ArrayAccess, IArrayInstantiable
 	 * @return static
 	 * <p>The given value coerced into an instance.</p>
 	 */
-	final public static function coerce($value, bool $clone = false, bool $readonly = false) : Options
+	final public static function coerce($value, bool $clone = false, bool $readonly = false): Options
 	{
 		//coerce
 		try {

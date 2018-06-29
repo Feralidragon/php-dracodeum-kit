@@ -134,7 +134,7 @@ final class Time extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function timestamp($timestamp, bool $no_throw = false) : ?int
+	final public static function timestamp($timestamp, bool $no_throw = false): ?int
 	{
 		//timestamp
 		if (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
@@ -212,7 +212,7 @@ final class Time extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date and time.</p>
 	 */
-	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false) : bool
+	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceDateTime($value, $format, $nullable);
@@ -294,7 +294,7 @@ final class Time extends Utility
 	 * @return string
 	 * <p>The generated string from the given date and time.</p>
 	 */
-	final public static function stringifyDateTime($datetime, $text_options = null) : string
+	final public static function stringifyDateTime($datetime, $text_options = null): string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d H:i:s e';
@@ -330,7 +330,7 @@ final class Time extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date.</p>
 	 */
-	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false) : bool
+	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceDate($value, $format, $nullable);
@@ -413,7 +413,7 @@ final class Time extends Utility
 	 * @return string
 	 * <p>The generated string from the given date.</p>
 	 */
-	final public static function stringifyDate($date, $text_options = null) : string
+	final public static function stringifyDate($date, $text_options = null): string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'Y-m-d';
@@ -449,7 +449,7 @@ final class Time extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a time.</p>
 	 */
-	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false) : bool
+	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceTime($value, $format, $nullable);
@@ -531,7 +531,7 @@ final class Time extends Utility
 	 * @return string
 	 * <p>The generated string from the given time.</p>
 	 */
-	final public static function stringifyTime($time, $text_options = null) : string
+	final public static function stringifyTime($time, $text_options = null): string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$format = 'H:i:s e';
@@ -565,7 +565,7 @@ final class Time extends Utility
 	 * @return string
 	 * <p>The calculated period on how long ago it has been, in a human-readable format, since the given timestamp.</p>
 	 */
-	final public static function ago($timestamp, $text_options = null) : string
+	final public static function ago($timestamp, $text_options = null): string
 	{
 		//initialize
 		$timestamp = self::timestamp($timestamp);
@@ -704,7 +704,7 @@ final class Time extends Utility
 	 * @return string
 	 * <p>The human-readable period from the given machine one.</p>
 	 */
-	final public static function hperiod(float $period, $text_options = null, $options = null) : string
+	final public static function hperiod(float $period, $text_options = null, $options = null): string
 	{
 		//initialize
 		$text_options = TextOptions::coerce($text_options);
@@ -935,7 +935,7 @@ final class Time extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
-	final public static function mperiod(string $period, bool $no_throw = false) : ?float
+	final public static function mperiod(string $period, bool $no_throw = false): ?float
 	{
 		//parse
 		$pattern = '/(?P<signs>[\-+])?(?P<times>\d+(?:[\.,]\d+)?)\s*(?P<multiples>[^\s,]+)?/i';
@@ -978,7 +978,7 @@ final class Time extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a multiple.</p>
 	 */
-	final public static function evaluateMultiple(&$value, bool $nullable = false) : bool
+	final public static function evaluateMultiple(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceMultiple($value, $nullable);
@@ -1082,7 +1082,7 @@ final class Time extends Utility
 	 * @return float[]|string[]|\DateTime[]|\DateTimeImmutable[]
 	 * <p>The generated time series from the given start timestamp, as <samp>timestamp => timestamp</samp> pairs.</p>
 	 */
-	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null) : array
+	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null): array
 	{
 		//initialize
 		$start_timestamp = $start;

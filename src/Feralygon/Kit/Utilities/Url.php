@@ -43,7 +43,7 @@ final class Url extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
-	final public static function stringify($value, bool $no_encode = false, bool $no_throw = false) : ?string
+	final public static function stringify($value, bool $no_encode = false, bool $no_throw = false): ?string
 	{
 		//value
 		if (!is_string($value)) {
@@ -86,7 +86,7 @@ final class Url extends Utility
 	 * @return string|null
 	 * <p>The querified parameters into a query string or <code>null</code> if an empty set of parameters was given.</p>
 	 */
-	final public static function querify(array $parameters, $options = null) : ?string
+	final public static function querify(array $parameters, $options = null): ?string
 	{
 		//initialize
 		if (empty($parameters)) {
@@ -97,7 +97,7 @@ final class Url extends Utility
 		$no_encode = $options->no_encode;
 		
 		//querify
-		$f = function (array $values, ?string $name = null) use (&$f, $allow_arrays, $no_encode) : array {
+		$f = function (array $values, ?string $name = null) use (&$f, $allow_arrays, $no_encode): array {
 			$query = [];
 			$associative = Data::isAssociative($values);
 			foreach ($values as $key => $value) {
@@ -139,7 +139,7 @@ final class Url extends Utility
 	 * @return array
 	 * <p>The unquerified array from the given string, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public static function unquerify(string $string, $options = null) : array
+	final public static function unquerify(string $string, $options = null): array
 	{
 		//initialize
 		$options = Options\Unquerify::coerce($options);

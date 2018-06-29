@@ -52,7 +52,7 @@ abstract class Factory
 	 * @return \Feralygon\Kit\Factory\Type|null
 	 * <p>The built type instance with the given name or <code>null</code> if none was built.</p>
 	 */
-	abstract protected static function buildType(string $name) : ?Type;
+	abstract protected static function buildType(string $name): ?Type;
 	
 	
 	
@@ -68,7 +68,7 @@ abstract class Factory
 	 * It must implement the builder interface set for the given type.</p>
 	 * @return void
 	 */
-	final public static function setBuilder(string $type, $builder) : void
+	final public static function setBuilder(string $type, $builder): void
 	{
 		static::getType($type)->setBuilder($builder);
 	}
@@ -89,7 +89,7 @@ abstract class Factory
 	 * <p>The type instance with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final protected static function getType(string $name, bool $no_throw = false) : ?Type
+	final protected static function getType(string $name, bool $no_throw = false): ?Type
 	{
 		if (!isset(self::$types[static::class][$name])) {
 			//build
@@ -133,7 +133,7 @@ abstract class Factory
 	 * @return \Feralygon\Kit\Factory\Type
 	 * <p>The created type instance with the given builder interface and instance or class.</p>
 	 */
-	final protected static function createType(string $builder_interface, $builder) : Type
+	final protected static function createType(string $builder_interface, $builder): Type
 	{
 		UCall::guard(isset(self::$current_type_name), [
 			'hint_message' => "This method may only be called from within the \"buildType\" method."
@@ -152,7 +152,7 @@ abstract class Factory
 	 * @return object
 	 * <p>The built object for the given type.</p>
 	 */
-	final protected static function build(string $type, ...$arguments) : object
+	final protected static function build(string $type, ...$arguments): object
 	{
 		//build
 		$type = static::getType($type);

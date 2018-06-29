@@ -92,7 +92,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is empty.</p>
 	 */
-	final public static function empty(?string $string, bool $ignore_whitespace = false) : bool
+	final public static function empty(?string $string, bool $ignore_whitespace = false): bool
 	{
 		if (!isset($string)) {
 			return true;
@@ -132,7 +132,7 @@ final class Text extends Utility
 	 */
 	final public static function coalesce(
 		array $strings, array $keys = [], bool $ignore_whitespace = false, &$coalesced_key = null
-	) : ?string
+	): ?string
 	{
 		$coalesced_key = null;
 		foreach (empty($keys) ? array_keys($strings) : $keys as $key) {
@@ -164,7 +164,7 @@ final class Text extends Utility
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
-	final public static function stringify($value, $text_options = null, $options = null) : ?string
+	final public static function stringify($value, $text_options = null, $options = null): ?string
 	{
 		//initialize
 		$text_options = TextOptions::coerce($text_options);
@@ -391,7 +391,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The slugified string from the given one.</p>
 	 */
-	final public static function slugify(string $string, bool $keep_case = false, string $delimiter = '-') : string
+	final public static function slugify(string $string, bool $keep_case = false, string $delimiter = '-'): string
 	{
 		//guard
 		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
@@ -425,7 +425,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The unslugified string from the given one.</p>
 	 */
-	final public static function unslugify(string $string, int $flags = 0x00) : string
+	final public static function unslugify(string $string, int $flags = 0x00): string
 	{
 		$string = trim(preg_replace('/[^a-z\d]+/i', ' ', $string));
 		if ($flags & self::UNSLUG_CAPITALIZE_ALL) {
@@ -452,7 +452,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The bulletified string from the given one.</p>
 	 */
-	final public static function bulletify(string $string, $text_options = null, $options = null) : string
+	final public static function bulletify(string $string, $text_options = null, $options = null): string
 	{
 		//initialize
 		$options = Options\Bulletify::coerce($options);
@@ -551,7 +551,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is an identifier.</p>
 	 */
-	final public static function isIdentifier(string $string, bool $extended = false) : bool
+	final public static function isIdentifier(string $string, bool $extended = false): bool
 	{
 		return preg_match($extended ? '/^[a-z_]\w*(?:\.[a-z_]\w*)*$/i' : '/^[a-z_]\w*$/i', $string);
 	}
@@ -572,7 +572,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string matches the given wildcard.</p>
 	 */
-	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false) : bool
+	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false): bool
 	{
 		$pattern = '/^' . 
 			implode('.*', array_map(function ($s) { return preg_quote($s, '/'); }, explode('*', $wildcard))) . 
@@ -599,7 +599,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
 	 */
-	final public static function isAnyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false) : bool
+	final public static function isAnyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false): bool
 	{
 		foreach ($wildcards as $wildcard) {
 			if (self::isWildcardMatch($string, $wildcard, $insensitive)) {
@@ -639,7 +639,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string filled with the given set of parameters.</p>
 	 */
-	final public static function fill(string $string, array $parameters, $text_options = null, $options = null) : string
+	final public static function fill(string $string, array $parameters, $text_options = null, $options = null): string
 	{
 		//initialize
 		$options = Options\Fill::coerce($options);
@@ -781,7 +781,7 @@ final class Text extends Utility
 	final public static function pfill(
 		string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [],
 		$text_options = null, $options = null
-	) : string
+	): string
 	{
 		$options = Options\Pfill::coerce($options);
 		$string = abs($number) === 1.0 ? $string1 : $string2;
@@ -814,7 +814,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is a placeholder.</p>
 	 */
-	final public static function isPlaceholder(string $string) : bool
+	final public static function isPlaceholder(string $string): bool
 	{
 		return preg_match('/^(?:[a-z_]\w*(?:\(\))?)(?:\.[a-z_]\w*(?:\(\))?)*$/i', $string);
 	}
@@ -830,7 +830,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string has the given placeholder.</p>
 	 */
-	final public static function hasPlaceholder(string $string, string $placeholder) : bool
+	final public static function hasPlaceholder(string $string, string $placeholder): bool
 	{
 		Call::guardParameter('placeholder', $placeholder, self::isPlaceholder($placeholder));
 		return strpos($string, "{{{$placeholder}}}") !== false;
@@ -847,7 +847,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string has all the given placeholders.</p>
 	 */
-	final public static function hasAllPlaceholders(string $string, array $placeholders) : bool
+	final public static function hasAllPlaceholders(string $string, array $placeholders): bool
 	{
 		foreach ($placeholders as $placeholder) {
 			if (!self::hasPlaceholder($string, $placeholder)) {
@@ -868,7 +868,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string has any of the given placeholders.</p>
 	 */
-	final public static function hasAnyPlaceholders(string $string, array $placeholders) : bool
+	final public static function hasAnyPlaceholders(string $string, array $placeholders): bool
 	{
 		foreach ($placeholders as $placeholder) {
 			if (self::hasPlaceholder($string, $placeholder)) {
@@ -902,7 +902,7 @@ final class Text extends Utility
 	 * <p>The placeholders from the given string.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then any invalid placeholders found are ignored.</p>
 	 */
-	final public static function placeholders(string $string, bool $no_throw = false) : array
+	final public static function placeholders(string $string, bool $no_throw = false): array
 	{
 		$placeholders = [];
 		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/Us', $string, $matches) > 0) {
@@ -955,7 +955,7 @@ final class Text extends Utility
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if they could not be extracted.</p>
 	 */
-	final public static function extract(string $string, string $mask, $options = null) : ?array
+	final public static function extract(string $string, string $mask, $options = null): ?array
 	{
 		//initialize
 		$options = Options\Extract::coerce($options);
@@ -1038,7 +1038,7 @@ final class Text extends Utility
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if no data could be parsed.</p>
 	 */
-	final public static function parse(string $string, array $fields_patterns, $options = null) : ?array
+	final public static function parse(string $string, array $fields_patterns, $options = null): ?array
 	{
 		//initialize
 		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true);
@@ -1079,7 +1079,7 @@ final class Text extends Utility
 	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
-	final public static function mparse(array $strings, array $fields_patterns, $options = null) : array
+	final public static function mparse(array $strings, array $fields_patterns, $options = null): array
 	{
 		//initialize
 		$options = Options\Mparse::coerce($options);
@@ -1088,7 +1088,7 @@ final class Text extends Utility
 		$pattern_modifiers = $options->pattern_modifiers;
 		$keep_nulls = $options->keep_nulls;
 		$no_throw = $options->no_throw;
-		$strings = Data::coerce($strings, function (&$key, &$value) : bool {
+		$strings = Data::coerce($strings, function (&$key, &$value): bool {
 			return Type::evaluateString($value);
 		});
 		
@@ -1163,7 +1163,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string with the first letter converted to lowercase.</p>
 	 */
-	final public static function lcfirst(string $string, bool $unicode = false) : string
+	final public static function lcfirst(string $string, bool $unicode = false): string
 	{
 		if ($unicode) {
 			$encoding = Locale::getEncoding();
@@ -1185,7 +1185,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string with the first letter converted to uppercase.</p>
 	 */
-	final public static function ucfirst(string $string, bool $unicode = false) : string
+	final public static function ucfirst(string $string, bool $unicode = false): string
 	{
 		if ($unicode) {
 			$encoding = Locale::getEncoding();
@@ -1206,7 +1206,7 @@ final class Text extends Utility
 	 * @return int
 	 * <p>The length of the given string.</p>
 	 */
-	final public static function length(string $string, bool $unicode = false) : int
+	final public static function length(string $string, bool $unicode = false): int
 	{
 		return $unicode ? mb_strlen($string, Locale::getEncoding()) : strlen($string);
 	}
@@ -1222,7 +1222,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string converted to uppercase.</p>
 	 */
-	final public static function upper(string $string, bool $unicode = false) : string
+	final public static function upper(string $string, bool $unicode = false): string
 	{
 		return $unicode ? mb_strtoupper($string, Locale::getEncoding()) : strtoupper($string);
 	}
@@ -1238,7 +1238,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string converted to lowercase.</p>
 	 */
-	final public static function lower(string $string, bool $unicode = false) : string
+	final public static function lower(string $string, bool $unicode = false): string
 	{
 		return $unicode ? mb_strtolower($string, Locale::getEncoding()) : strtolower($string);
 	}
@@ -1263,7 +1263,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The sub-string from the given string from the given starting index.</p>
 	 */
-	final public static function sub(string $string, int $start, ?int $length = null, bool $unicode = false) : string
+	final public static function sub(string $string, int $start, ?int $length = null, bool $unicode = false): string
 	{
 		return $unicode
 			? mb_substr($string, $start, $length, Locale::getEncoding())
@@ -1284,7 +1284,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string capitalized.</p>
 	 */
-	final public static function capitalize(string $string, bool $unicode = false) : string
+	final public static function capitalize(string $string, bool $unicode = false): string
 	{
 		$pattern = $unicode
 			? '/^(?P<start>[^\pL]*)(?P<first_word>\pL[\pL\-]*)(?P<end>.*)$/usm'
@@ -1312,7 +1312,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string uncapitalized.</p>
 	 */
-	final public static function uncapitalize(string $string, bool $unicode = false) : string
+	final public static function uncapitalize(string $string, bool $unicode = false): string
 	{
 		$pattern = $unicode
 			? '/^(?P<start>[^\pL]*)(?P<first_word>\pL[\pL\-]*)(?P<end>.*)$/usm'
@@ -1354,7 +1354,7 @@ final class Text extends Utility
 	 */
 	final public static function distance(
 		string $string1, string $string2, bool $damerau = false, bool $insensitive = false, bool $unicode = false
-	) : int
+	): int
 	{
 		//prepare
 		if ($insensitive) {
@@ -1428,7 +1428,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string truncated to the given length.</p>
 	 */
-	final public static function truncate(string $string, int $length, $options = null) : string
+	final public static function truncate(string $string, int $length, $options = null): string
 	{
 		//guard
 		Call::guardParameter('length', $length, $length >= 0, [
@@ -1515,7 +1515,7 @@ final class Text extends Utility
 	 * @return string
 	 * <p>The given string indentated.</p>
 	 */
-	final public static function indentate(string $string, int $level = 1, string $character = "\t") : string
+	final public static function indentate(string $string, int $level = 1, string $character = "\t"): string
 	{
 		Call::guardParameter('level', $level, $level >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
@@ -1537,7 +1537,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is multiline.</p>
 	 */
-	final public static function isMultiline(string $string) : bool
+	final public static function isMultiline(string $string): bool
 	{
 		return strpos($string, "\n") !== false;
 	}
@@ -1559,7 +1559,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in camel case notation.</p>
 	 */
-	final public static function isCamelCase(string $string) : bool
+	final public static function isCamelCase(string $string): bool
 	{
 		return preg_match('/^[a-z][A-z\d]*$/', $string);
 	}
@@ -1581,7 +1581,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in pascal case notation.</p>
 	 */
-	final public static function isPascalCase(string $string) : bool
+	final public static function isPascalCase(string $string): bool
 	{
 		return preg_match('/^[A-Z][A-z\d]*$/', $string);
 	}
@@ -1604,7 +1604,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in snake case notation.</p>
 	 */
-	final public static function isSnakeCase(string $string) : bool
+	final public static function isSnakeCase(string $string): bool
 	{
 		return preg_match('/^[a-z][a-z\d]*(?:_[a-z\d]+)*$/', $string);
 	}
@@ -1626,7 +1626,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in kebab case notation.</p>
 	 */
-	final public static function isKebabCase(string $string) : bool
+	final public static function isKebabCase(string $string): bool
 	{
 		return preg_match('/^[a-z][a-z\d]*(?:-[a-z\d]+)*$/', $string);
 	}
@@ -1648,7 +1648,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in macro case notation.</p>
 	 */
-	final public static function isMacroCase(string $string) : bool
+	final public static function isMacroCase(string $string): bool
 	{
 		return preg_match('/^[A-Z][A-Z\d]*(?:_[A-Z\d]+)*$/', $string);
 	}
@@ -1670,7 +1670,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is in cobol case notation.</p>
 	 */
-	final public static function isCobolCase(string $string) : bool
+	final public static function isCobolCase(string $string): bool
 	{
 		return preg_match('/^[A-Z][A-Z\d]*(?:-[A-Z\d]+)*$/', $string);
 	}
@@ -1726,7 +1726,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if no notation was recognized.</p>
 	 */
-	final public static function caseNotation(string $string, bool $no_throw = false) : ?string
+	final public static function caseNotation(string $string, bool $no_throw = false): ?string
 	{
 		if (self::isSnakeCase($string)) {
 			return self::CASE_SNAKE;
@@ -1769,7 +1769,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toCamelCase(string $string, bool $no_throw = false) : ?string
+	final public static function toCamelCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_CAMEL) {
@@ -1813,7 +1813,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toPascalCase(string $string, bool $no_throw = false) : ?string
+	final public static function toPascalCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_PASCAL) {
@@ -1850,7 +1850,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toSnakeCase(string $string, bool $no_throw = false) : ?string
+	final public static function toSnakeCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_SNAKE) {
@@ -1893,7 +1893,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toKebabCase(string $string, bool $no_throw = false) : ?string
+	final public static function toKebabCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_KEBAB) {
@@ -1936,7 +1936,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toMacroCase(string $string, bool $no_throw = false) : ?string
+	final public static function toMacroCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_MACRO) {
@@ -1979,7 +1979,7 @@ final class Text extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
-	final public static function toCobolCase(string $string, bool $no_throw = false) : ?string
+	final public static function toCobolCase(string $string, bool $no_throw = false): ?string
 	{
 		$notation = self::caseNotation($string, $no_throw);
 		if ($notation === self::CASE_COBOL) {
@@ -2060,7 +2060,7 @@ final class Text extends Utility
 	 */
 	final public static function localize(
 		string $message, ?string $context = null, $text_options = null, $options = null
-	) : string
+	): string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Localize::coerce($options);
@@ -2150,7 +2150,7 @@ final class Text extends Utility
 	final public static function plocalize(
 		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
 		$text_options = null, $options = null
-	) : string
+	): string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Plocalize::coerce($options);

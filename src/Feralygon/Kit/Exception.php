@@ -62,7 +62,7 @@ abstract class Exception extends \Exception implements IArrayable
 			
 			//message
 			$message = UText::fill($message, $parameters, null, [
-				'stringifier' => function (string $placeholder, $value) use ($options) : ?string {
+				'stringifier' => function (string $placeholder, $value) use ($options): ?string {
 					$string = null;
 					if (isset($options->stringifier)) {
 						$string = ($options->stringifier)($placeholder, $value);
@@ -97,7 +97,7 @@ abstract class Exception extends \Exception implements IArrayable
 	 * @return string
 	 * <p>The default message.</p>
 	 */
-	abstract public function getDefaultMessage() : string;
+	abstract public function getDefaultMessage(): string;
 	
 	
 	
@@ -113,7 +113,7 @@ abstract class Exception extends \Exception implements IArrayable
 	 * @return string
 	 * <p>The string for the given placeholder from the given value.</p>
 	 */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		return UText::stringify($value, null, ['quote_strings' => true, 'prepend_type' => is_bool($value)]);
 	}

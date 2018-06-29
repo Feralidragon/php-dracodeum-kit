@@ -107,7 +107,7 @@ abstract class Component
 		$this->preInitialize();
 		
 		//remainderer
-		$remainderer = function (array $properties) use ($prototype) : void {
+		$remainderer = function (array $properties) use ($prototype): void {
 			//prototype base class
 			$prototype_base_class = $this->getBasePrototypeClass();
 			UCall::guardInternal(UType::isA($prototype_base_class, Prototype::class), [
@@ -191,7 +191,7 @@ abstract class Component
 	 * @return string
 	 * <p>The base prototype class.</p>
 	 */
-	abstract public static function getBasePrototypeClass() : string;
+	abstract public static function getBasePrototypeClass(): string;
 	
 	
 	
@@ -209,7 +209,7 @@ abstract class Component
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
@@ -222,7 +222,7 @@ abstract class Component
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
+	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -237,7 +237,7 @@ abstract class Component
 	 */
 	final public static function evaluate(
 		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
-	) : bool
+	): bool
 	{
 		try {
 			$value = static::coerce($value, $properties, $builder, $named_builder);
@@ -260,7 +260,7 @@ abstract class Component
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
@@ -273,7 +273,7 @@ abstract class Component
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
+	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -289,7 +289,7 @@ abstract class Component
 	 */
 	final public static function coerce(
 		$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
-	) : Component
+	): Component
 	{
 		//check
 		if (!isset($value)) {
@@ -309,7 +309,7 @@ abstract class Component
 		//named builder
 		if (isset($named_builder) && is_string($value)) {
 			//assert
-			UCall::assert('named_builder', $named_builder, function (string $name, array $properties) : ?Component {});
+			UCall::assert('named_builder', $named_builder, function (string $name, array $properties): ?Component {});
 			
 			//build
 			$instance = null;
@@ -353,7 +353,7 @@ abstract class Component
 		
 		//builder
 		if (isset($builder)) {
-			UCall::assert('builder', $builder, function ($prototype, array $properties) : Component {});
+			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
 			try {
 				return UType::coerceObject($builder($value, $properties), static::class);
 			} catch (\Exception $exception) {
@@ -392,7 +392,7 @@ abstract class Component
 	 * @return \Feralygon\Kit\Prototype
 	 * <p>The prototype instance.</p>
 	 */
-	final protected function getPrototype() : Prototype
+	final protected function getPrototype(): Prototype
 	{
 		return $this->prototype;
 	}
