@@ -90,8 +90,7 @@ trait Memoization
 	 */
 	final protected static function memoize(
 		callable $function, ?float $ttl = null, bool $persist = false, array $key_parameters = []
-	)
-	{
+	) {
 		//backtrace
 		$backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
 		

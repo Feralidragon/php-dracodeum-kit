@@ -1486,8 +1486,7 @@ final class Data extends Utility
 	 */
 	final public static function set(
 		array &$array, string $path, $value, string $delimiter = '.', bool $no_throw = false
-	)
-	{
+	) {
 		//guard
 		Call::guardParameter('delimiter', $delimiter, strlen($delimiter) === 1, [
 			'hint_message' => "Only a single ASCII character is allowed."

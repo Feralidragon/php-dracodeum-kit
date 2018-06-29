@@ -217,8 +217,7 @@ class Memoization
 	final public function memoizeFunction(
 		string $name, callable $function, array $arguments = [], ?float $ttl = null, bool $persist = false,
 		array $key_parameters = []
-	)
-	{
+	) {
 		//key
 		$key = UData::keyfy([$name, $arguments, $key_parameters], $safe);
 		if (!$safe) {
