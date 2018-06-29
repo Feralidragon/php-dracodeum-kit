@@ -20,7 +20,7 @@ class Truncate extends Filters\Truncate
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {

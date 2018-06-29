@@ -34,19 +34,19 @@ class Float64 extends Number
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'float64';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UType::evaluateFloat($value);
 	}
 	
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
@@ -60,7 +60,7 @@ class Float64 extends Number
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -92,7 +92,7 @@ class Float64 extends Number
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -127,7 +127,7 @@ class Float64 extends Number
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getNotationStrings(TextOptions $text_options) : array
+	protected function getNotationStrings(TextOptions $text_options): array
 	{
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {

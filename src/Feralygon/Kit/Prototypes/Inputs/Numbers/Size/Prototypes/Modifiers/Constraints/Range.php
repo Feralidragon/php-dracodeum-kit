@@ -22,7 +22,7 @@ class Range extends Constraints\Range
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::localize("Disallowed sizes range", self::class, $text_options)
@@ -30,7 +30,7 @@ class Range extends Constraints\Range
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
 		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
@@ -145,13 +145,13 @@ class Range extends Constraints\Range
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return UByte::evaluateSize($value);
 	}
 	
 	/** {@inheritdoc} */
-	protected function stringifyValue($value, TextOptions $text_options) : string
+	protected function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UByte::hvalue($value);
 	}

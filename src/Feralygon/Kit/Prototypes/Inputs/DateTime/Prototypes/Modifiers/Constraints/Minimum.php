@@ -22,13 +22,13 @@ class Minimum extends Constraints\Minimum
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Minimum allowed date and time", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
@@ -55,13 +55,13 @@ class Minimum extends Constraints\Minimum
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return UTime::evaluateDateTime($value);
 	}
 	
 	/** {@inheritdoc} */
-	protected function stringifyValue($value, TextOptions $text_options) : string
+	protected function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UTime::stringifyDateTime($value, $text_options);
 	}

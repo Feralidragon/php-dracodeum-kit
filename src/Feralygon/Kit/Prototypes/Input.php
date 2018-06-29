@@ -42,7 +42,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	abstract public function getName() : string;
+	abstract public function getName(): string;
 	
 	/**
 	 * Evaluate a given value.
@@ -53,13 +53,13 @@ abstract class Input extends Prototype implements ISubcontracts
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	abstract public function evaluateValue(&$value) : bool;
+	abstract public function evaluateValue(&$value): bool;
 	
 	
 	
 	//Implemented public static methods (Feralygon\Kit\Prototype\Interfaces\Subcontracts)
 	/** {@inheritdoc} */
-	public static function getSubcontract(string $name) : ?string
+	public static function getSubcontract(string $name): ?string
 	{
 		switch ($name) {
 			case 'constraints':
@@ -84,7 +84,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The created constraint instance with the given prototype.</p>
 	 */
-	protected function createConstraint($prototype, array $properties = []) : Constraint
+	protected function createConstraint($prototype, array $properties = []): Constraint
 	{
 		return $this->subcontractCall(
 			'constraints', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
@@ -102,7 +102,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The created filter instance with the given prototype.</p>
 	 */
-	protected function createFilter($prototype, array $properties = []) : Filter
+	protected function createFilter($prototype, array $properties = []): Filter
 	{
 		return $this->subcontractCall(
 			'filters', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties

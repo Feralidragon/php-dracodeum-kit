@@ -22,5 +22,5 @@ trait Initialization
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function initialize() : void {}
+	protected function initialize(): void {}
 }

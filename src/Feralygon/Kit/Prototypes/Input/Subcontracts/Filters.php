@@ -30,5 +30,5 @@ interface Filters
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The created filter instance with the given prototype.</p>
 	 */
-	public function createFilter($prototype, array $properties = []) : Filter;
+	public function createFilter($prototype, array $properties = []): Filter;
 }

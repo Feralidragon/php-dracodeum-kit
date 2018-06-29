@@ -22,7 +22,7 @@ class Values extends Constraints\Values
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::plocalize(
@@ -36,7 +36,7 @@ class Values extends Constraints\Values
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		if ($this->negate) {
 			/**
@@ -68,7 +68,7 @@ class Values extends Constraints\Values
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return UType::evaluateNumber($value);
 	}

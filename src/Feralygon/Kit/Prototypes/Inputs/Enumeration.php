@@ -77,13 +77,13 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'enumeration';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		//check
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
@@ -120,7 +120,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//initialize
 		$labels = [];
@@ -186,7 +186,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//initialize
 		$show_names = $this->canShowNames();
@@ -271,7 +271,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//initialize
 		$show_names = $this->canShowNames();
@@ -359,7 +359,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
 	/** {@inheritdoc} */
-	public function stringifyValue($value, TextOptions $text_options) : string
+	public function stringifyValue($value, TextOptions $text_options): string
 	{
 		$enumeration = $this->enumeration;
 		return UText::stringify($enumeration::getName($value), $text_options, ['quote_strings' => true]);
@@ -391,7 +391,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['enumeration']);
 	}
@@ -400,7 +400,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'enumeration':
@@ -414,7 +414,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 			case 'non_values':
 				return $this->createProperty()
 					->setMode('r+')
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						return is_int($value) || is_float($value) || is_string($value);
 					}, true)
 					->bind(self::class)
@@ -443,7 +443,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	 * @return bool
 	 * <p>Boolean <code>true</code> if names can be shown.</p>
 	 */
-	protected function canShowNames() : bool
+	protected function canShowNames(): bool
 	{
 		return !$this->values_only && !$this->hide_names;
 	}
@@ -455,7 +455,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	 * @return bool
 	 * <p>Boolean <code>true</code> if values can be shown.</p>
 	 */
-	protected function canShowValues() : bool
+	protected function canShowValues(): bool
 	{
 		return !$this->names_only && !$this->hide_values;
 	}
@@ -467,7 +467,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	 * @return int[]|float[]|string[]
 	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */
-	protected function getNamesValues() : array
+	protected function getNamesValues(): array
 	{
 		//initialize
 		$enumeration = $this->enumeration;
@@ -506,7 +506,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	 * @return string[]
 	 * <p>The names descriptions, as <samp>name => description</samp> pairs.</p>
 	 */
-	protected function getNamesDescriptions(TextOptions $text_options) : array
+	protected function getNamesDescriptions(TextOptions $text_options): array
 	{
 		//initialize
 		$descriptions = [];

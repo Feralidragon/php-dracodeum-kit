@@ -56,13 +56,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'date';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UTime::evaluateDate($value);
 	}
@@ -71,13 +71,13 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		return UText::localize("Date", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		/**
 		 * @placeholder notations The supported date notation entries.
@@ -103,7 +103,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		/**
 		 * @placeholder notations The supported date notation entries.
@@ -132,7 +132,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
 	/** {@inheritdoc} */
-	public function stringifyValue($value, TextOptions $text_options) : string
+	public function stringifyValue($value, TextOptions $text_options): string
 	{
 		return is_string($value) ? $value : UTime::stringifyDate($value, $text_options);
 	}
@@ -141,7 +141,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -191,7 +191,7 @@ class Date extends Input implements IInformation, IValueStringification, IModifi
 	 * @return string[]
 	 * <p>The notation strings.</p>
 	 */
-	protected function getNotationStrings(TextOptions $text_options) : array
+	protected function getNotationStrings(TextOptions $text_options): array
 	{
 		//initialize
 		$strings = [];

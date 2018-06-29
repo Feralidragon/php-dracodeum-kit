@@ -35,7 +35,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return preg_match($this->unicode ? '/^\pL*$/u' : '/^[a-z]*$/i', $value);
 	}
@@ -44,7 +44,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.alphabetical';
 	}
@@ -53,13 +53,13 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Alphabetical characters only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		return UText::localize("Only alphabetical characters are allowed.", self::class, $text_options);
 	}
@@ -79,7 +79,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'unicode':

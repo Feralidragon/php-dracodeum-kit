@@ -45,7 +45,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		foreach ($this->multiples as $multiple) {
 			if (is_int($multiple) && is_int($value) && $value % $multiple === 0) {
@@ -64,7 +64,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.multiples';
 	}
@@ -73,7 +73,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::plocalize(
@@ -87,7 +87,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$multiples_string = UText::stringify($this->multiples, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
@@ -116,7 +116,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		return UText::stringify($this->multiples, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
@@ -139,7 +139,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['multiples']);
 	}
@@ -148,12 +148,12 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'multiples':
 				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateNumber($value) && !empty($value);
 					}, true, true)
 					->bind(self::class)

@@ -31,7 +31,7 @@ class Base64 extends Filter
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function processValue(&$value) : bool
+	public function processValue(&$value): bool
 	{
 		if (is_string($value)) {
 			$value = hex2bin($value);
@@ -47,7 +47,7 @@ class Base64 extends Filter
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'url_safe':

@@ -28,5 +28,5 @@ interface Subcontracts
 	 * @return string|null
 	 * <p>The subcontract interface for the given name or <code>null</code> if none is set.</p>
 	 */
-	public static function getSubcontract(string $name) : ?string;
+	public static function getSubcontract(string $name): ?string;
 }

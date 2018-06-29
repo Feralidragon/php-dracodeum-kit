@@ -29,5 +29,5 @@ interface Modifiers
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier|null
 	 * <p>The built modifier instance for the given name or <code>null</code> if none was built.</p>
 	 */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier;
+	public function buildModifier(string $name, array $properties = []): ?Modifier;
 }

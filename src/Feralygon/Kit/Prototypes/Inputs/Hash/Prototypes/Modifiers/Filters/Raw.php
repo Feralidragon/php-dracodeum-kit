@@ -19,7 +19,7 @@ class Raw extends Filter
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function processValue(&$value) : bool
+	public function processValue(&$value): bool
 	{
 		if (is_string($value)) {
 			$value = hex2bin($value);

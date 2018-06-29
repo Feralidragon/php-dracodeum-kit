@@ -37,13 +37,13 @@ class Boolean extends Input implements IInformation
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'boolean';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UType::evaluateBoolean($value);
 	}
@@ -52,13 +52,13 @@ class Boolean extends Input implements IInformation
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		return UText::localize("Boolean", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		/**
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.
@@ -84,7 +84,7 @@ class Boolean extends Input implements IInformation
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		/**
 		 * @placeholder values.false The list of possible allowed values which evaluate to boolean false.

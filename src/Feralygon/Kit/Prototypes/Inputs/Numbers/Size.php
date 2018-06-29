@@ -51,7 +51,7 @@ class Size extends Number implements IValueStringification
 {
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
 	/** {@inheritdoc} */
-	public function stringifyValue($value, TextOptions $text_options) : string
+	public function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UByte::hvalue($value);
 	}
@@ -60,25 +60,25 @@ class Size extends Number implements IValueStringification
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'size';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UByte::evaluateSize($value);
 	}
 	
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		return UText::localize("Size", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -124,7 +124,7 @@ class Size extends Number implements IValueStringification
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -173,7 +173,7 @@ class Size extends Number implements IValueStringification
 	}
 	
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -221,7 +221,7 @@ class Size extends Number implements IValueStringification
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getNotationStrings(TextOptions $text_options) : array
+	protected function getNotationStrings(TextOptions $text_options): array
 	{
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {

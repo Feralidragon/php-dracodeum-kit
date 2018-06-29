@@ -77,7 +77,7 @@ class Integer extends Number implements ISchemaData
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'unsigned':
@@ -86,7 +86,7 @@ class Integer extends Number implements ISchemaData
 				return $this->createProperty()
 					->setMode('r+')
 					->setAsInteger(true, null, true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return !isset($value) || $value > 0;
 					})
 					->bind(self::class)
@@ -99,7 +99,7 @@ class Integer extends Number implements ISchemaData
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Initialization)
 	/** {@inheritdoc} */
-	protected function initialize() : void
+	protected function initialize(): void
 	{
 		if ($this->unsigned) {
 			$this->minimum = 0;
@@ -126,13 +126,13 @@ class Integer extends Number implements ISchemaData
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'integer';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UType::evaluateInteger($value) && 
 			(!isset($this->minimum) || $value >= $this->minimum) && 
@@ -140,7 +140,7 @@ class Integer extends Number implements ISchemaData
 	}
 	
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
@@ -174,7 +174,7 @@ class Integer extends Number implements ISchemaData
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -326,7 +326,7 @@ class Integer extends Number implements ISchemaData
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -488,7 +488,7 @@ class Integer extends Number implements ISchemaData
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getNotationStrings(TextOptions $text_options) : array
+	protected function getNotationStrings(TextOptions $text_options): array
 	{		
 		//examples
 		$examples = [];

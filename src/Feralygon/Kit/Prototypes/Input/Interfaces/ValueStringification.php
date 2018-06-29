@@ -29,5 +29,5 @@ interface ValueStringification
 	 * @return string
 	 * <p>The generated string from the given value.</p>
 	 */
-	public function stringifyValue($value, TextOptions $text_options) : string;
+	public function stringifyValue($value, TextOptions $text_options): string;
 }

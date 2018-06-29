@@ -29,7 +29,7 @@ class Text extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'info_scope':
@@ -41,7 +41,7 @@ class Text extends Options
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'language':
 				return $this->createProperty()
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return Locale::evaluateLanguage($value, true);
 					})
 					->setDefaultValue(null)

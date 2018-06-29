@@ -26,7 +26,7 @@ class Sha1 extends Hash
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getBits() : int
+	public function getBits(): int
 	{
 		return 160;
 	}
@@ -35,13 +35,13 @@ class Sha1 extends Hash
 	
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'sha1';
 	}
 	
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		return "SHA-1";
 	}

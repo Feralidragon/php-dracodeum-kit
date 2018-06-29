@@ -25,5 +25,5 @@ interface Contract
 	 * @return string
 	 * <p>The contract interface.</p>
 	 */
-	public static function getContract() : string;
+	public static function getContract(): string;
 }

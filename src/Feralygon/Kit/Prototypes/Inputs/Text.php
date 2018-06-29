@@ -92,13 +92,13 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'text';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		//evaluate
 		if (!UType::evaluateString($value)) {
@@ -129,7 +129,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
@@ -143,7 +143,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
@@ -157,7 +157,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
@@ -186,7 +186,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -290,7 +290,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'unicode':

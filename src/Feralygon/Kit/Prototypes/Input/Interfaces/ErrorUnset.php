@@ -22,5 +22,5 @@ interface ErrorUnset
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function unsetError() : void;
+	public function unsetError(): void;
 }

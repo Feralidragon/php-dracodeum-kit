@@ -30,5 +30,5 @@ interface Constraints
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The created constraint instance with the given prototype.</p>
 	 */
-	public function createConstraint($prototype, array $properties = []) : Constraint;
+	public function createConstraint($prototype, array $properties = []): Constraint;
 }

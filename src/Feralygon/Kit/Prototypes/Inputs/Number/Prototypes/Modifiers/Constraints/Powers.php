@@ -45,7 +45,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		foreach ($this->powers as $power) {
 			$f = log($value, $power);
@@ -60,7 +60,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.powers';
 	}
@@ -69,7 +69,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::plocalize(
@@ -83,7 +83,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$powers_string = UText::stringify($this->powers, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
@@ -112,7 +112,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		return UText::stringify($this->powers, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
@@ -135,7 +135,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['powers']);
 	}
@@ -144,12 +144,12 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'powers':
 				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateNumber($value) && $value > 0;
 					}, true, true)
 					->bind(self::class)

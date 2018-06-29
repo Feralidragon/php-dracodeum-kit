@@ -55,13 +55,13 @@ class Number extends Input implements IInformation, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'number';
 	}
 	
 	/** {@inheritdoc} */
-	public function evaluateValue(&$value) : bool
+	public function evaluateValue(&$value): bool
 	{
 		return UType::evaluateNumber($value);
 	}
@@ -70,13 +70,13 @@ class Number extends Input implements IInformation, IModifiers
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		return UText::localize("Number", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getDescription(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -108,7 +108,7 @@ class Number extends Input implements IInformation, IModifiers
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options, InfoOptions $info_options) : string
+	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -143,7 +143,7 @@ class Number extends Input implements IInformation, IModifiers
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []) : ?Modifier
+	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -225,7 +225,7 @@ class Number extends Input implements IInformation, IModifiers
 	 * @return string[]
 	 * <p>The notation strings.</p>
 	 */
-	protected function getNotationStrings(TextOptions $text_options) : array
+	protected function getNotationStrings(TextOptions $text_options): array
 	{
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {

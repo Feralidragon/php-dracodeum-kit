@@ -36,7 +36,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return UText::isIdentifier($value, $this->extended);
 	}
@@ -45,7 +45,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.identifier';
 	}
@@ -54,7 +54,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->extended
 			? UText::localize("Extended identifier format", self::class, $text_options)
@@ -62,7 +62,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		//entries
 		$entries = [];
@@ -243,7 +243,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'extended':
