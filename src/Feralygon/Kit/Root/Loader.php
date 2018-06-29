@@ -54,7 +54,7 @@ final class Loader
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has the package with the given vendor and name.</p>
 	 */
-	final public static function hasPackage(string $vendor, string $name) : bool
+	final public static function hasPackage(string $vendor, string $name): bool
 	{
 		return isset(self::$packages[strtolower($vendor)][strtolower($name)]);
 	}
@@ -73,7 +73,7 @@ final class Loader
 	 * @return \Feralygon\Kit\Root\Loader\Package
 	 * <p>The package instance with the given vendor and name.</p>
 	 */
-	final public static function getPackage(string $vendor, string $name) : Package
+	final public static function getPackage(string $vendor, string $name): Package
 	{
 		$vendor = strtolower($vendor);
 		$name = strtolower($name);
@@ -99,11 +99,11 @@ final class Loader
 	 * @return \Feralygon\Kit\Root\Loader\Package
 	 * <p>The package instance set with the given vendor, name and path.</p>
 	 */
-	final public static function setPackage(string $vendor, string $name, string $path) : Package
+	final public static function setPackage(string $vendor, string $name, string $path): Package
 	{
 		//initialize
 		if (!self::$initialized) {
-			spl_autoload_register(function (string $class) : void {
+			spl_autoload_register(function (string $class): void {
 				if (preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', $class, $matches)) {
 					if (self::hasPackage($matches['vendor'], $matches['name'])) {
 						@include_once self::getPackage($matches['vendor'], $matches['name'])->getPath() . 
@@ -135,7 +135,7 @@ final class Loader
 	 * @return \Feralygon\Kit\Root\Loader\Package|null
 	 * <p>The package instance from the given object or class or <code>null</code> if none is set.</p>
 	 */
-	final public static function getClassPackage($object_class) : ?Package
+	final public static function getClassPackage($object_class): ?Package
 	{
 		if (
 			preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', UType::class($object_class), $matches) && 

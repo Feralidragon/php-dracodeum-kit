@@ -19,19 +19,19 @@ class Staging extends Environment
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'staging';
 	}
 	
 	/** {@inheritdoc} */
-	public function isDebug() : bool
+	public function isDebug(): bool
 	{
 		return false;
 	}
 	
 	/** {@inheritdoc} */
-	public function apply() : void
+	public function apply(): void
 	{
 		System::setIniOption('display_errors', true);
 		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);

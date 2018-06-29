@@ -26,7 +26,7 @@ abstract class Environment extends Prototype
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	abstract public function getName() : string;
+	abstract public function getName(): string;
 	
 	/**
 	 * Check if is a debug environment.
@@ -39,7 +39,7 @@ abstract class Environment extends Prototype
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is a debug environment.</p>
 	 */
-	abstract public function isDebug() : bool;
+	abstract public function isDebug(): bool;
 	
 	/**
 	 * Apply.
@@ -47,5 +47,5 @@ abstract class Environment extends Prototype
 	 * @since 1.0.0
 	 * @return void
 	 */
-	abstract public function apply() : void;
+	abstract public function apply(): void;
 }

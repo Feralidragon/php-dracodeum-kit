@@ -19,19 +19,19 @@ class Development extends Environment
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'development';
 	}
 	
 	/** {@inheritdoc} */
-	public function isDebug() : bool
+	public function isDebug(): bool
 	{
 		return true;
 	}
 	
 	/** {@inheritdoc} */
-	public function apply() : void
+	public function apply(): void
 	{
 		System::setIniOption('display_errors', true);
 		System::setErrorReportingFlags(E_ALL);

@@ -26,7 +26,7 @@ class Component extends Factory
 {
 	//Implemented protected static methods
 	/** {@inheritdoc} */
-	protected static function buildType(string $name) : ?Type
+	protected static function buildType(string $name): ?Type
 	{
 		switch ($name) {
 			case 'environment':
@@ -49,7 +49,7 @@ class Component extends Factory
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The built environment instance with the given prototype.</p>
 	 */
-	public static function environment($prototype, array $properties = []) : Environment
+	public static function environment($prototype, array $properties = []): Environment
 	{
 		return static::build('environment', $prototype, $properties);
 	}

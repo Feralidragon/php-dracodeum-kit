@@ -29,7 +29,7 @@ trait Stringifiable
 	 * @return string
 	 * <p>This object cast to a string.</p>
 	 */
-	final public function __toString() : string
+	final public function __toString(): string
 	{
 		UCall::guard($this instanceof IStringifiable, [
 			'hint_message' => "This method requires this object to have " . 

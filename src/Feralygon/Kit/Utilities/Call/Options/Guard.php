@@ -74,7 +74,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
- * <code>function (string $placeholder, $value) : ?string</code><br>
+ * <code>function (string $placeholder, $value): ?string</code><br>
  * <br>
  * Parameters:<br>
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code><br>
@@ -90,7 +90,7 @@ class Guard extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'error_message':
@@ -121,7 +121,7 @@ class Guard extends Options
 				return $this->createProperty()->addEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
-					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)
 					->setDefaultValue(null)
 				;
 		}

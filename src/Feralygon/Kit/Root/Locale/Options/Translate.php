@@ -29,7 +29,7 @@ use Feralygon\Kit\Root\Locale;
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
- * <code>function (string $placeholder, $value) : ?string</code><br>
+ * <code>function (string $placeholder, $value): ?string</code><br>
  * <br>
  * Parameters:<br>
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code><br>
@@ -47,7 +47,7 @@ class Translate extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'parameters':
@@ -59,7 +59,7 @@ class Translate extends Options
 				;
 			case 'language':
 				return $this->createProperty()
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return Locale::evaluateLanguage($value, true);
 					})
 					->setDefaultValue(null)
@@ -68,7 +68,7 @@ class Translate extends Options
 				return $this->createProperty()->addEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
-					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)
 					->setDefaultValue(null)
 				;
 		}

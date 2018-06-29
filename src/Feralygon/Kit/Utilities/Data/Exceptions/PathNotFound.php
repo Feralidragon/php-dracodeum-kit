@@ -22,7 +22,7 @@ class PathNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Path {{path}} not found in {{array}}.";
 	}
@@ -31,7 +31,7 @@ class PathNotFound extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('array')->setAsArray();
 		$this->addProperty('path')->setAsString();

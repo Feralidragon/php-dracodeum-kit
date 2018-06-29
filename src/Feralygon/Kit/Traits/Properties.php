@@ -53,7 +53,7 @@ trait Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
-	final public function __isset(string $name) : bool
+	final public function __isset(string $name): bool
 	{
 		return $this->isset($name);
 	}
@@ -68,7 +68,7 @@ trait Properties
 	 * <p>The value to set with.</p>
 	 * @return void
 	 */
-	final public function __set(string $name, $value) : void
+	final public function __set(string $name, $value): void
 	{
 		$this->set($name, $value);
 	}
@@ -81,7 +81,7 @@ trait Properties
 	 * <p>The name to unset with.</p>
 	 * @return void
 	 */
-	final public function __unset(string $name) : void
+	final public function __unset(string $name): void
 	{
 		$this->unset($name);
 	}
@@ -100,7 +100,7 @@ trait Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
-	final public function has(string $name) : bool
+	final public function has(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->has($name);
@@ -138,7 +138,7 @@ trait Properties
 	 * @return bool
 	 * <p>The boolean property value with the given name.</p>
 	 */
-	final public function is(string $name) : bool
+	final public function is(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->is($name);
@@ -155,7 +155,7 @@ trait Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
-	final public function isset(string $name) : bool
+	final public function isset(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isset($name);
@@ -174,7 +174,7 @@ trait Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value) : object
+	final public function set(string $name, $value): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->set($name, $value);
@@ -192,7 +192,7 @@ trait Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name) : object
+	final public function unset(string $name): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->unset($name);
@@ -210,7 +210,7 @@ trait Properties
 	 * @return array
 	 * <p>All properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll() : array
+	final public function getAll(): array
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->getAll();
@@ -223,7 +223,7 @@ trait Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
-	final public function arePropertiesReadonly() : bool
+	final public function arePropertiesReadonly(): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isReadonly();
@@ -243,7 +243,7 @@ trait Properties
 	 * @return \Feralygon\Kit\Traits\Properties\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
-	final protected function addProperty(string $name) : Property
+	final protected function addProperty(string $name): Property
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->addProperty($name);
@@ -255,7 +255,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final protected function setPropertiesAsReadonly() : void
+	final protected function setPropertiesAsReadonly(): void
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->setAsReadonly();
@@ -271,7 +271,7 @@ trait Properties
 	 * @param callable $builder
 	 * <p>The function to use to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code></p>
+	 * <code>function (): void</code></p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
 	 * @param string $mode [default = 'rw']
@@ -296,7 +296,7 @@ trait Properties
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (array $properties) : void</code><br>
+	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
@@ -311,7 +311,7 @@ trait Properties
 	final private function initializeProperties(
 		callable $builder, array $properties = [], string $mode = 'rw', ?callable $remainderer = null, 
 		?array &$remainder = null
-	) : void
+	): void
 	{
 		//initialize
 		UCall::guard(!isset($this->properties_manager) || !$this->properties_manager->isInitialized(), [
@@ -320,7 +320,7 @@ trait Properties
 		$this->properties_manager = new Manager($this, false, $mode);
 		
 		//build
-		UCall::assert('builder', $builder, function () : void {});
+		UCall::assert('builder', $builder, function (): void {});
 		$builder();
 		
 		//remainderer
@@ -339,7 +339,7 @@ trait Properties
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final private function guardPropertiesManagerCall() : void
+	final private function guardPropertiesManagerCall(): void
 	{
 		UCall::guard(isset($this->properties_manager), [
 			'hint_message' => "This method may only be called after the properties manager initialization.",

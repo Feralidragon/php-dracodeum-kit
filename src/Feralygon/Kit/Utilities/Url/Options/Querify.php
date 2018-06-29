@@ -27,13 +27,13 @@ class Querify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'delimiter':
 				return $this->createProperty()
 					->setAsString(true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return strlen($value) === 1;
 					})
 					->setDefaultValue('&')

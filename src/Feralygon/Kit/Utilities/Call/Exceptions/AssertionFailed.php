@@ -37,7 +37,7 @@ class AssertionFailed extends Exception implements IAssertive
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		//message
 		$message = "Assertion {{name}} failed with function signature {{function_signature}}.";
@@ -66,16 +66,16 @@ class AssertionFailed extends Exception implements IAssertive
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString();
 		$this->addProperty('function')
-			->addEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value): bool {
 				return UCall::validate($value, true);
 			})
 		;
 		$this->addProperty('template')
-			->addEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value): bool {
 				return UCall::validate($value, true);
 			})
 		;

@@ -46,13 +46,13 @@ trait Coercive
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorCode() : ?string
+	public function getErrorCode(): ?string
 	{
 		return $this->get('error_code');
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorMessage() : ?string
+	public function getErrorMessage(): ?string
 	{
 		return $this->get('error_message');
 	}
@@ -61,7 +61,7 @@ trait Coercive
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();
@@ -78,7 +78,7 @@ trait Coercive
 		$this->addProperty('value');
 		$this->addProperty('error_code')
 			->setAsString(true, true)
-			->addEvaluator(function (&$value) use ($error_codes) : bool {
+			->addEvaluator(function (&$value) use ($error_codes): bool {
 				return !isset($value) || in_array($value, $error_codes, true);
 			})
 			->setDefaultValue(null)
@@ -87,7 +87,7 @@ trait Coercive
 	}
 	
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message' && is_string($value)) {
 			return UText::uncapitalize($value, true);

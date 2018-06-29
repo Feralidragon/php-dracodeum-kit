@@ -34,7 +34,7 @@ class CoercionFailed extends Exception implements ICoercive
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('error_message')
 			? "Coercion failed with value {{value}} using structure {{structure}}, " . 

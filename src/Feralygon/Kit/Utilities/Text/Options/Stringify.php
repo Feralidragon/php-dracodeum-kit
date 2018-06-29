@@ -51,7 +51,7 @@ class Stringify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'quote_strings':
@@ -61,7 +61,7 @@ class Stringify extends Options
 			case 'non_assoc_mode':
 				return $this->createProperty()
 					->setAsString(true, true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return !isset($value) || in_array($value, [
 							UText::STRING_NONASSOC_MODE_COMMA_LIST,
 							UText::STRING_NONASSOC_MODE_COMMA_LIST_AND,

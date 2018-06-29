@@ -17,7 +17,7 @@ final class Manager extends PropertiesManager
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function createProperty(string $name) : PropertiesManager\Property
+	public function createProperty(string $name): PropertiesManager\Property
 	{
 		return new Property($this, $name);
 	}

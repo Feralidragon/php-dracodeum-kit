@@ -22,7 +22,7 @@ class InvalidPlaceholder extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('string')
 			? "Invalid placeholder {{placeholder}} in string {{string}}."
@@ -33,7 +33,7 @@ class InvalidPlaceholder extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('placeholder')->setAsString();
 		$this->addProperty('string')->setAsString(false, true)->setDefaultValue(null);

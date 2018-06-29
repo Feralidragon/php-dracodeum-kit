@@ -38,7 +38,7 @@ final class Locale
 	 * @return string
 	 * <p>The encoding.</p>
 	 */
-	final public static function getEncoding() : string
+	final public static function getEncoding(): string
 	{
 		return self::$encoding;
 	}
@@ -51,7 +51,7 @@ final class Locale
 	 * <p>The encoding to set.</p>
 	 * @return void
 	 */
-	final public static function setEncoding(string $encoding) : void
+	final public static function setEncoding(string $encoding): void
 	{
 		$encodings = mb_list_encodings();
 		UCall::guardParameter('encoding', $encoding, in_array($encoding, $encodings, true), [
@@ -86,7 +86,7 @@ final class Locale
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a language.</p>
 	 */
-	final public static function evaluateLanguage(&$value, bool $nullable = false) : bool
+	final public static function evaluateLanguage(&$value, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerceLanguage($value, $nullable);
@@ -120,7 +120,7 @@ final class Locale
 	 * <p>The given value coerced into a language.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceLanguage($value, bool $nullable = false) : ?string
+	final public static function coerceLanguage($value, bool $nullable = false): ?string
 	{
 		if (!isset($value)) {
 			if ($nullable) {
@@ -204,7 +204,7 @@ final class Locale
 	 * @return string
 	 * <p>The translation of the given message.</p>
 	 */
-	final public static function translate(string $message, ?string $context = null, $options = null) : string
+	final public static function translate(string $message, ?string $context = null, $options = null): string
 	{
 		//initialize
 		$options = Options\Translate::coerce($options);
@@ -291,7 +291,7 @@ final class Locale
 	final public static function ptranslate(
 		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
 		$options = null
-	) : string
+	): string
 	{
 		//initialize
 		$options = Options\Ptranslate::coerce($options);

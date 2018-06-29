@@ -55,7 +55,7 @@ final class System
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The environment instance.</p>
 	 */
-	final public static function getEnvironment() : Components\Environment
+	final public static function getEnvironment(): Components\Environment
 	{
 		return self::loadEnvironment();
 	}
@@ -68,7 +68,7 @@ final class System
 	 * <p>The environment component instance, prototype instance, class or name to set.</p>
 	 * @return void
 	 */
-	final public static function setEnvironment($environment) : void
+	final public static function setEnvironment($environment): void
 	{
 		try {
 			self::$setting_environment = true;
@@ -92,7 +92,7 @@ final class System
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is setting environment.</p>
 	 */
-	final public static function isSettingEnvironment() : bool
+	final public static function isSettingEnvironment(): bool
 	{
 		return self::$setting_environment;
 	}
@@ -108,7 +108,7 @@ final class System
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is in debug mode.</p>
 	 */
-	final public static function isDebug() : bool
+	final public static function isDebug(): bool
 	{
 		return isset(self::$environment) ? self::$environment->isDebug() : false;
 	}
@@ -183,7 +183,7 @@ final class System
 	 * <p>The flags to set.</p>
 	 * @return void
 	 */
-	final public static function setErrorReportingFlags(int $flags) : void
+	final public static function setErrorReportingFlags(int $flags): void
 	{
 		if (!Vendor::isLibrary()) {
 			error_reporting($flags);
@@ -201,7 +201,7 @@ final class System
 	 * <p>The hostname.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	final public static function getHostname(bool $no_throw = false) : ?string
+	final public static function getHostname(bool $no_throw = false): ?string
 	{
 		$hostname = gethostname();
 		if ($hostname === false) {
@@ -224,7 +224,7 @@ final class System
 	 * <p>The IP address.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	final public static function getIpAddress(bool $no_throw = false) : ?string
+	final public static function getIpAddress(bool $no_throw = false): ?string
 	{
 		//server
 		if (isset($_SERVER['SERVER_ADDR'])) {
@@ -254,7 +254,7 @@ final class System
 	 * @return \Feralygon\Kit\Root\System\Structures\Os
 	 * <p>The OS (Operating System) instance.</p>
 	 */
-	final public static function getOs() : Structures\Os
+	final public static function getOs(): Structures\Os
 	{
 		if (!isset(self::$os)) {
 			self::$os = new Structures\Os([
@@ -277,9 +277,9 @@ final class System
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has command with the given name.</p>
 	 */
-	final public static function hasCommand(string $name) : bool
+	final public static function hasCommand(string $name): bool
 	{
-		return self::memoize(function (string $name) : bool {
+		return self::memoize(function (string $name): bool {
 			UCall::guardParameter('name', $name, UText::isIdentifier($name), [
 				'hint_message' => "Only alphanumeric ASCII characters (a-z, A-Z and 0-9) and " . 
 					"underscore (_) are allowed, however the first character cannot be a number (0-9).",
@@ -299,7 +299,7 @@ final class System
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The loaded environment instance.</p>
 	 */
-	final private static function loadEnvironment() : Components\Environment
+	final private static function loadEnvironment(): Components\Environment
 	{
 		if (!isset(self::$environment)) {
 			self::setEnvironment('production');

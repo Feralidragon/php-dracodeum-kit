@@ -34,7 +34,7 @@ final class Os extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString(true);
 		$this->addProperty('hostname')->setAsString(true);
@@ -53,7 +53,7 @@ final class Os extends Structure
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Linux.</p>
 	 */
-	final public function isLinux() : bool
+	final public function isLinux(): bool
 	{
 		return $this->get('name') === 'Linux';
 	}
@@ -65,7 +65,7 @@ final class Os extends Structure
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Windows.</p>
 	 */
-	final public function isWindows() : bool
+	final public function isWindows(): bool
 	{
 		return strtoupper(substr($this->get('name'), 0, 3)) === 'WIN';
 	}
@@ -77,7 +77,7 @@ final class Os extends Structure
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Unix.</p>
 	 */
-	final public function isUnix() : bool
+	final public function isUnix(): bool
 	{
 		return !$this->isWindows();
 	}

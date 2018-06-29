@@ -27,7 +27,7 @@ class PathKeyDeleteFromNonArray extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Cannot delete key {{key}} using the path {{path}} " . 
 			"since a non-array value was found as {{value}} in {{array}}.";
@@ -37,7 +37,7 @@ class PathKeyDeleteFromNonArray extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('array')->setAsArray();
 		$this->addProperty('path')->setAsString();

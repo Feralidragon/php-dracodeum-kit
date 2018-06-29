@@ -26,7 +26,7 @@ trait Arrayable
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray() : array
+	final public function toArray(): array
 	{
 		return $this->getAll();
 	}

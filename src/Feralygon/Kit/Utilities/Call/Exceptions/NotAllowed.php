@@ -26,7 +26,7 @@ class NotAllowed extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		//message
 		$message = $this->isset('object_class')
@@ -51,7 +51,7 @@ class NotAllowed extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('function_name')->setAsString();
 		$this->addProperty('object_class')->setAsObjectClass(null, true)->setDefaultValue(null);
@@ -63,7 +63,7 @@ class NotAllowed extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if (($placeholder === 'error_message' || $placeholder === 'hint_message') && is_string($value)) {
 			return $value;

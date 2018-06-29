@@ -45,7 +45,7 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('error_message')
 			? "Integer coercion failed with value {{value}}, with the following error: {{error_message}}"
@@ -62,13 +62,13 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorCode() : ?string
+	public function getErrorCode(): ?string
 	{
 		return $this->get('error_code');
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorMessage() : ?string
+	public function getErrorMessage(): ?string
 	{
 		return $this->get('error_message');
 	}
@@ -77,14 +77,14 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('value');
 		$this->addProperty('unsigned')->setAsBoolean()->setDefaultValue(false);
 		$this->addProperty('bits')->setAsInteger(false, null, true)->setDefaultValue(null);
 		$this->addProperty('error_code')
 			->setAsString(true, true)
-			->addEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value): bool {
 				return !isset($value) || in_array($value, [
 					self::ERROR_CODE_NULL,
 					self::ERROR_CODE_UNSIGNED,
@@ -101,7 +101,7 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message' && is_string($value)) {
 			return UText::uncapitalize($value, true);

@@ -56,7 +56,7 @@ final class Package
 	 * @return string
 	 * <p>The vendor.</p>
 	 */
-	final public function getVendor() : string
+	final public function getVendor(): string
 	{
 		return $this->vendor;
 	}
@@ -68,7 +68,7 @@ final class Package
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	final public function getName() : string
+	final public function getName(): string
 	{
 		return $this->name;
 	}
@@ -80,7 +80,7 @@ final class Package
 	 * @return string
 	 * <p>The path.</p>
 	 */
-	final public function getPath() : string
+	final public function getPath(): string
 	{
 		return $this->path;
 	}

@@ -29,5 +29,5 @@ interface Environment
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The built instance with the given prototype.</p>
 	 */
-	public function build($prototype, array $properties = []) : Component;
+	public function build($prototype, array $properties = []): Component;
 }

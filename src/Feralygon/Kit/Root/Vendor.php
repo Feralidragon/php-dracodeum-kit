@@ -39,7 +39,7 @@ final class Vendor
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final public static function useAsLibrary() : void
+	final public static function useAsLibrary(): void
 	{
 		self::$library = true;
 	}
@@ -51,7 +51,7 @@ final class Vendor
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is a library.</p>
 	 */
-	final public static function isLibrary() : bool
+	final public static function isLibrary(): bool
 	{
 		return self::$library;
 	}

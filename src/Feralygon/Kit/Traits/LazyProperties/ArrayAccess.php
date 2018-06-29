@@ -25,7 +25,7 @@ trait ArrayAccess
 	
 	//Implemented final public methods (ArrayAccess)
 	/** {@inheritdoc} */
-	final public function offsetExists($offset) : bool
+	final public function offsetExists($offset): bool
 	{
 		return $this->has($offset);
 	}
@@ -37,13 +37,13 @@ trait ArrayAccess
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetSet($offset, $value) : void
+	final public function offsetSet($offset, $value): void
 	{
 		$this->set($offset, $value);
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetUnset($offset) : void
+	final public function offsetUnset($offset): void
 	{
 		$this->unset($offset);
 	}

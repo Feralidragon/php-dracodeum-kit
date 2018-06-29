@@ -18,7 +18,7 @@ class HostnameNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "No hostname set.";
 	}

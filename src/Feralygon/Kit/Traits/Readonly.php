@@ -31,7 +31,7 @@ trait Readonly
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is read-only.</p>
 	 */
-	final public function isReadonly() : bool
+	final public function isReadonly(): bool
 	{
 		$this->guardReadonlyManagerCall();
 		return $this->readonly_manager->isEnabled();
@@ -44,7 +44,7 @@ trait Readonly
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly() : object
+	final public function setAsReadonly(): object
 	{
 		$this->guardReadonlyManagerCall();
 		$this->readonly_manager->enable();
@@ -60,7 +60,7 @@ trait Readonly
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final protected function guardNonReadonlyCall() : void
+	final protected function guardNonReadonlyCall(): void
 	{
 		$this->guardReadonlyManagerCall();
 		$this->readonly_manager->guardCall(1);
@@ -77,11 +77,11 @@ trait Readonly
 	 * @param callable $callback
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code></p>
+	 * <code>function (): void</code></p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function addReadonlyCallback(callable $callback) : object
+	final protected function addReadonlyCallback(callable $callback): object
 	{
 		$this->guardReadonlyManagerCall();
 		$this->readonly_manager->addCallback($callback);
@@ -100,10 +100,10 @@ trait Readonly
 	 * @param callable[] $callbacks [default = []]
 	 * <p>The callback functions to call upon read-only enablement.<br>
 	 * Each one is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code></p>
+	 * <code>function (): void</code></p>
 	 * @return void
 	 */
-	final private function initializeReadonly(bool $enable = false, array $callbacks = []) : void
+	final private function initializeReadonly(bool $enable = false, array $callbacks = []): void
 	{
 		//initialize
 		UCall::guard(!isset($this->readonly_manager), [
@@ -129,7 +129,7 @@ trait Readonly
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final private function guardReadonlyManagerCall() : void
+	final private function guardReadonlyManagerCall(): void
 	{
 		UCall::guard(isset($this->readonly_manager), [
 			'hint_message' => "This method may only be called after the read-only manager initialization.",

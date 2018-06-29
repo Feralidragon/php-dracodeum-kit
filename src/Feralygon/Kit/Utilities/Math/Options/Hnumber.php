@@ -41,7 +41,7 @@ class Hnumber extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'long':
@@ -52,7 +52,7 @@ class Hnumber extends Options
 				//no break
 			case 'max_multiple':
 				return $this->createProperty()
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return UMath::evaluateMultiple($value, true);
 					})
 					->setDefaultValue(null)

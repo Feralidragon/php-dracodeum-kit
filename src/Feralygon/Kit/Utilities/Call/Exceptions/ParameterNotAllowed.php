@@ -21,7 +21,7 @@ class ParameterNotAllowed extends NotAllowed
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		//message
 		$message = $this->isset('object_class')
@@ -48,7 +48,7 @@ class ParameterNotAllowed extends NotAllowed
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();

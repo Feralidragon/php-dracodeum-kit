@@ -45,7 +45,7 @@ class Hperiod extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'short':
@@ -55,7 +55,7 @@ class Hperiod extends Options
 			case 'limit':
 				return $this->createProperty()
 					->setAsInteger(true, null, true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return !isset($value) || $value > 0;
 					})
 					->setDefaultValue(null)
@@ -64,7 +64,7 @@ class Hperiod extends Options
 				//no break
 			case 'max_multiple':
 				return $this->createProperty()
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return UTime::evaluateMultiple($value, true);
 					})
 					->setDefaultValue(null)

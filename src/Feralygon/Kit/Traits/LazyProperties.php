@@ -57,7 +57,7 @@ trait LazyProperties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
-	final public function __isset(string $name) : bool
+	final public function __isset(string $name): bool
 	{
 		return $this->isset($name);
 	}
@@ -72,7 +72,7 @@ trait LazyProperties
 	 * <p>The value to set with.</p>
 	 * @return void
 	 */
-	final public function __set(string $name, $value) : void
+	final public function __set(string $name, $value): void
 	{
 		$this->set($name, $value);
 	}
@@ -85,7 +85,7 @@ trait LazyProperties
 	 * <p>The name to unset with.</p>
 	 * @return void
 	 */
-	final public function __unset(string $name) : void
+	final public function __unset(string $name): void
 	{
 		$this->unset($name);
 	}
@@ -104,7 +104,7 @@ trait LazyProperties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
-	final public function has(string $name) : bool
+	final public function has(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->has($name);
@@ -142,7 +142,7 @@ trait LazyProperties
 	 * @return bool
 	 * <p>The boolean property value with the given name.</p>
 	 */
-	final public function is(string $name) : bool
+	final public function is(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->is($name);
@@ -159,7 +159,7 @@ trait LazyProperties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
-	final public function isset(string $name) : bool
+	final public function isset(string $name): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isset($name);
@@ -178,7 +178,7 @@ trait LazyProperties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value) : object
+	final public function set(string $name, $value): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->set($name, $value);
@@ -196,7 +196,7 @@ trait LazyProperties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name) : object
+	final public function unset(string $name): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->unset($name);
@@ -214,7 +214,7 @@ trait LazyProperties
 	 * @return array
 	 * <p>All loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll() : array
+	final public function getAll(): array
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->getAll();
@@ -227,7 +227,7 @@ trait LazyProperties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
-	final public function arePropertiesReadonly() : bool
+	final public function arePropertiesReadonly(): bool
 	{
 		$this->guardPropertiesManagerCall();
 		return $this->properties_manager->isReadonly();
@@ -245,7 +245,7 @@ trait LazyProperties
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property
 	 * <p>The created property instance.</p>
 	 */
-	final protected function createProperty() : Property
+	final protected function createProperty(): Property
 	{
 		$this->guardPropertiesManagerCall();
 		UCall::guard(isset($this->properties_builder_current_name), [
@@ -265,7 +265,7 @@ trait LazyProperties
 	 * <p>The names to add.</p>
 	 * @return void
 	 */
-	final protected function addRequiredPropertyNames(array $names) : void
+	final protected function addRequiredPropertyNames(array $names): void
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->addRequiredPropertyNames($names);
@@ -277,7 +277,7 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final protected function setPropertiesAsReadonly() : void
+	final protected function setPropertiesAsReadonly(): void
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->setAsReadonly();
@@ -293,7 +293,7 @@ trait LazyProperties
 	 * @param callable $builder
 	 * <p>The function to use to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name) : ?Feralygon\Kit\Traits\LazyProperties\Property</code><br>
+	 * <code>function (string $name): ?Feralygon\Kit\Traits\LazyProperties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -306,7 +306,7 @@ trait LazyProperties
 	 * @param callable|null $required_names_loader [default = null]
 	 * <p>The function to use to load required property names.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code><br>
+	 * <code>function (): void</code><br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @param string $mode [default = 'rw']
@@ -331,7 +331,7 @@ trait LazyProperties
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (array $properties) : void</code><br>
+	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
@@ -346,7 +346,7 @@ trait LazyProperties
 	final private function initializeProperties(
 		callable $builder, array $properties = [], ?callable $required_names_loader = null, string $mode = 'rw', 
 		?callable $remainderer = null, ?array &$remainder = null
-	) : void
+	): void
 	{
 		//initialize
 		UCall::guard(!isset($this->properties_manager) || !$this->properties_manager->isInitialized(), [
@@ -355,8 +355,8 @@ trait LazyProperties
 		$this->properties_manager = new Manager($this, true, $mode);
 		
 		//builder
-		UCall::assert('builder', $builder, function (string $name) : ?Property {});
-		$this->properties_manager->setBuilder(function (string $name) use ($builder) : ?Property {
+		UCall::assert('builder', $builder, function (string $name): ?Property {});
+		$this->properties_manager->setBuilder(function (string $name) use ($builder): ?Property {
 			try {
 				$this->properties_builder_current_name = $name;
 				return $builder($name);
@@ -367,7 +367,7 @@ trait LazyProperties
 		
 		//required names loader
 		if (isset($required_names_loader)) {
-			UCall::assert('required_names_loader', $required_names_loader, function () : void {});
+			UCall::assert('required_names_loader', $required_names_loader, function (): void {});
 			$required_names_loader();
 		}
 		
@@ -387,7 +387,7 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final private function guardPropertiesManagerCall() : void
+	final private function guardPropertiesManagerCall(): void
 	{
 		UCall::guard(isset($this->properties_manager), [
 			'hint_message' => "This method may only be called after the properties manager initialization.",

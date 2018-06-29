@@ -23,7 +23,7 @@ class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Unsupported value type {{type}} given as {{value}}.";
 	}
@@ -32,7 +32,7 @@ class UnsupportedValueType extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('value');
 		$this->addProperty('type')

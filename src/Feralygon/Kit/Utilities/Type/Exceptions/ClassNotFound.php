@@ -20,7 +20,7 @@ class ClassNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Class {{class}} not found.";
 	}
@@ -29,7 +29,7 @@ class ClassNotFound extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('class')->setAsString();
 	}

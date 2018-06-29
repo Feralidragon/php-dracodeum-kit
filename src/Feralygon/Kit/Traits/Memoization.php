@@ -37,7 +37,7 @@ trait Memoization
 	 * @return \Feralygon\Kit\Managers\Memoization
 	 * <p>The memoization manager instance.</p>
 	 */
-	final protected function getMemoizationManager() : Manager
+	final protected function getMemoizationManager(): Manager
 	{
 		if (!isset($this->memoization_manager)) {
 			$this->memoization_manager = new Manager($this);
@@ -55,7 +55,7 @@ trait Memoization
 	 * @return \Feralygon\Kit\Managers\Memoization
 	 * <p>The memoization static manager instance.</p>
 	 */
-	final protected static function getMemoizationStaticManager() : Manager
+	final protected static function getMemoizationStaticManager(): Manager
 	{
 		if (!isset(self::$memoization_static_managers[static::class])) {
 			self::$memoization_static_managers[static::class] = new Manager(static::class);

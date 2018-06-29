@@ -16,7 +16,7 @@ class InternalError extends NotAllowed
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		//message
 		$message = $this->isset('object_class')

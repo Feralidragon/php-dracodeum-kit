@@ -24,7 +24,7 @@ class UnsupportedValueType extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		$message = "Unsupported value type {{type}} given as {{value}}.";
 		if ($this->isset('hint_message')) {
@@ -37,7 +37,7 @@ class UnsupportedValueType extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('value');
 		$this->addProperty('type')
@@ -53,7 +53,7 @@ class UnsupportedValueType extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'hint_message' && is_string($value)) {
 			return $value;

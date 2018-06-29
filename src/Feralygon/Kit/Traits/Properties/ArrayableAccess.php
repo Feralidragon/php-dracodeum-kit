@@ -27,7 +27,7 @@ trait ArrayableAccess
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray() : array
+	final public function toArray(): array
 	{
 		return $this->getAll();
 	}
@@ -36,7 +36,7 @@ trait ArrayableAccess
 	
 	//Implemented final public methods (ArrayAccess)
 	/** {@inheritdoc} */
-	final public function offsetExists($offset) : bool
+	final public function offsetExists($offset): bool
 	{
 		return $this->has($offset);
 	}
@@ -48,13 +48,13 @@ trait ArrayableAccess
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetSet($offset, $value) : void
+	final public function offsetSet($offset, $value): void
 	{
 		$this->set($offset, $value);
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetUnset($offset) : void
+	final public function offsetUnset($offset): void
 	{
 		$this->unset($offset);
 	}

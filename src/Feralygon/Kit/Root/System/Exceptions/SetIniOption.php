@@ -22,7 +22,7 @@ abstract class SetIniOption extends Exception
 {
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString();
 		$this->addProperty('value');

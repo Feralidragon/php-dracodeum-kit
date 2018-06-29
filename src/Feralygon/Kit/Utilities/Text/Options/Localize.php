@@ -21,7 +21,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br><br>
- * <code>function (string $placeholder, $value) : ?string</code><br>
+ * <code>function (string $placeholder, $value): ?string</code><br>
  * <br>
  * Parameters:<br>
  * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code><br>
@@ -37,7 +37,7 @@ class Localize extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'parameters':
@@ -46,7 +46,7 @@ class Localize extends Options
 				return $this->createProperty()->addEvaluator([Stringify::class, 'evaluate'])->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
-					->setAsCallable(function (string $placeholder, $value) : ?string {}, true, true)
+					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)
 					->setDefaultValue(null)
 				;
 		}

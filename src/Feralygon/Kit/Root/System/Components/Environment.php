@@ -34,7 +34,7 @@ class Environment extends Component
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass() : string
+	public static function getBasePrototypeClass(): string
 	{
 		return Prototype::class;
 	}
@@ -43,7 +43,7 @@ class Environment extends Component
 	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\Prototypes)
 	/** {@inheritdoc} */
-	protected function buildPrototype(string $name, array $properties = []) : ?ComponentPrototype
+	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
 	{
 		switch ($name) {
 			case 'development':
@@ -69,7 +69,7 @@ class Environment extends Component
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->getPrototype()->getName();
 	}
@@ -85,7 +85,7 @@ class Environment extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is a debug environment.</p>
 	 */
-	public function isDebug() : bool
+	public function isDebug(): bool
 	{
 		return $this->getPrototype()->isDebug();
 	}
@@ -102,7 +102,7 @@ class Environment extends Component
 	 * @since 1.0.0
 	 * @return void
 	 */
-	final public function apply() : void
+	final public function apply(): void
 	{
 		UCall::guard(System::isSettingEnvironment(), [
 			'hint_message' => "This method may only be called from within the \"setEnvironment\" method " . 

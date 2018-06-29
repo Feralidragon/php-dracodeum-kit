@@ -28,7 +28,7 @@ class Parse extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'delimiter_pattern':
@@ -36,7 +36,7 @@ class Parse extends Options
 			case 'pattern_modifiers':
 				return $this->createProperty()
 					->setAsString()
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return $value === '' || preg_match('/^[imsxADSUXJu]+$/', $value);
 					})
 					->setDefaultValue('')
@@ -44,7 +44,7 @@ class Parse extends Options
 			case 'pattern_delimiter':
 				return $this->createProperty()
 					->setAsString(true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return strlen($value) === 1;
 					})
 					->setDefaultValue('/')

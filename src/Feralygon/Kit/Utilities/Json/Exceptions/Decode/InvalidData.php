@@ -24,7 +24,7 @@ class InvalidData extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		$message = "Invalid data {{data}}.";
 		if ($this->isset('error_message')) {
@@ -37,7 +37,7 @@ class InvalidData extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('data')->setAsStrictString();
 		$this->addProperty('error_code')->setAsStrictInteger(false, null, true)->setDefaultValue(null);
@@ -48,7 +48,7 @@ class InvalidData extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message' && is_string($value)) {
 			return $value;

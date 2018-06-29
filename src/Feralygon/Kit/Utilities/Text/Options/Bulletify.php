@@ -23,13 +23,13 @@ class Bulletify extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'bullet':
 				return $this->createProperty()
 					->setAsString(true)
-					->addEvaluator(function (&$value) : bool {
+					->addEvaluator(function (&$value): bool {
 						return UText::length($value, true) === 1;
 					})
 					->setDefaultValue("\u{2022}")

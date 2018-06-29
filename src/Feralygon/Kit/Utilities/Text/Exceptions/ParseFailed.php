@@ -25,7 +25,7 @@ class ParseFailed extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('key')
 			? "Parse failed for key {{key}} with string {{string}} against fields patterns {{fields_patterns}}."
@@ -36,11 +36,11 @@ class ParseFailed extends Exception
 	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('string')->setAsString();
 		$this->addProperty('fields_patterns')
-			->setAsArray(function (&$key, &$value) : bool {
+			->setAsArray(function (&$key, &$value): bool {
 				return UType::evaluateString($value);
 			})
 		;

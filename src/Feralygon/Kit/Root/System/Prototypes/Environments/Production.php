@@ -19,19 +19,19 @@ class Production extends Environment
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'production';
 	}
 	
 	/** {@inheritdoc} */
-	public function isDebug() : bool
+	public function isDebug(): bool
 	{
 		return false;
 	}
 	
 	/** {@inheritdoc} */
-	public function apply() : void
+	public function apply(): void
 	{
 		System::setIniOption('display_errors', false);
 		System::setErrorReportingFlags(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
