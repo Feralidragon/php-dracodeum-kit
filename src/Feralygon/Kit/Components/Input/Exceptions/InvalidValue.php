@@ -23,7 +23,7 @@ class InvalidValue extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('error_message')
 			? "Invalid value {{value}} for input {{component}} (with prototype {{prototype}}), " . 
@@ -35,7 +35,7 @@ class InvalidValue extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();
@@ -46,7 +46,7 @@ class InvalidValue extends Exception
 	}
 	
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message') {
 			return UText::uncapitalize($value, true);

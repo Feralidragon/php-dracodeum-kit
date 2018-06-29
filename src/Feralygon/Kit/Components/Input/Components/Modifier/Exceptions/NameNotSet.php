@@ -18,7 +18,7 @@ class NameNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "No name set in modifier {{component}} (with prototype {{prototype}}).";
 	}

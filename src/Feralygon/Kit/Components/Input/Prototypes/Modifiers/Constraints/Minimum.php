@@ -41,7 +41,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return $this->exclusive ? $value > $this->value : $value >= $this->value;
 	}
@@ -50,7 +50,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.minimum';
 	}
@@ -59,13 +59,13 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Minimum allowed value", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
@@ -92,7 +92,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		$value_string = $this->stringifyValue($this->value, $text_options);
 		if ($this->exclusive) {
@@ -124,7 +124,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['value']);
 	}
@@ -133,7 +133,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'value':
@@ -159,7 +159,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return true;
 	}
@@ -175,7 +175,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	 * @return string
 	 * <p>The generated string from the given value.</p>
 	 */
-	protected function stringifyValue($value, TextOptions $text_options) : string
+	protected function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}

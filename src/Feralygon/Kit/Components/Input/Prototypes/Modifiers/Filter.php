@@ -25,5 +25,5 @@ abstract class Filter extends Modifier
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully processed.</p>
 	 */
-	abstract public function processValue(&$value) : bool;
+	abstract public function processValue(&$value): bool;
 }

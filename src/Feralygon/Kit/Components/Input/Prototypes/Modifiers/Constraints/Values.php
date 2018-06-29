@@ -40,7 +40,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return in_array($value, $this->values, true) !== $this->negate;
 	}
@@ -49,7 +49,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.values';
 	}
@@ -58,7 +58,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::plocalize(
@@ -72,7 +72,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		if ($this->negate) {
 			/**
@@ -104,7 +104,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		$strings = [];
 		foreach ($this->values as $value) {
@@ -131,7 +131,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['values']);
 	}
@@ -140,12 +140,12 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'values':
 				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						return $this->evaluateValue($value);
 					}, true, true)
 					->bind(self::class)
@@ -168,7 +168,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return true;
 	}
@@ -184,7 +184,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	 * @return string
 	 * <p>The generated string from the given value.</p>
 	 */
-	protected function stringifyValue($value, TextOptions $text_options) : string
+	protected function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}

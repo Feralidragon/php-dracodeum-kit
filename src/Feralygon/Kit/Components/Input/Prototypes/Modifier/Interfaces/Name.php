@@ -25,5 +25,5 @@ interface Name
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	public function getName() : string;
+	public function getName(): string;
 }

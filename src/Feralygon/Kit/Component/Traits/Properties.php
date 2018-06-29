@@ -27,7 +27,7 @@ trait Properties
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property|null
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		return null;
 	}

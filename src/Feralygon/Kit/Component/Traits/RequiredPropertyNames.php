@@ -24,5 +24,5 @@ trait RequiredPropertyNames
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function loadRequiredPropertyNames() : void {}
+	protected function loadRequiredPropertyNames(): void {}
 }

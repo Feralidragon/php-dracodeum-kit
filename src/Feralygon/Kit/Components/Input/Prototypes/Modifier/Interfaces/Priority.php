@@ -26,5 +26,5 @@ interface Priority
 	 * @return int
 	 * <p>The priority.</p>
 	 */
-	public function getPriority() : int;
+	public function getPriority(): int;
 }

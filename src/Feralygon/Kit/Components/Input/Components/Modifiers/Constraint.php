@@ -22,13 +22,13 @@ class Constraint extends Modifier
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function handleValueEvaluation(&$value) : bool
+	protected function handleValueEvaluation(&$value): bool
 	{
 		return $this->getPrototype()->checkValue($value);
 	}
 	
 	/** {@inheritdoc} */
-	protected function getDefaultErrorMessage(TextOptions $text_options) : string
+	protected function getDefaultErrorMessage(TextOptions $text_options): string
 	{
 		return UText::localize("The given value is not allowed.", self::class, $text_options);
 	}
@@ -37,7 +37,7 @@ class Constraint extends Modifier
 	
 	//Implemented protected static methods
 	/** {@inheritdoc} */
-	protected static function getBasePriority() : int
+	protected static function getBasePriority(): int
 	{
 		return 1000;
 	}
@@ -46,7 +46,7 @@ class Constraint extends Modifier
 	
 	//Overridden public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass() : string
+	public static function getBasePrototypeClass(): string
 	{
 		return Prototype::class;
 	}

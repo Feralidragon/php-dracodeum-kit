@@ -30,7 +30,7 @@ trait DefaultPrototype
 	 * @return \Feralygon\Kit\Prototype|null
 	 * <p>The built default prototype instance or <code>null</code> if none was built.</p>
 	 */
-	protected function buildDefaultPrototype(array $properties = []) : ?Prototype
+	protected function buildDefaultPrototype(array $properties = []): ?Prototype
 	{
 		return null;
 	}

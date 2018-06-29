@@ -33,7 +33,7 @@ class Format extends Filter
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function processValue(&$value) : bool
+	public function processValue(&$value): bool
 	{
 		$value = UTime::format($value, $this->format, true);
 		return isset($value);
@@ -43,7 +43,7 @@ class Format extends Filter
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['format']);
 	}
@@ -52,7 +52,7 @@ class Format extends Filter
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'format':

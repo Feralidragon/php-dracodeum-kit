@@ -42,7 +42,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return UText::length($value, $this->unicode) >= $this->length;
 	}
@@ -51,7 +51,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.min_length';
 	}
@@ -60,7 +60,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Priority)
 	/** {@inheritdoc} */
-	public function getPriority() : int
+	public function getPriority(): int
 	{
 		return 250;
 	}
@@ -69,13 +69,13 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Minimum allowed length", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		/**
 		 * @placeholder length The minimum allowed length.
@@ -92,7 +92,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		return UText::stringify($this->length, $text_options);
 	}
@@ -113,7 +113,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['length']);
 	}
@@ -122,7 +122,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'length':

@@ -34,7 +34,7 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return $value === UText::upper($value, $this->unicode);
 	}
@@ -43,7 +43,7 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.uppercase';
 	}
@@ -52,13 +52,13 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Uppercase only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		return UText::localize("Only uppercase is allowed.", self::class, $text_options);
 	}
@@ -78,7 +78,7 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'unicode':

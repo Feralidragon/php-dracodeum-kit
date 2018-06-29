@@ -25,5 +25,5 @@ abstract class Constraint extends Modifier
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is valid.</p>
 	 */
-	abstract public function checkValue($value) : bool;
+	abstract public function checkValue($value): bool;
 }

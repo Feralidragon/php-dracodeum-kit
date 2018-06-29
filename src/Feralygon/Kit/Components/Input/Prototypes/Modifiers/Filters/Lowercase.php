@@ -32,7 +32,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function processValue(&$value) : bool
+	public function processValue(&$value): bool
 	{
 		if (is_string($value)) {
 			$value = UText::lower($value, $this->unicode);
@@ -45,7 +45,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'filters.lowercase';
 	}
@@ -65,7 +65,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'unicode':

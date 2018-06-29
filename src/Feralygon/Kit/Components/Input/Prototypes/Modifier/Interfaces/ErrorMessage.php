@@ -29,5 +29,5 @@ interface ErrorMessage
 	 * @return string
 	 * <p>The error message.</p>
 	 */
-	public function getErrorMessage(TextOptions $text_options) : string;
+	public function getErrorMessage(TextOptions $text_options): string;
 }

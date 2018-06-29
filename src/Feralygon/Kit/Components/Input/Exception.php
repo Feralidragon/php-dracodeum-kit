@@ -22,7 +22,7 @@ abstract class Exception extends KitException
 {
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('component')->setAsStrictObject(Component::class);
 		$this->addProperty('prototype')->setAsStrictObject(Component::getBasePrototypeClass());

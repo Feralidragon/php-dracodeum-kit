@@ -29,5 +29,5 @@ interface Stringification
 	 * @return string
 	 * <p>The string.</p>
 	 */
-	public function getString(TextOptions $text_options) : string;
+	public function getString(TextOptions $text_options): string;
 }

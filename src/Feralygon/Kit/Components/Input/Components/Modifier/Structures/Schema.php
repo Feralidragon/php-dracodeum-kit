@@ -22,7 +22,7 @@ class Schema extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString(true);
 		$this->addProperty('data')->setDefaultValue(null);

@@ -29,5 +29,5 @@ interface Filter
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The built instance with the given prototype.</p>
 	 */
-	public function build($prototype, array $properties = []) : Component;
+	public function build($prototype, array $properties = []): Component;
 }

@@ -28,7 +28,7 @@ interface Information
 	 * @return string
 	 * <p>The label.</p>
 	 */
-	public function getLabel(TextOptions $text_options) : string;
+	public function getLabel(TextOptions $text_options): string;
 	
 	/**
 	 * Get message.
@@ -42,5 +42,5 @@ interface Information
 	 * @return string
 	 * <p>The message.</p>
 	 */
-	public function getMessage(TextOptions $text_options) : string;
+	public function getMessage(TextOptions $text_options): string;
 }

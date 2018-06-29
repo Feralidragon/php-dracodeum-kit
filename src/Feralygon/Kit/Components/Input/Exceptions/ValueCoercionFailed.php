@@ -24,7 +24,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Value coercion failed with value {{value}} using component {{component}} " . 
 			"(with prototype {{prototype}}), with the following error: {{error_message}}";
@@ -40,13 +40,13 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorCode() : ?string
+	public function getErrorCode(): ?string
 	{
 		return null;
 	}
 	
 	/** {@inheritdoc} */
-	public function getErrorMessage() : ?string
+	public function getErrorMessage(): ?string
 	{
 		return $this->get('error_message');
 	}
@@ -55,7 +55,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();
@@ -66,7 +66,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	}
 	
 	/** {@inheritdoc} */
-	protected function getPlaceholderValueString(string $placeholder, $value) : string
+	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message') {
 			return UText::uncapitalize($value, true);

@@ -46,7 +46,7 @@ abstract class Modifier extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was evaluated as being valid.</p>
 	 */
-	abstract protected function handleValueEvaluation(&$value) : bool;
+	abstract protected function handleValueEvaluation(&$value): bool;
 	
 	/**
 	 * Get default error message.
@@ -59,7 +59,7 @@ abstract class Modifier extends Component
 	 * @return string
 	 * <p>The default error message.</p>
 	 */
-	abstract protected function getDefaultErrorMessage(TextOptions $text_options) : string;
+	abstract protected function getDefaultErrorMessage(TextOptions $text_options): string;
 	
 	
 	
@@ -75,13 +75,13 @@ abstract class Modifier extends Component
 	 * @return int
 	 * <p>The base priority.</p>
 	 */
-	abstract protected static function getBasePriority() : int;
+	abstract protected static function getBasePriority(): int;
 	
 	
 	
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass() : string
+	public static function getBasePrototypeClass(): string
 	{
 		return Prototype::class;
 	}
@@ -90,7 +90,7 @@ abstract class Modifier extends Component
 	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\Initialization)
 	/** {@inheritdoc} */
-	protected function initialize() : void
+	protected function initialize(): void
 	{
 		//prototype
 		$prototype = $this->getPrototype();
@@ -112,7 +112,7 @@ abstract class Modifier extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has name.</p>
 	 */
-	public function hasName() : bool
+	public function hasName(): bool
 	{
 		return $this->getPrototype() instanceof PrototypeInterfaces\Name;
 	}
@@ -130,7 +130,7 @@ abstract class Modifier extends Component
 	 * <p>The name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	public function getName(bool $no_throw = false) : ?string
+	public function getName(bool $no_throw = false): ?string
 	{
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Name) {
@@ -150,7 +150,7 @@ abstract class Modifier extends Component
 	 * @return string|null
 	 * <p>The label or <code>null</code> if none is set.</p>
 	 */
-	public function getLabel($text_options = null) : ?string
+	public function getLabel($text_options = null): ?string
 	{
 		$prototype = $this->getPrototype();
 		return $prototype instanceof PrototypeInterfaces\Information
@@ -169,7 +169,7 @@ abstract class Modifier extends Component
 	 * @return string|null
 	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
-	public function getMessage($text_options = null) : ?string
+	public function getMessage($text_options = null): ?string
 	{
 		$prototype = $this->getPrototype();
 		return $prototype instanceof PrototypeInterfaces\Information
@@ -189,7 +189,7 @@ abstract class Modifier extends Component
 	 * @return string|null
 	 * <p>The string or <code>null</code> if none is set.</p>
 	 */
-	public function getString($text_options = null) : ?string
+	public function getString($text_options = null): ?string
 	{
 		$prototype = $this->getPrototype();
 		return $prototype instanceof PrototypeInterfaces\Stringification
@@ -208,7 +208,7 @@ abstract class Modifier extends Component
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */
-	public function getErrorMessage($text_options = null) : ?string
+	public function getErrorMessage($text_options = null): ?string
 	{
 		//initialize
 		if (!isset($this->error)) {
@@ -235,7 +235,7 @@ abstract class Modifier extends Component
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function unsetError() : Modifier
+	public function unsetError(): Modifier
 	{
 		//prototype
 		$prototype = $this->getPrototype();
@@ -257,7 +257,7 @@ abstract class Modifier extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has schema.</p>
 	 */
-	public function hasSchema() : bool
+	public function hasSchema(): bool
 	{
 		return $this->hasName();
 	}
@@ -275,7 +275,7 @@ abstract class Modifier extends Component
 	 * <p>The schema.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
 	 */
-	public function getSchema(bool $no_throw = false) : ?Structures\Schema
+	public function getSchema(bool $no_throw = false): ?Structures\Schema
 	{
 		$prototype = $this->getPrototype();
 		if ($this->hasSchema()) {
@@ -301,7 +301,7 @@ abstract class Modifier extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	final public function evaluateValue(&$value) : bool
+	final public function evaluateValue(&$value): bool
 	{
 		$v = $value;
 		if (!$this->handleValueEvaluation($v)) {
@@ -322,7 +322,7 @@ abstract class Modifier extends Component
 	 * @return int
 	 * <p>The priority.</p>
 	 */
-	final public function getPriority() : int
+	final public function getPriority(): int
 	{
 		return $this->priority;
 	}

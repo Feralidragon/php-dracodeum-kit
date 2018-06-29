@@ -104,7 +104,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass() : string
+	public static function getBasePrototypeClass(): string
 	{
 		return Prototype::class;
 	}
@@ -113,7 +113,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Constraints)
 	/** {@inheritdoc} */
-	public function createConstraint($prototype, array $properties = []) : Components\Modifiers\Constraint
+	public function createConstraint($prototype, array $properties = []): Components\Modifiers\Constraint
 	{
 		return FComponent::constraint($prototype, $properties);
 	}
@@ -122,7 +122,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Filters)
 	/** {@inheritdoc} */
-	public function createFilter($prototype, array $properties = []) : Components\Modifiers\Filter
+	public function createFilter($prototype, array $properties = []): Components\Modifiers\Filter
 	{
 		return FComponent::filter($prototype, $properties);
 	}
@@ -131,7 +131,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'nullable':
@@ -139,7 +139,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 			case 'modifiers':
 				return $this->createProperty()
 					->setMode('w-')
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						if (is_string($key) && is_array($value)) {
 							$this->addModifier($key, $value);
 							return true;
@@ -158,7 +158,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\Prototypes)
 	/** {@inheritdoc} */
-	protected function buildPrototype(string $name, array $properties = []) : ?ComponentPrototype
+	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
 	{
 		switch ($name) {
 			case 'boolean':
@@ -245,7 +245,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	public function getName() : string
+	public function getName(): string
 	{
 		return $this->getPrototype()->getName();
 	}
@@ -259,7 +259,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string
 	 * <p>The value string.</p>
 	 */
-	public function getValueString($text_options = null) : string
+	public function getValueString($text_options = null): string
 	{
 		$value = $this->getValue();
 		$text_options = TextOptions::coerce($text_options);
@@ -280,7 +280,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string
 	 * <p>The label.</p>
 	 */
-	public function getLabel($text_options = null, $info_options = null) : string
+	public function getLabel($text_options = null, $info_options = null): string
 	{
 		//label
 		$text_options = TextOptions::coerce($text_options);
@@ -323,7 +323,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The default null label or <code>null</code> if none is set.</p>
 	 */
-	public function getDefaultNullLabel($text_options = null) : ?string
+	public function getDefaultNullLabel($text_options = null): ?string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
@@ -344,7 +344,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The description or <code>null</code> if none is set.</p>
 	 */
-	public function getDescription($text_options = null, $info_options = null) : ?string
+	public function getDescription($text_options = null, $info_options = null): ?string
 	{
 		//description
 		$text_options = TextOptions::coerce($text_options);
@@ -387,7 +387,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The default null description or <code>null</code> if none is set.</p>
 	 */
-	public function getDefaultNullDescription($text_options = null) : ?string
+	public function getDefaultNullDescription($text_options = null): ?string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -411,7 +411,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
-	public function getMessage($text_options = null, $info_options = null) : ?string
+	public function getMessage($text_options = null, $info_options = null): ?string
 	{
 		//message
 		$text_options = TextOptions::coerce($text_options);
@@ -454,7 +454,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The default null message or <code>null</code> if none is set.</p>
 	 */
-	public function getDefaultNullMessage($text_options = null) : ?string
+	public function getDefaultNullMessage($text_options = null): ?string
 	{
 		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -476,7 +476,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */
-	public function getErrorMessage($text_options = null) : ?string
+	public function getErrorMessage($text_options = null): ?string
 	{
 		//initialize
 		if (!isset($this->error)) {
@@ -517,7 +517,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string
 	 * <p>The default error message.</p>
 	 */
-	public function getDefaultErrorMessage($text_options = null) : string
+	public function getDefaultErrorMessage($text_options = null): string
 	{
 		return UText::localize("The given value is invalid.", self::class, $text_options);
 	}
@@ -529,7 +529,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function unsetError() : Input
+	public function unsetError(): Input
 	{
 		//modifiers
 		foreach ($this->modifiers_tree as $modifiers) {
@@ -560,7 +560,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return \Feralygon\Kit\Components\Input\Structures\Schema
 	 * <p>The schema instance.</p>
 	 */
-	public function getSchema() : Structures\Schema
+	public function getSchema(): Structures\Schema
 	{
 		$prototype = $this->getPrototype();
 		return new Structures\Schema([
@@ -583,7 +583,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
-	final public function isInitialized() : bool
+	final public function isInitialized(): bool
 	{
 		return $this->initialized;
 	}
@@ -675,7 +675,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 				$error_messengers = [];
 				foreach ($modifiers as $modifier) {
 					if (!$modifier->evaluateValue($v)) {
-						$error_messengers[] = function (TextOptions $text_options) use ($modifier) : ?string {
+						$error_messengers[] = function (TextOptions $text_options) use ($modifier): ?string {
 							return $modifier->getErrorMessage($text_options);
 						};
 					}
@@ -731,7 +731,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unsetValue() : Input
+	final public function unsetValue(): Input
 	{
 		$this->value = null;
 		$this->initialized = false;
@@ -745,7 +745,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is nullable.</p>
 	 */
-	final public function isNullable() : bool
+	final public function isNullable(): bool
 	{
 		return $this->nullable;
 	}
@@ -757,7 +757,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier[]
 	 * <p>The modifier instances.</p>
 	 */
-	final public function getModifiers() : array
+	final public function getModifiers(): array
 	{
 		$instances = [];
 		foreach ($this->modifiers_tree as $modifiers) {
@@ -777,7 +777,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string[]
 	 * <p>The modifier labels.</p>
 	 */
-	final public function getModifierLabels($text_options = null) : array
+	final public function getModifierLabels($text_options = null): array
 	{
 		$labels = [];
 		$text_options = TextOptions::coerce($text_options);
@@ -813,7 +813,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return string[]
 	 * <p>The modifier messages.</p>
 	 */
-	final public function getModifierMessages($text_options = null) : array
+	final public function getModifierMessages($text_options = null): array
 	{
 		$messages = [];
 		$text_options = TextOptions::coerce($text_options);
@@ -839,7 +839,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addModifier($modifier, array $properties = []) : Input
+	final public function addModifier($modifier, array $properties = []): Input
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -889,7 +889,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @param callable $evaluator
 	 * <p>The function to evaluate a given value with.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$value, ?callable &$error_messenger) : bool</code><br>
+	 * <code>function (&$value, ?callable &$error_messenger): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
@@ -898,7 +898,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * &nbsp; &nbsp; &nbsp; The set error messenger function to get the error message from, 
 	 * when the given value is not successfully evaluated, with the following characteristics:<br>
 	 * &nbsp; &nbsp; &#8594; signature: 
-	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
+	 * <code>function (\Feralygon\Kit\Options\Text $text_options): ?string</code><br>
 	 * &nbsp; &nbsp; &#8594; parameters:<br>
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>Feralygon\Kit\Options\Text $text_options</code><br>
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
@@ -916,9 +916,9 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 */
 	final public function addValueEvaluator(
 		callable $evaluator, int $priority = 0, bool $before_modifiers = false
-	) : Input
+	): Input
 	{
-		UCall::assert('evaluator', $evaluator, function (&$value, ?callable &$error_messenger) : bool {});
+		UCall::assert('evaluator', $evaluator, function (&$value, ?callable &$error_messenger): bool {});
 		$is_new_priority = empty($this->value_evaluators_tree[$before_modifiers][$priority]);
 		$this->value_evaluators_tree[$before_modifiers][$priority][] = \Closure::fromCallable($evaluator);
 		if ($is_new_priority) {
@@ -934,7 +934,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has an error.</p>
 	 */
-	final public function hasError() : bool
+	final public function hasError(): bool
 	{
 		return isset($this->error);
 	}
@@ -948,7 +948,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[]
 	 * <p>The modifier schema instances.</p>
 	 */
-	final public function getModifierSchemas() : array
+	final public function getModifierSchemas(): array
 	{
 		$schemas = [];
 		foreach ($this->getModifiers() as $modifier) {
@@ -975,7 +975,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the given prototype.</p>
 	 */
-	final public static function evaluateValue(&$value, $prototype, array $properties = []) : bool
+	final public static function evaluateValue(&$value, $prototype, array $properties = []): bool
 	{
 		try {
 			$value = static::coerceValue($value, $prototype, $properties);
@@ -1027,7 +1027,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false) : bool
+	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false): bool
 	{
 		//check
 		if (empty($this->value_evaluators_tree[$before_modifiers])) {
@@ -1053,7 +1053,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 			//error
 			if (!$valid) {
 				if (empty($error_messengers)) {
-					$error_messengers[] = function (TextOptions $text_options) : ?string {
+					$error_messengers[] = function (TextOptions $text_options): ?string {
 						return $this->getDefaultErrorMessage($text_options);
 					};
 				}

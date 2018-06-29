@@ -36,7 +36,7 @@ final class Error
 	 * @param callable[] $messengers [default = []]
 	 * <p>The messenger functions to use to get error messages from.<br>
 	 * They are expected to be compatible with the following signature:<br><br>
-	 * <code>function (\Feralygon\Kit\Options\Text $text_options) : ?string</code><br>
+	 * <code>function (\Feralygon\Kit\Options\Text $text_options): ?string</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Options\Text $text_options</b></code><br>
@@ -52,7 +52,7 @@ final class Error
 		
 		//messengers
 		if (!empty($messengers)) {
-			$template = function (TextOptions $text_options) : ?string {};
+			$template = function (TextOptions $text_options): ?string {};
 			foreach ($messengers as &$messenger) {
 				UCall::assert('messenger', $messenger, $template);
 				$messenger = \Closure::fromCallable($messenger);
@@ -84,7 +84,7 @@ final class Error
 	 * @return \Closure[]
 	 * <p>The messenger functions.</p>
 	 */
-	final public function getMessengers() : array
+	final public function getMessengers(): array
 	{
 		return $this->messengers;
 	}

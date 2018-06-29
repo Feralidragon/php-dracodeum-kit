@@ -29,7 +29,7 @@ trait Prototypes
 	 * @return \Feralygon\Kit\Prototype|null
 	 * <p>The built prototype instance for the given name or <code>null</code> if none was built.</p>
 	 */
-	protected function buildPrototype(string $name, array $properties = []) : ?Prototype
+	protected function buildPrototype(string $name, array $properties = []): ?Prototype
 	{
 		return null;
 	}

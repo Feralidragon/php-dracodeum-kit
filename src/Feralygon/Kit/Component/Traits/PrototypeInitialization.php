@@ -26,5 +26,5 @@ trait PrototypeInitialization
 	 * <p>The prototype instance to initialize.</p>
 	 * @return void
 	 */
-	protected function initializePrototype(Prototype $prototype) : void {}
+	protected function initializePrototype(Prototype $prototype): void {}
 }

@@ -28,13 +28,13 @@ class Schema extends Structure
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString(true);
 		$this->addProperty('nullable')->setAsBoolean()->setDefaultValue(false);
 		$this->addProperty('data')->setDefaultValue(null);
 		$this->addProperty('modifiers')
-			->setAsArray(function (&$key, &$value) : bool {
+			->setAsArray(function (&$key, &$value): bool {
 				return is_object($value) && UType::isA($value, ModifierSchema::class);
 			}, true)
 			->setDefaultValue([])

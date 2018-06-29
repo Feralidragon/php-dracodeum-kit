@@ -49,7 +49,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return UText::isAnyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
 	}
@@ -58,7 +58,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.wildcards';
 	}
@@ -67,7 +67,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		//negate
 		if ($this->negate) {
@@ -106,7 +106,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		//message
 		$message = '';
@@ -220,7 +220,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		return UText::stringify($this->wildcards, $text_options, [
 			'quote_strings' => true,
@@ -245,7 +245,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['wildcards']);
 	}
@@ -254,12 +254,12 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'wildcards':
 				return $this->createProperty()
-					->setAsArray(function (&$key, &$value) : bool {
+					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateString($value);
 					}, true, true)
 					->bind(self::class)

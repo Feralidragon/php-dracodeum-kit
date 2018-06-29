@@ -33,7 +33,7 @@ class Component extends Factory
 {
 	//Implemented protected static methods
 	/** {@inheritdoc} */
-	protected static function buildType(string $name) : ?Type
+	protected static function buildType(string $name): ?Type
 	{
 		switch ($name) {
 			case 'constraint':
@@ -58,7 +58,7 @@ class Component extends Factory
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The built constraint instance with the given prototype.</p>
 	 */
-	public static function constraint($prototype, array $properties = []) : Constraint
+	public static function constraint($prototype, array $properties = []): Constraint
 	{
 		return static::build('constraint', $prototype, $properties);
 	}
@@ -74,7 +74,7 @@ class Component extends Factory
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The built filter instance with the given prototype.</p>
 	 */
-	public static function filter($prototype, array $properties = []) : Filter
+	public static function filter($prototype, array $properties = []): Filter
 	{
 		return static::build('filter', $prototype, $properties);
 	}

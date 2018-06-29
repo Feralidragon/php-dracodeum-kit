@@ -22,5 +22,5 @@ trait PreInitialization
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function preInitialize() : void {}
+	protected function preInitialize(): void {}
 }

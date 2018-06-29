@@ -62,7 +62,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function processValue(&$value) : bool
+	public function processValue(&$value): bool
 	{
 		if (is_string($value)) {
 			$value = UText::truncate($value, $this->length, [
@@ -81,7 +81,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'filters.truncate';
 	}
@@ -90,13 +90,13 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Truncated length", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		/**
 		 * @placeholder length The truncated length.
@@ -113,7 +113,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		return UText::stringify($this->length, $text_options);
 	}
@@ -142,7 +142,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['length']);
 	}
@@ -151,7 +151,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'length':

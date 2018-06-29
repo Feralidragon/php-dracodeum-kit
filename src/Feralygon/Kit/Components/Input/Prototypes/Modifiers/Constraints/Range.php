@@ -57,7 +57,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value) : bool
+	public function checkValue($value): bool
 	{
 		return $this->negate !== (
 			($this->min_exclusive ? $value > $this->min_value : $value >= $this->min_value) && 
@@ -69,7 +69,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
-	public function getName() : string
+	public function getName(): string
 	{
 		return 'constraints.range';
 	}
@@ -78,7 +78,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
-	public function getLabel(TextOptions $text_options) : string
+	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
 			? UText::localize("Disallowed values range", self::class, $text_options)
@@ -86,7 +86,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	}
 	
 	/** {@inheritdoc} */
-	public function getMessage(TextOptions $text_options) : string
+	public function getMessage(TextOptions $text_options): string
 	{
 		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
 		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
@@ -201,7 +201,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification)
 	/** {@inheritdoc} */
-	public function getString(TextOptions $text_options) : string
+	public function getString(TextOptions $text_options): string
 	{
 		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
 		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
@@ -278,7 +278,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames() : void
+	protected function loadRequiredPropertyNames(): void
 	{
 		$this->addRequiredPropertyNames(['min_value', 'max_value']);
 	}
@@ -287,7 +287,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
 	/** {@inheritdoc} */
-	protected function buildProperty(string $name) : ?Property
+	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
 			case 'min_value':
@@ -319,7 +319,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	protected function evaluateValue(&$value) : bool
+	protected function evaluateValue(&$value): bool
 	{
 		return true;
 	}
@@ -335,7 +335,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	 * @return string
 	 * <p>The generated string from the given value.</p>
 	 */
-	protected function stringifyValue($value, TextOptions $text_options) : string
+	protected function stringifyValue($value, TextOptions $text_options): string
 	{
 		return UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}
