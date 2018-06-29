@@ -66,7 +66,7 @@ class Pattern extends Enumeration
 	public const QVALUE = '(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)';
 	
 	/** WEIGHT regular expression pattern. */
-	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . 'q\=' . self::QVALUE . ')';
+	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . '[Qq]\=' . self::QVALUE . ')';
 	
 	/** PARAMETER regular expression pattern. */
 	public const PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
