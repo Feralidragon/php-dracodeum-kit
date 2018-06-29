@@ -31,7 +31,7 @@ interface Coercive extends \Throwable
 	 * @return string|null
 	 * <p>The error code or <code>null</code> if none is set.</p>
 	 */
-	public function getErrorCode() : ?string;
+	public function getErrorCode(): ?string;
 	
 	/**
 	 * Get error message.
@@ -40,5 +40,5 @@ interface Coercive extends \Throwable
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if none is set.</p>
 	 */
-	public function getErrorMessage() : ?string;
+	public function getErrorMessage(): ?string;
 }

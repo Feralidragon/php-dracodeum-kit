@@ -29,7 +29,7 @@ trait Information
 	 * @return string|null
 	 * <p>The label for the given element name or <code>null</code> if none is set.</p>
 	 */
-	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options): ?string
 	{
 		return null;
 	}
@@ -45,7 +45,7 @@ trait Information
 	 * @return string|null
 	 * <p>The description for the given element name or <code>null</code> if none is set.</p>
 	 */
-	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options): ?string
 	{
 		return null;
 	}

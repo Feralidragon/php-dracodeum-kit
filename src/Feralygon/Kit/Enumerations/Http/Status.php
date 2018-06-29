@@ -207,7 +207,7 @@ class Status extends Enumeration
 	
 	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
-	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options): ?string
 	{
 		switch ($name) {
 			//informational (1xx)
@@ -407,7 +407,7 @@ class Status extends Enumeration
 	}
 	
 	/** {@inheritdoc} */
-	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options): ?string
 	{
 		//initialize
 		$value = static::getNameValue($name);
@@ -484,7 +484,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents an informational HTTP status.</p>
 	 */
-	public static function isInformational($element) : bool
+	public static function isInformational($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 100 && $value <= 199;
@@ -499,7 +499,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a success HTTP status.</p>
 	 */
-	public static function isSuccess($element) : bool
+	public static function isSuccess($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 200 && $value <= 299;
@@ -514,7 +514,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a redirection HTTP status.</p>
 	 */
-	public static function isRedirection($element) : bool
+	public static function isRedirection($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 300 && $value <= 399;
@@ -529,7 +529,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a client error HTTP status.</p>
 	 */
-	public static function isClientError($element) : bool
+	public static function isClientError($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 400 && $value <= 499;
@@ -544,7 +544,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a server error HTTP status.</p>
 	 */
-	public static function isServerError($element) : bool
+	public static function isServerError($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 500 && $value <= 599;
@@ -559,7 +559,7 @@ class Status extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents an error HTTP status.</p>
 	 */
-	public static function isError($element) : bool
+	public static function isError($element): bool
 	{
 		$value = static::getValue($element);
 		return $value >= 400 && $value <= 599;

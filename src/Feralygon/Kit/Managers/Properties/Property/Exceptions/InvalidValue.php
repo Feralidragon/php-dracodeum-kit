@@ -20,7 +20,7 @@ class InvalidValue extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Invalid value {{value}} for property {{property.getName()}} in manager " . 
 			"with owner {{property.getManager().getOwner()}}.";
@@ -30,7 +30,7 @@ class InvalidValue extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();

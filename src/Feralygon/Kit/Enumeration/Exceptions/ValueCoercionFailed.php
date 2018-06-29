@@ -37,7 +37,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return $this->isset('error_message')
 			? "Value coercion failed with value {{value}} in enumeration {{enumeration}}, " . 

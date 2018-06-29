@@ -24,5 +24,5 @@ interface ArrayInstantiable
 	 * @return static
 	 * <p>The class instance from the given array.</p>
 	 */
-	public static function fromArray(array $array) : object;
+	public static function fromArray(array $array): object;
 }

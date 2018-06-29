@@ -51,13 +51,13 @@ class Method extends Enumeration
 	
 	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
-	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options): ?string
 	{
 		return $name;
 	}
 	
 	/** {@inheritdoc} */
-	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options): ?string
 	{
 		switch ($name) {
 			case 'HEAD':
@@ -121,7 +121,7 @@ class Method extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents an HTTP method which has a request body.</p>
 	 */
-	public static function hasRequestBody(string $element) : bool
+	public static function hasRequestBody(string $element): bool
 	{
 		return in_array(static::getValue($element), [self::POST, self::PUT, self::PATCH], true);
 	}
@@ -135,7 +135,7 @@ class Method extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents an HTTP method which has a response body.</p>
 	 */
-	public static function hasResponseBody(string $element) : bool
+	public static function hasResponseBody(string $element): bool
 	{
 		return in_array(static::getValue($element), [
 			self::GET, self::POST, self::TRACE, self::CONNECT, self::OPTIONS
@@ -151,7 +151,7 @@ class Method extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a cacheable HTTP method.</p>
 	 */
-	public static function isCacheable(string $element) : bool
+	public static function isCacheable(string $element): bool
 	{
 		return in_array(static::getValue($element), [self::HEAD, self::GET], true);
 	}
@@ -165,7 +165,7 @@ class Method extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents a nullipotent HTTP method.</p>
 	 */
-	public static function isNullipotent(string $element) : bool
+	public static function isNullipotent(string $element): bool
 	{
 		return in_array(static::getValue($element), [self::HEAD, self::GET, self::OPTIONS], true);
 	}
@@ -179,7 +179,7 @@ class Method extends Enumeration
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given element represents an idempotent HTTP method.</p>
 	 */
-	public static function isIdempotent(string $element) : bool
+	public static function isIdempotent(string $element): bool
 	{
 		return in_array(static::getValue($element), [
 			self::HEAD, self::GET, self::PUT, self::DELETE, self::OPTIONS

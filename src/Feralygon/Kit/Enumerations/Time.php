@@ -233,13 +233,13 @@ class Time extends Enumeration
 	
 	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
-	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options): ?string
 	{
 		return UTime::hperiod(static::getNameValue($name), $text_options, ['limit' => 1]);
 	}
 	
 	/** {@inheritdoc} */
-	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options): ?string
 	{
 		$label = static::returnLabel($name, $text_options);
 		if (isset($label)) {

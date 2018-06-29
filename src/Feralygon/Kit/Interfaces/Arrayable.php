@@ -22,5 +22,5 @@ interface Arrayable
 	 * @return array
 	 * <p>This object cast to an array.</p>
 	 */
-	public function toArray() : array;
+	public function toArray(): array;
 }

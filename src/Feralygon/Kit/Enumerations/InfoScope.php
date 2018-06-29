@@ -33,7 +33,7 @@ class InfoScope extends Enumeration
 	
 	//Implemented protected static methods (Feralygon\Kit\Enumeration\Traits\Information)
 	/** {@inheritdoc} */
-	protected static function returnLabel(string $name, TextOptions $text_options) : ?string
+	protected static function returnLabel(string $name, TextOptions $text_options): ?string
 	{
 		switch ($name) {
 			case 'NONE':
@@ -50,7 +50,7 @@ class InfoScope extends Enumeration
 	}
 	
 	/** {@inheritdoc} */
-	protected static function returnDescription(string $name, TextOptions $text_options) : ?string
+	protected static function returnDescription(string $name, TextOptions $text_options): ?string
 	{
 		switch ($name) {
 			case 'NONE':

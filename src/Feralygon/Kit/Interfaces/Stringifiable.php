@@ -26,5 +26,5 @@ interface Stringifiable
 	 * @return string
 	 * <p>This object cast to a string.</p>
 	 */
-	public function toString(?TextOptions $text_options = null) : string;
+	public function toString(?TextOptions $text_options = null): string;
 }

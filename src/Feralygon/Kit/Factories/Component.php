@@ -26,7 +26,7 @@ class Component extends Factory
 {
 	//Implemented protected static methods
 	/** {@inheritdoc} */
-	protected static function buildType(string $name) : ?Type
+	protected static function buildType(string $name): ?Type
 	{
 		switch ($name) {
 			case 'input':
@@ -49,7 +49,7 @@ class Component extends Factory
 	 * @return \Feralygon\Kit\Components\Input
 	 * <p>The built input instance with the given prototype.</p>
 	 */
-	public static function input($prototype, array $properties = []) : Input
+	public static function input($prototype, array $properties = []): Input
 	{
 		return static::build('input', $prototype, $properties);
 	}

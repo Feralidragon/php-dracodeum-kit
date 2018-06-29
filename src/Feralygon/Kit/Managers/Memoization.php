@@ -103,7 +103,7 @@ class Memoization
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has value at the given key.</p>
 	 */
-	final public function hasValue(string $key, &$value = null) : bool
+	final public function hasValue(string $key, &$value = null): bool
 	{
 		$value = null;
 		if ($this->getStore(self::SELECTOR_VALUES)->hasKey($key, $key_instance)) {
@@ -154,7 +154,7 @@ class Memoization
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setValue(string $key, $value, ?float $ttl = null, bool $persist = false) : Memoization
+	final public function setValue(string $key, $value, ?float $ttl = null, bool $persist = false): Memoization
 	{
 		//guard
 		UCall::guardParameter('ttl', $ttl, !isset($ttl) || $ttl > 0.0, [
@@ -184,7 +184,7 @@ class Memoization
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unsetValue(string $key) : Memoization
+	final public function unsetValue(string $key): Memoization
 	{
 		$this->getStore(self::SELECTOR_VALUES)->unsetKey($key);
 		return $this;
@@ -249,7 +249,7 @@ class Memoization
 	 * @return \Feralygon\Kit\Managers\Memoization\Store
 	 * <p>The store instance for the given selector.</p>
 	 */
-	final protected function getStore(string $selector) : Store
+	final protected function getStore(string $selector): Store
 	{
 		if (!isset($this->stores[$selector])) {
 			if (is_object($this->owner)) {

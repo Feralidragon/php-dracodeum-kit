@@ -20,7 +20,7 @@ class PropertyNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Property {{name}} not found in manager with owner {{manager.getOwner()}}.";
 	}
@@ -29,7 +29,7 @@ class PropertyNotFound extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();

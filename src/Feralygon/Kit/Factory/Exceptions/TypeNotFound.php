@@ -20,7 +20,7 @@ class TypeNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Type {{name}} not found in factory {{factory}}.";
 	}
@@ -29,7 +29,7 @@ class TypeNotFound extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();

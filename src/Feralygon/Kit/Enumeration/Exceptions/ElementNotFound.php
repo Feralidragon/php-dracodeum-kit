@@ -20,7 +20,7 @@ class ElementNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "Element {{element}} not found in enumeration {{enumeration}}.";
 	}
@@ -29,14 +29,14 @@ class ElementNotFound extends Exception
 	
 	//Overridden protected methods
 	/** {@inheritdoc} */
-	protected function loadProperties() : void
+	protected function loadProperties(): void
 	{
 		//parent
 		parent::loadProperties();
 		
 		//properties
 		$this->addProperty('element')
-			->addEvaluator(function (&$value) : bool {
+			->addEvaluator(function (&$value): bool {
 				return is_int($value) || is_float($value) || is_string($value);
 			})
 		;

@@ -18,7 +18,7 @@ class DefaultValueNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function getDefaultMessage() : string
+	public function getDefaultMessage(): string
 	{
 		return "No default value set in property {{property.getName()}} in manager " . 
 			"with owner {{property.getManager().getOwner()}}.";

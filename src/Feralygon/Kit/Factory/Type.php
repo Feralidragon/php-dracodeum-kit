@@ -70,7 +70,7 @@ final class Type
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	final public function getName() : string
+	final public function getName(): string
 	{
 		return $this->name;
 	}
@@ -82,7 +82,7 @@ final class Type
 	 * @return string
 	 * <p>The builder interface.</p>
 	 */
-	final public function getBuilderInterface() : string
+	final public function getBuilderInterface(): string
 	{
 		return $this->builder_interface;
 	}
@@ -94,7 +94,7 @@ final class Type
 	 * @return \Feralygon\Kit\Factory\Builder
 	 * <p>The builder instance.</p>
 	 */
-	final public function getBuilder() : Builder
+	final public function getBuilder(): Builder
 	{
 		return $this->builder;
 	}
@@ -109,7 +109,7 @@ final class Type
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setBuilder($builder) : Type
+	final public function setBuilder($builder): Type
 	{
 		$builder = UType::coerceObject($builder, Builder::class);
 		UCall::guardParameter('builder', $builder, UType::implements($builder, $this->builder_interface), [

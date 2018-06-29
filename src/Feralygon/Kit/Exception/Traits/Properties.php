@@ -22,5 +22,5 @@ trait Properties
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function loadProperties() : void {}
+	protected function loadProperties(): void {}
 }

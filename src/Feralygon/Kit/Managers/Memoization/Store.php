@@ -66,7 +66,7 @@ final class Store
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has key with the given name.</p>
 	 */
-	final public function hasKey(string $name, ?Key &$key = null) : bool
+	final public function hasKey(string $name, ?Key &$key = null): bool
 	{
 		$key = null;
 		if (isset($this->keys[$name])) {
@@ -94,7 +94,7 @@ final class Store
 	 * <p>The key instance with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public function getKey(string $name, bool $no_throw = false) : ?Key
+	final public function getKey(string $name, bool $no_throw = false): ?Key
 	{
 		if (!$this->hasKey($name, $key)) {
 			if ($no_throw) {
@@ -119,7 +119,7 @@ final class Store
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKey(string $name, $value, ?float $ttl = null) : Store
+	final public function setKey(string $name, $value, ?float $ttl = null): Store
 	{
 		//initialize
 		UCall::guardParameter('ttl', $ttl, !isset($ttl) || $ttl > 0.0, [
@@ -166,7 +166,7 @@ final class Store
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unsetKey(string $name) : Store
+	final public function unsetKey(string $name): Store
 	{
 		unset($this->keys[$name], $this->expiring_keys[$name]);
 		return $this;

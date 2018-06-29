@@ -90,7 +90,7 @@ class Property
 	 * @return \Feralygon\Kit\Managers\Properties
 	 * <p>The manager instance.</p>
 	 */
-	final public function getManager() : Manager
+	final public function getManager(): Manager
 	{
 		return $this->manager;
 	}
@@ -102,7 +102,7 @@ class Property
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	final public function getName() : string
+	final public function getName(): string
 	{
 		return $this->name;
 	}
@@ -116,7 +116,7 @@ class Property
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
-	final public function isInitialized() : bool
+	final public function isInitialized(): bool
 	{
 		return $this->initialized;
 	}
@@ -128,7 +128,7 @@ class Property
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is required.</p>
 	 */
-	final public function isRequired() : bool
+	final public function isRequired(): bool
 	{
 		return $this->required || !$this->hasDefaultValue() || 
 			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name));
@@ -141,7 +141,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize() : Property
+	final public function initialize(): Property
 	{
 		UCall::guard(!$this->initialized, [
 			'error_message' => "Property {{property.getName()}} already initialized " . 
@@ -164,7 +164,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsRequired() : Property
+	final public function setAsRequired(): Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -203,7 +203,7 @@ class Property
 	 * @return string
 	 * <p>The mode.</p>
 	 */
-	final public function getMode() : string
+	final public function getMode(): string
 	{
 		return $this->mode ?? $this->manager->getMode();
 	}
@@ -232,7 +232,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setMode(string $mode) : Property
+	final public function setMode(string $mode): Property
 	{
 		//map
 		$map = [];
@@ -351,7 +351,7 @@ class Property
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has default value.</p>
 	 */
-	final public function hasDefaultValue() : bool
+	final public function hasDefaultValue(): bool
 	{
 		return isset($this->default_getter);
 	}
@@ -408,7 +408,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setDefaultValue($value) : Property
+	final public function setDefaultValue($value): Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -445,7 +445,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setDefaultGetter(callable $getter) : Property
+	final public function setDefaultGetter(callable $getter): Property
 	{
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization, " . 
@@ -505,7 +505,7 @@ class Property
 	 * @param callable $evaluator
 	 * <p>The evaluator function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$value) : bool</code><br>
+	 * <code>function (&$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
@@ -516,14 +516,14 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addEvaluator(callable $evaluator) : Property
+	final public function addEvaluator(callable $evaluator): Property
 	{
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization, " . 
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		UCall::assert('evaluator', $evaluator, function (&$value) : bool {});
+		UCall::assert('evaluator', $evaluator, function (&$value): bool {});
 		$this->evaluators[] = \Closure::fromCallable($evaluator);
 		return $this;
 	}
@@ -537,7 +537,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function clearEvaluators() : Property
+	final public function clearEvaluators(): Property
 	{
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization, " . 
@@ -571,10 +571,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsBoolean(bool $nullable = false) : Property
+	final public function setAsBoolean(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return UType::evaluateBoolean($value, $nullable);
 			}
 		);
@@ -592,10 +592,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictBoolean(bool $nullable = false) : Property
+	final public function setAsStrictBoolean(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_bool($value) : $nullable;
 			}
 		);
@@ -627,10 +627,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsNumber(bool $nullable = false) : Property
+	final public function setAsNumber(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return UType::evaluateNumber($value, $nullable);
 			}
 		);
@@ -648,10 +648,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictNumber(bool $nullable = false) : Property
+	final public function setAsStrictNumber(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_int($value) || is_float($value) : $nullable;
 			}
 		);
@@ -691,10 +691,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false) : Property
+	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($unsigned, $bits, $nullable) : bool {
+			function (&$value) use ($unsigned, $bits, $nullable): bool {
 				return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
 			}
 		);
@@ -723,10 +723,10 @@ class Property
 	 */
 	final public function setAsStrictInteger(
 		bool $unsigned = false, ?int $bits = null, bool $nullable = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($unsigned, $bits, $nullable) : bool {
+			function (&$value) use ($unsigned, $bits, $nullable): bool {
 				return isset($value)
 					? (is_int($value) ? UType::evaluateInteger($value, $unsigned, $bits) : false)
 					: $nullable;
@@ -760,10 +760,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsFloat(bool $nullable = false) : Property
+	final public function setAsFloat(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return UType::evaluateFloat($value, $nullable);
 			}
 		);
@@ -781,10 +781,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictFloat(bool $nullable = false) : Property
+	final public function setAsStrictFloat(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_float($value) : $nullable;
 			}
 		);
@@ -817,10 +817,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsSize(bool $nullable = false) : Property
+	final public function setAsSize(bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($nullable) : bool {
+			function (&$value) use ($nullable): bool {
 				return UByte::evaluateSize($value, $nullable);
 			}
 		);
@@ -845,10 +845,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsString(bool $non_empty = false, bool $nullable = false) : Property
+	final public function setAsString(bool $non_empty = false, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($non_empty, $nullable) : bool {
+			function (&$value) use ($non_empty, $nullable): bool {
 				return UType::evaluateString($value, $non_empty, $nullable);
 			}
 		);
@@ -868,10 +868,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false) : Property
+	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($non_empty, $nullable) : bool {
+			function (&$value) use ($non_empty, $nullable): bool {
 				return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
 			}
 		);
@@ -893,10 +893,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsClass($object_class_interface = null, bool $nullable = false) : Property
+	final public function setAsClass($object_class_interface = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($object_class_interface, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable): bool {
 				return UType::evaluateClass($value, $object_class_interface, $nullable);
 			}
 		);
@@ -916,10 +916,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false) : Property
+	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($object_class_interface, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable): bool {
 				return isset($value)
 					? is_string($value) && UType::evaluateClass($value, $object_class_interface)
 					: $nullable;
@@ -950,10 +950,10 @@ class Property
 	 */
 	final public function setAsObject(
 		$object_class_interface = null, array $arguments = [], bool $nullable = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($object_class_interface, $arguments, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $arguments, $nullable): bool {
 				return UType::evaluateObject($value, $object_class_interface, $arguments, $nullable);
 			}
 		);
@@ -973,10 +973,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false) : Property
+	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($object_class_interface, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable): bool {
 				return isset($value)
 					? is_object($value) && UType::evaluateObject($value, $object_class_interface)
 					: $nullable;
@@ -1003,10 +1003,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false) : Property
+	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($object_class_interface, $nullable) : bool {
+			function (&$value) use ($object_class_interface, $nullable): bool {
 				return UType::evaluateObjectClass($value, $object_class_interface, $nullable);
 			}
 		);
@@ -1031,10 +1031,10 @@ class Property
 	 */
 	final public function setAsCallable(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($template, $nullable, $assertive) : bool {
+			function (&$value) use ($template, $nullable, $assertive): bool {
 				return UCall::evaluate($value, $template, $nullable, $assertive);
 			}
 		);
@@ -1059,10 +1059,10 @@ class Property
 	 */
 	final public function setAsClosure(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($template, $nullable, $assertive) : bool {
+			function (&$value) use ($template, $nullable, $assertive): bool {
 				return isset($value)
 					? is_object($value) && UType::isA($value, \Closure::class) && 
 						UCall::evaluate($value, $template, false, $assertive)
@@ -1085,7 +1085,7 @@ class Property
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
@@ -1106,10 +1106,10 @@ class Property
 	 */
 	final public function setAsArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
 				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
 			}
 		);
@@ -1125,7 +1125,7 @@ class Property
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array value.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (&$key, &$value) : bool</code><br>
+	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
@@ -1146,10 +1146,10 @@ class Property
 	 */
 	final public function setAsStrictArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
-	) : Property
+	): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable) : bool {
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
 				return isset($value)
 					? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
 					: $nullable;
@@ -1173,11 +1173,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false) : Property
+	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false): Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($enumeration, $nullable) : bool {
+			function (&$value) use ($enumeration, $nullable): bool {
 				return $enumeration::evaluateValue($value, $nullable);
 			}
 		);
@@ -1197,11 +1197,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false) : Property
+	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false): Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($enumeration, $nullable) : bool {
+			function (&$value) use ($enumeration, $nullable): bool {
 				if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
 					$value = $enumeration::getValue($value);
 					return true;
@@ -1227,11 +1227,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsEnumerationName(string $enumeration, bool $nullable = false) : Property
+	final public function setAsEnumerationName(string $enumeration, bool $nullable = false): Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($enumeration, $nullable) : bool {
+			function (&$value) use ($enumeration, $nullable): bool {
 				return $enumeration::evaluateName($value, $nullable);
 			}
 		);
@@ -1251,11 +1251,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false) : Property
+	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false): Property
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($enumeration, $nullable) : bool {
+			function (&$value) use ($enumeration, $nullable): bool {
 				return is_string($value) && $enumeration::hasName($value);
 			}
 		);
@@ -1281,10 +1281,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsHash(int $bits, bool $nullable = false) : Property
+	final public function setAsHash(int $bits, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($bits, $nullable) : bool {
+			function (&$value) use ($bits, $nullable): bool {
 				return UHash::evaluate($value, $bits, $nullable);
 			}
 		);
@@ -1313,10 +1313,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsDateTime(?string $format = null, bool $nullable = false) : Property
+	final public function setAsDateTime(?string $format = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($format, $nullable) : bool {
+			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateDateTime($value, $format, $nullable);
 			}
 		);
@@ -1345,10 +1345,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsDate(?string $format = null, bool $nullable = false) : Property
+	final public function setAsDate(?string $format = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($format, $nullable) : bool {
+			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateDate($value, $format, $nullable);
 			}
 		);
@@ -1377,10 +1377,10 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsTime(?string $format = null, bool $nullable = false) : Property
+	final public function setAsTime(?string $format = null, bool $nullable = false): Property
 	{
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($format, $nullable) : bool {
+			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateTime($value, $format, $nullable);
 			}
 		);
@@ -1402,7 +1402,7 @@ class Property
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($prototype, array $properties) : Feralygon\Kit\Component</code><br>
+	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
@@ -1415,7 +1415,7 @@ class Property
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name, array $properties) : ?Feralygon\Kit\Component</code><br>
+	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -1430,11 +1430,11 @@ class Property
 	 */
 	final public function setAsComponent(
 		string $class, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
-	) : Property
+	): Property
 	{
 		$class = UType::coerceClass($class, Component::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($class, $properties, $builder, $named_builder) : bool {
+			function (&$value) use ($class, $properties, $builder, $named_builder): bool {
 				return $class::evaluate($value, $properties, $builder, $named_builder);
 			}
 		);
@@ -1461,11 +1461,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsOptions(string $class, bool $clone = false, bool $readonly = false) : Property
+	final public function setAsOptions(string $class, bool $clone = false, bool $readonly = false): Property
 	{
 		$class = UType::coerceClass($class, Options::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($class, $clone, $readonly) : bool {
+			function (&$value) use ($class, $clone, $readonly): bool {
 				return $class::evaluate($value, $clone, $readonly);
 			}
 		);
@@ -1492,11 +1492,11 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStructure(string $class, bool $clone = false, bool $readonly = false) : Property
+	final public function setAsStructure(string $class, bool $clone = false, bool $readonly = false): Property
 	{
 		$class = UType::coerceClass($class, Structure::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($class, $clone, $readonly) : bool {
+			function (&$value) use ($class, $clone, $readonly): bool {
 				return $class::evaluate($value, $clone, $readonly);
 			}
 		);
@@ -1521,7 +1521,7 @@ class Property
 	 * @param callable $setter
 	 * <p>The setter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function ($value) : void</code><br>
+	 * <code>function ($value): void</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code><br>
@@ -1529,7 +1529,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAccessors(callable $getter, callable $setter) : Property
+	final public function setAccessors(callable $getter, callable $setter): Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -1540,7 +1540,7 @@ class Property
 		
 		//set
 		UCall::assert('getter', $getter, function () {});
-		UCall::assert('setter', $setter, function ($value) : void {});
+		UCall::assert('setter', $setter, function ($value): void {});
 		$this->getter = \Closure::fromCallable($getter);
 		$this->setter = \Closure::fromCallable($setter);
 		
@@ -1573,7 +1573,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function bind(?string $class = null, ?string $name = null) : Property
+	final public function bind(?string $class = null, ?string $name = null): Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -1596,7 +1596,7 @@ class Property
 			\Closure::bind(function () use ($name) {
 				return $this->$name;
 			}, $owner, $class),
-			\Closure::bind(function ($value) use ($name) : void {
+			\Closure::bind(function ($value) use ($name): void {
 				$this->$name = $value;
 			}, $owner, $class)
 		);

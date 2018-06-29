@@ -126,7 +126,7 @@ class Properties
 	 * @return \Feralygon\Kit\Managers\Properties\Property
 	 * <p>The created property instance with the given name.</p>
 	 */
-	public function createProperty(string $name) : Property
+	public function createProperty(string $name): Property
 	{
 		return new Property($this, $name);
 	}
@@ -141,7 +141,7 @@ class Properties
 	 * @return object
 	 * <p>The owner object.</p>
 	 */
-	final public function getOwner() : object
+	final public function getOwner(): object
 	{
 		return $this->owner;
 	}
@@ -153,7 +153,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if lazy-loading is enabled.</p>
 	 */
-	final public function isLazy() : bool
+	final public function isLazy(): bool
 	{
 		return $this->lazy;
 	}
@@ -165,7 +165,7 @@ class Properties
 	 * @return string
 	 * <p>The mode.</p>
 	 */
-	final public function getMode() : string
+	final public function getMode(): string
 	{
 		return $this->mode;
 	}
@@ -177,7 +177,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
-	final public function isReadonly() : bool
+	final public function isReadonly(): bool
 	{
 		return $this->mode === 'r' || $this->mode === 'r+';
 	}
@@ -189,7 +189,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly() : Properties
+	final public function setAsReadonly(): Properties
 	{
 		if (!$this->isReadonly()) {
 			foreach ($this->properties as $name => $property) {
@@ -221,7 +221,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addRequiredPropertyNames(array $names) : Properties
+	final public function addRequiredPropertyNames(array $names): Properties
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -261,7 +261,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given property name is required.</p>
 	 */
-	final public function isRequiredPropertyName(string $name) : bool
+	final public function isRequiredPropertyName(string $name): bool
 	{
 		return $this->lazy ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
 	}
@@ -277,7 +277,7 @@ class Properties
 	 * @return \Feralygon\Kit\Managers\Properties\Property
 	 * <p>The newly added property instance with the given name.</p>
 	 */
-	final public function addProperty(string $name) : Property
+	final public function addProperty(string $name): Property
 	{
 		//guard
 		UCall::guard(!$this->lazy, [
@@ -324,7 +324,7 @@ class Properties
 	 * @param callable $builder
 	 * <p>The function to set to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (string $name) : ?Feralygon\Kit\Managers\Properties\Property</code><br>
+	 * <code>function (string $name): ?Feralygon\Kit\Managers\Properties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
@@ -335,7 +335,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setBuilder(callable $builder) : Properties
+	final public function setBuilder(callable $builder): Properties
 	{
 		UCall::guard($this->lazy, [
 			'hint_message' => "A builder function cannot be set in manager with owner {{owner}}, " . 
@@ -346,7 +346,7 @@ class Properties
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::assert('builder', $builder, function (string $name) : ?Property {});
+		UCall::assert('builder', $builder, function (string $name): ?Property {});
 		$this->builder = \Closure::fromCallable($builder);
 		return $this;
 	}
@@ -365,7 +365,7 @@ class Properties
 	 * @param callable $remainderer
 	 * <p>The function to set to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (array $properties) : void</code><br>
+	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
@@ -375,13 +375,13 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setRemainderer(callable $remainderer) : Properties
+	final public function setRemainderer(callable $remainderer): Properties
 	{
 		UCall::guard(!$this->initialized, [
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::assert('remainderer', $remainderer, function (array $properties) : void {});
+		UCall::assert('remainderer', $remainderer, function (array $properties): void {});
 		$this->remainderer = \Closure::fromCallable($remainderer);
 		return $this;
 	}
@@ -393,7 +393,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
-	final public function isInitialized() : bool
+	final public function isInitialized(): bool
 	{
 		return $this->initialized;
 	}
@@ -405,7 +405,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initializing.</p>
 	 */
-	final public function isInitializing() : bool
+	final public function isInitializing(): bool
 	{
 		return $this->initializing;
 	}
@@ -422,7 +422,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize(array $properties = [], ?array &$remainder = null) : Properties
+	final public function initialize(array $properties = [], ?array &$remainder = null): Properties
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -535,7 +535,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
-	final public function has(string $name) : bool
+	final public function has(string $name): bool
 	{
 		return $this->hasProperty($name);
 	}
@@ -578,7 +578,7 @@ class Properties
 	 * @return bool
 	 * <p>The boolean property value with the given name.</p>
 	 */
-	final public function is(string $name) : bool
+	final public function is(string $name): bool
 	{
 		$value = $this->get($name);
 		UCall::guard(is_bool($value), [
@@ -598,7 +598,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
 	 */
-	final public function isset(string $name) : bool
+	final public function isset(string $name): bool
 	{
 		return $this->has($name) ? $this->get($name) !== null : false;
 	}
@@ -614,7 +614,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value) : Properties
+	final public function set(string $name, $value): Properties
 	{
 		//initialize
 		$property = $this->getProperty($name);
@@ -649,7 +649,7 @@ class Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name) : Properties
+	final public function unset(string $name): Properties
 	{
 		//initialize
 		$property = $this->getProperty($name);
@@ -689,7 +689,7 @@ class Properties
 	 * @return array
 	 * <p>All properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll() : array
+	final public function getAll(): array
 	{
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
@@ -712,7 +712,7 @@ class Properties
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has property with the given name.</p>
 	 */
-	final protected function hasProperty(string $name) : bool
+	final protected function hasProperty(string $name): bool
 	{
 		return $this->getProperty($name, true) !== null;
 	}
@@ -730,7 +730,7 @@ class Properties
 	 * <p>The property instance with the given name.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
-	final protected function getProperty(string $name, bool $no_throw = false) : ?Property
+	final protected function getProperty(string $name, bool $no_throw = false): ?Property
 	{
 		if (!isset($this->properties[$name])) {
 			//build

@@ -51,7 +51,7 @@ class Readonly
 	 * @return object
 	 * <p>The owner object.</p>
 	 */
-	final public function getOwner() : object
+	final public function getOwner(): object
 	{
 		return $this->owner;
 	}
@@ -63,7 +63,7 @@ class Readonly
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is enabled.</p>
 	 */
-	final public function isEnabled() : bool
+	final public function isEnabled(): bool
 	{
 		return $this->enabled;
 	}
@@ -75,7 +75,7 @@ class Readonly
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function enable() : Readonly
+	final public function enable(): Readonly
 	{
 		if (!$this->enabled) {
 			foreach ($this->callbacks as $callback) {
@@ -97,17 +97,17 @@ class Readonly
 	 * @param callable $callback
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function () : void</code></p>
+	 * <code>function (): void</code></p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addCallback(callable $callback) : Readonly
+	final public function addCallback(callable $callback): Readonly
 	{
 		UCall::guard(!$this->enabled, [
 			'hint_message' => "This method may only be called before enablement, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::assert('callback', $callback, function () : void {});
+		UCall::assert('callback', $callback, function (): void {});
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
 	}
@@ -121,7 +121,7 @@ class Readonly
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @return void
 	 */
-	final public function guardCall(int $stack_offset = 0) : void
+	final public function guardCall(int $stack_offset = 0): void
 	{
 		UCall::guard(!$this->enabled, [
 			'error_message' => "This method cannot be called as this object is currently set as read-only.",

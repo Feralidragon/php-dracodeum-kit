@@ -55,7 +55,7 @@ final class Key
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	final public function getName() : string
+	final public function getName(): string
 	{
 		return $this->name;
 	}
@@ -79,7 +79,7 @@ final class Key
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has expiry.</p>
 	 */
-	final public function hasExpiry() : bool
+	final public function hasExpiry(): bool
 	{
 		return isset($this->expiry);
 	}
@@ -91,7 +91,7 @@ final class Key
 	 * @return float|null
 	 * <p>The expiry, as an Unix timestamp, with microseconds, or <code>null</code> if none is set.</p>
 	 */
-	final public function getExpiry() : ?float
+	final public function getExpiry(): ?float
 	{
 		return $this->expiry;
 	}

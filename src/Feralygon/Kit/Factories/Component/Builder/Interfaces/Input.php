@@ -29,5 +29,5 @@ interface Input
 	 * @return \Feralygon\Kit\Components\Input
 	 * <p>The built instance with the given prototype.</p>
 	 */
-	public function build($prototype, array $properties = []) : Component;
+	public function build($prototype, array $properties = []): Component;
 }
