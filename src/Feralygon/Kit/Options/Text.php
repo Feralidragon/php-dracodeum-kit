@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Options;
 use Feralygon\Kit\Options;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
+use Feralygon\Kit\Factories\Options as Factory;
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -48,5 +49,14 @@ class Text extends Options
 				;
 		}
 		return null;
+	}
+	
+	
+	
+	//Implemented protected static methods (Feralygon\Kit\Options\Traits\DefaultBuilder)
+	/** {@inheritdoc} */
+	protected static function getDefaultBuilder(): ?callable
+	{
+		return [Factory::class, 'text'];
 	}
 }
