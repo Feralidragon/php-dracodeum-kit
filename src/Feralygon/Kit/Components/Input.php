@@ -19,6 +19,7 @@ use Feralygon\Kit\Components\Input\{
 	Options,
 	Structures
 };
+use Feralygon\Kit\Factories\Component as Factory;
 use Feralygon\Kit\Components\Input\Factories\Component as FComponent;
 use Feralygon\Kit\Prototypes\{
 	Input as Prototype,
@@ -125,6 +126,15 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	public function createFilter($prototype, array $properties = []): Components\Modifiers\Filter
 	{
 		return FComponent::filter($prototype, $properties);
+	}
+	
+	
+	
+	//Implemented protected static methods (Feralygon\Kit\Component\Traits\DefaultBuilder)
+	/** {@inheritdoc} */
+	protected static function getDefaultBuilder(): ?callable
+	{
+		return [Factory::class, 'input'];
 	}
 	
 	

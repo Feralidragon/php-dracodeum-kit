@@ -1458,15 +1458,30 @@ class Property
 	 * <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, 
 	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Options</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
+	 * The built instance.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsOptions(string $class, bool $clone = false, bool $readonly = false): Property
+	final public function setAsOptions(
+		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
+	): Property
 	{
 		$class = UType::coerceClass($class, Options::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($class, $clone, $readonly): bool {
-				return $class::evaluate($value, $clone, $readonly);
+			function (&$value) use ($class, $clone, $readonly, $builder): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder);
 			}
 		);
 		return $this;
@@ -1489,15 +1504,30 @@ class Property
 	 * <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, 
 	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
+	 * The built instance.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStructure(string $class, bool $clone = false, bool $readonly = false): Property
+	final public function setAsStructure(
+		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
+	): Property
 	{
 		$class = UType::coerceClass($class, Structure::class);
 		$this->clearEvaluators()->addEvaluator(
-			function (&$value) use ($class, $clone, $readonly): bool {
-				return $class::evaluate($value, $clone, $readonly);
+			function (&$value) use ($class, $clone, $readonly, $builder): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder);
 			}
 		);
 		return $this;

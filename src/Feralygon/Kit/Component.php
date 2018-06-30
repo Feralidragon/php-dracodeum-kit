@@ -61,6 +61,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
+ * @see \Feralygon\Kit\Component\Traits\DefaultBuilder
  * @see \Feralygon\Kit\Component\Traits\PreInitialization
  * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNames
  * @see \Feralygon\Kit\Component\Traits\Properties
@@ -73,6 +74,7 @@ abstract class Component
 {
 	//Traits
 	use KitTraits\LazyProperties;
+	use Traits\DefaultBuilder;
 	use Traits\PreInitialization;
 	use Traits\RequiredPropertyNames;
 	use Traits\Properties;
@@ -352,6 +354,9 @@ abstract class Component
 		}
 		
 		//builder
+		if (!isset($builder)) {
+			$builder = static::getDefaultBuilder();
+		}
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
 			try {

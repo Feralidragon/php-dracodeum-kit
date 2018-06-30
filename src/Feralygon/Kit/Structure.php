@@ -12,9 +12,14 @@ use Feralygon\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable
 };
-use Feralygon\Kit\Structure\Exceptions;
+use Feralygon\Kit\Structure\{
+	Traits,
+	Exceptions
+};
+use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
+	Call as UCall,
 	Text as UText,
 	Type as UType
 };
@@ -30,13 +35,15 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
+ * @see \Feralygon\Kit\Structure\Traits\DefaultBuilder
  */
 abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
 {
 	//Traits
-	use Traits\Properties\ArrayableAccess;
-	use Traits\Readonly;
-	use Traits\Stringifiable;
+	use KitTraits\Properties\ArrayableAccess;
+	use KitTraits\Readonly;
+	use KitTraits\Stringifiable;
+	use Traits\DefaultBuilder;
 	
 	
 	
@@ -137,13 +144,28 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>Evaluate into a read-only instance.<br>
 	 * If an instance is given and is not read-only, 
 	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
+	 * The built instance.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
-	final public static function evaluate(&$value, bool $clone = false, bool $readonly = false): bool
+	final public static function evaluate(
+		&$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
+	): bool
 	{
 		try {
-			$value = static::coerce($value, $clone, $readonly);
+			$value = static::coerce($value, $clone, $readonly, $builder);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -165,22 +187,50 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>Coerce into a read-only instance.<br>
 	 * If an instance is given and is not read-only, 
 	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
+	 * The built instance.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
 	 * @return static
 	 * <p>The given value coerced into an instance.</p>
 	 */
-	final public static function coerce($value, bool $clone = false, bool $readonly = false): Structure
+	final public static function coerce(
+		$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
+	): Structure
 	{
+		//builder
+		if (!isset($builder)) {
+			$builder = static::getDefaultBuilder();
+		}
+		if (isset($builder)) {
+			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Structure {});
+		}
+		
 		//coerce
 		try {
-			if (!isset($value)) {
-				return new static([], $readonly);
-			} elseif (is_array($value)) {
-				return new static($value, $readonly);
+			if (!isset($value) || is_array($value)) {
+				return isset($builder)
+					? UType::coerceObject($builder($value ?? [], $readonly), static::class)
+					: new static($value ?? [], $readonly);
 			} elseif (is_object($value) && $value instanceof Structure) {
-				return $clone || ($readonly && !$value->isReadonly()) || !UType::isA($value, static::class)
-					? new static($value->getAll(), $readonly)
-					: $value;
+				if ($clone || ($readonly && !$value->isReadonly())) {
+					return new static($value->getAll(), $readonly);
+				} elseif (!UType::isA($value, static::class)) {
+					return isset($builder)
+						? UType::coerceObject($builder($value->getAll(), $readonly), static::class)
+						: new static($value->getAll(), $readonly);
+				}
+				return $value;
 			}
 		} catch (\Exception $exception) {
 			throw new Exceptions\CoercionFailed([
