@@ -1436,8 +1436,7 @@ final class Type extends Utility
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\InterfaceNotFound
 	 * @return string|null
 	 * <p>The given interface validated and sanitized.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be found.</p>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function interface(string $interface, bool $no_throw = false): ?string
 	{
