@@ -1435,7 +1435,7 @@ final class Data extends Utility
 	 * @return mixed
 	 * <p>The value from the given array at the given path.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then <code>null</code> may also be returned if it could not be found.</p>
+	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public static function get(array $array, string $path, string $delimiter = '.', bool $no_throw = false)
 	{
