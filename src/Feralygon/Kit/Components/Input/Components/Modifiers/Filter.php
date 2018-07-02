@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Components\Input\Components\Modifiers;
 
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter as Prototype;
+use Feralygon\Kit\Components\Input\Factories\Component as Factory;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
@@ -40,6 +41,15 @@ class Filter extends Modifier
 	protected static function getBasePriority(): int
 	{
 		return 500;
+	}
+	
+	
+	
+	//Implemented protected static methods (Feralygon\Kit\Component\Traits\DefaultBuilder)
+	/** {@inheritdoc} */
+	protected static function getDefaultBuilder(): ?callable
+	{
+		return [Factory::class, 'filter'];
 	}
 	
 	
