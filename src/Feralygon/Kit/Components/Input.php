@@ -32,8 +32,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
-	Text as UText,
-	Type as UType
+	Text as UText
 };
 
 /**
@@ -856,29 +855,12 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 			'hint_message' => "This method may only be called before initialization."
 		]);
 		
-		//validate and build
+		//coerce
 		$prototype = $this->getPrototype();
-		if (is_string($modifier)) {
-			$instance = $prototype instanceof PrototypeInterfaces\Modifiers
-				? $prototype->buildModifier($modifier, $properties)
-				: null;
-			UCall::guardParameter('modifier', $modifier, isset($instance), [
-				'error_message' => "Modifier name not found in prototype {{prototype}}.",
-				'parameters' => ['prototype' => $prototype]
-			]);
-			$modifier = $instance;
-		} else {
-			UCall::guardParameter(
-				'modifier', $modifier,
-				is_object($modifier) && UType::isA($modifier, Components\Modifier::class), [
-					'hint_message' => "Only a modifier instance or name is allowed."
-				]
-			);
-			UCall::guardParameter('properties', $properties, empty($properties), [
-				'hint_message' => "Modifier properties are only allowed to be given whenever " . 
-					"the modifier is given as a name."
-			]);
-		}
+		$modifier = Components\Modifier::coerce(
+			$modifier, $properties, null,
+			$prototype instanceof PrototypeInterfaces\Modifiers ? [$prototype, 'buildModifier'] : null
+		);
 		
 		//add
 		$priority = $modifier->getPriority();
