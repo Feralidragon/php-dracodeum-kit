@@ -456,6 +456,9 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.sort.php
+	 * @see https://php.net/manual/en/function.rsort.php
+	 * @see https://php.net/manual/en/function.asort.php
+	 * @see https://php.net/manual/en/function.arsort.php
 	 * @param array $array
 	 * <p>The array to sort.</p>
 	 * @param int|null $depth [default = null]
@@ -524,6 +527,7 @@ final class Data extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ksort.php
+	 * @see https://php.net/manual/en/function.krsort.php
 	 * @param array $array
 	 * <p>The array to sort.</p>
 	 * @param int|null $depth [default = null]
@@ -566,6 +570,96 @@ final class Data extends Utility
 			foreach ($array as &$v) {
 				if (is_array($v)) {
 					$v = self::ksort($v, $next_depth, $flags);
+				}
+			}
+			unset($v);
+		}
+		
+		//return
+		return $array;
+	}
+	
+	/**
+	 * Sort a given array recursively using a given comparer function.
+	 * 
+	 * By omission, in non-associative arrays the keys are recalculated, 
+	 * whereas in associative arrays the keys are kept intact, and the sorting is performed in ascending order.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.usort.php
+	 * @see https://php.net/manual/en/function.uasort.php
+	 * @see https://php.net/manual/en/function.uksort.php
+	 * @param array $array
+	 * <p>The array to sort.</p>
+	 * @param callable $comparer
+	 * <p>The comparer function to use to compare two key-value pairs.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function ($key1, $value1, $key2, $value2): int</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key1</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The first key to compare.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value1</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The first value to compare.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key2</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The second key to compare against.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value2</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The second value to compare against.<br>
+	 * <br>
+	 * Return: <code><b>int</b></code><br>
+	 * The difference between the given first key-value pair and the second one.</p>
+	 * @param int|null $depth [default = null]
+	 * <p>The recursive depth limit to stop the sorting at.<br>
+	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * @param int $flags [default = 0x00]
+	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
+	 * Sort array in reverse (descending order).<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
+	 * Exclude associative arrays from sorting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_ASSOC</code> : 
+	 * Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
+	 * Exclude non-associative arrays from sorting.</p>
+	 * @return array
+	 * <p>The sorted array.</p>
+	 */
+	final public static function fsort(array $array, callable $comparer, ?int $depth = null, int $flags = 0x00): array
+	{
+		//guard
+		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
+		//comparer
+		Call::assert('comparer', $comparer, function ($key1, $value1, $key2, $value2): int {});
+		$comparer = \Closure::fromCallable($comparer);
+		
+		//sort
+		$is_assoc = self::isAssociative($array);
+		if (
+			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
+		) {
+			//sort
+			$reverse = (bool)($flags & self::SORT_REVERSE);
+			uksort($array, function ($key1, $key2) use ($array, $comparer, $reverse): int {
+				$diff = $comparer($key1, $array[$key1], $key2, $array[$key2]);
+				return $reverse ? -$diff : $diff;
+			});
+			
+			//non-associative
+			if (!$is_assoc && !($flags & self::SORT_NONASSOC_ASSOC)) {
+				$array = array_values($array);
+			}
+		}
+		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::fsort($v, $comparer, $next_depth, $flags);
 				}
 			}
 			unset($v);
