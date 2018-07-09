@@ -82,6 +82,23 @@ final class Store
 	}
 	
 	/**
+	 * Check if has keys.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has keys.</p>
+	 */
+	final public function hasKeys(): bool
+	{
+		foreach ($this->keys as $name => $key) {
+			if ($this->hasKey($name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Get key instance with a given name.
 	 * 
 	 * @since 1.0.0

@@ -114,6 +114,18 @@ class Memoization
 	}
 	
 	/**
+	 * Check if has values.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has values.</p>
+	 */
+	final public function hasValues(): bool
+	{
+		return $this->getStore(self::SELECTOR_VALUES)->hasKeys();
+	}
+	
+	/**
 	 * Get value from a given key.
 	 * 
 	 * @since 1.0.0
