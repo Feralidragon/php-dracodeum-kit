@@ -1680,6 +1680,50 @@ final class Data extends Utility
 	}
 	
 	/**
+	 * Prepend a given value to a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array [reference]
+	 * <p>The array to prepend to.</p>
+	 * @param mixed $value
+	 * <p>The value to prepend.</p>
+	 * @param int|string|null $key [default = null]
+	 * <p>The key to prepend with.</p>
+	 * @return void
+	 */
+	final public static function prepend(array &$array, $value, $key = null): void
+	{
+		if (isset($key)) {
+			unset($array[$key]);
+			$array = [$key => $value] + $array;
+		} else {
+			array_unshift($array, $value);
+		}
+	}
+	
+	/**
+	 * Append a given value to a given array.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array [reference]
+	 * <p>The array to append to.</p>
+	 * @param mixed $value
+	 * <p>The value to append.</p>
+	 * @param int|string|null $key [default = null]
+	 * <p>The key to append with.</p>
+	 * @return void
+	 */
+	final public static function append(array &$array, $value, $key = null): void
+	{
+		if (isset($key)) {
+			unset($array[$key]);
+			$array[$key] = $value;
+		} else {
+			$array[] = $value;
+		}
+	}
+	
+	/**
 	 * Get the first value from a given array.
 	 * 
 	 * @since 1.0.0
