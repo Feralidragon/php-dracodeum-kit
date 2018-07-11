@@ -57,7 +57,7 @@ class Pattern extends Enumeration
 	public const QUOTED_STRING = '(?:\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\")';
 	
 	/** CTEXT regular expression pattern. */
-	public const CTEXT = '[\t\ \x21-x27\x2a-\x5b\x5d-\x7e]';
+	public const CTEXT = '[\t\ \x21-\x27\x2a-\x5b\x5d-\x7e]';
 	
 	/** COMMENT regular expression pattern. */
 	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
