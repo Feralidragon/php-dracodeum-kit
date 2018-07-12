@@ -130,7 +130,7 @@ class Property
 	 */
 	final public function isRequired(): bool
 	{
-		return $this->required || !$this->hasDefaultValue() || 
+		return $this->required || !isset($this->default_getter) || 
 			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name));
 	}
 	
@@ -1534,9 +1534,9 @@ class Property
 	}
 	
 	/**
-	 * Set accessor functions.
+	 * Set getter function.
 	 * 
-	 * By setting a getter and a setter function, the value will always be got and set using those functions.<br>
+	 * By setting a getter function, the value will always be got using that function.<br>
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
@@ -1548,6 +1548,39 @@ class Property
 	 * <br>
 	 * Return: <code><b>mixed</b></code><br>
 	 * The value.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setGetter(callable $getter): Property
+	{
+		//guard
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
+		]);
+		
+		//set
+		UCall::assert('getter', $getter, function () {});
+		$this->getter = \Closure::fromCallable($getter);
+		
+		//default
+		if (!isset($this->default_getter)) {
+			$this->default_getter = $this->getter;
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Set setter function.
+	 * 
+	 * By setting a setter function, the value will always be set using that function.<br>
+	 * <br>
+	 * This method may only be called before initialization.
+	 * 
+	 * @since 1.0.0
 	 * @param callable $setter
 	 * <p>The setter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -1559,7 +1592,7 @@ class Property
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAccessors(callable $getter, callable $setter): Property
+	final public function setSetter(callable $setter): Property
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -1569,15 +1602,8 @@ class Property
 		]);
 		
 		//set
-		UCall::assert('getter', $getter, function () {});
 		UCall::assert('setter', $setter, function ($value): void {});
-		$this->getter = \Closure::fromCallable($getter);
 		$this->setter = \Closure::fromCallable($setter);
-		
-		//default
-		if (!$this->hasDefaultValue()) {
-			$this->setDefaultValue(($this->getter)());
-		}
 		
 		//return
 		return $this;
@@ -1622,14 +1648,12 @@ class Property
 		}
 		
 		//bind
-		$this->setAccessors(
-			\Closure::bind(function () use ($name) {
-				return $this->$name;
-			}, $owner, $class),
-			\Closure::bind(function ($value) use ($name): void {
-				$this->$name = $value;
-			}, $owner, $class)
-		);
+		$this->setGetter(\Closure::bind(function () use ($name) {
+			return $this->$name;
+		}, $owner, $class));
+		$this->setSetter(\Closure::bind(function ($value) use ($name): void {
+			$this->$name = $value;
+		}, $owner, $class));
 		
 		//return
 		return $this;

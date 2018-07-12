@@ -81,15 +81,13 @@ class AssertionFailed extends Exception implements IAssertive
 		;
 		$this->addProperty('function_signature')
 			->setMode('r')
-			->setAsString(true)
-			->setDefaultGetter(function () {
+			->setGetter(function () {
 				return UCall::signature($this->get('function'));
 			})
 		;
 		$this->addProperty('template_signature')
 			->setMode('r')
-			->setAsString(true)
-			->setDefaultGetter(function () {
+			->setGetter(function () {
 				return UCall::signature($this->get('template'));
 			})
 		;
