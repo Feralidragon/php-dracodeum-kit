@@ -11,7 +11,7 @@ use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	SchemaData as ISchemaData,
-	Modifiers as IModifiers
+	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\{
@@ -79,7 +79,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']
  */
-class Text extends Input implements IInformation, ISchemaData, IModifiers
+class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
 	//Private properties
 	/** @var bool */
@@ -184,7 +184,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifiers
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{

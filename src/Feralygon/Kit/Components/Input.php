@@ -859,7 +859,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$prototype = $this->getPrototype();
 		$modifier = Components\Modifier::coerce(
 			$modifier, $properties, null,
-			$prototype instanceof PrototypeInterfaces\Modifiers ? [$prototype, 'buildModifier'] : null
+			$prototype instanceof PrototypeInterfaces\ModifierBuilder ? [$prototype, 'buildModifier'] : null
 		);
 		
 		//add

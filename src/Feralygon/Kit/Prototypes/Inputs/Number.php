@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	Modifiers as IModifiers
+	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints;
@@ -51,7 +51,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers
  * [modifier, name = 'constraints.powers' or 'powers' or 'constraints.non_powers' or 'non_powers']
  */
-class Number extends Input implements IInformation, IModifiers
+class Number extends Input implements IInformation, IModifierBuilder
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -141,7 +141,7 @@ class Number extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{

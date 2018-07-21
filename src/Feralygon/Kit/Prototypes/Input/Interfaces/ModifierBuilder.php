@@ -15,7 +15,7 @@ use Feralygon\Kit\Components\Input\Components\Modifier;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
-interface Modifiers
+interface ModifierBuilder
 {
 	//Public methods
 	/**

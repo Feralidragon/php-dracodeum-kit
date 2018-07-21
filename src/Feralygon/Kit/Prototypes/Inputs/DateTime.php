@@ -11,7 +11,7 @@ use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	ValueStringifier as IValueStringifier,
-	Modifiers as IModifiers
+	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\{
@@ -52,7 +52,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Iso8601
  * [modifier, name = 'filters.iso8601']
  */
-class DateTime extends Input implements IInformation, IValueStringifier, IModifiers
+class DateTime extends Input implements IInformation, IValueStringifier, IModifierBuilder
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -149,7 +149,7 @@ class DateTime extends Input implements IInformation, IValueStringifier, IModifi
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{

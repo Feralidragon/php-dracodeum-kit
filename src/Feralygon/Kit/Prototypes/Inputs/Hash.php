@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	Modifiers as IModifiers
+	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\{
@@ -43,7 +43,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
  * [modifier, name = 'filters.base64']
  */
-abstract class Hash extends Input implements IInformation, IModifiers
+abstract class Hash extends Input implements IInformation, IModifierBuilder
 {
 	//Abstract public methods
 	/**
@@ -161,7 +161,7 @@ abstract class Hash extends Input implements IInformation, IModifiers
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
