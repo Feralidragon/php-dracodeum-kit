@@ -16,7 +16,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Constraint;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
-interface Constraints
+interface ConstraintCreator
 {
 	//Public methods
 	/**

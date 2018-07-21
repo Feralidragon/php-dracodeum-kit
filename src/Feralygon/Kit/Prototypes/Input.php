@@ -19,10 +19,10 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 /**
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
- * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\Constraints
- * [subcontract, name = 'constraints']
- * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\Filters
- * [subcontract, name = 'filters']
+ * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\ConstraintCreator
+ * [subcontract, name = 'constraint_creator']
+ * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\FilterCreator
+ * [subcontract, name = 'filter_creator']
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorMessage
@@ -62,10 +62,10 @@ abstract class Input extends Prototype implements ISubcontracts
 	public static function getSubcontract(string $name): ?string
 	{
 		switch ($name) {
-			case 'constraints':
-				return Subcontracts\Constraints::class;
-			case 'filters':
-				return Subcontracts\Filters::class;
+			case 'constraint_creator':
+				return Subcontracts\ConstraintCreator::class;
+			case 'filter_creator':
+				return Subcontracts\FilterCreator::class;
 		}
 		return null;
 	}
@@ -87,7 +87,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createConstraint($prototype, array $properties = []): Constraint
 	{
 		return $this->subcontractCall(
-			'constraints', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
+			'constraint_creator', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
 		);
 	}
 	
@@ -105,7 +105,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createFilter($prototype, array $properties = []): Filter
 	{
 		return $this->subcontractCall(
-			'filters', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
+			'filter_creator', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
 		);
 	}
 }

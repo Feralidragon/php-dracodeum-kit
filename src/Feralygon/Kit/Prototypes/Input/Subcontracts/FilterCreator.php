@@ -16,7 +16,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Filter;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
-interface Filters
+interface FilterCreator
 {
 	//Public methods
 	/**

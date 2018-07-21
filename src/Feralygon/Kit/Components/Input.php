@@ -9,8 +9,8 @@ namespace Feralygon\Kit\Components;
 
 use Feralygon\Kit\Component;
 use Feralygon\Kit\Prototypes\Input\Subcontracts\{
-	Constraints as IPrototypeConstraints,
-	Filters as IPrototypeFilters
+	ConstraintCreator as IPrototypeConstraintCreator,
+	FilterCreator as IPrototypeFilterCreator
 };
 use Feralygon\Kit\Components\Input\{
 	Components,
@@ -79,7 +79,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  * [prototype, name = 'datetime' or 'timestamp']
  */
-class Input extends Component implements IPrototypeConstraints, IPrototypeFilters
+class Input extends Component implements IPrototypeConstraintCreator, IPrototypeFilterCreator
 {
 	//Private properties
 	/** @var bool */
@@ -111,7 +111,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Constraints)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\ConstraintCreator)
 	/** {@inheritdoc} */
 	public function createConstraint($prototype, array $properties = []): Components\Modifiers\Constraint
 	{
@@ -120,7 +120,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\Filters)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Subcontracts\FilterCreator)
 	/** {@inheritdoc} */
 	public function createFilter($prototype, array $properties = []): Components\Modifiers\Filter
 	{
