@@ -273,7 +273,7 @@ class Input extends Component implements IPrototypeConstraints, IPrototypeFilter
 		$value = $this->getValue();
 		$text_options = TextOptions::coerce($text_options);
 		$prototype = $this->getPrototype();
-		return isset($value) && $prototype instanceof PrototypeInterfaces\ValueStringification
+		return isset($value) && $prototype instanceof PrototypeInterfaces\ValueStringifier
 			? $prototype->stringifyValue($value, $text_options)
 			: UText::stringify($value, $text_options, ['quote_strings' => true]);
 	}

@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	ValueStringification as IValueStringification,
+	ValueStringifier as IValueStringifier,
 	Modifiers as IModifiers
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
@@ -52,7 +52,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters\Iso8601
  * [modifier, name = 'filters.iso8601']
  */
-class DateTime extends Input implements IInformation, IValueStringification, IModifiers
+class DateTime extends Input implements IInformation, IValueStringifier, IModifiers
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -140,7 +140,7 @@ class DateTime extends Input implements IInformation, IValueStringification, IMo
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier)
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options): string
 	{

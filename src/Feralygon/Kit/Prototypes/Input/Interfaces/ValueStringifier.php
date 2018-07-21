@@ -15,7 +15,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
-interface ValueStringification
+interface ValueStringifier
 {
 	//Public methods
 	/**

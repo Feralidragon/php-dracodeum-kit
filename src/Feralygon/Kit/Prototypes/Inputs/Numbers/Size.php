@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 
 use Feralygon\Kit\Prototypes\Inputs\Number;
-use Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification as IValueStringification;
+use Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier as IValueStringifier;
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
@@ -47,9 +47,9 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints\Range
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  */
-class Size extends Number implements IValueStringification
+class Size extends Number implements IValueStringifier
 {
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier)
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options): string
 	{

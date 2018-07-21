@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	ValueStringification as IValueStringification,
+	ValueStringifier as IValueStringifier,
 	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Enumeration as KitEnumeration;
@@ -46,7 +46,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
-class Enumeration extends Input implements IInformation, IValueStringification, ISchemaData
+class Enumeration extends Input implements IInformation, IValueStringifier, ISchemaData
 {
 	//Private properties
 	/** @var string */
@@ -357,7 +357,7 @@ class Enumeration extends Input implements IInformation, IValueStringification, 
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier)
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options): string
 	{

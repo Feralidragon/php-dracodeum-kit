@@ -26,7 +26,7 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorMessage
- * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringification
+ * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Modifiers
  */
