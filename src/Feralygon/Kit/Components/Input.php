@@ -49,16 +49,6 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Input
  * @see \Feralygon\Kit\Prototypes\Inputs\Boolean
  * [prototype, name = 'boolean' or 'bool']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Crc32
- * [prototype, name = 'crc32']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Md5
- * [prototype, name = 'md5']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha1
- * [prototype, name = 'sha1']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha256
- * [prototype, name = 'sha256']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha512
- * [prototype, name = 'sha512']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  * [prototype, name = 'number']
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Float64
@@ -72,6 +62,16 @@ use Feralygon\Kit\Utilities\{
  * [prototype, name = 'enumeration' or 'enum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  * [prototype, name = 'text' or 'string']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Crc32
+ * [prototype, name = 'crc32']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Md5
+ * [prototype, name = 'md5']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha1
+ * [prototype, name = 'sha1']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha256
+ * [prototype, name = 'sha256']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha512
+ * [prototype, name = 'sha512']
  * @see \Feralygon\Kit\Prototypes\Inputs\Date
  * [prototype, name = 'date']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time
@@ -174,16 +174,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				//no break
 			case 'bool':
 				return new Prototypes\Boolean($properties);
-			case 'crc32':
-				return new Prototypes\Hashes\Crc32($properties);
-			case 'md5':
-				return new Prototypes\Hashes\Md5($properties);
-			case 'sha1':
-				return new Prototypes\Hashes\Sha1($properties);
-			case 'sha256':
-				return new Prototypes\Hashes\Sha256($properties);
-			case 'sha512':
-				return new Prototypes\Hashes\Sha512($properties);
 			case 'number':
 				return new Prototypes\Number($properties);
 			case 'float64':
@@ -230,6 +220,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				//no break
 			case 'string':
 				return new Prototypes\Text($properties);
+			case 'crc32':
+				return new Prototypes\Hashes\Crc32($properties);
+			case 'md5':
+				return new Prototypes\Hashes\Md5($properties);
+			case 'sha1':
+				return new Prototypes\Hashes\Sha1($properties);
+			case 'sha256':
+				return new Prototypes\Hashes\Sha256($properties);
+			case 'sha512':
+				return new Prototypes\Hashes\Sha512($properties);
 			case 'date':
 				return new Prototypes\Date($properties);
 			case 'time':
