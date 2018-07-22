@@ -208,7 +208,7 @@ trait Properties
 	 * 
 	 * @since 1.0.0
 	 * @return array
-	 * <p>All properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll(): array
 	{

@@ -328,7 +328,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	 * 
 	 * @since 1.0.0
 	 * @return array
-	 * <p>All values.</p>
+	 * <p>All the values.</p>
 	 */
 	final public function getAll(): array
 	{
