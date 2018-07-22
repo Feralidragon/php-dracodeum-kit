@@ -69,6 +69,18 @@ trait Evaluators
 	}
 	
 	/**
+	 * Get evaluator functions.
+	 * 
+	 * @since 1.0.0
+	 * @return \Closure[]
+	 * <p>The evaluator functions.</p>
+	 */
+	final public function getEvaluators(): array
+	{
+		return $this->evaluators;
+	}
+	
+	/**
 	 * Clear all evaluator functions.
 	 * 
 	 * @since 1.0.0
