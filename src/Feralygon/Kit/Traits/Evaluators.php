@@ -29,6 +29,12 @@ use Feralygon\Kit\Utilities\{
  */
 trait Evaluators
 {
+	//Private constants
+	/** Evaluators default locked guard options. */
+	private const EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS = ['error_message' => "This method has been locked."];
+	
+	
+	
 	//Private properties
 	/** @var \Closure[] */
 	private $evaluators = [];
@@ -37,7 +43,7 @@ trait Evaluators
 	private $evaluators_locked = false;
 	
 	/** @var \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null */
-	private $evaluators_locked_guard_options = ['error_message' => "This method has been locked."];
+	private $evaluators_locked_guard_options = self::EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS;
 	
 	
 	
@@ -91,6 +97,29 @@ trait Evaluators
 	{
 		UCall::guard(!$this->evaluators_locked, $this->evaluators_locked_guard_options);
 		$this->evaluators = [];
+		return $this;
+	}
+	
+	/**
+	 * Lock evaluators.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
+	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
+	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function lockEvaluators($guard_options = null): object
+	{
+		$this->evaluators_locked = true;
+		if (isset($guard_options)) {
+			$this->evaluators_locked_guard_options = $guard_options;
+		}
 		return $this;
 	}
 	
@@ -1021,29 +1050,6 @@ trait Evaluators
 	
 	//Final protected methods
 	/**
-	 * Lock evaluators.
-	 * 
-	 * @since 1.0.0
-	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
-	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
-	 * <code>function ()</code><br>
-	 * <br>
-	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
-	 */
-	final protected function lockEvaluators($guard_options = null): object
-	{
-		$this->evaluators_locked = true;
-		if (isset($guard_options)) {
-			$this->evaluators_locked_guard_options = $guard_options;
-		}
-		return $this;
-	}
-	
-	/**
 	 * Unlock evaluators.
 	 * 
 	 * @since 1.0.0
@@ -1053,6 +1059,7 @@ trait Evaluators
 	final protected function unlockEvaluators(): object
 	{
 		$this->evaluators_locked = false;
+		$this->evaluators_locked_guard_options = self::EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS;
 		return $this;
 	}
 	
