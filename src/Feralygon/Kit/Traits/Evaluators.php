@@ -29,12 +29,6 @@ use Feralygon\Kit\Utilities\{
  */
 trait Evaluators
 {
-	//Private constants
-	/** Evaluators default locked guard options. */
-	private const EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS = ['error_message' => "This method has been locked."];
-	
-	
-	
 	//Private properties
 	/** @var \Closure[] */
 	private $evaluators = [];
@@ -43,7 +37,7 @@ trait Evaluators
 	private $evaluators_locked = false;
 	
 	/** @var \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null */
-	private $evaluators_locked_guard_options = self::EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS;
+	private $evaluators_locked_guard_options = ['error_message' => "This method has been locked."];
 	
 	
 	
@@ -1059,7 +1053,7 @@ trait Evaluators
 	final protected function unlockEvaluators(): object
 	{
 		$this->evaluators_locked = false;
-		$this->evaluators_locked_guard_options = self::EVALUATORS_DEFAULT_LOCKED_GUARD_OPTIONS;
+		$this->evaluators_locked_guard_options = ['error_message' => "This method has been locked."];
 		return $this;
 	}
 	
