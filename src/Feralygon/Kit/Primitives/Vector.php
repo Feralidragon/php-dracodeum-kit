@@ -12,17 +12,13 @@ use Feralygon\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable
 };
-use Feralygon\Kit\Primitives\Vector\{
-	Traits,
-	Exceptions
-};
-use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Primitives\Vector\Exceptions;
+use Feralygon\Kit\Traits;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
-	Text as UText,
-	Type as UType
+	Text as UText
 };
 
 /**
@@ -30,19 +26,18 @@ use Feralygon\Kit\Utilities\{
  * 
  * A vector is a simple object which represents and stores a contiguous array.<br>
  * <br>
- * It may also be set to read-only during instantiation to prevent any further changes.
+ * It may also be set as read-only during instantiation to prevent any further changes.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
- * @see \Feralygon\Kit\Primitives\Vector\Traits\DefaultBuilder
  */
-class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
+final class Vector
+implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
 {
 	//Traits
-	use KitTraits\Readonly;
-	use KitTraits\Stringifiable;
-	use Traits\DefaultBuilder;
+	use Traits\Readonly;
+	use Traits\Stringifiable;
 	
 	
 	
@@ -70,10 +65,13 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	 */
 	final public function __construct(array $array = [], bool $readonly = false)
 	{
-		//TODO
-		
-		//read-only
-		$this->initializeReadonly($readonly);
+		$this->initializeReadonly();
+		if (!empty($array)) {
+			$this->setAll($array);
+		}
+		if ($readonly) {
+			$this->setAsReadonly();
+		}
 	}
 	
 	
@@ -141,9 +139,9 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Interfaces\Stringifiable)
+	//Implemented final public methods (Feralygon\Kit\Interfaces\Stringifiable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null): string
+	final public function toString(?TextOptions $text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}
@@ -182,7 +180,7 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 		UCall::guardParameter('index', $index, $index >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
-		return !empty($this->array) && array_key_exists($this->min_index + $index, $this->array);
+		return isset($this->min_index) && array_key_exists($this->min_index + $index, $this->array);
 	}
 	
 	/**
@@ -194,6 +192,7 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\ValueNotSet
 	 * @return mixed
 	 * <p>The value from the given index.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
@@ -207,15 +206,13 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 		]);
 		
 		//get
-		if (empty($this->array) || !array_key_exists($this->min_index + $index, $this->array)) {
+		if (!isset($this->min_index) || !array_key_exists($this->min_index + $index, $this->array)) {
 			if ($no_throw) {
 				return null;
 			}
-			
-			//TODO
-			
+			throw new Exceptions\ValueNotSet(['vector' => $this, 'index' => $index]);
 		}
-		return $this->array($this->min_index + $index);
+		return $this->array[$this->min_index + $index];
 	}
 	
 	/**
@@ -244,7 +241,8 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @return $this
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidIndex
+	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
@@ -258,18 +256,23 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
 		
-		//set
-		$max_index = empty($this->array) ? 0 : $this->max_index - $this->min_index + 1;
+		//check
+		$max_index = isset($this->min_index) ? $this->max_index - $this->min_index + 1 : 0;
 		if ($index > $max_index) {
 			if ($no_throw) {
 				return false;
 			}
-			
-			//TODO
-			
+			throw new Exceptions\InvalidIndex(['vector' => $this, 'index' => $index, 'max_index' => $max_index]);
 		}
+		
+		//set
 		$this->array[$this->min_index + $index] = $value;
-		$this->max_index++;
+		if ($index === $max_index) {
+			$this->max_index++;
+			if ($this->max_index === PHP_INT_MAX) {
+				$this->reset();
+			}
+		}
 		
 		//return
 		return $no_throw ? true : $this;
@@ -294,7 +297,7 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 		]);
 		
 		//unset
-		if (!empty($this->array)) {
+		if (isset($this->min_index)) {
 			$max_index = $this->max_index - $this->min_index;
 			if ($index === 0) {
 				unset($this->array[$this->min_index]);
@@ -329,7 +332,7 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	 */
 	final public function getAll(): array
 	{
-		if (!empty($this->array) && $this->min_index !== 0) {
+		if (isset($this->min_index) && $this->min_index > 0) {
 			$this->reset();
 		}
 		return $this->array;
@@ -343,7 +346,8 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	 * <p>The values to set.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @return $this
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValues
+	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the values were successfully set, 
@@ -359,19 +363,12 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 			if ($no_throw) {
 				return false;
 			}
-			
-			//TODO
-			
+			throw new Exceptions\InvalidValues(['vector' => $this, 'values' => $values]);
 		}
 		
 		//set
 		$this->array = $values;
-		if (empty($this->array)) {
-			$this->min_index = $this->max_index = null;
-		} else {
-			$this->min_index = 0;
-			$this->max_index = count($this->array) - 1;
-		}
+		$this->reset();
 		
 		//return
 		return $no_throw ? true : $this;
@@ -394,146 +391,25 @@ class Vector implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable,
 	
 	
 	
-	//Final public static methods
-	/**
-	 * Evaluate a given value as an instance.
-	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be evaluated into an instance.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
-	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
-	 * <br>
-	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
-	 */
-	final public static function evaluate(
-		&$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
-	): bool
-	{
-		try {
-			$value = static::coerce($value, $clone, $readonly, $builder);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Coerce a given value into an instance.
-	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be coerced into an instance.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value
-	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Coerce into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
-	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
-	 * <br>
-	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
-	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
-	 * @return static
-	 * <p>The given value coerced into an instance.</p>
-	 */
-	final public static function coerce(
-		$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
-	): Structure
-	{
-		//builder
-		if (!isset($builder)) {
-			$builder = static::getDefaultBuilder();
-		}
-		if (isset($builder)) {
-			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Structure {});
-		}
-		
-		//coerce
-		try {
-			if (!isset($value) || is_array($value)) {
-				return isset($builder)
-					? UType::coerceObject($builder($value ?? [], $readonly), static::class)
-					: new static($value ?? [], $readonly);
-			} elseif (is_object($value) && $value instanceof Vector) {
-				if ($clone || ($readonly && !$value->isReadonly())) {
-					return new static($value->getAll(), $readonly);
-				} elseif (!UType::isA($value, static::class)) {
-					return isset($builder)
-						? UType::coerceObject($builder($value->getAll(), $readonly), static::class)
-						: new static($value->getAll(), $readonly);
-				}
-				return $value;
-			}
-		} catch (\Exception $exception) {
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'structure' => static::class,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-				'error_message' => $exception->getMessage()
-			]);
-		}
-		
-		//throw
-		throw new Exceptions\CoercionFailed([
-			'value' => $value,
-			'structure' => static::class,
-			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-			'error_message' => "Only null, an instance or array of properties, " . 
-				"given as \"name => value\" pairs, can be coerced into an instance."
-		]);
-	}
-	
-	
-	
 	//Final protected methods
 	/**
 	 * Reset.
 	 * 
 	 * @since 1.0.0
-	 * @return void
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function reset(): void
+	final protected function reset(): Vector
 	{
 		if (empty($this->array)) {
 			$this->min_index = $this->max_index = null;
 		} else {
-			$this->array = array_values($this->array);
+			if (!array_key_exists(0, $this->array)) {
+				$this->array = array_values($this->array);
+			}
 			$this->min_index = 0;
 			$this->max_index = count($this->array) - 1;
 		}
+		return $this;
 	}
 }

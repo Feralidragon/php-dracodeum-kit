@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @license https://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
+namespace Feralygon\Kit\Primitives\Vector;
+
+use Feralygon\Kit\Exception as KitException;
+use Feralygon\Kit\Primitives\Vector;
+
+/**
+ * @since 1.0.0
+ * @property-read \Feralygon\Kit\Primitives\Vector $vector
+ * <p>The vector instance.</p>
+ * @see \Feralygon\Kit\Primitives\Vector
+ */
+abstract class Exception extends KitException
+{
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
+	/** {@inheritdoc} */
+	protected function loadProperties(): void
+	{
+		$this->addProperty('vector')->setAsStrictObject(Vector::class);
+	}
+}
