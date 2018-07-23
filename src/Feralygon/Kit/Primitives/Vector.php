@@ -315,6 +315,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 				}
 			} elseif ($index < $max_index) {
 				unset($this->array[$this->min_index + $index]);
+				$this->array = array_values($this->array);
 				$this->reset();
 			}
 		}
