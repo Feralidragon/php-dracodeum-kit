@@ -26,6 +26,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>Add quotation marks to string value types in the returning string.<br>
  * Even if not enabled, if <var>$prepend_type</var> above is set to boolean <code>true</code>, 
  * quotation marks may still be added anyway.</p>
+ * @property bool $non_stringifiable [default = false]
+ * <p>If the given value is an object which implements either the <code>__toString</code> method or 
+ * the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface, 
+ * then do not attempt to stringify it through any of them.</p>
  * @property string|null $non_assoc_mode [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> class non-associative array 
  * stringification mode to use, which can be any of the following:<br><br>
@@ -54,9 +58,11 @@ class Stringify extends Options
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
+			case 'prepend_type':
+				//no break
 			case 'quote_strings':
 				//no break
-			case 'prepend_type':
+			case 'non_stringifiable':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 			case 'non_assoc_mode':
 				return $this->createProperty()

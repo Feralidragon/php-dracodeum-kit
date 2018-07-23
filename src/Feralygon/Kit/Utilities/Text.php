@@ -14,6 +14,7 @@ use Feralygon\Kit\Utilities\Text\{
 	Options,
 	Exceptions
 };
+use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -148,8 +149,13 @@ final class Text extends Utility
 	 * Generate a string from a given value.
 	 * 
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
+	 * <br>
 	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, 
-	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.
+	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.<br>
+	 * <br>
+	 * Objects implementing either the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface or 
+	 * the <code>__toString</code> method are stringified through one of them, whichever one is implemented first, 
+	 * with the former preferred over the latter.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -224,6 +230,16 @@ final class Text extends Utility
 		
 		//object
 		if (is_object($value)) {
+			//stringifiable
+			if (!$options->non_stringifiable) {
+				if ($value instanceof IStringifiable) {
+					return $value->toString($text_options);
+				} elseif (method_exists($value, '__toString')) {
+					return $value->__toString();
+				}
+			}
+			
+			//stringify
 			$object_id = spl_object_id($value);
 			if ($is_enduser) {
 				/**
