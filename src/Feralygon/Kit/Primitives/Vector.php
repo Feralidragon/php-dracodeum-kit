@@ -392,6 +392,25 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	
 	
 	
+	//Final public static methods
+	/**
+	 * Build instance.
+	 * 
+	 * @since 1.0.0
+	 * @param array $array [default = []]
+	 * <p>The array to build with.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Set the built instance as read-only.</p>
+	 * @return static
+	 * <p>The built instance.</p>
+	 */
+	final public static function build(array $array = [], bool $readonly = false): Vector
+	{
+		return new static($array, $readonly);
+	}
+	
+	
+	
 	//Final protected methods
 	/**
 	 * Reset.
