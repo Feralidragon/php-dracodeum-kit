@@ -39,6 +39,9 @@ trait Evaluators
 	/** @var \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null */
 	private $evaluators_locked_guard_options = ['error_message' => "This method has been locked."];
 	
+	/** @var \Closure[] */
+	private $evaluators_addition_callbacks = [];
+	
 	
 	
 	//Final public methods
@@ -62,9 +65,20 @@ trait Evaluators
 	 */
 	final public function addEvaluator(callable $evaluator): object
 	{
+		//initialize
 		UCall::guard(!$this->evaluators_locked, $this->evaluators_locked_guard_options);
 		UCall::assert('evaluator', $evaluator, function (&$value): bool {});
-		$this->evaluators[] = \Closure::fromCallable($evaluator);
+		
+		//add
+		$evaluator = \Closure::fromCallable($evaluator);
+		$this->evaluators[] = $evaluator;
+		
+		//callbacks
+		foreach ($this->evaluators_addition_callbacks as $callback) {
+			$callback($evaluator);
+		}
+		
+		//return
 		return $this;
 	}
 	
@@ -1076,5 +1090,37 @@ trait Evaluators
 		}
 		$value = $v;
 		return true;
+	}
+	
+	/**
+	 * Add evaluator addition callback function.
+	 * 
+	 * The given callback function is called whenever a new evaluator function is added.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (callable $evaluator): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>callable $evaluator</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The added evaluator function, with the following characteristics:<br>
+	 * &nbsp; &nbsp; &#8594; signature: <code>function (&$value): bool</code><br>
+	 * &nbsp; &nbsp; &#8594; parameters:<br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>mixed $value [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &#8594; return: <code>bool</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Boolean <code>true</code> if the given value is successfully evaluated.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addEvaluatorAdditionCallback(callable $callback): object
+	{
+		UCall::assert('callback', $callback, function (callable $evaluator): void {});
+		$this->evaluators_addition_callbacks[] = \Closure::fromCallable($callback);
+		return $this;
 	}
 }
