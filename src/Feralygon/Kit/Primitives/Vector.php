@@ -38,6 +38,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	//Traits
 	use Traits\Readonly;
 	use Traits\Stringifiable;
+	use Traits\Evaluators;
 	
 	
 	
@@ -65,10 +66,36 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	 */
 	final public function __construct(array $array = [], bool $readonly = false)
 	{
+		//initialize read-only
 		$this->initializeReadonly();
+		$this->addReadonlyCallback(function (): void {
+			$this->lockEvaluators();
+		});
+		
+		//evaluator callback
+		$this->addEvaluatorAdditionCallback(function (callable $evaluator): void {
+			//array
+			$array = $this->array;
+			foreach ($array as $index => &$value) {
+				if (!$evaluator($value)) {
+					unset($array[$index]);
+				}
+			}
+			unset($value);
+			
+			//reset
+			if ($array !== $this->array) {
+				$this->array = array_values($array);
+				$this->reset();
+			}
+		});
+		
+		//array
 		if (!empty($array)) {
 			$this->setAll($array);
 		}
+		
+		//read-only
 		if ($readonly) {
 			$this->setAsReadonly();
 		}
@@ -242,6 +269,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidIndex
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
@@ -256,13 +284,21 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
 		
-		//check
+		//index
 		$max_index = isset($this->min_index) ? $this->max_index - $this->min_index + 1 : 0;
 		if ($index > $max_index) {
 			if ($no_throw) {
 				return false;
 			}
 			throw new Exceptions\InvalidIndex(['vector' => $this, 'index' => $index, 'max_index' => $max_index]);
+		}
+		
+		//value
+		if (!$this->evaluateValue($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value, 'index' => $index]);
 		}
 		
 		//set
@@ -348,6 +384,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValues
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
@@ -366,6 +403,17 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 			}
 			throw new Exceptions\InvalidValues(['vector' => $this, 'values' => $values]);
 		}
+		
+		//evaluate
+		foreach ($values as $index => &$value) {
+			if (!$this->evaluateValue($value)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value, 'index' => $index]);
+			}
+		}
+		unset($value);
 		
 		//set
 		$this->array = $values;
