@@ -73,7 +73,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 		});
 		
 		//evaluator callback
-		$this->addEvaluatorAdditionCallback(function (callable $evaluator): void {
+		$this->getEvaluatorsManager()->addAdditionCallback(function (callable $evaluator): void {
 			//array
 			$array = $this->array;
 			foreach ($array as $index => &$value) {
@@ -294,7 +294,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 		}
 		
 		//value
-		if (!$this->evaluateValue($value)) {
+		if (!$this->getEvaluatorsManager()->evaluate($value)) {
 			if ($no_throw) {
 				return false;
 			}
@@ -405,8 +405,9 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 		}
 		
 		//evaluate
+		$manager = $this->getEvaluatorsManager();
 		foreach ($values as $index => &$value) {
-			if (!$this->evaluateValue($value)) {
+			if (!$manager->evaluate($value)) {
 				if ($no_throw) {
 					return false;
 				}

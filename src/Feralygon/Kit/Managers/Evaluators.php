@@ -5,24 +5,80 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Traits;
+namespace Feralygon\Kit\Managers;
 
-use Feralygon\Kit\Managers\Evaluators as Manager;
+use Feralygon\Kit\{
+	Component,
+	Enumeration,
+	Structure,
+	Options
+};
+use Feralygon\Kit\Utilities\{
+	Byte as UByte,
+	Call as UCall,
+	Data as UData,
+	Hash as UHash,
+	Time as UTime,
+	Type as UType
+};
 
 /**
- * This trait enables the support for evaluators in a class, and adds some common ones.
+ * This manager handles the evaluator functions of an object, and adds some common ones.
  * 
  * @since 1.0.0
  */
-trait Evaluators
+class Evaluators
 {
 	//Private properties
-	/** @var \Feralygon\Kit\Managers\Evaluators|null */
-	private $evaluators_manager = null;
+	/** @var object */
+	private $owner;
+	
+	/** @var \Closure[] */
+	private $evaluators = [];
+	
+	/** @var \Closure[] */
+	private $addition_callbacks = [];
+	
+	/** @var bool */
+	private $locked = false;
+	
+	/** @var \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null */
+	private $locked_guard_options = null;
+	
+	
+	
+	//Final public magic methods
+	/**
+	 * Instantiate class.
+	 * 
+	 * @since 1.0.0
+	 * @param object $owner
+	 * <p>The owner object.</p>
+	 */
+	final public function __construct(object $owner)
+	{
+		$this->owner = $owner;
+		$this->locked_guard_options = [
+			'error_message' => "This method has been locked in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
+		];
+	}
 	
 	
 	
 	//Final public methods
+	/**
+	 * Get owner object.
+	 * 
+	 * @since 1.0.0
+	 * @return object
+	 * <p>The owner object.</p>
+	 */
+	final public function getOwner(): object
+	{
+		return $this->owner;
+	}
+	
 	/**
 	 * Add evaluator function.
 	 * 
@@ -41,22 +97,68 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addEvaluator(callable $evaluator): object
+	final public function add(callable $evaluator): Evaluators
 	{
-		$this->getEvaluatorsManager()->add($evaluator);
+		//initialize
+		UCall::guard(!$this->locked, $this->locked_guard_options);
+		UCall::assert('evaluator', $evaluator, function (&$value): bool {});
+		
+		//add
+		$evaluator = \Closure::fromCallable($evaluator);
+		$this->evaluators[] = $evaluator;
+		
+		//callbacks
+		foreach ($this->addition_callbacks as $callback) {
+			$callback($evaluator);
+		}
+		
+		//return
 		return $this;
 	}
 	
 	/**
-	 * Get evaluator functions.
+	 * Add evaluator addition callback function.
+	 * 
+	 * The given callback function is called whenever a new evaluator function is added.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (callable $evaluator): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>callable $evaluator</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The added evaluator function, with the following characteristics:<br>
+	 * &nbsp; &nbsp; &#8594; signature: <code>function (&$value): bool</code><br>
+	 * &nbsp; &nbsp; &#8594; parameters:<br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>mixed $value [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * &nbsp; &nbsp; &#8594; return: <code>bool</code><br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Boolean <code>true</code> if the given value is successfully evaluated.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addAdditionCallback(callable $callback): Evaluators
+	{
+		UCall::guard(!$this->locked, $this->locked_guard_options);
+		UCall::assert('callback', $callback, function (callable $evaluator): void {});
+		$this->addition_callbacks[] = \Closure::fromCallable($callback);
+		return $this;
+	}
+	
+	/**
+	 * Get all evaluator functions.
 	 * 
 	 * @since 1.0.0
 	 * @return \Closure[]
-	 * <p>The evaluator functions.</p>
+	 * <p>All the evaluator functions.</p>
 	 */
-	final public function getEvaluators(): array
+	final public function getAll(): array
 	{
-		return $this->getEvaluatorsManager()->getAll();
+		return $this->evaluators;
 	}
 	
 	/**
@@ -66,14 +168,27 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function clearEvaluators(): object
+	final public function clear(): Evaluators
 	{
-		$this->getEvaluatorsManager()->clear();
+		UCall::guard(!$this->locked, $this->locked_guard_options);
+		$this->evaluators = [];
 		return $this;
 	}
 	
 	/**
-	 * Lock evaluators.
+	 * Check if is locked.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is locked.</p>
+	 */
+	final public function isLocked(): bool
+	{
+		return $this->locked;
+	}
+	
+	/**
+	 * Lock.
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
@@ -86,10 +201,34 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function lockEvaluators($guard_options = null): object
+	final public function lock($guard_options = null): Evaluators
 	{
-		$this->getEvaluatorsManager()->lock();
+		$this->locked = true;
+		if (isset($guard_options)) {
+			$this->locked_guard_options = $guard_options;
+		}
 		return $this;
+	}
+	
+	/**
+	 * Evaluate a given value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
+	 */
+	final public function evaluate(&$value): bool
+	{
+		$v = $value;
+		foreach ($this->evaluators as $evaluator) {
+			if (!$evaluator($v)) {
+				return false;
+			}
+		}
+		$value = $v;
+		return true;
 	}
 	
 	/**
@@ -113,9 +252,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsBoolean(bool $nullable = false): object
+	final public function setAsBoolean(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsBoolean($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return UType::evaluateBoolean($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -128,9 +271,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictBoolean(bool $nullable = false): object
+	final public function setAsStrictBoolean(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictBoolean($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return isset($value) ? is_bool($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -157,9 +304,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsNumber(bool $nullable = false): object
+	final public function setAsNumber(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsNumber($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return UType::evaluateNumber($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -172,9 +323,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictNumber(bool $nullable = false): object
+	final public function setAsStrictNumber(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictNumber($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return isset($value) ? is_int($value) || is_float($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -209,9 +364,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false): object
+	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsInteger($unsigned, $bits, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($unsigned, $bits, $nullable): bool {
+				return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -235,9 +394,15 @@ trait Evaluators
 	 */
 	final public function setAsStrictInteger(
 		bool $unsigned = false, ?int $bits = null, bool $nullable = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictInteger($unsigned, $bits, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($unsigned, $bits, $nullable): bool {
+				return isset($value)
+					? (is_int($value) ? UType::evaluateInteger($value, $unsigned, $bits) : false)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -264,9 +429,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsFloat(bool $nullable = false): object
+	final public function setAsFloat(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsFloat($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return UType::evaluateFloat($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -279,9 +448,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictFloat(bool $nullable = false): object
+	final public function setAsStrictFloat(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictFloat($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return isset($value) ? is_float($value) : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -309,9 +482,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsSize(bool $nullable = false): object
+	final public function setAsSize(bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsSize($nullable);
+		$this->clear()->add(
+			function (&$value) use ($nullable): bool {
+				return UByte::evaluateSize($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -331,9 +508,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsString(bool $non_empty = false, bool $nullable = false): object
+	final public function setAsString(bool $non_empty = false, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsString($non_empty, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($non_empty, $nullable): bool {
+				return UType::evaluateString($value, $non_empty, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -348,9 +529,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false): object
+	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictString($non_empty, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($non_empty, $nullable): bool {
+				return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -367,9 +552,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsClass($object_class_interface = null, bool $nullable = false): object
+	final public function setAsClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsClass($object_class_interface, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($object_class_interface, $nullable): bool {
+				return UType::evaluateClass($value, $object_class_interface, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -384,9 +573,15 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false): object
+	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictClass($object_class_interface, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($object_class_interface, $nullable): bool {
+				return isset($value)
+					? is_string($value) && UType::evaluateClass($value, $object_class_interface)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -410,9 +605,13 @@ trait Evaluators
 	 */
 	final public function setAsObject(
 		$object_class_interface = null, array $arguments = [], bool $nullable = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsObject($object_class_interface, $arguments, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($object_class_interface, $arguments, $nullable): bool {
+				return UType::evaluateObject($value, $object_class_interface, $arguments, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -427,9 +626,15 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false): object
+	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictObject($object_class_interface, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($object_class_interface, $nullable): bool {
+				return isset($value)
+					? is_object($value) && UType::evaluateObject($value, $object_class_interface)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -449,9 +654,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false): object
+	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsObjectClass($object_class_interface, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($object_class_interface, $nullable): bool {
+				return UType::evaluateObjectClass($value, $object_class_interface, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -471,9 +680,13 @@ trait Evaluators
 	 */
 	final public function setAsCallable(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsCallable($template, $nullable, $assertive);
+		$this->clear()->add(
+			function (&$value) use ($template, $nullable, $assertive): bool {
+				return UCall::evaluate($value, $template, $nullable, $assertive);
+			}
+		);
 		return $this;
 	}
 	
@@ -493,9 +706,16 @@ trait Evaluators
 	 */
 	final public function setAsClosure(
 		?callable $template = null, bool $nullable = false, bool $assertive = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsClosure($template, $nullable, $assertive);
+		$this->clear()->add(
+			function (&$value) use ($template, $nullable, $assertive): bool {
+				return isset($value)
+					? is_object($value) && UType::isA($value, \Closure::class) && 
+						UCall::evaluate($value, $template, false, $assertive)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -531,9 +751,13 @@ trait Evaluators
 	 */
 	final public function setAsArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsArray($evaluator, $non_associative, $non_empty, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
+				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -565,9 +789,15 @@ trait Evaluators
 	 */
 	final public function setAsStrictArray(
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictArray($evaluator, $non_associative, $non_empty, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
+				return isset($value)
+					? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
+					: $nullable;
+			}
+		);
 		return $this;
 	}
 	
@@ -584,9 +814,14 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false): object
+	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsEnumerationValue($enumeration, $nullable);
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->clear()->add(
+			function (&$value) use ($enumeration, $nullable): bool {
+				return $enumeration::evaluateValue($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -601,9 +836,18 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false): object
+	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictEnumerationValue($enumeration, $nullable);
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->clear()->add(
+			function (&$value) use ($enumeration, $nullable): bool {
+				if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
+					$value = $enumeration::getValue($value);
+					return true;
+				}
+				return false;
+			}
+		);
 		return $this;
 	}
 	
@@ -620,9 +864,14 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsEnumerationName(string $enumeration, bool $nullable = false): object
+	final public function setAsEnumerationName(string $enumeration, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsEnumerationName($enumeration, $nullable);
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->clear()->add(
+			function (&$value) use ($enumeration, $nullable): bool {
+				return $enumeration::evaluateName($value, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -637,9 +886,14 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false): object
+	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStrictEnumerationName($enumeration, $nullable);
+		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
+		$this->clear()->add(
+			function (&$value) use ($enumeration, $nullable): bool {
+				return is_string($value) && $enumeration::hasName($value);
+			}
+		);
 		return $this;
 	}
 	
@@ -660,9 +914,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsHash(int $bits, bool $nullable = false): object
+	final public function setAsHash(int $bits, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsHash($bits, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($bits, $nullable): bool {
+				return UHash::evaluate($value, $bits, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -686,9 +944,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsDateTime(?string $format = null, bool $nullable = false): object
+	final public function setAsDateTime(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsDateTime($format, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($format, $nullable): bool {
+				return UTime::evaluateDateTime($value, $format, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -712,9 +974,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsDate(?string $format = null, bool $nullable = false): object
+	final public function setAsDate(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsDate($format, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($format, $nullable): bool {
+				return UTime::evaluateDate($value, $format, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -738,9 +1004,13 @@ trait Evaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsTime(?string $format = null, bool $nullable = false): object
+	final public function setAsTime(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsTime($format, $nullable);
+		$this->clear()->add(
+			function (&$value) use ($format, $nullable): bool {
+				return UTime::evaluateTime($value, $format, $nullable);
+			}
+		);
 		return $this;
 	}
 	
@@ -785,9 +1055,14 @@ trait Evaluators
 	 */
 	final public function setAsComponent(
 		string $class, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsComponent($class, $properties, $builder, $named_builder);
+		$class = UType::coerceClass($class, Component::class);
+		$this->clear()->add(
+			function (&$value) use ($class, $properties, $builder, $named_builder): bool {
+				return $class::evaluate($value, $properties, $builder, $named_builder);
+			}
+		);
 		return $this;
 	}
 	
@@ -824,9 +1099,14 @@ trait Evaluators
 	 */
 	final public function setAsOptions(
 		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsOptions($class, $clone, $readonly, $builder);
+		$class = UType::coerceClass($class, Options::class);
+		$this->clear()->add(
+			function (&$value) use ($class, $clone, $readonly, $builder): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder);
+			}
+		);
 		return $this;
 	}
 	
@@ -863,27 +1143,14 @@ trait Evaluators
 	 */
 	final public function setAsStructure(
 		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
-	): object
+	): Evaluators
 	{
-		$this->getEvaluatorsManager()->setAsStructure($class, $clone, $readonly, $builder);
+		$class = UType::coerceClass($class, Structure::class);
+		$this->clear()->add(
+			function (&$value) use ($class, $clone, $readonly, $builder): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder);
+			}
+		);
 		return $this;
-	}
-	
-	
-	
-	//Final protected methods
-	/**
-	 * Get evaluators manager instance.
-	 * 
-	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Managers\Evaluators
-	 * <p>The evaluators manager instance.</p>
-	 */
-	final protected function getEvaluatorsManager(): Manager
-	{
-		if (!isset($this->evaluators_manager)) {
-			$this->evaluators_manager = new Manager($this);
-		}
-		return $this->evaluators_manager;
 	}
 }

@@ -310,7 +310,7 @@ class Property
 		]);
 		
 		//evaluate
-		if (!$this->evaluateValue($value)) {
+		if (!$this->getEvaluatorsManager()->evaluate($value)) {
 			if ($no_throw) {
 				return false;
 			}
@@ -374,7 +374,7 @@ class Property
 		$value = ($this->default_getter)();
 		
 		//evaluate
-		UCall::guardInternal($this->evaluateValue($value), [
+		UCall::guardInternal($this->getEvaluatorsManager()->evaluate($value), [
 			'error_message' => "Invalid default value {{value}} for property {{property.getName()}} " . 
 				"in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this, 'value' => $value]
