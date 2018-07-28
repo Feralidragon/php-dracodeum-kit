@@ -179,7 +179,7 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * The returning cloned instance is a new instance with the same array.
+	 * The returning cloned instance is a new instance with the same array and evaluator functions.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $readonly [default = false]
@@ -189,7 +189,11 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	 */
 	final public function clone(bool $readonly = false): Vector
 	{
-		return new static($this->getAll(), $readonly);
+		$instance = new static($this->getAll(), $readonly);
+		foreach ($this->getEvaluators() as $evaluator) {
+			$instance->addEvaluator($evaluator);
+		}
+		return $instance;
 	}
 	
 	/**
@@ -456,6 +460,125 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	final public static function build(array $array = [], bool $readonly = false): Vector
 	{
 		return new static($array, $readonly);
+	}
+	
+	/**
+	 * Evaluate a given value as an instance.
+	 * 
+	 * Only the following types and formats can be evaluated into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; an instance;<br>
+	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
+	 * <p>The template instance to clone from and evaluate into.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Evaluate into a read-only instance.<br>
+	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
+	 */
+	final public static function evaluate(
+		&$value, ?Vector $template = null, bool $readonly = false, bool $nullable = false
+	): bool
+	{
+		try {
+			$value = static::coerce($value, $template, $readonly, $nullable);
+		} catch (Exceptions\CoercionFailed $exception) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Coerce a given value into an instance.
+	 * 
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; an instance;<br>
+	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
+	 * <p>The template instance to clone from and coerce into.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Coerce into a read-only instance.<br>
+	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\CoercionFailed
+	 * @return static|null
+	 * <p>The given value coerced into an instance.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerce(
+		$value, ?Vector $template = null, bool $readonly = false, bool $nullable = false
+	): ?Vector
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return null;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'vector' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		$array = $value;
+		if (is_object($value)) {
+			if ($value instanceof Vector) {
+				if (!isset($template) && (!$readonly || $value->isReadonly())) {
+					return $value;
+				}
+				$array = $value->getAll();
+			} elseif ($value instanceof IArrayable) {
+				$array = $value->toArray();
+			}
+		}
+		
+		//build
+		if (is_array($array)) {
+			try {
+				if (isset($template)) {
+					$instance = $template->clone()->setAll($array);
+					if ($readonly) {
+						$instance->setAsReadonly();
+					}
+					return $instance;
+				}
+				return static::build($array, $readonly);
+			} catch (\Exception $exception) {
+				throw new Exceptions\CoercionFailed([
+					'value' => $value,
+					'vector' => static::class,
+					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+					'error_message' => $exception->getMessage()
+				]);
+			}
+		}
+		
+		//throw
+		throw new Exceptions\CoercionFailed([
+			'value' => $value,
+			'vector' => static::class,
+			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
+				" - an instance;\n" . 
+				" - a non-associative array;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
+		]);
 	}
 	
 	

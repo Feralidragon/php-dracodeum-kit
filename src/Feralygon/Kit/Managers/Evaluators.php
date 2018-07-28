@@ -13,6 +13,7 @@ use Feralygon\Kit\{
 	Structure,
 	Options
 };
+use Feralygon\Kit\Primitives\Vector;
 use Feralygon\Kit\Utilities\{
 	Byte as UByte,
 	Call as UCall,
@@ -1149,6 +1150,37 @@ class Evaluators
 		$this->clear()->add(
 			function (&$value) use ($class, $clone, $readonly, $builder): bool {
 				return $class::evaluate($value, $clone, $readonly, $builder);
+			}
+		);
+		return $this;
+	}
+	
+	/**
+	 * Set to only allow a value evaluated as a vector instance.
+	 * 
+	 * Only the following types and formats can be evaluated into a vector instance:<br>
+	 * &nbsp; &#8226; &nbsp; an instance;<br>
+	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
+	 * <p>The template instance to clone from and evaluate into.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Evaluate into a read-only instance.<br>
+	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsVector(
+		?Vector $template = null, bool $readonly = false, bool $nullable = false
+	): Evaluators
+	{
+		$this->clear()->add(
+			function (&$value) use ($template, $readonly, $nullable): bool {
+				return Vector::evaluate($value, $template, $readonly, $nullable);
 			}
 		);
 		return $this;

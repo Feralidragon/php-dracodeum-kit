@@ -12,8 +12,8 @@ use Feralygon\Kit\Primitives\Vector;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Primitives\Vector $vector
- * <p>The vector instance.</p>
+ * @property-read \Feralygon\Kit\Primitives\Vector|string $vector
+ * <p>The vector instance or class.</p>
  * @see \Feralygon\Kit\Primitives\Vector
  */
 abstract class Exception extends KitException
@@ -22,6 +22,6 @@ abstract class Exception extends KitException
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
-		$this->addProperty('vector')->setAsStrictObject(Vector::class);
+		$this->addProperty('vector')->setAsObjectClass(Vector::class);
 	}
 }
