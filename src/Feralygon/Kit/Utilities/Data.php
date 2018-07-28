@@ -2012,7 +2012,7 @@ final class Data extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
-	 * <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
@@ -2025,9 +2025,9 @@ final class Data extends Utility
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
 	 * @param bool $non_associative [default = false]
-	 * <p>Do not allow an associative array value.</p>
+	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
-	 * <p>Do not allow an empty array value.</p>
+	 * <p>Do not allow an empty array.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -2057,7 +2057,7 @@ final class Data extends Utility
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
-	 * <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
@@ -2070,9 +2070,9 @@ final class Data extends Utility
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
 	 * @param bool $non_associative [default = false]
-	 * <p>Do not allow an associative array value.</p>
+	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
-	 * <p>Do not allow an empty array value.</p>
+	 * <p>Do not allow an empty array.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\CoercionFailed
@@ -2116,13 +2116,13 @@ final class Data extends Utility
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_EMPTY,
-				'error_message' => "An empty array value is not allowed."
+				'error_message' => "An empty array is not allowed."
 			]);
 		} elseif ($non_associative && self::isAssociative($array)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_ASSOCIATIVE,
-				'error_message' => "An associative array value is not allowed."
+				'error_message' => "An associative array is not allowed."
 			]);
 		} elseif (isset($evaluator)) {
 			Call::assert('evaluator', $evaluator, function (&$key, &$value): bool {});
@@ -2136,7 +2136,7 @@ final class Data extends Utility
 						'value' => $value,
 						'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_ELEMENT,
 						'error_message' => Text::fill(
-							"The array value element at key {{key}} with value {{value}} is not valid.", [
+							"The array element at key {{key}} with value {{value}} is not valid.", [
 								'key' => Text::stringify($k, null, ['quote_strings' => true]),
 								'value' => Text::stringify($v, null, ['quote_strings' => true])
 							]

@@ -508,7 +508,7 @@ trait KeyEvaluators
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null]
-	 * <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
@@ -521,9 +521,9 @@ trait KeyEvaluators
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
 	 * @param bool $non_associative [default = false]
-	 * <p>Do not allow an associative array value.</p>
+	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
-	 * <p>Do not allow an empty array value.</p>
+	 * <p>Do not allow an empty array.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -542,7 +542,7 @@ trait KeyEvaluators
 	 * 
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null]
-	 * <p>The evaluator function to use for each element in the resulting array value.<br>
+	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
@@ -555,9 +555,9 @@ trait KeyEvaluators
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
 	 * @param bool $non_associative [default = false]
-	 * <p>Do not allow an associative array value.</p>
+	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
-	 * <p>Do not allow an empty array value.</p>
+	 * <p>Do not allow an empty array.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
