@@ -451,6 +451,70 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	}
 	
 	/**
+	 * Shift value.
+	 * 
+	 * The process of shifting a value consists in removing it from the start of a vector.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\ValuesNotSet
+	 * @return mixed
+	 * <p>The shifted value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if no values are set.</p>
+	 */
+	final public function shift(bool $no_throw = false)
+	{
+		$this->guardNonReadonlyCall();
+		if (isset($this->min_index)) {
+			$value = $this->array[$this->min_index];
+			unset($this->array[$this->min_index]);
+			if (empty($this->array)) {
+				$this->reset();
+			} else {
+				$this->min_index++;
+			}
+			return $value;
+		} elseif ($no_throw) {
+			return null;
+		}
+		throw new Exceptions\ValuesNotSet(['vector' => $this]);
+	}
+	
+	/**
+	 * Pop value.
+	 * 
+	 * The process of popping a value consists in removing it from the end of a vector.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\ValuesNotSet
+	 * @return mixed
+	 * <p>The popped value.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> may also be returned if no values are set.</p>
+	 */
+	final public function pop(bool $no_throw = false)
+	{
+		$this->guardNonReadonlyCall();
+		if (isset($this->max_index)) {
+			$value = $this->array[$this->max_index];
+			unset($this->array[$this->max_index]);
+			if (empty($this->array)) {
+				$this->reset();
+			} else {
+				$this->max_index--;
+			}
+			return $value;
+		} elseif ($no_throw) {
+			return null;
+		}
+		throw new Exceptions\ValuesNotSet(['vector' => $this]);
+	}
+	
+	/**
 	 * Get all values.
 	 * 
 	 * @since 1.0.0
