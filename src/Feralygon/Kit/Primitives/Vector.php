@@ -319,6 +319,92 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	}
 	
 	/**
+	 * Prepend value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value
+	 * <p>The value to prepend.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValue
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the value was successfully prepended, 
+	 * or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public function prepend($value, bool $no_throw = false)
+	{
+		//guard
+		$this->guardNonReadonlyCall();
+		
+		//value
+		if (!$this->getEvaluatorsManager()->evaluate($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value]);
+		}
+		
+		//prepend
+		if ($this->min_index === 0) {
+			array_unshift($this->array, $value);
+			$this->reset();
+		} elseif (isset($this->min_index)) {
+			$this->array = [--$this->min_index => $value] + $this->array;
+		} else {
+			$this->array = [$value];
+			$this->reset();
+		}
+		
+		//return
+		return $no_throw ? true : $this;
+	}
+	
+	/**
+	 * Append value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value
+	 * <p>The value to append.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\InvalidValue
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the value was successfully appended, 
+	 * or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public function append($value, bool $no_throw = false)
+	{
+		//guard
+		$this->guardNonReadonlyCall();
+		
+		//value
+		if (!$this->getEvaluatorsManager()->evaluate($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value]);
+		}
+		
+		//append
+		if (isset($this->max_index)) {
+			$this->array[++$this->max_index] = $value;
+			if ($this->max_index === PHP_INT_MAX) {
+				$this->reset();
+			}
+		} else {
+			$this->array = [$value];
+			$this->reset();
+		}
+		
+		//return
+		return $no_throw ? true : $this;
+	}
+	
+	/**
 	 * Unset value from a given index.
 	 * 
 	 * @since 1.0.0
