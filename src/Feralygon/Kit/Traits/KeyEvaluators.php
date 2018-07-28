@@ -49,6 +49,30 @@ trait KeyEvaluators
 	}
 	
 	/**
+	 * Set key evaluator function.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $evaluator
+	 * <p>The key evaluator function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (&$key): bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given key is successfully evaluated.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setKeyEvaluator(callable $evaluator): object
+	{
+		$this->getKeyEvaluatorsManager()->set($evaluator);
+		return $this;
+	}
+	
+	/**
 	 * Get key evaluator functions.
 	 * 
 	 * @since 1.0.0

@@ -118,6 +118,30 @@ class Evaluators
 	}
 	
 	/**
+	 * Set evaluator function.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $evaluator
+	 * <p>The evaluator function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (&$value): bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function set(callable $evaluator): Evaluators
+	{
+		$this->clear()->add($evaluator);
+		return $this;
+	}
+	
+	/**
 	 * Add evaluator addition callback function.
 	 * 
 	 * The given callback function is called whenever a new evaluator function is added.
@@ -255,7 +279,7 @@ class Evaluators
 	 */
 	final public function setAsBoolean(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return UType::evaluateBoolean($value, $nullable);
 			}
@@ -274,7 +298,7 @@ class Evaluators
 	 */
 	final public function setAsStrictBoolean(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_bool($value) : $nullable;
 			}
@@ -307,7 +331,7 @@ class Evaluators
 	 */
 	final public function setAsNumber(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return UType::evaluateNumber($value, $nullable);
 			}
@@ -326,7 +350,7 @@ class Evaluators
 	 */
 	final public function setAsStrictNumber(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_int($value) || is_float($value) : $nullable;
 			}
@@ -367,7 +391,7 @@ class Evaluators
 	 */
 	final public function setAsInteger(bool $unsigned = false, ?int $bits = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($unsigned, $bits, $nullable): bool {
 				return UType::evaluateInteger($value, $unsigned, $bits, $nullable);
 			}
@@ -397,7 +421,7 @@ class Evaluators
 		bool $unsigned = false, ?int $bits = null, bool $nullable = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($unsigned, $bits, $nullable): bool {
 				return isset($value)
 					? (is_int($value) ? UType::evaluateInteger($value, $unsigned, $bits) : false)
@@ -432,7 +456,7 @@ class Evaluators
 	 */
 	final public function setAsFloat(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return UType::evaluateFloat($value, $nullable);
 			}
@@ -451,7 +475,7 @@ class Evaluators
 	 */
 	final public function setAsStrictFloat(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return isset($value) ? is_float($value) : $nullable;
 			}
@@ -485,7 +509,7 @@ class Evaluators
 	 */
 	final public function setAsSize(bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($nullable): bool {
 				return UByte::evaluateSize($value, $nullable);
 			}
@@ -511,7 +535,7 @@ class Evaluators
 	 */
 	final public function setAsString(bool $non_empty = false, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($non_empty, $nullable): bool {
 				return UType::evaluateString($value, $non_empty, $nullable);
 			}
@@ -532,7 +556,7 @@ class Evaluators
 	 */
 	final public function setAsStrictString(bool $non_empty = false, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($non_empty, $nullable): bool {
 				return isset($value) ? is_string($value) && (!$non_empty || $value !== '') : $nullable;
 			}
@@ -555,7 +579,7 @@ class Evaluators
 	 */
 	final public function setAsClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($object_class_interface, $nullable): bool {
 				return UType::evaluateClass($value, $object_class_interface, $nullable);
 			}
@@ -576,7 +600,7 @@ class Evaluators
 	 */
 	final public function setAsStrictClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($object_class_interface, $nullable): bool {
 				return isset($value)
 					? is_string($value) && UType::evaluateClass($value, $object_class_interface)
@@ -608,7 +632,7 @@ class Evaluators
 		$object_class_interface = null, array $arguments = [], bool $nullable = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($object_class_interface, $arguments, $nullable): bool {
 				return UType::evaluateObject($value, $object_class_interface, $arguments, $nullable);
 			}
@@ -629,7 +653,7 @@ class Evaluators
 	 */
 	final public function setAsStrictObject($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($object_class_interface, $nullable): bool {
 				return isset($value)
 					? is_object($value) && UType::evaluateObject($value, $object_class_interface)
@@ -657,7 +681,7 @@ class Evaluators
 	 */
 	final public function setAsObjectClass($object_class_interface = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($object_class_interface, $nullable): bool {
 				return UType::evaluateObjectClass($value, $object_class_interface, $nullable);
 			}
@@ -683,7 +707,7 @@ class Evaluators
 		?callable $template = null, bool $nullable = false, bool $assertive = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($template, $nullable, $assertive): bool {
 				return UCall::evaluate($value, $template, $nullable, $assertive);
 			}
@@ -709,7 +733,7 @@ class Evaluators
 		?callable $template = null, bool $nullable = false, bool $assertive = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($template, $nullable, $assertive): bool {
 				return isset($value)
 					? is_object($value) && UType::isA($value, \Closure::class) && 
@@ -754,7 +778,7 @@ class Evaluators
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
 				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
 			}
@@ -792,7 +816,7 @@ class Evaluators
 		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
 				return isset($value)
 					? is_array($value) && UData::evaluate($value, $evaluator, $non_associative, $non_empty)
@@ -818,7 +842,7 @@ class Evaluators
 	final public function setAsEnumerationValue(string $enumeration, bool $nullable = false): Evaluators
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($enumeration, $nullable): bool {
 				return $enumeration::evaluateValue($value, $nullable);
 			}
@@ -840,7 +864,7 @@ class Evaluators
 	final public function setAsStrictEnumerationValue(string $enumeration, bool $nullable = false): Evaluators
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($enumeration, $nullable): bool {
 				if ((is_int($value) || is_float($value) || is_string($value)) && $enumeration::hasValue($value)) {
 					$value = $enumeration::getValue($value);
@@ -868,7 +892,7 @@ class Evaluators
 	final public function setAsEnumerationName(string $enumeration, bool $nullable = false): Evaluators
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($enumeration, $nullable): bool {
 				return $enumeration::evaluateName($value, $nullable);
 			}
@@ -890,7 +914,7 @@ class Evaluators
 	final public function setAsStrictEnumerationName(string $enumeration, bool $nullable = false): Evaluators
 	{
 		$enumeration = UType::coerceClass($enumeration, Enumeration::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($enumeration, $nullable): bool {
 				return is_string($value) && $enumeration::hasName($value);
 			}
@@ -917,7 +941,7 @@ class Evaluators
 	 */
 	final public function setAsHash(int $bits, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($bits, $nullable): bool {
 				return UHash::evaluate($value, $bits, $nullable);
 			}
@@ -947,7 +971,7 @@ class Evaluators
 	 */
 	final public function setAsDateTime(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateDateTime($value, $format, $nullable);
 			}
@@ -977,7 +1001,7 @@ class Evaluators
 	 */
 	final public function setAsDate(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateDate($value, $format, $nullable);
 			}
@@ -1007,7 +1031,7 @@ class Evaluators
 	 */
 	final public function setAsTime(?string $format = null, bool $nullable = false): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($format, $nullable): bool {
 				return UTime::evaluateTime($value, $format, $nullable);
 			}
@@ -1059,7 +1083,7 @@ class Evaluators
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Component::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($class, $properties, $builder, $named_builder): bool {
 				return $class::evaluate($value, $properties, $builder, $named_builder);
 			}
@@ -1103,7 +1127,7 @@ class Evaluators
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Options::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($class, $clone, $readonly, $builder): bool {
 				return $class::evaluate($value, $clone, $readonly, $builder);
 			}
@@ -1147,7 +1171,7 @@ class Evaluators
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Structure::class);
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($class, $clone, $readonly, $builder): bool {
 				return $class::evaluate($value, $clone, $readonly, $builder);
 			}
@@ -1178,7 +1202,7 @@ class Evaluators
 		?Vector $template = null, bool $readonly = false, bool $nullable = false
 	): Evaluators
 	{
-		$this->clear()->add(
+		$this->set(
 			function (&$value) use ($template, $readonly, $nullable): bool {
 				return Vector::evaluate($value, $template, $readonly, $nullable);
 			}

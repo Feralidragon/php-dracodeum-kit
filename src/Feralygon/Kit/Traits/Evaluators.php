@@ -49,6 +49,30 @@ trait Evaluators
 	}
 	
 	/**
+	 * Set evaluator function.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $evaluator
+	 * <p>The evaluator function to set.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (&$value): bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setEvaluator(callable $evaluator): object
+	{
+		$this->getEvaluatorsManager()->set($evaluator);
+		return $this;
+	}
+	
+	/**
 	 * Get evaluator functions.
 	 * 
 	 * @since 1.0.0
