@@ -33,7 +33,7 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  */
 final class Vector
-implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
+implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use Traits\Readonly;
@@ -51,6 +51,9 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	
 	/** @var int|null */
 	private $max_index = null;
+	
+	/** @var int|null */
+	private $cursor = null;
 	
 	
 	
@@ -135,6 +138,39 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	final public function count(): int
 	{
 		return count($this->array);
+	}
+	
+	
+	
+	//Implemented final public methods (Iterator)
+	/** {@inheritdoc} */
+	final public function current()
+	{
+		return isset($this->cursor) ? $this->array[$this->cursor] ?? null : null;
+	}
+	
+	/** {@inheritdoc} */
+	final public function key()
+	{
+		return isset($this->cursor) && isset($this->min_index) ? $this->cursor - $this->min_index : null;
+	}
+	
+	/** {@inheritdoc} */
+	final public function next(): void
+	{
+		$this->cursor++;
+	}
+	
+	/** {@inheritdoc} */
+	final public function rewind(): void
+	{
+		$this->cursor = $this->min_index;
+	}
+	
+	/** {@inheritdoc} */
+	final public function valid(): bool
+	{
+		return isset($this->cursor) && isset($this->max_index) && $this->cursor <= $this->max_index;
 	}
 	
 	
@@ -792,10 +828,13 @@ implements \ArrayAccess, \Countable, \JsonSerializable, IArrayable, IArrayInstan
 	final protected function reset(): Vector
 	{
 		if (empty($this->array)) {
-			$this->min_index = $this->max_index = null;
+			$this->min_index = $this->max_index = $this->cursor = null;
 		} else {
 			if (!array_key_exists(0, $this->array)) {
 				$this->array = array_values($this->array);
+			}
+			if (isset($this->cursor) && isset($this->min_index)) {
+				$this->cursor -= $this->min_index;
 			}
 			$this->min_index = 0;
 			$this->max_index = count($this->array) - 1;
