@@ -226,10 +226,13 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 */
 	final public function clone(bool $readonly = false): Vector
 	{
-		$instance = new static($this->getAll(), $readonly);
+		$instance = new static([], $readonly);
 		foreach ($this->getEvaluators() as $evaluator) {
 			$instance->addEvaluator($evaluator);
 		}
+		$instance->values = $this->values;
+		$instance->min_index = $this->min_index;
+		$instance->max_index = $this->max_index;
 		return $instance;
 	}
 	
@@ -774,8 +777,8 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		$array = $value;
 		if (is_object($value)) {
 			if ($value instanceof Vector) {
-				if (!isset($template) && (!$readonly || $value->isReadonly())) {
-					return $value;
+				if (!isset($template)) {
+					return $readonly && !$value->isReadonly() ? $value->clone(true) : $value;
 				}
 				$array = $value->getAll();
 			} elseif ($value instanceof IArrayable) {
