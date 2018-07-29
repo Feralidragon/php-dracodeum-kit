@@ -29,7 +29,7 @@ use Feralygon\Kit\Utilities\{
  * All properties are lazy-loaded, and validated and sanitized, guaranteeing their type and integrity, 
  * and may be got and set directly just like public object properties.<br>
  * <br>
- * It may also be set as read-only during instantiation to prevent any further changes.
+ * It may also be set as read-only to prevent any further changes.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Options\Traits\DefaultBuilder

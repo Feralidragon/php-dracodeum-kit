@@ -27,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * A vector is a simple object which represents and stores a contiguous array.<br>
  * <br>
  * It may also be restricted to specific value types through evaluator functions, 
- * and set as read-only during instantiation to prevent any further changes.
+ * and set as read-only to prevent any further changes.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Array_data_structure

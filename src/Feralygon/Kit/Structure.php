@@ -31,7 +31,7 @@ use Feralygon\Kit\Utilities\{
  * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
  * and may be got and set directly just like any public object property.<br>
  * <br>
- * It may also be set as read-only during instantiation to prevent any further changes.
+ * It may also be set as read-only to prevent any further changes.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
