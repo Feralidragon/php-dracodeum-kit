@@ -44,7 +44,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	
 	//Private properties
 	/** @var array */
-	private $array = [];
+	private $values = [];
 	
 	/** @var int|null */
 	private $min_index = null;
@@ -62,12 +62,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array [default = []]
-	 * <p>The array.</p>
+	 * @param array $values [default = []]
+	 * <p>The values.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Set as read-only.</p>
 	 */
-	final public function __construct(array $array = [], bool $readonly = false)
+	final public function __construct(array $values = [], bool $readonly = false)
 	{
 		//initialize read-only
 		$this->initializeReadonly();
@@ -77,25 +77,25 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		
 		//evaluator callback
 		$this->getEvaluatorsManager()->addAdditionCallback(function (callable $evaluator): void {
-			//array
-			$array = $this->array;
-			foreach ($array as $index => &$value) {
+			//values
+			$values = $this->values;
+			foreach ($values as $index => &$value) {
 				if (!$evaluator($value)) {
-					unset($array[$index]);
+					unset($values[$index]);
 				}
 			}
 			unset($value);
 			
 			//reset
-			if ($array !== $this->array) {
-				$this->array = array_values($array);
+			if ($values !== $this->values) {
+				$this->values = array_values($values);
 				$this->reset();
 			}
 		});
 		
-		//array
-		if (!empty($array)) {
-			$this->setAll($array);
+		//values
+		if (!empty($values)) {
+			$this->setAll($values);
 		}
 		
 		//read-only
@@ -137,7 +137,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/** {@inheritdoc} */
 	final public function count(): int
 	{
-		return count($this->array);
+		return count($this->values);
 	}
 	
 	
@@ -146,7 +146,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/** {@inheritdoc} */
 	final public function current()
 	{
-		return isset($this->cursor) ? $this->array[$this->cursor] ?? null : null;
+		return isset($this->cursor) ? $this->values[$this->cursor] ?? null : null;
 	}
 	
 	/** {@inheritdoc} */
@@ -215,7 +215,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * The returning cloned instance is a new instance with the same array and evaluator functions.
+	 * The returning cloned instance is a new instance with the same values and evaluator functions.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $readonly [default = false]
@@ -247,7 +247,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		UCall::guardParameter('index', $index, $index >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
-		return isset($this->min_index) && array_key_exists($this->min_index + $index, $this->array);
+		return isset($this->min_index) && array_key_exists($this->min_index + $index, $this->values);
 	}
 	
 	/**
@@ -273,13 +273,13 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		]);
 		
 		//get
-		if (!isset($this->min_index) || !array_key_exists($this->min_index + $index, $this->array)) {
+		if (!isset($this->min_index) || !array_key_exists($this->min_index + $index, $this->values)) {
 			if ($no_throw) {
 				return null;
 			}
 			throw new Exceptions\ValueNotSet(['vector' => $this, 'index' => $index]);
 		}
-		return $this->array[$this->min_index + $index];
+		return $this->values[$this->min_index + $index];
 	}
 	
 	/**
@@ -342,7 +342,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		}
 		
 		//set
-		$this->array[$this->min_index + $index] = $value;
+		$this->values[$this->min_index + $index] = $value;
 		if ($index === $max_index) {
 			$this->max_index++;
 			if ($this->max_index === PHP_INT_MAX) {
@@ -384,12 +384,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		
 		//prepend
 		if ($this->min_index === 0) {
-			array_unshift($this->array, $value);
+			array_unshift($this->values, $value);
 			$this->reset();
 		} elseif (isset($this->min_index)) {
-			$this->array = [--$this->min_index => $value] + $this->array;
+			$this->values = [--$this->min_index => $value] + $this->values;
 		} else {
-			$this->array = [$value];
+			$this->values = [$value];
 			$this->reset();
 		}
 		
@@ -451,12 +451,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		
 		//append
 		if (isset($this->max_index)) {
-			$this->array[++$this->max_index] = $value;
+			$this->values[++$this->max_index] = $value;
 			if ($this->max_index === PHP_INT_MAX) {
 				$this->reset();
 			}
 		} else {
-			$this->array = [$value];
+			$this->values = [$value];
 			$this->reset();
 		}
 		
@@ -510,22 +510,22 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		if (isset($this->min_index)) {
 			$max_index = $this->max_index - $this->min_index;
 			if ($index === 0) {
-				unset($this->array[$this->min_index]);
-				if (empty($this->array)) {
+				unset($this->values[$this->min_index]);
+				if (empty($this->values)) {
 					$this->reset();
 				} else {
 					$this->min_index++;
 				}
 			} elseif ($index === $max_index) {
-				unset($this->array[$this->max_index]);
-				if (empty($this->array)) {
+				unset($this->values[$this->max_index]);
+				if (empty($this->values)) {
 					$this->reset();
 				} else {
 					$this->max_index--;
 				}
 			} elseif ($index < $max_index) {
-				unset($this->array[$this->min_index + $index]);
-				$this->array = array_values($this->array);
+				unset($this->values[$this->min_index + $index]);
+				$this->values = array_values($this->values);
 				$this->reset();
 			}
 		}
@@ -552,9 +552,9 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	{
 		$this->guardNonReadonlyCall();
 		if (isset($this->min_index)) {
-			$value = $this->array[$this->min_index];
-			unset($this->array[$this->min_index]);
-			if (empty($this->array)) {
+			$value = $this->values[$this->min_index];
+			unset($this->values[$this->min_index]);
+			if (empty($this->values)) {
 				$this->reset();
 			} else {
 				$this->min_index++;
@@ -584,9 +584,9 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	{
 		$this->guardNonReadonlyCall();
 		if (isset($this->max_index)) {
-			$value = $this->array[$this->max_index];
-			unset($this->array[$this->max_index]);
-			if (empty($this->array)) {
+			$value = $this->values[$this->max_index];
+			unset($this->values[$this->max_index]);
+			if (empty($this->values)) {
 				$this->reset();
 			} else {
 				$this->max_index--;
@@ -610,7 +610,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		if (isset($this->min_index) && $this->min_index > 0) {
 			$this->reset();
 		}
-		return $this->array;
+		return $this->values;
 	}
 	
 	/**
@@ -655,7 +655,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		unset($value);
 		
 		//set
-		$this->array = $values;
+		$this->values = $values;
 		$this->reset();
 		
 		//return
@@ -672,7 +672,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	final public function clear(): Vector
 	{
 		$this->guardNonReadonlyCall();
-		$this->array = [];
+		$this->values = [];
 		$this->reset();
 		return $this;
 	}
@@ -684,16 +684,16 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * Build instance.
 	 * 
 	 * @since 1.0.0
-	 * @param array $array [default = []]
-	 * <p>The array to build with.</p>
+	 * @param array $values [default = []]
+	 * <p>The values to build with.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Set the built instance as read-only.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(array $array = [], bool $readonly = false): Vector
+	final public static function build(array $values = [], bool $readonly = false): Vector
 	{
-		return new static($array, $readonly);
+		return new static($values, $readonly);
 	}
 	
 	/**
@@ -827,17 +827,17 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 */
 	final protected function reset(): Vector
 	{
-		if (empty($this->array)) {
+		if (empty($this->values)) {
 			$this->min_index = $this->max_index = $this->cursor = null;
 		} else {
-			if (!array_key_exists(0, $this->array)) {
-				$this->array = array_values($this->array);
+			if (!array_key_exists(0, $this->values)) {
+				$this->values = array_values($this->values);
 			}
 			if (isset($this->cursor) && isset($this->min_index)) {
 				$this->cursor -= $this->min_index;
 			}
 			$this->min_index = 0;
-			$this->max_index = count($this->array) - 1;
+			$this->max_index = count($this->values) - 1;
 		}
 		return $this;
 	}
