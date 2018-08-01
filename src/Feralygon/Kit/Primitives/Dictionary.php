@@ -63,12 +63,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * Instantiate class.
 	 * 
 	 * @since 1.0.0
-	 * @param array $values [default = []]
-	 * <p>The values, as <samp>key => value</samp> pairs.</p>
+	 * @param array $pairs [default = []]
+	 * <p>The pairs, as <samp>key => value</samp>.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Set as read-only.</p>
 	 */
-	final public function __construct(array $values = [], bool $readonly = false)
+	final public function __construct(array $pairs = [], bool $readonly = false)
 	{
 		//initialize read-only
 		$this->initializeReadonly();
@@ -83,8 +83,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 				if (!$evaluator($key)) {
 					$this->unsetIndex($index);
 				} elseif ($key !== $previous_key) {
-					$this->setIndex($this->getKeyIndex($key), $this->values[$index]);
-					$this->unsetIndex($index);
+					$this->setKeyValue($key, $this->values[$index])->unsetIndex($index);
 				}
 				unset($previous_key);
 			}
@@ -101,9 +100,9 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			unset($value);
 		});
 		
-		//values
-		if (!empty($values)) {
-			$this->setAll($values);
+		//pairs
+		if (!empty($pairs)) {
+			$this->setAll($pairs);
 		}
 		
 		//read-only
@@ -161,7 +160,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/** {@inheritdoc} */
 	final public function key()
 	{
-		$index = current($this->cursor_map);
+		$index = key($this->cursor_map);
 		return $index !== false ? $this->keys[$index] : null;
 	}
 	
@@ -229,7 +228,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * The returning cloned instance is a new instance with the same keys and values and evaluator functions.
+	 * The returning cloned instance is a new instance with the same pairs and evaluator functions.
 	 * 
 	 * @since 1.0.0
 	 * @param bool $readonly [default = false]
@@ -239,7 +238,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 */
 	final public function clone(bool $readonly = false): Dictionary
 	{
-		//new
+		//instance
 		$instance = new static([], $readonly);
 		
 		//evaluators
@@ -250,7 +249,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			$instance->addEvaluator($evaluator);
 		}
 		
-		//clone
+		//properties
 		$instance->keys = $this->keys;
 		$instance->values = $this->values;
 		$instance->cursor_map = $this->cursor_map;
@@ -356,7 +355,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		}
 		
 		//set
-		$this->setIndex($this->getKeyIndex($key), $key, $value);
+		$this->setKeyValue($key, $value);
 		
 		//return
 		return $no_throw ? true : $this;
@@ -379,11 +378,11 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	}
 	
 	/**
-	 * Get all values.
+	 * Get all pairs.
 	 * 
 	 * @since 1.0.0
 	 * @return array
-	 * <p>All the values.</p>
+	 * <p>All the pairs, as <samp>key => value</samp>.</p>
 	 */
 	final public function getAll(): array
 	{
@@ -391,11 +390,11 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	}
 	
 	/**
-	 * Set all values.
+	 * Set all pairs.
 	 * 
 	 * @since 1.0.0
-	 * @param array $values
-	 * <p>The values to set, as <samp>key => value</samp> pairs.</p>
+	 * @param array $pairs
+	 * <p>The pairs to set, as <samp>key => value</samp>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Primitives\Dictionary\Exceptions\InvalidKey
@@ -403,10 +402,10 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the values were successfully set, 
+	 * then boolean <code>true</code> is returned if the pairs were successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public function setAll(array $values, bool $no_throw = false)
+	final public function setAll(array $pairs, bool $no_throw = false)
 	{
 		//guard
 		$this->guardNonReadonlyCall();
@@ -415,7 +414,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		$keys = $values = [];
 		$key_manager = $this->getKeyEvaluatorsManager();
 		$value_manager = $this->getEvaluatorsManager();
-		foreach ($values as $key => $value) {
+		foreach ($pairs as $key => $value) {
 			//key
 			if (!$key_manager->evaluate($key)) {
 				if ($no_throw) {
@@ -451,7 +450,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	}
 	
 	/**
-	 * Clear values.
+	 * Clear pairs.
 	 * 
 	 * @since 1.0.0
 	 * @return $this
@@ -460,7 +459,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	final public function clear(): Dictionary
 	{
 		$this->guardNonReadonlyCall();
-		$this->values = $this->keys = $this->cursor_map = [];
+		$this->keys = $this->values = $this->cursor_map = [];
 		return $this;
 	}
 	
@@ -471,16 +470,16 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * Build instance.
 	 * 
 	 * @since 1.0.0
-	 * @param array $values [default = []]
-	 * <p>The values to build with, as <samp>key => value</samp> pairs.</p>
+	 * @param array $pairs [default = []]
+	 * <p>The pairs to build with, as <samp>key => value</samp>.</p>
 	 * @param bool $readonly [default = false]
 	 * <p>Set the built instance as read-only.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(array $values = [], bool $readonly = false): Dictionary
+	final public static function build(array $pairs = [], bool $readonly = false): Dictionary
 	{
-		return new static($values, $readonly);
+		return new static($pairs, $readonly);
 	}
 	
 	/**
@@ -557,21 +556,25 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		}
 		
 		//coerce
-		$array = $value;
-		if (is_object($value)) {
-			if ($value instanceof Dictionary) {
-				if (!isset($template) && (!$readonly || $value->isReadonly())) {
-					return $value;
+		try {
+			//object
+			if (is_object($value) && $value instanceof Dictionary) {
+				if (isset($template)) {
+					$instance = $template->clone();
+					foreach ($value->keys as $index => $key) {
+						$instance->set($key, $value->values[$index]);
+					}
+					if ($readonly) {
+						$instance->setAsReadonly();
+					}
+					return $instance;
 				}
-				$array = $value->getAll();
-			} elseif ($value instanceof IArrayable) {
-				$array = $value->toArray();
+				return $readonly && !$value->isReadonly() ? $value->clone(true) : $value;
 			}
-		}
-		
-		//build
-		if (is_array($array)) {
-			try {
+			
+			//array
+			$array = is_object($value) && $value instanceof IArrayable ? $value->toArray() : $value;
+			if (is_array($array)) {
 				if (isset($template)) {
 					$instance = $template->clone()->setAll($array);
 					if ($readonly) {
@@ -580,14 +583,15 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 					return $instance;
 				}
 				return static::build($array, $readonly);
-			} catch (\Exception $exception) {
-				throw new Exceptions\CoercionFailed([
-					'value' => $value,
-					'dictionary' => static::class,
-					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-					'error_message' => $exception->getMessage()
-				]);
 			}
+			
+		} catch (\Exception $exception) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'dictionary' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
 		}
 		
 		//throw
@@ -606,13 +610,13 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	
 	//Final private methods
 	/**
-	 * Get key index.
+	 * Get index from a given key.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to get from.</p>
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * @return string
+	 * <p>The index from the given key.</p>
 	 */
 	final private function getKeyIndex($key): string
 	{
@@ -655,6 +659,23 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			prev($this->cursor_map);
 		}
 		unset($this->values[$index], $this->keys[$index], $this->cursor_map[$index]);
+		return $this;
+	}
+	
+	/**
+	 * Set key with a given value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $key
+	 * <p>The key to set.</p>
+	 * @param mixed $value
+	 * <p>The value to set with.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final private function setKeyValue($key, $value): Dictionary
+	{
+		$this->setIndex($this->getKeyIndex($key), $key, $value);
 		return $this;
 	}
 }
