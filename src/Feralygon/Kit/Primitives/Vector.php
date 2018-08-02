@@ -713,16 +713,17 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Vector $template = null, bool $readonly = false, bool $nullable = false
+		&$value, ?Vector $template = null, ?bool $readonly = null, bool $nullable = false
 	): bool
 	{
 		try {
@@ -746,9 +747,10 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Coerce into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Coerce into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\CoercionFailed
@@ -757,7 +759,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Vector $template = null, bool $readonly = false, bool $nullable = false
+		$value, ?Vector $template = null, ?bool $readonly = null, bool $nullable = false
 	): ?Vector
 	{
 		//nullable
@@ -778,7 +780,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		if (is_object($value)) {
 			if ($value instanceof Vector) {
 				if (!isset($template)) {
-					return $readonly && !$value->isReadonly() ? $value->clone(true) : $value;
+					return isset($readonly) && $readonly !== $value->isReadonly() ? $value->clone($readonly) : $value;
 				}
 				$array = $value->getAll();
 			} elseif ($value instanceof IArrayable) {
@@ -791,12 +793,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			try {
 				if (isset($template)) {
 					$instance = $template->clone()->setAll($array);
-					if ($readonly) {
+					if (isset($readonly) && $readonly) {
 						$instance->setAsReadonly();
 					}
 					return $instance;
 				}
-				return static::build($array, $readonly);
+				return static::build($array, $readonly ?? false);
 			} catch (\Exception $exception) {
 				throw new Exceptions\CoercionFailed([
 					'value' => $value,

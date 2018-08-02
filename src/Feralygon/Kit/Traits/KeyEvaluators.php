@@ -830,10 +830,10 @@ trait KeyEvaluators
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -851,7 +851,7 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsOptions(
-		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
+		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
 	): object
 	{
 		$this->getKeyEvaluatorsManager()->setAsOptions($class, $clone, $readonly, $builder);
@@ -869,10 +869,10 @@ trait KeyEvaluators
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -890,7 +890,7 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsStructure(
-		string $class, bool $clone = false, bool $readonly = false, ?callable $builder = null
+		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
 	): object
 	{
 		$this->getKeyEvaluatorsManager()->setAsStructure($class, $clone, $readonly, $builder);
@@ -908,16 +908,17 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsDictionary(
-		?Dictionary $template = null, bool $readonly = false, bool $nullable = false
+		?Dictionary $template = null, ?bool $readonly = null, bool $nullable = false
 	): object
 	{
 		$this->getKeyEvaluatorsManager()->setAsDictionary($template, $readonly, $nullable);
@@ -935,16 +936,17 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsVector(
-		?Vector $template = null, bool $readonly = false, bool $nullable = false
+		?Vector $template = null, ?bool $readonly = null, bool $nullable = false
 	): object
 	{
 		$this->getKeyEvaluatorsManager()->setAsVector($template, $readonly, $nullable);

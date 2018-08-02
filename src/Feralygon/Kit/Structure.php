@@ -140,10 +140,10 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -161,7 +161,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
+		&$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
 	): bool
 	{
 		try {
@@ -183,10 +183,10 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Coerce into a read-only instance.<br>
-	 * If an instance is given and is not read-only, 
-	 * then a new one is created with the same properties and as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Coerce into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -205,7 +205,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <p>The given value coerced into an instance.</p>
 	 */
 	final public static function coerce(
-		$value, bool $clone = false, bool $readonly = false, ?callable $builder = null
+		$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
 	): Structure
 	{
 		//builder
@@ -220,15 +220,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 		try {
 			if (!isset($value) || is_array($value)) {
 				return isset($builder)
-					? UType::coerceObject($builder($value ?? [], $readonly), static::class)
-					: new static($value ?? [], $readonly);
+					? UType::coerceObject($builder($value ?? [], $readonly ?? false), static::class)
+					: new static($value ?? [], $readonly ?? false);
 			} elseif (is_object($value) && $value instanceof Structure) {
-				if ($clone || ($readonly && !$value->isReadonly())) {
-					return new static($value->getAll(), $readonly);
+				if ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
+					return new static($value->getAll(), $readonly ?? false);
 				} elseif (!UType::isA($value, static::class)) {
 					return isset($builder)
-						? UType::coerceObject($builder($value->getAll(), $readonly), static::class)
-						: new static($value->getAll(), $readonly);
+						? UType::coerceObject($builder($value->getAll(), $readonly ?? false), static::class)
+						: new static($value->getAll(), $readonly ?? false);
 				}
 				return $value;
 			}

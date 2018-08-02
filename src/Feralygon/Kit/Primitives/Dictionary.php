@@ -531,16 +531,17 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Evaluate into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Dictionary $template = null, bool $readonly = false, bool $nullable = false
+		&$value, ?Dictionary $template = null, ?bool $readonly = null, bool $nullable = false
 	): bool
 	{
 		try {
@@ -564,9 +565,10 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Coerce into a read-only instance.<br>
-	 * If an instance is given and is not read-only, then a new one is created as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Coerce into either a non-read-only or read-only instance.<br>
+	 * If set and if an instance is given and its read-only state does not match, 
+	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Primitives\Dictionary\Exceptions\CoercionFailed
@@ -575,7 +577,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Dictionary $template = null, bool $readonly = false, bool $nullable = false
+		$value, ?Dictionary $template = null, ?bool $readonly = null, bool $nullable = false
 	): ?Dictionary
 	{
 		//nullable
@@ -600,12 +602,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 					foreach ($value->keys as $index => $key) {
 						$instance->set($key, $value->values[$index]);
 					}
-					if ($readonly) {
+					if (isset($readonly) && $readonly) {
 						$instance->setAsReadonly();
 					}
 					return $instance;
 				}
-				return $readonly && !$value->isReadonly() ? $value->clone(true) : $value;
+				return isset($readonly) && $readonly !== $value->isReadonly() ? $value->clone($readonly) : $value;
 			}
 			
 			//array
@@ -613,12 +615,12 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if (is_array($array)) {
 				if (isset($template)) {
 					$instance = $template->clone()->setAll($array);
-					if ($readonly) {
+					if (isset($readonly) && $readonly) {
 						$instance->setAsReadonly();
 					}
 					return $instance;
 				}
-				return static::build($array, $readonly);
+				return static::build($array, $readonly ?? false);
 			}
 			
 		} catch (\Exception $exception) {
