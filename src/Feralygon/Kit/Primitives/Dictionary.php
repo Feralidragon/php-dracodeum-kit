@@ -16,6 +16,7 @@ use Feralygon\Kit\Primitives\Dictionary\Exceptions;
 use Feralygon\Kit\Traits;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
+	Call as UCall,
 	Data as UData,
 	Text as UText
 };
@@ -380,13 +381,24 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	/**
 	 * Get all pairs.
 	 * 
+	 * Only pairs whose keys are integers, floats or strings can be converted to PHP associative array keys.
+	 * 
 	 * @since 1.0.0
 	 * @return array
 	 * <p>All the pairs, as <samp>key => value</samp>.</p>
 	 */
 	final public function getAll(): array
 	{
-		//TODO
+		$pairs = [];
+		foreach ($this->keys as $index => $key) {
+			UCall::guardInternal(is_int($key) || is_float($key) || is_string($key), [
+				'error_message' => "Invalid pair key {{key}}.",
+				'hint_message' => "Only a key as an integer, float or string is allowed in a PHP associative array.",
+				'parameters' => ['key' => $key]
+			]);
+			$pairs[(string)$key] = $this->values[$index];
+		}
+		return $pairs;
 	}
 	
 	/**
@@ -461,6 +473,30 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		$this->guardNonReadonlyCall();
 		$this->keys = $this->values = $this->cursor_map = [];
 		return $this;
+	}
+	
+	/**
+	 * Get keys.
+	 * 
+	 * @since 1.0.0
+	 * @return array
+	 * <p>The keys.</p>
+	 */
+	final public function getKeys(): array
+	{
+		return array_values($this->keys);
+	}
+	
+	/**
+	 * Get values.
+	 * 
+	 * @since 1.0.0
+	 * @return array
+	 * <p>The values.</p>
+	 */
+	final public function getValues(): array
+	{
+		return array_values($this->values);
 	}
 	
 	
@@ -560,7 +596,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			//object
 			if (is_object($value) && $value instanceof Dictionary) {
 				if (isset($template)) {
-					$instance = $template->clone();
+					$instance = $template->clone()->clear();
 					foreach ($value->keys as $index => $key) {
 						$instance->set($key, $value->values[$index]);
 					}
