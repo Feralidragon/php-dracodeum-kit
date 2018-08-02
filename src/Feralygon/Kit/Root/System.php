@@ -65,7 +65,7 @@ final class System
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Root\System\Components\Environment|\Feralygon\Kit\Root\System\Prototypes\Environment|string $environment
-	 * <p>The environment component instance, prototype instance, class or name to set.</p>
+	 * <p>The environment component instance or name, or prototype instance, class or name, to set.</p>
 	 * @return void
 	 */
 	final public static function setEnvironment($environment): void
