@@ -234,15 +234,18 @@ abstract class Component
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
+		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
+		bool $nullable = false
 	): bool
 	{
 		try {
-			$value = static::coerce($value, $properties, $builder, $named_builder);
+			$value = static::coerce($value, $properties, $builder, $named_builder, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -285,17 +288,21 @@ abstract class Component
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\CoercionFailed
-	 * @return static
-	 * <p>The given value coerced into an instance.</p>
+	 * @return static|null
+	 * <p>The given value coerced into an instance.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
-	): Component
+		$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
+		bool $nullable = false
+	): ?Component
 	{
 		//check
 		if (!isset($value)) {
-			return new static(null, $properties);
+			return $nullable ? null : new static(null, $properties);
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
 		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {

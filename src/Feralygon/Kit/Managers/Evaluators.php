@@ -1078,17 +1078,20 @@ class Evaluators
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsComponent(
-		string $class, array $properties = [], ?callable $builder = null, ?callable $named_builder = null
+		string $class, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
+		bool $nullable = false
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Component::class);
 		$this->set(
-			function (&$value) use ($class, $properties, $builder, $named_builder): bool {
-				return $class::evaluate($value, $properties, $builder, $named_builder);
+			function (&$value) use ($class, $properties, $builder, $named_builder, $nullable): bool {
+				return $class::evaluate($value, $properties, $builder, $named_builder, $nullable);
 			}
 		);
 		return $this;
@@ -1122,17 +1125,19 @@ class Evaluators
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
 	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsOptions(
-		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
+		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Options::class);
 		$this->set(
-			function (&$value) use ($class, $clone, $readonly, $builder): bool {
-				return $class::evaluate($value, $clone, $readonly, $builder);
+			function (&$value) use ($class, $clone, $readonly, $builder, $nullable): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder, $nullable);
 			}
 		);
 		return $this;
@@ -1166,17 +1171,19 @@ class Evaluators
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStructure(
-		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
+		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Structure::class);
 		$this->set(
-			function (&$value) use ($class, $clone, $readonly, $builder): bool {
-				return $class::evaluate($value, $clone, $readonly, $builder);
+			function (&$value) use ($class, $clone, $readonly, $builder, $nullable): bool {
+				return $class::evaluate($value, $clone, $readonly, $builder, $nullable);
 			}
 		);
 		return $this;
@@ -1198,7 +1205,7 @@ class Evaluators
 	 * If set and if an instance is given and its read-only state does not match, 
 	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -1230,7 +1237,7 @@ class Evaluators
 	 * If set and if an instance is given and its read-only state does not match, 
 	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

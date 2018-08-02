@@ -157,15 +157,17 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
+		&$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
 		try {
-			$value = static::coerce($value, $clone, $readonly, $builder);
+			$value = static::coerce($value, $clone, $readonly, $builder, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -200,13 +202,16 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
-	 * @return static
-	 * <p>The given value coerced into an instance.</p>
+	 * @return static|null
+	 * <p>The given value coerced into an instance.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null
-	): Structure
+		$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
+	): ?Structure
 	{
 		//builder
 		if (!isset($builder)) {
@@ -218,7 +223,9 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 		
 		//coerce
 		try {
-			if (!isset($value) || is_array($value)) {
+			if ($nullable && !isset($value)) {
+				return null;
+			} elseif (!isset($value) || is_array($value)) {
 				return isset($builder)
 					? UType::coerceObject($builder($value ?? [], $readonly ?? false), static::class)
 					: new static($value ?? [], $readonly ?? false);
