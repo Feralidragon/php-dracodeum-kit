@@ -12,11 +12,11 @@ $lite = isset($argv[3]) && $argv[3] === 'lite';
 //files (lite)
 $files = [];
 if ($type === 'verbs') {
-	$files[] = 'source-code-wordle.de_NounsClasses.txt';
-	$files[] = 'source-code-wordle.de_NounsVariables.txt';
-} else {
 	$files[] = 'source-code-wordle.de_VerbsAll.txt';
 	$files[] = 'source-code-wordle.de_VerbsBoolean.txt';
+} else {
+	$files[] = 'source-code-wordle.de_NounsClasses.txt';
+	$files[] = 'source-code-wordle.de_NounsVariables.txt';
 }
 
 //files (full)
