@@ -207,7 +207,8 @@ abstract class Component
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -261,7 +262,8 @@ abstract class Component
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -305,7 +307,9 @@ abstract class Component
 			return $nullable ? null : new static(null, $properties);
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
-		} elseif (!is_string($value) && (!is_object($value) || !UType::isA($value, Prototype::class))) {
+		} elseif (is_object($value) && $value instanceof Prototype) {
+			$properties = [];
+		} elseif (!is_string($value)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,

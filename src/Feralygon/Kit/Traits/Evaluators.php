@@ -781,7 +781,8 @@ trait Evaluators
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
