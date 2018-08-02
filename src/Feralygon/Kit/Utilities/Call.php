@@ -1226,6 +1226,7 @@ final class Call extends Utility
 				$string_options = $options->string_options->clone();
 				$string_options->quote_strings = true;
 				$string_options->prepend_type = is_bool($value);
+				$string_options->non_stringifiable = true;
 				return Text::stringify($value, null, $string_options);
 			};
 		}
