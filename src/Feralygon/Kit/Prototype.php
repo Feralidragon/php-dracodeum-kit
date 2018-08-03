@@ -26,17 +26,17 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Component
  * @see \Feralygon\Kit\Prototype\Interfaces\Contract
  * @see \Feralygon\Kit\Prototype\Interfaces\Subcontracts
- * @see \Feralygon\Kit\Prototype\Traits\RequiredPropertyNames
- * @see \Feralygon\Kit\Prototype\Traits\Properties
- * @see \Feralygon\Kit\Prototype\Traits\Initialization
+ * @see \Feralygon\Kit\Prototype\Traits\RequiredPropertyNamesLoader
+ * @see \Feralygon\Kit\Prototype\Traits\PropertyBuilder
+ * @see \Feralygon\Kit\Prototype\Traits\Initializer
  */
 abstract class Prototype
 {
 	//Traits
 	use KitTraits\LazyProperties;
-	use Traits\RequiredPropertyNames;
-	use Traits\Properties;
-	use Traits\Initialization;
+	use Traits\RequiredPropertyNamesLoader;
+	use Traits\PropertyBuilder;
+	use Traits\Initializer;
 	
 	
 	

@@ -62,26 +62,26 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  * @see \Feralygon\Kit\Component\Traits\DefaultBuilder
- * @see \Feralygon\Kit\Component\Traits\PreInitialization
- * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNames
- * @see \Feralygon\Kit\Component\Traits\Properties
- * @see \Feralygon\Kit\Component\Traits\Initialization
- * @see \Feralygon\Kit\Component\Traits\DefaultPrototype
- * @see \Feralygon\Kit\Component\Traits\PrototypeInitialization
- * @see \Feralygon\Kit\Component\Traits\Prototypes
+ * @see \Feralygon\Kit\Component\Traits\PreInitializer
+ * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNamesLoader
+ * @see \Feralygon\Kit\Component\Traits\PropertyBuilder
+ * @see \Feralygon\Kit\Component\Traits\Initializer
+ * @see \Feralygon\Kit\Component\Traits\DefaultPrototypeBuilder
+ * @see \Feralygon\Kit\Component\Traits\PrototypeInitializer
+ * @see \Feralygon\Kit\Component\Traits\PrototypeBuilder
  */
 abstract class Component
 {
 	//Traits
 	use KitTraits\LazyProperties;
 	use Traits\DefaultBuilder;
-	use Traits\PreInitialization;
-	use Traits\RequiredPropertyNames;
-	use Traits\Properties;
-	use Traits\Initialization;
-	use Traits\DefaultPrototype;
-	use Traits\PrototypeInitialization;
-	use Traits\Prototypes;
+	use Traits\PreInitializer;
+	use Traits\RequiredPropertyNamesLoader;
+	use Traits\PropertyBuilder;
+	use Traits\Initializer;
+	use Traits\DefaultPrototypeBuilder;
+	use Traits\PrototypeInitializer;
+	use Traits\PrototypeBuilder;
 	
 	
 	

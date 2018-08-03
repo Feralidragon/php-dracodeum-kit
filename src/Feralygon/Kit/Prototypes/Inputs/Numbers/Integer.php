@@ -75,7 +75,7 @@ class Integer extends Number implements ISchemaData
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{
@@ -97,7 +97,7 @@ class Integer extends Number implements ISchemaData
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Initialization)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Initializer)
 	/** {@inheritdoc} */
 	protected function initialize(): void
 	{

@@ -140,7 +140,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNamesLoader)
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
@@ -149,7 +149,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{

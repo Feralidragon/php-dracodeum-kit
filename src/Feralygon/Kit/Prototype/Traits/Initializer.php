@@ -8,21 +8,19 @@
 namespace Feralygon\Kit\Prototype\Traits;
 
 /**
- * This trait defines a method to load required property names in a prototype.
+ * This trait defines a method to initialize a prototype.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  */
-trait RequiredPropertyNames
+trait Initializer
 {
 	//Protected methods
 	/**
-	 * Load required property names.
-	 * 
-	 * All the required property names loaded here must be given during instantiation.
+	 * Initialize.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function loadRequiredPropertyNames(): void {}
+	protected function initialize(): void {}
 }

@@ -41,7 +41,7 @@ class Environment extends Component
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\Prototypes)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeBuilder)
 	/** {@inheritdoc} */
 	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
 	{

@@ -15,7 +15,7 @@ use Feralygon\Kit\Prototype;
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
-trait PrototypeInitialization
+trait PrototypeInitializer
 {
 	//Protected methods
 	/**

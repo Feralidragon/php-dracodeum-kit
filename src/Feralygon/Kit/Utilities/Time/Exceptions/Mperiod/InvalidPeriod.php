@@ -27,7 +27,7 @@ class InvalidPeriod extends Exception
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{

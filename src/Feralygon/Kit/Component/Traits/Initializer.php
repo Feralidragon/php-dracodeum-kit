@@ -13,7 +13,7 @@ namespace Feralygon\Kit\Component\Traits;
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
-trait Initialization
+trait Initializer
 {
 	//Protected methods
 	/**

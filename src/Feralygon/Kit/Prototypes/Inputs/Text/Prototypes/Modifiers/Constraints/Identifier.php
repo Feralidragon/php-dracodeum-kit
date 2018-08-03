@@ -241,7 +241,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{

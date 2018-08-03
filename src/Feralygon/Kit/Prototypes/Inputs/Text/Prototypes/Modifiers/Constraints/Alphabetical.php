@@ -77,7 +77,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{

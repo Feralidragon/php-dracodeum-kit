@@ -63,7 +63,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{

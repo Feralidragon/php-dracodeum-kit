@@ -41,7 +41,7 @@ class Format extends Filter
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNames)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\RequiredPropertyNamesLoader)
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
@@ -50,7 +50,7 @@ class Format extends Filter
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{

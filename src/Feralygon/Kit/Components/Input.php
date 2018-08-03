@@ -138,7 +138,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PropertyBuilder)
 	/** {@inheritdoc} */
 	protected function buildProperty(string $name): ?Property
 	{
@@ -165,7 +165,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\Prototypes)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeBuilder)
 	/** {@inheritdoc} */
 	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
 	{

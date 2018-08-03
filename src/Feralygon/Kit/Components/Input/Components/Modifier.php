@@ -88,7 +88,7 @@ abstract class Modifier extends Component
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\Initialization)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\Initializer)
 	/** {@inheritdoc} */
 	protected function initialize(): void
 	{

@@ -5,17 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Component\Traits;
+namespace Feralygon\Kit\Prototype\Traits;
 
 use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
- * This trait defines a method to build properties in a component.
+ * This trait defines a method to build properties in a prototype.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Component
+ * @see \Feralygon\Kit\Prototype
  */
-trait Properties
+trait PropertyBuilder
 {
 	//Protected methods
 	/**

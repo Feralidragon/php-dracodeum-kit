@@ -5,22 +5,22 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Exception\Traits;
+namespace Feralygon\Kit\Component\Traits;
 
 /**
- * This trait defines a method to load properties in an exception.
+ * This trait defines a method to pre-initialize a component.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Exception
+ * @see \Feralygon\Kit\Component
  */
-trait Properties
+trait PreInitializer
 {
 	//Protected methods
 	/**
-	 * Load properties.
+	 * Pre-initialize.
 	 * 
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function loadProperties(): void {}
+	protected function preInitialize(): void {}
 }

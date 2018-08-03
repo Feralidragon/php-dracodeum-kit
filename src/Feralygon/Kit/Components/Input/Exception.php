@@ -20,7 +20,7 @@ use Feralygon\Kit\Components\Input as Component;
  */
 abstract class Exception extends KitException
 {
-	//Implemented protected methods (Feralygon\Kit\Exception\Traits\Properties)
+	//Implemented protected methods (Feralygon\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{

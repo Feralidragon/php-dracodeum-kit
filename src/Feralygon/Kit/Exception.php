@@ -23,13 +23,13 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
- * @see \Feralygon\Kit\Exception\Traits\Properties
+ * @see \Feralygon\Kit\Exception\Traits\PropertiesLoader
  */
 abstract class Exception extends \Exception implements IArrayable
 {
 	//Traits
 	use KitTraits\Properties\Arrayable;
-	use Traits\Properties;
+	use Traits\PropertiesLoader;
 	
 	
 	
