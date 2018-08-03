@@ -239,7 +239,9 @@ trait LazyProperties
 	/**
 	 * Create a property instance.
 	 * 
-	 * This method may only be called after the properties manager initialization and from within a builder function.
+	 * This method may only be called after the properties manager initialization and from a builder function.<br>
+	 * <br>
+	 * The property name is given and set automatically.
 	 * 
 	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property
