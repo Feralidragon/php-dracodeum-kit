@@ -1201,6 +1201,85 @@ final class Call extends Utility
 		] + self::getGuardMessages($options));
 	}
 	
+	/**
+	 * Guard the current function or method in the stack from continuing its execution by executing a given function 
+	 * with a given set of arguments and depending on a given callback function.
+	 * 
+	 * The given callback function is executed with the returned value from the given executed function.<br>
+	 * Any exception thrown from the given callback function is internally caught, 
+	 * being functionally equivalent to returning boolean <code>false</code> in order to halt execution.
+	 * 
+	 * @since 1.0.0
+	 * @param callable $function
+	 * <p>The function to execute.</p>
+	 * @param array $arguments
+	 * <p>The arguments to execute with.</p>
+	 * @param callable $callback
+	 * <p>The callback function to depend on.<br>
+	 * It is expected to be compatible with the following signature:<br><br>
+	 * <code>function (&$value): bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to validate and sanitize.<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given value was successfully validated and sanitized.</p>
+	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardExecution|array|callable|null $options [default = null]
+	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br><br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardExecution|array</b></code><br>
+	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ReturnError
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ReturnNotAllowed
+	 * @return mixed
+	 * <p>The returned value from the given executed function with the given set of arguments 
+	 * using the given callback function.</p>
+	 */
+	final public static function guardExecution(
+		callable $function, array $arguments, callable $callback, $options = null
+	) {
+		//execute
+		$exception = null;
+		$value = $function(...$arguments);
+		self::assert('callback', $callback, function (&$value): bool {});
+		try {
+			$v = $value;
+			if ($callback($v)) {
+				return $v;
+			}
+		} catch (\Exception $exception) {}
+		
+		//options
+		if (is_callable($options)) {
+			self::assert('options', $options, function () {});
+			$options = $options();
+		}
+		$options = Options\GuardExecution::coerce($options);
+		
+		//backtrace
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		self::guard(isset($backtrace[$stack_index]['function']), [
+			'hint_message' => "This method may only be called from within a function or method."
+		]);
+		$backtrace = $backtrace[$stack_index];
+		
+		//exception
+		$exception_properties = [
+			'value' => $value,
+			'exec_function_full_name' => self::name($function, true),
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		];
+		throw isset($exception)
+			? new Exceptions\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
+			: new Exceptions\ReturnNotAllowed($exception_properties + self::getGuardMessages($options));
+	}
+	
 	
 	
 	//Final private static methods
