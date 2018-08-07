@@ -66,7 +66,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNamesLoader
  * @see \Feralygon\Kit\Component\Traits\PropertyBuilder
  * @see \Feralygon\Kit\Component\Traits\Initializer
- * @see \Feralygon\Kit\Component\Traits\DefaultPrototypeBuilder
+ * @see \Feralygon\Kit\Component\Traits\DefaultPrototypeProducer
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitializer
  * @see \Feralygon\Kit\Component\Traits\PrototypeProducer
  */
@@ -79,7 +79,7 @@ abstract class Component
 	use Traits\RequiredPropertyNamesLoader;
 	use Traits\PropertyBuilder;
 	use Traits\Initializer;
-	use Traits\DefaultPrototypeBuilder;
+	use Traits\DefaultPrototypeProducer;
 	use Traits\PrototypeInitializer;
 	use Traits\PrototypeProducer;
 	
@@ -120,21 +120,29 @@ abstract class Component
 			
 			//prototype
 			if (!isset($prototype)) {
-				$prototype = $this->buildDefaultPrototype($properties);
+				//build
+				$prototype = UCall::guardExecution(
+					\Closure::fromCallable([$this, 'produceDefaultPrototype']),
+					[$properties],
+					function (&$value) use ($prototype_base_class, $properties): bool {
+						if (isset($value)) {
+							$value = UType::coerceObjectClass($value, $prototype_base_class);
+							if (!is_object($value)) {
+								$value = new $value($properties);
+							}
+						}
+						return true;
+					},
+					['function_name' => '__construct']
+				);
+				
+				//check
 				if (isset($prototype)) {
 					$properties = [];
 				} else {
 					$prototype = $prototype_base_class;
 				}
-			} else {
-				UCall::guardParameter('prototype', $prototype, is_string($prototype) || is_object($prototype), [
-					'hint_message' => "Only an instance, class or name is allowed.",
-					'function_name' => '__construct'
-				]);
-			}
-			
-			//build prototype
-			if (is_string($prototype)) {
+			} elseif (is_string($prototype)) {
 				//build
 				$instance = UCall::guardExecution(
 					\Closure::fromCallable([$this, 'producePrototype']),
@@ -161,6 +169,11 @@ abstract class Component
 						'function_name' => '__construct'
 					]);
 				}
+			} else {
+				UCall::guardParameter('prototype', $prototype, is_object($prototype), [
+					'hint_message' => "Only an instance, class or name is allowed.",
+					'function_name' => '__construct'
+				]);
 			}
 			
 			//guard prototype
