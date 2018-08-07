@@ -278,20 +278,9 @@ final class Call extends Utility
 		if ($name === '' || $name === '{closure}') {
 			return null;
 		} elseif ($full) {
-			//class
-			$reflection_class = null;
-			if (is_object($function) && $function instanceof \Closure) {
-				$closure_this = $reflection->getClosureThis();
-				$reflection_class = isset($closure_this)
-					? new \ReflectionClass($closure_this)
-					: $reflection->getClosureScopeClass();
-			} elseif ($reflection instanceof \ReflectionMethod) {
-				$reflection_class = $reflection->getDeclaringClass();
-			}
-			
-			//reflection
-			if (isset($reflection_class)) {
-				return ($short ? $reflection_class->getShortName() : $reflection_class->getName()) . "::{$name}";
+			$class = self::class($function, $short);
+			if (isset($class)) {
+				return "{$class}::{$name}";
 			}
 		}
 		return $name;
@@ -799,6 +788,70 @@ final class Call extends Utility
 			//return
 			return true;
 		});
+	}
+	
+	/**
+	 * Get object from a given function.
+	 * 
+	 * @since 1.0.0
+	 * @param callable|array|string $function
+	 * <p>The function to get from.</p>
+	 * @return object|null
+	 * <p>The object from the given function or <code>null</code> if it has no object bound.</p>
+	 */
+	final public static function object($function): ?object
+	{
+		self::validate($function);
+		if (is_object($function) && $function instanceof \Closure) {
+			return self::reflection($function)->getClosureThis();
+		} elseif (is_array($function) && is_object($function[0])) {
+			return $function[0];
+		}
+		return null;
+	}
+	
+	/**
+	 * Get class from a given function.
+	 * 
+	 * @since 1.0.0
+	 * @param callable|array|string $function
+	 * <p>The function to get from.</p>
+	 * @param bool $short [default = false]
+	 * <p>Return the short form of the class instead of the full namespaced one.</p>
+	 * @return string|null
+	 * <p>The class from the given function or <code>null</code> if it has no class bound.</p>
+	 */
+	final public static function class($function, bool $short = false): ?string
+	{
+		//initialize
+		self::validate($function);
+		$reflection_class = null;
+		
+		//class
+		$object = self::object($function);
+		if (isset($object)) {
+			if (!$short) {
+				return get_class($object);
+			}
+			$reflection_class = new \ReflectionClass($object);
+		} elseif (is_object($function) && $function instanceof \Closure) {
+			$reflection_class = self::reflection($function)->getClosureScopeClass();
+		} elseif (is_array($function) && is_string($function[0])) {
+			$reflection_class = new \ReflectionClass($function[0]);
+		} else {
+			$reflection = self::reflection($function);
+			if ($reflection instanceof \ReflectionMethod) {
+				$reflection_class = $reflection->getDeclaringClass();
+			}
+		}
+		
+		//reflection
+		if (isset($reflection_class)) {
+			return $short ? $reflection_class->getShortName() : $reflection_class->getName();
+		}
+		
+		//return
+		return null;
 	}
 	
 	/**
