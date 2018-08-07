@@ -5,11 +5,13 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Call\Exceptions;
+namespace Feralygon\Kit\Utilities\Call\Exceptions\Guard;
+
+use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
 
 /**
- * This exception is thrown from the call utility whenever a given returned value from a given executed function 
- * in a given function or method call is not allowed.
+ * This exception is thrown from the call utility <code>guardExecution</code> method whenever a return error occurs 
+ * with a given value from a given executed function in a given function or method call.
  * 
  * @since 1.0.0
  * @property-read mixed $value
@@ -17,9 +19,9 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
  * @property-read string|null $exec_function_full_name [default = null]
  * <p>The executed function full name.</p>
  */
-class ReturnNotAllowed extends NotAllowed
+class ReturnError extends Exception
 {
-	//Overridden public methods
+	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
@@ -27,15 +29,15 @@ class ReturnNotAllowed extends NotAllowed
 		$message = '';
 		if ($this->isset('exec_function_full_name')) {
 			$message = $this->isset('object_class')
-				? "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
+				? "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
 					"in method call {{function_name}} in {{object_class}}."
-				: "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
+				: "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
 					"in function call {{function_name}}.";
 		} else {
 			$message = $this->isset('object_class')
-				? "Return value {{value}} not allowed from anonymous function " . 
+				? "Return error occurred with value {{value}} from anonymous function " . 
 					"in method call {{function_name}} in {{object_class}}."
-				: "Return value {{value}} not allowed from anonymous function " . 
+				: "Return error occurred with value {{value}} from anonymous function " . 
 					"in function call {{function_name}}.";
 		}
 		

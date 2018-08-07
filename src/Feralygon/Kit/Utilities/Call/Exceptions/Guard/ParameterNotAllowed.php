@@ -5,11 +5,13 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Call\Exceptions;
+namespace Feralygon\Kit\Utilities\Call\Exceptions\Guard;
+
+use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
 
 /**
- * This exception is thrown from the call utility whenever a given parameter from a given function or method call 
- * is not allowed.
+ * This exception is thrown from the call utility <code>guardParameter</code> method whenever a given parameter 
+ * from a given function or method call is not allowed.
  * 
  * @since 1.0.0
  * @property-read string $name
@@ -17,9 +19,9 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
  * @property-read mixed $value
  * <p>The value.</p>
  */
-class ParameterNotAllowed extends NotAllowed
+class ParameterNotAllowed extends Exception
 {
-	//Overridden public methods
+	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{

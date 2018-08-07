@@ -5,15 +5,15 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Call\Exceptions;
+namespace Feralygon\Kit\Utilities\Call\Exceptions\Guard;
 
 /**
- * This exception is thrown from the call utility whenever a return error occurs with a given value 
- * from a given executed function in a given function or method call.
+ * This exception is thrown from the call utility <code>guardExecution</code> method whenever a given returned value 
+ * from a given executed function in a given function or method call is not allowed.
  * 
  * @since 1.0.0
  */
-class ReturnError extends ReturnNotAllowed
+class ReturnNotAllowed extends ReturnError
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
@@ -23,15 +23,15 @@ class ReturnError extends ReturnNotAllowed
 		$message = '';
 		if ($this->isset('exec_function_full_name')) {
 			$message = $this->isset('object_class')
-				? "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
+				? "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
 					"in method call {{function_name}} in {{object_class}}."
-				: "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
+				: "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
 					"in function call {{function_name}}.";
 		} else {
 			$message = $this->isset('object_class')
-				? "Return error occurred with value {{value}} from anonymous function " . 
+				? "Return value {{value}} not allowed from anonymous function " . 
 					"in method call {{function_name}} in {{object_class}}."
-				: "Return error occurred with value {{value}} from anonymous function " . 
+				: "Return value {{value}} not allowed from anonymous function " . 
 					"in function call {{function_name}}.";
 		}
 		

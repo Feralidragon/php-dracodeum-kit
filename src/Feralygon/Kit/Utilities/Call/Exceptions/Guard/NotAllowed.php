@@ -5,23 +5,26 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Utilities\Call\Exceptions;
+namespace Feralygon\Kit\Utilities\Call\Exceptions\Guard;
+
+use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
 
 /**
- * This exception is thrown from the call utility whenever an internal error occurs in a given function or method call.
+ * This exception is thrown from the call utility <code>guard</code> method whenever a given function or method call 
+ * is not allowed.
  * 
  * @since 1.0.0
  */
-class InternalError extends NotAllowed
+class NotAllowed extends Exception
 {
-	//Overridden public methods
+	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
 		//message
 		$message = $this->isset('object_class')
-			? "Internal error occurred in method call {{function_name}} in {{object_class}}."
-			: "Internal error occurred in function call {{function_name}}.";
+			? "Method call {{function_name}} not allowed in {{object_class}}."
+			: "Function call {{function_name}} not allowed.";
 		
 		//error message
 		if ($this->isset('error_message')) {

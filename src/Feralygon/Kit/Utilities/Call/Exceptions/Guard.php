@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions;
 use Feralygon\Kit\Utilities\Call\Exception;
 
 /**
- * This exception is thrown from the call utility whenever a given function or method call is not allowed.
+ * Call utility <code>guard</code> methods exception.
  * 
  * @since 1.0.0
  * @property-read string $function_name
@@ -22,33 +22,8 @@ use Feralygon\Kit\Utilities\Call\Exception;
  * @property-read string|null $hint_message [default = null]
  * <p>The hint message.</p>
  */
-class NotAllowed extends Exception
+abstract class Guard extends Exception
 {
-	//Implemented public methods
-	/** {@inheritdoc} */
-	public function getDefaultMessage(): string
-	{
-		//message
-		$message = $this->isset('object_class')
-			? "Method call {{function_name}} not allowed in {{object_class}}."
-			: "Function call {{function_name}} not allowed.";
-		
-		//error message
-		if ($this->isset('error_message')) {
-			$message .= "\nERROR: {{error_message}}";
-		}
-		
-		//hint message
-		if ($this->isset('hint_message')) {
-			$message .= "\nHINT: {{hint_message}}";
-		}
-		
-		//return
-		return $message;
-	}
-	
-	
-	
 	//Implemented protected methods (Feralygon\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */
 	protected function loadProperties(): void

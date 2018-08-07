@@ -1070,7 +1070,7 @@ final class Call extends Utility
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\NotAllowed
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\Guard\NotAllowed
 	 * @return void
 	 */
 	final public static function guard(bool $assertion, $options = null): void
@@ -1089,7 +1089,7 @@ final class Call extends Utility
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
 		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
 		if (!isset($backtrace[$stack_index]['function'])) {
-			throw new Exceptions\NotAllowed([
+			throw new Exceptions\Guard\NotAllowed([
 				'function_name' => 'guard',
 				'object_class' => self::class,
 				'hint_message' => "This method may only be called from within a function or method."
@@ -1098,7 +1098,7 @@ final class Call extends Utility
 		$backtrace = $backtrace[$stack_index];
 		
 		//exception
-		throw new Exceptions\NotAllowed([
+		throw new Exceptions\Guard\NotAllowed([
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
 		] + self::getGuardMessages($options));
@@ -1124,7 +1124,7 @@ final class Call extends Utility
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardParameter|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ParameterNotAllowed
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\Guard\ParameterNotAllowed
 	 * @return void
 	 */
 	final public static function guardParameter(string $name, $value, bool $assertion, $options = null): void
@@ -1148,7 +1148,7 @@ final class Call extends Utility
 		$backtrace = $backtrace[$stack_index];
 		
 		//exception
-		throw new Exceptions\ParameterNotAllowed([
+		throw new Exceptions\Guard\ParameterNotAllowed([
 			'name' => $name,
 			'value' => $value,
 			'function_name' => $options->function_name ?? $backtrace['function'],
@@ -1171,7 +1171,7 @@ final class Call extends Utility
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardInternal|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\InternalError
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\Guard\InternalError
 	 * @return void
 	 */
 	final public static function guardInternal(bool $assertion, $options = null): void
@@ -1195,7 +1195,7 @@ final class Call extends Utility
 		$backtrace = $backtrace[$stack_index];
 		
 		//exception
-		throw new Exceptions\InternalError([
+		throw new Exceptions\Guard\InternalError([
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
 		] + self::getGuardMessages($options));
@@ -1232,8 +1232,8 @@ final class Call extends Utility
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardExecution|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ReturnError
-	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\ReturnNotAllowed
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\Guard\ReturnError
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\Guard\ReturnNotAllowed
 	 * @return mixed
 	 * <p>The returned value from the given executed function with the given set of arguments 
 	 * using the given callback function.</p>
@@ -1276,8 +1276,8 @@ final class Call extends Utility
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
 		];
 		throw isset($exception)
-			? new Exceptions\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
-			: new Exceptions\ReturnNotAllowed($exception_properties + self::getGuardMessages($options));
+			? new Exceptions\Guard\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
+			: new Exceptions\Guard\ReturnNotAllowed($exception_properties + self::getGuardMessages($options));
 	}
 	
 	
