@@ -27,7 +27,6 @@ use Feralygon\Kit\Prototypes\{
 };
 use Feralygon\Kit\Prototypes\Input\Interfaces as PrototypeInterfaces;
 use Feralygon\Kit\Traits\LazyProperties\Property;
-use Feralygon\Kit\Prototype as ComponentPrototype;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
@@ -165,27 +164,27 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeBuilder)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeProducer)
 	/** {@inheritdoc} */
-	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
+	protected function producePrototype(string $name, array $properties = [])
 	{
 		switch ($name) {
 			case 'boolean':
 				//no break
 			case 'bool':
-				return new Prototypes\Boolean($properties);
+				return Prototypes\Boolean::class;
 			case 'number':
-				return new Prototypes\Number($properties);
+				return Prototypes\Number::class;
 			case 'float64':
 				//no break
 			case 'float':
 				//no break
 			case 'double':
-				return new Prototypes\Numbers\Float64($properties);
+				return Prototypes\Numbers\Float64::class;
 			case 'integer':
 				//no break
 			case 'int':
-				return new Prototypes\Numbers\Integer($properties);
+				return Prototypes\Numbers\Integer::class;
 			case 'uint':
 				return new Prototypes\Numbers\Integer(['unsigned' => true] + $properties);
 			case 'int64':
@@ -211,33 +210,33 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 			case 'uint7':
 				return new Prototypes\Numbers\Integer(['unsigned' => true, 'bits' => 7] + $properties);
 			case 'size':
-				return new Prototypes\Numbers\Size($properties);
+				return Prototypes\Numbers\Size::class;
 			case 'enumeration':
 				//no break
 			case 'enum':
-				return new Prototypes\Enumeration($properties);
+				return Prototypes\Enumeration::class;
 			case 'text':
 				//no break
 			case 'string':
-				return new Prototypes\Text($properties);
+				return Prototypes\Text::class;
 			case 'crc32':
-				return new Prototypes\Hashes\Crc32($properties);
+				return Prototypes\Hashes\Crc32::class;
 			case 'md5':
-				return new Prototypes\Hashes\Md5($properties);
+				return Prototypes\Hashes\Md5::class;
 			case 'sha1':
-				return new Prototypes\Hashes\Sha1($properties);
+				return Prototypes\Hashes\Sha1::class;
 			case 'sha256':
-				return new Prototypes\Hashes\Sha256($properties);
+				return Prototypes\Hashes\Sha256::class;
 			case 'sha512':
-				return new Prototypes\Hashes\Sha512($properties);
+				return Prototypes\Hashes\Sha512::class;
 			case 'date':
-				return new Prototypes\Date($properties);
+				return Prototypes\Date::class;
 			case 'time':
-				return new Prototypes\Time($properties);
+				return Prototypes\Time::class;
 			case 'datetime':
 				//no break
 			case 'timestamp':
-				return new Prototypes\DateTime($properties);
+				return Prototypes\DateTime::class;
 		}
 		return null;
 	}

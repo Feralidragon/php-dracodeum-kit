@@ -12,7 +12,6 @@ use Feralygon\Kit\Root\System\Prototypes\{
 	Environment as Prototype,
 	Environments as Prototypes
 };
-use Feralygon\Kit\Prototype as ComponentPrototype;
 use Feralygon\Kit\Root\System;
 use Feralygon\Kit\Utilities\Call as UCall;
 
@@ -41,17 +40,17 @@ class Environment extends Component
 	
 	
 	
-	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeBuilder)
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeProducer)
 	/** {@inheritdoc} */
-	protected function buildPrototype(string $name, array $properties = []): ?ComponentPrototype
+	protected function producePrototype(string $name, array $properties = [])
 	{
 		switch ($name) {
 			case 'development':
-				return new Prototypes\Development($properties);
+				return Prototypes\Development::class;
 			case 'staging':
-				return new Prototypes\Staging($properties);
+				return Prototypes\Staging::class;
 			case 'production':
-				return new Prototypes\Production($properties);
+				return Prototypes\Production::class;
 		}
 		return null;
 	}
