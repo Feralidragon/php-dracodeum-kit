@@ -172,7 +172,7 @@ final class Call extends Utility
 		
 		//method
 		if (is_array($function)) {
-			$function = (is_object($function[0]) ? get_class($function[0]) : $function[0]) . '::' . $function[1];
+			return (new \ReflectionClass($function[0]))->getMethod($function[1]);
 		}
 		if (is_string($function)) {
 			$function = str_replace('->', '::', $function);
@@ -269,30 +269,30 @@ final class Call extends Utility
 	 * @param bool $short [default = false]
 	 * <p>Return the short form of the class name instead of the full namespaced one.</p>
 	 * @return string|null
-	 * <p>The name from the given function or <code>null</code> if the function has no name (anonymous).</p>
+	 * <p>The name from the given function or <code>null</code> if it has no name (anonymous).</p>
 	 */
 	final public static function name($function, bool $full = false, bool $short = false): ?string
 	{
-		//optimization
-		if (!$full) {
-			if (is_array($function)) {
-				return $function[1];
-			} elseif (is_string($function)) {
-				$parts = explode('::', $function);
-				return end($parts);
-			}
-		} elseif (!$short && is_callable($function, false, $name)) {
-			return $name === 'Closure::__invoke' ? null : $name;
-		}
-		
-		//reflection
 		$reflection = self::reflection($function);
 		$name = $reflection->getName();
 		if ($name === '' || $name === '{closure}') {
 			return null;
-		} elseif ($full && Type::isA($reflection, \ReflectionMethod::class)) {
-			$reflection_class = $reflection->getDeclaringClass();
-			$name = ($short ? $reflection_class->getShortName() : $reflection_class->getName()) . "::{$name}";
+		} elseif ($full) {
+			//class
+			$reflection_class = null;
+			if (is_object($function) && $function instanceof \Closure) {
+				$closure_this = $reflection->getClosureThis();
+				$reflection_class = isset($closure_this)
+					? new \ReflectionClass($closure_this)
+					: $reflection->getClosureScopeClass();
+			} elseif ($reflection instanceof \ReflectionMethod) {
+				$reflection_class = $reflection->getDeclaringClass();
+			}
+			
+			//reflection
+			if (isset($reflection_class)) {
+				return ($short ? $reflection_class->getShortName() : $reflection_class->getName()) . "::{$name}";
+			}
 		}
 		return $name;
 	}
@@ -808,8 +808,7 @@ final class Call extends Utility
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return string|null
-	 * <p>The extension from the given function 
-	 * or <code>null</code> if the function does not belong to any extension.</p>
+	 * <p>The extension from the given function or <code>null</code> if it does not belong to any extension.</p>
 	 */
 	final public static function extension($function): ?string
 	{
