@@ -116,14 +116,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	 * The returning cloned instance is a new instance with the same properties.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $readonly [default = false]
-	 * <p>Set the new cloned instance as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Set the new cloned instance as read-only.<br>
+	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(bool $readonly = false): Structure
+	final public function clone(?bool $readonly = null): Structure
 	{
-		return new static($this->getAll(), $readonly);
+		return new static($this->getAll(), $readonly ?? $this->isReadonly());
 	}
 	
 	
@@ -231,7 +232,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 					: new static($value ?? [], $readonly ?? false);
 			} elseif (is_object($value) && $value instanceof Structure) {
 				if ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
-					return new static($value->getAll(), $readonly ?? false);
+					return $value->clone($readonly);
 				} elseif (!UType::isA($value, static::class)) {
 					return isset($builder)
 						? UType::coerceObject($builder($value->getAll(), $readonly ?? false), static::class)

@@ -1354,7 +1354,7 @@ final class Call extends Utility
 		$stringifier = $options->stringifier;
 		if (!isset($stringifier)) {
 			$stringifier = function (string $placeholder, $value) use ($options): ?string {
-				$string_options = $options->string_options->clone();
+				$string_options = $options->string_options->clone(false);
 				$string_options->quote_strings = true;
 				$string_options->prepend_type = is_bool($value);
 				$string_options->non_stringifiable = true;

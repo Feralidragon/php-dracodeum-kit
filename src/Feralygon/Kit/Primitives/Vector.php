@@ -219,14 +219,15 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * The returning cloned instance is a new instance with the same values and evaluator functions.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $readonly [default = false]
-	 * <p>Set the new cloned instance as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Set the new cloned instance as read-only.<br>
+	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(bool $readonly = false): Vector
+	final public function clone(?bool $readonly = null): Vector
 	{
-		$instance = new static([], $readonly);
+		$instance = new static([], $readonly ?? $this->isReadonly());
 		foreach ($this->getEvaluators() as $evaluator) {
 			$instance->addEvaluator($evaluator);
 		}
@@ -792,7 +793,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		if (is_array($array)) {
 			try {
 				if (isset($template)) {
-					$instance = $template->clone()->setAll($array);
+					$instance = $template->clone(false)->setAll($array);
 					if (isset($readonly) && $readonly) {
 						$instance->setAsReadonly();
 					}

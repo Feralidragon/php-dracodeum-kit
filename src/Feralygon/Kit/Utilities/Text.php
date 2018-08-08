@@ -286,7 +286,7 @@ final class Text extends Utility
 			$is_associative = Data::isAssociative($value);
 			$assoc_options = null;
 			if ($is_associative) {
-				$assoc_options = $options->clone();
+				$assoc_options = $options->clone(false);
 				$assoc_options->prepend_type = false;
 				$assoc_options->quote_strings = $options->prepend_type;
 			}
@@ -1057,7 +1057,7 @@ final class Text extends Utility
 	final public static function parse(string $string, array $fields_patterns, $options = null): ?array
 	{
 		//initialize
-		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true);
+		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true, false);
 		$no_throw = $options->no_throw;
 		$options->no_throw = true;
 		$options->keep_nulls = true;

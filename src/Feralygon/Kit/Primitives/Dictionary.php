@@ -232,15 +232,16 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	 * The returning cloned instance is a new instance with the same pairs and evaluator functions.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $readonly [default = false]
-	 * <p>Set the new cloned instance as read-only.</p>
+	 * @param bool|null $readonly [default = null]
+	 * <p>Set the new cloned instance as read-only.<br>
+	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(bool $readonly = false): Dictionary
+	final public function clone(?bool $readonly = null): Dictionary
 	{
 		//instance
-		$instance = new static([], $readonly);
+		$instance = new static([], $readonly ?? $this->isReadonly());
 		
 		//evaluators
 		foreach ($this->getKeyEvaluators() as $evaluator) {
@@ -598,7 +599,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			//object
 			if (is_object($value) && $value instanceof Dictionary) {
 				if (isset($template)) {
-					$instance = $template->clone()->clear();
+					$instance = $template->clone(false)->clear();
 					foreach ($value->keys as $index => $key) {
 						$instance->set($key, $value->values[$index]);
 					}
@@ -614,7 +615,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			$array = is_object($value) && $value instanceof IArrayable ? $value->toArray() : $value;
 			if (is_array($array)) {
 				if (isset($template)) {
-					$instance = $template->clone()->setAll($array);
+					$instance = $template->clone(false)->setAll($array);
 					if (isset($readonly) && $readonly) {
 						$instance->setAsReadonly();
 					}
