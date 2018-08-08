@@ -916,6 +916,8 @@ trait Evaluators
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
 	 * @param bool|null $readonly [default = null]
 	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
 	 * If set and if an instance is given and its read-only state does not match, 
@@ -926,10 +928,10 @@ trait Evaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsDictionary(
-		?Dictionary $template = null, ?bool $readonly = null, bool $nullable = false
+		?Dictionary $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
 	): object
 	{
-		$this->getEvaluatorsManager()->setAsDictionary($template, $readonly, $nullable);
+		$this->getEvaluatorsManager()->setAsDictionary($template, $clone, $readonly, $nullable);
 		return $this;
 	}
 	
@@ -944,6 +946,8 @@ trait Evaluators
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
 	 * @param bool|null $readonly [default = null]
 	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
 	 * If set and if an instance is given and its read-only state does not match, 
@@ -954,10 +958,10 @@ trait Evaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsVector(
-		?Vector $template = null, ?bool $readonly = null, bool $nullable = false
+		?Vector $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
 	): object
 	{
-		$this->getEvaluatorsManager()->setAsVector($template, $readonly, $nullable);
+		$this->getEvaluatorsManager()->setAsVector($template, $clone, $readonly, $nullable);
 		return $this;
 	}
 	
