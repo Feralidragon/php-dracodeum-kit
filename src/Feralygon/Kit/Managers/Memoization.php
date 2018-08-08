@@ -224,7 +224,7 @@ class Memoization
 	 * @param array $key_parameters [default = []]
 	 * <p>Additional parameters to generate the internal memoization key with, as <samp>name => value</samp> pairs.</p>
 	 * @return mixed
-	 * <p>The memoized value returned from the given function with the given name.</p>
+	 * <p>The returned memoized value from the given function with the given name.</p>
 	 */
 	final public function memoizeFunction(
 		string $name, callable $function, array $arguments = [], ?float $ttl = null, bool $persist = false,

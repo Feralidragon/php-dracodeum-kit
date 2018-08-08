@@ -26,7 +26,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
  * <br>
  * Return: <code><b>bool</b></code><br>
- * Boolean <code>true</code> if the given value is successfully evaluated for the given placeholder.</p>
+ * Boolean <code>true</code> if the given value was successfully evaluated for the given placeholder.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property \Closure|null $stringifier [default = null]

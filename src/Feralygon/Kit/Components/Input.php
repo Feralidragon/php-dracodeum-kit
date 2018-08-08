@@ -897,7 +897,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The error message or <code>null</code> if no error is set.<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 * @param int $priority [default = 0]
 	 * <p>The priority to execute the given evaluator function with.</p>
 	 * @param bool $before_modifiers [default = false]

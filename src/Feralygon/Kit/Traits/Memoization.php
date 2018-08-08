@@ -86,7 +86,7 @@ trait Memoization
 	 * @param array $key_parameters [default = []]
 	 * <p>Additional parameters to generate the internal memoization key with, as <samp>name => value</samp> pairs.</p>
 	 * @return mixed
-	 * <p>The memoized value returned from the given function for the previous caller method in the stack.</p>
+	 * <p>The returned memoized value from the given function for the previous caller method in the stack.</p>
 	 */
 	final protected static function memoize(
 		callable $function, ?float $ttl = null, bool $persist = false, array $key_parameters = []

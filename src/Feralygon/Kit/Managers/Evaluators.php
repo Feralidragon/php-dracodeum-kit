@@ -97,7 +97,7 @@ class Evaluators
 	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -134,7 +134,7 @@ class Evaluators
 	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -163,7 +163,7 @@ class Evaluators
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &#9656; <code>mixed $value [reference]</code><br>
 	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * &nbsp; &nbsp; &#8594; return: <code>bool</code><br>
-	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Boolean <code>true</code> if the given value is successfully evaluated.<br>
+	 * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Boolean <code>true</code> if the given value was successfully evaluated.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @return $this

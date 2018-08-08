@@ -41,7 +41,7 @@ trait Evaluators
 	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -65,7 +65,7 @@ trait Evaluators
 	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
 	 * <br>
 	 * Return: <code><b>bool</b></code><br>
-	 * Boolean <code>true</code> if the given value is successfully evaluated.</p>
+	 * Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
