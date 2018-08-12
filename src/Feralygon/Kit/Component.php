@@ -228,6 +228,29 @@ abstract class Component
 	
 	//Final public static methods
 	/**
+	 * Build instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Prototype|string|null $prototype [default = null]
+	 * <p>The prototype instance, class or name to build with.<br>
+	 * If not set, then the default prototype instance or the base prototype class is used.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * They are applied to both the component and prototype.</p>
+	 * @return static
+	 * <p>The built instance.</p>
+	 */
+	final public static function build($prototype = null, array $properties = []): Component
+	{
+		$builder = static::getDefaultBuilder();
+		if (isset($builder)) {
+			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
+			return $builder($prototype, $properties);
+		}
+		return new static($prototype, $properties);
+	}
+	
+	/**
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only a component instance or name, or a prototype instance, class or name, can be evaluated into an instance.

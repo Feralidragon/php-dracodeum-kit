@@ -112,6 +112,27 @@ abstract class Options implements \ArrayAccess, IArrayInstantiable
 	
 	//Final public static methods
 	/**
+	 * Build instance.
+	 * 
+	 * @since 1.0.0
+	 * @param array $properties [default = []]
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $readonly [default = false]
+	 * <p>Set the built instance as read-only.</p>
+	 * @return static
+	 * <p>The built instance.</p>
+	 */
+	final public static function build(array $properties = [], bool $readonly = false): Options
+	{
+		$builder = static::getDefaultBuilder();
+		if (isset($builder)) {
+			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Options {});
+			return $builder($properties, $readonly);
+		}
+		return new static($properties, $readonly);
+	}
+	
+	/**
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
