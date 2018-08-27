@@ -24,7 +24,7 @@ class Pattern extends Enumeration
 {
 	//Public constants
 	/** SCHEME regular expression pattern. */
-	public const SCHEME = '(?:[A-z][A-z0-9\+\-\.]*)';
+	public const SCHEME = '(?:[A-Za-z][A-Za-z\d\+\-\.]*)';
 	
 	/** OWS regular expression pattern. */
 	public const OWS = '(?:[\t\ ]*)';

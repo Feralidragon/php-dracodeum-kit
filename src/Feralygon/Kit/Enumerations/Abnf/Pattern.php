@@ -19,7 +19,7 @@ class Pattern extends Enumeration
 {
 	//Public constants
 	/** ALPHA regular expression pattern. */
-	public const ALPHA = '[A-z]';
+	public const ALPHA = '[A-Za-z]';
 	
 	/** BIT regular expression pattern. */
 	public const BIT = '[01]';

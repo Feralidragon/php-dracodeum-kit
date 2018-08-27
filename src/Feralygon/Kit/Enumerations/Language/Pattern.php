@@ -21,34 +21,34 @@ class Pattern extends Enumeration
 {
 	//Public constants
 	/** EXTLANG regular expression pattern. */
-	public const EXTLANG = '(?:[A-z]{3}(?:-[A-z]{3}){0,2})';
+	public const EXTLANG = '(?:[A-Za-z]{3}(?:-[A-Za-z]{3}){0,2})';
 	
 	/** LANGUAGE regular expression pattern. */
-	public const LANGUAGE = '(?:[A-z]{2,3}(?:-' . self::EXTLANG . ')?|[A-z]{4,8})';
+	public const LANGUAGE = '(?:[A-Za-z]{2,3}(?:-' . self::EXTLANG . ')?|[A-Za-z]{4,8})';
 	
 	/** LANGUAGE-RANGE regular expression pattern. */
-	public const LANGUAGE_RANGE = '(?:(?:[A-z]{1,8}(?:-[A-z\d]{1,8})*)|\*)';
+	public const LANGUAGE_RANGE = '(?:(?:[A-Za-z]{1,8}(?:-[A-Za-z\d]{1,8})*)|\*)';
 	
 	/** EXTENDED-LANGUAGE-RANGE regular expression pattern. */
-	public const EXTENDED_LANGUAGE_RANGE = '(?:(?:[A-z]{1,8}|\*)(?:-(?:[A-z\d]{1,8}|\*))*)';
+	public const EXTENDED_LANGUAGE_RANGE = '(?:(?:[A-Za-z]{1,8}|\*)(?:-(?:[A-Za-z\d]{1,8}|\*))*)';
 	
 	/** SCRIPT regular expression pattern. */
-	public const SCRIPT = '(?:[A-z]{4})';
+	public const SCRIPT = '(?:[A-Za-z]{4})';
 	
 	/** REGION regular expression pattern. */
-	public const REGION = '(?:[A-z]{2}|\d{3})';
+	public const REGION = '(?:[A-Za-z]{2}|\d{3})';
 	
 	/** VARIANT regular expression pattern. */
-	public const VARIANT = '(?:[A-z]{5-8}|\d[A-z\d]{3})';
+	public const VARIANT = '(?:[A-Za-z]{5-8}|\d[A-Za-z\d]{3})';
 	
 	/** SINGLETON regular expression pattern. */
 	public const SINGLETON = '[\dA-WY-Za-wy-z]';
 	
 	/** PRIVATEUSE regular expression pattern. */
-	public const PRIVATEUSE = '(?:x(?:-[A-z\d]{1,8})+)';
+	public const PRIVATEUSE = '(?:x(?:-[A-Za-z\d]{1,8})+)';
 	
 	/** EXTENSION regular expression pattern. */
-	public const EXTENSION = '(?:' . self::SINGLETON . '(?:-[A-z\d]{2,8})+)';
+	public const EXTENSION = '(?:' . self::SINGLETON . '(?:-[A-Za-z\d]{2,8})+)';
 	
 	/** LANGTAG regular expression pattern. */
 	public const LANGTAG = '(?:' . self::LANGUAGE . '(?:-' . self::SCRIPT . ')?(?:-' . self::REGION . ')?' . 
