@@ -10,7 +10,8 @@ namespace Feralygon\Kit;
 use Feralygon\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable
+	Stringifiable as IStringifiable,
+	StringInstantiable as IStringInstantiable
 };
 use Feralygon\Kit\Structure\{
 	Traits,
@@ -36,14 +37,17 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  * @see \Feralygon\Kit\Structure\Traits\DefaultBuilder
+ * @see \Feralygon\Kit\Structure\Traits\StringPropertiesExtractor
  */
-abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable
+abstract class Structure
+implements \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable, IStringInstantiable
 {
 	//Traits
 	use KitTraits\Properties\ArrayableAccess;
 	use KitTraits\Readonly;
 	use KitTraits\Stringifiable;
 	use Traits\DefaultBuilder;
+	use Traits\StringPropertiesExtractor;
 	
 	
 	
@@ -95,7 +99,7 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	/** {@inheritdoc} */
 	final public static function fromArray(array $array): object
 	{
-		return new static($array);
+		return static::build($array);
 	}
 	
 	
@@ -105,6 +109,15 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	public function toString(?TextOptions $text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
+	}
+	
+	
+	
+	//Implemented final public static methods (Feralygon\Kit\Interfaces\StringInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromString(string $string): object
+	{
+		return static::build(static::getStringProperties($string));
 	}
 	
 	
@@ -152,10 +165,30 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	}
 	
 	/**
+	 * Get properties from a given string.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string
+	 * <p>The string to get from.</p>
+	 * @return array
+	 * <p>The properties from the given string, as <samp>name => value</samp> pairs.</p>
+	 */
+	final public static function getStringProperties(string $string): array
+	{
+		$properties = static::extractStringProperties($string);
+		UCall::guardParameter('string', $string, isset($properties), [
+			'error_message' => "No properties could be extracted from the given string."
+		]);
+		return $properties;
+	}
+	
+	/**
 	 * Evaluate a given value as an instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be evaluated into an instance.
+	 * Only the following types and formats can be evaluated into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -199,8 +232,10 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	/**
 	 * Coerce a given value into an instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be coerced into an instance.
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -236,28 +271,24 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 	): ?Structure
 	{
 		//builder
-		if (!isset($builder)) {
-			$builder = static::getDefaultBuilder();
-		}
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Structure {});
+		} else {
+			$builder = [static::class, 'build'];
 		}
 		
 		//coerce
 		try {
 			if ($nullable && !isset($value)) {
 				return null;
-			} elseif (!isset($value) || is_array($value)) {
-				return isset($builder)
-					? UType::coerceObject($builder($value ?? [], $readonly ?? false), static::class)
-					: new static($value ?? [], $readonly ?? false);
+			} elseif (!isset($value) || is_string($value) || is_array($value)) {
+				$properties = is_string($value) ? static::getStringProperties($value) : $value ?? [];
+				return UType::coerceObject($builder($properties, $readonly ?? false), static::class);
 			} elseif (is_object($value) && $value instanceof Structure) {
 				if ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
 					return $value->clone($readonly);
 				} elseif (!UType::isA($value, static::class)) {
-					return isset($builder)
-						? UType::coerceObject($builder($value->getAll(), $readonly ?? false), static::class)
-						: new static($value->getAll(), $readonly ?? false);
+					return UType::coerceObject($builder($value->getAll(), $readonly ?? false), static::class);
 				}
 				return $value;
 			}
@@ -275,8 +306,10 @@ abstract class Structure implements \ArrayAccess, \JsonSerializable, IArrayable,
 			'value' => $value,
 			'structure' => static::class,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-			'error_message' => "Only null, an instance or array of properties, " . 
-				"given as \"name => value\" pairs, can be coerced into an instance."
+			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
+				" - null, a string or an instance;\n" . 
+				" - an array of properties, given as \"name => value\" pairs;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
 		]);
 	}
 }

@@ -830,8 +830,10 @@ trait Evaluators
 	/**
 	 * Set to only allow a value evaluated as an options instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be evaluated into an options instance.
+	 * Only the following types and formats can be evaluated into an options instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param string $class
@@ -871,8 +873,10 @@ trait Evaluators
 	/**
 	 * Set to only allow a value evaluated as a structure instance.
 	 * 
-	 * Only <code>null</code>, an instance or array of properties, given as <samp>name => value</samp> pairs, 
-	 * can be evaluated into a structure instance.
+	 * Only the following types and formats can be evaluated into a structure instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param string $class
