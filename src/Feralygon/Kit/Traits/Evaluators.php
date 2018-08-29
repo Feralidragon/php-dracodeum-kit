@@ -424,7 +424,9 @@ trait Evaluators
 	 * Only the following types and formats can be evaluated into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $object_class_interface [default = null]
@@ -467,7 +469,9 @@ trait Evaluators
 	 * Only the following types and formats can be evaluated into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string|null $object_class_interface [default = null]

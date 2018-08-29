@@ -15,7 +15,8 @@ use Feralygon\Kit\Utilities\Type\{
 use Feralygon\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable
+	Stringifiable as IStringifiable,
+	StringInstantiable as IStringInstantiable
 };
 
 /**
@@ -880,7 +881,9 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -913,7 +916,9 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -960,7 +965,30 @@ final class Type extends Utility
 							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
 								"with the following message: {{message}}", [
 								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => $exception,
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					return $class::fromString($value);
+				} catch (\Exception $exception) {
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
 								'message' => Text::uncapitalize($exception->getMessage(), true)
 							]
 						)
@@ -981,7 +1009,9 @@ final class Type extends Utility
 					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
 						" - a class string or object;\n" . 
 						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface."
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
 				]);
 			}
 			
@@ -996,7 +1026,7 @@ final class Type extends Utility
 						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
 							"with the following message: {{message}}", [
 							'class' => Text::stringify($class, null, ['quote_strings' => true]),
-							'exception' => $exception,
+							'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
 							'message' => Text::uncapitalize($exception->getMessage(), true)
 						]
 					)
@@ -1043,7 +1073,9 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
@@ -1074,7 +1106,9 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface.
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
@@ -1117,7 +1151,30 @@ final class Type extends Utility
 							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
 								"with the following message: {{message}}", [
 								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => $exception,
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					return $class::fromString($value);
+				} catch (\Exception $exception) {
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
 								'message' => Text::uncapitalize($exception->getMessage(), true)
 							]
 						)
@@ -1138,7 +1195,9 @@ final class Type extends Utility
 						"into an object or class:\n" . 
 						" - a class string or object;\n" . 
 						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface."
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
 				]);
 			}
 		}
