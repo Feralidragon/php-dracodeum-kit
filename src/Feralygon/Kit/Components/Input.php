@@ -38,7 +38,7 @@ use Feralygon\Kit\Utilities\{
  * This component represents an input which can check, sanitize and hold a value.
  * 
  * @since 1.0.0
- * @property-read bool $nullable [default = false]
+ * @property-write bool $nullable [once] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
  * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [once] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
@@ -143,7 +143,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	{
 		switch ($name) {
 			case 'nullable':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 			case 'modifiers':
 				return $this->createProperty()
 					->setMode('w-')
