@@ -18,48 +18,48 @@ use Feralygon\Kit\Enumeration;
 class Pattern extends Enumeration
 {
 	//Public constants
-	/** ALPHA regular expression pattern. */
+	/** <samp>ALPHA</samp> regular expression pattern. */
 	public const ALPHA = '[A-Za-z]';
 	
-	/** BIT regular expression pattern. */
+	/** <samp>BIT</samp> regular expression pattern. */
 	public const BIT = '[01]';
 	
-	/** CHAR regular expression pattern. */
+	/** <samp>CHAR</samp> regular expression pattern. */
 	public const CHAR = '[\x01-\x7f]';
 	
-	/** CR regular expression pattern. */
+	/** <samp>CR</samp> regular expression pattern. */
 	public const CR = '\r';
 	
-	/** LF regular expression pattern. */
+	/** <samp>LF</samp> regular expression pattern. */
 	public const LF = '\n';
 	
-	/** CRLF regular expression pattern. */
-	public const CRLF = '\r\n';
+	/** <samp>CRLF</samp> regular expression pattern. */
+	public const CRLF = '(?:\r\n)';
 	
-	/** CTL regular expression pattern. */
+	/** <samp>CTL</samp> regular expression pattern. */
 	public const CTL = '[\x00-\x1f\x7f]';
 	
-	/** DIGIT regular expression pattern. */
+	/** <samp>DIGIT</samp> regular expression pattern. */
 	public const DIGIT = '\d';
 	
-	/** DQUOTE regular expression pattern. */
+	/** <samp>DQUOTE</samp> regular expression pattern. */
 	public const DQUOTE = '\"';
 	
-	/** HEXDIG regular expression pattern. */
+	/** <samp>HEXDIG</samp> regular expression pattern. */
 	public const HEXDIG = '[\dA-F]';
 	
-	/** HTAB regular expression pattern. */
+	/** <samp>HTAB</samp> regular expression pattern. */
 	public const HTAB = '\t';
 	
-	/** WSP regular expression pattern. */
+	/** <samp>WSP</samp> regular expression pattern. */
 	public const WSP = '[\t\ ]';
 	
-	/** LWSP regular expression pattern. */
+	/** <samp>LWSP</samp> regular expression pattern. */
 	public const LWSP = '(?:(?:\r\n)?[\t\ ])*';
 	
-	/** OCTET regular expression pattern. */
+	/** <samp>OCTET</samp> regular expression pattern. */
 	public const OCTET = '[\x00-\xff]';
 	
-	/** VCHAR regular expression pattern. */
+	/** <samp>VCHAR</samp> regular expression pattern. */
 	public const VCHAR = '[\x21-\x7e]';
 }

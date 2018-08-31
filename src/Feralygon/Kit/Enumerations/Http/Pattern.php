@@ -23,51 +23,51 @@ use Feralygon\Kit\Enumerations\Abnf\Pattern as EAbnfPattern;
 class Pattern extends Enumeration
 {
 	//Public constants
-	/** SCHEME regular expression pattern. */
+	/** <samp>scheme</samp> regular expression pattern. */
 	public const SCHEME = '(?:[A-Za-z][A-Za-z\d\+\-\.]*)';
 	
-	/** OWS regular expression pattern. */
+	/** <samp>OWS</samp> regular expression pattern. */
 	public const OWS = '(?:[\t\ ]*)';
 	
-	/** RWS regular expression pattern. */
+	/** <samp>RWS</samp> regular expression pattern. */
 	public const RWS = '(?:[\t\ ]+)';
 	
-	/** VCHAR regular expression pattern. */
+	/** <samp>VCHAR</samp> regular expression pattern. */
 	public const VCHAR = EAbnfPattern::VCHAR;
 	
-	/** VCHAR-WS regular expression pattern. */
+	/** <samp>VCHAR-WS</samp> regular expression pattern. */
 	public const VCHAR_WS = '(?:[\t\ ]|' . self::VCHAR . ')';
 	
-	/** TCHAR regular expression pattern. */
+	/** <samp>tchar</samp> regular expression pattern. */
 	public const TCHAR = '[\!\#\$\%\&\\\'\*\+\-\.\^\`\|\~\w]';
 	
-	/** TOKEN regular expression pattern. */
+	/** <samp>token</samp> regular expression pattern. */
 	public const TOKEN = '(?:' . self::TCHAR . '+)';
 	
-	/** TOKEN68 regular expression pattern. */
+	/** <samp>token68</samp> regular expression pattern. */
 	public const TOKEN68 = '(?:[\w\-\.\~\+\/]+\=*)';
 	
-	/** QDTEXT regular expression pattern. */
+	/** <samp>qdtext</samp> regular expression pattern. */
 	public const QDTEXT = '[\t\ \!\x23-\x5b\x5d-\x7e]';
 	
-	/** QUOTED-PAIR regular expression pattern. */
+	/** <samp>quoted-pair</samp> regular expression pattern. */
 	public const QUOTED_PAIR = '(?:\\\\[\t\ \x21-\x7e])';
 	
-	/** QUOTED-STRING regular expression pattern. */
+	/** <samp>quoted-string</samp> regular expression pattern. */
 	public const QUOTED_STRING = '(?:\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\")';
 	
-	/** CTEXT regular expression pattern. */
+	/** <samp>ctext</samp> regular expression pattern. */
 	public const CTEXT = '[\t\ \x21-\x27\x2a-\x5b\x5d-\x7e]';
 	
-	/** COMMENT regular expression pattern. */
+	/** <samp>comment</samp> regular expression pattern. */
 	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
 	
-	/** QVALUE regular expression pattern. */
+	/** <samp>qvalue</samp> regular expression pattern. */
 	public const QVALUE = '(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)';
 	
-	/** WEIGHT regular expression pattern. */
+	/** <samp>weight</samp> regular expression pattern. */
 	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . '[Qq]\=' . self::QVALUE . ')';
 	
-	/** PARAMETER regular expression pattern. */
+	/** <samp>parameter</samp> regular expression pattern. */
 	public const PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
 }
