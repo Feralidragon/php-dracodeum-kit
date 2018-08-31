@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Enumerations\Http;
 
 use Feralygon\Kit\Enumeration;
 use Feralygon\Kit\Enumerations\Abnf\Pattern as EAbnfPattern;
+use Feralygon\Kit\Enumerations\Uri\Pattern as EUriPattern;
 
 /**
  * This enumeration represents HTTP specification regular expression patterns.
@@ -24,7 +25,7 @@ class Pattern extends Enumeration
 {
 	//Public constants
 	/** <samp>scheme</samp> regular expression pattern. */
-	public const SCHEME = '(?:[A-Za-z][A-Za-z\d\+\-\.]*)';
+	public const SCHEME = EUriPattern::SCHEME;
 	
 	/** <samp>OWS</samp> regular expression pattern. */
 	public const OWS = '(?:[\t\ ]*)';
