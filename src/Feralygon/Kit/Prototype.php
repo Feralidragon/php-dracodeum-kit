@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit;
 
+use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Feralygon\Kit\Prototype\{
 	Interfaces,
 	Traits
@@ -30,7 +31,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototype\Traits\PropertyBuilder
  * @see \Feralygon\Kit\Prototype\Traits\Initializer
  */
-abstract class Prototype
+abstract class Prototype implements IPropertiesable
 {
 	//Traits
 	use KitTraits\LazyProperties;

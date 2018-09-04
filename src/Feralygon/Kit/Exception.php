@@ -7,7 +7,10 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
+use Feralygon\Kit\Interfaces\{
+	Propertiesable as IPropertiesable,
+	Arrayable as IArrayable
+};
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Exception\{
 	Options,
@@ -25,7 +28,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://php.net/manual/en/class.exception.php
  * @see \Feralygon\Kit\Exception\Traits\PropertiesLoader
  */
-abstract class Exception extends \Exception implements IArrayable
+abstract class Exception extends \Exception implements IPropertiesable, IArrayable
 {
 	//Traits
 	use KitTraits\Properties\Arrayable;

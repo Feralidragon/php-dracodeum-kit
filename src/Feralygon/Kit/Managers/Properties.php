@@ -11,6 +11,7 @@ use Feralygon\Kit\Managers\Properties\{
 	Property,
 	Exceptions
 };
+use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
@@ -63,6 +64,9 @@ class Properties
 	
 	/** @var \Feralygon\Kit\Managers\Properties\Property[] */
 	private $properties = [];
+	
+	/** @var \Feralygon\Kit\Interfaces\Propertiesable|null */
+	private $fallback_object = null;
 	
 	
 	
@@ -387,6 +391,37 @@ class Properties
 	}
 	
 	/**
+	 * Set fallback object.
+	 * 
+	 * By setting a fallback object, any property not found in this manager is attempted to be got from 
+	 * the given fallback object instead.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Interfaces\Propertiesable $object
+	 * <p>The object to set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setFallbackObject(IPropertiesable $object): Properties
+	{
+		$this->fallback_object = $object;
+		return $this;
+	}
+	
+	/**
+	 * Unset fallback object.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function unsetFallbackObject(): Properties
+	{
+		$this->fallback_object = null;
+		return $this;
+	}
+	
+	/**
 	 * Check if is initialized.
 	 * 
 	 * @since 1.0.0
@@ -537,7 +572,12 @@ class Properties
 	 */
 	final public function has(string $name): bool
 	{
-		return $this->hasProperty($name);
+		if ($this->hasProperty($name)) {
+			return true;
+		} elseif (isset($this->fallback_object)) {
+			return $this->fallback_object->has($name);
+		}
+		return false;
 	}
 	
 	/**
@@ -551,7 +591,12 @@ class Properties
 	 */
 	final public function get(string $name)
 	{
-		//initialize
+		//fallback
+		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+			return $this->fallback_object->get($name);
+		}
+		
+		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		
@@ -580,27 +625,40 @@ class Properties
 	 */
 	final public function is(string $name): bool
 	{
+		//fallback
+		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+			return $this->fallback_object->is($name);
+		}
+		
+		//value
 		$value = $this->get($name);
 		UCall::guard(is_bool($value), [
 			'error_message' => "Invalid boolean value {{value}} in property {{name}} in manager with owner {{owner}}.",
 			'hint_message' => "Only a boolean property is allowed be returned with this method.",
 			'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
 		]);
+		
+		//return
 		return $value;
 	}
 	
 	/**
-	 * Check if property is set with a given name.
+	 * Check if property with a given name is set.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
+	 * <p>Boolean <code>true</code> if the property with the given name is set.</p>
 	 */
 	final public function isset(string $name): bool
 	{
-		return $this->has($name) ? $this->get($name) !== null : false;
+		if ($this->hasProperty($name)) {
+			return $this->get($name) !== null;
+		} elseif (isset($this->fallback_object)) {
+			return $this->fallback_object->isset($name);
+		}
+		return false;
 	}
 	
 	/**
@@ -616,7 +674,13 @@ class Properties
 	 */
 	final public function set(string $name, $value): Properties
 	{
-		//initialize
+		//fallback
+		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+			$this->fallback_object->set($name, $value);
+			return $this;
+		}
+		
+		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		
@@ -651,7 +715,13 @@ class Properties
 	 */
 	final public function unset(string $name): Properties
 	{
-		//initialize
+		//fallback
+		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+			$this->fallback_object->unset($name);
+			return $this;
+		}
+		
+		//property
 		$property = $this->getProperty($name);
 		$property_mode = $property->getMode();
 		
@@ -691,12 +761,20 @@ class Properties
 	 */
 	final public function getAll(): array
 	{
+		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->getMode()[0] === 'r') {
 				$properties[$name] = $property->getValue();
 			}
 		}
+		
+		//fallback
+		if (isset($this->fallback_object)) {
+			$properties += $this->fallback_object->getAll();
+		}
+		
+		//return
 		return $properties;
 	}
 	

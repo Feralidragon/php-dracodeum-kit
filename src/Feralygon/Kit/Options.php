@@ -8,6 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
+	Propertiesable as IPropertiesable,
 	ArrayInstantiable as IArrayInstantiable,
 	StringInstantiable as IStringInstantiable
 };
@@ -38,7 +39,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Options\Traits\DefaultBuilder
  * @see \Feralygon\Kit\Options\Traits\StringPropertiesExtractor
  */
-abstract class Options implements \ArrayAccess, IArrayInstantiable, IStringInstantiable
+abstract class Options implements IPropertiesable, \ArrayAccess, IArrayInstantiable, IStringInstantiable
 {
 	//Traits
 	use KitTraits\LazyProperties\ArrayAccess;

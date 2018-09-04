@@ -11,6 +11,7 @@ use Feralygon\Kit\Traits\LazyProperties\{
 	Manager,
 	Property
 };
+use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -49,13 +50,13 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Check if property is set with a given name.
+	 * Check if property with a given name is set.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
+	 * <p>Boolean <code>true</code> if the property with the given name is set.</p>
 	 */
 	final public function __isset(string $name): bool
 	{
@@ -149,7 +150,7 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Check if property is set with a given name.
+	 * Check if property with a given name is set.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
@@ -157,7 +158,7 @@ trait LazyProperties
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if property is set with the given name.</p>
+	 * <p>Boolean <code>true</code> if the property with the given name is set.</p>
 	 */
 	final public function isset(string $name): bool
 	{
@@ -265,24 +266,67 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @param string[] $names
 	 * <p>The names to add.</p>
-	 * @return void
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function addRequiredPropertyNames(array $names): void
+	final protected function addRequiredPropertyNames(array $names): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->addRequiredPropertyNames($names);
+		return $this;
 	}
 	
 	/**
 	 * Set properties as read-only.
 	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
 	 * @since 1.0.0
-	 * @return void
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function setPropertiesAsReadonly(): void
+	final protected function setPropertiesAsReadonly(): object
 	{
 		$this->guardPropertiesManagerCall();
 		$this->properties_manager->setAsReadonly();
+		return $this;
+	}
+	
+	/**
+	 * Set properties fallback object.
+	 * 
+	 * By setting a properties fallback object, any property not found in this object is attempted to be got from 
+	 * the given fallback object instead.<br>
+	 * <br>
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Interfaces\Propertiesable $object
+	 * <p>The object to set.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function setPropertiesFallbackObject(IPropertiesable $object): object
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->setFallbackObject($object);
+		return $this;
+	}
+	
+	/**
+	 * Unset properties fallback object.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function unsetPropertiesFallbackObject(): object
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->unsetFallbackObject();
+		return $this;
 	}
 	
 	
@@ -343,12 +387,13 @@ trait LazyProperties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
-	 * @return void
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final private function initializeProperties(
 		callable $builder, array $properties = [], ?callable $required_names_loader = null, string $mode = 'rw', 
 		?callable $remainderer = null, ?array &$remainder = null
-	): void
+	): object
 	{
 		//initialize
 		UCall::guard(!isset($this->properties_manager) || !$this->properties_manager->isInitialized(), [
@@ -380,6 +425,9 @@ trait LazyProperties
 		
 		//initialize
 		$this->properties_manager->initialize($properties, $remainder);
+		
+		//return
+		return $this;
 	}
 	
 	/**

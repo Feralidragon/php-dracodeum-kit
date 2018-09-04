@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit;
 
+use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Feralygon\Kit\Component\{
 	Exceptions,
 	Traits
@@ -51,8 +52,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
- * While all readable properties from a component may be accessed from any scope, in the case of a prototype they 
- * are effectively only visible to itself and the component using it.<br>
+ * All properties from either a component or prototype may be accessed from any scope.<br>
  * <br>
  * While the prototype to use may be given through its class or an instance (dependency injection pattern), 
  * a component may also map specific names towards specific prototypes, so that a prototype may also be instantiated 
@@ -70,7 +70,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitializer
  * @see \Feralygon\Kit\Component\Traits\PrototypeProducer
  */
-abstract class Component
+abstract class Component implements IPropertiesable
 {
 	//Traits
 	use KitTraits\LazyProperties;
@@ -204,6 +204,7 @@ abstract class Component
 			\Closure::fromCallable([$this, 'buildProperty']), $properties,
 			\Closure::fromCallable([$this, 'loadRequiredPropertyNames']), 'rw', $remainderer
 		);
+		$this->setPropertiesFallbackObject($this->prototype);
 		
 		//initialize
 		$this->initialize();

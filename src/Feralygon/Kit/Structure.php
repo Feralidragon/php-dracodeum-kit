@@ -8,6 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
+	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
@@ -40,7 +41,8 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Structure\Traits\StringPropertiesExtractor
  */
 abstract class Structure
-implements \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable, IStringInstantiable
+implements IPropertiesable, \ArrayAccess, \JsonSerializable, IArrayable, IArrayInstantiable, IStringifiable,
+IStringInstantiable
 {
 	//Traits
 	use KitTraits\Properties\ArrayableAccess;
