@@ -77,6 +77,8 @@ use Feralygon\Kit\Utilities\{
  * [prototype, name = 'time']
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
  * [prototype, name = 'datetime' or 'timestamp']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector
+ * [prototype, name = 'vector' or 'array' or 'list']
  */
 class Input extends Component implements IPrototypeConstraintCreator, IPrototypeFilterCreator
 {
@@ -237,6 +239,12 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				//no break
 			case 'timestamp':
 				return Prototypes\DateTime::class;
+			case 'vector':
+				//no break
+			case 'array':
+				//no break
+			case 'list':
+				return Prototypes\Vector::class;
 		}
 		return null;
 	}
