@@ -30,9 +30,6 @@ class Pattern extends Enumeration
 	/** <samp>CR</samp> regular expression pattern. */
 	public const CR = '\r';
 	
-	/** <samp>LF</samp> regular expression pattern. */
-	public const LF = '\n';
-	
 	/** <samp>CRLF</samp> regular expression pattern. */
 	public const CRLF = '(?:\r\n)';
 	
@@ -51,8 +48,8 @@ class Pattern extends Enumeration
 	/** <samp>HTAB</samp> regular expression pattern. */
 	public const HTAB = '\t';
 	
-	/** <samp>WSP</samp> regular expression pattern. */
-	public const WSP = '[\t\ ]';
+	/** <samp>LF</samp> regular expression pattern. */
+	public const LF = '\n';
 	
 	/** <samp>LWSP</samp> regular expression pattern. */
 	public const LWSP = '(?:(?:\r\n)?[\t\ ])*';
@@ -62,4 +59,7 @@ class Pattern extends Enumeration
 	
 	/** <samp>VCHAR</samp> regular expression pattern. */
 	public const VCHAR = '[\x21-\x7e]';
+	
+	/** <samp>WSP</samp> regular expression pattern. */
+	public const WSP = '[\t\ ]';
 }
