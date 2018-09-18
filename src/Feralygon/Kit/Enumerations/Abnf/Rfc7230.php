@@ -25,7 +25,7 @@ class Rfc7230 extends Enumeration
 	public const ABSOLUTE_FORM = self::ABSOLUTE_URI;
 	
 	/** <samp>absolute-path</samp> ABNF regular expression. */
-	//public const ABSOLUTE_PATH = 1*( "/" segment )
+	public const ABSOLUTE_PATH = '(?:(?:\/' . self::SEGMENT . ')+)';
 	
 	/** <samp>asterisk-form</samp> ABNF regular expression. */
 	public const ASTERISK_FORM = '\*';
@@ -55,13 +55,16 @@ class Rfc7230 extends Enumeration
 	public const CHUNK_SIZE = '(?:' . Rfc5234::HEXDIG . '+)';
 	
 	/** <samp>chunked-body</samp> ABNF regular expression. */
-	//public const CHUNKED_BODY = *chunk last-chunk trailer-part CRLF
+	public const CHUNKED_BODY = '(?:' . self::CHUNK . '*' . self::LAST_CHUNK . self::TRAILER_PART . '\r\n)';
 	
 	/** <samp>comment</samp> ABNF regular expression. */
 	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
 	
 	/** <samp>Connection</samp> ABNF regular expression. */
-	//public const CONNECTION = *( "," OWS ) connection-option *( OWS "," [ OWS connection-option ] )
+	public const CONNECTION = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . 
+		self::CONNECTION_OPTION . '(?:' . self::OWS . '\,(?:' . self::OWS . self::CONNECTION_OPTION . ')?)*' . 
+		')';
 	
 	/** <samp>connection-option</samp> ABNF regular expression. */
 	public const CONNECTION_OPTION = self::TOKEN;
@@ -91,22 +94,26 @@ class Rfc7230 extends Enumeration
 	public const HEADER_FIELD = '(?:' . self::FIELD_NAME . '\:' . self::OWS . self::FIELD_VALUE . self::OWS . ')';
 	
 	/** <samp>Host</samp> ABNF regular expression. */
-	//public const HOST = uri-host [ ":" port ]
+	public const HOST = '(?:' . self::URI_HOST . '(?:\:' . self::PORT . ')?)';
 	
 	/** <samp>HTTP-message</samp> ABNF regular expression. */
-	//public const HTTP_MESSAGE = start-line *( header-field CRLF ) CRLF [ message-body ]
+	public const HTTP_MESSAGE = '(?:' . 
+		self::START_LINE . '(?:' . self::HEADER_FIELD . '\r\n)*\r\n' . self::MESSAGE_BODY . '?' . 
+		')';
 	
 	/** <samp>HTTP-name</samp> ABNF regular expression. */
 	public const HTTP_NAME = '(?:HTTP)';
 	
 	/** <samp>http-URI</samp> ABNF regular expression. */
-	//public const HTTP_URI = "http://" authority path-abempty [ "?" query ] [ "#" fragment ]
+	public const HTTP_URI = '(?:http\:\/\/' . self::AUTHORITY . self::PATH_ABEMPTY . '(?:\?' . self::QUERY . ')?' . 
+		'(?:\#' . self::FRAGMENT . ')?)';
 	
 	/** <samp>HTTP-version</samp> ABNF regular expression. */
 	public const HTTP_VERSION = '(?:' . self::HTTP_NAME . '\/\d\.\d)';
 	
 	/** <samp>https-URI</samp> ABNF regular expression. */
-	//public const HTTPS_URI = "https://" authority path-abempty [ "?" query ] [ "#" fragment ]
+	public const HTTPS_URI = '(?:https\:\/\/' . self::AUTHORITY . self::PATH_ABEMPTY . '(?:\?' . self::QUERY . ')?' . 
+		'(?:\#' . self::FRAGMENT . ')?)';
 	
 	/** <samp>last-chunk</samp> ABNF regular expression. */
 	public const LAST_CHUNK = '(?:0+' . self::CHUNK_EXT . '?\r\n)';
@@ -118,13 +125,7 @@ class Rfc7230 extends Enumeration
 	public const METHOD = self::TOKEN;
 	
 	/** <samp>origin-form</samp> ABNF regular expression. */
-	//public const ORIGIN_FORM = absolute-path [ "?" query ]
-	
-	
-	
-	//TODO
-	
-	
+	public const ORIGIN_FORM = '(?:' . self::ABSOLUTE_PATH . '(?:\?' . self::QUERY . ')?)';
 	
 	/** <samp>OWS</samp> ABNF regular expression. */
 	public const OWS = '(?:[\ \t]*)';
@@ -132,8 +133,32 @@ class Rfc7230 extends Enumeration
 	/** <samp>parameter</samp> ABNF regular expression. */
 	public const PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
 	
+	/** <samp>partial-URI</samp> ABNF regular expression. */
+	public const PARTIAL_URI = '(?:' . self::RELATIVE_PART . '(?:\?' . self::QUERY . ')?)';
+	
+	/** <samp>path-abempty</samp> ABNF regular expression. */
+	public const PATH_ABEMPTY = Rfc3986::PATH_ABEMPTY;
+	
+	/** <samp>port</samp> ABNF regular expression. */
+	public const PORT = Rfc3986::PORT;
+	
+	/** <samp>protocol</samp> ABNF regular expression. */
+	public const PROTOCOL = '(?:' . self::PROTOCOL_NAME . '(?:\/' . self::PROTOCOL_VERSION . ')?)';
+	
+	/** <samp>protocol-name</samp> ABNF regular expression. */
+	public const PROTOCOL_NAME = self::TOKEN;
+	
+	/** <samp>protocol-version</samp> ABNF regular expression. */
+	public const PROTOCOL_VERSION = self::TOKEN;
+	
+	/** <samp>pseudonym</samp> ABNF regular expression. */
+	public const PSEUDONYM = self::TOKEN;
+	
 	/** <samp>qdtext</samp> ABNF regular expression. */
 	public const QDTEXT = '[\t\ \!\x23-\x5b\x5d-\x7e]';
+	
+	/** <samp>query</samp> ABNF regular expression. */
+	public const QUERY = Rfc3986::QUERY;
 	
 	/** <samp>quoted-pair</samp> ABNF regular expression. */
 	public const QUOTED_PAIR = '(?:\\\\[\t\ \x21-\x7e])';
@@ -141,36 +166,110 @@ class Rfc7230 extends Enumeration
 	/** <samp>quoted-string</samp> ABNF regular expression. */
 	public const QUOTED_STRING = '(?:\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\")';
 	
-	/** <samp>qvalue</samp> ABNF regular expression. */
-	public const QVALUE = '(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)';
+	/** <samp>rank</samp> ABNF regular expression. */
+	public const RANK = '(?:(?:0(?:\.\d{0,3})?)|(?:1(?:\.0{0,3})?))';
+	
+	/** <samp>reason-phrase</samp> ABNF regular expression. */
+	public const REASON_PHRASE = '(?:(?:[\t\ ]|' . Rfc5234::VCHAR . ')*)';
+	
+	/** <samp>received-by</samp> ABNF regular expression. */
+	public const RECEIVED_BY = '(?:' . self::URI_HOST . '(?:\:' . self::PORT . ')?|' . self::PSEUDONYM . ')';
+	
+	/** <samp>received-protocol</samp> ABNF regular expression. */
+	public const RECEIVED_PROTOCOL = '(?:(?:' . self::PROTOCOL_NAME . '\/)?' . self::PROTOCOL_VERSION . ')';
+	
+	/** <samp>relative-part</samp> ABNF regular expression. */
+	public const RELATIVE_PART = Rfc3986::RELATIVE_PART;
+	
+	/** <samp>request-line</samp> ABNF regular expression. */
+	public const REQUEST_LINE = '(?:' . 
+		self::METHOD . '\ ' . self::REQUEST_TARGET . '\ ' . self::HTTP_VERSION . '\r\n' . 
+		')';
+	
+	/** <samp>request-target</samp> ABNF regular expression. */
+	public const REQUEST_TARGET = '(?:' . 
+		self::ORIGIN_FORM . '|' . self::ABSOLUTE_FORM . '|' . self::AUTHORITY_FORM . '|' . self::ASTERISK_FORM . 
+		')';
 	
 	/** <samp>RWS</samp> ABNF regular expression. */
 	public const RWS = '(?:[\ \t]+)';
+	
+	/** <samp>scheme</samp> ABNF regular expression. */
+	public const SCHEME = Rfc3986::SCHEME;
+	
+	/** <samp>segment</samp> ABNF regular expression. */
+	public const SEGMENT = Rfc3986::SEGMENT;
+	
+	/** <samp>start-line</samp> ABNF regular expression. */
+	public const START_LINE = '(?:' . self::REQUEST_LINE . '|' . self::STATUS_LINE . ')';
+	
+	/** <samp>status-code</samp> ABNF regular expression. */
+	public const STATUS_CODE = '(?:\d{3})';
+	
+	/** <samp>status-line</samp> ABNF regular expression. */
+	public const STATUS_LINE = '(?:' . 
+		self::HTTP_VERSION . '\ ' . self::STATUS_CODE . '\ ' . self::REASON_PHRASE . '\r\n' . 
+		')';
+	
+	/** <samp>t-codings</samp> ABNF regular expression. */
+	public const T_CODINGS = '(?:trailers|' . self::TRANSFER_CODING . self::T_RANKING . '?)';
+	
+	/** <samp>t-ranking</samp> ABNF regular expression. */
+	public const T_RANKING = '(?:' . self::OWS . '\;' . self::OWS . 'q\=' . self::RANK . ')';
 	
 	/** <samp>tchar</samp> ABNF regular expression. */
 	public const TCHAR = '[\!\#\$\%\&\\\'\*\+\-\.\^\`\|\~\w]';
 	
 	/** <samp>TE</samp> ABNF regular expression. */
-	//public const TE = [ ( "," / t-codings ) *( OWS "," [ OWS t-codings ] ) ]
+	public const TE = '(?:' . 
+		'(?:(?:\,|' . self::T_CODINGS . ')(?:' . self::OWS . '\,(?:' . self::OWS . self::T_CODINGS . ')?)*)?' . 
+		')';
 	
 	/** <samp>token</samp> ABNF regular expression. */
 	public const TOKEN = '(?:' . self::TCHAR . '+)';
 	
 	/** <samp>Trailer</samp> ABNF regular expression. */
-	//public const TRAILER = *( "," OWS ) field-name *( OWS "," [ OWS field-name ] )
+	public const TRAILER = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . 
+		self::FIELD_NAME . '(?:' . self::OWS . '\,(?:' . self::OWS . self::FIELD_NAME . ')?)*' . 
+		')';
+	
+	/** <samp>trailer-part</samp> ABNF regular expression. */
+	public const TRAILER_PART = '(?:(?:' . self::HEADER_FIELD . '\r\n)*)';
+	
+	/** <samp>transfer-coding</samp> ABNF regular expression. */
+	public const TRANSFER_CODING = '(?:chunked|compress|deflate|gzip|' . self::TRANSFER_EXTENSION . ')';
 	
 	/** <samp>Transfer-Encoding</samp> ABNF regular expression. */
-	//public const TRANSFER_ENCODING = *( "," OWS ) transfer-coding *( OWS "," [ OWS transfer-coding ] )
+	public const TRANSFER_ENCODING = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . 
+		self::TRANSFER_CODING . '(?:' . self::OWS . '\,(?:' . self::OWS . self::TRANSFER_CODING . ')?)*' . 
+		')';
+	
+	/** <samp>transfer-extension</samp> ABNF regular expression. */
+	public const TRANSFER_EXTENSION = '(?:' . self::TOKEN . '(?:' . self::OWS . '\;' . self::OWS . 
+		self::TRANSFER_PARAMETER . ')*)';
+	
+	/** <samp>transfer-parameter</samp> ABNF regular expression. */
+	public const TRANSFER_PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
 	
 	/** <samp>URI-reference</samp> ABNF regular expression. */
 	public const URI_REFERENCE = Rfc3986::URI_REFERENCE;
 	
+	/** <samp>uri-host</samp> ABNF regular expression. */
+	public const URI_HOST = Rfc3986::HOST;
+	
 	/** <samp>Upgrade</samp> ABNF regular expression. */
-	//public const UPGRADE = *( "," OWS ) protocol *( OWS "," [ OWS protocol ] )
+	public const UPGRADE = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . 
+		self::PROTOCOL . '(?:' . self::OWS . '\,(?:' . self::OWS . self::PROTOCOL . ')?)*' . 
+		')';
 	
 	/** <samp>Via</samp> ABNF regular expression. */
-	//public const VIA = *( "," OWS ) ( received-protocol RWS received-by [ RWS comment ] ) *( OWS "," [ OWS ( received-protocol RWS received-by [ RWS comment ] ) ] )
-	
-	/** <samp>weight</samp> ABNF regular expression. */
-	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . '[Qq]\=' . self::QVALUE . ')';
+	public const VIA = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . 
+		self::RECEIVED_PROTOCOL . self::RWS . self::RECEIVED_BY . '(?:' . self::RWS . self::COMMENT . ')?' . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::RECEIVED_PROTOCOL . self::RWS . self::RECEIVED_BY . 
+			'(?:' . self::RWS . self::COMMENT . ')?)?)*' . 
+		')';
 }
