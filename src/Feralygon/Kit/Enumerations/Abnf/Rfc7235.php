@@ -28,5 +28,5 @@ class Rfc7235 extends Enumeration
 	public const TOKEN = Rfc7230::TOKEN;
 	
 	/** <samp>token68</samp> ABNF regular expression. */
-	public const TOKEN68 = '(?:[\w\-\.\~\+\/]+\=*)';
+	public const TOKEN68 = '(?:(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\-\.\_\~\+\/])+\=*)';
 }

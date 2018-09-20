@@ -37,7 +37,9 @@ class Rfc7230 extends Enumeration
 	public const AUTHORITY_FORM = self::AUTHORITY;
 	
 	/** <samp>chunk</samp> ABNF regular expression. */
-	public const CHUNK = '(?:' . self::CHUNK_SIZE . self::CHUNK_EXT . '?\r\n' . self::CHUNK_DATA . '\r\n)';
+	public const CHUNK = '(?:' . 
+		self::CHUNK_SIZE . self::CHUNK_EXT . '?' . Rfc5234::CRLF . self::CHUNK_DATA . Rfc5234::CRLF . 
+		')';
 	
 	/** <samp>chunk-data</samp> ABNF regular expression. */
 	public const CHUNK_DATA = '(?:' . Rfc5234::OCTET . '+)';
@@ -55,7 +57,7 @@ class Rfc7230 extends Enumeration
 	public const CHUNK_SIZE = '(?:' . Rfc5234::HEXDIG . '+)';
 	
 	/** <samp>chunked-body</samp> ABNF regular expression. */
-	public const CHUNKED_BODY = '(?:' . self::CHUNK . '*' . self::LAST_CHUNK . self::TRAILER_PART . '\r\n)';
+	public const CHUNKED_BODY = '(?:' . self::CHUNK . '*' . self::LAST_CHUNK . self::TRAILER_PART . Rfc5234::CRLF . ')';
 	
 	/** <samp>comment</samp> ABNF regular expression. */
 	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
@@ -70,13 +72,15 @@ class Rfc7230 extends Enumeration
 	public const CONNECTION_OPTION = self::TOKEN;
 	
 	/** <samp>Content-Length</samp> ABNF regular expression. */
-	public const CONTENT_LENGTH = '(?:\d+)';
+	public const CONTENT_LENGTH = '(?:' . Rfc5234::DIGIT . '+)';
 	
 	/** <samp>ctext</samp> ABNF regular expression. */
-	public const CTEXT = '[\t\ \x21-\x27\x2a-\x5b\x5d-\x7e]';
+	public const CTEXT = '(?:' . Rfc5234::HTAB . '|' . Rfc5234::SP . '|[\x21-\x27\x2a-\x5b\x5d-\x7e])';
 	
 	/** <samp>field-content</samp> ABNF regular expression. */
-	public const FIELD_CONTENT = '(?:' . self::FIELD_VCHAR . '(?:[\ \t]+' . self::FIELD_VCHAR . ')?)';
+	public const FIELD_CONTENT = '(?:' . 
+		self::FIELD_VCHAR . '(?:(?:' . Rfc5234::SP . '|' . Rfc5234::HTAB . ')+' . self::FIELD_VCHAR . ')?' . 
+		')';
 	
 	/** <samp>field-name</samp> ABNF regular expression. */
 	public const FIELD_NAME = self::TOKEN;
@@ -98,7 +102,9 @@ class Rfc7230 extends Enumeration
 	
 	/** <samp>HTTP-message</samp> ABNF regular expression. */
 	public const HTTP_MESSAGE = '(?:' . 
-		self::START_LINE . '(?:' . self::HEADER_FIELD . '\r\n)*\r\n' . self::MESSAGE_BODY . '?' . 
+		self::START_LINE . 
+		'(?:' . self::HEADER_FIELD . Rfc5234::CRLF . ')*' . 
+		Rfc5234::CRLF . self::MESSAGE_BODY . '?' . 
 		')';
 	
 	/** <samp>HTTP-name</samp> ABNF regular expression. */
@@ -109,14 +115,14 @@ class Rfc7230 extends Enumeration
 		'(?:\#' . self::FRAGMENT . ')?)';
 	
 	/** <samp>HTTP-version</samp> ABNF regular expression. */
-	public const HTTP_VERSION = '(?:' . self::HTTP_NAME . '\/\d\.\d)';
+	public const HTTP_VERSION = '(?:' . self::HTTP_NAME . '\/' . Rfc5234::DIGIT . '\.' . Rfc5234::DIGIT . ')';
 	
 	/** <samp>https-URI</samp> ABNF regular expression. */
 	public const HTTPS_URI = '(?:https\:\/\/' . self::AUTHORITY . self::PATH_ABEMPTY . '(?:\?' . self::QUERY . ')?' . 
 		'(?:\#' . self::FRAGMENT . ')?)';
 	
 	/** <samp>last-chunk</samp> ABNF regular expression. */
-	public const LAST_CHUNK = '(?:0+' . self::CHUNK_EXT . '?\r\n)';
+	public const LAST_CHUNK = '(?:0+' . self::CHUNK_EXT . '?' . Rfc5234::CRLF . ')';
 	
 	/** <samp>message-body</samp> ABNF regular expression. */
 	public const MESSAGE_BODY = '(?:' . Rfc5234::OCTET . '*)';
@@ -128,7 +134,7 @@ class Rfc7230 extends Enumeration
 	public const ORIGIN_FORM = '(?:' . self::ABSOLUTE_PATH . '(?:\?' . self::QUERY . ')?)';
 	
 	/** <samp>OWS</samp> ABNF regular expression. */
-	public const OWS = '(?:[\ \t]*)';
+	public const OWS = '(?:(?:' . Rfc5234::SP . '|' . Rfc5234::HTAB . ')*)';
 	
 	/** <samp>parameter</samp> ABNF regular expression. */
 	public const PARAMETER = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
@@ -155,22 +161,24 @@ class Rfc7230 extends Enumeration
 	public const PSEUDONYM = self::TOKEN;
 	
 	/** <samp>qdtext</samp> ABNF regular expression. */
-	public const QDTEXT = '[\t\ \!\x23-\x5b\x5d-\x7e]';
+	public const QDTEXT = '(?:' . Rfc5234::HTAB . '|' . Rfc5234::SP . '|[\!\x23-\x5b\x5d-\x7e])';
 	
 	/** <samp>query</samp> ABNF regular expression. */
 	public const QUERY = Rfc3986::QUERY;
 	
 	/** <samp>quoted-pair</samp> ABNF regular expression. */
-	public const QUOTED_PAIR = '(?:\\\\[\t\ \x21-\x7e])';
+	public const QUOTED_PAIR = '(?:\\\\(?:' . Rfc5234::HTAB . '|' . Rfc5234::SP . '|' . Rfc5234::VCHAR . '))';
 	
 	/** <samp>quoted-string</samp> ABNF regular expression. */
-	public const QUOTED_STRING = '(?:\"(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*\")';
+	public const QUOTED_STRING = '(?:' . 
+		Rfc5234::DQUOTE . '(?:' . self::QDTEXT . '|' . self::QUOTED_PAIR . ')*' . Rfc5234::DQUOTE . 
+		')';
 	
 	/** <samp>rank</samp> ABNF regular expression. */
-	public const RANK = '(?:(?:0(?:\.\d{0,3})?)|(?:1(?:\.0{0,3})?))';
+	public const RANK = '(?:(?:0(?:\.' . Rfc5234::DIGIT . '{0,3})?)|(?:1(?:\.0{0,3})?))';
 	
 	/** <samp>reason-phrase</samp> ABNF regular expression. */
-	public const REASON_PHRASE = '(?:(?:[\t\ ]|' . Rfc5234::VCHAR . ')*)';
+	public const REASON_PHRASE = '(?:(?:' . Rfc5234::HTAB . '|' . Rfc5234::SP . '|' . Rfc5234::VCHAR . ')*)';
 	
 	/** <samp>received-by</samp> ABNF regular expression. */
 	public const RECEIVED_BY = '(?:' . self::URI_HOST . '(?:\:' . self::PORT . ')?|' . self::PSEUDONYM . ')';
@@ -183,7 +191,7 @@ class Rfc7230 extends Enumeration
 	
 	/** <samp>request-line</samp> ABNF regular expression. */
 	public const REQUEST_LINE = '(?:' . 
-		self::METHOD . '\ ' . self::REQUEST_TARGET . '\ ' . self::HTTP_VERSION . '\r\n' . 
+		self::METHOD . Rfc5234::SP . self::REQUEST_TARGET . Rfc5234::SP . self::HTTP_VERSION . Rfc5234::CRLF . 
 		')';
 	
 	/** <samp>request-target</samp> ABNF regular expression. */
@@ -192,7 +200,7 @@ class Rfc7230 extends Enumeration
 		')';
 	
 	/** <samp>RWS</samp> ABNF regular expression. */
-	public const RWS = '(?:[\ \t]+)';
+	public const RWS = '(?:(?:' . Rfc5234::SP . '|' . Rfc5234::HTAB . ')+)';
 	
 	/** <samp>scheme</samp> ABNF regular expression. */
 	public const SCHEME = Rfc3986::SCHEME;
@@ -204,11 +212,11 @@ class Rfc7230 extends Enumeration
 	public const START_LINE = '(?:' . self::REQUEST_LINE . '|' . self::STATUS_LINE . ')';
 	
 	/** <samp>status-code</samp> ABNF regular expression. */
-	public const STATUS_CODE = '(?:\d{3})';
+	public const STATUS_CODE = '(?:' . Rfc5234::DIGIT . '{3})';
 	
 	/** <samp>status-line</samp> ABNF regular expression. */
 	public const STATUS_LINE = '(?:' . 
-		self::HTTP_VERSION . '\ ' . self::STATUS_CODE . '\ ' . self::REASON_PHRASE . '\r\n' . 
+		self::HTTP_VERSION . Rfc5234::SP . self::STATUS_CODE . Rfc5234::SP . self::REASON_PHRASE . Rfc5234::CRLF . 
 		')';
 	
 	/** <samp>t-codings</samp> ABNF regular expression. */
@@ -218,7 +226,7 @@ class Rfc7230 extends Enumeration
 	public const T_RANKING = '(?:' . self::OWS . '\;' . self::OWS . 'q\=' . self::RANK . ')';
 	
 	/** <samp>tchar</samp> ABNF regular expression. */
-	public const TCHAR = '[\!\#\$\%\&\\\'\*\+\-\.\^\`\|\~\w]';
+	public const TCHAR = '(?:[\!\#\$\%\&\\\'\*\+\-\.\^\_\`\|\~]|' . Rfc5234::DIGIT . '|' . Rfc5234::ALPHA . ')';
 	
 	/** <samp>TE</samp> ABNF regular expression. */
 	public const TE = '(?:' . 
@@ -235,7 +243,7 @@ class Rfc7230 extends Enumeration
 		')';
 	
 	/** <samp>trailer-part</samp> ABNF regular expression. */
-	public const TRAILER_PART = '(?:(?:' . self::HEADER_FIELD . '\r\n)*)';
+	public const TRAILER_PART = '(?:(?:' . self::HEADER_FIELD . Rfc5234::CRLF . ')*)';
 	
 	/** <samp>transfer-coding</samp> ABNF regular expression. */
 	public const TRANSFER_CODING = '(?:chunked|compress|deflate|gzip|' . self::TRANSFER_EXTENSION . ')';

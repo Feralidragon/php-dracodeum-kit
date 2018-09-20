@@ -31,19 +31,19 @@ class Rfc5234 extends Enumeration
 	public const CR = '\r';
 	
 	/** <samp>CRLF</samp> ABNF regular expression. */
-	public const CRLF = '(?:\r\n)';
+	public const CRLF = '(?:' . self::CR . self::LF . ')';
 	
 	/** <samp>CTL</samp> ABNF regular expression. */
 	public const CTL = '[\x00-\x1f\x7f]';
 	
 	/** <samp>DIGIT</samp> ABNF regular expression. */
-	public const DIGIT = '\d';
+	public const DIGIT = '[0-9]';
 	
 	/** <samp>DQUOTE</samp> ABNF regular expression. */
 	public const DQUOTE = '\"';
 	
 	/** <samp>HEXDIG</samp> ABNF regular expression. */
-	public const HEXDIG = '[\dA-F]';
+	public const HEXDIG = '(?:' . self::DIGIT . '|[A-F])';
 	
 	/** <samp>HTAB</samp> ABNF regular expression. */
 	public const HTAB = '\t';
@@ -52,14 +52,17 @@ class Rfc5234 extends Enumeration
 	public const LF = '\n';
 	
 	/** <samp>LWSP</samp> ABNF regular expression. */
-	public const LWSP = '(?:(?:\r\n)?[\t\ ])*';
+	public const LWSP = '(?:' . self::CRLF . '?' . self::WSP . ')*';
 	
 	/** <samp>OCTET</samp> ABNF regular expression. */
 	public const OCTET = '[\x00-\xff]';
+	
+	/** <samp>SP</samp> ABNF regular expression. */
+	public const SP = '\ ';
 	
 	/** <samp>VCHAR</samp> ABNF regular expression. */
 	public const VCHAR = '[\x21-\x7e]';
 	
 	/** <samp>WSP</samp> ABNF regular expression. */
-	public const WSP = '[\t\ ]';
+	public const WSP = '(?:' . self::SP . '|' . self::HTAB . ')';
 }

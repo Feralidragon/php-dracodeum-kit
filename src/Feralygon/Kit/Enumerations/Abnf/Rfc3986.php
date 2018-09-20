@@ -25,7 +25,10 @@ class Rfc3986 extends Enumeration
 	public const AUTHORITY = '(?:(?:' . self::USERINFO . '\@)?' . self::HOST . '(?:\:' . self::PORT . ')?)';
 	
 	/** <samp>dec-octet</samp> ABNF regular expression. */
-	public const DEC_OCTET = '(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])';
+	public const DEC_OCTET = '(?:' . 
+		Rfc5234::DIGIT . '|[1-9]' . Rfc5234::DIGIT . '|1' . Rfc5234::DIGIT . '{2}|' . 
+		'2[0-4]' . Rfc5234::DIGIT . '|25[0-5]' . 
+		')';
 	
 	/** <samp>fragment</samp> ABNF regular expression. */
 	public const FRAGMENT = '(?:(?:' . self::PCHAR . '|[\/\?])*)';
@@ -67,7 +70,7 @@ class Rfc3986 extends Enumeration
 		'(?:' . self::UNRESERVED . '|' . self::SUB_DELIMS . '|\:)+)';
 	
 	/** <samp>ls32</samp> ABNF regular expression. */
-	public const LS32 = '(?:' . self::H16 . ':' . self::H16 . '|' . self::IPV4_ADDRESS . ')';
+	public const LS32 = '(?:' . self::H16 . '\:' . self::H16 . '|' . self::IPV4_ADDRESS . ')';
 	
 	/** <samp>path</samp> ABNF regular expression. */
 	public const PATH = '(?:' . self::PATH_ABEMPTY . '|' . self::PATH_ABSOLUTE . '|' . self::PATH_NOSCHEME . '|' . 
@@ -80,7 +83,7 @@ class Rfc3986 extends Enumeration
 	public const PATH_ABSOLUTE = '(?:\/(?:' . self::SEGMENT_NZ . '(?:\/' . self::SEGMENT . ')*)?)';
 	
 	/** <samp>path-empty</samp> ABNF regular expression. */
-	public const PATH_EMPTY = '(?:.{0})';
+	public const PATH_EMPTY = '(?:)';
 	
 	/** <samp>path-noscheme</samp> ABNF regular expression. */
 	public const PATH_NOSCHEME = '(?:' . self::SEGMENT_NZ_NC . '(?:\/' . self::SEGMENT . ')*)';
@@ -95,7 +98,7 @@ class Rfc3986 extends Enumeration
 	public const PCT_ENCODED = '(?:\%' . Rfc5234::HEXDIG . '{2})';
 	
 	/** <samp>port</samp> ABNF regular expression. */
-	public const PORT = '(?:\d*)';
+	public const PORT = '(?:' . Rfc5234::DIGIT . '*)';
 	
 	/** <samp>query</samp> ABNF regular expression. */
 	public const QUERY = '(?:(?:' . self::PCHAR . '|[\/\?])*)';
@@ -115,7 +118,7 @@ class Rfc3986 extends Enumeration
 	public const RESERVED = '(?:' . self::GEN_DELIMS . '|' . self::SUB_DELIMS . ')';
 	
 	/** <samp>scheme</samp> ABNF regular expression. */
-	public const SCHEME = '(?:[A-Za-z][A-Za-z\d\+\-\.]*)';
+	public const SCHEME = '(?:' . Rfc5234::ALPHA . '(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\+\-\.])*)';
 	
 	/** <samp>segment</samp> ABNF regular expression. */
 	public const SEGMENT = '(?:' . self::PCHAR . '*)';
@@ -132,7 +135,7 @@ class Rfc3986 extends Enumeration
 	public const SUB_DELIMS = '[\!\$\&\'\(\)\*\+\,\;\=]';
 	
 	/** <samp>unreserved</samp> ABNF regular expression. */
-	public const UNRESERVED = '[A-Za-z\d\-\.\_\~]';
+	public const UNRESERVED = '(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\-\.\_\~])';
 	
 	/** <samp>URI</samp> ABNF regular expression. */
 	public const URI = '(?:' . self::SCHEME . '\:' . self::HIER_PART . 
