@@ -23,13 +23,22 @@ class Rfc7231 extends Enumeration
 	public const ABSOLUTE_URI = Rfc7230::ABSOLUTE_URI;
 	
 	/** <samp>Accept</samp> ABNF regular expression. */
-	//public const ACCEPT = [ ( "," / ( media-range [ accept-params ] ) ) *( OWS "," [ OWS ( media-range [ accept-params ] ) ] ) ] //TODO
+	public const ACCEPT = '(?:(?:' . 
+		'(?:\,|' . self::MEDIA_RANGE . self::ACCEPT_PARAMS . '?)' . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::MEDIA_RANGE . self::ACCEPT_PARAMS . '?)?)*' . 
+		')?)';
 	
 	/** <samp>Accept-Charset</samp> ABNF regular expression. */
-	//public const ACCEPT_CHARSET = *( "," OWS ) ( ( charset / "*" ) [ weight ] ) *( OWS "," [ OWS ( ( charset / "*" ) [ weight ] ) ] ) //TODO
+	public const ACCEPT_CHARSET = '(?:' . 
+		'(?:\,' . self::OWS . ')*(?:' . self::CHARSET . '|\*)' . self::WEIGHT . '?' . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . '(?:' . self::CHARSET . '|\*)' . self::WEIGHT . '?)?)*' . 
+		')';
 	
 	/** <samp>Accept-Encoding</samp> ABNF regular expression. */
-	//public const ACCEPT_ENCODING = [ ( "," / ( codings [ weight ] ) ) *( OWS "," [ OWS ( codings [ weight ] ) ] ) ] //TODO
+	public const ACCEPT_ENCODING = '(?:(?:' . 
+		'(?:\,|' . self::CODINGS . self::WEIGHT . '?)' . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::CODINGS . self::WEIGHT . '?)?)*' . 
+		')?)';
 	
 	/** <samp>accept-ext</samp> ABNF regular expression. */
 	public const ACCEPT_EXT = '(?:' . 
@@ -37,13 +46,18 @@ class Rfc7231 extends Enumeration
 		')';
 	
 	/** <samp>Accept-Language</samp> ABNF regular expression. */
-	//public const ACCEPT_LANGUAGE = *( "," OWS ) ( language-range [ weight ] ) *( OWS "," [ OWS ( language-range [ weight ] ) ] ) //TODO
+	public const ACCEPT_LANGUAGE = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . self::LANGUAGE_RANGE . self::WEIGHT . '?' . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::LANGUAGE_RANGE . self::WEIGHT . '?)?)*' . 
+		')';
 	
 	/** <samp>accept-params</samp> ABNF regular expression. */
 	public const ACCEPT_PARAMS = '(?:' . self::WEIGHT . self::ACCEPT_EXT . '*)';
 	
 	/** <samp>Allow</samp> ABNF regular expression. */
-	//public const ALLOW = [ ( "," / method ) *( OWS "," [ OWS method ] ) ] //TODO
+	public const ALLOW = '(?:(?:' . 
+		'(?:\,|' . self::METHOD . ')(?:' . self::OWS . '\,(?:' . self::OWS . self::METHOD . ')?)*' . 
+		')?)';
 	
 	/** <samp>asctime-date</samp> ABNF regular expression. */
 	public const ASCTIME_DATE = '(?:' . 
@@ -63,10 +77,16 @@ class Rfc7231 extends Enumeration
 	public const CONTENT_CODING = self::TOKEN;
 	
 	/** <samp>Content-Encoding</samp> ABNF regular expression. */
-	//public const CONTENT_ENCODING = *( "," OWS ) content-coding *( OWS "," [ OWS content-coding ] ) //TODO
+	public const CONTENT_ENCODING = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . self::CONTENT_CODING . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::CONTENT_CODING . ')?)*' . 
+		')';
 	
 	/** <samp>Content-Language</samp> ABNF regular expression. */
-	//public const CONTENT_LANGUAGE = *( "," OWS ) language-tag *( OWS "," [ OWS language-tag ] ) //TODO
+	public const CONTENT_LANGUAGE = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . self::LANGUAGE_TAG . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::LANGUAGE_TAG . ')?)*' . 
+		')';
 	
 	/** <samp>Content-Location</samp> ABNF regular expression. */
 	public const CONTENT_LOCATION = '(?:' . self::ABSOLUTE_URI . '|' . self::PARTIAL_URI . ')';
@@ -226,7 +246,10 @@ class Rfc7231 extends Enumeration
 		')';
 	
 	/** <samp>Vary</samp> ABNF regular expression. */
-	//public const VARY = "*" / ( *( "," OWS ) field-name *( OWS "," [ OWS field-name ] ) ) //TODO
+	public const VARY = '(?:\*|' . 
+		'(?:\,' . self::OWS . ')*' . self::FIELD_NAME . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::FIELD_NAME . ')?)*' . 
+		')';
 	
 	/** <samp>weight</samp> ABNF regular expression. */
 	public const WEIGHT = '(?:' . self::OWS . '\;' . self::OWS . '[Qq]\=' . self::QVALUE . ')';
