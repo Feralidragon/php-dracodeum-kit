@@ -18,45 +18,35 @@ use Feralygon\Kit\Enumeration;
 class Rfc7235 extends Enumeration
 {
 	//Public constants
-	
 	/** <samp>auth-param</samp> ABNF regular expression. */
 	public const AUTH_PARAM = '(?:' . self::TOKEN . '\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))';
 	
 	/** <samp>auth-scheme</samp> ABNF regular expression. */
 	public const AUTH_SCHEME = self::TOKEN;
 	
-	
-	
 	/** <samp>challenge</samp> ABNF regular expression. */
 	public const CHALLENGE = '(?:' . self::AUTH_SCHEME . 
 		'(?:' . Rfc5234::SP . '+(?:' . self::TOKEN68 . '|(?:(?:\,|' . self::AUTH_PARAM . ')' . 
-			'(?:' . self::OWS . '\,(?:' . self::OWS . self::AUTH_PARAM . ')?)*)?)' . 
-		')?)';
+			'(?:' . self::OWS . '\,(?:' . self::OWS . self::AUTH_PARAM . ')?)*)?))?' . 
+		')';
 	
 	/** <samp>credentials</samp> ABNF regular expression. */
 	public const CREDENTIALS = '(?:' . self::AUTH_SCHEME . 
 		'(?:' . Rfc5234::SP . '+(?:' . self::TOKEN68 . '|(?:(?:\,|' . self::AUTH_PARAM . ')' . 
-			'(?:' . self::OWS . '\,(?:' . self::OWS . self::AUTH_PARAM . ')?)*)?)' . 
-		')?)';
-	
-	
-	
-	
-	
-	 //challenge = auth-scheme [ 1*SP ( token68 / [ ( "," / auth-param ) *( OWS "," [ OWS auth-param ] ) ] ) ]
-   //credentials = auth-scheme [ 1*SP ( token68 / [ ( "," / auth-param ) *( OWS "," [ OWS auth-param ] ) ] ) ]
-	
-	
-	
+			'(?:' . self::OWS . '\,(?:' . self::OWS . self::AUTH_PARAM . ')?)*)?))?' . 
+		')';
 	
 	/** <samp>OWS</samp> ABNF regular expression. */
 	public const OWS = Rfc7230::OWS;
 	
 	/** <samp>Proxy-Authenticate</samp> ABNF regular expression. */
-	//public const PROXY_AUTHENTICATE = *( "," OWS ) challenge *( OWS "," [ OWS challenge ] ) //TODO
+	public const PROXY_AUTHENTICATE = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . self::CHALLENGE . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::CHALLENGE . ')?)*' . 
+		')';
 	
 	/** <samp>Proxy-Authorization</samp> ABNF regular expression. */
-	//public const PROXY_AUTHORIZATION = credentials //TODO
+	public const PROXY_AUTHORIZATION = self::CREDENTIALS;
 	
 	/** <samp>quoted-string</samp> ABNF regular expression. */
 	public const QUOTED_STRING = Rfc7230::QUOTED_STRING;
@@ -68,5 +58,8 @@ class Rfc7235 extends Enumeration
 	public const TOKEN68 = '(?:(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . '|[\-\.\_\~\+\/])+\=*)';
 	
 	/** <samp>WWW-Authenticate</samp> ABNF regular expression. */
-	//public const WWW_AUTHENTICATE = *( "," OWS ) challenge *( OWS "," [ OWS challenge ] ) //TODO
+	public const WWW_AUTHENTICATE = '(?:' . 
+		'(?:\,' . self::OWS . ')*' . self::CHALLENGE . 
+		'(?:' . self::OWS . '\,(?:' . self::OWS . self::CHALLENGE . ')?)*' . 
+		')';
 }
