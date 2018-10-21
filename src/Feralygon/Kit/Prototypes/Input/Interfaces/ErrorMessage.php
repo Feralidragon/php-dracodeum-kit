@@ -26,8 +26,8 @@ interface ErrorMessage
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
-	 * @return string
-	 * <p>The error message.</p>
+	 * @return string|null
+	 * <p>The error message or <code>null</code> if none is set.</p>
 	 */
-	public function getErrorMessage(TextOptions $text_options): string;
+	public function getErrorMessage(TextOptions $text_options): ?string;
 }

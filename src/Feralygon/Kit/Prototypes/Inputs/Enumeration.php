@@ -181,7 +181,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		 */
 		return UText::localize(
 			"Enumeration {\n{{labels}}\n}",
-			self::class, $text_options, ['parameters' => ['labels' => UText::indentate(implode("\n", $labels), 3, ' ')]]
+			self::class, $text_options, ['parameters' => ['labels' => UText::indentate(implode("\n", $labels))]]
 		);
 	}
 	

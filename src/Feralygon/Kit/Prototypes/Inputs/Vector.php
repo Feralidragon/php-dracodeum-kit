@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
+	ErrorMessage as IErrorMessage,
 	SchemaData as ISchemaData,
 	ModifierBuilder as IModifierBuilder,
 	ErrorUnset as IErrorUnset
@@ -44,7 +45,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  * @see \Feralygon\Kit\Primitives\Vector
  */
-class Vector extends Input implements IInformation, ISchemaData, IModifierBuilder, IErrorUnset
+class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
 	//Private properties
 	/** @var \Feralygon\Kit\Components\Input|null */
@@ -118,6 +119,9 @@ class Vector extends Input implements IInformation, ISchemaData, IModifierBuilde
 		if (isset($this->input)) {
 			//label
 			$input_label = $this->input->getLabel($text_options, $info_options);
+			if (UText::isMultiline($input_label)) {
+				$input_label = "\n" . UText::indentate($input_label) . "\n";
+			}
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -184,7 +188,11 @@ class Vector extends Input implements IInformation, ISchemaData, IModifierBuilde
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			$input_description = UText::uncapitalize($input_description, true);
+			if (UText::isMultiline($input_description)) {
+				$input_description = "\n\n" . UText::indentate($input_description);
+			} else {
+				$input_description = UText::uncapitalize($input_description, true);
+			}
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -260,7 +268,11 @@ class Vector extends Input implements IInformation, ISchemaData, IModifierBuilde
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			$input_description = UText::uncapitalize($input_description, true);
+			if (UText::isMultiline($input_description)) {
+				$input_description = "\n\n" . UText::indentate($input_description);
+			} else {
+				$input_description = UText::uncapitalize($input_description, true);
+			}
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -331,6 +343,100 @@ class Vector extends Input implements IInformation, ISchemaData, IModifierBuilde
 	
 	
 	
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ErrorMessage)
+	/** {@inheritdoc} */
+	public function getErrorMessage(TextOptions $text_options): ?string
+	{
+		//input messages indexes
+		$input_messages_indexes = [];
+		if (isset($this->input)) {
+			foreach ($this->error_values as $i => $value) {
+				if (!$this->input->setValue($value, true)) {
+					$index = $text_options->info_scope === EInfoScope::ENDUSER ? $i + 1 : $i;
+					$input_messages_indexes[$this->input->getErrorMessage($text_options)][] = $index;
+				}
+			}
+		}
+		if (empty($input_messages_indexes)) {
+			return null;
+		}
+		
+		//messages
+		$messages = [];
+		foreach ($input_messages_indexes as $message => $indexes) {
+			//initialize
+			$input_message = UText::uncapitalize($message, true);
+			$indexes_string = UText::stringify($indexes, $text_options, [
+				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
+			]);
+		
+			//end-user
+			if ($text_options->info_scope === EInfoScope::ENDUSER) {
+				/**
+				 * @placeholder positions The positions.
+				 * @placeholder input.message The input message.
+				 * @tags end-user
+				 * @example Invalid list values given at positions 1, 2 and 5: only text is allowed.
+				 */
+				$messages[] = UText::plocalize(
+					"Invalid list value given at position {{positions}}: {{input.message}}",
+					"Invalid list values given at positions {{positions}}: {{input.message}}",
+					count($indexes), null, self::class, $text_options, [
+						'parameters' => [
+							'positions' => $indexes_string,
+							'input' => ['message' => $input_message]
+						]
+					]
+				);
+				
+			//technical
+			} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
+				/**
+				 * @placeholder indexes The indexes.
+				 * @placeholder input.message The input message.
+				 * @tags technical
+				 * @example Invalid array values given at indexes 1, 2 and 5: only a string of characters is allowed.
+				 */
+				$messages[] = UText::plocalize(
+					"Invalid array value given at index {{indexes}}: {{input.message}}",
+					"Invalid array values given at indexes {{indexes}}: {{input.message}}",
+					count($indexes), null, self::class, $text_options, [
+						'parameters' => [
+							'indexes' => $indexes_string,
+							'input' => ['message' => $input_message]
+						]
+					]
+				);
+				
+			//other
+			} else {
+				/**
+				 * @placeholder indexes The indexes.
+				 * @placeholder input.message The input message.
+				 * @tags non-technical non-end-user
+				 * @example Invalid values given at vector indexes 1, 2 and 5, with the following error: only text is allowed.
+				 */
+				$messages[] = UText::plocalize(
+					"An invalid vector value was given at index {{indexes}}, " . 
+						"with the following error: {{input.message}}",
+					"A set of invalid vector values were given at indexes {{indexes}}, " . 
+						"with the following error for each: {{input.message}}",
+					count($indexes), null, self::class, $text_options, [
+						'parameters' => [
+							'indexes' => $indexes_string,
+							'input' => ['message' => $input_message]
+						]
+					]
+				);
+			}
+		}
+		
+		//return
+		return implode("\n\n", $messages);
+	}
+	
+	
+	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
 	/** {@inheritdoc} */
 	public function getSchemaData()
@@ -361,6 +467,9 @@ class Vector extends Input implements IInformation, ISchemaData, IModifierBuilde
 	public function unsetError(): void
 	{
 		$this->error_values = [];
+		if (isset($this->input)) {
+			$this->input->unsetError();
+		}
 	}
 	
 	

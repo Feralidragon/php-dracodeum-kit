@@ -308,14 +308,11 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//null
 		if ($this->nullable && !$info_options->exclude_null) {
-			$null_label = $this->getDefaultNullLabel($text_options);
-			if (isset($null_label)) {
-				$label = UText::stringify(
-					[$label, UText::uncapitalize($null_label, true)],
-					$text_options,
-					['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
-				);
-			}
+			$label = UText::stringify(
+				[$label, UText::uncapitalize($this->getDefaultNullLabel($text_options), true)],
+				$text_options,
+				['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+			);
 		}
 		
 		//modifiers
@@ -336,17 +333,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return string|null
-	 * <p>The default null label or <code>null</code> if none is set.</p>
+	 * @return string
+	 * <p>The default null label.</p>
 	 */
-	public function getDefaultNullLabel($text_options = null): ?string
+	public function getDefaultNullLabel($text_options = null): string
 	{
 		$text_options = TextOptions::coerce($text_options);
-		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
-			/** @tags non-end-user */
-			return UText::localize("Null", self::class, $text_options);
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			/** @tags end-user */
+			return UText::localize("None", self::class, $text_options);
 		}
-		return null;
+		/** @tags non-end-user */
+		return UText::localize("Null", self::class, $text_options);
 	}
 	
 	/**
@@ -408,7 +406,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("Alternatively, it may also be empty.", self::class, $text_options);
+			return UText::localize("Alternatively, it may also be none.", self::class, $text_options);
 		}
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, it may also be null.", self::class, $text_options);
@@ -475,7 +473,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$text_options = TextOptions::coerce($text_options);
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("Alternatively, an empty value may also be given.", self::class, $text_options);
+			return UText::localize("Alternatively, no value may also be given.", self::class, $text_options);
 		}
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, a null value may also be given.", self::class, $text_options);
@@ -512,11 +510,17 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 			return implode("\n", array_unique($messages, SORT_STRING));
 		}
 		
-		//prototype
+		//error message
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\ErrorMessage) {
-			return $prototype->getErrorMessage($text_options);
-		} elseif ($prototype instanceof PrototypeInterfaces\Information) {
+			$message = $prototype->getErrorMessage($text_options);
+			if (isset($message)) {
+				return $message;
+			}
+		}
+		
+		//message
+		if ($prototype instanceof PrototypeInterfaces\Information) {
 			return $prototype->getMessage($text_options, new Options\Info());
 		}
 		
@@ -764,6 +768,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	final public function isNullable(): bool
 	{
 		return $this->nullable;
+	}
+	
+	/**
+	 * Check if has modifiers.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has modifiers.</p>
+	 */
+	final public function hasModifiers(): bool
+	{
+		return !empty($this->modifiers_tree);
 	}
 	
 	/**
