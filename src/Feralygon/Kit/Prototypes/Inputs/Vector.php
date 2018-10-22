@@ -188,11 +188,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			if (UText::isMultiline($input_description)) {
-				$input_description = "\n\n" . UText::indentate($input_description);
-			} else {
-				$input_description = UText::uncapitalize($input_description, true);
-			}
+			$input_description = $this->formatMessage($input_description);
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -268,11 +264,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			if (UText::isMultiline($input_description)) {
-				$input_description = "\n\n" . UText::indentate($input_description);
-			} else {
-				$input_description = UText::uncapitalize($input_description, true);
-			}
+			$input_description = $this->formatMessage($input_description);
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -365,22 +357,24 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$messages = [];
 		foreach ($input_messages_indexes as $message => $indexes) {
 			//initialize
-			$input_message = UText::uncapitalize($message, true);
+			$input_message = $this->formatMessage($message);
 			$indexes_string = UText::stringify($indexes, $text_options, [
 				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
 			]);
-		
+			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/**
 				 * @placeholder positions The positions.
 				 * @placeholder input.message The input message.
 				 * @tags end-user
-				 * @example Invalid list values given at positions 1, 2 and 5: only text is allowed.
+				 * @example Invalid list values were given at positions 1, 2 and 5, with the following error: only text is allowed.
 				 */
 				$messages[] = UText::plocalize(
-					"Invalid list value given at position {{positions}}: {{input.message}}",
-					"Invalid list values given at positions {{positions}}: {{input.message}}",
+					"An invalid list value was given at position {{positions}}, " . 
+						"with the following error: {{input.message}}",
+					"Invalid list values were given at positions {{positions}}, " . 
+						"with the following error: {{input.message}}",
 					count($indexes), null, self::class, $text_options, [
 						'parameters' => [
 							'positions' => $indexes_string,
@@ -395,11 +389,13 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder indexes The indexes.
 				 * @placeholder input.message The input message.
 				 * @tags technical
-				 * @example Invalid array values given at indexes 1, 2 and 5: only a string of characters is allowed.
+				 * @example Invalid array values were given at indexes 0, 1 and 4, with the following error: only a string of characters is allowed.
 				 */
 				$messages[] = UText::plocalize(
-					"Invalid array value given at index {{indexes}}: {{input.message}}",
-					"Invalid array values given at indexes {{indexes}}: {{input.message}}",
+					"An invalid array value was given at index {{indexes}}, " . 
+						"with the following error: {{input.message}}",
+					"Invalid array values were given at indexes {{indexes}}, " . 
+						"with the following error: {{input.message}}",
 					count($indexes), null, self::class, $text_options, [
 						'parameters' => [
 							'indexes' => $indexes_string,
@@ -414,13 +410,13 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder indexes The indexes.
 				 * @placeholder input.message The input message.
 				 * @tags non-technical non-end-user
-				 * @example Invalid values given at vector indexes 1, 2 and 5, with the following error: only text is allowed.
+				 * @example Invalid vector values were given at indexes 0, 1 and 4, with the following error: only text is allowed.
 				 */
 				$messages[] = UText::plocalize(
 					"An invalid vector value was given at index {{indexes}}, " . 
 						"with the following error: {{input.message}}",
-					"A set of invalid vector values were given at indexes {{indexes}}, " . 
-						"with the following error for each: {{input.message}}",
+					"Invalid vector values were given at indexes {{indexes}}, " . 
+						"with the following error: {{input.message}}",
 					count($indexes), null, self::class, $text_options, [
 						'parameters' => [
 							'indexes' => $indexes_string,
@@ -483,5 +479,22 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				return $this->createProperty()->setMode('w-')->setAsComponent(Component::class)->bind(self::class);
 		}
 		return null;
+	}
+	
+	
+	
+	//Final private methods
+	/**
+	 * Format a given message.
+	 * 
+	 * @since 1.0.0
+	 * @param string $message
+	 * <p>The message to format.</p>
+	 * @return string
+	 * <p>The formatted message.</p>
+	 */
+	final private function formatMessage(string $message): string
+	{
+		return UText::isMultiline($message) ? "\n\n" . UText::indentate($message) : UText::uncapitalize($message, true);
 	}
 }
