@@ -195,10 +195,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
-				 * @example A list of values, with each one as: a text.
+				 * @example A list, with each item as: a text.
 				 */
 				return UText::localize(
-					"A list of values, with each one as: {{input.description}}",
+					"A list, with each item as: {{input.description}}",
 					self::class, $text_options, [
 						'parameters' => [
 							'input' => ['description' => $input_description]
@@ -212,10 +212,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
-				 * @example An array of values, with each one as: a string of characters.
+				 * @example An array, with each value as: a string of characters.
 				 */
 				return UText::localize(
-					"An array of values, with each one as: {{input.description}}",
+					"An array, with each value as: {{input.description}}",
 					self::class, $text_options, [
 						'parameters' => [
 							'input' => ['description' => $input_description]
@@ -243,13 +243,13 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("A list of values.", self::class, $text_options);
+			return UText::localize("A list.", self::class, $text_options);
 		}
 		
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("An array of values.", self::class, $text_options);
+			return UText::localize("An array.", self::class, $text_options);
 		}
 		
 		//other
@@ -271,10 +271,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
-				 * @example Only a list of values is allowed, with each one as: a text.
+				 * @example Only a list is allowed, with each item as: a text.
 				 */
 				return UText::localize(
-					"Only a list of values is allowed, with each one as: {{input.description}}",
+					"Only a list is allowed, with each item as: {{input.description}}",
 					self::class, $text_options, [
 						'parameters' => [
 							'input' => ['description' => $input_description]
@@ -288,10 +288,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
-				 * @example Only an array of values is allowed, with each one as: a string of characters.
+				 * @example Only an array is allowed, with each value as: a string of characters.
 				 */
 				return UText::localize(
-					"Only an array of values is allowed, with each one as: {{input.description}}",
+					"Only an array is allowed, with each value as: {{input.description}}",
 					self::class, $text_options, [
 						'parameters' => [
 							'input' => ['description' => $input_description]
@@ -319,13 +319,13 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("Only a list of values is allowed.", self::class, $text_options);
+			return UText::localize("Only a list is allowed.", self::class, $text_options);
 		}
 		
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("Only an array of values is allowed.", self::class, $text_options);
+			return UText::localize("Only an array is allowed.", self::class, $text_options);
 		}
 		
 		//other
@@ -368,12 +368,12 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder positions The positions.
 				 * @placeholder input.message The input message.
 				 * @tags end-user
-				 * @example Invalid list values were given at positions 1, 2 and 5, with the following error: only text is allowed.
+				 * @example Invalid list items were given at positions 1, 2 and 5, with the following error: only text is allowed.
 				 */
 				$messages[] = UText::plocalize(
-					"An invalid list value was given at position {{positions}}, " . 
+					"An invalid list item was given at position {{positions}}, " . 
 						"with the following error: {{input.message}}",
-					"Invalid list values were given at positions {{positions}}, " . 
+					"Invalid list items were given at positions {{positions}}, " . 
 						"with the following error: {{input.message}}",
 					count($indexes), null, self::class, $text_options, [
 						'parameters' => [
