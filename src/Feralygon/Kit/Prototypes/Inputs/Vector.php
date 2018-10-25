@@ -18,10 +18,10 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 use Feralygon\Kit\Primitives\Vector as Primitive;
 use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-/*use Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\{
+use Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\{
 	Constraints,
-	Filters
-};*/
+	//Filters
+};
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -44,6 +44,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  * @see \Feralygon\Kit\Primitives\Vector
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\NonEmpty
+ * [modifier, name = 'constraints.non_empty' or 'non_empty']
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
@@ -449,9 +451,11 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
-			
-			//TODO
-			
+			//constraints
+			case 'constraints.non_empty':
+				//no break
+			case 'non_empty':
+				return $this->createConstraint(Constraints\NonEmpty::class, $properties);
 		}
 		return null;
 	}
