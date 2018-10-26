@@ -12,6 +12,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
 	Information as IInformation
 };
+use Feralygon\Kit\Primitives\Vector as Primitive;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
@@ -28,7 +29,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return !$value->isEmpty();
+		return is_object($value) && $value instanceof Primitive ? !$value->isEmpty() : false;
 	}
 	
 	
