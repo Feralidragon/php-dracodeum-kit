@@ -46,6 +46,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see \Feralygon\Kit\Primitives\Vector
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\NonEmpty
  * [modifier, name = 'constraints.non_empty' or 'non_empty']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Unique
+ * [modifier, name = 'constraints.unique' or 'unique']
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
@@ -456,6 +458,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				//no break
 			case 'non_empty':
 				return $this->createConstraint(Constraints\NonEmpty::class, $properties);
+			case 'constraints.unique':
+				//no break
+			case 'unique':
+				return $this->createConstraint(Constraints\Unique::class, $properties);
 		}
 		return null;
 	}
