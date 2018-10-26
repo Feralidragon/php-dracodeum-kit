@@ -60,7 +60,7 @@ class Rfc7230 extends Enumeration
 	public const CHUNKED_BODY = '(?:' . self::CHUNK . '*' . self::LAST_CHUNK . self::TRAILER_PART . Rfc5234::CRLF . ')';
 	
 	/** <samp>comment</samp> ABNF regular expression. */
-	public const COMMENT = '(?:\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . ')*\))';
+	public const COMMENT = '(\((?:' . self::CTEXT . '|' . self::QUOTED_PAIR . '|(?-1))*\))';
 	
 	/** <samp>Connection</samp> ABNF regular expression. */
 	public const CONNECTION = '(?:' . 
