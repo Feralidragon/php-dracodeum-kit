@@ -20,7 +20,7 @@ use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\{
 	Constraints,
-	//Filters
+	Filters
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
@@ -56,6 +56,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * [modifier, name = 'constraints.non_empty' or 'non_empty']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Unique
  * [modifier, name = 'constraints.unique' or 'unique']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Filters\Truncate
+ * [modifier, name = 'filters.truncate' or 'truncate']
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
@@ -486,6 +488,12 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				//no break
 			case 'unique':
 				return $this->createConstraint(Constraints\Unique::class, $properties);
+			
+			//filters
+			case 'filters.truncate':
+				//no break
+			case 'truncate':
+				return $this->createFilter(Filters\Truncate::class, $properties);
 		}
 		return null;
 	}
