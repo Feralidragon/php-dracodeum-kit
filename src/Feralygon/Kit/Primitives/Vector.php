@@ -694,6 +694,65 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		return $this;
 	}
 	
+	/**
+	 * Truncate values to a given length.
+	 * 
+	 * @since 1.0.0
+	 * @param int $length
+	 * <p>The length to truncate to.<br>
+	 * It must be greater than or equal to <code>0</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function truncate(int $length): Vector
+	{
+		//guard
+		$this->guardNonReadonlyCall();
+		UCall::guardParameter('length', $length, $length >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		
+		//truncate
+		$this->values = array_slice($this->values, 0, $length);
+		$this->reset();
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Slice values from a given index.
+	 * 
+	 * @since 1.0.0
+	 * @param int $index
+	 * <p>The index to slice from.<br>
+	 * It must be greater than or equal to <code>0</code>.</p>
+	 * @param int|null $length [default = null]
+	 * <p>The length to slice.<br>
+	 * If not set, then the current vector length is used, 
+	 * otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function slice(int $index, ?int $length = null): Vector
+	{
+		//guard
+		$this->guardNonReadonlyCall();
+		UCall::guardParameter('index', $index, $index >= 0, [
+			'hint_message' => "Only a value greater than or equal to 0 is allowed."
+		]);
+		UCall::guardParameter('length', $length, !isset($length) || $length >= 0, [
+			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
+		]);
+		
+		//slice
+		$this->values = array_slice($this->values, $index, $length ?? count($this->values));
+		$this->reset();
+		
+		//return
+		return $this;
+	}
+	
 	
 	
 	//Final public static methods
