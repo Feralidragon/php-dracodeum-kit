@@ -46,6 +46,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see \Feralygon\Kit\Primitives\Vector
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Length
  * [modifier, name = 'constraints.length' or 'length']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\MinLength
+ * [modifier, name = 'constraints.min_length' or 'min_length']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\MaxLength
+ * [modifier, name = 'constraints.max_length' or 'max_length']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\LengthRange
  * [modifier, name = 'constraints.length_range' or 'length_range']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\NonEmpty
@@ -462,6 +466,14 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				//no break
 			case 'length':
 				return $this->createConstraint(Constraints\Length::class, $properties);
+			case 'constraints.min_length':
+				//no break
+			case 'min_length':
+				return $this->createConstraint(Constraints\MinLength::class, $properties);
+			case 'constraints.max_length':
+				//no break
+			case 'max_length':
+				return $this->createConstraint(Constraints\MaxLength::class, $properties);
 			case 'constraints.length_range':
 				//no break
 			case 'length_range':
