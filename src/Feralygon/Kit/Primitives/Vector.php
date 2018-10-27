@@ -753,6 +753,24 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		return $this;
 	}
 	
+	/**
+	 * Remove duplicated values.
+	 * 
+	 * The removal is performed in such a way that only strictly unique values are left within this vector, 
+	 * as not only the values are considered, but also their types as well.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function unique(): Vector
+	{
+		$this->guardNonReadonlyCall();
+		$this->values = UData::unique($this->values, 0, UData::UNIQUE_ARRAYS_AS_VALUES);
+		$this->reset();
+		return $this;
+	}
+	
 	
 	
 	//Final public static methods

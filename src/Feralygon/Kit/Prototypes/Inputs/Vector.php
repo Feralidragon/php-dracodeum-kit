@@ -58,6 +58,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * [modifier, name = 'constraints.unique' or 'unique']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Filters\Unique
+ * [modifier, name = 'filters.unique']
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
@@ -494,6 +496,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				//no break
 			case 'truncate':
 				return $this->createFilter(Filters\Truncate::class, $properties);
+			case 'filters.unique':
+				return $this->createFilter(Filters\Unique::class, $properties);
 		}
 		return null;
 	}
