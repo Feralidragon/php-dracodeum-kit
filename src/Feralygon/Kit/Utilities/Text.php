@@ -1495,7 +1495,7 @@ final class Text extends Utility
 		if ($options->keep_words) {
 			$t_length = 0;
 			$t_string = '';
-			$words_pattern = $unicode ? '/([^\pL\pN_\-]+)/u' : '/([^\w\-]+)/i';
+			$words_pattern = $unicode ? '/((?:(?![\pL\pN_]+(?:-[\pL\pN_]+)*).)+)/u' : '/((?:(?!\w+(?:-\w+)*).)+)/';
 			foreach (preg_split($words_pattern, $string, null, PREG_SPLIT_DELIM_CAPTURE) as $part) {
 				$part_length = self::length($part, $unicode);
 				if ($t_length + $part_length > $length) {
@@ -2027,7 +2027,7 @@ final class Text extends Utility
 	 */
 	final public static function isWord(string $string, bool $unicode = false): bool
 	{
-		return preg_match($unicode ? '/^[\pL\pN_]+(?:-[\pL\pN_]+)*$/u' : '/^\w+(?:-\w+)*$/i', $string);
+		return preg_match($unicode ? '/^[\pL\pN_]+(?:-[\pL\pN_]+)*$/u' : '/^\w+(?:-\w+)*$/', $string);
 	}
 	
 	/**
