@@ -2015,6 +2015,22 @@ final class Text extends Utility
 	}
 	
 	/**
+	 * Check if a given string is a word.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Check the given string as Unicode.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is a word.</p>
+	 */
+	final public static function isWord(string $string, bool $unicode = false): bool
+	{
+		return preg_match($unicode ? '/^[\pL\pN_]+(?:-[\pL\pN_]+)*$/u' : '/^\w+(?:-\w+)*$/i', $string);
+	}
+	
+	/**
 	 * Localize a given message.
 	 * 
 	 * Unlike the <code>translate</code> method from the root locale class <code>Feralygon\Kit\Root\Locale</code>, 

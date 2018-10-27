@@ -193,11 +193,13 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 			case 'constraints.values':
 				//no break
 			case 'values':
-				return $this->createConstraint(Constraints\Values::class, $properties);
+				return $this->createConstraint(Constraints\Values::class, $properties + ['unicode' => $this->unicode]);
 			case 'constraints.non_values':
 				//no break
 			case 'non_values':
-				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
+				return $this->createConstraint(
+					Constraints\Values::class, ['negate' => true] + $properties + ['unicode' => $this->unicode]
+				);
 			case 'constraints.wildcards':
 				//no break
 			case 'wildcards':
