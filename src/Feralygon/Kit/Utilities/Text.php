@@ -518,8 +518,7 @@ final class Text extends Utility
 		
 		//punctuate
 		if ($options->punctuate) {
-			end($strings);
-			$last_key = key($strings);
+			$last_key = Data::klast($strings, true);
 			foreach ($strings as $key => &$string) {
 				if ($key === $last_key) {
 					/**

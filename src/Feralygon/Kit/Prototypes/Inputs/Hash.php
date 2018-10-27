@@ -23,6 +23,7 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
 	Base64 as UBase64,
 	Hash as UHash,
+	Math as UMath,
 	Text as UText
 };
 
@@ -202,7 +203,11 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 		$strings = [];
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			//initialize
-			$example_value = random_bytes($this->getBits() / 8);
+			$example_value = '';
+			$bytes = $this->getBits() / 8;
+			for ($i = 0; $i < $bytes; $i++) {
+				$example_value .= chr(UMath::random(255, 0, $i));
+			}
 			
 			//hexadecimal
 			/**

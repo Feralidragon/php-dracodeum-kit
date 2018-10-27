@@ -497,7 +497,7 @@ class Integer extends Number implements ISchemaData
 			if (isset($this->maximum) && $this->maximum < $maximum) {
 				$maximum = $this->maximum;
 			}
-			$examples[] = mt_rand(0, $maximum);
+			$examples[] = UMath::random($maximum, 0, $i);
 		}
 		$examples = array_values(array_unique($examples, SORT_NUMERIC));
 		sort($examples, SORT_NUMERIC);

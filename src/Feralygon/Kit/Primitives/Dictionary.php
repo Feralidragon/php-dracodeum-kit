@@ -380,6 +380,18 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 	}
 	
 	/**
+	 * Check if is empty.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is empty.</p>
+	 */
+	final public function isEmpty(): bool
+	{
+		return empty($this->values);
+	}
+	
+	/**
 	 * Get all pairs.
 	 * 
 	 * Only pairs whose keys are integers, floats or strings can be converted to PHP associative array keys.

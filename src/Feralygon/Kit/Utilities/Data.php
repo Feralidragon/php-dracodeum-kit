@@ -56,6 +56,9 @@ final class Data extends Utility
 	/** Non-associative exclude unique (flag). */
 	public const UNIQUE_NONASSOC_EXCLUDE = 0x04;
 	
+	/** Arrays as values unique (flag). */
+	public const UNIQUE_ARRAYS_AS_VALUES = 0x08;
+	
 	/** Reverse sort (flag). */
 	public const SORT_REVERSE = 0x01;
 	
@@ -399,7 +402,9 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : 
 	 * Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : 
-	 * Exclude non-associative arrays from the removal of duplicates.</p>
+	 * Exclude non-associative arrays from the removal of duplicates.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ARRAYS_AS_VALUES</code> : 
+	 * Handle arrays as values, at the last recursion depth only.</p>
 	 * @return array
 	 * <p>The given array without duplicated values.</p>
 	 */
@@ -417,8 +422,9 @@ final class Data extends Utility
 			(!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE))
 		) {
 			$map = [];
+			$is_arrays_as_values = ($flags & self::UNIQUE_ARRAYS_AS_VALUES) && $depth === 0;
 			foreach ($array as $k => $v) {
-				$key = is_array($v) ? "a:{$k}" : self::keyfy($v);
+				$key = is_array($v) && !$is_arrays_as_values ? "a:{$k}" : self::keyfy($v);
 				if (isset($map[$key])) {
 					unset($array[$k]);
 				} else {
