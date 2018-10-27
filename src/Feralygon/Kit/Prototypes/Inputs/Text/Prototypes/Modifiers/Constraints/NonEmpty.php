@@ -14,7 +14,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype prevents a text or string from being empty.
@@ -28,7 +31,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return !UText::empty($value);
+		return UType::evaluateString($value) && !UText::empty($value);
 	}
 	
 	

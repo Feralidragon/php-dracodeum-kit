@@ -16,7 +16,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a value to a minimum value.
@@ -43,7 +46,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return $this->exclusive ? $value > $this->value : $value >= $this->value;
+		return UType::evaluateNumber($value) && ($this->exclusive ? $value > $this->value : $value >= $this->value);
 	}
 	
 	

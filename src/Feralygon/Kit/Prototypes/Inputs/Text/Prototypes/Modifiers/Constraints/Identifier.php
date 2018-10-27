@@ -16,7 +16,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a text or string to an identifier format.
@@ -38,7 +41,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return UText::isIdentifier($value, $this->extended);
+		return UType::evaluateString($value) && UText::isIdentifier($value, $this->extended);
 	}
 	
 	

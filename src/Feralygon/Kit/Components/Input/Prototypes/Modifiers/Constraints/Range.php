@@ -16,7 +16,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a value to a range of values.
@@ -59,7 +62,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return $this->negate !== (
+		return UType::evaluateNumber($value) && $this->negate !== (
 			($this->min_exclusive ? $value > $this->min_value : $value >= $this->min_value) && 
 			($this->max_exclusive ? $value < $this->max_value : $value <= $this->max_value)
 		);

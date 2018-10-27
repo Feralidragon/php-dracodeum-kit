@@ -47,17 +47,20 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		foreach ($this->multiples as $multiple) {
-			if (is_int($multiple) && is_int($value) && $value % $multiple === 0) {
-				return !$this->negate;
-			} elseif (is_float($multiple) || is_float($value)) {
-				$f = (float)$value / (float)$multiple;
-				if ($f === floor($f)) {
+		if (UType::evaluateNumber($value)) {
+			foreach ($this->multiples as $multiple) {
+				if (is_int($multiple) && is_int($value) && $value % $multiple === 0) {
 					return !$this->negate;
+				} elseif (is_float($multiple) || is_float($value)) {
+					$f = (float)$value / (float)$multiple;
+					if ($f === floor($f)) {
+						return !$this->negate;
+					}
 				}
 			}
+			return $this->negate;
 		}
-		return $this->negate;
+		return false;
 	}
 	
 	

@@ -15,7 +15,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a text or string to alphabetical characters.
@@ -37,7 +40,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return preg_match($this->unicode ? '/^\pL*$/u' : '/^[a-z]*$/i', $value);
+		return UType::evaluateString($value) && preg_match($this->unicode ? '/^\pL*$/u' : '/^[a-z]*$/i', $value);
 	}
 	
 	

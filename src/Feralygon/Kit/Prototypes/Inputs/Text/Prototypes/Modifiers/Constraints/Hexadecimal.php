@@ -14,7 +14,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a text or string to hexadecimal characters.
@@ -28,7 +31,7 @@ class Hexadecimal extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return preg_match('/^[\da-f]*$/i', $value);
+		return UType::evaluateString($value) && preg_match('/^[\da-f]*$/i', $value);
 	}
 	
 	

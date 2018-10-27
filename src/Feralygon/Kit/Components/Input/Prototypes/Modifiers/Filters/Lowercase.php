@@ -13,7 +13,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	SchemaData as ISchemaData
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This filter prototype converts a value to lowercase.
@@ -34,7 +37,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_string($value)) {
+		if (UType::evaluateString($value)) {
 			$value = UText::lower($value, $this->unicode);
 			return true;
 		}

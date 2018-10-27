@@ -47,13 +47,16 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		foreach ($this->powers as $power) {
-			$f = log($value, $power);
-			if ($f === floor($f)) {
-				return !$this->negate;
+		if (UType::evaluateNumber($value)) {
+			foreach ($this->powers as $power) {
+				$f = log($value, $power);
+				if ($f === floor($f)) {
+					return !$this->negate;
+				}
 			}
+			return $this->negate;
 		}
-		return $this->negate;
+		return false;
 	}
 	
 	

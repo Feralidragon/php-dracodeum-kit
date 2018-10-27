@@ -17,7 +17,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a value to a range of lengths.
@@ -50,8 +53,11 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		$length = UText::length($value, $this->unicode);
-		return $length >= $this->min_length && $length <= $this->max_length;
+		if (UType::evaluateString($value)) {
+			$length = UText::length($value, $this->unicode);
+			return $length >= $this->min_length && $length <= $this->max_length;
+		}
+		return false;
 	}
 	
 	

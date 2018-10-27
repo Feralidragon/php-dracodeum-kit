@@ -15,7 +15,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a text or string to numerical characters.
@@ -37,7 +40,7 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
+		return UType::evaluateString($value) && preg_match($this->unicode ? '/^\pN*$/u' : '/^\d*$/', $value);
 	}
 	
 	

@@ -15,7 +15,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a value to uppercase.
@@ -36,7 +39,7 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return $value === UText::upper($value, $this->unicode);
+		return UType::evaluateString($value) && $value === UText::upper($value, $this->unicode);
 	}
 	
 	

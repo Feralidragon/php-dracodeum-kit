@@ -17,7 +17,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Utilities\Text as UText;
+use Feralygon\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This constraint prototype restricts a value to an exact length.
@@ -44,7 +47,7 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return UText::length($value, $this->unicode) === $this->length;
+		return UType::evaluateString($value) && UText::length($value, $this->unicode) === $this->length;
 	}
 	
 	

@@ -8,9 +8,10 @@
 namespace Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Utilities\Time as UTime;
 
 /**
- * This filter prototype converts a date and time, as an Unix timestamp, into a string using an ISO-8601 format.
+ * This filter prototype converts a date and time into a string using the ISO-8601 format.
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/ISO_8601
@@ -22,10 +23,6 @@ class Iso8601 extends Filter
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_int($value)) {
-			$value = date('c', $value);
-			return $value !== false;
-		}
-		return false;
+		return UTime::evaluateDateTime($value, 'c');
 	}
 }
