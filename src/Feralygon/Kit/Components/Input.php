@@ -267,6 +267,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	}
 	
 	/**
+	 * Check if is scalar.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is scalar.</p>
+	 */
+	final public function isScalar(): bool
+	{
+		return $this->getPrototype()->isScalar();
+	}
+	
+	/**
 	 * Get value string.
 	 * 
 	 * @since 1.0.0

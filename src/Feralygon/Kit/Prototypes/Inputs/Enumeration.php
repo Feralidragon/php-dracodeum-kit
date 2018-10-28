@@ -83,6 +83,12 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return true;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		//check

@@ -45,6 +45,15 @@ abstract class Input extends Prototype implements ISubcontracts
 	abstract public function getName(): string;
 	
 	/**
+	 * Check if is scalar.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is scalar.</p>
+	 */
+	abstract public function isScalar(): bool;
+	
+	/**
 	 * Evaluate a given value.
 	 * 
 	 * @since 1.0.0

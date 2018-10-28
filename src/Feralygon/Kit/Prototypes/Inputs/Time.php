@@ -62,6 +62,12 @@ class Time extends Input implements IInformation, IValueStringifier, IModifierBu
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return true;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		return UTime::evaluateTime($value);

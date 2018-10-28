@@ -80,6 +80,12 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return false;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		//string
@@ -208,6 +214,22 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
+				if ($this->input->isScalar()) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags end-user
+					 * @example A list, which may be given as a comma separated list of items, with each one as: a text.
+					 */
+					return UText::localize(
+						"A list, which may be given as a comma separated list of items, " . 
+							"with each one as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
@@ -225,6 +247,23 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
+				if ($this->input->isScalar()) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags technical
+					 * @example An array, which may be given as a comma separated list of values or a JSON array, \
+					 * with each value as: a string of characters.
+					 */
+					return UText::localize(
+						"An array, which may be given as a comma separated list of values or a JSON array, " . 
+							"with each value as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
@@ -241,6 +280,23 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			}
 			
 			//other
+			if ($this->input->isScalar()) {
+				/**
+				 * @placeholder input.description The input description.
+				 * @tags non-technical non-end-user
+				 * @example A vector, which may be given as a comma separated list of values or a JSON array, \
+				 * with each value as: a text.
+				 */
+				return UText::localize(
+					"A vector, which may be given as a comma separated list of values or a JSON array, " . 
+						"with each value as: {{input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'input' => ['description' => $input_description]
+						]
+					]
+				);
+			}
 			/**
 			 * @placeholder input.description The input description.
 			 * @tags non-technical non-end-user
@@ -259,18 +315,27 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("A list.", self::class, $text_options);
+			return UText::localize(
+				"A list, which may be given as a comma separated list of items.",
+				self::class, $text_options
+			);
 		}
 		
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("An array.", self::class, $text_options);
+			return UText::localize(
+				"An array, which may be given as a comma separated list of values or a JSON array.",
+				self::class, $text_options
+			);
 		}
 		
 		//other
 		/** @tags non-technical non-end-user */
-		return UText::localize("A vector.", self::class, $text_options);
+		return UText::localize(
+			"A vector, which may be given as a comma separated list of values or a JSON array.",
+			self::class, $text_options
+		);
 	}
 	
 	/** {@inheritdoc} */
@@ -284,6 +349,23 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
+				if ($this->input->isScalar()) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags end-user
+					 * @example Only a list is allowed, which may be given as a comma separated list of items, \
+					 * with each one as: a text.
+					 */
+					return UText::localize(
+						"Only a list is allowed, which may be given as a comma separated list of items, " . 
+							"with each one as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
@@ -301,6 +383,25 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
+				if ($this->input->isScalar()) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags technical
+					 * @example Only an array is allowed, \
+					 * which may be given as a comma separated list of values or a JSON array, \
+					 * with each value as: a string of characters.
+					 */
+					return UText::localize(
+						"Only an array is allowed, " . 
+							"which may be given as a comma separated list of values or a JSON array, " . 
+							"with each value as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
@@ -317,6 +418,25 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			}
 			
 			//other
+			if ($this->input->isScalar()) {
+				/**
+				 * @placeholder input.description The input description.
+				 * @tags non-technical non-end-user
+				 * @example Only a vector is allowed, \
+				 * which may be given as a comma separated list of values or a JSON array, \
+				 * with each value as: a text.
+				 */
+				return UText::localize(
+					"Only a vector is allowed, " . 
+						"which may be given as a comma separated list of values or a JSON array, " . 
+						"with each value as: {{input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'input' => ['description' => $input_description]
+						]
+					]
+				);
+			}
 			/**
 			 * @placeholder input.description The input description.
 			 * @tags non-technical non-end-user
@@ -335,18 +455,27 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::localize("Only a list is allowed.", self::class, $text_options);
+			return UText::localize(
+				"Only a list is allowed, which may be given as a comma separated list of items.",
+				self::class, $text_options
+			);
 		}
 		
 		//technical
 		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
-			return UText::localize("Only an array is allowed.", self::class, $text_options);
+			return UText::localize(
+				"Only an array is allowed, which may be given as a comma separated list of values or a JSON array.",
+				self::class, $text_options
+			);
 		}
 		
 		//other
 		/** @tags non-technical non-end-user */
-		return UText::localize("Only a vector is allowed.", self::class, $text_options);
+		return UText::localize(
+			"Only a vector is allowed, which may be given as a comma separated list of values or a JSON array.",
+			self::class, $text_options
+		);
 	}
 	
 	
@@ -384,7 +513,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder positions The positions.
 				 * @placeholder input.message The input message.
 				 * @tags end-user
-				 * @example Invalid list items were given at positions 1, 2 and 5, with the following error: only text is allowed.
+				 * @example Invalid list items were given at positions 1, 2 and 5, \
+				 * with the following error: only text is allowed.
 				 */
 				$messages[] = UText::plocalize(
 					"An invalid list item was given at position {{positions}}, " . 
@@ -405,7 +535,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder indexes The indexes.
 				 * @placeholder input.message The input message.
 				 * @tags technical
-				 * @example Invalid array values were given at indexes 0, 1 and 4, with the following error: only a string of characters is allowed.
+				 * @example Invalid array values were given at indexes 0, 1 and 4, \
+				 * with the following error: only a string of characters is allowed.
 				 */
 				$messages[] = UText::plocalize(
 					"An invalid array value was given at index {{indexes}}, " . 
@@ -426,7 +557,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				 * @placeholder indexes The indexes.
 				 * @placeholder input.message The input message.
 				 * @tags non-technical non-end-user
-				 * @example Invalid vector values were given at indexes 0, 1 and 4, with the following error: only text is allowed.
+				 * @example Invalid vector values were given at indexes 0, 1 and 4, \
+				 * with the following error: only text is allowed.
 				 */
 				$messages[] = UText::plocalize(
 					"An invalid vector value was given at index {{indexes}}, " . 

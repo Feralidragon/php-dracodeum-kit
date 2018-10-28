@@ -66,6 +66,12 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return true;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		return UHash::evaluate($value, $this->getBits());

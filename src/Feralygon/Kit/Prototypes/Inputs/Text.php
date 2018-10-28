@@ -98,6 +98,12 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return true;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		//evaluate

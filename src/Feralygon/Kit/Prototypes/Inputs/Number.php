@@ -61,6 +61,12 @@ class Number extends Input implements IInformation, IModifierBuilder
 	}
 	
 	/** {@inheritdoc} */
+	public function isScalar(): bool
+	{
+		return true;
+	}
+	
+	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
 		return UType::evaluateNumber($value);
