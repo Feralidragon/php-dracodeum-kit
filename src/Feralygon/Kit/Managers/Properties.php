@@ -327,7 +327,8 @@ class Properties
 	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to set to build a property instance with a given name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (string $name): ?Feralygon\Kit\Managers\Properties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -368,7 +369,8 @@ class Properties
 	 * @since 1.0.0
 	 * @param callable $remainderer
 	 * <p>The function to set to handle a given set of remaining properties.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>

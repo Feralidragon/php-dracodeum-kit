@@ -273,7 +273,8 @@ abstract class Component implements IPropertiesable
 	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -288,7 +289,8 @@ abstract class Component implements IPropertiesable
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -335,7 +337,8 @@ abstract class Component implements IPropertiesable
 	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -350,7 +353,8 @@ abstract class Component implements IPropertiesable
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>

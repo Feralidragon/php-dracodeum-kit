@@ -299,7 +299,8 @@ final class Call extends Utility
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::PARAMETERS_CLASSES_SHORT_NAMES</code> : 
@@ -391,7 +392,8 @@ final class Call extends Utility
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_NO_MIXED</code> : 
 	 * Do not return the <code>mixed</code> type keyword.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TYPE_CLASS_SHORT_NAME</code> : 
@@ -432,7 +434,8 @@ final class Call extends Utility
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CONSTANTS_VALUES</code> : 
 	 * Return the constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::HEADER_CLASSES_SHORT_NAMES</code> : 
@@ -540,7 +543,8 @@ final class Call extends Utility
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CONSTANTS_VALUES</code> : 
 	 * Return the parameters constants values instead of their names.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SOURCE_CLASSES_SHORT_NAMES</code> : 
@@ -1117,7 +1121,8 @@ final class Call extends Utility
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $options [default = null]
 	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
+	 * with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
@@ -1171,7 +1176,8 @@ final class Call extends Utility
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardParameter|array|callable|null $options [default = null]
 	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
+	 * with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardParameter|array</b></code><br>
@@ -1218,7 +1224,8 @@ final class Call extends Utility
 	 * preventing the current function or method in the stack from continuing to execute.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardInternal|array|callable|null $options [default = null]
 	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
+	 * with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardInternal|array</b></code><br>
@@ -1268,7 +1275,8 @@ final class Call extends Utility
 	 * <p>The arguments to execute with.</p>
 	 * @param callable $callback
 	 * <p>The callback function to depend on.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -1279,7 +1287,8 @@ final class Call extends Utility
 	 * Boolean <code>true</code> if the given value was successfully validated and sanitized.</p>
 	 * @param \Feralygon\Kit\Utilities\Call\Options\GuardExecution|array|callable|null $options [default = null]
 	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
+	 * with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\GuardExecution|array</b></code><br>

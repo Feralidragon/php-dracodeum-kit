@@ -903,7 +903,8 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The function to evaluate a given value with.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$value, ?callable &$error_messenger): bool</code><br>
 	 * <br>
 	 * Parameters:<br>

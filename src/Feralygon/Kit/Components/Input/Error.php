@@ -35,7 +35,8 @@ final class Error
 	 * <p>The value.</p>
 	 * @param callable[] $messengers [default = []]
 	 * <p>The messenger functions to use to get error messages from.<br>
-	 * They are expected to be compatible with the following signature:<br><br>
+	 * They are expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (\Feralygon\Kit\Options\Text $text_options): ?string</code><br>
 	 * <br>
 	 * Parameters:<br>

@@ -20,7 +20,8 @@ trait DefaultBuilder
 	 * Get default builder function.
 	 * 
 	 * The returning function is used to build an instance during a coercion or evaluation if none is given, 
-	 * and it is expected to be compatible with the following signature:<br><br>
+	 * and it is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>

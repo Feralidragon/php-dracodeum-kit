@@ -268,7 +268,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the merging at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x000]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
 	 * Merge associative arrays using the union operation, in other words,
 	 * with this flag keys present in the first array won't get replaced by the same keys present in the second.<br><br>
@@ -396,7 +397,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the removal at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from the removal of duplicates.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ASSOC</code> : 
@@ -471,7 +473,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -540,7 +543,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -599,7 +603,8 @@ final class Data extends Utility
 	 * <p>The array to sort.</p>
 	 * @param callable $comparer
 	 * <p>The comparer function to use to compare two key-value pairs.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($key1, $value1, $key2, $value2): int</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -618,7 +623,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the sorting at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_REVERSE</code> : 
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
@@ -696,7 +702,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, 
 	 * strictly filter array from all non-array values but the given ones.<br><br>
@@ -771,7 +778,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the filtering at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_INVERSE</code> : 
 	 * Filter array inversely, in other words, filter array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_EMPTY</code> : 
@@ -847,7 +855,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, strictly trim array from all non-array values but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -943,7 +952,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the trimming at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_INVERSE</code> : 
 	 * Trim array inversely, in other words, trim array from all keys but the given ones.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::TRIM_LEFT</code> : 
@@ -1041,7 +1051,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_ASSOC</code> : 
@@ -1140,7 +1151,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the intersection at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from intersecting.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::INTERSECT_NONASSOC_EXCLUDE</code> : 
@@ -1212,7 +1224,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_ASSOC</code> : 
@@ -1306,7 +1319,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from differentiating.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::DIFF_NONASSOC_EXCLUDE</code> : 
@@ -1371,7 +1385,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the shuffling at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from shuffling.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SHUFFLE_NONASSOC_ASSOC</code> : 
@@ -1430,7 +1445,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the alignment at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from aligning.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::ALIGN_NONASSOC_EXCLUDE</code> : 
@@ -1846,7 +1862,8 @@ final class Data extends Utility
 	 * <p>The recursive depth limit to stop the collapse at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from collapsing.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::COLLAPSE_NONASSOC_EXCLUDE</code> : 
@@ -2015,7 +2032,8 @@ final class Data extends Utility
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -2060,7 +2078,8 @@ final class Data extends Utility
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>

@@ -433,7 +433,8 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to unslugify.</p>
 	 * @param int $flags [default = 0x00]
-	 * <p>The flags to use, which can be any combination of the following:<br><br>
+	 * <p>The flags to use, which can be any combination of the following:<br>
+	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_FIRST</code> : 
 	 * Capitalize the first word of the unslugified string.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNSLUG_CAPITALIZE_ALL</code> : 

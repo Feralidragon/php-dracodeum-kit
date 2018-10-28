@@ -312,7 +312,8 @@ trait Properties
 	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to use to build all properties.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (): void</code></p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
@@ -339,7 +340,8 @@ trait Properties
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>

@@ -424,7 +424,8 @@ class Property
 	 * @since 1.0.0
 	 * @param callable $getter
 	 * <p>The default getter function to set.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>mixed</b></code><br>
@@ -493,7 +494,8 @@ class Property
 	 * @since 1.0.0
 	 * @param callable $getter
 	 * <p>The getter function to set.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>mixed</b></code><br>
@@ -533,7 +535,8 @@ class Property
 	 * @since 1.0.0
 	 * @param callable $setter
 	 * <p>The setter function to set.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($value): void</code><br>
 	 * <br>
 	 * Parameters:<br>

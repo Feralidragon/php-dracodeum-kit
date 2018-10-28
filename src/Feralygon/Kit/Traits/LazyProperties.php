@@ -338,7 +338,8 @@ trait LazyProperties
 	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to use to build a property instance with a given name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (string $name): ?Feralygon\Kit\Traits\LazyProperties\Property</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -353,7 +354,8 @@ trait LazyProperties
 	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $required_names_loader [default = null]
 	 * <p>The function to use to load required property names.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (): void</code><br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
@@ -378,7 +380,8 @@ trait LazyProperties
 	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties): void</code><br>
 	 * <br>
 	 * Parameters:<br>

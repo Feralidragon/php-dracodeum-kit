@@ -73,7 +73,8 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * the hint message.</p>
  * @property \Closure|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
- * It is expected to be compatible with the following signature:<br><br>
+ * It is expected to be compatible with the following signature:<br>
+ * <br>
  * <code>function (string $placeholder, $value): ?string</code><br>
  * <br>
  * Parameters:<br>

@@ -32,7 +32,8 @@ use Feralygon\Kit\Utilities\Text as UText;
  * then do not attempt to stringify it through any of them.</p>
  * @property string|null $non_assoc_mode [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> class non-associative array 
- * stringification mode to use, which can be any of the following:<br><br>
+ * stringification mode to use, which can be any of the following:<br>
+ * <br>
  * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_MODE_COMMA_LIST</code> : 
  * Convert non-associative arrays into comma-separated lists.<br><br>
  * &nbsp; &#8226; &nbsp; <code>STRING_NONASSOC_MODE_COMMA_LIST_AND</code> : 

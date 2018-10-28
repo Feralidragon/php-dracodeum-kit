@@ -33,7 +33,8 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The key evaluator function to add.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -57,7 +58,8 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The key evaluator function to set.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -106,7 +108,8 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
 	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br><br>
+	 * with the following signature:<br>
+	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Feralygon\Kit\Utilities\Call\Options\Guard|array</b></code><br>
@@ -541,7 +544,8 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -575,7 +579,8 @@ trait KeyEvaluators
 	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (&$key, &$value): bool</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -792,7 +797,8 @@ trait KeyEvaluators
 	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -807,7 +813,8 @@ trait KeyEvaluators
 	 * The built instance.</p>
 	 * @param callable|null $named_builder [default = null]
 	 * <p>The function to use to build an instance for a given name.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -853,7 +860,8 @@ trait KeyEvaluators
 	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Options</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -896,7 +904,8 @@ trait KeyEvaluators
 	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
 	 * <br>
 	 * Parameters:<br>

@@ -184,7 +184,8 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IArrayInstantia
 	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Options</code><br>
 	 * <br>
 	 * Parameters:<br>
@@ -231,7 +232,8 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IArrayInstantia
 	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Options</code><br>
 	 * <br>
 	 * Parameters:<br>

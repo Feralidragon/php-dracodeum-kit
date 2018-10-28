@@ -76,7 +76,8 @@ trait Readonly
 	 * @since 1.0.0
 	 * @param callable $callback
 	 * <p>The callback function to add.<br>
-	 * It is expected to be compatible with the following signature:<br><br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (): void</code></p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -99,7 +100,8 @@ trait Readonly
 	 * <p>Enable the read-only state.</p>
 	 * @param callable[] $callbacks [default = []]
 	 * <p>The callback functions to call upon read-only enablement.<br>
-	 * Each one is expected to be compatible with the following signature:<br><br>
+	 * Each one is expected to be compatible with the following signature:<br>
+	 * <br>
 	 * <code>function (): void</code></p>
 	 * @return void
 	 */
