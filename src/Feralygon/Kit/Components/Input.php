@@ -675,12 +675,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue([
-				'component' => $this,
-				'prototype' => $prototype,
-				'value' => $value,
-				'error_message' => $this->getErrorMessage()
-			]);
+			throw new Exceptions\InvalidValue([$this, $prototype, $value, 'error_message' => $this->getErrorMessage()]);
 		}
 		$value = $v;
 		unset($v);
@@ -693,10 +688,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 					return false;
 				}
 				throw new Exceptions\InvalidValue([
-					'component' => $this,
-					'prototype' => $prototype,
-					'value' => $value,
-					'error_message' => $this->getErrorMessage()
+					$this, $prototype, $value, 'error_message' => $this->getErrorMessage()
 				]);
 			}
 			
@@ -720,10 +712,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 						return false;
 					}
 					throw new Exceptions\InvalidValue([
-						'component' => $this,
-						'prototype' => $prototype,
-						'value' => $value,
-						'error_message' => $this->getErrorMessage()
+						$this, $prototype, $value, 'error_message' => $this->getErrorMessage()
 					]);
 				}
 				
@@ -738,10 +727,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 					return false;
 				}
 				throw new Exceptions\InvalidValue([
-					'component' => $this,
-					'prototype' => $prototype,
-					'value' => $value,
-					'error_message' => $this->getErrorMessage()
+					$this, $prototype, $value, 'error_message' => $this->getErrorMessage()
 				]);
 			}
 		}
@@ -879,7 +865,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -998,7 +986,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to evaluate with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the given prototype.</p>
 	 */
@@ -1021,7 +1011,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ValueCoercionFailed
 	 * @return mixed
 	 * <p>The given value coerced with the given prototype.</p>
@@ -1031,10 +1023,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$input = new static($prototype, $properties);
 		if (!$input->setValue($value, true)) {
 			throw new Exceptions\ValueCoercionFailed([
-				'value' => $value,
-				'component' => $input,
-				'prototype' => $input->getPrototype(),
-				'error_message' => $input->getErrorMessage()
+				$input, $input->getPrototype(), $value, $input->getErrorMessage()
 			]);
 		}
 		return $input->getValue();

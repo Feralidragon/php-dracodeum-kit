@@ -145,7 +145,7 @@ class Memoization
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ValueNotSet(['manager' => $this, 'key' => $key]);
+			throw new Exceptions\ValueNotSet([$this, $key]);
 		}
 		return $value;
 	}

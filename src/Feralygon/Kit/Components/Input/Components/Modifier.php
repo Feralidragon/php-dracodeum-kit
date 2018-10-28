@@ -136,7 +136,7 @@ abstract class Modifier extends Component
 		if ($prototype instanceof PrototypeInterfaces\Name) {
 			return $prototype->getName();
 		} elseif (!$no_throw) {
-			throw new Exceptions\NameNotSet(['component' => $this, 'prototype' => $prototype]);
+			throw new Exceptions\NameNotSet([$this, $prototype]);
 		}
 		return null;
 	}
@@ -284,7 +284,7 @@ abstract class Modifier extends Component
 				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
 			], true);
 		} elseif (!$no_throw) {
-			throw new Exceptions\SchemaNotSet(['component' => $this, 'prototype' => $prototype]);
+			throw new Exceptions\SchemaNotSet([$this, $prototype]);
 		}
 		return null;
 	}

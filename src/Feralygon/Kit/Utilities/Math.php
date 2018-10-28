@@ -315,7 +315,7 @@ final class Math extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Mnumber\InvalidNumber(['number' => $number]);
+			throw new Exceptions\Mnumber\InvalidNumber([$number]);
 		}
 		$sign = $matches['sign'];
 		$n = (float)str_replace(',', '.', $matches['number']);
@@ -326,7 +326,7 @@ final class Math extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Mnumber\InvalidNumber(['number' => $number]);
+			throw new Exceptions\Mnumber\InvalidNumber([$number]);
 		}
 		$n *= $multiple;
 		if ($sign === '-') {

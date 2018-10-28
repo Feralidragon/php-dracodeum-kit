@@ -28,6 +28,8 @@ trait DefaultBuilder
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.

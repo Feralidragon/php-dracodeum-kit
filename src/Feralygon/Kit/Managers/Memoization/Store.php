@@ -117,7 +117,7 @@ final class Store
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\KeyNotFound(['store' => $this, 'name' => $name]);
+			throw new Exceptions\KeyNotFound([$this, $name]);
 		}
 		return $key;
 	}

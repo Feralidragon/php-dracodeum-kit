@@ -383,7 +383,7 @@ final class Text extends Utility
 		if ($options->no_throw) {
 			return null;
 		}
-		throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value]);
+		throw new Exceptions\Stringify\UnsupportedValueType([$value]);
 	}
 	
 	/**
@@ -671,7 +671,7 @@ final class Text extends Utility
 			//token
 			$token = trim($token);
 			if (!self::isPlaceholder($token)) {
-				throw new Exceptions\InvalidPlaceholder(['string' => $string, 'placeholder' => $token]);
+				throw new Exceptions\InvalidPlaceholder([$token, 'string' => $string]);
 			}
 			
 			//pointer
@@ -927,7 +927,7 @@ final class Text extends Utility
 					if ($no_throw) {
 						continue;
 					}
-					throw new Exceptions\InvalidPlaceholder(['placeholder' => $placeholder, 'string' => $string]);
+					throw new Exceptions\InvalidPlaceholder([$placeholder, 'string' => $string]);
 				}
 				$placeholders[] = $placeholder;
 			}
@@ -1015,7 +1015,7 @@ final class Text extends Utility
 			if ($options->no_throw) {
 				return null;
 			}
-			throw new Exceptions\Extract\MatchFailed(['string' => $string, 'mask' => $mask]);
+			throw new Exceptions\Extract\MatchFailed([$string, $mask]);
 		}
 		
 		//parameters
@@ -1064,7 +1064,7 @@ final class Text extends Utility
 		//parse
 		$data = self::mparse([$string], $fields_patterns, $options)[0];
 		if (!isset($data) && !$no_throw) {
-			throw new Exceptions\ParseFailed(['string' => $string, 'fields_patterns' => $fields_patterns]);
+			throw new Exceptions\ParseFailed([$string, $fields_patterns]);
 		}
 		return $data;
 	}
@@ -1156,9 +1156,7 @@ final class Text extends Utility
 			} elseif ($keep_nulls) {
 				$strings_fields_values[$key] = null;
 			} elseif (!$no_throw) {
-				throw new Exceptions\ParseFailed([
-					'string' => $string, 'fields_patterns' => $fields_patterns, 'key' => $key
-				]);
+				throw new Exceptions\ParseFailed([$string, $fields_patterns, 'key' => $key]);
 			}
 		}
 		
@@ -1758,7 +1756,7 @@ final class Text extends Utility
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\UnknownCaseNotation(['string' => $string]);
+		throw new Exceptions\UnknownCaseNotation([$string]);
 	}
 	
 	/**

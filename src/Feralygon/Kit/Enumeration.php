@@ -140,7 +140,7 @@ abstract class Enumeration
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\ElementNotFound(['enumeration' => static::class, 'element' => $element]);
+		throw new Exceptions\ElementNotFound([static::class, $element]);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ abstract class Enumeration
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ValueNotFound(['enumeration' => static::class, 'value' => $value]);
+			throw new Exceptions\ValueNotFound([static::class, $value]);
 		}
 		return $name;
 	}
@@ -188,7 +188,7 @@ abstract class Enumeration
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
+			throw new Exceptions\NameNotFound([static::class, $name]);
 		}
 		return $value;
 	}
@@ -403,7 +403,7 @@ abstract class Enumeration
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
+			throw new Exceptions\NameNotFound([static::class, $name]);
 		}
 		return static::returnLabel($name, TextOptions::coerce($text_options))
 			?? UText::unslugify(strtolower($name), UText::UNSLUG_CAPITALIZE_ALL);
@@ -478,7 +478,7 @@ abstract class Enumeration
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\NameNotFound(['enumeration' => static::class, 'name' => $name]);
+			throw new Exceptions\NameNotFound([static::class, $name]);
 		}
 		return static::returnDescription($name, TextOptions::coerce($text_options)) ?? null;
 	}

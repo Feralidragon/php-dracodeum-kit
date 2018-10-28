@@ -314,7 +314,7 @@ class Property
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue(['property' => $this, 'value' => $value]);
+			throw new Exceptions\InvalidValue([$this, $value]);
 		}
 		
 		//set
@@ -367,7 +367,7 @@ class Property
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\DefaultValueNotSet(['property' => $this]);
+			throw new Exceptions\DefaultValueNotSet([$this]);
 		}
 		
 		//value

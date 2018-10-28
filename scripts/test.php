@@ -16,18 +16,7 @@ $text_options = [
 $value = 'hasd';
 
 $input = FComponent::input('string');
-$input->addModifier('values', ['values' => ['asd', 'ggg', 12345678]]);
-//$input->addModifier('maximum', ['value' => 'January 3rd 2017, 8PM', 'exclusive' => 1]);
-/*
-$input->addModifier('range', [
-	'min_value' => '2/12/04 02:54:23', 
-	'max_value' => 'January 3rd 2017, 8PM',
-	'min_exclusive' => 0,
-	'max_exclusive' => 0
-]);
-*/
-//$input->addModifier('filters.format', ['format' => 'H (is)']);
-//$input->addModifier('filters.iso8601');
+$input->addModifier('values', [['asd', 'ggg', 12345678]]);
 
 
 

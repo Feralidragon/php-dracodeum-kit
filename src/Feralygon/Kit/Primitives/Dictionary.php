@@ -296,7 +296,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ValueNotSet(['dictionary' => $this, 'key' => $key]);
+			throw new Exceptions\ValueNotSet([$this, $key]);
 		}
 		return $this->values[$index];
 	}
@@ -343,7 +343,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidKey(['dictionary' => $this, 'key' => $key]);
+			throw new Exceptions\InvalidKey([$this, $key]);
 		}
 		
 		//value
@@ -351,9 +351,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue([
-				'dictionary' => $this, 'value' => $value, 'has_key' => true, 'key' => $key
-			]);
+			throw new Exceptions\InvalidValue([$this, $value, 'has_key' => true, 'key' => $key]);
 		}
 		
 		//set
@@ -445,7 +443,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 				if ($no_throw) {
 					return false;
 				}
-				throw new Exceptions\InvalidKey(['dictionary' => $this, 'key' => $key]);
+				throw new Exceptions\InvalidKey([$this, $key]);
 			}
 			
 			//value
@@ -453,9 +451,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 				if ($no_throw) {
 					return false;
 				}
-				throw new Exceptions\InvalidValue([
-					'dictionary' => $this, 'value' => $value, 'has_key' => true, 'key' => $key
-				]);
+				throw new Exceptions\InvalidValue([$this, $value, 'has_key' => true, 'key' => $key]);
 			}
 			
 			//finish

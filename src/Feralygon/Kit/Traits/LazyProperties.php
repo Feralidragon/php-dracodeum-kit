@@ -348,7 +348,9 @@ trait LazyProperties
 	 * Return: <code><b>Feralygon\Kit\Traits\LazyProperties\Property|null</b></code><br>
 	 * The built property instance with the given name or <code>null</code> if none was built.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $required_names_loader [default = null]
 	 * <p>The function to use to load required property names.<br>
 	 * It is expected to be compatible with the following signature:<br><br>
@@ -382,11 +384,14 @@ trait LazyProperties
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
-	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
+	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

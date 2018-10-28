@@ -136,7 +136,7 @@ final class Call extends Utility
 		if ($no_throw) {
 			return false;
 		}
-		throw new Exceptions\InvalidFunction(['function' => $function]);
+		throw new Exceptions\InvalidFunction([$function]);
 	}
 	
 	/**

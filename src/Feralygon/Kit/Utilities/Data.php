@@ -248,7 +248,7 @@ final class Data extends Utility
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\Keyfy\UnsupportedValueType(['value' => $value]);
+		throw new Exceptions\Keyfy\UnsupportedValueType([$value]);
 	}
 	
 	/**
@@ -1551,7 +1551,7 @@ final class Data extends Utility
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\PathNotFound(['array' => $array, 'path' => $path]);
+				throw new Exceptions\PathNotFound([$array, $path]);
 			}
 			$pointer = $pointer[$key];
 		}
@@ -1599,9 +1599,7 @@ final class Data extends Utility
 				if ($no_throw) {
 					return false;
 				}
-				throw new Exceptions\PathKeySetIntoNonArray([
-					'array' => $array, 'path' => $path, 'key' => $key, 'value' => $pointer
-				]);
+				throw new Exceptions\PathKeySetIntoNonArray([$array, $path, $key, $pointer]);
 			}
 			$pointer = &$pointer[$key];
 		}
@@ -1655,9 +1653,7 @@ final class Data extends Utility
 					if ($no_throw) {
 						return false;
 					}
-					throw new Exceptions\PathKeyDeleteFromNonArray([
-						'array' => $array, 'path' => $path, 'key' => $key, 'value' => $pointer
-					]);
+					throw new Exceptions\PathKeyDeleteFromNonArray([$array, $path, $key, $pointer]);
 				} elseif (!array_key_exists($key, $pointer)) {
 					break;
 				}

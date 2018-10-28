@@ -25,7 +25,9 @@ interface ModifierBuilder
 	 * @param string $name
 	 * <p>The name to build for.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier|null
 	 * <p>The built modifier instance for the given name or <code>null</code> if none was built.</p>
 	 */

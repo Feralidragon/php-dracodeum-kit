@@ -164,7 +164,7 @@ final class System
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\SetIniOption\Failed(['name' => $name, 'value' => $value]);
+			throw new Exceptions\SetIniOption\Failed([$name, $value]);
 		} elseif ($no_throw) {
 			return true;
 		}

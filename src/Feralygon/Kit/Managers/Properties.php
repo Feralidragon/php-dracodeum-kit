@@ -374,6 +374,8 @@ class Properties
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @return $this
@@ -450,10 +452,13 @@ class Properties
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
-	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
-	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
+	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -489,9 +494,20 @@ class Properties
 					}
 				}
 			}
+			$required_count = count($required_map);
+			$required_names = array_keys($required_map);
 			
 			//required (process)
 			if (!empty($required_map)) {
+				//prepare
+				foreach ($properties as $name => $value) {
+					if (is_int($name) && isset($required_names[$name])) {
+						$properties[$required_names[$name]] = $value;
+						unset($properties[$name]);
+					}
+				}
+				
+				//process
 				$missing_names = array_keys(array_diff_key($required_map, $properties));
 				UCall::guardParameter('properties', $properties, empty($missing_names), [
 					'error_message' => "Missing required property {{names}} for manager with owner {{owner}}.",
@@ -506,7 +522,10 @@ class Properties
 			if (isset($remainder)) {
 				//remainder
 				foreach ($properties as $name => $value) {
-					if (!$this->hasProperty($name)) {
+					if (is_int($name)) {
+						$remainder[$name - $required_count] = $value;
+						unset($properties[$name]);
+					} elseif (!$this->hasProperty($name)) {
 						$remainder[$name] = $value;
 						unset($properties[$name]);
 					}
@@ -823,7 +842,7 @@ class Properties
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\PropertyNotFound(['manager' => $this, 'name' => $name]);
+				throw new Exceptions\PropertyNotFound([$this, $name]);
 			}
 			
 			//property

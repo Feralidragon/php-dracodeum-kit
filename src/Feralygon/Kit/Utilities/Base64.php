@@ -84,7 +84,7 @@ final class Base64 extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Decode\InvalidString(['string' => $string, 'url_safe' => $url_safe]);
+			throw new Exceptions\Decode\InvalidString([$string, 'url_safe' => $url_safe ?? false]);
 		}
 		return base64_decode(strtr($string, '-_', '+/'));
 	}

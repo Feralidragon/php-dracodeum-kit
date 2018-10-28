@@ -106,7 +106,7 @@ abstract class Factory
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\TypeNotFound(['factory' => static::class, 'name' => $name]);
+				throw new Exceptions\TypeNotFound([static::class, $name]);
 			}
 			UCall::guardInternal($type->getName() === $name, [
 				'error_message' => "Type name {{type.getName()}} mismatches the expected name {{name}}.",

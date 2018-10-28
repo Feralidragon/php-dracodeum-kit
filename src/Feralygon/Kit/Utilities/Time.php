@@ -152,7 +152,7 @@ final class Time extends Utility
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\InvalidTimestamp(['timestamp' => $timestamp]);
+		throw new Exceptions\InvalidTimestamp([$timestamp]);
 	}
 	
 	/**
@@ -943,7 +943,7 @@ final class Time extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Mperiod\InvalidPeriod(['period' => $period]);
+			throw new Exceptions\Mperiod\InvalidPeriod([$period]);
 		}
 		
 		//calculate
@@ -955,7 +955,7 @@ final class Time extends Utility
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\Mperiod\InvalidPeriod(['period' => $period]);
+				throw new Exceptions\Mperiod\InvalidPeriod([$period]);
 			}
 			$number += (float)$time * $multiple * ($matches['signs'][$i] === '-' ? -1 : 1);
 		}

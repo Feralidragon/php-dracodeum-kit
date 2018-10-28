@@ -23,7 +23,9 @@ trait PrototypeProducer
 	 * @param string $name
 	 * <p>The name to produce for.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Prototype|string|null
 	 * <p>The produced prototype instance or class for the given name or <code>null</code> if none was produced.</p>
 	 */

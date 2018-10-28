@@ -209,7 +209,7 @@ final class Type extends Utility
 		if ($options->no_throw) {
 			return null;
 		}
-		throw new Exceptions\Phpfy\UnsupportedValueType(['value' => $value]);
+		throw new Exceptions\Phpfy\UnsupportedValueType([$value]);
 	}
 	
 	/**
@@ -1472,12 +1472,12 @@ final class Type extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\InvalidObjectClass(['object_class' => $object_class]);
+			throw new Exceptions\InvalidObjectClass([$object_class]);
 		} elseif (!class_exists($object_class)) {
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ClassNotFound(['class' => $object_class]);
+			throw new Exceptions\ClassNotFound([$object_class]);
 		}
 		return $object_class[0] === '\\' ? substr($object_class, 1) : $object_class;
 	}
@@ -1503,7 +1503,7 @@ final class Type extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\InterfaceNotFound(['interface' => $interface]);
+			throw new Exceptions\InterfaceNotFound([$interface]);
 		}
 		return $interface[0] === '\\' ? substr($interface, 1) : $interface;
 	}

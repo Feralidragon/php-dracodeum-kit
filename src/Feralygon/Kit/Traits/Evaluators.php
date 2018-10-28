@@ -786,6 +786,9 @@ trait Evaluators
 	 * <p>The class to use.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.<br>
+	 * <br>
 	 * If a component or prototype instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
@@ -797,6 +800,8 @@ trait Evaluators
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
 	 * The built instance.</p>
@@ -810,6 +815,8 @@ trait Evaluators
 	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
 	 * The built instance for the given name or <code>null</code> if none was built.</p>
@@ -895,6 +902,8 @@ trait Evaluators
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>

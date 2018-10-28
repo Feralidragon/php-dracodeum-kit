@@ -168,7 +168,7 @@ final class Byte extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Mvalue\InvalidValue(['value' => $value]);
+			throw new Exceptions\Mvalue\InvalidValue([$value]);
 		}
 		$sign = $matches['sign'];
 		$number = (float)str_replace(',', '.', $matches['number']);
@@ -179,7 +179,7 @@ final class Byte extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Mvalue\InvalidValue(['value' => $value]);
+			throw new Exceptions\Mvalue\InvalidValue([$value]);
 		}
 		$number *= $multiple;
 		if ($sign === '-') {

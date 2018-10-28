@@ -54,7 +54,9 @@ class Component extends Factory
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
 	 * <p>The built constraint instance with the given prototype.</p>
 	 */
@@ -70,7 +72,9 @@ class Component extends Factory
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
 	 * <p>The built filter instance with the given prototype.</p>
 	 */

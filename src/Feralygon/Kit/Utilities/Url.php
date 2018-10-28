@@ -59,7 +59,7 @@ final class Url extends Utility
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\Stringify\UnsupportedValueType(['value' => $value]);
+				throw new Exceptions\Stringify\UnsupportedValueType([$value]);
 			}
 		}
 		

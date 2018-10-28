@@ -282,7 +282,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\ValueNotSet(['vector' => $this, 'index' => $index]);
+			throw new Exceptions\ValueNotSet([$this, $index]);
 		}
 		return $this->values[$this->min_index + $index];
 	}
@@ -335,7 +335,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidIndex(['vector' => $this, 'index' => $index, 'max_index' => $max_index]);
+			throw new Exceptions\InvalidIndex([$this, $index, 'max_index' => $max_index]);
 		}
 		
 		//value
@@ -343,7 +343,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value, 'index' => $index]);
+			throw new Exceptions\InvalidValue([$this, $value, 'index' => $index]);
 		}
 		
 		//set
@@ -384,7 +384,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value]);
+			throw new Exceptions\InvalidValue([$this, $value]);
 		}
 		
 		//prepend
@@ -451,7 +451,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value]);
+			throw new Exceptions\InvalidValue([$this, $value]);
 		}
 		
 		//append
@@ -568,7 +568,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\ValuesNotSet(['vector' => $this]);
+		throw new Exceptions\ValuesNotSet([$this]);
 	}
 	
 	/**
@@ -600,7 +600,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\ValuesNotSet(['vector' => $this]);
+		throw new Exceptions\ValuesNotSet([$this]);
 	}
 	
 	/**
@@ -656,7 +656,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\InvalidValues(['vector' => $this, 'values' => $values]);
+			throw new Exceptions\InvalidValues([$this, $values]);
 		}
 		
 		//evaluate
@@ -666,7 +666,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 				if ($no_throw) {
 					return false;
 				}
-				throw new Exceptions\InvalidValue(['vector' => $this, 'value' => $value, 'index' => $index]);
+				throw new Exceptions\InvalidValue([$this, $value, 'index' => $index]);
 			}
 		}
 		unset($value);

@@ -24,7 +24,9 @@ trait DefaultPrototypeProducer
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
-	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Prototype|string|null
 	 * <p>The produced default prototype instance or class, or <code>null</code> if none was produced.</p>
 	 */

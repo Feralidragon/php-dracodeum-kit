@@ -315,7 +315,9 @@ trait Properties
 	 * It is expected to be compatible with the following signature:<br><br>
 	 * <code>function (): void</code></p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @param string $mode [default = 'rw']
 	 * <p>The base access mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
@@ -343,11 +345,14 @@ trait Properties
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
-	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs.</p>
+	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

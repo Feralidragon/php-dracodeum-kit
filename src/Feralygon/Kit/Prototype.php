@@ -53,7 +53,9 @@ abstract class Prototype implements IPropertiesable
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
-	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 */
 	final public function __construct(array $properties = [])
 	{

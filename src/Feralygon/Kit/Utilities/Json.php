@@ -66,7 +66,7 @@ final class Json extends Utility
 				return null;
 			}
 			throw new Exceptions\Encode\InvalidData([
-				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
+				$data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}
 		
@@ -103,7 +103,7 @@ final class Json extends Utility
 				return null;
 			}
 			throw new Exceptions\Decode\InvalidData([
-				'data' => $data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
+				$data, 'error_code' => $error_code, 'error_message' => json_last_error_msg()
 			]);
 		}
 		
