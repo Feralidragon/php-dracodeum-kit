@@ -52,7 +52,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	public function checkValue($value): bool
 	{
 		return UType::evaluateString($value) && 
-			UText::isAnyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
+			UText::anyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
 	}
 	
 	

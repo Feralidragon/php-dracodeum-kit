@@ -283,7 +283,7 @@ final class Text extends Utility
 		//array
 		if (is_array($value)) {
 			//initialize
-			$is_associative = Data::isAssociative($value);
+			$is_associative = Data::associative($value);
 			$assoc_options = null;
 			if ($is_associative) {
 				$assoc_options = $options->clone(false);
@@ -588,7 +588,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string matches the given wildcard.</p>
 	 */
-	final public static function isWildcardMatch(string $string, string $wildcard, bool $insensitive = false): bool
+	final public static function wildcardMatch(string $string, string $wildcard, bool $insensitive = false): bool
 	{
 		$pattern = '/^' . 
 			implode('.*', array_map(function ($s) { return preg_quote($s, '/'); }, explode('*', $wildcard))) . 
@@ -615,10 +615,10 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string matches any of the given wildcards.</p>
 	 */
-	final public static function isAnyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false): bool
+	final public static function anyWildcardsMatch(string $string, array $wildcards, bool $insensitive = false): bool
 	{
 		foreach ($wildcards as $wildcard) {
-			if (self::isWildcardMatch($string, $wildcard, $insensitive)) {
+			if (self::wildcardMatch($string, $wildcard, $insensitive)) {
 				return true;
 			}
 		}
@@ -1551,7 +1551,7 @@ final class Text extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is multiline.</p>
 	 */
-	final public static function isMultiline(string $string): bool
+	final public static function multiline(string $string): bool
 	{
 		return strpos($string, "\n") !== false;
 	}

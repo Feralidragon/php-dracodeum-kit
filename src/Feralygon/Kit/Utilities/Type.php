@@ -156,7 +156,7 @@ final class Type extends Utility
 			}
 			
 			//process
-			$is_assoc = Data::isAssociative($value);
+			$is_assoc = Data::associative($value);
 			$array = [];
 			foreach ($value as $k => $v) {
 				//key
@@ -1442,7 +1442,7 @@ final class Type extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class is anonymous.</p>
 	 */
-	final public static function isAnonymous($object_class): bool
+	final public static function anonymous($object_class): bool
 	{
 		return preg_match('/^class@anonymous/', self::class($object_class));
 	}

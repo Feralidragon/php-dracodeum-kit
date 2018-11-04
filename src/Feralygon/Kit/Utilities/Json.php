@@ -31,7 +31,7 @@ final class Json extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given data is encoded.</p>
 	 */
-	final public static function isEncoded(string $data): bool
+	final public static function encoded(string $data): bool
 	{
 		json_decode($data);
 		return json_last_error() === JSON_ERROR_NONE;

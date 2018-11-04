@@ -179,7 +179,7 @@ final class Data extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given array is associative.</p>
 	 */
-	final public static function isAssociative(array $array): bool
+	final public static function associative(array $array): bool
 	{
 		return !empty($array) && (
 			!array_key_exists(0, $array) || 
@@ -305,7 +305,7 @@ final class Data extends Utility
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
-		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
+		$is_assoc = self::associative($array1) || self::associative($array2);
 		$is_union = ($is_assoc && ($flags & self::MERGE_ASSOC_UNION)) || 
 			(!$is_assoc && ($flags & self::MERGE_NONASSOC_UNION));
 		$is_left = ($is_assoc && ($flags & self::MERGE_ASSOC_LEFT)) || 
@@ -418,7 +418,7 @@ final class Data extends Utility
 		]);
 		
 		//unique
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::UNIQUE_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE))
@@ -494,7 +494,7 @@ final class Data extends Utility
 		]);
 		
 		//sort
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
@@ -562,7 +562,7 @@ final class Data extends Utility
 		]);
 		
 		//sort
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
@@ -648,7 +648,7 @@ final class Data extends Utility
 		$comparer = \Closure::fromCallable($comparer);
 		
 		//sort
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
@@ -726,7 +726,7 @@ final class Data extends Utility
 		]);
 		
 		//filter
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
 		if (
 			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
@@ -799,7 +799,7 @@ final class Data extends Utility
 		]);
 		
 		//filter
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
 		if (
 			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
@@ -882,7 +882,7 @@ final class Data extends Utility
 		]);
 		
 		//trim
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
 		if (
 			($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || 
@@ -977,7 +977,7 @@ final class Data extends Utility
 		]);
 		
 		//trim
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
 		if (
 			($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || 
@@ -1076,7 +1076,7 @@ final class Data extends Utility
 		}
 		
 		//intersect
-		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
+		$is_assoc = self::associative($array1) || self::associative($array2);
 		if (
 			($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))
@@ -1173,7 +1173,7 @@ final class Data extends Utility
 		}
 		
 		//intersect
-		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
+		$is_assoc = self::associative($array1) || self::associative($array2);
 		if (
 			($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))
@@ -1249,7 +1249,7 @@ final class Data extends Utility
 		}
 		
 		//differentiate
-		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
+		$is_assoc = self::associative($array1) || self::associative($array2);
 		if (
 			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))
@@ -1341,7 +1341,7 @@ final class Data extends Utility
 		}
 		
 		//differentiate
-		$is_assoc = self::isAssociative($array1) || self::isAssociative($array2);
+		$is_assoc = self::associative($array1) || self::associative($array2);
 		if (
 			($is_assoc && !($flags & self::DIFF_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::DIFF_NONASSOC_EXCLUDE))
@@ -1404,7 +1404,7 @@ final class Data extends Utility
 		]);
 		
 		//shuffle
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::SHUFFLE_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::SHUFFLE_NONASSOC_EXCLUDE))
@@ -1462,7 +1462,7 @@ final class Data extends Utility
 		]);
 		
 		//align
-		$is_assoc = self::isAssociative($array);
+		$is_assoc = self::associative($array);
 		if (
 			($is_assoc && !($flags & self::ALIGN_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::ALIGN_NONASSOC_EXCLUDE))
@@ -1896,7 +1896,7 @@ final class Data extends Utility
 		if ($assoc_exclude && $non_assoc_exclude) {
 			return $array;
 		} elseif ($assoc_exclude || $non_assoc_exclude) {
-			$is_assoc = self::isAssociative($array);
+			$is_assoc = self::associative($array);
 			$collapse = ($assoc_exclude && !$is_assoc) || ($non_assoc_exclude && $is_assoc);
 		}
 		
@@ -1907,7 +1907,7 @@ final class Data extends Utility
 				//initialize
 				$v_collapse = true;
 				if ($assoc_exclude || $non_assoc_exclude) {
-					$is_v_assoc = self::isAssociative($v);
+					$is_v_assoc = self::associative($v);
 					$v_collapse = ($assoc_exclude && !$is_v_assoc) || ($non_assoc_exclude && $is_v_assoc);
 				}
 				
@@ -2139,7 +2139,7 @@ final class Data extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_EMPTY,
 				'error_message' => "An empty array is not allowed."
 			]);
-		} elseif ($non_associative && self::isAssociative($array)) {
+		} elseif ($non_associative && self::associative($array)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_ASSOCIATIVE,

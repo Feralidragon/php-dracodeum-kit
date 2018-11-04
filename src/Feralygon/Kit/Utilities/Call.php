@@ -674,7 +674,7 @@ final class Call extends Utility
 	 */
 	final public static function assert(string $name, $function, $template, bool $no_throw = false)
 	{
-		if (System::isDebug() && !self::isCompatible($function, $template)) {
+		if (System::isDebug() && !self::compatible($function, $template)) {
 			if ($no_throw) {
 				return false;
 			}
@@ -716,7 +716,7 @@ final class Call extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given function is compatible with the given template.</p>
 	 */
-	final public static function isCompatible($function, $template): bool
+	final public static function compatible($function, $template): bool
 	{
 		return self::memoize(function ($function, $template): bool {
 			//initialize
@@ -938,7 +938,7 @@ final class Call extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 				'error_message' => "Only a callable value is allowed."
 			]);
-		} elseif (isset($template) && (!$assertive || System::isDebug()) && !self::isCompatible($value, $template)) {
+		} elseif (isset($template) && (!$assertive || System::isDebug()) && !self::compatible($value, $template)) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,

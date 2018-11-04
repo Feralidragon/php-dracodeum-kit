@@ -99,7 +99,7 @@ final class Url extends Utility
 		//querify
 		$f = function (array $values, ?string $name = null) use (&$f, $allow_arrays, $no_encode): array {
 			$query = [];
-			$associative = Data::isAssociative($values);
+			$associative = Data::associative($values);
 			foreach ($values as $key => $value) {
 				//array
 				if ($allow_arrays && (is_array($value) || (is_object($value) && $value instanceof IArrayable))) {

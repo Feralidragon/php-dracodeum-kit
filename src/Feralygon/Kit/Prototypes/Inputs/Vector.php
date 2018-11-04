@@ -141,7 +141,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		if (isset($this->input)) {
 			//label
 			$input_label = $this->input->getLabel($text_options, $info_options);
-			if (UText::isMultiline($input_label)) {
+			if (UText::multiline($input_label)) {
 				$input_label = "\n" . UText::indentate($input_label) . "\n";
 			}
 			
@@ -673,6 +673,6 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 	 */
 	final private function formatMessage(string $message): string
 	{
-		return UText::isMultiline($message) ? "\n\n" . UText::indentate($message) : UText::uncapitalize($message, true);
+		return UText::multiline($message) ? "\n\n" . UText::indentate($message) : UText::uncapitalize($message, true);
 	}
 }

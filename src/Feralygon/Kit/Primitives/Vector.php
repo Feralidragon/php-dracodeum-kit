@@ -652,7 +652,7 @@ implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IArrayable, I
 		$this->guardNonReadonlyCall();
 		
 		//check
-		if (UData::isAssociative($values)) {
+		if (UData::associative($values)) {
 			if ($no_throw) {
 				return false;
 			}
