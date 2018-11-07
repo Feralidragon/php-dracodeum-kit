@@ -11,7 +11,8 @@ use Feralygon\Kit\Managers\Readonly as Manager;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * This trait enables read-only support for a class.
+ * This trait enables read-only support for a class 
+ * and may be used as an implementation of the <code>Feralygon\Kit\Interfaces\Readonlyable</code> interface.
  * 
  * @since 1.0.0
  */
