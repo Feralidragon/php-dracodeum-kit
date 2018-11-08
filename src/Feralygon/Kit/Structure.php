@@ -63,19 +63,26 @@ IStringifiable, IStringInstantiable
 	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set as read-only.</p>
 	 */
-	final public function __construct(array $properties = [], bool $readonly = false)
+	final public function __construct(array $properties = [])
 	{
 		//properties
-		$mode = $readonly ? 'r+' : 'rw';
-		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, $mode);
+		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties);
 		
 		//read-only
-		$this->initializeReadonly(
-			$readonly, $readonly ? [] : [\Closure::fromCallable([$this, 'setPropertiesAsReadonly'])]
-		);
+		$this->addReadonlyCallback(function (bool $recursive): void {
+			//properties
+			$this->setPropertiesAsReadonly();
+			
+			//recursive
+			if ($recursive) {
+				foreach ($this->getAll() as $value) {
+					if (is_object($value) && $value instanceof IReadonlyable) {
+						$value->setAsReadonly($recursive);
+					}
+				}
+			}
+		});
 	}
 	
 	
@@ -134,15 +141,12 @@ IStringifiable, IStringInstantiable
 	 * The returning cloned instance is a new instance with the same properties.
 	 * 
 	 * @since 1.0.0
-	 * @param bool|null $readonly [default = null]
-	 * <p>Set the new cloned instance as read-only.<br>
-	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(?bool $readonly = null): Structure
+	final public function clone(): Structure
 	{
-		return new static($this->getAll(), $readonly ?? $this->isReadonly());
+		return new static($this->getAll());
 	}
 	
 	
@@ -154,19 +158,17 @@ IStringifiable, IStringInstantiable
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set the built instance as read-only.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(array $properties = [], bool $readonly = false): Structure
+	final public static function build(array $properties = []): Structure
 	{
 		$builder = static::getDefaultBuilder();
 		if (isset($builder)) {
-			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Structure {});
-			return $builder($properties, $readonly);
+			UCall::assert('builder', $builder, function (array $properties): Structure {});
+			return $builder($properties);
 		}
-		return new static($properties, $readonly);
+		return new static($properties);
 	}
 	
 	/**
@@ -200,23 +202,17 @@ IStringifiable, IStringInstantiable
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
@@ -226,11 +222,11 @@ IStringifiable, IStringInstantiable
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
 		try {
-			$value = static::coerce($value, $clone, $readonly, $builder, $nullable);
+			$value = static::coerce($value, $clone, $builder, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -250,23 +246,17 @@ IStringifiable, IStringInstantiable
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Coerce into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
@@ -278,12 +268,12 @@ IStringifiable, IStringInstantiable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
+		$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): ?Structure
 	{
 		//builder
 		if (isset($builder)) {
-			UCall::assert('builder', $builder, function (array $properties, bool $readonly): Structure {});
+			UCall::assert('builder', $builder, function (array $properties): Structure {});
 		} else {
 			$builder = [static::class, 'build'];
 		}
@@ -294,14 +284,15 @@ IStringifiable, IStringInstantiable
 				return null;
 			} elseif (!isset($value) || is_string($value) || is_array($value)) {
 				$properties = is_string($value) ? static::getStringProperties($value) : $value ?? [];
-				return UType::coerceObject($builder($properties, $readonly ?? false), static::class);
-			} elseif (is_object($value) && $value instanceof Structure) {
-				if ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
-					return $value->clone($readonly);
-				} elseif (!UType::isA($value, static::class)) {
-					return UType::coerceObject($builder($value->getAll(), $readonly ?? false), static::class);
+				return UType::coerceObject($builder($properties), static::class);
+			} elseif (is_object($value)) {
+				if ($value instanceof Structure) {
+					return UType::isA($value, static::class)
+						? ($clone ? $value->clone() : $value)
+						: UType::coerceObject($builder($value->getAll()), static::class);
+				} elseif ($value instanceof IArrayable) {
+					return UType::coerceObject($builder($value->toArray()), static::class);
 				}
-				return $value;
 			}
 		} catch (\Exception $exception) {
 			throw new Exceptions\CoercionFailed([

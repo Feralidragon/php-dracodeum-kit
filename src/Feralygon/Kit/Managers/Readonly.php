@@ -23,6 +23,9 @@ class Readonly
 	/** @var bool */
 	private $enabled = false;
 	
+	/** @var bool */
+	private $recursive = false;
+	
 	/** @var \Closure[] */
 	private $callbacks = [];
 	
@@ -60,28 +63,35 @@ class Readonly
 	 * Check if is enabled.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $recursive [default = false]
+	 * <p>Check if it has been recursively enabled.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is enabled.</p>
 	 */
-	final public function isEnabled(): bool
+	final public function isEnabled(bool $recursive = false): bool
 	{
-		return $this->enabled;
+		return $this->enabled && (!$recursive || $this->recursive);
 	}
 	
 	/**
 	 * Enable.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $recursive [default = false]
+	 * <p>Enable recursively.<br>
+	 * <br>
+	 * Any potential recursion may only be implemented in the callback functions.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function enable(): Readonly
+	final public function enable(bool $recursive = false): Readonly
 	{
-		if (!$this->enabled) {
+		if (!$this->isEnabled($recursive)) {
 			foreach ($this->callbacks as $callback) {
-				$callback();
+				$callback($recursive);
 			}
 			$this->enabled = true;
+			$this->recursive = $recursive;
 		}
 		return $this;
 	}
@@ -98,7 +108,11 @@ class Readonly
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (): void</code></p>
+	 * <code>function (bool $recursive): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $recursive</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Enable recursively.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -108,7 +122,7 @@ class Readonly
 			'hint_message' => "This method may only be called before enablement, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::assert('callback', $callback, function (): void {});
+		UCall::assert('callback', $callback, function (bool $recursive): void {});
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
 	}

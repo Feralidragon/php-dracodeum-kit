@@ -854,21 +854,15 @@ trait KeyEvaluators
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Options</code><br>
+	 * <code>function (array $properties): Feralygon\Kit\Options</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
 	 * The built instance.</p>
@@ -878,10 +872,10 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsOptions(
-		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
+		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsOptions($class, $clone, $readonly, $builder, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsOptions($class, $clone, $builder, $nullable);
 		return $this;
 	}
 	
@@ -898,23 +892,17 @@ trait KeyEvaluators
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same properties and read-only state.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.</p>
@@ -924,10 +912,10 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsStructure(
-		string $class, bool $clone = false, ?bool $readonly = null, ?callable $builder = null, bool $nullable = false
+		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsStructure($class, $clone, $readonly, $builder, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsStructure($class, $clone, $builder, $nullable);
 		return $this;
 	}
 	
@@ -944,20 +932,16 @@ trait KeyEvaluators
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsDictionary(
-		?Dictionary $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
+		?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsDictionary($template, $clone, $readonly, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsDictionary($template, $clone, $nullable);
 		return $this;
 	}
 	
@@ -974,20 +958,14 @@ trait KeyEvaluators
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsVector(
-		?Vector $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
-	): object
+	final public function setKeyAsVector(?Vector $template = null, bool $clone = false, bool $nullable = false): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsVector($template, $clone, $readonly, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsVector($template, $clone, $nullable);
 		return $this;
 	}
 	

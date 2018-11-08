@@ -24,10 +24,8 @@ interface Text
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set the built instance as read-only.</p>
 	 * @return \Feralygon\Kit\Options\Text
 	 * <p>The built instance.</p>
 	 */
-	public function build(array $properties = [], bool $readonly = false): Options;
+	public function build(array $properties = []): Options;
 }

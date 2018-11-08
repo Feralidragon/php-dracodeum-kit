@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Managers\Readonly as Manager;
-use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
  * This trait enables read-only support for a class 
@@ -29,26 +28,28 @@ trait Readonly
 	 * Check if is read-only.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $recursive [default = false]
+	 * <p>Check if it has been recursively set as read-only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is read-only.</p>
 	 */
-	final public function isReadonly(): bool
+	final public function isReadonly(bool $recursive = false): bool
 	{
-		$this->guardReadonlyManagerCall();
-		return $this->readonly_manager->isEnabled();
+		return $this->getReadonlyManager()->isEnabled($recursive);
 	}
 	
 	/**
 	 * Set as read-only.
 	 * 
 	 * @since 1.0.0
+	 * @param bool $recursive [default = false]
+	 * <p>Set all possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly(): object
+	final public function setAsReadonly(bool $recursive = false): object
 	{
-		$this->guardReadonlyManagerCall();
-		$this->readonly_manager->enable();
+		$this->getReadonlyManager()->enable($recursive);
 		return $this;
 	}
 	
@@ -63,8 +64,7 @@ trait Readonly
 	 */
 	final protected function guardNonReadonlyCall(): void
 	{
-		$this->guardReadonlyManagerCall();
-		$this->readonly_manager->guardCall(1);
+		$this->getReadonlyManager()->guardCall(1);
 	}
 	
 	/**
@@ -79,14 +79,17 @@ trait Readonly
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (): void</code></p>
+	 * <code>function (bool $recursive): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $recursive</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Enable recursively.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final protected function addReadonlyCallback(callable $callback): object
 	{
-		$this->guardReadonlyManagerCall();
-		$this->readonly_manager->addCallback($callback);
+		$this->getReadonlyManager()->addCallback($callback);
 		return $this;
 	}
 	
@@ -94,49 +97,17 @@ trait Readonly
 	
 	//Final private methods
 	/**
-	 * Initialize read-only.
+	 * Get read-only manager instance.
 	 * 
 	 * @since 1.0.0
-	 * @param bool $enable [default = false]
-	 * <p>Enable the read-only state.</p>
-	 * @param callable[] $callbacks [default = []]
-	 * <p>The callback functions to call upon read-only enablement.<br>
-	 * Each one is expected to be compatible with the following signature:<br>
-	 * <br>
-	 * <code>function (): void</code></p>
-	 * @return void
+	 * @return \Feralygon\Kit\Managers\Readonly
+	 * <p>The read-only manager instance.</p>
 	 */
-	final private function initializeReadonly(bool $enable = false, array $callbacks = []): void
+	final private function getReadonlyManager(): Manager
 	{
-		//initialize
-		UCall::guard(!isset($this->readonly_manager), [
-			'error_message' => "Read-only support has already been initialized."
-		]);
-		$this->readonly_manager = new Manager($this);
-		
-		//callbacks
-		foreach ($callbacks as $callback) {
-			$this->readonly_manager->addCallback($callback);
+		if (!isset($this->readonly_manager)) {
+			$this->readonly_manager = new Manager($this);
 		}
-		
-		//enable
-		if ($enable) {
-			$this->readonly_manager->enable();
-		}
-	}
-	
-	/**
-	 * Guard the current function or method in the stack from being called until the read-only manager 
-	 * has been initialized.
-	 * 
-	 * @since 1.0.0
-	 * @return void
-	 */
-	final private function guardReadonlyManagerCall(): void
-	{
-		UCall::guard(isset($this->readonly_manager), [
-			'hint_message' => "This method may only be called after the read-only manager initialization.",
-			'stack_offset' => 1
-		]);
+		return $this->readonly_manager;
 	}
 }

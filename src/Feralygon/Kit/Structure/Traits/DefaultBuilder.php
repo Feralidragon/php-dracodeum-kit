@@ -22,15 +22,13 @@ trait DefaultBuilder
 	 * The returning function is used to build an instance during a coercion or evaluation if none is given, 
 	 * and it is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties, bool $readonly): Feralygon\Kit\Structure</code><br>
+	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $readonly</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Set the built instance as read-only.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.
