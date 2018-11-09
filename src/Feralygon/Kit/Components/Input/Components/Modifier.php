@@ -279,10 +279,10 @@ abstract class Modifier extends Component
 	{
 		$prototype = $this->getPrototype();
 		if ($this->hasSchema()) {
-			return new Structures\Schema([
+			return Structures\Schema::build([
 				'name' => $this->getName(),
 				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
-			], true);
+			])->setAsReadonly(true);
 		} elseif (!$no_throw) {
 			throw new Exceptions\SchemaNotSet([$this, $prototype]);
 		}

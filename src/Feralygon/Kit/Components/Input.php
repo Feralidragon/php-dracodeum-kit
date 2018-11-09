@@ -533,7 +533,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//message
 		if ($prototype instanceof PrototypeInterfaces\Information) {
-			return $prototype->getMessage($text_options, new Options\Info());
+			return $prototype->getMessage($text_options, Options\Info::build());
 		}
 		
 		//default
@@ -595,12 +595,12 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	public function getSchema(): Structures\Schema
 	{
 		$prototype = $this->getPrototype();
-		return new Structures\Schema([
+		return Structures\Schema::build([
 			'name' => $this->getName(),
 			'nullable' => $this->nullable,
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
-		], true);
+		])->setAsReadonly(true);
 	}
 	
 	
