@@ -38,9 +38,9 @@ use Feralygon\Kit\Utilities\{
  * This component represents an input which can check, sanitize and hold a value.
  * 
  * @since 1.0.0
- * @property-write bool $nullable [once] [default = false]
+ * @property-write bool $nullable [writeonce] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
- * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [once] [default = []]
+ * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
