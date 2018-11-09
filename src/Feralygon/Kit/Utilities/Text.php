@@ -286,7 +286,7 @@ final class Text extends Utility
 			$is_associative = Data::associative($value);
 			$assoc_options = null;
 			if ($is_associative) {
-				$assoc_options = $options->clone(false);
+				$assoc_options = $options->clone();
 				$assoc_options->prepend_type = false;
 				$assoc_options->quote_strings = $options->prepend_type;
 			}
