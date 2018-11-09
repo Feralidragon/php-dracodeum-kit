@@ -67,15 +67,22 @@ IStringifiable
 	 * @since 1.0.0
 	 * @param array $values [default = []]
 	 * <p>The values.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set as read-only.</p>
 	 */
-	final public function __construct(array $values = [], bool $readonly = false)
+	final public function __construct(array $values = [])
 	{
-		//initialize read-only
-		$this->initializeReadonly();
-		$this->addReadonlyCallback(function (): void {
+		//read-only
+		$this->addReadonlyCallback(function (bool $recursive): void {
+			//evaluators
 			$this->lockEvaluators();
+			
+			//recursive
+			if ($recursive) {
+				foreach ($this->values as $value) {
+					if (is_object($value) && $value instanceof IReadonlyable) {
+						$value->setAsReadonly($recursive);
+					}
+				}
+			}
 		});
 		
 		//evaluator callback
@@ -100,11 +107,6 @@ IStringifiable
 		if (!empty($values)) {
 			$this->setAll($values);
 		}
-		
-		//read-only
-		if ($readonly) {
-			$this->setAsReadonly();
-		}
 	}
 	
 	
@@ -125,7 +127,11 @@ IStringifiable
 	/** {@inheritdoc} */
 	final public function offsetSet($offset, $value): void
 	{
-		$this->set($offset, $value);
+		if (isset($offset)) {
+			$this->set($offset, $value);
+		} else {
+			$this->append($value);
+		}
 	}
 	
 	/** {@inheritdoc} */
@@ -221,21 +227,25 @@ IStringifiable
 	 * The returning cloned instance is a new instance with the same values and evaluator functions.
 	 * 
 	 * @since 1.0.0
-	 * @param bool|null $readonly [default = null]
-	 * <p>Set the new cloned instance as read-only.<br>
-	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(?bool $readonly = null): Vector
+	final public function clone(): Vector
 	{
-		$instance = new static([], $readonly ?? $this->isReadonly());
+		//instance
+		$instance = new static();
+		
+		//evaluators
 		foreach ($this->getEvaluators() as $evaluator) {
 			$instance->addEvaluator($evaluator);
 		}
+		
+		//properties
 		$instance->values = $this->values;
 		$instance->min_index = $this->min_index;
 		$instance->max_index = $this->max_index;
+		
+		//return
 		return $instance;
 	}
 	
@@ -782,14 +792,12 @@ IStringifiable
 	 * @since 1.0.0
 	 * @param array $values [default = []]
 	 * <p>The values to build with.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set the built instance as read-only.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(array $values = [], bool $readonly = false): Vector
+	final public static function build(array $values = []): Vector
 	{
-		return new static($values, $readonly);
+		return new static($values);
 	}
 	
 	/**
@@ -807,21 +815,17 @@ IStringifiable
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Vector $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
+		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
 		try {
-			$value = static::coerce($value, $template, $clone, $readonly, $nullable);
+			$value = static::coerce($value, $template, $clone, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -843,10 +847,6 @@ IStringifiable
 	 * <p>The template instance to clone from and coerce into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Coerce into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same values and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\CoercionFailed
@@ -855,7 +855,7 @@ IStringifiable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Vector $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
+		$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): ?Vector
 	{
 		//nullable
@@ -872,42 +872,25 @@ IStringifiable
 		}
 		
 		//coerce
-		$array = $value;
-		if (is_object($value)) {
-			if ($value instanceof Vector) {
-				if (!isset($template)) {
-					if ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
-						return $value->clone($readonly);
-					}
-					return $value;
-				} elseif (!isset($readonly)) {
-					$readonly = $value->isReadonly();
-				}
-				$array = $value->getAll();
-			} elseif ($value instanceof IArrayable) {
-				$array = $value->toArray();
+		try {
+			//object
+			if (!isset($template) && is_object($value) && $value instanceof Vector) {
+				return $clone ? $value->clone() : $value;
 			}
-		}
-		
-		//build
-		if (is_array($array)) {
-			try {
-				if (isset($template)) {
-					$instance = $template->clone(false)->setAll($array);
-					if ((!isset($readonly) && $template->isReadonly()) || (isset($readonly) && $readonly)) {
-						$instance->setAsReadonly();
-					}
-					return $instance;
-				}
-				return static::build($array, $readonly ?? false);
-			} catch (\Exception $exception) {
-				throw new Exceptions\CoercionFailed([
-					'value' => $value,
-					'vector' => static::class,
-					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-					'error_message' => $exception->getMessage()
-				]);
+			
+			//array
+			$array = is_object($value) && $value instanceof IArrayable ? $value->toArray() : $value;
+			if (is_array($array)) {
+				return isset($template) ? $template->clone()->setAll($array) : static::build($array);
 			}
+			
+		} catch (\Exception $exception) {
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'vector' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
 		}
 		
 		//throw

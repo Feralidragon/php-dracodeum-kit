@@ -68,15 +68,30 @@ IStringifiable
 	 * @since 1.0.0
 	 * @param array $pairs [default = []]
 	 * <p>The pairs, as <samp>key => value</samp>.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set as read-only.</p>
 	 */
-	final public function __construct(array $pairs = [], bool $readonly = false)
+	final public function __construct(array $pairs = [])
 	{
-		//initialize read-only
-		$this->initializeReadonly();
-		$this->addReadonlyCallback(function (): void {
+		//read-only
+		$this->addReadonlyCallback(function (bool $recursive): void {
+			//evaluators
 			$this->lockKeyEvaluators()->lockEvaluators();
+			
+			//recursive
+			if ($recursive) {
+				//keys
+				foreach ($this->keys as $key) {
+					if (is_object($key) && $key instanceof IReadonlyable) {
+						$key->setAsReadonly($recursive);
+					}
+				}
+				
+				//values
+				foreach ($this->values as $value) {
+					if (is_object($value) && $value instanceof IReadonlyable) {
+						$value->setAsReadonly($recursive);
+					}
+				}
+			}
 		});
 		
 		//key evaluator callback
@@ -106,11 +121,6 @@ IStringifiable
 		//pairs
 		if (!empty($pairs)) {
 			$this->setAll($pairs);
-		}
-		
-		//read-only
-		if ($readonly) {
-			$this->setAsReadonly();
 		}
 	}
 	
@@ -234,16 +244,13 @@ IStringifiable
 	 * The returning cloned instance is a new instance with the same pairs and evaluator functions.
 	 * 
 	 * @since 1.0.0
-	 * @param bool|null $readonly [default = null]
-	 * <p>Set the new cloned instance as read-only.<br>
-	 * If not set, then the new cloned instance read-only state is set to match the one from this instance.</p>
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */
-	final public function clone(?bool $readonly = null): Dictionary
+	final public function clone(): Dictionary
 	{
 		//instance
-		$instance = new static([], $readonly ?? $this->isReadonly());
+		$instance = new static();
 		
 		//evaluators
 		foreach ($this->getKeyEvaluators() as $evaluator) {
@@ -519,14 +526,12 @@ IStringifiable
 	 * @since 1.0.0
 	 * @param array $pairs [default = []]
 	 * <p>The pairs to build with, as <samp>key => value</samp>.</p>
-	 * @param bool $readonly [default = false]
-	 * <p>Set the built instance as read-only.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(array $pairs = [], bool $readonly = false): Dictionary
+	final public static function build(array $pairs = []): Dictionary
 	{
-		return new static($pairs, $readonly);
+		return new static($pairs);
 	}
 	
 	/**
@@ -544,21 +549,17 @@ IStringifiable
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Evaluate into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Dictionary $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
+		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
 		try {
-			$value = static::coerce($value, $template, $clone, $readonly, $nullable);
+			$value = static::coerce($value, $template, $clone, $nullable);
 		} catch (Exceptions\CoercionFailed $exception) {
 			return false;
 		}
@@ -580,10 +581,6 @@ IStringifiable
 	 * <p>The template instance to clone from and coerce into.</p>
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
-	 * @param bool|null $readonly [default = null]
-	 * <p>Coerce into either a non-read-only or read-only instance.<br>
-	 * If set and if an instance is given and its read-only state does not match, 
-	 * then a new one is created with the same pairs and read-only state.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Primitives\Dictionary\Exceptions\CoercionFailed
@@ -592,7 +589,7 @@ IStringifiable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Dictionary $template = null, bool $clone = false, ?bool $readonly = null, bool $nullable = false
+		$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): ?Dictionary
 	{
 		//nullable
@@ -613,31 +610,19 @@ IStringifiable
 			//object
 			if (is_object($value) && $value instanceof Dictionary) {
 				if (isset($template)) {
-					$instance = $template->clone(false)->clear();
+					$instance = $template->clone()->clear();
 					foreach ($value->keys as $index => $key) {
 						$instance->set($key, $value->values[$index]);
 					}
-					if ((!isset($readonly) && $value->isReadonly()) || (isset($readonly) && $readonly)) {
-						$instance->setAsReadonly();
-					}
 					return $instance;
-				} elseif ($clone || (isset($readonly) && $readonly !== $value->isReadonly())) {
-					return $value->clone($readonly);
 				}
-				return $value;
+				return $clone ? $value->clone() : $value;
 			}
 			
 			//array
 			$array = is_object($value) && $value instanceof IArrayable ? $value->toArray() : $value;
 			if (is_array($array)) {
-				if (isset($template)) {
-					$instance = $template->clone(false)->setAll($array);
-					if ((!isset($readonly) && $template->isReadonly()) || (isset($readonly) && $readonly)) {
-						$instance->setAsReadonly();
-					}
-					return $instance;
-				}
-				return static::build($array, $readonly ?? false);
+				return isset($template) ? $template->clone()->setAll($array) : static::build($array);
 			}
 			
 		} catch (\Exception $exception) {

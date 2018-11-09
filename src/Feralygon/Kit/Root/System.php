@@ -257,13 +257,13 @@ final class System
 	final public static function getOs(): Structures\Os
 	{
 		if (!isset(self::$os)) {
-			self::$os = new Structures\Os([
+			self::$os = Structures\Os::build([
 				'name' => php_uname('s'),
 				'hostname' => php_uname('n'),
 				'release' => php_uname('r'),
 				'information' => php_uname('v'),
 				'architecture' => php_uname('m')
-			], true);
+			])->setAsReadonly(true);
 		}
 		return self::$os;
 	}
