@@ -1406,7 +1406,6 @@ final class Text extends Utility
 		}
 		
 		//calculate
-		$max_distance = max($length1, $length2);
 		for ($i2 = 1; $i2 <= $length2; $i2++) {
 			for ($i1 = 1; $i1 <= $length1; $i1++) {
 				$cost = $chars1[$i1 - 1] === $chars2[$i2 - 1] ? 0 : 1;
