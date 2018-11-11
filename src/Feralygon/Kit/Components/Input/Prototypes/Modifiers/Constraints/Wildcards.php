@@ -26,24 +26,24 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a set of allowed wildcard matches.
  * 
  * @since 1.0.0
- * @property string[] $wildcards
+ * @property-write string[] $wildcards [writeonce]
  * <p>The allowed wildcard matches to restrict a given value to.</p>
- * @property bool $insensitive [default = false]
+ * @property-write bool $insensitive [writeonce] [default = false]
  * <p>Match the given wildcards in a case-insensitive manner.</p>
- * @property bool $negate [default = false]
+ * @property-write bool $negate [writeonce] [default = false]
  * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
 class Wildcards extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var string[] */
-	private $wildcards;
+	protected $wildcards;
 	
 	/** @var bool */
-	private $insensitive = false;
+	protected $insensitive = false;
 	
 	/** @var bool */
-	private $negate = false;
+	protected $negate = false;
 	
 	
 	
@@ -260,6 +260,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 		switch ($name) {
 			case 'wildcards':
 				return $this->createProperty()
+					->setMode('w-')
 					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateString($value);
 					}, true, true)
@@ -268,7 +269,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 			case 'insensitive':
 				//no break
 			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

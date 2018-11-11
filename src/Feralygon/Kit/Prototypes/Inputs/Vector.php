@@ -63,12 +63,12 @@ use Feralygon\Kit\Utilities\Text as UText;
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
-	//Private properties
+	//Protected properties
 	/** @var \Feralygon\Kit\Components\Input|null */
-	private $input = null;
+	protected $input = null;
 	
 	/** @var array */
-	private $error_values = [];
+	protected $error_values = [];
 	
 	
 	

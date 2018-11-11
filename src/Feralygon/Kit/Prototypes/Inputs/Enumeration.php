@@ -28,50 +28,50 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
  * @since 1.0.0
- * @property-read string $enumeration
+ * @property-write string $enumeration [writeonce]
  * <p>The enumeration class to use.</p>
- * @property-read int[]|float[]|string[] $values [default = []]
+ * @property-write int[]|float[]|string[] $values [writeonce] [default = []]
  * <p>The enumeration element values to restrict a given value to.</p>
- * @property-read int[]|float[]|string[] $non_values [default = []]
+ * @property-write int[]|float[]|string[] $non_values [writeonce] [default = []]
  * <p>The enumeration element values to restrict a given value from.</p>
- * @property-read bool $names_only [default = false]
+ * @property-write bool $names_only [writeonce] [default = false]
  * <p>Only allow enumeration element names to be set.</p>
- * @property-read bool $values_only [default = false]
+ * @property-write bool $values_only [writeonce] [default = false]
  * <p>Only allow enumeration element values to be set.</p>
- * @property-read bool $hide_names [default = false]
+ * @property-write bool $hide_names [writeonce] [default = false]
  * <p>Hide enumeration element names in labels, descriptions and messages.</p>
- * @property-read bool $hide_values [default = false]
+ * @property-write bool $hide_values [writeonce] [default = false]
  * <p>Hide enumeration element values in labels, descriptions and messages.</p>
- * @property-read bool $namify [default = false]
+ * @property-write bool $namify [writeonce] [default = false]
  * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
 class Enumeration extends Input implements IInformation, IValueStringifier, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var string */
-	private $enumeration;
+	protected $enumeration;
 	
 	/** @var int[]|float[]|string[] */
-	private $values = [];
+	protected $values = [];
 	
 	/** @var int[]|float[]|string[] */
-	private $non_values = [];
+	protected $non_values = [];
 	
 	/** @var bool */
-	private $names_only = false;
+	protected $names_only = false;
 	
 	/** @var bool */
-	private $values_only = false;
+	protected $values_only = false;
 	
 	/** @var bool */
-	private $hide_names = false;
+	protected $hide_names = false;
 	
 	/** @var bool */
-	private $hide_values = false;
+	protected $hide_values = false;
 	
 	/** @var bool */
-	private $namify = false;
+	protected $namify = false;
 	
 	
 	
@@ -411,7 +411,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		switch ($name) {
 			case 'enumeration':
 				return $this->createProperty()
-					->setMode('r+')
+					->setMode('w-')
 					->setAsStrictClass(KitEnumeration::class)
 					->bind(self::class)
 				;
@@ -419,7 +419,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				//no break
 			case 'non_values':
 				return $this->createProperty()
-					->setMode('r+')
+					->setMode('w-')
 					->setAsArray(function (&$key, &$value): bool {
 						return is_int($value) || is_float($value) || is_string($value);
 					}, true)
@@ -434,7 +434,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			case 'hide_values':
 				//no break
 			case 'namify':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

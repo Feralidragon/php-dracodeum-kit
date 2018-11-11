@@ -25,21 +25,21 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a number to a set of allowed powers.
  * 
  * @since 1.0.0
- * @property int[]|float[] $powers
+ * @property-write int[]|float[] $powers [writeonce]
  * <p>The allowed powers to restrict a given number to.<br>
  * They must all be greater than <code>0</code>.</p>
- * @property bool $negate [default = false]
+ * @property-write bool $negate [writeonce] [default = false]
  * <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
 class Powers extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int[]|float[] */
-	private $powers;
+	protected $powers;
 	
 	/** @var bool */
-	private $negate = false;
+	protected $negate = false;
 	
 	
 	
@@ -152,13 +152,14 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 		switch ($name) {
 			case 'powers':
 				return $this->createProperty()
+					->setMode('w-')
 					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateNumber($value) && $value > 0;
 					}, true, true)
 					->bind(self::class)
 				;
 			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

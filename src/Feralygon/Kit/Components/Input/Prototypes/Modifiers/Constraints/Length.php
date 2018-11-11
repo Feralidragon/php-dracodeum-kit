@@ -26,20 +26,20 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to an exact length.
  * 
  * @since 1.0.0
- * @property int $length
+ * @property-write int $length [writeonce]
  * <p>The length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property bool $unicode [default = false]
+ * @property-write bool $unicode [writeonce] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int */
-	private $length;
+	protected $length;
 	
 	/** @var bool */
-	private $unicode = false;
+	protected $unicode = false;
 	
 	
 	
@@ -129,9 +129,9 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

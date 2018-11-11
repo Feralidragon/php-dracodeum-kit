@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * This filter prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
  * 
  * @since 1.0.0
- * @property bool $url_safe [default = false]
+ * @property-write bool $url_safe [writeonce] [default = false]
  * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) get replaced 
  * by hyphens (-) and underscores (_) respectively, as well as the padding equal signs (=) removed, 
  * in order to be safely put in an URL.</p>
@@ -23,9 +23,9 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  */
 class Base64 extends Filter
 {
-	//Private properties
+	//Protected properties
 	/** @var bool */
-	private $url_safe = false;
+	protected $url_safe = false;
 	
 	
 	
@@ -51,7 +51,7 @@ class Base64 extends Filter
 	{
 		switch ($name) {
 			case 'url_safe':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

@@ -38,9 +38,9 @@ use Feralygon\Kit\Utilities\{
  * Only an integer, float or string may be evaluated as a text or string.
  * 
  * @since 1.0.0
- * @property-read bool $unicode [default = false]
+ * @property-write bool $unicode [writeonce] [default = false]
  * <p>Set as Unicode text.</p>
- * @property-read bool $trim [default = false]
+ * @property-write bool $trim [writeonce] [default = false]
  * <p>Trim the given text or string from whitespace.</p>
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
@@ -81,12 +81,12 @@ use Feralygon\Kit\Utilities\{
  */
 class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
-	//Private properties
+	//Protected properties
 	/** @var bool */
-	private $unicode = false;
+	protected $unicode = false;
 	
 	/** @var bool */
-	private $trim = false;
+	protected $trim = false;
 	
 	
 	
@@ -304,7 +304,7 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 			case 'unicode':
 				//no break
 			case 'trim':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

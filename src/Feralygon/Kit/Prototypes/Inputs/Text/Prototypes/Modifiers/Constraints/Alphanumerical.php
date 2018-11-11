@@ -24,15 +24,15 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a text or string to alphanumerical characters.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false]
+ * @property-write bool $unicode [writeonce] [default = false]
  * <p>Check a given text or string as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Alphanumerical extends Constraint implements IName, IInformation, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var bool */
-	private $unicode = false;
+	protected $unicode = false;
 	
 	
 	
@@ -86,7 +86,7 @@ class Alphanumerical extends Constraint implements IName, IInformation, ISchemaD
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

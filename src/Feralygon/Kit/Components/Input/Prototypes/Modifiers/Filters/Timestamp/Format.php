@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * This filter prototype converts a timestamp value into a string or object using a specific format.
  * 
  * @since 1.0.0
- * @property string $format
+ * @property-write string $format [writeonce]
  * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
  * It cannot be empty.</p>
@@ -25,9 +25,9 @@ use Feralygon\Kit\Utilities\Time as UTime;
  */
 class Format extends Filter
 {
-	//Private properties
+	//Protected properties
 	/** @var string */
-	private $format;
+	protected $format;
 	
 	
 	
@@ -56,7 +56,7 @@ class Format extends Filter
 	{
 		switch ($name) {
 			case 'format':
-				return $this->createProperty()->setAsString(true)->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsString(true)->bind(self::class);
 		}
 		return null;
 	}

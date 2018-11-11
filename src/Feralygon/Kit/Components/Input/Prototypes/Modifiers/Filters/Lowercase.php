@@ -22,14 +22,14 @@ use Feralygon\Kit\Utilities\{
  * This filter prototype converts a value to lowercase.
  * 
  * @since 1.0.0
- * @property bool $unicode [default = false]
+ * @property-write bool $unicode [writeonce] [default = false]
  * <p>Convert a given value as Unicode.</p>
  */
 class Lowercase extends Filter implements IName, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var bool */
-	private $unicode = false;
+	protected $unicode = false;
 	
 	
 	
@@ -72,7 +72,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

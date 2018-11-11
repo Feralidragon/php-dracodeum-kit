@@ -24,16 +24,16 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This filter prototype truncates a vector to a specific length.
  * 
  * @since 1.0.0
- * @property int $length
+ * @property-write int $length [writeonce]
  * <p>The length to truncate a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int */
-	private $length;
+	protected $length;
 	
 	
 	
@@ -147,7 +147,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
 		}
 		return null;
 	}

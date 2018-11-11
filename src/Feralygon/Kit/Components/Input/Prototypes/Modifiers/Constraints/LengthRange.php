@@ -26,26 +26,26 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a range of lengths.
  * 
  * @since 1.0.0
- * @property int $min_length
+ * @property-write int $min_length [writeonce]
  * <p>The minimum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property int $max_length
+ * @property-write int $max_length [writeonce]
  * <p>The maximum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property bool $unicode [default = false]
+ * @property-write bool $unicode [writeonce] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class LengthRange extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int */
-	private $min_length;
+	protected $min_length;
 	
 	/** @var int */
-	private $max_length;
+	protected $max_length;
 	
 	/** @var bool */
-	private $unicode = false;
+	protected $unicode = false;
 	
 	
 	
@@ -159,9 +159,9 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 			case 'min_length':
 				//no break
 			case 'max_length':
-				return $this->createProperty()->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

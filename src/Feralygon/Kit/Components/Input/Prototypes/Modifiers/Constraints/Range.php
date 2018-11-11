@@ -25,36 +25,36 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a range of values.
  * 
  * @since 1.0.0
- * @property mixed $min_value
+ * @property-write mixed $min_value [writeonce]
  * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
- * @property mixed $max_value
+ * @property-write mixed $max_value [writeonce]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
- * @property bool $min_exclusive [default = false]
+ * @property-write bool $min_exclusive [writeonce] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property bool $max_exclusive [default = false]
+ * @property-write bool $max_exclusive [writeonce] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
- * @property bool $negate [default = false]
+ * @property-write bool $negate [writeonce] [default = false]
  * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var mixed */
-	private $min_value;
+	protected $min_value;
 	
 	/** @var mixed */
-	private $max_value;
+	protected $max_value;
 	
 	/** @var bool */
-	private $min_exclusive = false;
+	protected $min_exclusive = false;
 	
 	/** @var bool */
-	private $max_exclusive = false;
+	protected $max_exclusive = false;
 	
 	/** @var bool */
-	private $negate = false;
+	protected $negate = false;
 	
 	
 	
@@ -297,6 +297,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 				//no break
 			case 'max_value':
 				return $this->createProperty()
+					->setMode('w-')
 					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
@@ -305,7 +306,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 			case 'max_exclusive':
 				//no break
 			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

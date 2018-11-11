@@ -25,20 +25,20 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a maximum value.
  * 
  * @since 1.0.0
- * @property mixed $value
+ * @property-write mixed $value [writeonce]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
- * @property bool $exclusive [default = false]
+ * @property-write bool $exclusive [writeonce] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  */
 class Maximum extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var mixed */
-	private $value;
+	protected $value;
 	
 	/** @var bool */
-	private $exclusive = false;
+	protected $exclusive = false;
 	
 	
 	
@@ -141,11 +141,12 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 		switch ($name) {
 			case 'value':
 				return $this->createProperty()
+					->setMode('w-')
 					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
 			case 'exclusive':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

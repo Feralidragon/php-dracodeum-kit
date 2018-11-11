@@ -22,19 +22,19 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to a set of allowed values.
  * 
  * @since 1.0.0
- * @property array $values
+ * @property-write array $values [writeonce]
  * <p>The allowed values to restrict a given value to.</p>
- * @property bool $negate [default = false]
+ * @property-write bool $negate [writeonce] [default = false]
  * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  */
 class Values extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var array */
-	private $values;
+	protected $values;
 	
 	/** @var bool */
-	private $negate = false;
+	protected $negate = false;
 	
 	
 	
@@ -145,13 +145,14 @@ class Values extends Constraint implements IName, IInformation, IStringification
 		switch ($name) {
 			case 'values':
 				return $this->createProperty()
+					->setMode('w-')
 					->setAsArray(function (&$key, &$value): bool {
 						return $this->evaluateValue($value);
 					}, true, true)
 					->bind(self::class)
 				;
 			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

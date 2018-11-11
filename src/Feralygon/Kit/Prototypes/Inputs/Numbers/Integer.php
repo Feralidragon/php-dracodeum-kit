@@ -35,9 +35,9 @@ use Feralygon\Kit\Utilities\{
  * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
  * @since 1.0.0
- * @property-read bool $unsigned [default = false]
+ * @property-write bool $unsigned [writeonce] [default = false]
  * <p>Set as an unsigned integer.</p>
- * @property-read int|null $bits [default = null]
+ * @property-write int|null $bits [writeonce] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be greater than <code>0</code>.<br>
  * <br>
@@ -48,18 +48,18 @@ use Feralygon\Kit\Utilities\{
  */
 class Integer extends Number implements ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var bool */
-	private $unsigned = false;
+	protected $unsigned = false;
 	
 	/** @var int|null */
-	private $bits = null;
+	protected $bits = null;
 	
 	/** @var int|null */
-	private $minimum = null;
+	protected $minimum = null;
 	
 	/** @var int|null */
-	private $maximum = null;
+	protected $maximum = null;
 	
 	
 	
@@ -81,10 +81,10 @@ class Integer extends Number implements ISchemaData
 	{
 		switch ($name) {
 			case 'unsigned':
-				return $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 			case 'bits':
 				return $this->createProperty()
-					->setMode('r+')
+					->setMode('w-')
 					->setAsInteger(true, null, true)
 					->addEvaluator(function (&$value): bool {
 						return !isset($value) || $value > 0;

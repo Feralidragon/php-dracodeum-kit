@@ -25,21 +25,21 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a number to a set of allowed multiples.
  * 
  * @since 1.0.0
- * @property int[]|float[] $multiples
+ * @property-write int[]|float[] $multiples [writeonce]
  * <p>The allowed multiples to restrict a given number to.<br>
  * They must all be different from <code>0</code>.</p>
- * @property bool $negate [default = false]
+ * @property-write bool $negate [writeonce] [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
 class Multiples extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int[]|float[] */
-	private $multiples;
+	protected $multiples;
 	
 	/** @var bool */
-	private $negate = false;
+	protected $negate = false;
 	
 	
 	
@@ -156,13 +156,14 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 		switch ($name) {
 			case 'multiples':
 				return $this->createProperty()
+					->setMode('w-')
 					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateNumber($value) && !empty($value);
 					}, true, true)
 					->bind(self::class)
 				;
 			case 'negate':
-				return $this->createProperty()->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

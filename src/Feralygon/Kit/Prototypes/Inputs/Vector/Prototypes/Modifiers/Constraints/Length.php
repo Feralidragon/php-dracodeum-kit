@@ -25,16 +25,16 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a vector to an exact length.
  * 
  * @since 1.0.0
- * @property int $length
+ * @property-write int $length [writeonce]
  * <p>The length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {
-	//Private properties
+	//Protected properties
 	/** @var int */
-	private $length;
+	protected $length;
 	
 	
 	
@@ -139,7 +139,7 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
 		}
 		return null;
 	}
