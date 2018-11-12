@@ -10,7 +10,8 @@ namespace Feralygon\Kit;
 use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Feralygon\Kit\Component\{
 	Exceptions,
-	Traits
+	Traits,
+	Proxy
 };
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Utilities\{
@@ -50,6 +51,10 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * Additional subcontracts, as interfaces, may also be implemented so a component may safely override some other 
  * internal method calls from a prototype, but they are not required to be implemented by a component.<br>
  * <br>
+ * The implementation of any contracts and subcontracts may be delegated to a proxy, 
+ * for cases when it is preferable for the component to not implement the methods from such contracts and subcontracts, 
+ * or to implement them with a different signature.<br>
+ * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
  * All properties from either a component or prototype may be accessed from any scope.<br>
@@ -61,6 +66,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
+ * @see \Feralygon\Kit\Component\Proxy
  * @see \Feralygon\Kit\Component\Traits\DefaultBuilder
  * @see \Feralygon\Kit\Component\Traits\PreInitializer
  * @see \Feralygon\Kit\Component\Traits\RequiredPropertyNamesLoader
@@ -69,6 +75,7 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\DefaultPrototypeProducer
  * @see \Feralygon\Kit\Component\Traits\PrototypeInitializer
  * @see \Feralygon\Kit\Component\Traits\PrototypeProducer
+ * @see \Feralygon\Kit\Component\Traits\ProxyProducer
  */
 abstract class Component implements IPropertiesable
 {
@@ -82,12 +89,16 @@ abstract class Component implements IPropertiesable
 	use Traits\DefaultPrototypeProducer;
 	use Traits\PrototypeInitializer;
 	use Traits\PrototypeProducer;
+	use Traits\ProxyProducer;
 	
 	
 	
 	//Private properties
 	/** @var \Feralygon\Kit\Prototype */
 	private $prototype;
+	
+	/** @var \Feralygon\Kit\Component\Proxy|null */
+	private $proxy = null;
 	
 	
 	
@@ -227,6 +238,48 @@ abstract class Component implements IPropertiesable
 	 * <p>The base prototype class.</p>
 	 */
 	abstract public static function getBasePrototypeClass(): string;
+	
+	
+	
+	//Final public methods
+	/**
+	 * Check if has proxy.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has proxy.</p>
+	 */
+	final public function hasProxy(): bool
+	{
+		return $this->getProxy(true) !== null;
+	}
+	
+	/**
+	 * Get proxy instance.
+	 * 
+	 * @since 1.0.0
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Component\Exceptions\ProxyNotSet
+	 * @return \Feralygon\Kit\Component\Proxy|null
+	 * <p>The proxy instance.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
+	 */
+	final public function getProxy(bool $no_throw = false): ?Proxy
+	{
+		if (!isset($this->proxy)) {
+			$proxy = UType::coerceObject($this->produceProxy(), Proxy::class, [], true);
+			if (isset($proxy)) {
+				$proxy->setComponent($this);
+			} elseif ($no_throw) {
+				return null;
+			} else {
+				throw new Exceptions\ProxyNotSet([$this]);
+			}
+			$this->proxy = $proxy;
+		}
+		return $this->proxy;
+	}
 	
 	
 	

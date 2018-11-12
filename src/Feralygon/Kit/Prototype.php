@@ -93,10 +93,13 @@ abstract class Prototype implements IPropertiesable
 		
 		//contract
 		$contract = $this instanceof Interfaces\Contract ? $this->getContract() : null;
-		UCall::guard(!isset($contract) || UType::implements($component, $contract), [
-			'error_message' => "The given component {{component}} must implement the contract {{contract}}.",
-			'parameters' => ['component' => $component, 'contract' => $contract]
-		]);
+		UCall::guard(
+			!isset($contract) || UType::implements($component, $contract) || 
+			($component->hasProxy() && UType::implements($component->getProxy(), $contract)), [
+				'error_message' => "The given component {{component}} must implement the contract {{contract}}.",
+				'parameters' => ['component' => $component, 'contract' => $contract]
+			]
+		);
 		
 		//set
 		$this->component = $component;
@@ -135,6 +138,12 @@ abstract class Prototype implements IPropertiesable
 			'error_message' => "Method name not found in contract {{contract}} implemented by component {{component}}.",
 			'parameters' => ['contract' => $contract, 'component' => $this->component]
 		]);
+		
+		//proxy
+		$proxy = $this->component->getProxy(true);
+		if (isset($proxy) && UType::implements($proxy, $contract)) {
+			return $proxy->$method_name(...$arguments);	
+		}
 		
 		//return
 		return $this->component->$method_name(...$arguments);
@@ -177,6 +186,12 @@ abstract class Prototype implements IPropertiesable
 			'error_message' => "Method name not found in subcontract {{subcontract}}.",
 			'parameters' => ['subcontract' => $subcontract]
 		]);
+		
+		//proxy
+		$proxy = $this->component->getProxy(true);
+		if (isset($proxy) && UType::implements($proxy, $subcontract)) {
+			return $proxy->$method_name(...$arguments);	
+		}
 		
 		//return
 		if (UType::implements($this->component, $subcontract)) {
