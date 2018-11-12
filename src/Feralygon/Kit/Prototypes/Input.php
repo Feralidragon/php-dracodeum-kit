@@ -20,9 +20,9 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
  * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\ConstraintCreator
- * [subcontract, name = 'constraint_creator']
+ * [subcontract, name = 'ConstraintCreator']
  * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\FilterCreator
- * [subcontract, name = 'filter_creator']
+ * [subcontract, name = 'FilterCreator']
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\Information
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorUnset
  * @see \Feralygon\Kit\Prototypes\Input\Interfaces\ErrorMessage
@@ -71,9 +71,9 @@ abstract class Input extends Prototype implements ISubcontracts
 	public static function getSubcontract(string $name): ?string
 	{
 		switch ($name) {
-			case 'constraint_creator':
+			case 'ConstraintCreator':
 				return Subcontracts\ConstraintCreator::class;
-			case 'filter_creator':
+			case 'FilterCreator':
 				return Subcontracts\FilterCreator::class;
 		}
 		return null;
@@ -98,7 +98,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createConstraint($prototype, array $properties = []): Constraint
 	{
 		return $this->subcontractCall(
-			'constraint_creator', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
+			'ConstraintCreator', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
 		);
 	}
 	
@@ -118,7 +118,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createFilter($prototype, array $properties = []): Filter
 	{
 		return $this->subcontractCall(
-			'filter_creator', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
+			'FilterCreator', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
 		);
 	}
 }
