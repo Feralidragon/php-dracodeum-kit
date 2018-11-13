@@ -39,11 +39,17 @@ class Rfc7234 extends Enumeration
 	/** <samp>extension-pragma</samp> ABNF regular expression. */
 	public const EXTENSION_PRAGMA = '(?:' . self::TOKEN . '(?:\=(?:' . self::TOKEN . '|' . self::QUOTED_STRING . '))?)';
 	
+	/** <samp>field-name</samp> ABNF regular expression. */
+	public const FIELD_NAME = Rfc7230::FIELD_NAME;
+	
 	/** <samp>HTTP-date</samp> ABNF regular expression. */
 	public const HTTP_DATE = Rfc7231::HTTP_DATE;
 	
 	/** <samp>OWS</samp> ABNF regular expression. */
 	public const OWS = Rfc7230::OWS;
+	
+	/** <samp>port</samp> ABNF regular expression. */
+	public const PORT = Rfc7230::PORT;
 	
 	/** <samp>Pragma</samp> ABNF regular expression. */
 	public const PRAGMA = '(?:' . 
@@ -53,12 +59,6 @@ class Rfc7234 extends Enumeration
 	
 	/** <samp>pragma-directive</samp> ABNF regular expression. */
 	public const PRAGMA_DIRECTIVE = '(?:no\-cache|' . self::EXTENSION_PRAGMA . ')';
-	
-	/** <samp>field-name</samp> ABNF regular expression. */
-	public const FIELD_NAME = Rfc7230::FIELD_NAME;
-	
-	/** <samp>port</samp> ABNF regular expression. */
-	public const PORT = Rfc7230::PORT;
 	
 	/** <samp>pseudonym</samp> ABNF regular expression. */
 	public const PSEUDONYM = Rfc7230::PSEUDONYM;
