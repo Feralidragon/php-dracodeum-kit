@@ -718,14 +718,19 @@ trait KeyEvaluators
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given key is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsDateTime(?string $format = null, bool $nullable = false): object
+	final public function setKeyAsDateTime(
+		?string $format = null, ?string $timezone = null, bool $nullable = false
+	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsDateTime($format, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsDateTime($format, $timezone, $nullable);
 		return $this;
 	}
 	
@@ -770,14 +775,17 @@ trait KeyEvaluators
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given key is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsTime(?string $format = null, bool $nullable = false): object
+	final public function setKeyAsTime(?string $format = null, ?string $timezone = null, bool $nullable = false): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsTime($format, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsTime($format, $timezone, $nullable);
 		return $this;
 	}
 	

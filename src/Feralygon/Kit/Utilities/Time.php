@@ -159,6 +159,8 @@ final class Time extends Utility
 	 * Format a given timestamp.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
 	 * @param int|float|string|\DateTimeInterface $timestamp
 	 * <p>The timestamp to format, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -167,6 +169,9 @@ final class Time extends Utility
 	 * @param string $format
 	 * <p>The format to use, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to use, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\InvalidTimestamp
@@ -175,13 +180,27 @@ final class Time extends Utility
 	 * If <var>$no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be formatted.</p>
 	 */
-	final public static function format($timestamp, string $format, bool $no_throw = false)
+	final public static function format($timestamp, string $format, ?string $timezone = null, bool $no_throw = false)
 	{
-		$timestamp = self::timestamp($timestamp, $no_throw);
-		if (isset($timestamp)) {
-			return class_exists($format) && Type::isAny($format, [\DateTime::class, \DateTimeImmutable::class])
-				? new $format(date('c', $timestamp))
-				: date($format, $timestamp);
+		$default_timezone = date_default_timezone_get();
+		try {
+			//timezone
+			if (isset($timezone)) {
+				Call::guardParameter('timezone', $timezone, date_default_timezone_set($timezone));
+			}
+			
+			//timestamp
+			$timestamp = self::timestamp($timestamp, $no_throw);
+			if (isset($timestamp)) {
+				return class_exists($format) && Type::isAny($format, [\DateTime::class, \DateTimeImmutable::class])
+					? new $format(date('c', $timestamp))
+					: date($format, $timestamp);
+			}
+			
+		} finally {
+			if (isset($timezone)) {
+				date_default_timezone_set($default_timezone);
+			}
 		}
 		return null;
 	}
@@ -200,6 +219,7 @@ final class Time extends Utility
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -207,15 +227,20 @@ final class Time extends Utility
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date and time.</p>
 	 */
-	final public static function evaluateDateTime(&$value, ?string $format = null, bool $nullable = false): bool
+	final public static function evaluateDateTime(
+		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+	): bool
 	{
 		try {
-			$value = self::coerceDateTime($value, $format, $nullable);
+			$value = self::coerceDateTime($value, $format, $timezone, $nullable);
 		} catch (Exceptions\DateTimeCoercionFailed $exception) {
 			return false;
 		}
@@ -233,12 +258,20 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
@@ -246,8 +279,9 @@ final class Time extends Utility
 	 * <p>The given value coerced into a date and time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceDateTime($value, ?string $format = null, bool $nullable = false)
-	{
+	final public static function coerceDateTime(
+		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+	) {
 		//validate
 		if (!isset($value)) {
 			if ($nullable) {
@@ -274,7 +308,9 @@ final class Time extends Utility
 					" - an object implementing the \"DateTimeInterface\" interface."
 			]);
 		}
-		return isset($format) ? self::format($timestamp, $format) : $timestamp;
+		
+		//return
+		return isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
 	}
 	
 	/**
@@ -351,6 +387,10 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Calendar_date
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -393,7 +433,9 @@ final class Time extends Utility
 			]);
 		}
 		$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		return isset($format) ? self::format($timestamp, $format) : $timestamp;
+		
+		//return
+		return isset($format) ? self::format($timestamp, $format, 'UTC') : $timestamp;
 	}
 	
 	/**
@@ -435,8 +477,9 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
-	 * @see https://en.wikipedia.org/wiki/Calendar_date
+	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -444,15 +487,20 @@ final class Time extends Utility
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a time.</p>
 	 */
-	final public static function evaluateTime(&$value, ?string $format = null, bool $nullable = false): bool
+	final public static function evaluateTime(
+		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+	): bool
 	{
 		try {
-			$value = self::coerceTime($value, $format, $nullable);
+			$value = self::coerceTime($value, $format, $timezone, $nullable);
 		} catch (Exceptions\TimeCoercionFailed $exception) {
 			return false;
 		}
@@ -470,12 +518,20 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
@@ -483,8 +539,9 @@ final class Time extends Utility
 	 * <p>The given value coerced into a time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerceTime($value, ?string $format = null, bool $nullable = false)
-	{
+	final public static function coerceTime(
+		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+	) {
 		//validate
 		if (!isset($value)) {
 			if ($nullable) {
@@ -511,7 +568,9 @@ final class Time extends Utility
 			]);
 		}
 		$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		return isset($format) ? self::format($timestamp, $format) : $timestamp;
+		
+		//return
+		return isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
 	}
 	
 	/**
@@ -1115,7 +1174,7 @@ final class Time extends Utility
 		//format
 		if (isset($options->format)) {
 			foreach ($values as &$value) {
-				$value = self::format($value, $options->format);
+				$value = self::format($value, $options->format, $options->timezone);
 			}
 			unset($value);
 			$values = array_unique($values, SORT_REGULAR);
@@ -1125,7 +1184,7 @@ final class Time extends Utility
 		if (isset($options->keys_format)) {
 			$keys = array_keys($values);
 			foreach ($keys as &$key) {
-				$key = date($options->keys_format, $key);
+				$key = self::format($key, $options->keys_format, $options->keys_timezone);
 			}
 			unset($key);
 			$values = array_combine($keys, $values);

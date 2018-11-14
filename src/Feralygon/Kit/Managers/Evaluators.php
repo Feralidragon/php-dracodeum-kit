@@ -977,16 +977,21 @@ class Evaluators
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsDateTime(?string $format = null, bool $nullable = false): Evaluators
+	final public function setAsDateTime(
+		?string $format = null, ?string $timezone = null, bool $nullable = false
+	): Evaluators
 	{
 		$this->set(
-			function (&$value) use ($format, $nullable): bool {
-				return UTime::evaluateDateTime($value, $format, $nullable);
+			function (&$value) use ($format, $timezone, $nullable): bool {
+				return UTime::evaluateDateTime($value, $format, $timezone, $nullable);
 			}
 		);
 		return $this;
@@ -1037,16 +1042,21 @@ class Evaluators
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
 	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsTime(?string $format = null, bool $nullable = false): Evaluators
+	final public function setAsTime(
+		?string $format = null, ?string $timezone = null, bool $nullable = false
+	): Evaluators
 	{
 		$this->set(
-			function (&$value) use ($format, $nullable): bool {
-				return UTime::evaluateTime($value, $format, $nullable);
+			function (&$value) use ($format, $timezone, $nullable): bool {
+				return UTime::evaluateTime($value, $format, $timezone, $nullable);
 			}
 		);
 		return $this;

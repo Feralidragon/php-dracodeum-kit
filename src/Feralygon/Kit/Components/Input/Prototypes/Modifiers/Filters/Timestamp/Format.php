@@ -19,7 +19,13 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
  * It cannot be empty.</p>
+ * @property-write string|null $timezone [writeonce] [default = null]
+ * <p>The timezone to convert a given timestamp value into, 
+ * as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+ * If not set, then the currently set default timezone is used.<br>
+ * If set, then it cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
+ * @see https://php.net/manual/en/function.date-default-timezone-set.php
  * @see https://php.net/manual/en/class.datetime.php
  * @see https://php.net/manual/en/class.datetimeimmutable.php
  */
@@ -29,13 +35,16 @@ class Format extends Filter
 	/** @var string */
 	protected $format;
 	
+	/** @var string|null */
+	protected $timezone = null;
+	
 	
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		$value = UTime::format($value, $this->format, true);
+		$value = UTime::format($value, $this->format, $this->timezone, true);
 		return isset($value);
 	}
 	
@@ -57,6 +66,8 @@ class Format extends Filter
 		switch ($name) {
 			case 'format':
 				return $this->createProperty()->setMode('w-')->setAsString(true)->bind(self::class);
+			case 'timezone':
+				return $this->createProperty()->setMode('w-')->setAsString(true, true)->bind(self::class);
 		}
 		return null;
 	}
