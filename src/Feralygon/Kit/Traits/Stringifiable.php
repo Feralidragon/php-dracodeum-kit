@@ -15,6 +15,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * by using the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Interfaces\Stringifiable
  */
 trait Stringifiable
 {

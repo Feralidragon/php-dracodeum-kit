@@ -33,6 +33,8 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * If set, then it cannot be empty.</p>
  * @see https://php.net/manual/en/function.date.php
  * @see https://php.net/manual/en/function.date-default-timezone-set.php
+ * @see https://php.net/manual/en/class.datetime.php
+ * @see https://php.net/manual/en/class.datetimeimmutable.php
  * @see \Feralygon\Kit\Utilities\Time
  */
 class Generate extends Options

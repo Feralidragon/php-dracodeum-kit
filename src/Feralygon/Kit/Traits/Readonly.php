@@ -14,6 +14,7 @@ use Feralygon\Kit\Managers\Readonly as Manager;
  * and may be used as an implementation of the <code>Feralygon\Kit\Interfaces\Readonlyable</code> interface.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Interfaces\Readonlyable
  */
 trait Readonly
 {

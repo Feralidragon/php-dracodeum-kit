@@ -13,8 +13,8 @@ use Feralygon\Kit\Traits\LazyProperties;
  * This trait extends the lazy properties trait and implements the PHP <code>ArrayAccess</code> interface.
  * 
  * @since 1.0.0
+ * @see https://php.net/manual/en/class.arrayaccess.php
  * @see \Feralygon\Kit\Traits\LazyProperties
- * @see \ArrayAccess
  */
 trait ArrayAccess
 {

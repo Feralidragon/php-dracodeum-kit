@@ -533,6 +533,8 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
+	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false]
@@ -628,6 +630,8 @@ class Evaluators
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param array $arguments [default = []]
@@ -683,6 +687,8 @@ class Evaluators
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
@@ -763,6 +769,7 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -973,6 +980,12 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
@@ -1008,6 +1021,11 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
@@ -1038,6 +1056,12 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
@@ -1136,6 +1160,7 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
@@ -1179,6 +1204,7 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param bool $clone [default = false]
@@ -1224,6 +1250,7 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]
@@ -1254,6 +1281,7 @@ class Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
 	 * @param bool $clone [default = false]

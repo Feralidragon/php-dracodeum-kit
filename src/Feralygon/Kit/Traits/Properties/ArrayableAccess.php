@@ -14,9 +14,9 @@ use Feralygon\Kit\Traits\Properties;
  * and <code>Feralygon\Kit\Interfaces\Arrayable</code> interfaces.
  * 
  * @since 1.0.0
+ * @see https://php.net/manual/en/class.arrayaccess.php
  * @see \Feralygon\Kit\Traits\Properties
  * @see \Feralygon\Kit\Interfaces\Arrayable
- * @see \ArrayAccess
  */
 trait ArrayableAccess
 {

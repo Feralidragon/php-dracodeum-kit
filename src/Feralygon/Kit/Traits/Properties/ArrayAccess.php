@@ -13,8 +13,8 @@ use Feralygon\Kit\Traits\Properties;
  * This trait extends the properties trait and implements the PHP <code>ArrayAccess</code> interface.
  * 
  * @since 1.0.0
+ * @see https://php.net/manual/en/class.arrayaccess.php
  * @see \Feralygon\Kit\Traits\Properties
- * @see \ArrayAccess
  */
 trait ArrayAccess
 {

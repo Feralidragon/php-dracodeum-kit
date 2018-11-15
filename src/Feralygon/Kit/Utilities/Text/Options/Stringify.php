@@ -50,7 +50,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * then the mode applied is <code>STRING_NONASSOC_MODE_COMMA_LIST</code> by default.</p>
  * @property bool $no_throw [default = false]
  * <p>Do not throw an exception.</p>
+ * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
  * @see \Feralygon\Kit\Utilities\Text
+ * @see \Feralygon\Kit\Interfaces\Stringifiable
  */
 class Stringify extends Options
 {

@@ -44,6 +44,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  * @see \Feralygon\Kit\Primitives\Vector
+ * @see \Feralygon\Kit\Interfaces\Arrayable
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Length
  * [modifier, name = 'constraints.length' or 'length']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\MinLength

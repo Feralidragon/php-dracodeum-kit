@@ -121,6 +121,7 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $timestamp
 	 * <p>The timestamp to get from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -159,8 +160,12 @@ final class Time extends Utility
 	 * Format a given timestamp.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $timestamp
 	 * <p>The timestamp to format, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -218,9 +223,12 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
-	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -260,9 +268,12 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
-	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -320,6 +331,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $datetime
 	 * <p>The date and time to generate from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -353,8 +365,11 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
-	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -389,8 +404,11 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
-	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -445,6 +463,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $date
 	 * <p>The date to generate from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -478,9 +497,12 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
-	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -520,9 +542,12 @@ final class Time extends Utility
 	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
-	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param string|null $format [default = null]
@@ -580,6 +605,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $time
 	 * <p>The time to generate from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -614,6 +640,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $timestamp
 	 * <p>The timestamp to calculate from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
@@ -1121,6 +1148,7 @@ final class Time extends Utility
 	 * 
 	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $start
 	 * <p>The start timestamp to generate from, as one of the following:<br>
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 

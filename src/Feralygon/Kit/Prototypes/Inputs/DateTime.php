@@ -36,6 +36,7 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
+ * @see https://php.net/manual/en/class.datetimeinterface.php
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Minimum

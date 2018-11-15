@@ -43,6 +43,7 @@ use Feralygon\Kit\Root\Locale;
  * @see https://en.wikipedia.org/wiki/ISO_639
  * @see \Feralygon\Kit\Root\Locale
  * @see \Feralygon\Kit\Enumerations\InfoScope
+ * @see \Feralygon\Kit\Utilities\Text
  */
 class Translate extends Options
 {

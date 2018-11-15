@@ -74,7 +74,10 @@ final class Type extends Utility
 	 * and <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interfaces, are supported.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.var-export.php
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.set-state
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Feralygon\Kit\Utilities\Type\Options\Phpfy|array|null $options [default = null]
@@ -693,6 +696,8 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
+	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -721,6 +726,8 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
+	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -886,6 +893,8 @@ final class Type extends Utility
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -921,6 +930,8 @@ final class Type extends Utility
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1078,6 +1089,8 @@ final class Type extends Utility
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1111,6 +1124,8 @@ final class Type extends Utility
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]

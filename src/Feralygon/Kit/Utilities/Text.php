@@ -158,6 +158,8 @@ final class Text extends Utility
 	 * with the former preferred over the latter.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
+	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -1040,6 +1042,7 @@ final class Text extends Utility
 	 * set up for each field, and get an associative return with the parsed values set with those fields.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.preg-match.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string $string
@@ -1080,6 +1083,7 @@ final class Text extends Utility
 	 * set up for each field, and get an associative return per string with the parsed values set with those fields.
 	 * 
 	 * @since 1.0.0
+	 * @see https://php.net/manual/en/function.preg-match.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
 	 * @param string[] $strings
@@ -2076,6 +2080,7 @@ final class Text extends Utility
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Root\Locale
 	 * @param string $message
 	 * <p>The message to localize.</p>
 	 * @param string|null $context [default = null]
@@ -2159,6 +2164,7 @@ final class Text extends Utility
 	 * of all existing entries to translate.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Root\Locale
 	 * @param string $message1
 	 * <p>The message singular form to localize.</p>
 	 * @param string $message2

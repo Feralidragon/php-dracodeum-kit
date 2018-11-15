@@ -2028,6 +2028,7 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
@@ -2074,6 +2075,7 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|null $evaluator [default = null]
