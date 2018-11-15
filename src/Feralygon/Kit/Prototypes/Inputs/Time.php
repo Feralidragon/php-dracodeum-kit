@@ -14,10 +14,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\{
-	Constraints,
-	Filters
-};
+use Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp as TimestampFilters;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -49,8 +46,6 @@ use Feralygon\Kit\Utilities\{
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp\Format
  * [modifier, name = 'filters.format']
- * @see \Feralygon\Kit\Prototypes\Inputs\Time\Prototypes\Modifiers\Filters\Iso8601
- * [modifier, name = 'filters.iso8601']
  */
 class Time extends Input implements IInformation, IValueStringifier, IModifierBuilder
 {
@@ -177,8 +172,6 @@ class Time extends Input implements IInformation, IValueStringifier, IModifierBu
 			//filters
 			case 'filters.format':
 				return $this->createFilter(TimestampFilters\Format::class, $properties);
-			case 'filters.iso8601':
-				return $this->createFilter(Filters\Iso8601::class, $properties);
 		}
 		return null;
 	}
