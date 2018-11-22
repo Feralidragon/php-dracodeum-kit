@@ -16,6 +16,7 @@ use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
  * 
  * Only the following types of values are able to be evaluated as a CRC32 hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string (8 bytes);<br>
+ * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets (9 to 11 bytes);<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string (6 bytes);<br>
  * &nbsp; &#8226; &nbsp; a raw binary string (4 bytes).
  * 

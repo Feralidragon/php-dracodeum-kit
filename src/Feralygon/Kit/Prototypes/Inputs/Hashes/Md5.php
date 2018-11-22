@@ -16,6 +16,7 @@ use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
  * 
  * Only the following types of values are able to be evaluated as a MD5 hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string (32 bytes);<br>
+ * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets (39 to 47 bytes);<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string (24 bytes);<br>
  * &nbsp; &#8226; &nbsp; a raw binary string (16 bytes).
  * 

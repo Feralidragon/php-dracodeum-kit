@@ -692,19 +692,20 @@ trait KeyEvaluators
 	 * 
 	 * Only the following types and formats can be evaluated into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @since 1.0.0
-	 * @param int $bits
+	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to evaluate with.<br>
-	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsHash(int $bits, bool $nullable = false): object
+	final public function setKeyAsHash(?int $bits = null, bool $nullable = false): object
 	{
 		$this->getKeyEvaluatorsManager()->setAsHash($bits, $nullable);
 		return $this;

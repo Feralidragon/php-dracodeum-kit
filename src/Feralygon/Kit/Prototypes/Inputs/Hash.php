@@ -32,6 +32,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * Only the following types of values may be evaluated as a hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+ * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
@@ -214,6 +215,7 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 			for ($i = 0; $i < $bytes; $i++) {
 				$example_value .= chr(UMath::random(255, 0, $i));
 			}
+			$example_hexadecimal = bin2hex($example_value);
 			
 			//hexadecimal
 			/**
@@ -225,8 +227,28 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 			$strings[] = UText::localize(
 				"Hexadecimal string (example: {{example}})",
 				self::class, $text_options, [
-					'parameters' => ['example' => bin2hex($example_value)],
+					'parameters' => ['example' => $example_hexadecimal],
 					'string_options' => ['quote_strings' => true]
+				]
+			);
+			
+			//colon-hexadecimal
+			/**
+			 * @description Colon-hexadecimal notation string.
+			 * @placeholder example The hash example in colon-hexadecimal notation.
+			 * @tags non-end-user
+			 * @example Colon-hexadecimal string (example: "a7:fe:d3:fa" or "a7fe:d3fa")
+			 */
+			$strings[] = UText::localize(
+				"Colon-hexadecimal string (example: {{example}})",
+				self::class, $text_options, [
+					'parameters' => [
+						'example' => UText::stringify([
+							UHash::colonify($example_hexadecimal), UHash::colonify($example_hexadecimal, true)
+						], $text_options, [
+							'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
+						])
+					]
 				]
 			);
 			

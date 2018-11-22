@@ -16,6 +16,7 @@ use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
  * 
  * Only the following types of values are able to be evaluated as a SHA-1 hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string (40 bytes);<br>
+ * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets (49 to 59 bytes);<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string (30 bytes);<br>
  * &nbsp; &#8226; &nbsp; a raw binary string (20 bytes).
  * 

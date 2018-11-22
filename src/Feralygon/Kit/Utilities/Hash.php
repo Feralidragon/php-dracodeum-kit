@@ -19,25 +19,51 @@ final class Hash extends Utility
 {
 	//Final public static methods
 	/**
+	 * Colonify a given hash.
+	 * 
+	 * The process of colonification of a given hash consists in splitting it into small groups of hexadecimal digits, 
+	 * using the colon character (<samp>:</samp>) as a delimiter.<br>
+	 * By omission, the hash is colonified into hexadecimal octets.
+	 * 
+	 * @since 1.0.0
+	 * @param string $hash
+	 * <p>The hash to colonify.</p>
+	 * @param bool $hextets [default = false]
+	 * <p>Colonify the given hash into hextets.</p>
+	 * @return string
+	 * <p>The colonified hash from the given one.</p>
+	 */
+	final public static function colonify(string $hash, bool $hextets = false): string
+	{
+		$hash = self::coerce($hash);
+		Call::guardParameter('hash', $hash, !$hextets || strlen($hash) % 4 === 0, [
+			'error_message' => "The given hash is missing an octet in order to be colonified into hextets."
+		]);
+		preg_match_all('/[\da-f]{' . ($hextets ? 4 : 2) . '}/i', $hash, $matches);
+		return implode(':', $matches[0]);
+	}
+	
+	/**
 	 * Evaluate a given value as a hash.
 	 * 
 	 * Only the following types and formats can be evaluated into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param int $bits
+	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to evaluate with.<br>
-	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a hash.</p>
 	 */
-	final public static function evaluate(&$value, int $bits, bool $nullable = false): bool
+	final public static function evaluate(&$value, ?int $bits = null, bool $nullable = false): bool
 	{
 		try {
 			$value = self::coerce($value, $bits, $nullable);
@@ -52,15 +78,16 @@ final class Hash extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param int $bits
+	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to coerce with.<br>
-	 * It must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\CoercionFailed
@@ -68,14 +95,14 @@ final class Hash extends Utility
 	 * <p>The given value coerced into a hash.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
-	final public static function coerce($value, int $bits, bool $nullable = false): ?string
+	final public static function coerce($value, ?int $bits = null, bool $nullable = false): ?string
 	{
 		//guard
-		Call::guardParameter('bits', $bits, $bits > 0 && $bits % 8 === 0, [
-			'hint_message' => "Only a multiple of 8 and a value greater than 0 is allowed."
+		Call::guardParameter('bits', $bits, !isset($bits) || ($bits > 0 && $bits % 8 === 0), [
+			'hint_message' => "Only null or a multiple of 8 and a value greater than 0 is allowed."
 		]);
 		
-		//coerce
+		//check
 		if (!isset($value)) {
 			if ($nullable) {
 				return null;
@@ -91,11 +118,40 @@ final class Hash extends Utility
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 				'error_message' => "Only a hash value given as a string is allowed."
 			]);
-		} elseif (strlen($value) === $bits / 4 && preg_match('/^[\da-f]+$/i', $value)) {
+		}
+		
+		//length
+		$length = strlen($value);
+		
+		//hexadecimal
+		if (preg_match('/^([\da-f]{2})+$/i', $value) && (!isset($bits) || $length === $bits / 4)) {
 			return strtolower($value);
-		} elseif (strlen(rtrim($value, '=')) === (int)ceil($bits / 6) && preg_match('/^[\w\-+\/]+\={0,2}$/', $value)) {
-			return bin2hex(Base64::decode($value));
-		} elseif (strlen($value) === $bits / 8) {
+		}
+		
+		//colon-hexadecimal
+		foreach ([2, 4] as $n) {
+			$n_length = isset($bits) ? ($n + 1) * $bits / (4 * $n) - 1 : null;
+			if (
+				preg_match("/^[\da-f]{{$n}}(?::[\da-f]{{$n}})*$/i", $value) && 
+				(!isset($n_length) || $length === $n_length)
+			) {
+				return strtolower(str_replace(':', '', $value));
+			}
+		}
+		
+		//base64
+		if (
+			preg_match('/^[\w\-+\/]+\={0,2}$/', $value) && 
+			(!isset($bits) || strlen(rtrim($value, '=')) === (int)ceil($bits / 6))
+		) {
+			$hash = Base64::decode($value, null, true);
+			if (isset($hash)) {
+				return bin2hex($hash);
+			}
+		}
+		
+		//binary
+		if (!isset($bits) || $length === $bits / 8) {
 			return bin2hex($value);
 		}
 		
@@ -103,18 +159,14 @@ final class Hash extends Utility
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => Text::pfill(
-				"Only a hash value of {{bits}} bit is allowed, " . 
-					"for which only the following types and formats can be coerced into such:\n" . 
-					" - a hexadecimal notation string;\n" . 
-					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
-					" - a raw binary string.",
+			'error_message' => Text::fill(
 				"Only a hash value of {{bits}} bits is allowed, " . 
-					"for which only the following types and formats can be coerced into such:\n" . 
-					" - a hexadecimal notation string;\n" . 
-					" - a Base64 or an URL-safe Base64 encoded string;\n" . 
-					" - a raw binary string.",
-				$bits, 'bits'
+				"for which only the following types and formats can be coerced into such:\n" . 
+				" - a hexadecimal notation string;\n" . 
+				" - a colon-hexadecimal notation string, as octets or hextets;\n" . 
+				" - a Base64 or an URL-safe Base64 encoded string;\n" . 
+				" - a raw binary string.",
+				['bits' => $bits]
 			)
 		]);
 	}
