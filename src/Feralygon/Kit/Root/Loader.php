@@ -106,11 +106,13 @@ final class Loader
 			spl_autoload_register(function (string $class): void {
 				if (preg_match('/^(?P<vendor>\w+)\\\\(?P<name>\w+)\\\\/', $class, $matches)) {
 					if (self::hasPackage($matches['vendor'], $matches['name'])) {
-						@include_once self::getPackage($matches['vendor'], $matches['name'])->getPath() . 
-							'/' . str_replace('\\', '/', $class) . '.php';
+						$path = self::getPackage($matches['vendor'], $matches['name'])->getPath($class);
+						if (stream_resolve_include_path($path) !== false) {
+							require_once $path;
+						}
 					}
 				}
-			});
+			}, true);
 			self::$initialized = true;
 		}
 		

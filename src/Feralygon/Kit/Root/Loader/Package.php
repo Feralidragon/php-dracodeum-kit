@@ -77,11 +77,17 @@ final class Package
 	 * Get path.
 	 * 
 	 * @since 1.0.0
+	 * @param string|null $class [default = null]
+	 * <p>The class to get for.</p>
 	 * @return string
 	 * <p>The path.</p>
 	 */
-	final public function getPath(): string
+	final public function getPath(?string $class = null): string
 	{
-		return $this->path;
+		$path = $this->path;
+		if (isset($class)) {
+			$path .= '/' . str_replace('\\', '/', $class) . '.php';
+		}
+		return $path;
 	}
 }
