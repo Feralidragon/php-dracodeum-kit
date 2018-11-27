@@ -48,10 +48,12 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
- * [modifier, name = 'filters.raw']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
  * [modifier, name = 'filters.base64']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Colonify
+ * [modifier, name = 'filters.colonify' or 'colonify']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
+ * [modifier, name = 'filters.raw']
  */
 class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
@@ -316,10 +318,14 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			
 			//filters
-			case 'filters.raw':
-				return $this->createFilter(Filters\Raw::class, $properties);
 			case 'filters.base64':
 				return $this->createFilter(Filters\Base64::class, $properties);
+			case 'filters.colonify':
+				//no break
+			case 'colonify':
+				return $this->createFilter(Filters\Colonify::class, $properties);
+			case 'filters.raw':
+				return $this->createFilter(Filters\Raw::class, $properties);
 		}
 		return null;
 	}
