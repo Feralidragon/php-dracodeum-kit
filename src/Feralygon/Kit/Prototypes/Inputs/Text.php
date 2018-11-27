@@ -73,9 +73,9 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
  * [modifier, name = 'constraints.hexadecimal' or 'hexadecimal']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Lowercase
- * [modifier, name = 'filters.lowercase']
+ * [modifier, name = 'filters.lowercase' or 'lower']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Uppercase
- * [modifier, name = 'filters.uppercase']
+ * [modifier, name = 'filters.uppercase' or 'upper']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']
  */
@@ -283,8 +283,12 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 			
 			//filters
 			case 'filters.lowercase':
+				//no break
+			case 'lower':
 				return $this->createFilter(InputFilters\Lowercase::class, $properties + ['unicode' => $this->unicode]);
 			case 'filters.uppercase':
+				//no break
+			case 'upper':
 				return $this->createFilter(InputFilters\Uppercase::class, $properties + ['unicode' => $this->unicode]);
 			case 'filters.truncate':
 				//no break

@@ -55,7 +55,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
  * [modifier, name = 'filters.raw']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Uppercase
- * [modifier, name = 'filters.uppercase']
+ * [modifier, name = 'filters.uppercase' or 'upper']
  */
 class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
@@ -329,6 +329,8 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 			case 'filters.raw':
 				return $this->createFilter(Filters\Raw::class, $properties);
 			case 'filters.uppercase':
+				//no break
+			case 'upper':
 				return $this->createFilter(Filters\Uppercase::class, $properties);
 		}
 		return null;
