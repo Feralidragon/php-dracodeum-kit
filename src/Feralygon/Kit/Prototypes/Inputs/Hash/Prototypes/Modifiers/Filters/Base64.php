@@ -12,7 +12,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Base64 as UBase64;
 
 /**
- * This filter prototype converts a hash string in hexadecimal notation into a Base64 encoded string.
+ * This filter prototype converts a hash in hexadecimal notation into a Base64 encoded string.
  * 
  * @since 1.0.0
  * @property-write bool $url_safe [writeonce] [default = false]

@@ -12,7 +12,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Hash as UHash;
 
 /**
- * This filter prototype converts a hash string into a colon-hexadecimal string.
+ * This filter prototype converts a hash into a colon-hexadecimal string.
  * 
  * @since 1.0.0
  * @property-write bool $hextets [writeonce] [default = false]
