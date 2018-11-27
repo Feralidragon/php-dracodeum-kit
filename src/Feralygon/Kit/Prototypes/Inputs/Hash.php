@@ -54,6 +54,8 @@ use Feralygon\Kit\Utilities\{
  * [modifier, name = 'filters.colonify' or 'colonify']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
  * [modifier, name = 'filters.raw']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Uppercase
+ * [modifier, name = 'filters.uppercase']
  */
 class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
@@ -326,6 +328,8 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 				return $this->createFilter(Filters\Colonify::class, $properties);
 			case 'filters.raw':
 				return $this->createFilter(Filters\Raw::class, $properties);
+			case 'filters.uppercase':
+				return $this->createFilter(Filters\Uppercase::class, $properties);
 		}
 		return null;
 	}
