@@ -127,6 +127,20 @@ class Method extends Enumeration
 	}
 	
 	/**
+	 * Check if a given element represents an HTTP method which requires a request body.
+	 * 
+	 * @since 1.0.0
+	 * @param string $element
+	 * <p>The element to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given element represents an HTTP method which requires a request body.</p>
+	 */
+	public static function requiresRequestBody(string $element): bool
+	{
+		return in_array(static::getValue($element), [self::PUT, self::PATCH], true);
+	}
+	
+	/**
 	 * Check if a given element represents an HTTP method which has a response body.
 	 * 
 	 * @since 1.0.0
