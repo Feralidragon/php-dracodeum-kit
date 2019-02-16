@@ -72,8 +72,7 @@ final class Locale
 	 * such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
 	 * &nbsp; &#8226; &nbsp; an ISO 639 code string with an ISO 3166-1 country code, 
 	 * such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
-	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, 
-	 * as well as any combination of code types).
+	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, with any combination of code types).
 	 * 
 	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
 	 * value is meant to eventually become an actual object representing the instance.
@@ -104,8 +103,7 @@ final class Locale
 	 * such as: <code>"en"</code> or <code>"eng"</code> for English;<br>
 	 * &nbsp; &#8226; &nbsp; an ISO 639 code string with an ISO 3166-1 country code, 
 	 * such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
-	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, 
-	 * as well as any combination of code types).
+	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, with any combination of code types).
 	 * 
 	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
 	 * value is meant to eventually become an actual object representing the instance.
@@ -145,7 +143,7 @@ final class Locale
 					" - an ISO 639 code string, such as: \"en\" or \"eng\" for English;\n" . 
 					" - an ISO 639 code string with an ISO 3166-1 country code, such as: " . 
 					"\"en-US\" or \"eng-USA\" for English from United States of America " . 
-					"(both underscores (_) and hyphens (-) are allowed, as well as any combination of code types)."	
+					"(both underscores (_) and hyphens (-) are allowed, with any combination of code types)."	
 			]);
 		}
 		return $value;
@@ -169,8 +167,8 @@ final class Locale
 	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a phpDoc-like notation may be added above the call to describe both the message 
-	 * and placeholders, as well as optionally provide an example of usage, to help the translator 
-	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
+	 * and placeholders, and optionally provide an example of usage, to help the translator in fully understanding 
+	 * the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>
@@ -247,8 +245,8 @@ final class Locale
 	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a phpDoc-like notation may be added above the call to describe both the message 
-	 * and placeholders, as well as optionally provide an example of usage, to help the translator 
-	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
+	 * and placeholders, and optionally provide an example of usage, to help the translator in fully understanding 
+	 * the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>

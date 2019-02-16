@@ -272,7 +272,7 @@ final class Data extends Utility
 	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
 	 * Merge associative arrays using the union operation, in other words,
-	 * with this flag keys present in the first array won't get replaced by the same keys present in the second.<br><br>
+	 * with this flag keys present in the first array won't be replaced by the same keys present in the second.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_LEFT</code> : 
 	 * Merge associative arrays but only from the left, in other words,
 	 * with this flag only the keys present in the first array will remain, 
@@ -284,7 +284,7 @@ final class Data extends Utility
 	 * Merge non-associative arrays associatively.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNION</code> : 
 	 * Merge non-associative arrays associatively by using the union operation, in other words,
-	 * with this flag keys present in the first array won't get replaced by the same keys present 
+	 * with this flag keys present in the first array won't be replaced by the same keys present 
 	 * in the second for non-associative arrays.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_LEFT</code> : 
 	 * Merge non-associative arrays associatively but only from the left, in other words,

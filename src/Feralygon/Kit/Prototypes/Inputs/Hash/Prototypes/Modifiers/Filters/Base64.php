@@ -16,8 +16,8 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * 
  * @since 1.0.0
  * @property-write bool $url_safe [writeonce] [default = false]
- * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) get replaced 
- * by hyphens (-) and underscores (_) respectively, as well as the padding equal signs (=) removed, 
+ * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) are replaced 
+ * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
  * in order to be safely put in an URL.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */

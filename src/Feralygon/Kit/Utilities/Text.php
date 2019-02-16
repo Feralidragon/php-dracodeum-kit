@@ -2055,8 +2055,8 @@ final class Text extends Utility
 	 * All parameters are stringified.<br>
 	 * <br>
 	 * When calling this function, a phpDoc-like notation may be added above the call to describe both the message 
-	 * and placeholders,as well as optionally provide an example of usage, to help the translator 
-	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
+	 * and placeholders, and optionally provide an example of usage, to help the translator in fully understanding 
+	 * the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>
@@ -2137,9 +2137,9 @@ final class Text extends Utility
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>
 	 * <br>
-	 * When calling this function, a phpDoc-like notation may be added above the call to describe both 
-	 * the message and placeholders, as well as optionally provide an example of usage, to help the translator 
-	 * in fully understanding the context of the message and thus provide the best translation possible.<br>
+	 * When calling this function, a phpDoc-like notation may be added above the call to describe both the message 
+	 * and placeholders, and optionally provide an example of usage, to help the translator in fully understanding 
+	 * the context of the message and thus provide the best translation possible.<br>
 	 * <br>
 	 * This notation is defined as follows:<br>
 	 * <code>
