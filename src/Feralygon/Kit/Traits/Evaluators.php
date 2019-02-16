@@ -827,7 +827,7 @@ trait Evaluators
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.<br>
 	 * <br>
-	 * If a component or prototype instance is given, then the given properties are ignored.</p>
+	 * If a component instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
