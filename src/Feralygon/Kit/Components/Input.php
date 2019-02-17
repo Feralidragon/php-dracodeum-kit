@@ -61,16 +61,8 @@ use Feralygon\Kit\Utilities\{
  * [prototype, name = 'enumeration' or 'enum']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  * [prototype, name = 'text' or 'string']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Crc32
- * [prototype, name = 'crc32']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Md5
- * [prototype, name = 'md5']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha1
- * [prototype, name = 'sha1']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha256
- * [prototype, name = 'sha256']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hashes\Sha512
- * [prototype, name = 'sha512']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash
+ * [prototype, name = 'hash' or 'crc32' or 'md5' or 'sha1' or 'sha256' or 'sha512']
  * @see \Feralygon\Kit\Prototypes\Inputs\Date
  * [prototype, name = 'date']
  * @see \Feralygon\Kit\Prototypes\Inputs\Time
@@ -221,16 +213,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				//no break
 			case 'string':
 				return Prototypes\Text::class;
+			case 'hash':
+				return Prototypes\Hash::class;
 			case 'crc32':
-				return Prototypes\Hashes\Crc32::class;
+				return new Prototypes\Hash(['bits' => 32, 'label' => "CRC32"] + $properties);
 			case 'md5':
-				return Prototypes\Hashes\Md5::class;
+				return new Prototypes\Hash(['bits' => 128, 'label' => "MD5"] + $properties);
 			case 'sha1':
-				return Prototypes\Hashes\Sha1::class;
+				return new Prototypes\Hash(['bits' => 160, 'label' => "SHA-1"] + $properties);
 			case 'sha256':
-				return Prototypes\Hashes\Sha256::class;
+				return new Prototypes\Hash(['bits' => 256, 'label' => "SHA-256"] + $properties);
 			case 'sha512':
-				return Prototypes\Hashes\Sha512::class;
+				return new Prototypes\Hash(['bits' => 512, 'label' => "SHA-512"] + $properties);
 			case 'date':
 				return Prototypes\Date::class;
 			case 'time':
@@ -350,11 +344,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullLabel($text_options = null): string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("None", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Null", self::class, $text_options);
 	}
@@ -415,11 +414,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullDescription($text_options = null): ?string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, it may also be none.", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, it may also be null.", self::class, $text_options);
 	}
@@ -482,11 +486,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullMessage($text_options = null): ?string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, no value may also be given.", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, a null value may also be given.", self::class, $text_options);
 	}

@@ -73,7 +73,7 @@ class Unique extends Constraint implements IName, IInformation
 			return UText::localize("Only unique items are allowed.", self::class, $text_options);
 		}
 		
-		//other
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Only unique values are allowed.", self::class, $text_options);
 	}

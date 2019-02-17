@@ -89,7 +89,7 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 			);
 		}
 		
-		//other
+		//non-end-user
 		/**
 		 * @placeholder length The allowed length.
 		 * @tags non-end-user

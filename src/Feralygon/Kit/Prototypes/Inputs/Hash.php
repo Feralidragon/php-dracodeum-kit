@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
+	SchemaData as ISchemaData,
 	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
@@ -17,6 +18,7 @@ use Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\{
 	Constraints,
 	Filters
 };
+use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -32,29 +34,37 @@ use Feralygon\Kit\Utilities\{
  * 
  * Only the following types of values may be evaluated as a hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+ * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
  * @since 1.0.0
+ * @property-write int|null $bits [writeonce] [default = null]
+ * <p>The number of bits to use.<br>
+ * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+ * @property-write string|null $label [writeonce] [default = null]
+ * <p>The label to use.<br>
+ * If set, then it cannot be empty.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
- * [modifier, name = 'filters.raw']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
  * [modifier, name = 'filters.base64']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Colonify
+ * [modifier, name = 'filters.colonify' or 'colonify']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
+ * [modifier, name = 'filters.raw']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Uppercase
+ * [modifier, name = 'filters.uppercase' or 'upper']
  */
-abstract class Hash extends Input implements IInformation, IModifierBuilder
+class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 {
-	//Abstract public methods
-	/**
-	 * Get number of bits.
-	 * 
-	 * @since 1.0.0
-	 * @return int
-	 * <p>The number of bits.</p>
-	 */
-	abstract public function getBits(): int;
+	//Protected properties
+	/** @var int|null */
+	protected $bits = null;
+	
+	/** @var string|null */
+	protected $label = null;
 	
 	
 	
@@ -74,7 +84,7 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
-		return UHash::evaluate($value, $this->getBits());
+		return UHash::evaluate($value, $this->bits);
 	}
 	
 	
@@ -83,7 +93,7 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
-		return UText::localize("Hash", self::class, $text_options);
+		return $this->label ?? UText::localize("Hash", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -91,38 +101,93 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			//label
+			if (isset($this->label)) {
+				/**
+				 * @placeholder label The hash label.
+				 * @tags end-user
+				 * @example A CRC32 hash, given in hexadecimal notation.
+				 */
+				return UText::localize(
+					"A {{label}} hash, given in hexadecimal notation.", 
+					self::class, $text_options, ['parameters' => ['label' => $this->label]]
+				);
+			}
+			
+			//bits
+			if (isset($this->bits)) {
+				/**
+				 * @placeholder bits The hash number of bits.
+				 * @tags end-user
+				 * @example A hash of 32 bits, given in hexadecimal notation.
+				 */
+				return UText::localize(
+					"A hash of {{bits}} bits, given in hexadecimal notation.", 
+					self::class, $text_options, ['parameters' => ['bits' => $this->bits]]
+				);
+			}
+			
+			//default
+			/** @tags end-user */
+			return UText::localize("A hash, given in hexadecimal notation.", self::class, $text_options);
+		}
+		
+		//notations
+		$notations_string = UText::mbulletify(
+			$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+		);
+		
+		//label
+		if (isset($this->label)) {
 			/**
-			 * @placeholder label The hash input label.
-			 * @tags end-user
-			 * @example A CRC32 hash, given in hexadecimal notation.
+			 * @placeholder label The hash label.
+			 * @placeholder notations The supported hash notation entries.
+			 * @tags non-end-user
+			 * @example A CRC32 hash, which may be given using any of the following notations:
+			 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+			 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+			 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
+			 *  &#8226; Raw binary string.
 			 */
 			return UText::localize(
-				"A {{label}} hash, given in hexadecimal notation.", 
-				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
+				"A {{label}} hash, which may be given using any of the following notations:\n{{notations}}", 
+				self::class, $text_options, [
+					'parameters' => ['label' => $this->label, 'notations' => $notations_string]
+				]
 			);
 		}
 		
-		//non-end-user
+		//bits
+		if (isset($this->bits)) {
+			/**
+			 * @placeholder bits The hash number of bits.
+			 * @placeholder notations The supported hash notation entries.
+			 * @tags non-end-user
+			 * @example A hash of 32 bits, which may be given using any of the following notations:
+			 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+			 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+			 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
+			 *  &#8226; Raw binary string.
+			 */
+			return UText::localize(
+				"A hash of {{bits}} bits, which may be given using any of the following notations:\n{{notations}}", 
+				self::class, $text_options, ['parameters' => ['bits' => $this->bits, 'notations' => $notations_string]]
+			);
+		}
+		
+		//default
 		/**
-		 * @placeholder label The hash input label.
 		 * @placeholder notations The supported hash notation entries.
 		 * @tags non-end-user
-		 * @example A CRC32 hash, which may be given using any of the following notations:
-		 *  &#8226; Hexadecimal string (example: "a7fed3fa");
-		 *  &#8226; Base64 encoded string (example: "p/7T+g==");
-		 *  &#8226; URL-safe Base64 encoded string (example: "p_7T-g");
+		 * @example A hash, which may be given using any of the following notations:
+		 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+		 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+		 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"A {{label}} hash, which may be given using any of the following notations:\n{{notations}}", 
-			self::class, $text_options, [
-				'parameters' => [
-					'label' => $this->getLabel($text_options, $info_options), 
-					'notations' => UText::mbulletify(
-						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
-					)
-				]
-			]
+			"A hash, which may be given using any of the following notations:\n{{notations}}", 
+			self::class, $text_options, ['parameters' => ['notations' => $notations_string]]
 		);
 	}
 	
@@ -131,39 +196,110 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
-			/**
-			 * @placeholder label The hash input label.
-			 * @tags end-user
-			 * @example Only a CRC32 hash, given in hexadecimal notation, is allowed.
-			 */
+			//label
+			if (isset($this->label)) {
+				/**
+				 * @placeholder label The hash label.
+				 * @tags end-user
+				 * @example Only a CRC32 hash, given in hexadecimal notation, is allowed.
+				 */
+				return UText::localize(
+					"Only a {{label}} hash, given in hexadecimal notation, is allowed.", 
+					self::class, $text_options, ['parameters' => ['label' => $this->label]]
+				);
+			}
+			
+			//bits
+			if (isset($this->bits)) {
+				/**
+				 * @placeholder bits The hash number of bits.
+				 * @tags end-user
+				 * @example Only a hash of 32 bits, given in hexadecimal notation, is allowed.
+				 */
+				return UText::localize(
+					"Only a hash of {{bits}} bits, given in hexadecimal notation, is allowed.", 
+					self::class, $text_options, ['parameters' => ['bits' => $this->bits]]
+				);
+			}
+			
+			//default
+			/** @tags end-user */
 			return UText::localize(
-				"Only a {{label}} hash, given in hexadecimal notation, is allowed.", 
-				self::class, $text_options, ['parameters' => ['label' => $this->getLabel($text_options, $info_options)]]
+				"Only a hash, given in hexadecimal notation, is allowed.", self::class, $text_options
 			);
 		}
 		
-		//non-end-user
+		//notations
+		$notations_string = UText::mbulletify(
+			$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
+		);
+		
+		//label
+		if (isset($this->label)) {
+			/**
+			 * @placeholder label The hash label.
+			 * @placeholder notations The supported hash notation entries.
+			 * @tags non-end-user
+			 * @example Only a CRC32 hash is allowed, which may be given using any of the following notations:
+			 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+			 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+			 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
+			 *  &#8226; Raw binary string.
+			 */
+			return UText::localize(
+				"Only a {{label}} hash is allowed, " . 
+					"which may be given using any of the following notations:\n{{notations}}",
+				self::class, $text_options, [
+					'parameters' => ['label' => $this->label, 'notations' => $notations_string]
+				]
+			);
+		}
+		
+		//bits
+		if (isset($this->bits)) {
+			/**
+			 * @placeholder bits The hash number of bits.
+			 * @placeholder notations The supported hash notation entries.
+			 * @tags non-end-user
+			 * @example Only a hash of 32 bits is allowed, which may be given using any of the following notations:
+			 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+			 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+			 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
+			 *  &#8226; Raw binary string.
+			 */
+			return UText::localize(
+				"Only a hash of {{bits}} bits is allowed, " . 
+					"which may be given using any of the following notations:\n{{notations}}",
+				self::class, $text_options, ['parameters' => ['bits' => $this->bits, 'notations' => $notations_string]]
+			);
+		}
+		
+		//default
 		/**
-		 * @placeholder label The hash input label.
 		 * @placeholder notations The supported hash notation entries.
 		 * @tags non-end-user
-		 * @example Only a CRC32 hash is allowed, which may be given using any of the following notations:
-		 *  &#8226; Hexadecimal string (example: "a7fed3fa");
-		 *  &#8226; Base64 encoded string (example: "p/7T+g==");
-		 *  &#8226; URL-safe Base64 encoded string (example: "p_7T-g");
+		 * @example Only a hash is allowed, which may be given using any of the following notations:
+		 *  &#8226; Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA");
+		 *  &#8226; Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA");
+		 *  &#8226; Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g");
 		 *  &#8226; Raw binary string.
 		 */
 		return UText::localize(
-			"Only a {{label}} hash is allowed, which may be given using any of the following notations:\n{{notations}}",
-			self::class, $text_options, [
-				'parameters' => [
-					'label' => $this->getLabel($text_options, $info_options), 
-					'notations' => UText::mbulletify(
-						$this->getNotationStrings($text_options), $text_options, ['merge' => true, 'punctuate' => true]
-					)
-				]
-			]
+			"Only a hash is allowed, which may be given using any of the following notations:\n{{notations}}",
+			self::class, $text_options, ['parameters' => ['notations' => $notations_string]]
 		);
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\SchemaData)
+	/** {@inheritdoc} */
+	public function getSchemaData()
+	{
+		return [
+			'bits' => $this->bits,
+			'label' => $this->label
+		];
 	}
 	
 	
@@ -184,10 +320,40 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
 			
 			//filters
-			case 'filters.raw':
-				return $this->createFilter(Filters\Raw::class, $properties);
 			case 'filters.base64':
 				return $this->createFilter(Filters\Base64::class, $properties);
+			case 'filters.colonify':
+				//no break
+			case 'colonify':
+				return $this->createFilter(Filters\Colonify::class, $properties);
+			case 'filters.raw':
+				return $this->createFilter(Filters\Raw::class, $properties);
+			case 'filters.uppercase':
+				//no break
+			case 'upper':
+				return $this->createFilter(Filters\Uppercase::class, $properties);
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Prototype\Traits\PropertyBuilder)
+	/** {@inheritdoc} */
+	protected function buildProperty(string $name): ?Property
+	{
+		switch ($name) {
+			case 'bits':
+				return $this->createProperty()
+					->setMode('w-')
+					->setAsInteger(true, null, true)
+					->addEvaluator(function (&$value): bool {
+						return !isset($value) || $value % 8 === 0;
+					})
+					->bind(self::class)
+				;
+			case 'label':
+				return $this->createProperty()->setMode('w-')->setAsString(true, true)->bind(self::class);
 		}
 		return null;
 	}
@@ -210,53 +376,83 @@ abstract class Hash extends Input implements IInformation, IModifierBuilder
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
 			//initialize
 			$example_value = '';
-			$bytes = $this->getBits() / 8;
+			$bytes = isset($this->bits) ? $this->bits / 8 : 4;
 			for ($i = 0; $i < $bytes; $i++) {
 				$example_value .= chr(UMath::random(255, 0, $i));
 			}
 			
-			//hexadecimal
+			//hexadecimal (examples)
+			$example_hexadecimal = bin2hex($example_value);
+			$hexadecimal_examples = [$example_hexadecimal, strtoupper($example_hexadecimal)];
+			
+			//hexadecimal (notation)
 			/**
 			 * @description Hexadecimal notation string.
 			 * @placeholder example The hash example in hexadecimal notation.
 			 * @tags non-end-user
-			 * @example Hexadecimal string (example: "a7fed3fa")
+			 * @example Hexadecimal case-insensitive string (example: "a7fed3fa" or "A7FED3FA")
 			 */
 			$strings[] = UText::localize(
-				"Hexadecimal string (example: {{example}})",
+				"Hexadecimal case-insensitive string (example: {{example}})",
 				self::class, $text_options, [
-					'parameters' => ['example' => bin2hex($example_value)],
-					'string_options' => ['quote_strings' => true]
+					'parameters' => [
+						'example' => UText::stringify($hexadecimal_examples, $text_options, [
+							'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
+						])
+					]
 				]
 			);
 			
-			//base64 encoded
-			/**
-			 * @description Base64 encoded notation string.
-			 * @placeholder example The hash example in Base64 encoded notation.
-			 * @tags non-end-user
-			 * @example Base64 encoded string (example: "p/7T+g==")
-			 */
-			$strings[] = UText::localize(
-				"Base64 encoded string (example: {{example}})",
-				self::class, $text_options, [
-					'parameters' => ['example' => UBase64::encode($example_value)],
-					'string_options' => ['quote_strings' => true]
-				]
-			);
+			//colon-hexadecimal
+			if ($bytes >= 2) {
+				//examples
+				$colon_hexadecimal_examples = [
+					UHash::colonify($example_hexadecimal),
+					strtoupper(UHash::colonify($example_hexadecimal, $bytes >= 4 && $bytes % 2 === 0))
+				];
+				
+				//notation
+				/**
+				 * @description Colon-hexadecimal notation string.
+				 * @placeholder example The hash example in colon-hexadecimal notation.
+				 * @tags non-end-user
+				 * @example Colon-hexadecimal case-insensitive string (example: "a7:fe:d3:fa" or "A7FE:D3FA")
+				 */
+				$strings[] = UText::localize(
+					"Colon-hexadecimal case-insensitive string (example: {{example}})",
+					self::class, $text_options, [
+						'parameters' => [
+							'example' => UText::stringify($colon_hexadecimal_examples, $text_options, [
+								'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
+							])
+						]
+					]
+				);
+			}
 			
-			//url-safe base64 encoded
+			//base64 encoded (examples)
+			$example_base64 = UBase64::encode($example_value);
+			$example_base64_urlsafe = UBase64::encode($example_value, true);
+			$base64_examples = [$example_base64];
+			if ($example_base64 !== $example_base64_urlsafe) {
+				$base64_examples[] = $example_base64_urlsafe;
+			}
+			
+			//base64 encoded (notation)
 			/**
-			 * @description URL-safe Base64 encoded notation string.
-			 * @placeholder example The hash example in URL-safe Base64 encoded notation.
+			 * @description Base64 or URL-safe Base64 encoded notation string.
+			 * @placeholder example The hash example in Base64 or URL-safe Base64 encoded notation.
 			 * @tags non-end-user
-			 * @example URL-safe Base64 encoded string (example: "p_7T-g")
+			 * @example Base64 or URL-safe Base64 encoded string (example: "p/7T+g==" or "p_7T-g")
 			 */
 			$strings[] = UText::localize(
-				"URL-safe Base64 encoded string (example: {{example}})",
+				"Base64 or URL-safe Base64 encoded string (example: {{example}})",
 				self::class, $text_options, [
-					'parameters' => ['example' => UBase64::encode($example_value, true)],
-					'string_options' => ['quote_strings' => true]
+					'parameters' => [
+						'example' => UText::stringify($base64_examples, $text_options, [
+							'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
+						])
+					]
 				]
 			);
 			

@@ -48,13 +48,19 @@ class Float64 extends Number
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Real number", self::class, $text_options);
-		} elseif ($text_options->info_scope === EInfoScope::TECHNICAL) {
+		}
+		
+		//technical
+		if ($text_options->info_scope === EInfoScope::TECHNICAL) {
 			/** @tags technical */
 			return UText::localize("Float", self::class, $text_options);
 		}
+		
+		//non-end-user and non-technical
 		/** @tags non-end-user non-technical */
 		return UText::localize("Float (64 bits)", self::class, $text_options);
 	}

@@ -58,13 +58,31 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		return UText::localize("Numerical characters only", self::class, $text_options);
+		return UText::localize("Numeric characters only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
-		return UText::localize("Only numerical characters are allowed.", self::class, $text_options);
+		//unicode
+		if ($this->unicode) {
+			return UText::localize("Only numeric characters are allowed.", self::class, $text_options);
+		}
+		
+		//default
+		/**
+		 * @placeholder digits.num0 The numeric "0" digit character.
+		 * @placeholder digits.num9 The numeric "9" digit character.
+		 * @example Only numeric characters (0-9) are allowed.
+		 */
+		return UText::localize(
+			"Only numeric characters ({{digits.num0}}-{{digits.num9}}) are allowed.",
+			self::class, $text_options, [
+				'parameters' => [
+					'digits' => ['num0' => '0', 'num9' => '9']
+				]
+			]
+		);
 	}
 	
 	

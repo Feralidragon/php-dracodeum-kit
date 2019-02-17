@@ -63,7 +63,7 @@ class Unique extends Filter implements IName, IInformation
 			return UText::localize("Duplicated items are removed.", self::class, $text_options);
 		}
 		
-		//other
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Duplicated values are removed.", self::class, $text_options);
 	}

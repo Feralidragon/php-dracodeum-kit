@@ -88,9 +88,12 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//initialize
 		$powers_string = UText::stringify($this->powers, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
 		]);
+		
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder powers The list of disallowed powers.
@@ -101,6 +104,8 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 				self::class, $text_options, ['parameters' => ['powers' => $powers_string]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder powers The list of allowed powers.
 		 * @example Only a power of 2, 3 or 5 is allowed.

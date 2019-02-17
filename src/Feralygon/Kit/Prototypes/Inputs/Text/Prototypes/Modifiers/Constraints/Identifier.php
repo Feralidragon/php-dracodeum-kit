@@ -79,10 +79,10 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder letters.Z The uppercase "Z" letter character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags end-user
-			 * @example must start with a letter (a to z and A to Z) or underscore (_)
+			 * @example must start with a letter (a-z and A-Z) or underscore (_)
 			 */
 			$entries[] = UText::localize(
-				"must start with a letter ({{letters.a}} to {{letters.z}} and {{letters.A}} to {{letters.Z}}) " . 
+				"must start with a letter ({{letters.a}}-{{letters.z}} and {{letters.A}}-{{letters.Z}}) " . 
 					"or underscore ({{underscore}})", 
 				self::class, $text_options, [
 					'parameters' => [
@@ -103,11 +103,11 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags end-user
-			 * @example must be only composed by letters (a to z and A to Z), digits (0 to 9) and underscores (_)
+			 * @example must be only composed by letters (a-z and A-Z), digits (0-9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
-				"must be only composed by letters ({{letters.a}} to {{letters.z}} " . 
-					"and {{letters.A}} to {{letters.Z}}), digits ({{digits.num0}} to {{digits.num9}}) " . 
+				"must be only composed by letters ({{letters.a}}-{{letters.z}} " . 
+					"and {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
 					"and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
@@ -194,14 +194,14 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 			}
 		}
 		
-		//message
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
 			 * @placeholder entries The format description entries.
 			 * @tags end-user
 			 * @example Only the following format is allowed:
-			 *  &#8226; must start with a letter (a to z and A to Z) or underscore (_);
-			 *  &#8226; must be only composed by letters (a to z and A to Z), digits (0 to 9) and underscores (_);
+			 *  &#8226; must start with a letter (a-z and A-Z) or underscore (_);
+			 *  &#8226; must be only composed by letters (a-z and A-Z), digits (0-9) and underscores (_);
 			 *  &#8226; dots (.) may also be used as delimiters between words.
 			 */
 			return UText::localize(
@@ -213,6 +213,8 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 				]
 			);
 		}
+		
+		//non-end-user
 		/**
 		 * @placeholder entries The format description entries.
 		 * @tags non-end-user

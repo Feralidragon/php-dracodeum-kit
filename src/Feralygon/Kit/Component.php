@@ -323,7 +323,7 @@ abstract class Component implements IPropertiesable
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.<br>
 	 * <br>
-	 * If a component or prototype instance is given, then the given properties are ignored.</p>
+	 * If a component instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -387,7 +387,7 @@ abstract class Component implements IPropertiesable
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.<br>
 	 * <br>
-	 * If a component or prototype instance is given, then the given properties are ignored.</p>
+	 * If a component instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -437,9 +437,7 @@ abstract class Component implements IPropertiesable
 			return $nullable ? null : new static(null, $properties);
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
-		} elseif (is_object($value) && $value instanceof Prototype) {
-			$properties = [];
-		} elseif (!is_string($value)) {
+		} elseif (!is_string($value) && (!is_object($value) || !($value instanceof Prototype))) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,

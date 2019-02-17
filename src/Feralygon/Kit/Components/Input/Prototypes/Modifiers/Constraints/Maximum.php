@@ -70,7 +70,10 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//initialize
 		$value_string = $this->stringifyValue($this->value, $text_options);
+		
+		//exclusive
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The maximum allowed value.
@@ -81,6 +84,8 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder value The maximum allowed value.
 		 * @example Only a value less than or equal to 250 is allowed.

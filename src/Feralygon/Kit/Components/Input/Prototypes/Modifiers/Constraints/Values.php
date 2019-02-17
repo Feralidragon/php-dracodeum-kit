@@ -74,6 +74,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed values.
@@ -87,6 +88,8 @@ class Values extends Constraint implements IName, IInformation, IStringification
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed values.
 		 * @example Only the following values are allowed: "foo", "bar" and "abc".

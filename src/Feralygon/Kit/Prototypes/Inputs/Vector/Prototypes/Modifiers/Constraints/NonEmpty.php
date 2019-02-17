@@ -65,7 +65,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 			return UText::localize("An empty array is not allowed.", self::class, $text_options);
 		}
 		
-		//other
+		//non-end-user and non-technical
 		/** @tags non-end-user non-technical */
 		return UText::localize("An empty vector is not allowed.", self::class, $text_options);
 	}

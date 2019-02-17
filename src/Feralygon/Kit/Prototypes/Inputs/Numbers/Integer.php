@@ -144,7 +144,9 @@ class Integer extends Number implements ISchemaData
 	{
 		//non-end-user
 		if ($text_options->info_scope !== EInfoScope::ENDUSER) {
+			//bits
 			if (isset($this->bits)) {
+				//unsigned
 				if ($this->unsigned) {
 					/**
 					 * @placeholder bits The number of bits.
@@ -156,6 +158,8 @@ class Integer extends Number implements ISchemaData
 						$this->bits, 'bits', self::class, $text_options
 					);
 				}
+				
+				//signed
 				/**
 				 * @placeholder bits The number of bits.
 				 * @tags non-end-user
@@ -165,11 +169,16 @@ class Integer extends Number implements ISchemaData
 					"Integer ({{bits}} bit)", "Integer ({{bits}} bits)",
 					$this->bits, 'bits', self::class, $text_options
 				);
-			} elseif ($this->unsigned) {
+			}
+			
+			//unsigned
+			if ($this->unsigned) {
 				/** @tags non-end-user */
 				return UText::localize("Unsigned integer", self::class, $text_options);
 			}
 		}
+		
+		//default
 		return UText::localize("Integer", self::class, $text_options);
 	}
 	
@@ -178,6 +187,7 @@ class Integer extends Number implements ISchemaData
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			//minimum and maximum
 			if (isset($this->minimum) && isset($this->maximum)) {
 				/**
 				 * @placeholder minimum The minimum integer number.
@@ -191,7 +201,10 @@ class Integer extends Number implements ISchemaData
 						'parameters' => ['minimum' => $this->minimum, 'maximum' => $this->maximum]
 					]
 				);
-			} elseif (isset($this->minimum)) {
+			}
+			
+			//minimum
+			if (isset($this->minimum)) {
 				/**
 				 * @placeholder minimum The minimum integer number.
 				 * @tags end-user
@@ -201,7 +214,10 @@ class Integer extends Number implements ISchemaData
 					"An integer number greater than or equal to {{minimum}}.",
 					self::class, $text_options, ['parameters' => ['minimum' => $this->minimum]]
 				);
-			} elseif (isset($this->maximum)) {
+			}
+			
+			//maximum
+			if (isset($this->maximum)) {
 				/**
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
@@ -212,12 +228,15 @@ class Integer extends Number implements ISchemaData
 					self::class, $text_options, ['parameters' => ['maximum' => $this->maximum]]
 				);
 			}
+			
+			//default
 			/** @tags end-user */
 			return UText::localize("An integer number.", self::class, $text_options);
 		}
 		
 		//non-end-user
 		if (isset($this->bits)) {
+			//unsigned
 			if ($this->unsigned) {
 				/**
 				 * @placeholder bits The number of bits.
@@ -248,6 +267,8 @@ class Integer extends Number implements ISchemaData
 					]
 				);
 			}
+			
+			//signed
 			/**
 			 * @placeholder bits The number of bits.
 			 * @placeholder notations The supported integer number notation entries.
@@ -275,7 +296,10 @@ class Integer extends Number implements ISchemaData
 					]
 				]
 			);
-		} elseif ($this->unsigned) {
+		}
+		
+		//unsigned
+		if ($this->unsigned) {
 			/**
 			 * @placeholder notations The supported integer number notation entries.
 			 * @tags non-end-user
@@ -300,6 +324,8 @@ class Integer extends Number implements ISchemaData
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder notations The supported integer number notation entries.
 		 * @tags non-end-user
@@ -330,6 +356,7 @@ class Integer extends Number implements ISchemaData
 	{
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			//minimum and maximum
 			if (isset($this->minimum) && isset($this->maximum)) {
 				/**
 				 * @placeholder minimum The minimum integer number.
@@ -343,7 +370,10 @@ class Integer extends Number implements ISchemaData
 						'parameters' => ['minimum' => $this->minimum, 'maximum' => $this->maximum]
 					]
 				);
-			} elseif (isset($this->minimum)) {
+			}
+			
+			//minimum
+			if (isset($this->minimum)) {
 				/**
 				 * @placeholder minimum The minimum integer number.
 				 * @tags end-user
@@ -353,7 +383,10 @@ class Integer extends Number implements ISchemaData
 					"Only an integer number greater than or equal to {{minimum}} is allowed.",
 					self::class, $text_options, ['parameters' => ['minimum' => $this->minimum]]
 				);
-			} elseif (isset($this->maximum)) {
+			}
+			
+			//maximum
+			if (isset($this->maximum)) {
 				/**
 				 * @placeholder maximum The maximum integer number.
 				 * @tags end-user
@@ -364,11 +397,15 @@ class Integer extends Number implements ISchemaData
 					self::class, $text_options, ['parameters' => ['maximum' => $this->maximum]]
 				);
 			}
+			
+			//default
 			/** @tags end-user */
 			return UText::localize("Only an integer number is allowed.", self::class, $text_options);
+		}
 			
-		//bits
-		} elseif (isset($this->bits)) {
+		//non-end-user
+		if (isset($this->bits)) {
+			//unsigned
 			if ($this->unsigned) {
 				/**
 				 * @placeholder bits The number of bits.
@@ -399,6 +436,8 @@ class Integer extends Number implements ISchemaData
 					]
 				);
 			}
+			
+			//signed
 			/**
 			 * @placeholder bits The number of bits.
 			 * @placeholder notations The supported integer number notation entries.
@@ -427,9 +466,10 @@ class Integer extends Number implements ISchemaData
 					]
 				]
 			);
-			
+		}
+		
 		//unsigned
-		} elseif ($this->unsigned) {
+		if ($this->unsigned) {
 			/**
 			 * @placeholder notations The supported integer number notation entries.
 			 * @tags non-end-user
@@ -457,7 +497,7 @@ class Integer extends Number implements ISchemaData
 			);
 		}
 		
-		//non-end-user
+		//default
 		/**
 		 * @placeholder notations The supported integer number notation entries.
 		 * @tags non-end-user

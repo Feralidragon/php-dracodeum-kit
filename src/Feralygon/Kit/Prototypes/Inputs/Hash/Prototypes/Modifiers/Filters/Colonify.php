@@ -9,23 +9,21 @@ namespace Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Traits\LazyProperties\Property;
-use Feralygon\Kit\Utilities\Base64 as UBase64;
+use Feralygon\Kit\Utilities\Hash as UHash;
 
 /**
- * This filter prototype converts a hash in hexadecimal notation into a Base64 encoded string.
+ * This filter prototype converts a hash into a colon-hexadecimal string.
  * 
  * @since 1.0.0
- * @property-write bool $url_safe [writeonce] [default = false]
- * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) are replaced 
- * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
- * in order to be safely put in an URL.</p>
+ * @property-write bool $hextets [writeonce] [default = false]
+ * <p>Colonify a given hash into hextets.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
-class Base64 extends Filter
+class Colonify extends Filter
 {
 	//Protected properties
 	/** @var bool */
-	protected $url_safe = false;
+	protected $hextets = false;
 	
 	
 	
@@ -33,14 +31,18 @@ class Base64 extends Filter
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_string($value)) {
-			$value = hex2bin($value);
-			if ($value !== false) {
-				$value = UBase64::encode($value, $this->url_safe);
-				return true;
-			}
+		//check
+		if (!is_string($value)) {
+			return false;
 		}
-		return false;
+		
+		//colonify
+		try {
+			$value = UHash::colonify($value, $this->hextets);
+		} catch (\Exception $exception) {
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -50,7 +52,7 @@ class Base64 extends Filter
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'url_safe':
+			case 'hextets':
 				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
 		}
 		return null;

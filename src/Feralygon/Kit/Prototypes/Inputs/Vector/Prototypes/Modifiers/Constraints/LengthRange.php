@@ -102,7 +102,7 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 			);
 		}
 		
-		//other
+		//non-end-user
 		/**
 		 * @placeholder min_length The minimum allowed length.
 		 * @placeholder max_length The maximum allowed length.
