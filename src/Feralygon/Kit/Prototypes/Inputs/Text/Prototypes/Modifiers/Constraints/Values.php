@@ -65,7 +65,7 @@ class Values extends Constraints\Values
 				);
 			}
 			
-			//non-technical
+			//words-only
 			if ($this->isWordsOnly()) {
 				/** @tags non-technical */
 				return UText::plocalize(
@@ -73,6 +73,8 @@ class Values extends Constraints\Values
 					count($this->values), null, self::class, $text_options
 				);
 			}
+			
+			//default
 			/** @tags non-technical */
 			return UText::plocalize(
 				"Disallowed text", "Disallowed texts",
@@ -89,7 +91,7 @@ class Values extends Constraints\Values
 			);
 		}
 		
-		//non-technical
+		//words-only
 		if ($this->isWordsOnly()) {
 			/** @tags non-technical */
 			return UText::plocalize(
@@ -97,6 +99,8 @@ class Values extends Constraints\Values
 				count($this->values), null, self::class, $text_options
 			);
 		}
+		
+		//default
 		/** @tags non-technical */
 		return UText::plocalize(
 			"Allowed text", "Allowed texts",
@@ -125,7 +129,7 @@ class Values extends Constraints\Values
 				);
 			}
 			
-			//non-technical
+			//words-only
 			if ($this->isWordsOnly()) {
 				/**
 				 * @placeholder values The list of disallowed text values.
@@ -140,6 +144,8 @@ class Values extends Constraints\Values
 					]
 				);
 			}
+			
+			//default
 			/**
 			 * @placeholder values The list of disallowed text values.
 			 * @tags non-technical
@@ -170,7 +176,7 @@ class Values extends Constraints\Values
 			);
 		}
 		
-		//non-technical
+		//words-only
 		if ($this->isWordsOnly()) {
 			/**
 			 * @placeholder values The list of allowed text values.
@@ -185,6 +191,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed text values.
 		 * @tags non-technical

@@ -38,6 +38,7 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed size values.
@@ -51,6 +52,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed size values.
 		 * @example Only the following sizes are allowed: 3 B, 8 kB and 27 MB.

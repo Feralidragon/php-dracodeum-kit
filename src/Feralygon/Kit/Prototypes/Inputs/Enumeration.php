@@ -221,7 +221,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			);
 		}
 	
-		//non-end-user
+		//show names and values
 		if ($show_names && $show_values) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
@@ -235,7 +235,10 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				"An enumeration element name or value, as one of the following:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
-		} elseif ($show_names) {
+		}
+		
+		//show names
+		if ($show_names) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
@@ -248,7 +251,10 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				"An enumeration element name, as one of the following:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
-		} elseif ($show_values) {
+		}
+		
+		//show values
+		if ($show_values) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
@@ -262,6 +268,8 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder descriptions The enumeration element descriptions.
 		 * @tags non-end-user
@@ -306,7 +314,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			);
 		}
 	
-		//non-end-user
+		//show names and values
 		if ($show_names && $show_values) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
@@ -320,7 +328,10 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				"Only an enumeration element name or value is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
-		} elseif ($show_names) {
+		}
+		
+		//show names
+		if ($show_names) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
@@ -333,7 +344,10 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				"Only an enumeration element name is allowed, as follows:\n{{descriptions}}",
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
-		} elseif ($show_values) {
+		}
+		
+		//show values
+		if ($show_values) {
 			/**
 			 * @placeholder descriptions The enumeration element descriptions.
 			 * @tags non-end-user
@@ -347,6 +361,8 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				self::class, $text_options, ['parameters' => ['descriptions' => $merged_descriptions]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder descriptions The enumeration element descriptions.
 		 * @tags non-end-user

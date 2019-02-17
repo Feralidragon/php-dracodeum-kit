@@ -38,6 +38,7 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed hash values.
@@ -51,6 +52,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed hash values.
 		 * @example Only the following hashes are allowed: "b9b183b8", "13bf50b8" and "ac5139b4".

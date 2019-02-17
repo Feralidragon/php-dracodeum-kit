@@ -174,10 +174,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				]);
 			}
 			
-			//other
+			//non-end-user and non-technical
 			/**
 			 * @placeholder input.label The input label.
-			 * @tags non-technical non-end-user
+			 * @tags non-end-user non-technical
 			 * @example Vector<Text>
 			 */
 			return UText::localize("Vector<{{input.label}}>", self::class, $text_options, [
@@ -199,8 +199,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			return UText::localize("Array", self::class, $text_options);
 		}
 		
-		//other
-		/** @tags non-technical non-end-user */
+		//non-end-user and non-technical
+		/** @tags non-end-user non-technical */
 		return UText::localize("Vector", self::class, $text_options);
 	}
 	
@@ -215,6 +215,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
+				//scalar
 				if ($this->input->isScalar()) {
 					/**
 					 * @placeholder input.description The input description.
@@ -231,6 +232,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 						]
 					);
 				}
+				
+				//default
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
@@ -248,6 +251,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
+				//scalar
 				if ($this->input->isScalar()) {
 					/**
 					 * @placeholder input.description The input description.
@@ -265,6 +269,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 						]
 					);
 				}
+				
+				//default
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
@@ -280,7 +286,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				);
 			}
 			
-			//other
+			//scalar
 			if ($this->input->isScalar()) {
 				/**
 				 * @placeholder input.description The input description.
@@ -298,6 +304,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 					]
 				);
 			}
+			
+			//default
 			/**
 			 * @placeholder input.description The input description.
 			 * @tags non-technical non-end-user
@@ -331,8 +339,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			);
 		}
 		
-		//other
-		/** @tags non-technical non-end-user */
+		//non-end-user and non-technical
+		/** @tags non-end-user non-technical */
 		return UText::localize(
 			"A vector, which may be given as a comma separated list of values or a JSON array.",
 			self::class, $text_options
@@ -350,6 +358,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
+				//scalar
 				if ($this->input->isScalar()) {
 					/**
 					 * @placeholder input.description The input description.
@@ -367,6 +376,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 						]
 					);
 				}
+				
+				//default
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags end-user
@@ -384,6 +395,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			
 			//technical
 			if ($text_options->info_scope === EInfoScope::TECHNICAL) {
+				//scalar
 				if ($this->input->isScalar()) {
 					/**
 					 * @placeholder input.description The input description.
@@ -403,6 +415,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 						]
 					);
 				}
+				
+				//default
 				/**
 				 * @placeholder input.description The input description.
 				 * @tags technical
@@ -418,7 +432,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				);
 			}
 			
-			//other
+			//scalar
 			if ($this->input->isScalar()) {
 				/**
 				 * @placeholder input.description The input description.
@@ -438,6 +452,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 					]
 				);
 			}
+			
+			//default
 			/**
 			 * @placeholder input.description The input description.
 			 * @tags non-technical non-end-user
@@ -471,8 +487,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			);
 		}
 		
-		//other
-		/** @tags non-technical non-end-user */
+		//non-end-user and non-technical
+		/** @tags non-end-user non-technical */
 		return UText::localize(
 			"Only a vector is allowed, which may be given as a comma separated list of values or a JSON array.",
 			self::class, $text_options
@@ -552,12 +568,12 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 					]
 				);
 				
-			//other
+			//non-end-user and non-technical
 			} else {
 				/**
 				 * @placeholder indexes The indexes.
 				 * @placeholder input.message The input message.
-				 * @tags non-technical non-end-user
+				 * @tags non-end-user non-technical
 				 * @example Invalid vector values were given at indexes 0, 1 and 4, \
 				 * with the following error: only text is allowed.
 				 */

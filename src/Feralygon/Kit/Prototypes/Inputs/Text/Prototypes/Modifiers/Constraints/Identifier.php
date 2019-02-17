@@ -194,7 +194,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 			}
 		}
 		
-		//message
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
 			 * @placeholder entries The format description entries.
@@ -213,6 +213,8 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 				]
 			);
 		}
+		
+		//non-end-user
 		/**
 		 * @placeholder entries The format description entries.
 		 * @tags non-end-user

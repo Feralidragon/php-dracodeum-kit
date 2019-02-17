@@ -97,7 +97,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 			);
 		}
 		
-		//other
+		//non-end-user and non-technical
 		/**
 		 * @placeholder length The truncated length.
 		 * @tags non-end-user non-technical

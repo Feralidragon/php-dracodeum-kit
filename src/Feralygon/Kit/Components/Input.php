@@ -344,11 +344,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullLabel($text_options = null): string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("None", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Null", self::class, $text_options);
 	}
@@ -409,11 +414,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullDescription($text_options = null): ?string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, it may also be none.", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, it may also be null.", self::class, $text_options);
 	}
@@ -476,11 +486,16 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	public function getDefaultNullMessage($text_options = null): ?string
 	{
+		//initialize
 		$text_options = TextOptions::coerce($text_options);
+		
+		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
 			return UText::localize("Alternatively, no value may also be given.", self::class, $text_options);
 		}
+		
+		//non-end-user
 		/** @tags non-end-user */
 		return UText::localize("Alternatively, a null value may also be given.", self::class, $text_options);
 	}

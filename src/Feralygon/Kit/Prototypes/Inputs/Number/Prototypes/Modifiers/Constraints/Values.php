@@ -38,6 +38,7 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed number values.
@@ -51,6 +52,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed number values.
 		 * @example Only the following numbers are allowed: 3, 8 and 27.

@@ -32,9 +32,13 @@ class Range extends Constraints\Range
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//initialize
 		$min_value_string = $this->stringifyValue($this->min_value, $text_options);
 		$max_value_string = $this->stringifyValue($this->max_value, $text_options);
+		
+		//negate
 		if ($this->negate) {
+			//min and max exclusive
 			if ($this->min_exclusive && $this->max_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
@@ -48,7 +52,10 @@ class Range extends Constraints\Range
 						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
-			} elseif ($this->min_exclusive) {
+			}
+			
+			//min exclusive
+			if ($this->min_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
@@ -61,7 +68,10 @@ class Range extends Constraints\Range
 						'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 					]
 				);
-			} elseif ($this->max_exclusive) {
+			}
+			
+			//max exclusive
+			if ($this->max_exclusive) {
 				/**
 				 * @placeholder min_value The minimum disallowed value.
 				 * @placeholder max_value The maximum disallowed value.
@@ -75,6 +85,8 @@ class Range extends Constraints\Range
 					]
 				);
 			}
+			
+			//default
 			/**
 			 * @placeholder min_value The minimum disallowed value.
 			 * @placeholder max_value The maximum disallowed value.
@@ -87,7 +99,10 @@ class Range extends Constraints\Range
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
-		} elseif ($this->min_exclusive && $this->max_exclusive) {
+		}
+		
+		//min and max exclusive
+		if ($this->min_exclusive && $this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
@@ -100,7 +115,10 @@ class Range extends Constraints\Range
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
-		} elseif ($this->min_exclusive) {
+		}
+		
+		//min exclusive
+		if ($this->min_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
@@ -113,7 +131,10 @@ class Range extends Constraints\Range
 					'parameters' => ['min_value' => $min_value_string, 'max_value' => $max_value_string]
 				]
 			);
-		} elseif ($this->max_exclusive) {
+		}
+		
+		//max exclusive
+		if ($this->max_exclusive) {
 			/**
 			 * @placeholder min_value The minimum allowed value.
 			 * @placeholder max_value The maximum allowed value.
@@ -127,6 +148,8 @@ class Range extends Constraints\Range
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder min_value The minimum allowed value.
 		 * @placeholder max_value The maximum allowed value.

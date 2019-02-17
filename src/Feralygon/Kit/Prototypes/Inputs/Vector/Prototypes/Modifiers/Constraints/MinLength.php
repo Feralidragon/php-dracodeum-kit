@@ -89,7 +89,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 			);
 		}
 		
-		//other
+		//non-end-user
 		/**
 		 * @placeholder length The minimum allowed length.
 		 * @tags non-end-user

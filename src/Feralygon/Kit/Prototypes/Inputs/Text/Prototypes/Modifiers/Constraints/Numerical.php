@@ -69,7 +69,7 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 			return UText::localize("Only numeric characters are allowed.", self::class, $text_options);
 		}
 		
-		//other
+		//default
 		/**
 		 * @placeholder digits.num0 The numeric "0" digit character.
 		 * @placeholder digits.num9 The numeric "9" digit character.

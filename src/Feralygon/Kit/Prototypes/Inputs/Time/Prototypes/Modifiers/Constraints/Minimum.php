@@ -30,7 +30,10 @@ class Minimum extends Constraints\Minimum
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//initialize
 		$value_string = $this->stringifyValue($this->value, $text_options);
+		
+		//exclusive
 		if ($this->exclusive) {
 			/**
 			 * @placeholder value The minimum allowed value.
@@ -41,6 +44,8 @@ class Minimum extends Constraints\Minimum
 				self::class, $text_options, ['parameters' => ['value' => $value_string]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder value The minimum allowed value.
 		 * @example Only a time after or at 12:45:00 is allowed.

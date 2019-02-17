@@ -38,6 +38,7 @@ class Values extends Constraints\Values
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder values The list of disallowed date and time values.
@@ -52,6 +53,8 @@ class Values extends Constraints\Values
 				]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder values The list of allowed date and time values.
 		 * @example Only the following dates and times are allowed: \

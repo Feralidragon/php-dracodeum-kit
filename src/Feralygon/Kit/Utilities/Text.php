@@ -196,6 +196,7 @@ final class Text extends Utility
 		//boolean
 		if (is_bool($value)) {
 			if ($is_enduser) {
+				//true
 				if ($value) {
 					/**
 					 * @description Affirmative expression, \
@@ -204,6 +205,8 @@ final class Text extends Utility
 					 */
 					return self::localize("YES", self::class, $text_options);
 				}
+				
+				//false
 				/**
 				 * @description Negative expression, \
 				 * as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".

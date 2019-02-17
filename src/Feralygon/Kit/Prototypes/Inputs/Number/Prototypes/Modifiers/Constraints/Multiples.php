@@ -92,9 +92,12 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
+		//initialize
 		$multiples_string = UText::stringify($this->multiples, $text_options, [
 			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
 		]);
+		
+		//negate
 		if ($this->negate) {
 			/**
 			 * @placeholder multiples The list of disallowed multiples.
@@ -105,6 +108,8 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 				self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]
 			);
 		}
+		
+		//default
 		/**
 		 * @placeholder multiples The list of allowed multiples.
 		 * @example Only a multiple of 2, 3 or 5 is allowed.
