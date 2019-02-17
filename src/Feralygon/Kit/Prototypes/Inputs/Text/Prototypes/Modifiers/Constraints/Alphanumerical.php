@@ -15,6 +15,7 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 };
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
+use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\{
 	Text as UText,
 	Type as UType
@@ -64,7 +65,56 @@ class Alphanumerical extends Constraint implements IName, IInformation, ISchemaD
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
-		return UText::localize("Only alphanumeric characters are allowed.", self::class, $text_options);
+		//unicode
+		if ($this->unicode) {
+			return UText::localize("Only alphanumeric characters are allowed.", self::class, $text_options);
+		}
+		
+		//end-user
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			/**
+			 * @placeholder letters.a The lowercase "a" letter character.
+			 * @placeholder letters.z The lowercase "z" letter character.
+			 * @placeholder letters.A The uppercase "A" letter character.
+			 * @placeholder letters.Z The uppercase "Z" letter character.
+			 * @placeholder digits.num0 The numeric "0" digit character.
+			 * @placeholder digits.num9 The numeric "9" digit character.
+			 * @tags end-user
+			 * @example Only alphanumeric characters (a-z, A-Z and 0-9) are allowed.
+			 */
+			return UText::localize(
+				"Only alphanumeric characters ({{letters.a}}-{{letters.z}}, " . 
+					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}) are allowed.",
+				self::class, $text_options, [
+					'parameters' => [
+						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
+						'digits' => ['num0' => '0', 'num9' => '9']
+					]
+				]
+			);
+		}
+		
+		//non-end-user
+		/**
+		 * @placeholder letters.a The lowercase "a" letter character.
+		 * @placeholder letters.z The lowercase "z" letter character.
+		 * @placeholder letters.A The uppercase "A" letter character.
+		 * @placeholder letters.Z The uppercase "Z" letter character.
+		 * @placeholder digits.num0 The numeric "0" digit character.
+		 * @placeholder digits.num9 The numeric "9" digit character.
+		 * @tags non-end-user
+		 * @example Only ASCII alphanumeric characters (a-z, A-Z and 0-9) are allowed.
+		 */
+		return UText::localize(
+			"Only ASCII alphanumeric characters ({{letters.a}}-{{letters.z}}, " . 
+				"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}) are allowed.",
+			self::class, $text_options, [
+				'parameters' => [
+					'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
+					'digits' => ['num0' => '0', 'num9' => '9']
+				]
+			]
+		);
 	}
 	
 	
