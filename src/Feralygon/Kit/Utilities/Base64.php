@@ -88,4 +88,37 @@ final class Base64 extends Utility
 		}
 		return base64_decode(strtr($string, '-_', '+/'));
 	}
+	
+	/**
+	 * Normalize a given string.
+	 * 
+	 * @since 1.0.0
+	 * @param string $string
+	 * <p>The string to normalize.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Base64\Exceptions\Normalize\InvalidString
+	 * @return string|null
+	 * <p>The given string normalized.<br>
+	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be normalized.</p>
+	 */
+	final public static function normalize(string $string, bool $no_throw = false): ?string
+	{
+		//check
+		if (!self::encoded($string)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Normalize\InvalidString([$string]);
+		}
+		
+		//normalize
+		$string = rtrim(strtr($string, '-_', '+/'), '=');
+		$padding = 3 - strlen($string) % 3;
+		if ($padding < 3) {
+			$string .= str_repeat('=', $padding);
+		}
+		return $string;
+	}
 }
