@@ -23,7 +23,7 @@ class InvalidString extends Exception
 	public function getDefaultMessage(): string
 	{
 		return "Invalid string {{string}}.\n" . 
-			"HINT: Only ASCII alphanumerical characters (0-9, a-z and A-Z), " . 
+			"HINT: Only ASCII alphanumeric characters (0-9, a-z and A-Z), " . 
 			"and also plus signs (+) and slashes (/), optionally padded with equal signs (=), " . 
 			"in the case of Base64, or hyphens (-) and underscores (_) respectively, without any padding, " . 
 			"in the case of URL-safe Base64, are allowed.";

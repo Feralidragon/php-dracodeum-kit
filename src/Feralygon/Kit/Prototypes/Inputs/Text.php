@@ -63,11 +63,11 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Uppercase
  * [modifier, name = 'constraints.uppercase' or 'uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphabetical
- * [modifier, name = 'constraints.alphabetical' or 'alphabetical']
+ * [modifier, name = 'constraints.alphabetical' or 'alphabetical' or 'alphabetic']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Numerical
- * [modifier, name = 'constraints.numerical' or 'numerical']
+ * [modifier, name = 'constraints.numerical' or 'numerical' or 'numeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Alphanumerical
- * [modifier, name = 'constraints.alphanumerical' or 'alphanumerical']
+ * [modifier, name = 'constraints.alphanumerical' or 'alphanumerical' or 'alphanumeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Identifier
  * [modifier, name = 'constraints.identifier' or 'identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
@@ -259,18 +259,24 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 			case 'constraints.alphabetical':
 				//no break
 			case 'alphabetical':
+				//no break
+			case 'alphabetic':
 				return $this->createConstraint(
 					Constraints\Alphabetical::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.numerical':
 				//no break
 			case 'numerical':
+				//no break
+			case 'numeric':
 				return $this->createConstraint(
 					Constraints\Numerical::class, $properties + ['unicode' => $this->unicode]
 				);
 			case 'constraints.alphanumerical':
 				//no break
 			case 'alphanumerical':
+				//no break
+			case 'alphanumeric':
 				return $this->createConstraint(
 					Constraints\Alphanumerical::class, $properties + ['unicode' => $this->unicode]
 				);

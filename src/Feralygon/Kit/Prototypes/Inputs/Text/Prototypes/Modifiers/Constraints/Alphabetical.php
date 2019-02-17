@@ -58,13 +58,13 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		return UText::localize("Alphabetical characters only", self::class, $text_options);
+		return UText::localize("Alphabetic characters only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
-		return UText::localize("Only alphabetical characters are allowed.", self::class, $text_options);
+		return UText::localize("Only alphabetic characters are allowed.", self::class, $text_options);
 	}
 	
 	

@@ -26,8 +26,8 @@ class InvalidString extends Exception
 	{
 		//hint message
 		$hint_message = $this->is('url_safe')
-			? "Only ASCII alphanumerical (0-9, a-z and A-Z), hyphen (-) and underscore (_) characters are allowed."
-			: "Only ASCII alphanumerical (0-9, a-z and A-Z), plus sign (+) and slash (/) characters, " . 
+			? "Only ASCII alphanumeric (0-9, a-z and A-Z), hyphen (-) and underscore (_) characters are allowed."
+			: "Only ASCII alphanumeric (0-9, a-z and A-Z), plus sign (+) and slash (/) characters, " . 
 				"optionally padded with equal signs (=), are allowed.";
 		
 		//return

@@ -58,13 +58,13 @@ class Alphanumerical extends Constraint implements IName, IInformation, ISchemaD
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		return UText::localize("Alphanumerical characters only", self::class, $text_options);
+		return UText::localize("Alphanumeric characters only", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options): string
 	{
-		return UText::localize("Only alphanumerical characters are allowed.", self::class, $text_options);
+		return UText::localize("Only alphanumeric characters are allowed.", self::class, $text_options);
 	}
 	
 	

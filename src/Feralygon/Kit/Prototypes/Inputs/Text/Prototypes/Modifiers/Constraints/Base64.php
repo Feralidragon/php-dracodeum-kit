@@ -80,19 +80,19 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 				 * @placeholder letters.z The lowercase "z" letter character.
 				 * @placeholder letters.A The uppercase "A" letter character.
 				 * @placeholder letters.Z The uppercase "Z" letter character.
-				 * @placeholder digits.num0 The numerical "0" digit character.
-				 * @placeholder digits.num9 The numerical "9" digit character.
+				 * @placeholder digits.num0 The numeric "0" digit character.
+				 * @placeholder digits.num9 The numeric "9" digit character.
 				 * @placeholder signs.plus The plus "+" sign character.
 				 * @placeholder signs.equal The equal "=" sign character.
 				 * @placeholder slash The slash "/" character.
 				 * @tags end-user
 				 * @example Only the Base64 format is allowed, \
-				 * consisting only of alphanumerical (a-z, A-Z and 0-9), \
+				 * consisting only of alphanumeric (a-z, A-Z and 0-9), \
 				 * plus sign (+) and slash (/) characters, optionally ending with equal signs (=).
 				 */
 				return UText::localize(
 					"Only the Base64 format is allowed, " . 
-						"consisting only of alphanumerical ({{letters.a}}-{{letters.z}}, " . 
+						"consisting only of alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 						"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 						"plus sign ({{signs.plus}}) and slash ({{slash}}) characters, " . 
 						"optionally ending with equal signs ({{signs.equal}}).",
@@ -113,19 +113,19 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder letters.z The lowercase "z" letter character.
 			 * @placeholder letters.A The uppercase "A" letter character.
 			 * @placeholder letters.Z The uppercase "Z" letter character.
-			 * @placeholder digits.num0 The numerical "0" digit character.
-			 * @placeholder digits.num9 The numerical "9" digit character.
+			 * @placeholder digits.num0 The numeric "0" digit character.
+			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder signs.plus The plus "+" sign character.
 			 * @placeholder signs.equal The equal "=" sign character.
 			 * @placeholder slash The slash "/" character.
 			 * @tags non-end-user
 			 * @example Only the Base64 format is allowed, \
-			 * consisting only of ASCII alphanumerical (a-z, A-Z and 0-9), \
+			 * consisting only of ASCII alphanumeric (a-z, A-Z and 0-9), \
 			 * plus sign (+) and slash (/) characters, optionally padded with equal signs (=).
 			 */
 			return UText::localize(
 				"Only the Base64 format is allowed, " . 
-					"consisting only of ASCII alphanumerical ({{letters.a}}-{{letters.z}}, " . 
+					"consisting only of ASCII alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 					"plus sign ({{signs.plus}}) and slash ({{slash}}) characters, " . 
 					"optionally padded with equal signs ({{signs.equal}}).",
@@ -148,17 +148,17 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 				 * @placeholder letters.z The lowercase "z" letter character.
 				 * @placeholder letters.A The uppercase "A" letter character.
 				 * @placeholder letters.Z The uppercase "Z" letter character.
-				 * @placeholder digits.num0 The numerical "0" digit character.
-				 * @placeholder digits.num9 The numerical "9" digit character.
+				 * @placeholder digits.num0 The numeric "0" digit character.
+				 * @placeholder digits.num9 The numeric "9" digit character.
 				 * @placeholder hyphen The hyphen "-" character.
 				 * @placeholder underscore The underscore "_" character.
 				 * @tags end-user
 				 * @example Only the URL-safe Base64 format is allowed, \
-				 * consisting only of alphanumerical (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
+				 * consisting only of alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
 				 */
 				return UText::localize(
 					"Only the URL-safe Base64 format is allowed, " . 
-						"consisting only of alphanumerical ({{letters.a}}-{{letters.z}}, " . 
+						"consisting only of alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 						"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 						"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters.",
 					self::class, $text_options, [
@@ -178,17 +178,17 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder letters.z The lowercase "z" letter character.
 			 * @placeholder letters.A The uppercase "A" letter character.
 			 * @placeholder letters.Z The uppercase "Z" letter character.
-			 * @placeholder digits.num0 The numerical "0" digit character.
-			 * @placeholder digits.num9 The numerical "9" digit character.
+			 * @placeholder digits.num0 The numeric "0" digit character.
+			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder hyphen The hyphen "-" character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
 			 * @example Only the URL-safe Base64 format is allowed, \
-			 * consisting only of ASCII alphanumerical (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
+			 * consisting only of ASCII alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
 			 */
 			return UText::localize(
 				"Only the URL-safe Base64 format is allowed, " . 
-					"consisting only of ASCII alphanumerical ({{letters.a}}-{{letters.z}}, " . 
+					"consisting only of ASCII alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 					"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters.",
 				self::class, $text_options, [
@@ -209,8 +209,8 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder letters.z The lowercase "z" letter character.
 			 * @placeholder letters.A The uppercase "A" letter character.
 			 * @placeholder letters.Z The uppercase "Z" letter character.
-			 * @placeholder digits.num0 The numerical "0" digit character.
-			 * @placeholder digits.num9 The numerical "9" digit character.
+			 * @placeholder digits.num0 The numeric "0" digit character.
+			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder signs.plus The plus "+" sign character.
 			 * @placeholder signs.equal The equal "=" sign character.
 			 * @placeholder slash The slash "/" character.
@@ -218,13 +218,13 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags end-user
 			 * @example Only the Base64 or URL-safe Base64 format is allowed, \
-			 * consisting only of alphanumerical characters (a-z, A-Z and 0-9), \
+			 * consisting only of alphanumeric characters (a-z, A-Z and 0-9), \
 			 * and also plus signs (+) and slashes (/), optionally ending with equal signs (=), in the case of Base64, \
 			 * or hyphens (-) and underscores (_) respectively, without equal signs, in the case of URL-safe Base64.
 			 */
 			return UText::localize(
 				"Only the Base64 or URL-safe Base64 format is allowed, " . 
-					"consisting only of alphanumerical characters ({{letters.a}}-{{letters.z}}, " . 
+					"consisting only of alphanumeric characters ({{letters.a}}-{{letters.z}}, " . 
 					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 					"and also plus signs ({{signs.plus}}) and slashes ({{slash}}), " . 
 					"optionally ending with equal signs ({{signs.equal}}), in the case of Base64, " . 
@@ -249,8 +249,8 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 		 * @placeholder letters.z The lowercase "z" letter character.
 		 * @placeholder letters.A The uppercase "A" letter character.
 		 * @placeholder letters.Z The uppercase "Z" letter character.
-		 * @placeholder digits.num0 The numerical "0" digit character.
-		 * @placeholder digits.num9 The numerical "9" digit character.
+		 * @placeholder digits.num0 The numeric "0" digit character.
+		 * @placeholder digits.num9 The numeric "9" digit character.
 		 * @placeholder signs.plus The plus "+" sign character.
 		 * @placeholder signs.equal The equal "=" sign character.
 		 * @placeholder slash The slash "/" character.
@@ -258,13 +258,13 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 		 * @placeholder underscore The underscore "_" character.
 		 * @tags non-end-user
 		 * @example Only the Base64 or URL-safe Base64 format is allowed, \
-		 * consisting only of ASCII alphanumerical characters (a-z, A-Z and 0-9), \
+		 * consisting only of ASCII alphanumeric characters (a-z, A-Z and 0-9), \
 		 * and also plus signs (+) and slashes (/), optionally padded with equal signs (=), in the case of Base64, \
 		 * or hyphens (-) and underscores (_) respectively, without any padding, in the case of URL-safe Base64.
 		 */
 		return UText::localize(
 			"Only the Base64 or URL-safe Base64 format is allowed, " . 
-				"consisting only of ASCII alphanumerical characters ({{letters.a}}-{{letters.z}}, " . 
+				"consisting only of ASCII alphanumeric characters ({{letters.a}}-{{letters.z}}, " . 
 				"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 				"and also plus signs ({{signs.plus}}) and slashes ({{slash}}), " . 
 				"optionally padded with equal signs ({{signs.equal}}), in the case of Base64, " . 
