@@ -72,6 +72,8 @@ use Feralygon\Kit\Utilities\{
  * [modifier, name = 'constraints.identifier' or 'identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Hexadecimal
  * [modifier, name = 'constraints.hexadecimal' or 'hexadecimal']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Text\Prototypes\Modifiers\Constraints\Base64
+ * [modifier, name = 'constraints.base64' or 'base64']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Lowercase
  * [modifier, name = 'filters.lowercase' or 'lower']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Uppercase
@@ -280,6 +282,10 @@ class Text extends Input implements IInformation, ISchemaData, IModifierBuilder
 				//no break
 			case 'hexadecimal':
 				return $this->createConstraint(Constraints\Hexadecimal::class, $properties);
+			case 'constraints.base64':
+				//no break
+			case 'base64':
+				return $this->createConstraint(Constraints\Base64::class, $properties);
 			
 			//filters
 			case 'filters.lowercase':
