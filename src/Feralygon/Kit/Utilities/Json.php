@@ -23,13 +23,13 @@ final class Json extends Utility
 {
 	//Final public static methods
 	/**
-	 * Check if a given data is encoded.
+	 * Check if a given set of data is encoded.
 	 * 
 	 * @since 1.0.0
 	 * @param string $data
 	 * <p>The data to check.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the given data is encoded.</p>
+	 * <p>Boolean <code>true</code> if the given set of data is encoded.</p>
 	 */
 	final public static function encoded(string $data): bool
 	{
@@ -38,7 +38,7 @@ final class Json extends Utility
 	}
 	
 	/**
-	 * Encode data.
+	 * Encode a given set of data.
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $data
@@ -47,7 +47,7 @@ final class Json extends Utility
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\Encode\InvalidData
 	 * @return string|null
-	 * <p>The given data encoded.<br>
+	 * <p>The given set of data encoded.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be encoded.</p>
 	 */
@@ -75,7 +75,7 @@ final class Json extends Utility
 	}
 	
 	/**
-	 * Decode data.
+	 * Decode a given set of data.
 	 * 
 	 * @since 1.0.0
 	 * @param string $data
@@ -84,7 +84,7 @@ final class Json extends Utility
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @throws \Feralygon\Kit\Utilities\Json\Exceptions\Decode\InvalidData
 	 * @return mixed
-	 * <p>The given data decoded.<br>
+	 * <p>The given set of data decoded.<br>
 	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
 	 * then <code>null</code> may also be returned if it could not be decoded.</p>
 	 */

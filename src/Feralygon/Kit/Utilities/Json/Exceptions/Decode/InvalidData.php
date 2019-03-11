@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Utilities\Json\Exceptions\Decode;
 use Feralygon\Kit\Utilities\Json\Exceptions\Decode as Exception;
 
 /**
- * This exception is thrown from the JSON utility <code>decode</code> method whenever given data is invalid.
+ * This exception is thrown from the JSON utility <code>decode</code> method whenever a given set of data is invalid.
  * 
  * @since 1.0.0
  * @property-read string $data
