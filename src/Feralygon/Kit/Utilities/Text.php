@@ -1529,23 +1529,21 @@ final class Text extends Utility
 	 * @param int $level [default = 1]
 	 * <p>The level to indentate with.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param string $character [default = "\t"]
-	 * <p>The character to indentate with.<br>
-	 * It must be a single ASCII character.</p>
+	 * @param string $expression [default = "\t"]
+	 * <p>The expression to indentate with.<br>
+	 * It cannot be empty.</p>
 	 * @return string
 	 * <p>The given string indentated.</p>
 	 */
-	final public static function indentate(string $string, int $level = 1, string $character = "\t"): string
+	final public static function indentate(string $string, int $level = 1, string $expression = "\t"): string
 	{
 		Call::guardParameter('level', $level, $level >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
-		Call::guardParameter('character', $character, strlen($character) === 1, [
-			'hint_message' => "Only a single ASCII character is allowed."
+		Call::guardParameter('expression', $expression, $expression !== '', [
+			'error_message' => "An empty value is not allowed."
 		]);
-		return $level > 0 && $character !== ''
-			? preg_replace('/^/mu', str_repeat($character, $level), $string)
-			: $string;
+		return $level > 0 ? preg_replace('/^/mu', str_repeat($expression, $level), $string) : $string;
 	}
 	
 	/**
@@ -2211,5 +2209,44 @@ final class Text extends Utility
 			);
 		}
 		return abs($number) === 1.0 ? $message1 : $message2;
+	}
+	
+	/**
+	 * Format a given message.
+	 * 
+	 * In order to be perceived as the object of reference of a sentence ending in a colon (<samp>:</samp>), 
+	 * such as:<br>
+	 * <br>
+	 * &nbsp; &nbsp; <i>"An error occurred with the following message: <b><samp>&lt;message&gt;</samp></b>"</i><br>
+	 * <br>
+	 * acting as a referenced example or message, while preserving and simplifying the natural expected text flow, 
+	 * the given message is formatted as follows:<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; if the given message is not multilined, then it is simply uncapitalized, 
+	 * in order to remain in the same line as a continuation of the previous sentence;<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; if the given message is multilined, 
+	 * then it is prepended with 2 newline characters and indented, without any further modifications, 
+	 * in order to break it away from the previous sentence, while still remaining visually clear that 
+	 * it is the object of reference of the previous sentence.
+	 * 
+	 * @since 1.0.0
+	 * @param string $message
+	 * <p>The message to format.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Format as an Unicode message.</p>
+	 * @param string $indentation_expression [default = "\t"]
+	 * <p>The expression to indentate with.<br>
+	 * It cannot be empty.</p>
+	 * @return string
+	 * <p>The given message formatted.</p>
+	 */
+	final public static function formatMessage(
+		string $message, bool $unicode = false, string $indentation_expression = "\t"
+	): string
+	{
+		return self::multiline($message)
+			? "\n\n" . self::indentate($message, 1, $indentation_expression)
+			: self::uncapitalize($message, $unicode);
 	}
 }
