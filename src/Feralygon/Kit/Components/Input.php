@@ -37,6 +37,9 @@ use Feralygon\Kit\Utilities\{
 /**
  * This component represents an input which can check, sanitize and hold a value.
  * 
+ * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
+ * then that character is stripped from the given name and the input is set as nullable.
+ * 
  * @since 1.0.0
  * @property-write bool $nullable [writeonce] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
@@ -127,6 +130,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	protected static function getDefaultBuilder(): ?callable
 	{
 		return [Factory::class, 'input'];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PreInitializer)
+	/** {@inheritdoc} */
+	protected function preInitialize(&$prototype, array &$properties): void
+	{
+		if (is_string($prototype) && isset($prototype[0]) && $prototype[0] === '?') {
+			$prototype = substr($prototype, 1);
+			$properties['nullable'] = true;
+		}
 	}
 	
 	
