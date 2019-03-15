@@ -20,7 +20,11 @@ trait PreInitializer
 	 * Pre-initialize.
 	 * 
 	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Prototype|string|null $prototype [reference]
+	 * <p>The prototype instance, class or name to pre-initialize with.</p>
+	 * @param array $properties [reference]
+	 * <p>The properties to pre-initialize with, as <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
-	protected function preInitialize(): void {}
+	protected function preInitialize(&$prototype, array &$properties): void {}
 }
