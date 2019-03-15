@@ -104,7 +104,7 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		if ($placeholder === 'error_message' && is_string($value)) {
-			return UText::uncapitalize($value, true);
+			return UText::formatMessage($value, true);
 		}
 		return parent::getPlaceholderValueString($placeholder, $value);
 	}

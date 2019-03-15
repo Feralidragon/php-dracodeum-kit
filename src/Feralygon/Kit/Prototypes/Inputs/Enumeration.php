@@ -540,7 +540,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		foreach ($this->getNamesValues() as $name => $value) {
 			$description = $enumeration::getNameDescription($name, $text_options);
 			if (isset($description)) {
-				$description = UText::uncapitalize($description, true);
+				$description = UText::formatMessage($description, true);
 				if ($show_names || $show_values) {
 					/**
 					 * @description Enumeration element description (with name and value).

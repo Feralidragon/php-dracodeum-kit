@@ -644,7 +644,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 			//error message
 			$error_message = $this->getErrorMessage();
 			if (isset($error_message)) {
-				$error_message = "No value set due to the following error: " . UText::uncapitalize($error_message);
+				$error_message = "No value set due to the following error: " . UText::formatMessage($error_message);
 			}
 			
 			//return
