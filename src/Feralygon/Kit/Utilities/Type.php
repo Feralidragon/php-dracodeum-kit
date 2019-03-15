@@ -1524,17 +1524,17 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Get basename from a given object or class.
+	 * Get short name from a given object or class.
 	 * 
-	 * The returning basename is the class name without its namespace (class short name).
+	 * The returning short name is the class name without its namespace.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string
-	 * <p>The basename from the given object or class.</p>
+	 * <p>The short name from the given object or class.</p>
 	 */
-	final public static function basename($object_class): string
+	final public static function shortname($object_class): string
 	{
 		return (new \ReflectionClass(self::class($object_class)))->getShortName();
 	}
@@ -1570,20 +1570,20 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Get filepath from a given object or class.
+	 * Get filename from a given object or class.
 	 * 
-	 * The returning filepath is the absolute file path in the filesystem where the class is declared.
+	 * The returning filename is the absolute file path in the filesystem where the class is declared.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string
-	 * <p>The filepath from the given object or class or <code>null</code> if the class is not declared in any file.</p>
+	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
-	final public static function filepath($object_class): ?string
+	final public static function filename($object_class): ?string
 	{
-		$filepath = (new \ReflectionClass(self::class($object_class)))->getFileName();
-		return $filepath === false ? null : $filepath;
+		$filename = (new \ReflectionClass(self::class($object_class)))->getFileName();
+		return $filename === false ? null : $filename;
 	}
 	
 	/**
@@ -1600,24 +1600,24 @@ final class Type extends Utility
 	 */
 	final public static function directory($object_class): ?string
 	{
-		$filepath = self::filepath($object_class);
-		return isset($filepath) ? dirname($filepath) : null;
+		$filename = self::filename($object_class);
+		return isset($filename) ? dirname($filename) : null;
 	}
 	
 	/**
-	 * Get filename from a given object or class.
+	 * Get basename from a given object or class.
 	 * 
-	 * The returning filename is the complete name of the file where the class is declared.
+	 * The returning basename is the complete name of the file where the class is declared.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string
-	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
+	 * <p>The basename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
-	final public static function filename($object_class): ?string
+	final public static function basename($object_class): ?string
 	{
-		$filepath = self::filepath($object_class);
-		return isset($filepath) ? basename($filepath) : null;
+		$filename = self::filename($object_class);
+		return isset($filename) ? basename($filename) : null;
 	}
 }
