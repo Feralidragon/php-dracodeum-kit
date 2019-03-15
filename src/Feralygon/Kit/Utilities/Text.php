@@ -185,12 +185,12 @@ final class Text extends Utility
 		if (!isset($value)) {
 			if ($is_enduser) {
 				/**
-				 * @description Null value expression, as a text representation of NULL for the end-user.
+				 * @description Null value expression, as a text representation of null for the end-user.
 				 * @tags end-user
 				 */
-				return self::localize("NULL", self::class, $text_options);
+				return self::localize("null", self::class, $text_options);
 			}
-			return 'NULL';
+			return 'null';
 		}
 		
 		//boolean
@@ -203,7 +203,7 @@ final class Text extends Utility
 					 * as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
 					 * @tags end-user
 					 */
-					return self::localize("YES", self::class, $text_options);
+					return self::localize("yes", self::class, $text_options);
 				}
 				
 				//false
@@ -212,9 +212,9 @@ final class Text extends Utility
 				 * as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
 				 * @tags end-user
 				 */
-				return self::localize("NO", self::class, $text_options);
+				return self::localize("no", self::class, $text_options);
 			}
-			$string = $value ? 'TRUE' : 'FALSE';
+			$string = $value ? 'true' : 'false';
 			return $prepend_type ? '(boolean)' . strtolower($string) : $string;
 		}
 		
@@ -251,14 +251,14 @@ final class Text extends Utility
 				 * @description An internal object expression, as a text representation of an object for the end-user, 
 				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
-				 * @example OBJECT(294828143)
+				 * @example object(294828143)
 				 */
 				return self::localize(
-					"OBJECT({{id}})",
+					"object({{id}})",
 					self::class, $text_options, ['parameters' => ['id' => $object_id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("OBJECT({{id}})", ['id' => $object_id]);
+				return self::fill("object({{id}})", ['id' => $object_id]);
 			}
 			$class = get_class($value);
 			return $prepend_type ? "(object){$class}#{$object_id}" : "object({$class})#{$object_id}";
@@ -273,14 +273,14 @@ final class Text extends Utility
 				 * as a text representation of a resource for the end-user, \
 				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
-				 * @example RESOURCE(32)
+				 * @example resource(32)
 				 */
 				return self::localize(
-					"RESOURCE({{id}})",
+					"resource({{id}})",
 					self::class, $text_options, ['parameters' => ['id' => $resource_id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
+				return self::fill("resource({{id}})", ['id' => $resource_id]);
 			}
 			return $prepend_type ? "(resource)#{$resource_id}" : "resource({$resource_id})";
 		}
