@@ -189,7 +189,7 @@ final class Call extends Utility
 	 * Calculate hash from a given function.
 	 * 
 	 * The returning hash of the given function is calculated mostly based on its declaration location, 
-	 * but also its signature, therefore it's unique to the function signature and scope, thus resulting in different 
+	 * but also its signature, thus it's unique to the function signature and scope, thus resulting in different 
 	 * hashes even if two functions share exactly the same signature and source provided that they are declared 
 	 * in different locations.
 	 * 

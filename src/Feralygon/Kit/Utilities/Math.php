@@ -184,7 +184,7 @@ final class Math extends Utility
 	 * or <samp>5.8 billion</samp> in long form.<br>
 	 * <br>
 	 * The short numeric scale is the one used, 
-	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
+	 * thus 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
 	 * @param int $number
@@ -294,7 +294,7 @@ final class Math extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>5.8B</samp> or <samp>5.8 billion</samp> returns <code>5800000000</code>.<br>
 	 * <br>
 	 * The short numeric scale is the one used, 
-	 * therefore 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
+	 * thus 1 billion is considered to be 1e9 (1000000000) and not 1e12 (1000000000000).
 	 * 
 	 * @since 1.0.0
 	 * @param string $number

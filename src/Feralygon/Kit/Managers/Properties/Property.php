@@ -567,7 +567,7 @@ class Property
 	 * 
 	 * By binding to an existing property, getter and setter functions are automatically set for that property, 
 	 * using the given class scope, so it can be accessed and modified directly from outside.<br>
-	 * All restrictions set in this property still apply however, therefore attempts at accessing and modifying it 
+	 * All restrictions set in this property still apply however, thus attempts at accessing and modifying it 
 	 * may still fail accordingly.<br>
 	 * <br>
 	 * This method may only be called before initialization.
