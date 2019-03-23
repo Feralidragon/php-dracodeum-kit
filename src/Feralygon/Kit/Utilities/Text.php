@@ -392,6 +392,68 @@ final class Text extends Utility
 	}
 	
 	/**
+	 * Commify a given set of strings.
+	 * 
+	 * The process of commification of a given set of strings consists into joining them into a single string, 
+	 * as a comma separated list of strings.
+	 * 
+	 * @since 1.0.0
+	 * @param string[] $strings
+	 * <p>The strings to commify.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param string|null $conjunction [default = null]
+	 * <p>The conjunction to commify with.<br>
+	 * If set, then it must be one of the following values (case-insensitive): 
+	 * <samp>and</samp>, <samp>or</samp> or <samp>nor</samp>.</p>
+	 * @param bool $quote [default = false]
+	 * <p>Add quotation marks to each one of the given strings.</p>
+	 * @return string
+	 * <p>The commified string from the given ones.</p>
+	 */
+	final public static function commify(
+		array $strings, $text_options = null, ?string $conjunction = null, bool $quote = false
+	): string
+	{
+		//initialize
+		$text_options = TextOptions::coerce($text_options);
+		$strings = array_values(array_map('strval', $strings));
+		if (isset($conjunction)) {
+			$conjunction = strtolower($conjunction);
+		}
+		
+		//guard
+		Call::guardParameter(
+			'conjunction', $conjunction, !isset($conjunction) || in_array($conjunction, ['and', 'or', 'nor'], true), [
+				'hint_message' => "Only the following values are allowed (case-insensitive): " . 
+					"\"and\", \"or\" and \"nor\"."
+			]
+		);
+		
+		//string non-associative mode
+		$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST;
+		if (isset($conjunction)) {
+			switch ($conjunction) {
+				case 'and':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_AND;
+					break;
+				case 'or':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_OR;
+					break;
+				case 'nor':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_NOR;
+					break;
+			}
+		}
+		
+		//return
+		return self::stringify($strings, $text_options, [
+			'non_assoc_mode' => $string_non_assoc_mode,
+			'quote_strings' => $quote
+		]);
+	}
+	
+	/**
 	 * Slugify a given string.
 	 * 
 	 * The process of slugification of a given string consists in converting all of its characters into 
