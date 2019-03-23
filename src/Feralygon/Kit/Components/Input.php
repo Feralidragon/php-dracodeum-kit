@@ -37,6 +37,9 @@ use Feralygon\Kit\Utilities\{
 /**
  * This component represents an input which can check, sanitize and hold a value.
  * 
+ * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
+ * then that character is stripped from the given name and the input is set as nullable.
+ * 
  * @since 1.0.0
  * @property-write bool $nullable [writeonce] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
@@ -127,6 +130,18 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	protected static function getDefaultBuilder(): ?callable
 	{
 		return [Factory::class, 'input'];
+	}
+	
+	
+	
+	//Implemented protected methods (Feralygon\Kit\Component\Traits\PreInitializer)
+	/** {@inheritdoc} */
+	protected function preInitialize(&$prototype, array &$properties): void
+	{
+		if (is_string($prototype) && isset($prototype[0]) && $prototype[0] === '?') {
+			$prototype = substr($prototype, 1);
+			$properties['nullable'] = true;
+		}
 	}
 	
 	
@@ -314,10 +329,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//null
 		if ($this->nullable && !$info_options->exclude_null) {
-			$label = UText::stringify(
+			$label = UText::commify(
 				[$label, UText::uncapitalize($this->getDefaultNullLabel($text_options), true)],
-				$text_options,
-				['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+				$text_options, 'or'
 			);
 		}
 		
@@ -644,7 +658,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 			//error message
 			$error_message = $this->getErrorMessage();
 			if (isset($error_message)) {
-				$error_message = "No value set due to the following error: " . UText::uncapitalize($error_message);
+				$error_message = "No value set due to the following error: " . UText::formatMessage($error_message);
 			}
 			
 			//return

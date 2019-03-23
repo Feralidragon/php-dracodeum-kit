@@ -26,7 +26,7 @@ class InvalidString extends Exception
 			"HINT: Only ASCII alphanumeric characters (0-9, a-z and A-Z), " . 
 			"and also plus signs (+) and slashes (/), optionally padded with equal signs (=), " . 
 			"in the case of Base64, or hyphens (-) and underscores (_) respectively, without any padding, " . 
-			"in the case of URL-safe Base64, are allowed.";
+			"in the case of URL-safe Base64, as groups of 2 to 4 characters, are allowed.";
 	}
 	
 	

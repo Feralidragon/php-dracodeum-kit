@@ -89,9 +89,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	public function getMessage(TextOptions $text_options): string
 	{
 		//initialize
-		$powers_string = UText::stringify($this->powers, $text_options, [
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
-		]);
+		$powers_string = UText::commify($this->powers, $text_options, 'or');
 		
 		//negate
 		if ($this->negate) {
@@ -122,9 +120,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->powers, $text_options, [
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-		]);
+		return UText::commify($this->powers, $text_options, 'and');
 	}
 	
 	

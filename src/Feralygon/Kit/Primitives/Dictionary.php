@@ -205,7 +205,7 @@ IStringifiable
 	/** {@inheritdoc} */
 	final public function jsonSerialize()
 	{
-		return $this->getAll();
+		return (object)$this->getAll();
 	}
 	
 	

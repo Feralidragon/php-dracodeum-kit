@@ -396,9 +396,7 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 				"Hexadecimal case-insensitive string (example: {{example}})",
 				self::class, $text_options, [
 					'parameters' => [
-						'example' => UText::stringify($hexadecimal_examples, $text_options, [
-							'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
-						])
+						'example' => UText::commify($hexadecimal_examples, $text_options, 'or', true)
 					]
 				]
 			);
@@ -422,9 +420,7 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 					"Colon-hexadecimal case-insensitive string (example: {{example}})",
 					self::class, $text_options, [
 						'parameters' => [
-							'example' => UText::stringify($colon_hexadecimal_examples, $text_options, [
-								'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
-							])
+							'example' => UText::commify($colon_hexadecimal_examples, $text_options, 'or', true)
 						]
 					]
 				);
@@ -449,9 +445,7 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 				"Base64 or URL-safe Base64 encoded string (example: {{example}})",
 				self::class, $text_options, [
 					'parameters' => [
-						'example' => UText::stringify($base64_examples, $text_options, [
-							'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR, 'quote_strings' => true
-						])
+						'example' => UText::commify($base64_examples, $text_options, 'or', true)
 					]
 				]
 			);

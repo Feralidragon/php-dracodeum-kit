@@ -88,14 +88,15 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 				 * @tags end-user
 				 * @example Only the Base64 format is allowed, \
 				 * consisting only of alphanumeric (a-z, A-Z and 0-9), \
-				 * plus sign (+) and slash (/) characters, optionally ending with equal signs (=).
+				 * plus sign (+) and slash (/) characters, optionally ending with equal signs (=), \
+				 * as groups of 2 to 4 characters.
 				 */
 				return UText::localize(
 					"Only the Base64 format is allowed, " . 
 						"consisting only of alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 						"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 						"plus sign ({{signs.plus}}) and slash ({{slash}}) characters, " . 
-						"optionally ending with equal signs ({{signs.equal}}).",
+						"optionally ending with equal signs ({{signs.equal}}), as groups of 2 to 4 characters.",
 					self::class, $text_options, [
 						'parameters' => [
 							'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -121,14 +122,15 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @tags non-end-user
 			 * @example Only the Base64 format is allowed, \
 			 * consisting only of ASCII alphanumeric (a-z, A-Z and 0-9), \
-			 * plus sign (+) and slash (/) characters, optionally padded with equal signs (=).
+			 * plus sign (+) and slash (/) characters, optionally padded with equal signs (=), \
+			 * as groups of 2 to 4 characters.
 			 */
 			return UText::localize(
 				"Only the Base64 format is allowed, " . 
 					"consisting only of ASCII alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
 					"plus sign ({{signs.plus}}) and slash ({{slash}}) characters, " . 
-					"optionally padded with equal signs ({{signs.equal}}).",
+					"optionally padded with equal signs ({{signs.equal}}), as groups of 2 to 4 characters.",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -154,13 +156,15 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 				 * @placeholder underscore The underscore "_" character.
 				 * @tags end-user
 				 * @example Only the URL-safe Base64 format is allowed, \
-				 * consisting only of alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
+				 * consisting only of alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters, \
+				 * as groups of 2 to 4 characters.
 				 */
 				return UText::localize(
 					"Only the URL-safe Base64 format is allowed, " . 
 						"consisting only of alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 						"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
-						"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters.",
+						"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters, " . 
+						"as groups of 2 to 4 characters.",
 					self::class, $text_options, [
 						'parameters' => [
 							'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -184,13 +188,14 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
 			 * @example Only the URL-safe Base64 format is allowed, \
-			 * consisting only of ASCII alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters.
+			 * consisting only of ASCII alphanumeric (a-z, A-Z and 0-9), hyphen (-) and underscore (_) characters, \
+			 * as groups of 2 to 4 characters.
 			 */
 			return UText::localize(
 				"Only the URL-safe Base64 format is allowed, " . 
 					"consisting only of ASCII alphanumeric ({{letters.a}}-{{letters.z}}, " . 
 					"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}), " . 
-					"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters.",
+					"hyphen ({{hyphen}}) and underscore ({{underscore}}) characters, as groups of 2 to 4 characters.",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -220,7 +225,8 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 			 * @example Only the Base64 or URL-safe Base64 format is allowed, \
 			 * consisting only of alphanumeric characters (a-z, A-Z and 0-9), \
 			 * and also plus signs (+) and slashes (/), optionally ending with equal signs (=), in the case of Base64, \
-			 * or hyphens (-) and underscores (_) respectively, without equal signs, in the case of URL-safe Base64.
+			 * or hyphens (-) and underscores (_) respectively, without equal signs, in the case of URL-safe Base64, \
+			 * as groups of 2 to 4 characters.
 			 */
 			return UText::localize(
 				"Only the Base64 or URL-safe Base64 format is allowed, " . 
@@ -229,7 +235,7 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 					"and also plus signs ({{signs.plus}}) and slashes ({{slash}}), " . 
 					"optionally ending with equal signs ({{signs.equal}}), in the case of Base64, " . 
 					"or hyphens ({{hyphen}}) and underscores ({{underscore}}) respectively, " . 
-					"without equal signs, in the case of URL-safe Base64.",
+					"without equal signs, in the case of URL-safe Base64, as groups of 2 to 4 characters.",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
@@ -260,7 +266,8 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 		 * @example Only the Base64 or URL-safe Base64 format is allowed, \
 		 * consisting only of ASCII alphanumeric characters (a-z, A-Z and 0-9), \
 		 * and also plus signs (+) and slashes (/), optionally padded with equal signs (=), in the case of Base64, \
-		 * or hyphens (-) and underscores (_) respectively, without any padding, in the case of URL-safe Base64.
+		 * or hyphens (-) and underscores (_) respectively, without any padding, in the case of URL-safe Base64, \
+		 * as groups of 2 to 4 characters.
 		 */
 		return UText::localize(
 			"Only the Base64 or URL-safe Base64 format is allowed, " . 
@@ -269,7 +276,7 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 				"and also plus signs ({{signs.plus}}) and slashes ({{slash}}), " . 
 				"optionally padded with equal signs ({{signs.equal}}), in the case of Base64, " . 
 				"or hyphens ({{hyphen}}) and underscores ({{underscore}}) respectively, " . 
-				"without any padding, in the case of URL-safe Base64.",
+				"without any padding, in the case of URL-safe Base64, as groups of 2 to 4 characters.",
 			self::class, $text_options, [
 				'parameters' => [
 					'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],

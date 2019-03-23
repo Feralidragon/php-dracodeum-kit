@@ -189,7 +189,7 @@ final class Call extends Utility
 	 * Calculate hash from a given function.
 	 * 
 	 * The returning hash of the given function is calculated mostly based on its declaration location, 
-	 * but also its signature, therefore it's unique to the function signature and scope, thus resulting in different 
+	 * but also its signature, thus it's unique to the function signature and scope, thus resulting in different 
 	 * hashes even if two functions share exactly the same signature and source provided that they are declared 
 	 * in different locations.
 	 * 
@@ -365,7 +365,7 @@ final class Call extends Utility
 							}
 							if ($flags & self::PARAMETERS_CLASSES_SHORT_NAMES) {
 								[$constant_class, $constant_name] = explode('::', $constant);
-								$constant = Type::basename($constant_class) . '::' . $constant_name;
+								$constant = Type::shortname($constant_class) . '::' . $constant_name;
 							} elseif ($flags & self::PARAMETERS_CLASSES_LEADING_SLASH) {
 								$constant = "\\{$constant}";
 							}
@@ -411,7 +411,7 @@ final class Call extends Utility
 			$type = (string)$rtype;
 			if (($flags & (self::TYPE_CLASS_SHORT_NAME | self::TYPE_CLASS_LEADING_SLASH)) && class_exists($type)) {
 				if ($flags & self::TYPE_CLASS_SHORT_NAME) {
-					$type = Type::basename($type);
+					$type = Type::shortname($type);
 				} elseif ($flags & self::TYPE_CLASS_LEADING_SLASH) {
 					$type = "\\{$type}";
 				}

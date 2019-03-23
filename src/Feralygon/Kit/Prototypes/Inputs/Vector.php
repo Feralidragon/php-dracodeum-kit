@@ -211,7 +211,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			$input_description = $this->formatMessage($input_description);
+			$input_description = UText::formatMessage($input_description, true);
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -354,7 +354,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
 		if (isset($input_description)) {
 			//description
-			$input_description = $this->formatMessage($input_description);
+			$input_description = UText::formatMessage($input_description, true);
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -519,10 +519,8 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		$messages = [];
 		foreach ($input_messages_indexes as $message => $indexes) {
 			//initialize
-			$input_message = $this->formatMessage($message);
-			$indexes_string = UText::stringify($indexes, $text_options, [
-				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-			]);
+			$input_message = UText::formatMessage($message, true);
+			$indexes_string = UText::commify($indexes, $text_options, 'and');
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
@@ -674,22 +672,5 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				return $this->createProperty()->setMode('w-')->setAsComponent(Component::class)->bind(self::class);
 		}
 		return null;
-	}
-	
-	
-	
-	//Final private methods
-	/**
-	 * Format a given message.
-	 * 
-	 * @since 1.0.0
-	 * @param string $message
-	 * <p>The message to format.</p>
-	 * @return string
-	 * <p>The formatted message.</p>
-	 */
-	final private function formatMessage(string $message): string
-	{
-		return UText::multiline($message) ? "\n\n" . UText::indentate($message) : UText::uncapitalize($message, true);
 	}
 }

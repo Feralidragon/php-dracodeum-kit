@@ -223,10 +223,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->wildcards, $text_options, [
-			'quote_strings' => true,
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-		]);
+		return UText::commify($this->wildcards, $text_options, 'and', true);
 	}
 	
 	

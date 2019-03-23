@@ -120,7 +120,7 @@ abstract class Component implements IPropertiesable
 	final public function __construct($prototype = null, array $properties = [])
 	{
 		//pre-initialize
-		$this->preInitialize();
+		$this->preInitialize($prototype, $properties);
 		
 		//remainderer
 		$remainderer = function (array $properties) use ($prototype): void {

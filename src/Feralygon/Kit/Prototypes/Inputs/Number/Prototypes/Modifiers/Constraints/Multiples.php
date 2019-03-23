@@ -93,9 +93,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	public function getMessage(TextOptions $text_options): string
 	{
 		//initialize
-		$multiples_string = UText::stringify($this->multiples, $text_options, [
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
-		]);
+		$multiples_string = UText::commify($this->multiples, $text_options, 'or');
 		
 		//negate
 		if ($this->negate) {
@@ -126,9 +124,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->multiples, $text_options, [
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-		]);
+		return UText::commify($this->multiples, $text_options, 'and');
 	}
 	
 	

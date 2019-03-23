@@ -113,9 +113,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 		foreach ($this->values as $value) {
 			$strings[] = $this->stringifyValue($value, $text_options);
 		}
-		return UText::stringify($strings, $text_options, [
-			'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-		]);
+		return UText::commify($strings, $text_options, 'and');
 	}
 	
 	

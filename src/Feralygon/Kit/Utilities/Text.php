@@ -185,12 +185,12 @@ final class Text extends Utility
 		if (!isset($value)) {
 			if ($is_enduser) {
 				/**
-				 * @description Null value expression, as a text representation of NULL for the end-user.
+				 * @description Null value expression, as a text representation of null for the end-user.
 				 * @tags end-user
 				 */
-				return self::localize("NULL", self::class, $text_options);
+				return self::localize("null", self::class, $text_options);
 			}
-			return 'NULL';
+			return 'null';
 		}
 		
 		//boolean
@@ -203,7 +203,7 @@ final class Text extends Utility
 					 * as a text representation of a boolean "true" for the end-user, as in "enabled" or "supported".
 					 * @tags end-user
 					 */
-					return self::localize("YES", self::class, $text_options);
+					return self::localize("yes", self::class, $text_options);
 				}
 				
 				//false
@@ -212,9 +212,9 @@ final class Text extends Utility
 				 * as a text representation of a boolean "false" for the end-user, as in "disabled" or "unsupported".
 				 * @tags end-user
 				 */
-				return self::localize("NO", self::class, $text_options);
+				return self::localize("no", self::class, $text_options);
 			}
-			$string = $value ? 'TRUE' : 'FALSE';
+			$string = $value ? 'true' : 'false';
 			return $prepend_type ? '(boolean)' . strtolower($string) : $string;
 		}
 		
@@ -251,14 +251,14 @@ final class Text extends Utility
 				 * @description An internal object expression, as a text representation of an object for the end-user, 
 				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
-				 * @example OBJECT(294828143)
+				 * @example object(294828143)
 				 */
 				return self::localize(
-					"OBJECT({{id}})",
+					"object({{id}})",
 					self::class, $text_options, ['parameters' => ['id' => $object_id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("OBJECT({{id}})", ['id' => $object_id]);
+				return self::fill("object({{id}})", ['id' => $object_id]);
 			}
 			$class = get_class($value);
 			return $prepend_type ? "(object){$class}#{$object_id}" : "object({$class})#{$object_id}";
@@ -273,14 +273,14 @@ final class Text extends Utility
 				 * as a text representation of a resource for the end-user, \
 				 * for whom only its id may be relevant for bug reporting purposes.
 				 * @tags end-user
-				 * @example RESOURCE(32)
+				 * @example resource(32)
 				 */
 				return self::localize(
-					"RESOURCE({{id}})",
+					"resource({{id}})",
 					self::class, $text_options, ['parameters' => ['id' => $resource_id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("RESOURCE({{id}})", ['id' => $resource_id]);
+				return self::fill("resource({{id}})", ['id' => $resource_id]);
 			}
 			return $prepend_type ? "(resource)#{$resource_id}" : "resource({$resource_id})";
 		}
@@ -389,6 +389,68 @@ final class Text extends Utility
 			return null;
 		}
 		throw new Exceptions\Stringify\UnsupportedValueType([$value]);
+	}
+	
+	/**
+	 * Commify a given set of strings.
+	 * 
+	 * The process of commification of a given set of strings consists into joining them into a single string, 
+	 * as a comma separated list of strings.
+	 * 
+	 * @since 1.0.0
+	 * @param string[] $strings
+	 * <p>The strings to commify.</p>
+	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
+	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @param string|null $conjunction [default = null]
+	 * <p>The conjunction to commify with.<br>
+	 * If set, then it must be one of the following values (case-insensitive): 
+	 * <samp>and</samp>, <samp>or</samp> or <samp>nor</samp>.</p>
+	 * @param bool $quote [default = false]
+	 * <p>Add quotation marks to each one of the given strings.</p>
+	 * @return string
+	 * <p>The commified string from the given ones.</p>
+	 */
+	final public static function commify(
+		array $strings, $text_options = null, ?string $conjunction = null, bool $quote = false
+	): string
+	{
+		//initialize
+		$text_options = TextOptions::coerce($text_options);
+		$strings = array_values(array_map('strval', $strings));
+		if (isset($conjunction)) {
+			$conjunction = strtolower($conjunction);
+		}
+		
+		//guard
+		Call::guardParameter(
+			'conjunction', $conjunction, !isset($conjunction) || in_array($conjunction, ['and', 'or', 'nor'], true), [
+				'hint_message' => "Only the following values are allowed (case-insensitive): " . 
+					"\"and\", \"or\" and \"nor\"."
+			]
+		);
+		
+		//string non-associative mode
+		$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST;
+		if (isset($conjunction)) {
+			switch ($conjunction) {
+				case 'and':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_AND;
+					break;
+				case 'or':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_OR;
+					break;
+				case 'nor':
+					$string_non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST_NOR;
+					break;
+			}
+		}
+		
+		//return
+		return self::stringify($strings, $text_options, [
+			'non_assoc_mode' => $string_non_assoc_mode,
+			'quote_strings' => $quote
+		]);
 	}
 	
 	/**
@@ -1529,23 +1591,21 @@ final class Text extends Utility
 	 * @param int $level [default = 1]
 	 * <p>The level to indentate with.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
-	 * @param string $character [default = "\t"]
-	 * <p>The character to indentate with.<br>
-	 * It must be a single ASCII character.</p>
+	 * @param string $expression [default = "\t"]
+	 * <p>The expression to indentate with.<br>
+	 * It cannot be empty.</p>
 	 * @return string
 	 * <p>The given string indentated.</p>
 	 */
-	final public static function indentate(string $string, int $level = 1, string $character = "\t"): string
+	final public static function indentate(string $string, int $level = 1, string $expression = "\t"): string
 	{
 		Call::guardParameter('level', $level, $level >= 0, [
 			'hint_message' => "Only a value greater than or equal to 0 is allowed."
 		]);
-		Call::guardParameter('character', $character, strlen($character) === 1, [
-			'hint_message' => "Only a single ASCII character is allowed."
+		Call::guardParameter('expression', $expression, $expression !== '', [
+			'error_message' => "An empty value is not allowed."
 		]);
-		return $level > 0 && $character !== ''
-			? preg_replace('/^/mu', str_repeat($character, $level), $string)
-			: $string;
+		return $level > 0 ? preg_replace('/^/mu', str_repeat($expression, $level), $string) : $string;
 	}
 	
 	/**
@@ -2211,5 +2271,44 @@ final class Text extends Utility
 			);
 		}
 		return abs($number) === 1.0 ? $message1 : $message2;
+	}
+	
+	/**
+	 * Format a given message.
+	 * 
+	 * In order to be perceived as the object of reference of a sentence ending in a colon (<samp>:</samp>), 
+	 * such as:<br>
+	 * <br>
+	 * &nbsp; &nbsp; <i>"An error occurred with the following message: <b><samp>&lt;message&gt;</samp></b>"</i><br>
+	 * <br>
+	 * acting as a referenced example or message, while preserving and simplifying the natural expected text flow, 
+	 * the given message is formatted as follows:<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; if the given message is not multilined, then it is simply uncapitalized, 
+	 * in order to remain in the same line as a continuation of the previous sentence;<br>
+	 * <br>
+	 * &nbsp; &#8226; &nbsp; if the given message is multilined, 
+	 * then it is prepended with 2 newline characters and indented, without any further modifications, 
+	 * in order to break it away from the previous sentence, while still remaining visually clear that 
+	 * it is the object of reference of the previous sentence.
+	 * 
+	 * @since 1.0.0
+	 * @param string $message
+	 * <p>The message to format.</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Format as an Unicode message.</p>
+	 * @param string $indentation_expression [default = "\t"]
+	 * <p>The expression to indentate with.<br>
+	 * It cannot be empty.</p>
+	 * @return string
+	 * <p>The given message formatted.</p>
+	 */
+	final public static function formatMessage(
+		string $message, bool $unicode = false, string $indentation_expression = "\t"
+	): string
+	{
+		return self::multiline($message)
+			? "\n\n" . self::indentate($message, 1, $indentation_expression)
+			: self::uncapitalize($message, $unicode);
 	}
 }

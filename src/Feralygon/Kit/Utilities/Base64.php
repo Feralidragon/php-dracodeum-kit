@@ -35,10 +35,18 @@ final class Base64 extends Utility
 	 */
 	final public static function encoded(string $string, ?bool $url_safe = null): bool
 	{
+		//url-safe
 		if (!isset($url_safe)) {
 			$url_safe = (bool)preg_match('/[_\-]/', $string);
 		}
-		return preg_match($url_safe ? '/^[\w\-]+$/' : '/^[a-z\d+\/]+\=*$/i', $string);
+		
+		//pattern
+		$pattern = $url_safe
+			? '/^(?:[\w\-]{4})*[\w\-]{2,4}$/'
+			: '/^(?:[a-z\d+\/]{4})*(?:[a-z\d+\/]{2}(?:\={2})?|[a-z\d+\/]{3}\=?|[a-z\d+\/]{4})$/i';
+		
+		//return
+		return preg_match($pattern, $string);
 	}
 	
 	/**
@@ -86,7 +94,7 @@ final class Base64 extends Utility
 			}
 			throw new Exceptions\Decode\InvalidString([$string, 'url_safe' => $url_safe ?? false]);
 		}
-		return base64_decode(strtr($string, '-_', '+/'));
+		return base64_decode($url_safe === false ? $string : self::normalize($string));
 	}
 	
 	/**
@@ -115,8 +123,8 @@ final class Base64 extends Utility
 		
 		//normalize
 		$string = rtrim(strtr($string, '-_', '+/'), '=');
-		$padding = 3 - strlen($string) % 3;
-		if ($padding < 3) {
+		$padding = 4 - strlen($string) % 4;
+		if ($padding > 0 && $padding < 3) {
 			$string .= str_repeat('=', $padding);
 		}
 		return $string;

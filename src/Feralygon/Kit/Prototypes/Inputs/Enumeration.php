@@ -148,14 +148,11 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => UText::stringify(
+							'name_value' => UText::commify(
 								$show_names && $show_values && $name !== $value
 									? [$name, $value]
 									: ($show_names ? $name : $value),
-								$text_options, [
-									'quote_strings' => true,
-									'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
-								]
+								$text_options, 'or', true
 							)
 						]
 					]
@@ -540,7 +537,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		foreach ($this->getNamesValues() as $name => $value) {
 			$description = $enumeration::getNameDescription($name, $text_options);
 			if (isset($description)) {
-				$description = UText::uncapitalize($description, true);
+				$description = UText::formatMessage($description, true);
 				if ($show_names || $show_values) {
 					/**
 					 * @description Enumeration element description (with name and value).
@@ -555,14 +552,11 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 						self::class, $text_options, [
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
-								'name_value' => UText::stringify(
+								'name_value' => UText::commify(
 									$show_names && $show_values && $name !== $value
 										? [$name, $value]
 										: ($show_names ? $name : $value),
-									$text_options, [
-										'quote_strings' => true,
-										'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
-									]
+									$text_options, 'or', true
 								),
 								'description' => $description
 							]
@@ -597,14 +591,11 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => UText::stringify(
+							'name_value' => UText::commify(
 								$show_names && $show_values && $name !== $value
 									? [$name, $value]
 									: ($show_names ? $name : $value),
-								$text_options, [
-									'quote_strings' => true,
-									'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR
-								]
+								$text_options, 'or', true
 							)
 						]
 					]
