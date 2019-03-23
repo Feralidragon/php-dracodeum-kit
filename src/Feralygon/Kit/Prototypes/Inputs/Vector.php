@@ -520,9 +520,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		foreach ($input_messages_indexes as $message => $indexes) {
 			//initialize
 			$input_message = UText::formatMessage($message, true);
-			$indexes_string = UText::stringify($indexes, $text_options, [
-				'non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND
-			]);
+			$indexes_string = UText::commify($indexes, $text_options, 'and');
 			
 			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {

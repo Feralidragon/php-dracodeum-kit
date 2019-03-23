@@ -301,12 +301,8 @@ final class Type extends Utility
 		}
 		
 		//throw
-		$false_list = Text::stringify(self::BOOLEAN_FALSE_STRINGS, null, [
-			'quote_strings' => true, 'non_assoc_mode' => Text::STRING_NONASSOC_MODE_COMMA_LIST_OR
-		]);
-		$true_list = Text::stringify(self::BOOLEAN_TRUE_STRINGS, null, [
-			'quote_strings' => true, 'non_assoc_mode' => Text::STRING_NONASSOC_MODE_COMMA_LIST_OR
-		]);
+		$false_list_string = Text::commify(self::BOOLEAN_FALSE_STRINGS, null, 'or', true);
+		$true_list_string = Text::commify(self::BOOLEAN_TRUE_STRINGS, null, 'or', true);
 		throw new Exceptions\BooleanCoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
@@ -314,7 +310,7 @@ final class Type extends Utility
 				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
 				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
 				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
-				" - a string, as: {$false_list} for boolean false, and {$true_list} for boolean true."
+				" - a string, as: {$false_list_string} for boolean false, and {$true_list_string} for boolean true."
 		]);
 	}
 	

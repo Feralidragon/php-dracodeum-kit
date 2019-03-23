@@ -329,10 +329,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//null
 		if ($this->nullable && !$info_options->exclude_null) {
-			$label = UText::stringify(
+			$label = UText::commify(
 				[$label, UText::uncapitalize($this->getDefaultNullLabel($text_options), true)],
-				$text_options,
-				['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
+				$text_options, 'or'
 			);
 		}
 		
