@@ -116,6 +116,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 			foreach ($vector as $i => $v) {
 				if ($this->input->setValue($v, true)) {
 					$vector->set($i, $this->input->getValue());
+					$this->input->unsetValue();
 				} else {
 					$this->error_values[$i] = $v;
 				}
