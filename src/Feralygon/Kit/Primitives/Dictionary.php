@@ -232,7 +232,7 @@ IStringifiable
 	/** {@inheritdoc} */
 	final public function toString(?TextOptions $text_options = null): string
 	{
-		return UText::stringify($this->getAll(), $text_options);
+		return UText::stringify($this->getAll(), $text_options, ['associative' => true]);
 	}
 	
 	

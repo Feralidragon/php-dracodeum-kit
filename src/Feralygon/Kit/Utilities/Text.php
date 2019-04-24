@@ -288,9 +288,9 @@ final class Text extends Utility
 		//array
 		if (is_array($value)) {
 			//initialize
-			$is_associative = Data::associative($value);
+			$associative = $options->associative || Data::associative($value);
 			$assoc_options = null;
-			if ($is_associative) {
+			if ($associative) {
 				$assoc_options = $options->clone();
 				$assoc_options->prepend_type = false;
 				$assoc_options->quote_strings = $options->prepend_type;
@@ -302,7 +302,7 @@ final class Text extends Utility
 				$v_string = self::stringify($v, $text_options, $options);
 				if (!isset($v_string)) {
 					return null;
-				} elseif ($is_associative) {
+				} elseif ($associative) {
 					$k_string = self::stringify($k, $text_options, $assoc_options);
 					if (!isset($k_string)) {
 						return null;
@@ -315,10 +315,13 @@ final class Text extends Utility
 			}
 			
 			//associative
-			if ($is_associative) {
-				$string = "\n" . self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ');
-				if (!$is_enduser) {
-					$string = "{{$string}\n}";
+			if ($associative) {
+				$string = $is_enduser ? '' : '{}';
+				if (!empty($strings)) {
+					$string = "\n" . self::indentate(implode("\n", $strings), $is_enduser ? 2 : 3, ' ');
+					if (!$is_enduser) {
+						$string = "{{$string}\n}";
+					}
 				}
 				return $prepend_type ? "(array){$string}" : $string;
 			}
@@ -328,12 +331,9 @@ final class Text extends Utility
 			if (!isset($non_assoc_mode) && $is_enduser) {
 				$non_assoc_mode = self::STRING_NONASSOC_MODE_COMMA_LIST;
 			}
-			if (empty($value)) {
-				return isset($non_assoc_mode) ? '' : ($prepend_type ? '(array)[]' : '[]');
-			}
 			
 			//non-associative (with mode)
-			if (isset($non_assoc_mode)) {
+			if (isset($non_assoc_mode) && !empty($strings)) {
 				$last_string = array_pop($strings);
 				if (empty($strings)) {
 					return $last_string;
