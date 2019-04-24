@@ -232,7 +232,11 @@ IStringifiable
 	/** {@inheritdoc} */
 	final public function toString(?TextOptions $text_options = null): string
 	{
-		return UText::stringify($this->getAll(), $text_options, ['associative' => true]);
+		$pairs = [];
+		foreach ($this->keys as $index => $key) {
+			$pairs[UText::stringify($key, $text_options)] = $this->values[$index];
+		}
+		return UText::stringify($pairs, $text_options, ['associative' => true]);
 	}
 	
 	
