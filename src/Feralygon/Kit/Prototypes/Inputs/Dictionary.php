@@ -18,14 +18,10 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 use Feralygon\Kit\Primitives\Dictionary as Primitive;
 use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-/*use Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\{
-	Constraints,
-	Filters
-};*/
+//use Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
-use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
@@ -35,9 +31,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a <code>Feralygon\Kit\Primitives\Dictionary</code> instance;<br>
  * &nbsp; &#8226; &nbsp; an associative array;<br>
  * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface;<br>
- * &nbsp; &#8226; &nbsp; a string as a comma separated list of key-value pairs, 
+ * &nbsp; &#8226; &nbsp; a string as a comma separated list of colon separated key-value pairs, 
  * such as <samp>key1:value1,key2:value2,key3:value3</samp>;<br>
- * &nbsp; &#8226; &nbsp; a JSON array.
+ * &nbsp; &#8226; &nbsp; a JSON array or object.
  * 
  * @since 1.0.0
  * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [default = null]
@@ -48,7 +44,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see \Feralygon\Kit\Primitives\Dictionary
  * @see \Feralygon\Kit\Interfaces\Arrayable
  */
-class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
+class Dictionary extends Input implements IInformation, /*IErrorMessage,*/ ISchemaData, IModifierBuilder, IErrorUnset
 {
 	//Protected properties
 	/** @var \Feralygon\Kit\Components\Input|null */
@@ -58,7 +54,10 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	protected $key_input = null;
 	
 	/** @var array */
-	protected $error_pairs = [];
+	protected $error_values = [];
+	
+	/** @var array */
+	protected $error_keys = [];
 	
 	
 	
@@ -78,9 +77,81 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
+		//string
+		$dictionary = $value;
+		if (is_string($dictionary)) {
+			$dictionary = trim($dictionary);
+			if ($dictionary === '') {
+				$dictionary = [];
+			} elseif ($dictionary[0] === '[' || $dictionary[0] === '{') {
+				$dictionary = json_decode($dictionary, true);
+				if (!isset($dictionary)) {
+					return false;
+				}
+			} elseif (preg_match('/^[^:,]*:[^:,]*(?:,[^:,]*:[^:,]*)*$/', $dictionary)) {
+				preg_match_all('/(?P<keys>[^:,]*):(?P<values>[^:,]*)/', $dictionary, $matches);
+				$dictionary = array_combine(array_map('trim', $matches['keys']), array_map('trim', $matches['values']));
+			} else {
+				return false;
+			}
+		}
 		
-		//TODO
+		//evaluate
+		if (!Primitive::evaluate($dictionary)) {
+			return false;
+		}
 		
+		//inputs
+		if (isset($this->input) || isset($this->key_input)) {
+			//evaluate
+			$i = 0;
+			$dict = $dictionary->clone()->clear();
+			foreach ($dictionary as $k => $v) {
+				//initialize
+				$has_error = false;
+				
+				//input
+				if (isset($this->input)) {
+					if ($this->input->setValue($v, true)) {
+						$v = $this->input->getValue();
+						$this->input->unsetValue();
+					} else {
+						$this->error_values[$i] = $v;
+						$has_error = true;
+					}
+				}
+				
+				//key input
+				if (isset($this->key_input)) {
+					if ($this->key_input->setValue($k, true)) {
+						$k = $this->key_input->getValue();
+						$this->key_input->unsetValue();
+					} else {
+						$this->error_keys[$i] = $k;
+						$has_error = true;
+					}
+				}
+				
+				//set
+				if (!$has_error) {
+					$dict->set($k, $v);
+				}
+				
+				//finish
+				$i++;
+			}
+			$dictionary = $dict;
+			unset($dict);
+			
+			//check
+			if (!empty($this->error_values) || !empty($this->error_keys)) {
+				return false;
+			}
+		}
+		
+		//finish
+		$value = $dictionary;
+		return true;
 	}
 	
 	
@@ -89,9 +160,52 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options, InfoOptions $info_options): string
 	{
+		//key input
+		if (isset($this->key_input)) {
+			//input labels
+			$input_label = isset($this->input) ? $this->input->getLabel($text_options, $info_options) : '...'; //TODO: change ... to Any input label
+			$key_input_label = $this->key_input->getLabel($text_options, $info_options);
+			if (UText::multiline($input_label) || UText::multiline($key_input_label)) {
+				$input_label = "\n" . UText::indentate($input_label) . "\n";
+				$key_input_label = "\n" . UText::indentate($key_input_label) . "\n" . UText::indentate('');
+			}
+			
+			//label
+			/**
+			 * @placeholder input.label The input label.
+			 * @placeholder key_input.label The key input label.
+			 * @example Dictionary<Integer:Text>
+			 */
+			return UText::localize("Dictionary<{{key_input.label}}:{{input.label}}>", self::class, $text_options, [
+				'parameters' => [
+					'input' => ['label' => $input_label],
+					'key_input' => ['label' => $key_input_label]
+				]
+			]);
+		}
 		
-		//TODO
+		//input
+		if (isset($this->input)) {
+			//input label
+			$input_label = $this->input->getLabel($text_options, $info_options);
+			if (UText::multiline($input_label)) {
+				$input_label = "\n" . UText::indentate($input_label) . "\n";
+			}
+			
+			//label
+			/**
+			 * @placeholder input.label The input label.
+			 * @example Dictionary<Text>
+			 */
+			return UText::localize("Dictionary<{{input.label}}>", self::class, $text_options, [
+				'parameters' => [
+					'input' => ['label' => $input_label]
+				]
+			]);
+		}
 		
+		//default
+		return UText::localize("Dictionary", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -99,6 +213,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	{
 		
 		//TODO
+		return '?';
 		
 	}
 	
@@ -107,6 +222,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	{
 		
 		//TODO
+		return '?';
 		
 	}
 	
@@ -154,7 +270,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	public function unsetError(): void
 	{
 		//errors
-		$this->error_pairs = [];
+		$this->error_values = $this->error_keys = [];
 		
 		//inputs
 		if (isset($this->input)) {

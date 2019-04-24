@@ -74,6 +74,8 @@ use Feralygon\Kit\Utilities\{
  * [prototype, name = 'datetime' or 'timestamp']
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  * [prototype, name = 'vector' or 'array' or 'list']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary
+ * [prototype, name = 'dictionary' or 'dict']
  */
 class Input extends Component implements IPrototypeConstraintCreator, IPrototypeFilterCreator
 {
@@ -254,6 +256,10 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				//no break
 			case 'list':
 				return Prototypes\Vector::class;
+			case 'dictionary':
+				//no break
+			case 'dict':
+				return Prototypes\Dictionary::class;
 		}
 		return null;
 	}
