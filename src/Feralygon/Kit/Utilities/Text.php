@@ -542,7 +542,7 @@ final class Text extends Utility
 		$options = Options\Bulletify::coerce($options);
 		
 		//indentate multiline
-		if (preg_match('/^(?P<first>.*)\n(?P<second>.*)$/smU', $string, $matches)) {
+		if (preg_match('/^(?P<first>[^\n]*)\n(?P<second>.*)$/sm', $string, $matches)) {
 			$string = "{$matches['first']}\n" . self::indentate($matches['second'], 1, '   ');
 		}
 		
