@@ -16,8 +16,12 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @property bool $merge [default = false]
  * <p>Merge all the given strings into a single one, with each string in a new line.</p>
  * @property bool $punctuate [default = false]
- * <p>Punctuate all the given strings with the appropriate symbols 
- * (a semicolon per line and period in the last one).</p>
+ * <p>Punctuate each given string with the appropriate symbol, 
+ * with a period in the last one and a semicolon in the others.</p>
+ * @property bool $append_newline [default = false]
+ * <p>Append an extra new line to each given string.</p>
+ * @property bool $multiline_newline_append [default = false]
+ * <p>Append an extra new line to each given multiline string.</p>
  */
 class Mbulletify extends Bulletify
 {
@@ -29,6 +33,10 @@ class Mbulletify extends Bulletify
 			case 'merge':
 				//no break
 			case 'punctuate':
+				//no break
+			case 'append_newline':
+				//no break
+			case 'multiline_newline_append':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);
 		}
 		return parent::buildProperty($name);

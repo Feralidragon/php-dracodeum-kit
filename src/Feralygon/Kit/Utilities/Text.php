@@ -541,6 +541,11 @@ final class Text extends Utility
 		//initialize
 		$options = Options\Bulletify::coerce($options);
 		
+		//indentate multiline
+		if (preg_match('/^(?P<first>.*)\n(?P<second>.*)$/smU', $string, $matches)) {
+			$string = "{$matches['first']}\n" . self::indentate($matches['second'], 1, '   ');
+		}
+		
 		//bulletify
 		/**
 		 * @description Text bulletification.
@@ -608,6 +613,19 @@ final class Text extends Utility
 						"{{text}};",
 						self::class, $text_options, ['parameters' => ['text' => $string]]
 					);
+				}
+			}
+			unset($string);
+		}
+		
+		//newlines
+		if ($options->append_newline || $options->multiline_newline_append) {
+			foreach ($strings as &$string) {
+				if ($options->append_newline) {
+					$string .= "\n";
+				}
+				if ($options->multiline_newline_append && self::multiline($string)) {
+					$string .= "\n";
 				}
 			}
 			unset($string);
