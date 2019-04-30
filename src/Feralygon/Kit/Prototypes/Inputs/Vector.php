@@ -89,9 +89,9 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 	/** {@inheritdoc} */
 	public function evaluateValue(&$value): bool
 	{
-		//string
+		//string, int or float
 		$vector = $value;
-		if (is_string($vector)) {
+		if (is_string($vector) || is_int($vector) || is_float($vector)) {
 			$vector = trim($vector);
 			if ($vector === '') {
 				$vector = [];
@@ -509,11 +509,10 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 				if (!$this->input->setValue($value, true)) {
 					$index = $text_options->info_scope === EInfoScope::ENDUSER ? $i + 1 : $i;
 					$input_messages_indexes[$this->input->getErrorMessage($text_options)][] = $index;
+				} else {
+					$this->input->unsetValue();
 				}
 			}
-		}
-		if (empty($input_messages_indexes)) {
-			return null;
 		}
 		
 		//messages
@@ -592,7 +591,7 @@ class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, 
 		}
 		
 		//return
-		return implode("\n\n", $messages);
+		return empty($messages) ? null : implode("\n\n", $messages);
 	}
 	
 	
