@@ -22,6 +22,7 @@ use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
+use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
@@ -164,7 +165,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 		if (isset($this->key_input)) {
 			//input labels
 			$key_input_label = $this->key_input->getLabel($text_options, $info_options);
-			$input_label = isset($this->input) ? $this->input->getLabel($text_options, $info_options) : '...'; //TODO: change ... to Any input label
+			$input_label = isset($this->input) ? $this->input->getLabel($text_options, $info_options) : '...';
 			if (UText::multiline($key_input_label) || UText::multiline($input_label)) {
 				$key_input_label = "\n" . UText::indentate($key_input_label) . "\n" . UText::indentate('');
 				$input_label = "\n" . UText::indentate($input_label) . "\n";
@@ -174,7 +175,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 			/**
 			 * @placeholder key_input.label The key input label.
 			 * @placeholder input.label The input label.
-			 * @example Dictionary<Integer:Text>
+			 * @example Dictionary<Text:Number>
 			 */
 			return UText::localize("Dictionary<{{key_input.label}}:{{input.label}}>", self::class, $text_options, [
 				'parameters' => [
@@ -211,77 +212,59 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/** {@inheritdoc} */
 	public function getDescription(TextOptions $text_options, InfoOptions $info_options): string
 	{
-		//input description
-		$input_description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
-		if (isset($input_description)) {
-			$input_description = UText::formatMessage($input_description, true);
-		}
-		
-		//key input description
-		$key_input_description = isset($this->key_input)
-			? $this->key_input->getDescription($text_options, $info_options)
-			: null;
-		if (isset($key_input_description)) {
-			$key_input_description = UText::formatMessage($key_input_description, true);
-		}
+		//descriptions
+		$key_input_description = $this->getFormattedKeyInputDescription($text_options, $info_options);
+		$input_description = $this->getFormattedInputDescription($text_options, $info_options);
 		
 		//inputs
-		if (isset($input_description) && isset($key_input_description)) {
-			//key input description
-			/**
-			 * @description Key bullet point with input description.
-			 * @placeholder key_input.description The key input description.
-			 * @example with each key as: a number.
-			 */
-			$key_input_description = UText::localize(
-				"with each key as: {{key_input.description}}",
-				self::class, $text_options, [
-					'parameters' => [
-						'key_input' => ['description' => $key_input_description]
-					]
-				]
-			);
-			if (UText::multiline($key_input_description)) {
-				$key_input_description .= "\n";
-			}
-			$key_input_description = UText::bulletify($key_input_description, $text_options);
-			
-			//input description
-			/**
-			 * @description Value bullet point with input description.
-			 * @placeholder input.description The input description.
-			 * @example with each value as: a text.
-			 */
-			$input_description = UText::localize(
-				"with each value as: {{input.description}}",
-				self::class, $text_options, [
-					'parameters' => [
-						'input' => ['description' => $input_description]
-					]
-				]
-			);
-			if (UText::multiline($input_description)) {
-				$input_description .= "\n";
-			}
-			$input_description = UText::bulletify($input_description, $text_options);
-			
+		if (isset($key_input_description) && isset($input_description)) {
 			//inputs descriptions
-			$inputs_descriptions = "{$key_input_description}\n{$input_description}";
+			$inputs_descriptions = UText::mbulletify([
+				$this->getKeyDescriptionBulletPoint($key_input_description, $text_options),
+				$this->getValueDescriptionBulletPoint($input_description, $text_options)
+			], $text_options, [
+				'merge' => true,
+				'multiline_newline_append' => true
+			]);
 			
 			//scalar
 			if ($this->key_input->isScalar() && $this->input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder inputs_descriptions The inputs descriptions.
+					 * @tags end-user
+					 * @example A dictionary, \
+					 * which may be given as a comma separated list of colon separated key-value pairs:
+					 *  &#8226; with each key as: a text.
+					 *  &#8226; with each value as: a number.
+					 */
+					return UText::localize(
+						"A dictionary, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs:\n" . 
+							"{{inputs_descriptions}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'inputs_descriptions' => $inputs_descriptions
+							]
+						]
+					);
+				}
+				
+				//non-end-user
 				/**
-				 * @placeholder key_input.description The key input description.
-				 * @placeholder input.description The input description.
+				 * @placeholder inputs_descriptions The inputs descriptions.
+				 * @tags non-end-user
 				 * @example A dictionary, \
-				 * which may be given as a comma separated list of colon separated key-value pairs:
-				 *  &#8226; with each key as: a number.
-				 *  &#8226; with each value as: a text.
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object:
+				 *  &#8226; with each key as: a string of characters.
+				 *  &#8226; with each value as: a number.
 				 */
 				return UText::localize(
 					"A dictionary, " . 
-					"which may be given as a comma separated list of colon separated key-value pairs:\n" . 
-					"{{inputs_descriptions}}",
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object:\n{{inputs_descriptions}}",
 					self::class, $text_options, [
 						'parameters' => [
 							'inputs_descriptions' => $inputs_descriptions
@@ -294,8 +277,8 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 			/**
 			 * @placeholder inputs_descriptions The inputs descriptions.
 			 * @example A dictionary:
-			 *  &#8226; with each key as: a number.
-			 *  &#8226; with each value as: a text.
+			 *  &#8226; with each key as: a text.
+			 *  &#8226; with each value as: a number.
 			 */
 			return UText::localize(
 				"A dictionary:\n{{inputs_descriptions}}",
@@ -307,18 +290,363 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 			);
 		}
 		
+		//key input
+		if (isset($key_input_description)) {
+			//scalar
+			if ($this->key_input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder key_input.description The key input description.
+					 * @tags end-user
+					 * @example A dictionary, \
+					 * which may be given as a comma separated list of colon separated key-value pairs, \
+					 * with each key as: a text.
+					 */
+					return UText::localize(
+						"A dictionary, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs, " . 
+							"with each key as: {{key_input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'key_input' => ['description' => $key_input_description]
+							]
+						]
+					);
+				}
+				
+				//non-end-user
+				/**
+				 * @placeholder key_input.description The key input description.
+				 * @tags non-end-user
+				 * @example A dictionary, \
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object, with each key as: a string of characters.
+				 */
+				return UText::localize(
+					"A dictionary, " . 
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object, with each key as: {{key_input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'key_input' => ['description' => $key_input_description]
+						]
+					]
+				);
+			}
+			
+			//default
+			/**
+			 * @placeholder key_input.description The key input description.
+			 * @example A dictionary, with each key as: a text.
+			 */
+			return UText::localize(
+				"A dictionary, with each key as: {{key_input.description}}",
+				self::class, $text_options, [
+					'parameters' => [
+						'key_input' => ['description' => $key_input_description]
+					]
+				]
+			);
+		}
 		
-		//TODO
-		return '?';
+		//input
+		if (isset($input_description)) {
+			//scalar
+			if ($this->input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags end-user
+					 * @example A dictionary, \
+					 * which may be given as a comma separated list of colon separated key-value pairs, \
+					 * with each value as: a number.
+					 */
+					return UText::localize(
+						"A dictionary, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs, " . 
+							"with each value as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
+				
+				//non-end-user
+				/**
+				 * @placeholder input.description The input description.
+				 * @tags non-end-user
+				 * @example A dictionary, \
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object, with each value as: a number.
+				 */
+				return UText::localize(
+					"A dictionary, " . 
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object, with each value as: {{input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'input' => ['description' => $input_description]
+						]
+					]
+				);
+			}
+			
+			//default
+			/**
+			 * @placeholder input.description The input description.
+			 * @example A dictionary, with each value as: a number.
+			 */
+			return UText::localize(
+				"A dictionary, with each value as: {{input.description}}",
+				self::class, $text_options, [
+					'parameters' => [
+						'input' => ['description' => $input_description]
+					]
+				]
+			);
+		}
+		
+		//end-user
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			/** @tags end-user */
+			return UText::localize(
+				"A dictionary, which may be given as a comma separated list of colon separated key-value pairs.",
+				self::class, $text_options
+			);
+		}
+		
+		//non-end-user
+		/** @tags non-end-user */
+		return UText::localize(
+			"A dictionary, which may be given as a comma separated list of colon separated key-value pairs, " . 
+				"or a JSON array or object.",
+			self::class, $text_options
+		);
 	}
 	
 	/** {@inheritdoc} */
 	public function getMessage(TextOptions $text_options, InfoOptions $info_options): string
 	{
+		//descriptions
+		$key_input_description = $this->getFormattedKeyInputDescription($text_options, $info_options);
+		$input_description = $this->getFormattedInputDescription($text_options, $info_options);
 		
-		//TODO
-		return '?';
+		//inputs
+		if (isset($key_input_description) && isset($input_description)) {
+			//inputs descriptions
+			$inputs_descriptions = UText::mbulletify([
+				$this->getKeyDescriptionBulletPoint($key_input_description, $text_options),
+				$this->getValueDescriptionBulletPoint($input_description, $text_options)
+			], $text_options, [
+				'merge' => true,
+				'multiline_newline_append' => true
+			]);
+			
+			//scalar
+			if ($this->key_input->isScalar() && $this->input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder inputs_descriptions The inputs descriptions.
+					 * @tags end-user
+					 * @example Only a dictionary is allowed, \
+					 * which may be given as a comma separated list of colon separated key-value pairs:
+					 *  &#8226; with each key as: a text.
+					 *  &#8226; with each value as: a number.
+					 */
+					return UText::localize(
+						"Only a dictionary is allowed, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs:\n" . 
+							"{{inputs_descriptions}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'inputs_descriptions' => $inputs_descriptions
+							]
+						]
+					);
+				}
+				
+				//non-end-user
+				/**
+				 * @placeholder inputs_descriptions The inputs descriptions.
+				 * @tags non-end-user
+				 * @example Only a dictionary is allowed, \
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object:
+				 *  &#8226; with each key as: a string of characters.
+				 *  &#8226; with each value as: a number.
+				 */
+				return UText::localize(
+					"Only a dictionary is allowed, " . 
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object:\n{{inputs_descriptions}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'inputs_descriptions' => $inputs_descriptions
+						]
+					]
+				);
+			}
+			
+			//default
+			/**
+			 * @placeholder inputs_descriptions The inputs descriptions.
+			 * @example Only a dictionary is allowed:
+			 *  &#8226; with each key as: a text.
+			 *  &#8226; with each value as: a number.
+			 */
+			return UText::localize(
+				"Only a dictionary is allowed:\n{{inputs_descriptions}}",
+				self::class, $text_options, [
+					'parameters' => [
+						'inputs_descriptions' => $inputs_descriptions
+					]
+				]
+			);
+		}
 		
+		//key input
+		if (isset($key_input_description)) {
+			//scalar
+			if ($this->key_input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder key_input.description The key input description.
+					 * @tags end-user
+					 * @example Only a dictionary is allowed, \
+					 * which may be given as a comma separated list of colon separated key-value pairs, \
+					 * with each key as: a text.
+					 */
+					return UText::localize(
+						"Only a dictionary is allowed, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs, " . 
+							"with each key as: {{key_input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'key_input' => ['description' => $key_input_description]
+							]
+						]
+					);
+				}
+				
+				//non-end-user
+				/**
+				 * @placeholder key_input.description The key input description.
+				 * @tags non-end-user
+				 * @example Only a dictionary is allowed, \
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object, with each key as: a string of characters.
+				 */
+				return UText::localize(
+					"Only a dictionary is allowed, " . 
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object, with each key as: {{key_input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'key_input' => ['description' => $key_input_description]
+						]
+					]
+				);
+			}
+			
+			//default
+			/**
+			 * @placeholder key_input.description The key input description.
+			 * @example Only a dictionary is allowed, with each key as: a text.
+			 */
+			return UText::localize(
+				"Only a dictionary is allowed, with each key as: {{key_input.description}}",
+				self::class, $text_options, [
+					'parameters' => [
+						'key_input' => ['description' => $key_input_description]
+					]
+				]
+			);
+		}
+		
+		//input
+		if (isset($input_description)) {
+			//scalar
+			if ($this->input->isScalar()) {
+				//end-user
+				if ($text_options->info_scope === EInfoScope::ENDUSER) {
+					/**
+					 * @placeholder input.description The input description.
+					 * @tags end-user
+					 * @example Only a dictionary is allowed, \
+					 * which may be given as a comma separated list of colon separated key-value pairs, \
+					 * with each value as: a number.
+					 */
+					return UText::localize(
+						"Only a dictionary is allowed, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs, " . 
+							"with each value as: {{input.description}}",
+						self::class, $text_options, [
+							'parameters' => [
+								'input' => ['description' => $input_description]
+							]
+						]
+					);
+				}
+				
+				//non-end-user
+				/**
+				 * @placeholder input.description The input description.
+				 * @tags non-end-user
+				 * @example Only a dictionary is allowed, \
+				 * which may be given as a comma separated list of colon separated key-value pairs, \
+				 * or a JSON array or object, with each value as: a number.
+				 */
+				return UText::localize(
+					"Only a dictionary is allowed, " . 
+						"which may be given as a comma separated list of colon separated key-value pairs, " . 
+						"or a JSON array or object, with each value as: {{input.description}}",
+					self::class, $text_options, [
+						'parameters' => [
+							'input' => ['description' => $input_description]
+						]
+					]
+				);
+			}
+			
+			//default
+			/**
+			 * @placeholder input.description The input description.
+			 * @example Only a dictionary is allowed, with each value as: a number.
+			 */
+			return UText::localize(
+				"Only a dictionary is allowed, with each value as: {{input.description}}",
+				self::class, $text_options, [
+					'parameters' => [
+						'input' => ['description' => $input_description]
+					]
+				]
+			);
+		}
+		
+		//end-user
+		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+			/** @tags end-user */
+			return UText::localize(
+				"Only a dictionary is allowed, " . 
+					"which may be given as a comma separated list of colon separated key-value pairs.",
+				self::class, $text_options
+			);
+		}
+		
+		//non-end-user
+		/** @tags non-end-user */
+		return UText::localize(
+			"Only a dictionary is allowed, " . 
+				"which may be given as a comma separated list of colon separated key-value pairs, " . 
+				"or a JSON array or object.",
+			self::class, $text_options
+		);
 	}
 	
 	
@@ -327,10 +655,79 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/** {@inheritdoc} */
 	public function getErrorMessage(TextOptions $text_options): ?string
 	{
+		//key input messages positions
+		$key_input_messages_positions = [];
+		if (isset($this->key_input)) {
+			foreach ($this->error_keys as $i => $key) {
+				if (!$this->key_input->setValue($key, true)) {
+					$key_input_messages_positions[$this->key_input->getErrorMessage($text_options)][] = $i + 1;
+				} else {
+					$this->key_input->unsetValue();
+				}
+			}
+		}
 		
-		//TODO
-		return null;
+		//input messages positions
+		$input_messages_positions = [];
+		if (isset($this->input)) {
+			foreach ($this->error_values as $i => $value) {
+				if (!$this->input->setValue($value, true)) {
+					$input_messages_positions[$this->input->getErrorMessage($text_options)][] = $i + 1;
+				} else {
+					$this->input->unsetValue();
+				}
+			}
+		}
 		
+		//messages (initialize)
+		$messages = [];
+		
+		//messages (key input)
+		foreach ($key_input_messages_positions as $message => $positions) {
+			/**
+			 * @placeholder positions The positions.
+			 * @placeholder key_input.message The key input message.
+			 * @example Invalid dictionary keys were given at positions 1, 2 and 5, \
+			 * with the following error: only text is allowed.
+			 */
+			$messages[] = UText::plocalize(
+				"An invalid dictionary key was given at position {{positions}}, " . 
+					"with the following error: {{key_input.message}}",
+				"Invalid dictionary keys were given at positions {{positions}}, " . 
+					"with the following error: {{key_input.message}}",
+				count($positions), null, self::class, $text_options, [
+					'parameters' => [
+						'positions' => UText::commify($positions, $text_options, 'and'),
+						'key_input' => ['message' => UText::formatMessage($message, true)]
+					]
+				]
+			);
+		}
+		
+		//messages (input)
+		foreach ($input_messages_positions as $message => $positions) {
+			/**
+			 * @placeholder positions The positions.
+			 * @placeholder input.message The input message.
+			 * @example Invalid dictionary values were given at positions 1, 2 and 5, \
+			 * with the following error: only a number is allowed.
+			 */
+			$messages[] = UText::plocalize(
+				"An invalid dictionary value was given at position {{positions}}, " . 
+					"with the following error: {{input.message}}",
+				"Invalid dictionary values were given at positions {{positions}}, " . 
+					"with the following error: {{input.message}}",
+				count($positions), null, self::class, $text_options, [
+					'parameters' => [
+						'positions' => UText::commify($positions, $text_options, 'and'),
+						'input' => ['message' => UText::formatMessage($message, true)]
+					]
+				]
+			);
+		}
+		
+		//return
+		return empty($messages) ? null : implode("\n\n", $messages);
 	}
 	
 	
@@ -390,5 +787,104 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 				return $this->createProperty()->setMode('w-')->setAsComponent(Component::class)->bind(self::class);
 		}
 		return null;
+	}
+	
+	
+	
+	//Protected methods
+	/**
+	 * Get formatted key input description.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
+	 * <p>The info options instance to use.</p>
+	 * @return string|null
+	 * <p>The formatted key input description or <code>null</code> if none is set.</p>
+	 */
+	protected function getFormattedKeyInputDescription(TextOptions $text_options, InfoOptions $info_options): ?string
+	{
+		$description = isset($this->key_input) ? $this->key_input->getDescription($text_options, $info_options) : null;
+		if (isset($description)) {
+			$description = UText::formatMessage($description, true);
+		}
+		return $description;
+	}
+	
+	/**
+	 * Get formatted input description.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
+	 * <p>The info options instance to use.</p>
+	 * @return string|null
+	 * <p>The formatted input description or <code>null</code> if none is set.</p>
+	 */
+	protected function getFormattedInputDescription(TextOptions $text_options, InfoOptions $info_options): ?string
+	{
+		$description = isset($this->input) ? $this->input->getDescription($text_options, $info_options) : null;
+		if (isset($description)) {
+			$description = UText::formatMessage($description, true);
+		}
+		return $description;
+	}
+	
+	/**
+	 * Get key description bullet point with a given description.
+	 * 
+	 * @since 1.0.0
+	 * @param string $description
+	 * <p>The description to get with.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The key description bullet point with the given description.</p>
+	 */
+	protected function getKeyDescriptionBulletPoint(string $description, TextOptions $text_options): string
+	{
+		/**
+		 * @description Bullet point with key description.
+		 * @placeholder key_input.description The key input description.
+		 * @example with each key as: a number.
+		 */
+		return UText::localize(
+			"with each key as: {{key_input.description}}",
+			self::class, $text_options, [
+				'parameters' => [
+					'key_input' => ['description' => $description]
+				]
+			]
+		);
+	}
+	
+	/**
+	 * Get value description bullet point with a given description.
+	 * 
+	 * @since 1.0.0
+	 * @param string $description
+	 * <p>The description to get with.</p>
+	 * @param \Feralygon\Kit\Options\Text $text_options
+	 * <p>The text options instance to use.</p>
+	 * @return string
+	 * <p>The value description bullet point with the given description.</p>
+	 */
+	protected function getValueDescriptionBulletPoint(string $description, TextOptions $text_options): string
+	{
+		/**
+		 * @description Bullet point with value description.
+		 * @placeholder input.description The input description.
+		 * @example with each value as: a text.
+		 */
+		return UText::localize(
+			"with each value as: {{input.description}}",
+			self::class, $text_options, [
+				'parameters' => [
+					'input' => ['description' => $description]
+				]
+			]
+		);
 	}
 }
