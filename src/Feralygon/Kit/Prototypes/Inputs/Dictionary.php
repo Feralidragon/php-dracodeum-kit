@@ -18,7 +18,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 use Feralygon\Kit\Primitives\Dictionary as Primitive;
 use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-//use Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -44,6 +44,18 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Feralygon\Kit\Primitives\Dictionary
  * @see \Feralygon\Kit\Interfaces\Arrayable
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\Length
+ * [modifier, name = 'constraints.length' or 'length']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\MinLength
+ * [modifier, name = 'constraints.min_length' or 'min_length']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\MaxLength
+ * [modifier, name = 'constraints.max_length' or 'max_length']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\LengthRange
+ * [modifier, name = 'constraints.length_range' or 'length_range']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\NonEmpty
+ * [modifier, name = 'constraints.non_empty' or 'non_empty']
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\Unique
+ * [modifier, name = 'constraints.unique' or 'unique']
  */
 class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
 {
@@ -749,9 +761,31 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	public function buildModifier(string $name, array $properties = []): ?Modifier
 	{
 		switch ($name) {
-			
-			//TODO
-			
+			//constraints
+			case 'constraints.length':
+				//no break
+			case 'length':
+				return $this->createConstraint(Constraints\Length::class, $properties);
+			case 'constraints.min_length':
+				//no break
+			case 'min_length':
+				return $this->createConstraint(Constraints\MinLength::class, $properties);
+			case 'constraints.max_length':
+				//no break
+			case 'max_length':
+				return $this->createConstraint(Constraints\MaxLength::class, $properties);
+			case 'constraints.length_range':
+				//no break
+			case 'length_range':
+				return $this->createConstraint(Constraints\LengthRange::class, $properties);
+			case 'constraints.non_empty':
+				//no break
+			case 'non_empty':
+				return $this->createConstraint(Constraints\NonEmpty::class, $properties);
+			case 'constraints.unique':
+				//no break
+			case 'unique':
+				return $this->createConstraint(Constraints\Unique::class, $properties);
 		}
 		return null;
 	}
