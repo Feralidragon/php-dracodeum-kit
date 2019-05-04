@@ -34,7 +34,7 @@ class Unique extends Constraint implements IName, IInformation
 	{
 		if (is_object($value) && $value instanceof Primitive) {
 			$map = [];
-			foreach ($value->getAll() as $v) {
+			foreach ($value as $v) {
 				$key = UData::keyfy($v);
 				if (isset($map[$key])) {
 					return false;
