@@ -101,7 +101,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 				if (!isset($dictionary)) {
 					return false;
 				}
-			} elseif (preg_match('/^[^:,]*:[^:,]*(?:,[^:,]*:[^:,]*)*$/', $dictionary)) {
+			} elseif (preg_match('/^[^:,]*:[^:,]*(?:,[^:,]*:[^:,]*)*$/sm', $dictionary)) {
 				preg_match_all('/(?P<keys>[^:,]*):(?P<values>[^:,]*)/', $dictionary, $matches);
 				$dictionary = array_combine(array_map('trim', $matches['keys']), array_map('trim', $matches['values']));
 			} else {
