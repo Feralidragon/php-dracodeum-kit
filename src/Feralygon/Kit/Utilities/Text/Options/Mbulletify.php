@@ -19,9 +19,9 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <p>Punctuate each given string with the appropriate symbol, 
  * with a period in the last one and a semicolon in the others.</p>
  * @property bool $append_newline [default = false]
- * <p>Append an extra new line to each given string.</p>
+ * <p>Append an extra newline to each given string.</p>
  * @property bool $multiline_newline_append [default = false]
- * <p>Append an extra new line to each given multiline string.</p>
+ * <p>Append an extra newline to each given multiline string.</p>
  */
 class Mbulletify extends Bulletify
 {

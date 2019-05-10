@@ -185,7 +185,7 @@ final class Locale
 	 * Once the PHP source files are scanned to look for the usage of this call, 
 	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
-	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
@@ -263,7 +263,7 @@ final class Locale
 	 * Once the PHP source files are scanned to look for the usage of this call, 
 	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
-	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 

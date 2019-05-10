@@ -86,7 +86,7 @@ final class Text extends Utility
 	 * These characters are defined as follows:<br>
 	 * &nbsp; &#8226; &nbsp; space (<code>' '</code>);<br>
 	 * &nbsp; &#8226; &nbsp; tab (<code>"\t"</code>);<br>
-	 * &nbsp; &#8226; &nbsp; new line (<code>"\n"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; newline (<code>"\n"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
@@ -122,7 +122,7 @@ final class Text extends Utility
 	 * These characters are defined as follows:<br>
 	 * &nbsp; &#8226; &nbsp; space (<code>' '</code>);<br>
 	 * &nbsp; &#8226; &nbsp; tab (<code>"\t"</code>);<br>
-	 * &nbsp; &#8226; &nbsp; new line (<code>"\n"</code>);<br>
+	 * &nbsp; &#8226; &nbsp; newline (<code>"\n"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
@@ -2153,7 +2153,7 @@ final class Text extends Utility
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, these descriptions and examples 
 	 * will also be exported and saved into the resulting file with all the messages to translate.<br>
-	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
@@ -2237,7 +2237,7 @@ final class Text extends Utility
 	 * Once the PHP source files are scanned to look for the usage of this call, 
 	 * these descriptions and examples will also be exported and saved into the resulting file with all 
 	 * the messages to translate.<br>
-	 * The usage of new lines is fully respected during the parsing, however any new line not meant to be parsed 
+	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
