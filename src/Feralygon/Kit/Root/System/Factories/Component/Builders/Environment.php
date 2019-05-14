@@ -23,7 +23,7 @@ class Environment extends Builder implements IBuilder
 {
 	//Implemented public methods (Feralygon\Kit\Root\System\Factories\Component\Builder\Interfaces\Environment)
 	/** {@inheritdoc} */
-	public function build($prototype, array $properties = []): Component
+	public function build($prototype, array $properties): Component
 	{
 		return new Component($prototype, $properties);
 	}

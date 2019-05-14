@@ -758,7 +758,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []): ?Modifier
+	public function buildModifier(string $name, array $properties): ?Modifier
 	{
 		switch ($name) {
 			//constraints

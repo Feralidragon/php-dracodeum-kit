@@ -23,7 +23,7 @@ class Constraint extends Builder implements IBuilder
 {
 	//Implemented public methods (Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces\Constraint)
 	/** {@inheritdoc} */
-	public function build($prototype, array $properties = []): Component
+	public function build($prototype, array $properties): Component
 	{
 		return new Component($prototype, $properties);
 	}

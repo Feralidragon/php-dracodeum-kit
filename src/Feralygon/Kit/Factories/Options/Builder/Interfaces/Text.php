@@ -19,13 +19,13 @@ interface Text
 {
 	//Public methods
 	/**
-	 * Build instance.
+	 * Build instance with a given set of properties.
 	 * 
 	 * @since 1.0.0
-	 * @param array $properties [default = []]
+	 * @param array $properties
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Options\Text
-	 * <p>The built instance.</p>
+	 * <p>The built instance with the given set of properties.</p>
 	 */
-	public function build(array $properties = []): Options;
+	public function build(array $properties): Options;
 }

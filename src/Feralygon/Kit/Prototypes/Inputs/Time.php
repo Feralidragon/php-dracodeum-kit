@@ -141,7 +141,7 @@ class Time extends Input implements IInformation, IValueStringifier, IModifierBu
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []): ?Modifier
+	public function buildModifier(string $name, array $properties): ?Modifier
 	{
 		switch ($name) {
 			//constraints

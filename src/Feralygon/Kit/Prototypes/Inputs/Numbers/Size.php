@@ -173,7 +173,7 @@ class Size extends Number implements IValueStringifier
 	}
 	
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []): ?Modifier
+	public function buildModifier(string $name, array $properties): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -192,9 +192,7 @@ class Size extends Number implements IValueStringifier
 			case 'constraints.positive':
 				//no break
 			case 'positive':
-				return $this->createConstraint(
-					Constraints\Minimum::class, ['value' => 0, 'exclusive' => true] + $properties
-				);
+				return $this->createConstraint(Constraints\Minimum::class, [0, 'exclusive' => true] + $properties);
 			case 'constraints.maximum':
 				//no break
 			case 'maximum':
@@ -202,9 +200,7 @@ class Size extends Number implements IValueStringifier
 			case 'constraints.negative':
 				//no break
 			case 'negative':
-				return $this->createConstraint(
-					Constraints\Maximum::class, ['value' => 0, 'exclusive' => true] + $properties
-				);
+				return $this->createConstraint(Constraints\Maximum::class, [0, 'exclusive' => true] + $properties);
 			case 'constraints.range':
 				//no break
 			case 'range':

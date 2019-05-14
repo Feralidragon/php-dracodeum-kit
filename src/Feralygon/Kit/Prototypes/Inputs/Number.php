@@ -149,7 +149,7 @@ class Number extends Input implements IInformation, IModifierBuilder
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []): ?Modifier
+	public function buildModifier(string $name, array $properties): ?Modifier
 	{
 		switch ($name) {
 			//constraints
@@ -168,9 +168,7 @@ class Number extends Input implements IInformation, IModifierBuilder
 			case 'constraints.positive':
 				//no break
 			case 'positive':
-				return $this->createConstraint(
-					Constraints\Minimum::class, ['value' => 0, 'exclusive' => true] + $properties
-				);
+				return $this->createConstraint(Constraints\Minimum::class, [0, 'exclusive' => true] + $properties);
 			case 'constraints.maximum':
 				//no break
 			case 'maximum':
@@ -178,9 +176,7 @@ class Number extends Input implements IInformation, IModifierBuilder
 			case 'constraints.negative':
 				//no break
 			case 'negative':
-				return $this->createConstraint(
-					Constraints\Maximum::class, ['value' => 0, 'exclusive' => true] + $properties
-				);
+				return $this->createConstraint(Constraints\Maximum::class, [0, 'exclusive' => true] + $properties);
 			case 'constraints.range':
 				//no break
 			case 'range':
@@ -200,13 +196,11 @@ class Number extends Input implements IInformation, IModifierBuilder
 			case 'constraints.even':
 				//no break
 			case 'even':
-				return $this->createConstraint(Constraints\Multiples::class, ['multiples' => [2]] + $properties);
+				return $this->createConstraint(Constraints\Multiples::class, [[2]] + $properties);
 			case 'constraints.odd':
 				//no break
 			case 'odd':
-				return $this->createConstraint(
-					Constraints\Multiples::class, ['multiples' => [2], 'negate' => true] + $properties
-				);
+				return $this->createConstraint(Constraints\Multiples::class, [[2], 'negate' => true] + $properties);
 			case 'constraints.powers':
 				//no break
 			case 'powers':

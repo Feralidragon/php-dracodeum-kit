@@ -153,7 +153,7 @@ class DateTime extends Input implements IInformation, IValueStringifier, IModifi
 	
 	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties = []): ?Modifier
+	public function buildModifier(string $name, array $properties): ?Modifier
 	{
 		switch ($name) {
 			//constraints

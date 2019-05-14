@@ -23,7 +23,7 @@ class Text extends Builder implements IBuilder
 {
 	//Implemented public methods (Feralygon\Kit\Factories\Options\Builder\Interfaces\Text)
 	/** {@inheritdoc} */
-	public function build(array $properties = []): Options
+	public function build(array $properties): Options
 	{
 		return new Options($properties);
 	}
