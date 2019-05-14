@@ -177,7 +177,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	//Implemented protected methods (Feralygon\Kit\Component\Traits\PrototypeProducer)
 	/** {@inheritdoc} */
-	protected function producePrototype(string $name, array $properties = [])
+	protected function producePrototype(string $name, array $properties)
 	{
 		switch ($name) {
 			case 'boolean':

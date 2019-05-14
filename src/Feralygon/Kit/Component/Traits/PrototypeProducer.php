@@ -17,19 +17,20 @@ trait PrototypeProducer
 {
 	//Protected methods
 	/**
-	 * Produce prototype for a given name.
+	 * Produce prototype for a given name with a given set of properties.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to produce for.</p>
-	 * @param array $properties [default = []]
+	 * @param array $properties
 	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Prototype|string|null
-	 * <p>The produced prototype instance or class for the given name or <code>null</code> if none was produced.</p>
+	 * <p>The produced prototype instance or class for the given name with the given set of properties 
+	 * or <code>null</code> if none was produced.</p>
 	 */
-	protected function producePrototype(string $name, array $properties = [])
+	protected function producePrototype(string $name, array $properties)
 	{
 		return null;
 	}
