@@ -788,18 +788,21 @@ class Evaluators
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Evaluate all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsArray(
-		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false
+		?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false,
+		bool $nullable = false
 	): Evaluators
 	{
 		$this->set(
-			function (&$value) use ($evaluator, $non_associative, $non_empty, $nullable): bool {
-				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $nullable);
+			function (&$value) use ($evaluator, $non_associative, $non_empty, $recursive, $nullable): bool {
+				return UData::evaluate($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
 			}
 		);
 		return $this;
