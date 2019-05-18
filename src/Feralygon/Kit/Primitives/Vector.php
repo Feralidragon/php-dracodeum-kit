@@ -195,9 +195,18 @@ IStringifiable
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray(): array
+	final public function toArray(bool $recursive = false): array
 	{
-		return $this->getAll();
+		$array = $this->getAll();
+		if ($recursive) {
+			foreach ($array as &$value) {
+				if (is_object($value) && $value instanceof IArrayable) {
+					$value = $value->toArray($recursive);
+				}
+			}
+			unset($value);
+		}
+		return $array;
 	}
 	
 	

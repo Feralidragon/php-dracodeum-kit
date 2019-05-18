@@ -8,10 +8,10 @@
 namespace Feralygon\Kit\Traits\Properties;
 
 use Feralygon\Kit\Traits\Properties;
+use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
 
 /**
- * This trait extends the properties trait and implements 
- * the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+ * This trait extends the properties trait and implements the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
  * 
  * @since 1.0.0
  * @see \Feralygon\Kit\Traits\Properties
@@ -26,8 +26,17 @@ trait Arrayable
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray(): array
+	final public function toArray(bool $recursive = false): array
 	{
-		return $this->getAll();
+		$array = $this->getAll();
+		if ($recursive) {
+			foreach ($array as &$value) {
+				if (is_object($value) && $value instanceof IArrayable) {
+					$value = $value->toArray($recursive);
+				}
+			}
+			unset($value);
+		}
+		return $array;
 	}
 }
