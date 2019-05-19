@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Text\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 use Feralygon\Kit\Root\Locale;
 
 /**
@@ -236,12 +235,8 @@ final class Text extends Utility
 		//object
 		if (is_object($value)) {
 			//stringifiable
-			if (!$options->non_stringifiable) {
-				if ($value instanceof IStringifiable) {
-					return $value->toString($text_options);
-				} elseif (method_exists($value, '__toString')) {
-					return $value->__toString();
-				}
+			if (!$options->non_stringifiable && Type::evaluateString($value)) {
+				return $value;
 			}
 			
 			//stringify

@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Url\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 
 /**
  * This utility implements a set of methods used to manipulate and get URL information.
@@ -46,13 +45,7 @@ final class Url extends Utility
 		if (!is_string($value)) {
 			if (is_bool($value)) {
 				$value = $value ? '1' : '0';
-			} elseif (is_int($value) || is_float($value)) {
-				$value = (string)$value;
-			} elseif (is_object($value) && $value instanceof IStringifiable) {
-				$value = $value->toString();
-			} elseif (is_object($value) && method_exists($value, '__toString')) {
-				$value = (string)$value;
-			} else {
+			} elseif (!Type::evaluateString($value)) {
 				if ($no_throw) {
 					return null;
 				}
