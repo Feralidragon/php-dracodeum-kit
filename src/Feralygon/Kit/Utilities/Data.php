@@ -2070,7 +2070,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Coerce a given value as an array.
+	 * Coerce a given value into an array.
 	 * 
 	 * Only the following types and formats can be coerced into an array:<br>
 	 * &nbsp; &#8226; &nbsp; an array;<br>
