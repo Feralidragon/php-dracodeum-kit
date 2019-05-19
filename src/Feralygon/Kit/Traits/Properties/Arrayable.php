@@ -8,7 +8,7 @@
 namespace Feralygon\Kit\Traits\Properties;
 
 use Feralygon\Kit\Traits\Properties;
-use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
+use Feralygon\Kit\Utilities\Data as UData;
 
 /**
  * This trait extends the properties trait and implements the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
@@ -31,8 +31,8 @@ trait Arrayable
 		$array = $this->getAll();
 		if ($recursive) {
 			foreach ($array as &$value) {
-				if (is_object($value) && $value instanceof IArrayable) {
-					$value = $value->toArray($recursive);
+				if (is_object($value)) {
+					UData::evaluate($value, null, false, false, true);
 				}
 			}
 			unset($value);

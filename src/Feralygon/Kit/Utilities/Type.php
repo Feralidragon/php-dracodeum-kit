@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Type\{
 	Exceptions
 };
 use Feralygon\Kit\Interfaces\{
-	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
 	StringInstantiable as IStringInstantiable
@@ -127,6 +126,7 @@ final class Type extends Utility
 		
 		//object
 		if (is_object($value) && !self::isA($value, \Closure::class)) {
+			$class = get_class($value);
 			if (method_exists($value, '__set_state')) {
 				$properties = [];
 				foreach ((array)$value as $name => $v) {
@@ -136,10 +136,10 @@ final class Type extends Utility
 					$properties[$name] = $v;
 				}
 				$php = self::phpfy($properties, $options);
-				return isset($php) ? '\\' . get_class($value) . "::__set_state({$php})" : null;
-			} elseif ($value instanceof IArrayable && $value instanceof IArrayInstantiable) {
-				$php = self::phpfy($value->toArray(), $options);
-				return isset($php) ? '\\' . get_class($value) . "::fromArray({$php})" : null;
+				return isset($php) ? "\\{$class}::__set_state({$php})" : null;
+			} elseif ($value instanceof IArrayInstantiable && Data::evaluate($value)) {
+				$php = self::phpfy($value, $options);
+				return isset($php) ? "\\{$class}::fromArray({$php})" : null;
 			} elseif ($options->no_throw) {
 				return null;
 			}

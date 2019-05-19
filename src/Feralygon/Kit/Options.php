@@ -10,7 +10,6 @@ namespace Feralygon\Kit;
 use Feralygon\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Readonlyable as IReadonlyable,
-	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
 	StringInstantiable as IStringInstantiable
 };
@@ -22,6 +21,7 @@ use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Type as UType
 };
 
@@ -268,8 +268,8 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 					return UType::isA($value, static::class)
 						? ($clone ? $value->clone() : $value)
 						: UType::coerceObject($builder($value->getAll()), static::class);
-				} elseif ($value instanceof IArrayable) {
-					return UType::coerceObject($builder($value->toArray()), static::class);
+				} elseif (UData::evaluate($value)) {
+					return UType::coerceObject($builder($value), static::class);
 				}
 			}
 		} catch (\Exception $exception) {

@@ -217,8 +217,8 @@ IStringifiable
 		$array = $this->getAll();
 		if ($recursive) {
 			foreach ($array as &$value) {
-				if (is_object($value) && $value instanceof IArrayable) {
-					$value = $value->toArray($recursive);
+				if (is_object($value)) {
+					UData::evaluate($value, null, false, false, true);
 				}
 			}
 			unset($value);
@@ -635,9 +635,8 @@ IStringifiable
 			}
 			
 			//array
-			$array = is_object($value) && $value instanceof IArrayable ? $value->toArray() : $value;
-			if (is_array($array)) {
-				return isset($template) ? $template->clone()->setAll($array) : static::build($array);
+			if (UData::evaluate($value)) {
+				return isset($template) ? $template->clone()->setAll($value) : static::build($value);
 			}
 			
 		} catch (\Exception $exception) {

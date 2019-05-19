@@ -2128,7 +2128,7 @@ final class Data extends Utility
 		$array = $value;
 		if (is_object($array) && $array instanceof IArrayable) {
 			$array = $array->toArray($recursive);
-		} elseif ($recursive) {
+		} elseif ($recursive && is_array($array)) {
 			foreach ($array as &$v) {
 				if (is_object($v)) {
 					self::evaluate($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable);

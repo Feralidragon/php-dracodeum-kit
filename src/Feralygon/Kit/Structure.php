@@ -23,6 +23,7 @@ use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -292,8 +293,8 @@ IStringifiable, IStringInstantiable
 					return UType::isA($value, static::class)
 						? ($clone ? $value->clone() : $value)
 						: UType::coerceObject($builder($value->getAll()), static::class);
-				} elseif ($value instanceof IArrayable) {
-					return UType::coerceObject($builder($value->toArray()), static::class);
+				} elseif (UData::evaluate($value)) {
+					return UType::coerceObject($builder($value), static::class);
 				}
 			}
 		} catch (\Exception $exception) {

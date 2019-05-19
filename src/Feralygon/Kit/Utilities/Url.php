@@ -12,10 +12,7 @@ use Feralygon\Kit\Utilities\Url\{
 	Options,
 	Exceptions
 };
-use Feralygon\Kit\Interfaces\{
-	Arrayable as IArrayable,
-	Stringifiable as IStringifiable
-};
+use Feralygon\Kit\Interfaces\Stringifiable as IStringifiable;
 
 /**
  * This utility implements a set of methods used to manipulate and get URL information.
@@ -102,10 +99,8 @@ final class Url extends Utility
 			$associative = Data::associative($values);
 			foreach ($values as $key => $value) {
 				//array
-				if ($allow_arrays && (is_array($value) || (is_object($value) && $value instanceof IArrayable))) {
-					$query = array_merge($query, $f(
-						is_object($value) ? $value->toArray() : $value, isset($name) ? "{$name}[{$key}]" : $key
-					));
+				if ($allow_arrays && Data::evaluate($value)) {
+					$query = array_merge($query, $f($value, isset($name) ? "{$name}[{$key}]" : $key));
 					continue;
 				}
 				
