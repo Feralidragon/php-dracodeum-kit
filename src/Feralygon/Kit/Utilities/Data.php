@@ -2061,12 +2061,7 @@ final class Data extends Utility
 		bool $recursive = false, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = self::coerce($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
 	}
 	
 	/**
@@ -2112,10 +2107,63 @@ final class Data extends Utility
 		bool $recursive = false, bool $nullable = false
 	): ?array
 	{
+		self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
+		return $value;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an array.
+	 * 
+	 * Only the following types and formats can be coerced into an array:<br>
+	 * &nbsp; &#8226; &nbsp; an array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param callable|null $evaluator [default = null]
+	 * <p>The evaluator function to use for each element in the resulting array.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (&$key, &$value): bool</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>int|string $key</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The key to evaluate (validate and sanitize).<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b> [reference]</code><br>
+	 * &nbsp; &nbsp; &nbsp; The value to evaluate (validate and sanitize).<br>
+	 * <br>
+	 * Return: <code><b>bool</b></code><br>
+	 * Boolean <code>true</code> if the given array element is successfully evaluated.</p>
+	 * @param bool $non_associative [default = false]
+	 * <p>Do not allow an associative array.</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty array.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Coerce all possible referenced subobjects into arrays recursively.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an array.</p>
+	 */
+	final private static function processCoercion(
+		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
+		bool $recursive = false, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
 		//nullable
 		if (!isset($value)) {
 			if ($nullable) {
-				return null;
+				return true;
+			} elseif ($no_throw) {
+				return false;
 			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
@@ -2130,15 +2178,16 @@ final class Data extends Utility
 			$array = $array->toArray($recursive);
 		} elseif ($recursive && is_array($array)) {
 			foreach ($array as &$v) {
-				if (is_object($v)) {
-					self::evaluate($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
-				}
+				self::processCoercion($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
 			}
 			unset($v);
 		}
 		
 		//coerce
 		if (!is_array($array)) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
@@ -2147,24 +2196,35 @@ final class Data extends Utility
 					" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
 			]);
 		} elseif ($non_empty && empty($array)) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_EMPTY,
 				'error_message' => "An empty array is not allowed."
 			]);
 		} elseif ($non_associative && self::associative($array)) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_ASSOCIATIVE,
 				'error_message' => "An associative array is not allowed."
 			]);
 		} elseif (isset($evaluator)) {
+			//initialize
 			Call::assert('evaluator', $evaluator, function (&$key, &$value): bool {});
 			$evaluator = \Closure::fromCallable($evaluator);
 			$f_array = [];
+			
+			//evaluate
 			foreach ($array as $k => $v) {
 				if ($evaluator($k, $v)) {
 					$f_array[$k] = $v;
+				} elseif ($no_throw) {
+					return false;
 				} else {
 					throw new Exceptions\CoercionFailed([
 						'value' => $value,
@@ -2178,8 +2238,14 @@ final class Data extends Utility
 					]);
 				}
 			}
-			return $f_array;
+			
+			//finish
+			$array = $f_array;
+			unset($f_array);
 		}
-		return $array;
+		
+		//finish
+		$value = $array;
+		return true;
 	}
 }
