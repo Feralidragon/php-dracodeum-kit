@@ -134,7 +134,7 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['values']);
+		$this->addRequiredPropertyName('values');
 	}
 	
 	

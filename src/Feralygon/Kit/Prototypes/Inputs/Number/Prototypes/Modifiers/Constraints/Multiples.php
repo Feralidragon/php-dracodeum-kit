@@ -145,7 +145,7 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['multiples']);
+		$this->addRequiredPropertyName('multiples');
 	}
 	
 	

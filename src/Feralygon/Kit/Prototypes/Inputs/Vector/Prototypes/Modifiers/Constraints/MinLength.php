@@ -128,7 +128,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['length']);
+		$this->addRequiredPropertyName('length');
 	}
 	
 	

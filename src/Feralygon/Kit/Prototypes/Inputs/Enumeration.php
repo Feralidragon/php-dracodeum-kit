@@ -412,7 +412,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['enumeration']);
+		$this->addRequiredPropertyName('enumeration');
 	}
 	
 	

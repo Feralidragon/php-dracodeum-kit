@@ -141,7 +141,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['powers']);
+		$this->addRequiredPropertyName('powers');
 	}
 	
 	

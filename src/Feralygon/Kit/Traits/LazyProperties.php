@@ -259,6 +259,24 @@ trait LazyProperties
 	}
 	
 	/**
+	 * Add required property name.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to add.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addRequiredPropertyName(string $name): object
+	{
+		$this->guardPropertiesManagerCall();
+		$this->properties_manager->addRequiredPropertyName($name);
+		return $this;
+	}
+	
+	/**
 	 * Add required property names.
 	 * 
 	 * This method may only be called after the properties manager initialization.

@@ -245,7 +245,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['wildcards']);
+		$this->addRequiredPropertyName('wildcards');
 	}
 	
 	

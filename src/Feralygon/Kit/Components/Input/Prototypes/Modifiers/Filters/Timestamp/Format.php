@@ -54,7 +54,7 @@ class Format extends Filter
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['format']);
+		$this->addRequiredPropertyName('format');
 	}
 	
 	

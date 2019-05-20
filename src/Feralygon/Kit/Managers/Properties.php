@@ -212,6 +212,25 @@ class Properties
 	}
 	
 	/**
+	 * Add required property name.
+	 * 
+	 * The property, corresponding to the given name added here, must be given during initialization.<br>
+	 * <br>
+	 * This method may only be called before initialization, with lazy-loading enabled 
+	 * and only if the base access mode is not set to strict read-only.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to add.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addRequiredPropertyName(string $name): Properties
+	{
+		return $this->addRequiredPropertyNames([$name]);
+	}
+	
+	/**
 	 * Add required property names.
 	 * 
 	 * The properties, corresponding to the given names added here, must be given during initialization.<br>

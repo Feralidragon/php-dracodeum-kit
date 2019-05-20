@@ -134,7 +134,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['value']);
+		$this->addRequiredPropertyName('value');
 	}
 	
 	

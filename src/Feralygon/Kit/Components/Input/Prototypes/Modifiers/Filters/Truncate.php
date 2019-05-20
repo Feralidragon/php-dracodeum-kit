@@ -147,7 +147,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['length']);
+		$this->addRequiredPropertyName('length');
 	}
 	
 	

@@ -118,7 +118,7 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['length']);
+		$this->addRequiredPropertyName('length');
 	}
 	
 	
