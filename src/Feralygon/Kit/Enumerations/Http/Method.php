@@ -152,7 +152,7 @@ class Method extends Enumeration
 	public static function hasResponseBody(string $element): bool
 	{
 		return in_array(static::getValue($element), [
-			self::GET, self::POST, self::TRACE, self::CONNECT, self::OPTIONS
+			self::GET, self::POST, self::PUT, self::PATCH, self::TRACE, self::CONNECT, self::OPTIONS
 		], true);
 	}
 	
