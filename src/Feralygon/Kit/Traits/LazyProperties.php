@@ -107,8 +107,7 @@ trait LazyProperties
 	 */
 	final public function has(string $name): bool
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->has($name);
+		return $this->getPropertiesManager()->has($name);
 	}
 	
 	/**
@@ -124,8 +123,7 @@ trait LazyProperties
 	 */
 	final public function get(string $name)
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->get($name);
+		return $this->getPropertiesManager()->get($name);
 	}
 	
 	/**
@@ -145,8 +143,7 @@ trait LazyProperties
 	 */
 	final public function is(string $name): bool
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->is($name);
+		return $this->getPropertiesManager()->is($name);
 	}
 	
 	/**
@@ -162,8 +159,7 @@ trait LazyProperties
 	 */
 	final public function isset(string $name): bool
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->isset($name);
+		return $this->getPropertiesManager()->isset($name);
 	}
 	
 	/**
@@ -181,8 +177,7 @@ trait LazyProperties
 	 */
 	final public function set(string $name, $value): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->set($name, $value);
+		$this->getPropertiesManager()->set($name, $value);
 		return $this;
 	}
 	
@@ -199,8 +194,7 @@ trait LazyProperties
 	 */
 	final public function unset(string $name): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->unset($name);
+		$this->getPropertiesManager()->unset($name);
 		return $this;
 	}
 	
@@ -217,8 +211,7 @@ trait LazyProperties
 	 */
 	final public function getAll(): array
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->getAll();
+		return $this->getPropertiesManager()->getAll();
 	}
 	
 	/**
@@ -230,8 +223,7 @@ trait LazyProperties
 	 */
 	final public function arePropertiesReadonly(): bool
 	{
-		$this->guardPropertiesManagerCall();
-		return $this->properties_manager->isReadonly();
+		return $this->getPropertiesManager()->isReadonly();
 	}
 	
 	
@@ -250,12 +242,11 @@ trait LazyProperties
 	 */
 	final protected function createProperty(): Property
 	{
-		$this->guardPropertiesManagerCall();
 		UCall::guard(isset($this->properties_builder_current_name), [
 			'hint_message' => "This method may only be called after the properties manager initialization and " . 
 				"from within a builder function."
 		]);
-		return $this->properties_manager->createProperty($this->properties_builder_current_name);
+		return $this->getPropertiesManager()->createProperty($this->properties_builder_current_name);
 	}
 	
 	/**
@@ -271,8 +262,7 @@ trait LazyProperties
 	 */
 	final protected function addRequiredPropertyName(string $name): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->addRequiredPropertyName($name);
+		$this->getPropertiesManager()->addRequiredPropertyName($name);
 		return $this;
 	}
 	
@@ -289,8 +279,7 @@ trait LazyProperties
 	 */
 	final protected function addRequiredPropertyNames(array $names): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->addRequiredPropertyNames($names);
+		$this->getPropertiesManager()->addRequiredPropertyNames($names);
 		return $this;
 	}
 	
@@ -305,8 +294,7 @@ trait LazyProperties
 	 */
 	final protected function setPropertiesAsReadonly(): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->setAsReadonly();
+		$this->getPropertiesManager()->setAsReadonly();
 		return $this;
 	}
 	
@@ -326,8 +314,7 @@ trait LazyProperties
 	 */
 	final protected function setPropertiesFallbackObject(IPropertiesable $object): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->setFallbackObject($object);
+		$this->getPropertiesManager()->setFallbackObject($object);
 		return $this;
 	}
 	
@@ -342,8 +329,7 @@ trait LazyProperties
 	 */
 	final protected function unsetPropertiesFallbackObject(): object
 	{
-		$this->guardPropertiesManagerCall();
-		$this->properties_manager->unsetFallbackObject();
+		$this->getPropertiesManager()->unsetFallbackObject();
 		return $this;
 	}
 	
@@ -457,17 +443,21 @@ trait LazyProperties
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called until the properties manager 
-	 * has been initialized.
+	 * Get properties manager instance.
+	 * 
+	 * This method also guards the current function or method in the stack from being called until the properties 
+	 * manager has been initialized.
 	 * 
 	 * @since 1.0.0
-	 * @return void
+	 * @return \Feralygon\Kit\Traits\LazyProperties\Manager
+	 * <p>The properties manager instance.</p>
 	 */
-	final private function guardPropertiesManagerCall(): void
+	final private function getPropertiesManager(): Manager
 	{
 		UCall::guard(isset($this->properties_manager), [
 			'hint_message' => "This method may only be called after the properties manager initialization.",
 			'stack_offset' => 1
 		]);
+		return $this->properties_manager;
 	}
 }
