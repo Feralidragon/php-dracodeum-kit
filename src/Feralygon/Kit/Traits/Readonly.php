@@ -36,7 +36,7 @@ trait Readonly
 	 */
 	final public function isReadonly(bool $recursive = false): bool
 	{
-		return $this->getReadonlyManager()->isEnabled($recursive);
+		return $this->isReadonlyManagerLoaded() ? $this->getReadonlyManager()->isEnabled($recursive) : false;
 	}
 	
 	/**
@@ -65,7 +65,9 @@ trait Readonly
 	 */
 	final protected function guardNonReadonlyCall(): void
 	{
-		$this->getReadonlyManager()->guardCall(1);
+		if ($this->isReadonlyManagerLoaded()) {
+			$this->getReadonlyManager()->guardCall(1);
+		}
 	}
 	
 	/**
@@ -97,6 +99,18 @@ trait Readonly
 	
 	
 	//Final private methods
+	/**
+	 * Check if the read-only manager is loaded.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the read-only manager is loaded.</p>
+	 */
+	final private function isReadonlyManagerLoaded(): bool
+	{
+		return isset($this->readonly_manager);
+	}
+	
 	/**
 	 * Get read-only manager instance.
 	 * 
