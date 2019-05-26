@@ -893,12 +893,7 @@ final class Call extends Utility
 		&$value, $template = null, bool $nullable = false, bool $assertive = false
 	): bool
 	{
-		try {
-			$value = self::coerce($value, $template, $nullable, $assertive);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $template, $nullable, $assertive, true);
 	}
 	
 	/**
@@ -923,32 +918,8 @@ final class Call extends Utility
 		$value, $template = null, bool $nullable = false, bool $assertive = false
 	): ?callable
 	{
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		} elseif (!is_callable($value)) {
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a callable value is allowed."
-			]);
-		} elseif (isset($template) && (!$assertive || System::isDebug()) && !self::compatible($value, $template)) {
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,
-				'error_message' => Text::fill(
-					"Only a callable value with a signature compatible with {{template_signature}} is allowed.",
-					['template_signature' => self::signature($template)]
-				)
-			]);
-		}
-		return \Closure::fromCallable($value);
+		self::processCoercion($value, $template, $nullable, $assertive);
+		return $value;
 	}
 	
 	/**
@@ -1344,6 +1315,66 @@ final class Call extends Utility
 	
 	
 	//Final private static methods
+	/**
+	 * Process the coercion of a given value into a callable.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param callable|array|string|null $template [default = null]
+	 * <p>The template callable declaration to validate the compatibility against.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $assertive [default = false]
+	 * <p>Coerce in an assertive manner, in other words, perform the heavier validations, 
+	 * such as the template compatibility one, only when in a debug environment.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Call\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a callable.</p>
+	 */
+	final private static function processCoercion(
+		&$value, $template = null, bool $nullable = false, bool $assertive = false, bool $no_throw = false
+	): bool
+	{
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		} elseif (!is_callable($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a callable value is allowed."
+			]);
+		} elseif (isset($template) && (!$assertive || System::isDebug()) && !self::compatible($value, $template)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_SIGNATURE,
+				'error_message' => Text::fill(
+					"Only a callable value with a signature compatible with {{template_signature}} is allowed.",
+					['template_signature' => self::signature($template)]
+				)
+			]);
+		}
+		$value = \Closure::fromCallable($value);
+		return true;
+	}
+	
 	/**
 	 * Get guard messages from a given options instance.
 	 * 
