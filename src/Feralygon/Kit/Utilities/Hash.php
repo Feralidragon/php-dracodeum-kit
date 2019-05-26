@@ -65,12 +65,7 @@ final class Hash extends Utility
 	 */
 	final public static function evaluate(&$value, ?int $bits = null, bool $nullable = false): bool
 	{
-		try {
-			$value = self::coerce($value, $bits, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $bits, $nullable, true);
 	}
 	
 	/**
@@ -97,6 +92,40 @@ final class Hash extends Utility
 	 */
 	final public static function coerce($value, ?int $bits = null, bool $nullable = false): ?string
 	{
+		self::processCoercion($value, $bits, $nullable);
+		return $value;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into a hash.
+	 * 
+	 * Only the following types and formats can be coerced into a hash:<br>
+	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
+	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a raw binary string.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to coerce with.<br>
+	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Hash\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a hash.</p>
+	 */
+	final private static function processCoercion(
+		&$value, ?int $bits = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
 		//guard
 		Call::guardParameter('bits', $bits, !isset($bits) || ($bits > 0 && $bits % 8 === 0), [
 			'hint_message' => "Only null or a multiple of 8 and a value greater than 0 is allowed."
@@ -105,7 +134,9 @@ final class Hash extends Utility
 		//check
 		if (!isset($value)) {
 			if ($nullable) {
-				return null;
+				return true;
+			} elseif ($no_throw) {
+				return false;
 			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
@@ -113,6 +144,9 @@ final class Hash extends Utility
 				'error_message' => "A null value is not allowed."
 			]);
 		} elseif (!is_string($value)) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
@@ -125,7 +159,8 @@ final class Hash extends Utility
 		
 		//hexadecimal
 		if (preg_match('/^([\da-f]{2})+$/i', $value) && (!isset($bits) || $length === $bits / 4)) {
-			return strtolower($value);
+			$value = strtolower($value);
+			return true;
 		}
 		
 		//colon-hexadecimal
@@ -135,7 +170,8 @@ final class Hash extends Utility
 				preg_match("/^[\da-f]{{$n}}(?::[\da-f]{{$n}})*$/i", $value) && 
 				(!isset($n_length) || $length === $n_length)
 			) {
-				return strtolower(str_replace(':', '', $value));
+				$value = strtolower(str_replace(':', '', $value));
+				return true;
 			}
 		}
 		
@@ -146,16 +182,21 @@ final class Hash extends Utility
 		) {
 			$hash = Base64::decode($value, null, true);
 			if (isset($hash)) {
-				return bin2hex($hash);
+				$value = bin2hex($hash);
+				return true;
 			}
 		}
 		
 		//binary
 		if (!isset($bits) || $length === $bits / 8) {
-			return bin2hex($value);
+			$value = bin2hex($value);
+			return true;
 		}
 		
-		//throw
+		//finish
+		if ($no_throw) {
+			return false;
+		}
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID,
