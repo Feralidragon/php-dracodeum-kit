@@ -1024,12 +1024,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	final public static function evaluateValue(&$value, $prototype, array $properties = []): bool
 	{
-		try {
-			$value = static::coerceValue($value, $prototype, $properties);
-		} catch (Exceptions\ValueCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processValueCoercion($value, $prototype, $properties, true);
 	}
 	
 	/**
@@ -1050,13 +1045,8 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 */
 	final public static function coerceValue($value, $prototype, array $properties = [])
 	{
-		$input = new static($prototype, $properties);
-		if (!$input->setValue($value, true)) {
-			throw new Exceptions\ValueCoercionFailed([
-				$input, $input->getPrototype(), $value, $input->getErrorMessage()
-			]);
-		}
-		return $input->getValue();
+		self::processValueCoercion($value, $prototype, $properties);
+		return $value;
 	}
 	
 	
@@ -1113,6 +1103,44 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		}
 		
 		//return
+		return true;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value with a given prototype.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
+	 * <p>The prototype instance, class or name to coerce with.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Components\Input\Exceptions\ValueCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced with the given prototype.</p>
+	 */
+	final private static function processValueCoercion(
+		&$value, $prototype, array $properties = [], bool $no_throw = false
+	): bool
+	{
+		$component = static::build($prototype, $properties);
+		if (!$component->setValue($value, true)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ValueCoercionFailed([
+				$component, $component->getPrototype(), $value, $component->getErrorMessage()
+			]);
+		}
+		$value = $component->getValue();
 		return true;
 	}
 }
