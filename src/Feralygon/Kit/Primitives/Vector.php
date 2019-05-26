@@ -834,12 +834,7 @@ IStringifiable
 		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = static::coerce($value, $template, $clone, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $template, $clone, $nullable, true);
 	}
 	
 	/**
@@ -869,50 +864,8 @@ IStringifiable
 		$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): ?Vector
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'vector' => static::class,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		try {
-			//object
-			if (!isset($template) && is_object($value) && $value instanceof Vector) {
-				return $clone ? $value->clone() : $value;
-			}
-			
-			//array
-			if (UData::evaluate($value, null, true)) {
-				return isset($template) ? $template->clone()->setAll($value) : static::build($value);
-			}
-			
-		} catch (\Exception $exception) {
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'vector' => static::class,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-				'error_message' => $exception->getMessage()
-			]);
-		}
-		
-		//throw
-		throw new Exceptions\CoercionFailed([
-			'value' => $value,
-			'vector' => static::class,
-			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
-				" - an instance;\n" . 
-				" - a non-associative array;\n" . 
-				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
-		]);
+		self::processCoercion($value, $template, $clone, $nullable);
+		return $value;
 	}
 	
 	
@@ -940,5 +893,95 @@ IStringifiable
 			$this->max_index = count($this->values) - 1;
 		}
 		return $this;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an instance.
+	 * 
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; an instance;<br>
+	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
+	 * <p>The template instance to clone from and coerce into.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
+	 */
+	final private static function processCoercion(
+		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'vector' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		try {
+			//object
+			if (!isset($template) && is_object($value) && $value instanceof Vector) {
+				if ($clone) {
+					$value = $value->clone();
+				}
+				return true;
+			}
+			
+			//array
+			$array = $value;
+			if (UData::evaluate($array, null, true)) {
+				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
+				return true;
+			}
+			
+		} catch (\Exception $exception) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'vector' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\CoercionFailed([
+			'value' => $value,
+			'vector' => static::class,
+			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
+				" - an instance;\n" . 
+				" - a non-associative array;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
+		]);
 	}
 }

@@ -572,12 +572,7 @@ IStringifiable
 		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = static::coerce($value, $template, $clone, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $template, $clone, $nullable, true);
 	}
 	
 	/**
@@ -607,57 +602,8 @@ IStringifiable
 		$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): ?Dictionary
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'dictionary' => static::class,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		try {
-			//object
-			if (is_object($value) && $value instanceof Dictionary) {
-				if (isset($template)) {
-					$instance = $template->clone()->clear();
-					foreach ($value->keys as $index => $key) {
-						$instance->set($key, $value->values[$index]);
-					}
-					return $instance;
-				}
-				return $clone ? $value->clone() : $value;
-			}
-			
-			//array
-			if (UData::evaluate($value)) {
-				return isset($template) ? $template->clone()->setAll($value) : static::build($value);
-			}
-			
-		} catch (\Exception $exception) {
-			throw new Exceptions\CoercionFailed([
-				'value' => $value,
-				'dictionary' => static::class,
-				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-				'error_message' => $exception->getMessage()
-			]);
-		}
-		
-		//throw
-		throw new Exceptions\CoercionFailed([
-			'value' => $value,
-			'dictionary' => static::class,
-			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
-				" - an instance;\n" . 
-				" - an associative array;\n" . 
-				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
-		]);
+		self::processCoercion($value, $template, $clone, $nullable);
+		return $value;
 	}
 	
 	
@@ -731,5 +677,101 @@ IStringifiable
 	{
 		$this->setIndex($this->getKeyIndex($key), $key, $value);
 		return $this;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an instance.
+	 * 
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an associative array;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
+	 * <p>The template instance to clone from and coerce into.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Primitives\Dictionary\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
+	 */
+	final private static function processCoercion(
+		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'dictionary' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		try {
+			//object
+			if (is_object($value) && $value instanceof Dictionary) {
+				if (isset($template)) {
+					$instance = $template->clone()->clear();
+					foreach ($value->keys as $index => $key) {
+						$instance->set($key, $value->values[$index]);
+					}
+					$value = $instance;
+				} elseif ($clone) {
+					$value = $value->clone();
+				}
+				return true;
+			}
+			
+			//array
+			$array = $value;
+			if (UData::evaluate($array)) {
+				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
+				return true;
+			}
+			
+		} catch (\Exception $exception) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'dictionary' => static::class,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
+				'error_message' => $exception->getMessage()
+			]);
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\CoercionFailed([
+			'value' => $value,
+			'dictionary' => static::class,
+			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
+			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
+				" - an instance;\n" . 
+				" - an associative array;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
+		]);
 	}
 }
