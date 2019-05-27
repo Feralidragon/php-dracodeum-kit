@@ -1111,8 +1111,9 @@ class Evaluators
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string|null $prototype</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
+	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 

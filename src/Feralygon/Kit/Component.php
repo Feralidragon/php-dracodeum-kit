@@ -16,7 +16,6 @@ use Feralygon\Kit\Component\{
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
-	Text as UText,
 	Type as UType
 };
 use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
@@ -305,7 +304,7 @@ abstract class Component implements IPropertiesable
 		$builder = static::getDefaultBuilder();
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
-			return $builder($prototype, $properties);
+			return UType::coerceObject($builder($prototype, $properties), static::class);
 		}
 		return new static($prototype, $properties);
 	}
@@ -331,8 +330,9 @@ abstract class Component implements IPropertiesable
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string|null $prototype</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
+	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
@@ -395,8 +395,9 @@ abstract class Component implements IPropertiesable
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string $prototype</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string|null $prototype</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
+	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
@@ -433,17 +434,17 @@ abstract class Component implements IPropertiesable
 	): ?Component
 	{
 		//check
-		if (!isset($value)) {
-			return $nullable ? null : new static(null, $properties);
+		if (!isset($value) && $nullable) {
+			return null;
 		} elseif (is_object($value) && UType::isA($value, static::class)) {
 			return $value;
-		} elseif (!is_string($value) && (!is_object($value) || !($value instanceof Prototype))) {
+		} elseif (isset($value) && !is_string($value) && (!is_object($value) || !($value instanceof Prototype))) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,
 				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a component instance or name, or a prototype instance, class or name, " . 
-					"is allowed."
+				'error_message' => "Only a component instance or name, " . 
+					"or a prototype instance, class or name, is allowed."
 			]);
 		}
 		
@@ -478,24 +479,10 @@ abstract class Component implements IPropertiesable
 					]);
 				}
 				return $instance;
-			} elseif (!class_exists($value)) {
-				throw new Exceptions\CoercionFailed([
-					'value' => $value,
-					'component' => static::class,
-					'error_code' => Exceptions\CoercionFailed::ERROR_CODE_BUILD_EXCEPTION,
-					'error_message' => UText::fill(
-						"Component name {{name}} not found.", ['name' => $value], null, [
-							'string_options' => ['quote_strings' => true]
-						]
-					)
-				]);
 			}
 		}
 		
 		//builder
-		if (!isset($builder)) {
-			$builder = static::getDefaultBuilder();
-		}
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
 			try {
@@ -510,9 +497,9 @@ abstract class Component implements IPropertiesable
 			}
 		}
 		
-		//finish
+		//build
 		try {
-			return new static($value, $properties);
+			return static::build($value, $properties);
 		} catch (\Exception $exception) {
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
