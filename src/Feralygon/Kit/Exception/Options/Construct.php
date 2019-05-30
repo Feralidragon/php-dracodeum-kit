@@ -26,7 +26,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
- * @property \Closure|null $stringifier [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

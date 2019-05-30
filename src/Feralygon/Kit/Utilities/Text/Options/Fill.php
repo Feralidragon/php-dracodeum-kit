@@ -14,7 +14,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Text utility <code>fill</code> method options.
  * 
  * @since 1.0.0
- * @property \Closure|null $evaluator [default = null]
+ * @property callable|null $evaluator [default = null]
  * <p>The function to use to evaluate a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
@@ -30,7 +30,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Boolean <code>true</code> if the given value was successfully evaluated for the given placeholder.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property \Closure|null $stringifier [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

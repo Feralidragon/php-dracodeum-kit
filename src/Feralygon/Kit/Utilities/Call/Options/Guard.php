@@ -71,7 +71,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use for 
  * the hint message.</p>
- * @property \Closure|null $stringifier [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
