@@ -247,12 +247,7 @@ final class Time extends Utility
 		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = self::coerceDateTime($value, $format, $timezone, $nullable);
-		} catch (Exceptions\DateTimeCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processDateTimeCoercion($value, $format, $timezone, $nullable, true);
 	}
 	
 	/**
@@ -293,35 +288,8 @@ final class Time extends Utility
 	final public static function coerceDateTime(
 		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
 	) {
-		//validate
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\DateTimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//timestamp
-		$timestamp = self::timestamp($value, true);
-		if (!isset($timestamp)) {
-			throw new Exceptions\DateTimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only the following types and formats can be coerced into a date and time:\n" . 
-					" - an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, " . 
-					"such as: 1483268400 for \"2017-01-01 12:00:00\";\n" . 
-					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\";\n" . 
-					" - an object implementing the \"DateTimeInterface\" interface."
-			]);
-		}
-		
-		//return
-		return isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
+		self::processDateTimeCoercion($value, $format, $timezone, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -383,12 +351,7 @@ final class Time extends Utility
 	 */
 	final public static function evaluateDate(&$value, ?string $format = null, bool $nullable = false): bool
 	{
-		try {
-			$value = self::coerceDate($value, $format, $nullable);
-		} catch (Exceptions\DateCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processDateCoercion($value, $format, $nullable, true);
 	}
 	
 	/**
@@ -424,36 +387,8 @@ final class Time extends Utility
 	 */
 	final public static function coerceDate($value, ?string $format = null, bool $nullable = false)
 	{
-		//validate
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\DateCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//timestamp
-		$timestamp = self::timestamp($value, true);
-		if (!isset($timestamp)) {
-			throw new Exceptions\DateCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only the following types and formats can be coerced into a date:\n" . 
-					" - an integer or float as the number of seconds since 1970-01-01, " . 
-					"such as: 1483228800 for \"2017-01-01\";\n" . 
-					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2017-Jan-01\" for \"2017-01-01\";\n" . 
-					" - an object implementing the \"DateTimeInterface\" interface."
-			]);
-		}
-		$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		
-		//return
-		return isset($format) ? self::format($timestamp, $format, 'UTC') : $timestamp;
+		self::processDateCoercion($value, $format, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -521,12 +456,7 @@ final class Time extends Utility
 		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = self::coerceTime($value, $format, $timezone, $nullable);
-		} catch (Exceptions\TimeCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processTimeCoercion($value, $format, $timezone, $nullable, true);
 	}
 	
 	/**
@@ -567,35 +497,8 @@ final class Time extends Utility
 	final public static function coerceTime(
 		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
 	) {
-		//validate
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\TimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//timestamp
-		$timestamp = self::timestamp($value, true);
-		if (!isset($timestamp)) {
-			throw new Exceptions\TimeCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only the following types and formats can be coerced into a time:\n" . 
-					" - an integer or float as the number of seconds, such as: 50700 for \"14:05:00\";\n" . 
-					" - a string as supported by the PHP \"strtotime\" function, " . 
-					"such as: \"2:05PM\" for \"14:05:00\";\n" . 
-					" - an object implementing the \"DateTimeInterface\" interface."
-			]);
-		}
-		$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
-		
-		//return
-		return isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
+		self::processTimeCoercion($value, $format, $timezone, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -1066,12 +969,7 @@ final class Time extends Utility
 	 */
 	final public static function evaluateMultiple(&$value, bool $nullable = false): bool
 	{
-		try {
-			$value = self::coerceMultiple($value, $nullable);
-		} catch (Exceptions\MultipleCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processMultipleCoercion($value, $nullable, true);
 	}
 	
 	/**
@@ -1094,49 +992,8 @@ final class Time extends Utility
 	 */
 	final public static function coerceMultiple($value, bool $nullable = false)
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\MultipleCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//multiples
-		if (empty(self::$multiples)) {
-			foreach (self::MULTIPLES_TABLE as $row) {
-				foreach (['time', 'symbol', 'singular', 'plural'] as $column) {
-					self::$multiples[(string)$row[$column]] = $row['time'];
-				}
-			}
-		}
-		
-		//validate
-		if (!is_int($value) && !is_float($value) && !is_string($value)) {
-			throw new Exceptions\MultipleCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only a multiple given as an integer, float or string is allowed."
-			]);
-		}
-		
-		//coerce
-		$value = (string)$value;
-		if (!isset(self::$multiples[$value])) {
-			throw new Exceptions\MultipleCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only the following types and formats can be coerced into a multiple:\n" . 
-					" - a number in seconds, such as: 3600 for hours;\n" . 
-					" - a symbol string, such as: \"h\" for hours;\n" . 
-					" - a name string in English, such as: \"hour\" or \"hours\" for hours."
-			]);
-		}
-		return self::$multiples[$value];
+		self::processMultipleCoercion($value, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -1220,5 +1077,313 @@ final class Time extends Utility
 		
 		//return
 		return $values;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into a date and time.
+	 * 
+	 * Only the following types and formats can be coerced into a date and time:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, 
+	 * such as: <code>1483268400</code> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a date and time.</p>
+	 */
+	final private static function processDateTimeCoercion(
+		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\DateTimeCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (isset($timestamp)) {
+			$value = isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\DateTimeCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\DateTimeCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a date and time:\n" . 
+				" - an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC, " . 
+				"such as: 1483268400 for \"2017-01-01 12:00:00\";\n" . 
+				" - a string as supported by the PHP \"strtotime\" function, " . 
+				"such as: \"2017-Jan-01 12:00:00\" for \"2017-01-01 12:00:00\";\n" . 
+				" - an object implementing the \"DateTimeInterface\" interface."
+		]);
+	}
+	
+	/**
+	 * Process the coercion of a given value into a date.
+	 * 
+	 * Only the following types and formats can be coerced into a date:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01, 
+	 * such as: <code>1483228800</code> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Calendar_date
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\DateCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a date.</p>
+	 */
+	final private static function processDateCoercion(
+		&$value, ?string $format = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\DateCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (isset($timestamp)) {
+			$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+			$value = isset($format) ? self::format($timestamp, $format, 'UTC') : $timestamp;
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\DateCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\DateCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a date:\n" . 
+				" - an integer or float as the number of seconds since 1970-01-01, " . 
+				"such as: 1483228800 for \"2017-01-01\";\n" . 
+				" - a string as supported by the PHP \"strtotime\" function, " . 
+				"such as: \"2017-Jan-01\" for \"2017-01-01\";\n" . 
+				" - an object implementing the \"DateTimeInterface\" interface."
+		]);
+	}
+	
+	/**
+	 * Process the coercion of a given value into a time.
+	 * 
+	 * Only the following types and formats can be coerced into a time:<br>
+	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds, 
+	 * such as: <code>50700</code> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function, 
+	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see https://en.wikipedia.org/wiki/Unix_time
+	 * @see https://en.wikipedia.org/wiki/Timestamp
+	 * @see https://php.net/manual/en/function.strtotime.php
+	 * @see https://php.net/manual/en/function.date.php
+	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
+	 * @see https://php.net/manual/en/class.datetime.php
+	 * @see https://php.net/manual/en/class.datetimeimmutable.php
+	 * @see https://php.net/manual/en/class.datetimeinterface.php
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param string|null $format [default = null]
+	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
+	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
+	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * @param string|null $timezone [default = null]
+	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
+	 * If not set, then the currently set default timezone is used.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a time.</p>
+	 */
+	final private static function processTimeCoercion(
+		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\TimeCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//timestamp
+		$timestamp = self::timestamp($value, true);
+		if (isset($timestamp)) {
+			$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+			$value = isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\TimeCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\TimeCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a time:\n" . 
+				" - an integer or float as the number of seconds, such as: 50700 for \"14:05:00\";\n" . 
+				" - a string as supported by the PHP \"strtotime\" function, " . 
+				"such as: \"2:05PM\" for \"14:05:00\";\n" . 
+				" - an object implementing the \"DateTimeInterface\" interface."
+		]);
+	}
+	
+	/**
+	 * Process the coercion of a given value into a multiple.
+	 * 
+	 * Only the following types and formats can be coerced into a multiple:<br>
+	 * &nbsp; &#8226; &nbsp; a number in seconds, such as: <code>3600</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
+	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Time\Exceptions\MultipleCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a multiple.</p>
+	 */
+	final private static function processMultipleCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\MultipleCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//multiples
+		if (empty(self::$multiples)) {
+			foreach (self::MULTIPLES_TABLE as $row) {
+				foreach (['time', 'symbol', 'singular', 'plural'] as $column) {
+					self::$multiples[(string)$row[$column]] = $row['time'];
+				}
+			}
+		}
+		
+		//validate
+		if (!is_int($value) && !is_float($value) && !is_string($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\MultipleCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only a multiple given as an integer, float or string is allowed."
+			]);
+		}
+		
+		//coerce
+		$multiple = (string)$value;
+		if (isset(self::$multiples[$multiple])) {
+			$value = self::$multiples[$multiple];
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\MultipleCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\MultipleCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a multiple:\n" . 
+				" - a number in seconds, such as: 3600 for hours;\n" . 
+				" - a symbol string, such as: \"h\" for hours;\n" . 
+				" - a name string in English, such as: \"hour\" or \"hours\" for hours."
+		]);
 	}
 }
