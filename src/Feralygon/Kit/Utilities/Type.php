@@ -554,12 +554,7 @@ final class Type extends Utility
 	 */
 	final public static function evaluateClass(&$value, $object_class_interface = null, bool $nullable = false): bool
 	{
-		try {
-			$value = self::coerceClass($value, $object_class_interface, $nullable);
-		} catch (Exceptions\ClassCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processClassCoercion($value, $object_class_interface, $nullable, true);
 	}
 	
 	/**
@@ -582,59 +577,8 @@ final class Type extends Utility
 	 */
 	final public static function coerceClass($value, $object_class_interface = null, bool $nullable = false): ?string
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\ClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//class
-		$class = self::class($value, true);
-		if (!isset($class)) {
-			throw new Exceptions\ClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into a class."
-			]);
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (!isset($interface)) {
-				if (!self::isA($class, $object_class_interface)) {
-					throw new Exceptions\ClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-						'error_message' => Text::fill(
-							"Only a class which is or extends from {{base_class}} is allowed.", [
-								'base_class' => Text::stringify(
-									self::class($object_class_interface), null, ['quote_strings' => true]
-								)
-							]
-						)
-					]);
-				}
-			} elseif (!self::implements($class, $interface)) {
-				throw new Exceptions\ClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only a class which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			}
-		}
-		
-		//return
-		return $class;
+		self::processClassCoercion($value, $object_class_interface, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -666,12 +610,7 @@ final class Type extends Utility
 		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
 	): bool
 	{
-		try {
-			$value = self::coerceObject($value, $object_class_interface, $arguments, $nullable);
-		} catch (Exceptions\ObjectCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processObjectCoercion($value, $object_class_interface, $arguments, $nullable, true);
 	}
 	
 	/**
@@ -705,132 +644,8 @@ final class Type extends Utility
 		$value, $object_class_interface = null, array $arguments = [], bool $nullable = false
 	): ?object
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\ObjectCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
-				try {
-					return $class::fromArray($value);
-				} catch (\Exception $exception) {
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//string
-		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
-				try {
-					return $class::fromString($value);
-				} catch (\Exception $exception) {
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//object
-		$object = $value;
-		if (!is_object($object)) {
-			//class
-			$class = self::class($object, true);
-			if (!isset($class)) {
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
-						" - a class string or object;\n" . 
-						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
-				]);
-			}
-			
-			//instantiate
-			try {
-				$object = self::construct($class, ...$arguments);
-			} catch (\Exception $exception) {
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-					'error_message' => Text::fill(
-						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
-							"with the following message: {{message}}", [
-							'class' => Text::stringify($class, null, ['quote_strings' => true]),
-							'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-							'message' => Text::uncapitalize($exception->getMessage(), true)
-						]
-					)
-				]);
-			}
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (!isset($interface)) {
-				if (!self::isA($object, $object_class_interface)) {
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
-						'error_message' => Text::fill(
-							"Only an object which is or extends from {{base_class}} is allowed.", [
-								'base_class' => Text::stringify(
-									self::class($object_class_interface), null, ['quote_strings' => true]
-								)
-							]
-						)
-					]);
-				}
-			} elseif (!self::implements($object, $interface)) {
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			}
-		}
-		
-		//return
-		return $object;
+		self::processObjectCoercion($value, $object_class_interface, $arguments, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -860,12 +675,7 @@ final class Type extends Utility
 		&$value, $object_class_interface = null, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = self::coerceObjectClass($value, $object_class_interface, $nullable);
-		} catch (Exceptions\ObjectClassCoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processObjectClassCoercion($value, $object_class_interface, $nullable, true);
 	}
 	
 	/**
@@ -895,114 +705,8 @@ final class Type extends Utility
 	 */
 	final public static function coerceObjectClass($value, $object_class_interface = null, bool $nullable = false)
 	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return null;
-			}
-			throw new Exceptions\ObjectClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
-				try {
-					return $class::fromArray($value);
-				} catch (\Exception $exception) {
-					throw new Exceptions\ObjectClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//string
-		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
-				try {
-					return $class::fromString($value);
-				} catch (\Exception $exception) {
-					throw new Exceptions\ObjectClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//object or class
-		$object_class = $value;
-		if (!is_object($object_class)) {
-			$object_class = self::class($object_class, true);
-			if (!isset($object_class)) {
-				throw new Exceptions\ObjectClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only the following types and formats can be coerced " . 
-						"into an object or class:\n" . 
-						" - a class string or object;\n" . 
-						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
-				]);
-			}
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (!isset($interface)) {
-				if (!self::isA($object_class, $object_class_interface)) {
-					throw new Exceptions\ObjectClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-						'error_message' => Text::fill(
-							"Only an object or class which is or extends from {{base_class}} is allowed.", [
-								'base_class' => Text::stringify(
-									self::class($object_class_interface), null, ['quote_strings' => true]
-								)
-							]
-						)
-					]);
-				}
-			} elseif (!self::implements($object_class, $interface)) {
-				throw new Exceptions\ObjectClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object or class which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			}
-		}
-		
-		//return
-		return $object_class;
+		self::processObjectClassCoercion($value, $object_class_interface, $nullable);
+		return $value;
 	}
 	
 	/**
@@ -1835,5 +1539,432 @@ final class Type extends Utility
 				" - an object implementing the \"__toString\" method;\n" . 
 				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface."
 		]);
+	}
+	
+	/**
+	 * Process the coercion of a given value into a class.
+	 * 
+	 * Only a class string or object can be coerced into a class.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a class.</p>
+	 */
+	final private static function processClassCoercion(
+		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//class
+		$class = self::class($value, true);
+		if (!isset($class)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into a class."
+			]);
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($class, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only a class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($class, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only a class which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $class;
+		return true;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an object.
+	 * 
+	 * Only the following types and formats can be coerced into an object:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param array $arguments [default = []]
+	 * <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object.</p>
+	 */
+	final private static function processObjectCoercion(
+		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ObjectCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					$value = $class::fromString($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//object
+		$object = $value;
+		if (!is_object($object)) {
+			//class
+			$class = self::class($object, true);
+			if (!isset($class)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
+				]);
+			}
+			
+			//instantiate
+			try {
+				$object = self::construct($class, ...$arguments);
+			} catch (\Exception $exception) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+					'error_message' => Text::fill(
+						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
+							"with the following message: {{message}}", [
+							'class' => Text::stringify($class, null, ['quote_strings' => true]),
+							'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+							'message' => Text::uncapitalize($exception->getMessage(), true)
+						]
+					)
+				]);
+			}
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($object, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($object, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $object;
+		return true;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an object or class.
+	 * 
+	 * Only the following types and formats can be coerced into an object or class:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object or class.</p>
+	 */
+	final private static function processObjectClassCoercion(
+		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ObjectClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					$value = $class::fromString($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//object or class
+		$object_class = $value;
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class, true);
+			if (!isset($object_class)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only the following types and formats can be coerced " . 
+						"into an object or class:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
+				]);
+			}
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($object_class, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object or class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($object_class, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object or class which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $object_class;
+		return true;
 	}
 }
