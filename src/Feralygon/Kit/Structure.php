@@ -227,12 +227,7 @@ IStringifiable, IStringInstantiable
 		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = static::coerce($value, $clone, $builder, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $clone, $builder, $nullable, true);
 	}
 	
 	/**
@@ -274,6 +269,53 @@ IStringifiable, IStringInstantiable
 		$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): ?Structure
 	{
+		self::processCoercion($value, $clone, $builder, $nullable);
+		return $value;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an instance.
+	 * 
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
+	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
+	 */
+	final private static function processCoercion(
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
 		//builder
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function (array $properties): Structure {});
@@ -283,21 +325,30 @@ IStringifiable, IStringInstantiable
 		
 		//coerce
 		try {
-			if ($nullable && !isset($value)) {
-				return null;
+			if (!isset($value) && $nullable) {
+				return true;
 			} elseif (!isset($value) || is_string($value) || is_array($value)) {
 				$properties = is_string($value) ? static::getStringProperties($value) : $value ?? [];
-				return UType::coerceObject($builder($properties), static::class);
+				$value = UType::coerceObject($builder($properties), static::class);
+				return true;
 			} elseif (is_object($value)) {
-				if ($value instanceof Structure) {
-					return UType::isA($value, static::class)
-						? ($clone ? $value->clone() : $value)
-						: UType::coerceObject($builder($value->getAll()), static::class);
-				} elseif (UData::evaluate($value)) {
-					return UType::coerceObject($builder($value), static::class);
+				$instance = $value;
+				if ($instance instanceof Structure) {
+					if (!UType::isA($instance, static::class)) {
+						$value = UType::coerceObject($builder($instance->getAll()), static::class);
+					} elseif ($clone) {
+						$value = $value->clone();
+					}
+					return true;
+				} elseif (UData::evaluate($instance)) {
+					$value = UType::coerceObject($builder($instance), static::class);
+					return true;
 				}
 			}
 		} catch (\Exception $exception) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'structure' => static::class,
@@ -306,7 +357,10 @@ IStringifiable, IStringInstantiable
 			]);
 		}
 		
-		//throw
+		//finish
+		if ($no_throw) {
+			return false;
+		}
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'structure' => static::class,
