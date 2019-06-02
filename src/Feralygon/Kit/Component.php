@@ -366,12 +366,7 @@ abstract class Component implements IPropertiesable
 		bool $nullable = false
 	): bool
 	{
-		try {
-			$value = static::coerce($value, $properties, $builder, $named_builder, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $properties, $builder, $named_builder, $nullable, true);
 	}
 	
 	/**
@@ -433,12 +428,95 @@ abstract class Component implements IPropertiesable
 		bool $nullable = false
 	): ?Component
 	{
+		self::processCoercion($value, $properties, $builder, $named_builder, $nullable);
+		return $value;
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Get prototype instance.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Prototype
+	 * <p>The prototype instance.</p>
+	 */
+	final protected function getPrototype(): Prototype
+	{
+		return $this->prototype;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an instance.
+	 * 
+	 * Only a component instance or name, or a prototype instance, class or name, can be coerced into an instance.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.<br>
+	 * <br>
+	 * If a component instance is given, then the given properties are ignored.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>Feralygon\Kit\Prototype|string|null $prototype</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
+	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
+	 * The built instance.</p>
+	 * @param callable|null $named_builder [default = null]
+	 * <p>The function to use to build an instance for a given name.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
+	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Component\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
+	 */
+	final private static function processCoercion(
+		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
+		bool $nullable = false, bool $no_throw = false
+	): bool
+	{
 		//check
-		if (!isset($value) && $nullable) {
-			return null;
-		} elseif (is_object($value) && UType::isA($value, static::class)) {
-			return $value;
+		if ((!isset($value) && $nullable) || (is_object($value) && UType::isA($value, static::class))) {
+			return true;
 		} elseif (isset($value) && !is_string($value) && (!is_object($value) || !($value instanceof Prototype))) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,
@@ -458,6 +536,9 @@ abstract class Component implements IPropertiesable
 			try {
 				$instance = $named_builder($value, $properties);
 			} catch (\Exception $exception) {
+				if ($no_throw) {
+					return false;
+				}
 				throw new Exceptions\CoercionFailed([
 					'value' => $value,
 					'component' => static::class,
@@ -469,8 +550,12 @@ abstract class Component implements IPropertiesable
 			//check
 			if (isset($instance)) {
 				try {
-					$instance = UType::coerceObject($instance, static::class);
+					$value = UType::coerceObject($instance, static::class);
+					return true;
 				} catch (UTypeExceptions\ObjectCoercionFailed $exception) {
+					if ($no_throw) {
+						return false;
+					}
 					throw new Exceptions\CoercionFailed([
 						'value' => $value,
 						'component' => static::class,
@@ -478,7 +563,6 @@ abstract class Component implements IPropertiesable
 						'error_message' => $exception->getMessage()
 					]);
 				}
-				return $instance;
 			}
 		}
 		
@@ -486,8 +570,12 @@ abstract class Component implements IPropertiesable
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function ($prototype, array $properties): Component {});
 			try {
-				return UType::coerceObject($builder($value, $properties), static::class);
+				$value = UType::coerceObject($builder($value, $properties), static::class);
+				return true;
 			} catch (\Exception $exception) {
+				if ($no_throw) {
+					return false;
+				}
 				throw new Exceptions\CoercionFailed([
 					'value' => $value,
 					'component' => static::class,
@@ -499,8 +587,12 @@ abstract class Component implements IPropertiesable
 		
 		//build
 		try {
-			return static::build($value, $properties);
+			$value = static::build($value, $properties);
+			return true;
 		} catch (\Exception $exception) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'component' => static::class,
@@ -509,22 +601,10 @@ abstract class Component implements IPropertiesable
 			]);
 		}
 		
-		//throw
+		//finish
+		if ($no_throw) {
+			return false;
+		}
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
-	}
-	
-	
-	
-	//Final protected methods
-	/**
-	 * Get prototype instance.
-	 * 
-	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Prototype
-	 * <p>The prototype instance.</p>
-	 */
-	final protected function getPrototype(): Prototype
-	{
-		return $this->prototype;
 	}
 }
