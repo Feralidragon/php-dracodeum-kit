@@ -204,12 +204,7 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
-		try {
-			$value = static::coerce($value, $clone, $builder, $nullable);
-		} catch (Exceptions\CoercionFailed $exception) {
-			return false;
-		}
-		return true;
+		return self::processCoercion($value, $clone, $builder, $nullable, true);
 	}
 	
 	/**
@@ -249,6 +244,51 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 		$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): ?Options
 	{
+		self::processCoercion($value, $clone, $builder, $nullable);
+		return $value;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Process the coercion of a given value into an instance.
+	 * 
+	 * Only the following types and formats can be coerced into an instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\Arrayable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $properties): Feralygon\Kit\Options</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
+	 * The built instance.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Options\Exceptions\CoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
+	 */
+	final private static function processCoercion(
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
 		//builder
 		if (isset($builder)) {
 			UCall::assert('builder', $builder, function (array $properties): Options {});
@@ -258,21 +298,30 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 		
 		//coerce
 		try {
-			if ($nullable && !isset($value)) {
-				return null;
+			if (!isset($value) && $nullable) {
+				return true;
 			} elseif (!isset($value) || is_string($value) || is_array($value)) {
 				$properties = is_string($value) ? static::getStringProperties($value) : $value ?? [];
-				return UType::coerceObject($builder($properties), static::class);
+				$value = UType::coerceObject($builder($properties), static::class);
+				return true;
 			} elseif (is_object($value)) {
-				if ($value instanceof Options) {
-					return UType::isA($value, static::class)
-						? ($clone ? $value->clone() : $value)
-						: UType::coerceObject($builder($value->getAll()), static::class);
-				} elseif (UData::evaluate($value)) {
-					return UType::coerceObject($builder($value), static::class);
+				$instance = $value;
+				if ($instance instanceof Options) {
+					if (!UType::isA($instance, static::class)) {
+						$value = UType::coerceObject($builder($instance->getAll()), static::class);
+					} elseif ($clone) {
+						$value = $instance->clone();
+					}
+					return true;
+				} elseif (UData::evaluate($instance)) {
+					$value = UType::coerceObject($builder($instance), static::class);
+					return true;
 				}
 			}
 		} catch (\Exception $exception) {
+			if ($no_throw) {
+				return false;
+			}
 			throw new Exceptions\CoercionFailed([
 				'value' => $value,
 				'options' => static::class,
@@ -281,7 +330,10 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 			]);
 		}
 		
-		//throw
+		//finish
+		if ($no_throw) {
+			return false;
+		}
 		throw new Exceptions\CoercionFailed([
 			'value' => $value,
 			'options' => static::class,
