@@ -233,6 +233,68 @@ abstract class Enumeration
 	}
 	
 	/**
+	 * Process the coercion of a given value into an element value.
+	 * 
+	 * Only an element given as an integer, float or string can be coerced into an element value.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an element value.</p>
+	 */
+	final public static function processValueCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ValueCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		if (!is_int($value) && !is_float($value) && !is_string($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ValueCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only an enumeration element given as an integer, float or string " . 
+					"can be coerced into an enumeration element value."
+			]);
+		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
+			$value = static::getValue($value);
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\ValueCoercionFailed([
+			'enumeration' => static::class,
+			'value' => $value,
+			'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NOT_FOUND,
+			'error_message' => "No enumeration element found."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as an element name.
 	 * 
 	 * Only an element given as an integer, float or string can be evaluated into an element name.
@@ -269,6 +331,70 @@ abstract class Enumeration
 	{
 		self::processNameCoercion($value, $nullable);
 		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an element name.
+	 * 
+	 * Only an element given as an integer, float or string can be coerced into an element name.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an element name.</p>
+	 */
+	final public static function processNameCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\NameCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		if (!is_int($value) && !is_float($value) && !is_string($value)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\NameCoercionFailed([
+				'enumeration' => static::class,
+				'value' => $value,
+				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_INVALID_TYPE,
+				'error_message' => "Only an enumeration element given as an integer, float or string " . 
+					"can be coerced into an enumeration element name."
+			]);
+		} elseif (is_string($value) && static::hasName($value)) {
+			return true;
+		} elseif (static::hasValue($value)) {
+			$value = static::getName($value);
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\NameCoercionFailed([
+			'enumeration' => static::class,
+			'value' => $value,
+			'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NOT_FOUND,
+			'error_message' => "No enumeration element found."
+		]);
 	}
 	
 	/**
@@ -467,134 +593,5 @@ abstract class Enumeration
 			self::$names_values[static::class] = (new \ReflectionClass(static::class))->getConstants();
 		}
 		return self::$names_values[static::class];
-	}
-	
-	
-	
-	//Final private static methods
-	/**
-	 * Process the coercion of a given value into an element value.
-	 * 
-	 * Only an element given as an integer, float or string can be coerced into an element value.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Enumeration\Exceptions\ValueCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an element value.</p>
-	 */
-	final private static function processValueCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ValueCoercionFailed([
-				'enumeration' => static::class,
-				'value' => $value,
-				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		if (!is_int($value) && !is_float($value) && !is_string($value)) {
-			if ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ValueCoercionFailed([
-				'enumeration' => static::class,
-				'value' => $value,
-				'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumeration element given as an integer, float or string " . 
-					"can be coerced into an enumeration element value."
-			]);
-		} elseif ((is_string($value) && static::hasName($value)) || static::hasValue($value)) {
-			$value = static::getValue($value);
-			return true;
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\ValueCoercionFailed([
-			'enumeration' => static::class,
-			'value' => $value,
-			'error_code' => Exceptions\ValueCoercionFailed::ERROR_CODE_NOT_FOUND,
-			'error_message' => "No enumeration element found."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into an element name.
-	 * 
-	 * Only an element given as an integer, float or string can be coerced into an element name.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Enumeration\Exceptions\NameCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an element name.</p>
-	 */
-	final private static function processNameCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\NameCoercionFailed([
-				'enumeration' => static::class,
-				'value' => $value,
-				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		if (!is_int($value) && !is_float($value) && !is_string($value)) {
-			if ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\NameCoercionFailed([
-				'enumeration' => static::class,
-				'value' => $value,
-				'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_INVALID_TYPE,
-				'error_message' => "Only an enumeration element given as an integer, float or string " . 
-					"can be coerced into an enumeration element name."
-			]);
-		} elseif (is_string($value) && static::hasName($value)) {
-			return true;
-		} elseif (static::hasValue($value)) {
-			$value = static::getName($value);
-			return true;
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\NameCoercionFailed([
-			'enumeration' => static::class,
-			'value' => $value,
-			'error_code' => Exceptions\NameCoercionFailed::ERROR_CODE_NOT_FOUND,
-			'error_message' => "No enumeration element found."
-		]);
 	}
 }

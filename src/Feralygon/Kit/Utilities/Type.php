@@ -275,6 +275,85 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Process the coercion of a given value into a boolean.
+	 * 
+	 * Only the following types and formats can be coerced into a boolean:<br>
+	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
+	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
+	 * and <code>1</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
+	 * and <code>1.0</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
+	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
+	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
+	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\BooleanCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a boolean.</p>
+	 */
+	final public static function processBooleanCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\BooleanCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		if (is_bool($value)) {
+			return true;
+		} elseif (is_int($value) && ($value === 0 || $value === 1)) {
+			$value = $value === 1;
+			return true;
+		} elseif (is_float($value) && ($value === 0.0 || $value === 1.0)) {
+			$value = $value === 1.0;
+			return true;
+		} elseif (is_string($value)) {
+			$boolean = strtolower($value);
+			if (in_array($boolean, self::BOOLEAN_FALSE_STRINGS, true)) {
+				$value = false;
+				return true;
+			} elseif (in_array($boolean, self::BOOLEAN_TRUE_STRINGS, true)) {
+				$value = true;
+				return true;
+			}
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		$false_list_string = Text::commify(self::BOOLEAN_FALSE_STRINGS, null, 'or', true);
+		$true_list_string = Text::commify(self::BOOLEAN_TRUE_STRINGS, null, 'or', true);
+		throw new Exceptions\BooleanCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a boolean:\n" . 
+				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
+				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
+				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
+				" - a string, as: {$false_list_string} for boolean false, and {$true_list_string} for boolean true."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as a number.
 	 * 
 	 * Only the following types and formats can be evaluated into a number:<br>
@@ -335,6 +414,100 @@ final class Type extends Utility
 	{
 		self::processNumberCoercion($value, $nullable);
 		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into a number.
+	 * 
+	 * Only the following types and formats can be coerced into a number:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NumberCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a number.</p>
+	 */
+	final public static function processNumberCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\NumberCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		if (is_int($value)) {
+			return true;
+		} elseif (is_float($value)) {
+			if ($value === floor($value)) {
+				$value = (int)$value;
+			}
+			return true;
+		} elseif (is_string($value)) {
+			//numeric
+			$number = str_replace(',', '.', $value);
+			if (is_numeric($number) || preg_match('/^0x[\da-f]{1,16}$/i', $number)) {
+				if (strpos($number, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $number)) {
+					$number = (float)$number;
+					if ($number === floor($number)) {
+						$number = (int)$number;
+					}
+				} else {
+					$number = intval($number, 0);
+				}
+				$value = $number;
+				return true;
+			}
+			
+			//human-readable
+			$number = Math::mnumber($value, true);
+			if (isset($number)) {
+				$value = $number;
+				return true;
+			}
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\NumberCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a number:\n" . 
+				" - an integer, such as: 123000 for 123000;\n" . 
+				" - a float, such as: 123000.45 for 123000.45;\n" . 
+				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
+				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
+				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
+				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
+		]);
 	}
 	
 	/**
@@ -421,6 +594,141 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Process the coercion of a given value into an integer.
+	 * 
+	 * Only the following types and formats can be coerced into an integer:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $unsigned [default = false]
+	 * <p>Coerce as an unsigned integer.</p>
+	 * @param int|null $bits [default = null]
+	 * <p>The number of bits to coerce with.<br>
+	 * If set, then it must be greater than <code>0</code>.<br>
+	 * <br>
+	 * For signed integers, the maximum allowed number is <code>64</code>, 
+	 * while for unsigned integers this number is <code>63</code>.<br>
+	 * If not set, then the number of bits to coerce with becomes system dependent.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\IntegerCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an integer.</p>
+	 */
+	final public static function processIntegerCoercion(
+		&$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//guard
+		Call::guardParameter(
+			'bits', $bits,
+			!isset($bits) || ($bits > 0 && (
+				(!$unsigned && $bits <= self::INTEGER_BITS_MAX_SIGNED) || 
+				($unsigned && $bits <= self::INTEGER_BITS_MAX_UNSIGNED)
+			)), [
+				'error_message' => "The given number of bits must be greater than {{minimum}} " . 
+					"and less than or equal to {{maximum}}.",
+				'parameters' => [
+					'minimum' => 0,
+					'maximum' => $unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED
+				]
+			]
+		);
+		
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\IntegerCoercionFailed([
+				'value' => $value,
+				'unsigned' => $unsigned,
+				'bits' => $bits,
+				'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		$integer = $value;
+		if (self::evaluateNumber($integer) && is_int($integer)) {
+			if ($unsigned && $integer < 0) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\IntegerCoercionFailed([
+					'value' => $value,
+					'unsigned' => $unsigned,
+					'bits' => $bits,
+					'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_UNSIGNED,
+					'error_message' => "Only an unsigned integer is allowed."
+				]);
+			} elseif (isset($bits)) {
+				$maximum = self::INTEGER_BITS_FULL_UNSIGNED 
+					>> (($unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED) - $bits);
+				$minimum = $unsigned ? 0 : -$maximum - 1;
+				if ($integer < $minimum || $integer > $maximum) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\IntegerCoercionFailed([
+						'value' => $value,
+						'unsigned' => $unsigned,
+						'bits' => $bits,
+						'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_BITS,
+						'error_message' => Text::pfill(
+							$unsigned
+								? "Only an unsigned integer of {{bits}} bit is allowed."
+								: "Only an integer of {{bits}} bit is allowed.",
+							$unsigned
+								? "Only an unsigned integer of {{bits}} bits is allowed."
+								: "Only an integer of {{bits}} bits is allowed.",
+							$bits, 'bits'
+						)
+					]);
+				}
+			}
+			$value = $integer;
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\IntegerCoercionFailed([
+			'value' => $value,
+			'unsigned' => $unsigned,
+			'bits' => $bits,
+			'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into an integer:\n" . 
+				" - an integer, such as: 123000 for 123000;\n" . 
+				" - a whole float, such as: 123000.0 for 123000;\n" . 
+				" - a numeric string, such as: \"123000\" for 123000;\n" . 
+				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
+				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
+				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
+				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as a float.
 	 * 
 	 * Only the following types and formats can be evaluated into a float:<br>
@@ -484,6 +792,75 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Process the coercion of a given value into a float.
+	 * 
+	 * Only the following types and formats can be coerced into a float:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string, 
+	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
+	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
+	 * such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
+	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\FloatCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a float.</p>
+	 */
+	final public static function processFloatCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\FloatCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		$float = $value;
+		if (self::evaluateNumber($float)) {
+			$value = (float)$float;
+			return true;
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\FloatCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a float:\n" . 
+				" - an integer, such as: 123000 for 123000.0;\n" . 
+				" - a float, such as: 123000.45 for 123000.45;\n" . 
+				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
+				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000.0;\n" . 
+				" - a numeric string in octal notation, such as: \"0360170\" for 123000.0;\n" . 
+				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000.0;\n" . 
+				" - a human-readable numeric string, such as: \"123.45k\" or \"123.45 thousand\" for 123450.0."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as a string.
 	 * 
 	 * Only the following types and formats can be evaluated into a string:<br>
@@ -537,6 +914,87 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Process the coercion of a given value into a string.
+	 * 
+	 * Only the following types and formats can be coerced into a string:<br>
+	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
+	 * @see \Feralygon\Kit\Interfaces\Stringifiable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $non_empty [default = false]
+	 * <p>Do not allow an empty string value.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\StringCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a string.</p>
+	 */
+	final public static function processStringCoercion(
+		&$value, bool $non_empty = false, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\StringCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		if (is_string($value)) {
+			if ($non_empty && $value === '') {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\StringCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_EMPTY,
+					'error_message' => "An empty string value is not allowed."
+				]);
+			}
+			return true;
+		} elseif (is_int($value) || is_float($value)) {
+			$value = (string)$value;
+			return true;
+		} elseif (is_object($value)) {
+			if ($value instanceof IStringifiable) {
+				$value = $value->toString();
+				return true;
+			} elseif (method_exists($value, '__toString')) {
+				$value = $value->__toString();
+				return true;
+			}
+		}
+		
+		//finish
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\StringCoercionFailed([
+			'value' => $value,
+			'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_INVALID,
+			'error_message' => "Only the following types and formats can be coerced into a string:\n" . 
+				" - a string, integer or float;\n" . 
+				" - an object implementing the \"__toString\" method;\n" . 
+				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface."
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as a class.
 	 * 
 	 * Only a class string or object can be evaluated into a class.
@@ -579,6 +1037,94 @@ final class Type extends Utility
 	{
 		self::processClassCoercion($value, $object_class_interface, $nullable);
 		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into a class.
+	 * 
+	 * Only a class string or object can be coerced into a class.
+	 * 
+	 * @since 1.0.0
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a class.</p>
+	 */
+	final public static function processClassCoercion(
+		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//class
+		$class = self::class($value, true);
+		if (!isset($class)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
+				'error_message' => "Only a class string or object can be coerced into a class."
+			]);
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($class, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only a class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($class, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only a class which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $class;
+		return true;
 	}
 	
 	/**
@@ -649,6 +1195,187 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Process the coercion of a given value into an object.
+	 * 
+	 * Only the following types and formats can be coerced into an object:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param array $arguments [default = []]
+	 * <p>The class constructor arguments to instantiate with.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object.</p>
+	 */
+	final public static function processObjectCoercion(
+		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ObjectCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					$value = $class::fromString($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//object
+		$object = $value;
+		if (!is_object($object)) {
+			//class
+			$class = self::class($object, true);
+			if (!isset($class)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
+				]);
+			}
+			
+			//instantiate
+			try {
+				$object = self::construct($class, ...$arguments);
+			} catch (\Exception $exception) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+					'error_message' => Text::fill(
+						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
+							"with the following message: {{message}}", [
+							'class' => Text::stringify($class, null, ['quote_strings' => true]),
+							'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+							'message' => Text::uncapitalize($exception->getMessage(), true)
+						]
+					)
+				]);
+			}
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($object, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($object, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $object;
+		return true;
+	}
+	
+	/**
 	 * Evaluate a given value as an object or class.
 	 * 
 	 * Only the following types and formats can be evaluated into an object or class:<br>
@@ -707,6 +1434,164 @@ final class Type extends Utility
 	{
 		self::processObjectClassCoercion($value, $object_class_interface, $nullable);
 		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an object or class.
+	 * 
+	 * Only the following types and formats can be coerced into an object or class:<br>
+	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
+	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param object|string|null $object_class_interface [default = null]
+	 * <p>The object or class which the given value must be or extend from 
+	 * or the interface which the given value must implement.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object or class.</p>
+	 */
+	final public static function processObjectClassCoercion(
+		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		//nullable
+		if (!isset($value)) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ObjectClassCoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//string
+		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
+				try {
+					$value = $class::fromString($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//object or class
+		$object_class = $value;
+		if (!is_object($object_class)) {
+			$object_class = self::class($object_class, true);
+			if (!isset($object_class)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
+					'error_message' => "Only the following types and formats can be coerced " . 
+						"into an object or class:\n" . 
+						" - a class string or object;\n" . 
+						" - an array with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
+				]);
+			}
+		}
+		
+		//object, class or interface
+		if (isset($object_class_interface)) {
+			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
+			if (isset($interface) && !self::implements($object_class, $interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object or class which implements {{interface}} is allowed.",
+						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
+					)
+				]);
+			} elseif (!isset($interface) && !self::isA($object_class, $object_class_interface)) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\ObjectClassCoercionFailed([
+					'value' => $value,
+					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
+					'error_message' => Text::fill(
+						"Only an object or class which is or extends from {{base_class}} is allowed.", [
+							'base_class' => Text::stringify(
+								self::class($object_class_interface), null, ['quote_strings' => true]
+							)
+						]
+					)
+				]);
+			}
+		}
+		
+		//finish
+		$value = $object_class;
+		return true;
 	}
 	
 	/**
@@ -1078,893 +1963,5 @@ final class Type extends Utility
 	{
 		$filename = self::filename($object_class);
 		return isset($filename) ? basename($filename) : null;
-	}
-	
-	
-	
-	//Final private static methods
-	/**
-	 * Process the coercion of a given value into a boolean.
-	 * 
-	 * Only the following types and formats can be coerced into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
-	 * and <code>true</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
-	 * and <code>1</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
-	 * and <code>1.0</code> for boolean <code>true</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a string, as: <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
-	 * <code>"off"</code> or <code>"no"</code> for boolean <code>false</code>, 
-	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
-	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\BooleanCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a boolean.</p>
-	 */
-	final private static function processBooleanCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\BooleanCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		if (is_bool($value)) {
-			return true;
-		} elseif (is_int($value) && ($value === 0 || $value === 1)) {
-			$value = $value === 1;
-			return true;
-		} elseif (is_float($value) && ($value === 0.0 || $value === 1.0)) {
-			$value = $value === 1.0;
-			return true;
-		} elseif (is_string($value)) {
-			$boolean = strtolower($value);
-			if (in_array($boolean, self::BOOLEAN_FALSE_STRINGS, true)) {
-				$value = false;
-				return true;
-			} elseif (in_array($boolean, self::BOOLEAN_TRUE_STRINGS, true)) {
-				$value = true;
-				return true;
-			}
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		$false_list_string = Text::commify(self::BOOLEAN_FALSE_STRINGS, null, 'or', true);
-		$true_list_string = Text::commify(self::BOOLEAN_TRUE_STRINGS, null, 'or', true);
-		throw new Exceptions\BooleanCoercionFailed([
-			'value' => $value,
-			'error_code' => Exceptions\BooleanCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only the following types and formats can be coerced into a boolean:\n" . 
-				" - a boolean, as: false for boolean false, and true for boolean true;\n" . 
-				" - an integer, as: 0 for boolean false, and 1 for boolean true;\n" . 
-				" - a float, as: 0.0 for boolean false, and 1.0 for boolean true;\n" . 
-				" - a string, as: {$false_list_string} for boolean false, and {$true_list_string} for boolean true."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into a number.
-	 * 
-	 * Only the following types and formats can be coerced into a number:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, 
-	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
-	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
-	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
-	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NumberCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a number.</p>
-	 */
-	final private static function processNumberCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\NumberCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		if (is_int($value)) {
-			return true;
-		} elseif (is_float($value)) {
-			if ($value === floor($value)) {
-				$value = (int)$value;
-			}
-			return true;
-		} elseif (is_string($value)) {
-			//numeric
-			$number = str_replace(',', '.', $value);
-			if (is_numeric($number) || preg_match('/^0x[\da-f]{1,16}$/i', $number)) {
-				if (strpos($number, '.') !== false || preg_match('/^[\-+]?\d+e[\-+]?\d+$/i', $number)) {
-					$number = (float)$number;
-					if ($number === floor($number)) {
-						$number = (int)$number;
-					}
-				} else {
-					$number = intval($number, 0);
-				}
-				$value = $number;
-				return true;
-			}
-			
-			//human-readable
-			$number = Math::mnumber($value, true);
-			if (isset($number)) {
-				$value = $number;
-				return true;
-			}
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\NumberCoercionFailed([
-			'value' => $value,
-			'error_code' => Exceptions\NumberCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only the following types and formats can be coerced into a number:\n" . 
-				" - an integer, such as: 123000 for 123000;\n" . 
-				" - a float, such as: 123000.45 for 123000.45;\n" . 
-				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
-				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
-				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
-				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
-				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into an integer.
-	 * 
-	 * Only the following types and formats can be coerced into an integer:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a whole float, such as: <code>123000.0</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, such as: <code>"123000"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
-	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
-	 * such as: <code>"0360170"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
-	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $unsigned [default = false]
-	 * <p>Coerce as an unsigned integer.</p>
-	 * @param int|null $bits [default = null]
-	 * <p>The number of bits to coerce with.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
-	 * <br>
-	 * For signed integers, the maximum allowed number is <code>64</code>, 
-	 * while for unsigned integers this number is <code>63</code>.<br>
-	 * If not set, then the number of bits to coerce with becomes system dependent.</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\IntegerCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an integer.</p>
-	 */
-	final private static function processIntegerCoercion(
-		&$value, bool $unsigned = false, ?int $bits = null, bool $nullable = false, bool $no_throw = false
-	): bool
-	{
-		//guard
-		Call::guardParameter(
-			'bits', $bits,
-			!isset($bits) || ($bits > 0 && (
-				(!$unsigned && $bits <= self::INTEGER_BITS_MAX_SIGNED) || 
-				($unsigned && $bits <= self::INTEGER_BITS_MAX_UNSIGNED)
-			)), [
-				'error_message' => "The given number of bits must be greater than {{minimum}} " . 
-					"and less than or equal to {{maximum}}.",
-				'parameters' => [
-					'minimum' => 0,
-					'maximum' => $unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED
-				]
-			]
-		);
-		
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\IntegerCoercionFailed([
-				'value' => $value,
-				'unsigned' => $unsigned,
-				'bits' => $bits,
-				'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		$integer = $value;
-		if (self::evaluateNumber($integer) && is_int($integer)) {
-			if ($unsigned && $integer < 0) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\IntegerCoercionFailed([
-					'value' => $value,
-					'unsigned' => $unsigned,
-					'bits' => $bits,
-					'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_UNSIGNED,
-					'error_message' => "Only an unsigned integer is allowed."
-				]);
-			} elseif (isset($bits)) {
-				$maximum = self::INTEGER_BITS_FULL_UNSIGNED 
-					>> (($unsigned ? self::INTEGER_BITS_MAX_UNSIGNED : self::INTEGER_BITS_MAX_SIGNED) - $bits);
-				$minimum = $unsigned ? 0 : -$maximum - 1;
-				if ($integer < $minimum || $integer > $maximum) {
-					if ($no_throw) {
-						return false;
-					}
-					throw new Exceptions\IntegerCoercionFailed([
-						'value' => $value,
-						'unsigned' => $unsigned,
-						'bits' => $bits,
-						'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_BITS,
-						'error_message' => Text::pfill(
-							$unsigned
-								? "Only an unsigned integer of {{bits}} bit is allowed."
-								: "Only an integer of {{bits}} bit is allowed.",
-							$unsigned
-								? "Only an unsigned integer of {{bits}} bits is allowed."
-								: "Only an integer of {{bits}} bits is allowed.",
-							$bits, 'bits'
-						)
-					]);
-				}
-			}
-			$value = $integer;
-			return true;
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\IntegerCoercionFailed([
-			'value' => $value,
-			'unsigned' => $unsigned,
-			'bits' => $bits,
-			'error_code' => Exceptions\IntegerCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only the following types and formats can be coerced into an integer:\n" . 
-				" - an integer, such as: 123000 for 123000;\n" . 
-				" - a whole float, such as: 123000.0 for 123000;\n" . 
-				" - a numeric string, such as: \"123000\" for 123000;\n" . 
-				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000;\n" . 
-				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
-				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
-				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into a float.
-	 * 
-	 * Only the following types and formats can be coerced into a float:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, such as: <code>123000</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a float, such as: <code>123000.45</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string, 
-	 * such as: <code>"123000.45"</code> or <code>"123000,45"</code> for <code>123000.45</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
-	 * such as: <code>"123e3"</code> or <code>"123E3"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in octal notation, 
-	 * such as: <code>"0360170"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
-	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\FloatCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a float.</p>
-	 */
-	final private static function processFloatCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\FloatCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		$float = $value;
-		if (self::evaluateNumber($float)) {
-			$value = (float)$float;
-			return true;
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\FloatCoercionFailed([
-			'value' => $value,
-			'error_code' => Exceptions\FloatCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only the following types and formats can be coerced into a float:\n" . 
-				" - an integer, such as: 123000 for 123000.0;\n" . 
-				" - a float, such as: 123000.45 for 123000.45;\n" . 
-				" - a numeric string, such as: \"123000.45\" or \"123000,45\" for 123000.45;\n" . 
-				" - a numeric string in exponential notation, such as: \"123e3\" or \"123E3\" for 123000.0;\n" . 
-				" - a numeric string in octal notation, such as: \"0360170\" for 123000.0;\n" . 
-				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000.0;\n" . 
-				" - a human-readable numeric string, such as: \"123.45k\" or \"123.45 thousand\" for 123450.0."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into a string.
-	 * 
-	 * Only the following types and formats can be coerced into a string:<br>
-	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
-	 * 
-	 * @since 1.0.0
-	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Feralygon\Kit\Interfaces\Stringifiable
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool $non_empty [default = false]
-	 * <p>Do not allow an empty string value.</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\StringCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a string.</p>
-	 */
-	final private static function processStringCoercion(
-		&$value, bool $non_empty = false, bool $nullable = false, bool $no_throw = false
-	): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\StringCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//coerce
-		if (is_string($value)) {
-			if ($non_empty && $value === '') {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\StringCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_EMPTY,
-					'error_message' => "An empty string value is not allowed."
-				]);
-			}
-			return true;
-		} elseif (is_int($value) || is_float($value)) {
-			$value = (string)$value;
-			return true;
-		} elseif (is_object($value)) {
-			if ($value instanceof IStringifiable) {
-				$value = $value->toString();
-				return true;
-			} elseif (method_exists($value, '__toString')) {
-				$value = $value->__toString();
-				return true;
-			}
-		}
-		
-		//finish
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\StringCoercionFailed([
-			'value' => $value,
-			'error_code' => Exceptions\StringCoercionFailed::ERROR_CODE_INVALID,
-			'error_message' => "Only the following types and formats can be coerced into a string:\n" . 
-				" - a string, integer or float;\n" . 
-				" - an object implementing the \"__toString\" method;\n" . 
-				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Stringifiable\" interface."
-		]);
-	}
-	
-	/**
-	 * Process the coercion of a given value into a class.
-	 * 
-	 * Only a class string or object can be coerced into a class.
-	 * 
-	 * @since 1.0.0
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param object|string|null $object_class_interface [default = null]
-	 * <p>The object or class which the given value must be or extend from 
-	 * or the interface which the given value must implement.</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ClassCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a class.</p>
-	 */
-	final private static function processClassCoercion(
-		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
-	): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//class
-		$class = self::class($value, true);
-		if (!isset($class)) {
-			if ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID,
-				'error_message' => "Only a class string or object can be coerced into a class."
-			]);
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (isset($interface) && !self::implements($class, $interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only a class which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			} elseif (!isset($interface) && !self::isA($class, $object_class_interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only a class which is or extends from {{base_class}} is allowed.", [
-							'base_class' => Text::stringify(
-								self::class($object_class_interface), null, ['quote_strings' => true]
-							)
-						]
-					)
-				]);
-			}
-		}
-		
-		//finish
-		$value = $class;
-		return true;
-	}
-	
-	/**
-	 * Process the coercion of a given value into an object.
-	 * 
-	 * Only the following types and formats can be coerced into an object:<br>
-	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
-	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
-	 * 
-	 * @since 1.0.0
-	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
-	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param object|string|null $object_class_interface [default = null]
-	 * <p>The object or class which the given value must be or extend from 
-	 * or the interface which the given value must implement.</p>
-	 * @param array $arguments [default = []]
-	 * <p>The class constructor arguments to instantiate with.</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object.</p>
-	 */
-	final private static function processObjectCoercion(
-		&$value, $object_class_interface = null, array $arguments = [], bool $nullable = false, bool $no_throw = false
-	): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ObjectCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
-				try {
-					$value = $class::fromArray($value);
-					return true;
-				} catch (\Exception $exception) {
-					if ($no_throw) {
-						return false;
-					}
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//string
-		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
-				try {
-					$value = $class::fromString($value);
-					return true;
-				} catch (\Exception $exception) {
-					if ($no_throw) {
-						return false;
-					}
-					throw new Exceptions\ObjectCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//object
-		$object = $value;
-		if (!is_object($object)) {
-			//class
-			$class = self::class($object, true);
-			if (!isset($class)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
-						" - a class string or object;\n" . 
-						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
-				]);
-			}
-			
-			//instantiate
-			try {
-				$object = self::construct($class, ...$arguments);
-			} catch (\Exception $exception) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-					'error_message' => Text::fill(
-						"An exception {{exception}} was thrown while instantiating class {{class}}, " . 
-							"with the following message: {{message}}", [
-							'class' => Text::stringify($class, null, ['quote_strings' => true]),
-							'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-							'message' => Text::uncapitalize($exception->getMessage(), true)
-						]
-					)
-				]);
-			}
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (isset($interface) && !self::implements($object, $interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			} elseif (!isset($interface) && !self::isA($object, $object_class_interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object which is or extends from {{base_class}} is allowed.", [
-							'base_class' => Text::stringify(
-								self::class($object_class_interface), null, ['quote_strings' => true]
-							)
-						]
-					)
-				]);
-			}
-		}
-		
-		//finish
-		$value = $object;
-		return true;
-	}
-	
-	/**
-	 * Process the coercion of a given value into an object or class.
-	 * 
-	 * Only the following types and formats can be coerced into an object or class:<br>
-	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
-	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
-	 * 
-	 * @since 1.0.0
-	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
-	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
-	 * @param mixed $value [reference]
-	 * <p>The value to process (validate and sanitize).</p>
-	 * @param object|string|null $object_class_interface [default = null]
-	 * <p>The object or class which the given value must be or extend from 
-	 * or the interface which the given value must implement.</p>
-	 * @param bool $nullable [default = false]
-	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\ObjectClassCoercionFailed
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an object or class.</p>
-	 */
-	final private static function processObjectClassCoercion(
-		&$value, $object_class_interface = null, bool $nullable = false, bool $no_throw = false
-	): bool
-	{
-		//nullable
-		if (!isset($value)) {
-			if ($nullable) {
-				return true;
-			} elseif ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\ObjectClassCoercionFailed([
-				'value' => $value,
-				'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_NULL,
-				'error_message' => "A null value is not allowed."
-			]);
-		}
-		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
-				try {
-					$value = $class::fromArray($value);
-					return true;
-				} catch (\Exception $exception) {
-					if ($no_throw) {
-						return false;
-					}
-					throw new Exceptions\ObjectClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//string
-		if (is_string($value) && !class_exists($value) && isset($object_class_interface)) {
-			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IStringInstantiable::class)) {
-				try {
-					$value = $class::fromString($value);
-					return true;
-				} catch (\Exception $exception) {
-					if ($no_throw) {
-						return false;
-					}
-					throw new Exceptions\ObjectClassCoercionFailed([
-						'value' => $value,
-						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
-						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from string, " . 
-								"with the following message: {{message}}", [
-								'class' => Text::stringify($class, null, ['quote_strings' => true]),
-								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
-								'message' => Text::uncapitalize($exception->getMessage(), true)
-							]
-						)
-					]);
-				}
-			}
-		}
-		
-		//object or class
-		$object_class = $value;
-		if (!is_object($object_class)) {
-			$object_class = self::class($object_class, true);
-			if (!isset($object_class)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID,
-					'error_message' => "Only the following types and formats can be coerced " . 
-						"into an object or class:\n" . 
-						" - a class string or object;\n" . 
-						" - an array with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Feralygon\\Kit\\Interfaces\\StringInstantiable\" interface."
-				]);
-			}
-		}
-		
-		//object, class or interface
-		if (isset($object_class_interface)) {
-			$interface = is_string($object_class_interface) ? self::interface($object_class_interface, true) : null;
-			if (isset($interface) && !self::implements($object_class, $interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object or class which implements {{interface}} is allowed.",
-						['interface' => Text::stringify($interface, null, ['quote_strings' => true])]
-					)
-				]);
-			} elseif (!isset($interface) && !self::isA($object_class, $object_class_interface)) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\ObjectClassCoercionFailed([
-					'value' => $value,
-					'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INVALID_CLASS,
-					'error_message' => Text::fill(
-						"Only an object or class which is or extends from {{base_class}} is allowed.", [
-							'base_class' => Text::stringify(
-								self::class($object_class_interface), null, ['quote_strings' => true]
-							)
-						]
-					)
-				]);
-			}
-		}
-		
-		//finish
-		$value = $object_class;
-		return true;
 	}
 }

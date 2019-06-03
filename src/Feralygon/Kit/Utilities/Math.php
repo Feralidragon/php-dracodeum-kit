@@ -380,9 +380,6 @@ final class Math extends Utility
 		return $value;
 	}
 	
-	
-	
-	//Final private static methods
 	/**
 	 * Process the coercion of a given value into a multiple.
 	 * 
@@ -402,7 +399,7 @@ final class Math extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a multiple.</p>
 	 */
-	final private static function processMultipleCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	final public static function processMultipleCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
 	{
 		//nullable
 		if (!isset($value)) {

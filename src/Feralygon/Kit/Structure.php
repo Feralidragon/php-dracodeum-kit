@@ -273,9 +273,6 @@ IStringifiable, IStringInstantiable
 		return $value;
 	}
 	
-	
-	
-	//Final private static methods
 	/**
 	 * Process the coercion of a given value into an instance.
 	 * 
@@ -312,7 +309,7 @@ IStringifiable, IStringInstantiable
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
-	final private static function processCoercion(
+	final public static function processCoercion(
 		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
 	): bool
 	{

@@ -868,36 +868,6 @@ IStringifiable
 		return $value;
 	}
 	
-	
-	
-	//Final protected methods
-	/**
-	 * Reset.
-	 * 
-	 * @since 1.0.0
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
-	 */
-	final protected function reset(): Vector
-	{
-		if (empty($this->values)) {
-			$this->min_index = $this->max_index = $this->cursor = null;
-		} else {
-			if (!array_key_exists(0, $this->values)) {
-				$this->values = array_values($this->values);
-			}
-			if (isset($this->cursor) && isset($this->min_index)) {
-				$this->cursor -= $this->min_index;
-			}
-			$this->min_index = 0;
-			$this->max_index = count($this->values) - 1;
-		}
-		return $this;
-	}
-	
-	
-	
-	//Final private static methods
 	/**
 	 * Process the coercion of a given value into an instance.
 	 * 
@@ -922,7 +892,7 @@ IStringifiable
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
-	final private static function processCoercion(
+	final public static function processCoercion(
 		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
@@ -983,5 +953,32 @@ IStringifiable
 				" - a non-associative array;\n" . 
 				" - an object implementing the \"Feralygon\\Kit\\Interfaces\\Arrayable\" interface."
 		]);
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Reset.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function reset(): Vector
+	{
+		if (empty($this->values)) {
+			$this->min_index = $this->max_index = $this->cursor = null;
+		} else {
+			if (!array_key_exists(0, $this->values)) {
+				$this->values = array_values($this->values);
+			}
+			if (isset($this->cursor) && isset($this->min_index)) {
+				$this->cursor -= $this->min_index;
+			}
+			$this->min_index = 0;
+			$this->max_index = count($this->values) - 1;
+		}
+		return $this;
 	}
 }

@@ -2111,9 +2111,6 @@ final class Data extends Utility
 		return $value;
 	}
 	
-	
-	
-	//Final private static methods
 	/**
 	 * Process the coercion of a given value into an array.
 	 * 
@@ -2153,7 +2150,7 @@ final class Data extends Utility
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an array.</p>
 	 */
-	final private static function processCoercion(
+	final public static function processCoercion(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
 		bool $recursive = false, bool $nullable = false, bool $no_throw = false
 	): bool

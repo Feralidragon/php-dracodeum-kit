@@ -432,24 +432,6 @@ abstract class Component implements IPropertiesable
 		return $value;
 	}
 	
-	
-	
-	//Final protected methods
-	/**
-	 * Get prototype instance.
-	 * 
-	 * @since 1.0.0
-	 * @return \Feralygon\Kit\Prototype
-	 * <p>The prototype instance.</p>
-	 */
-	final protected function getPrototype(): Prototype
-	{
-		return $this->prototype;
-	}
-	
-	
-	
-	//Final private static methods
 	/**
 	 * Process the coercion of a given value into an instance.
 	 * 
@@ -505,7 +487,7 @@ abstract class Component implements IPropertiesable
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
-	final private static function processCoercion(
+	final public static function processCoercion(
 		&$value, array $properties = [], ?callable $builder = null, ?callable $named_builder = null,
 		bool $nullable = false, bool $no_throw = false
 	): bool
@@ -606,5 +588,20 @@ abstract class Component implements IPropertiesable
 			return false;
 		}
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Get prototype instance.
+	 * 
+	 * @since 1.0.0
+	 * @return \Feralygon\Kit\Prototype
+	 * <p>The prototype instance.</p>
+	 */
+	final protected function getPrototype(): Prototype
+	{
+		return $this->prototype;
 	}
 }
