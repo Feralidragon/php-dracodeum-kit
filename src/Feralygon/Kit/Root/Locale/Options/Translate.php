@@ -26,7 +26,7 @@ use Feralygon\Kit\Root\Locale;
  * If not set, then the currently set locale language is used.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = auto]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [coercive = options] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
@@ -67,7 +67,7 @@ class Translate extends Options
 					->setDefaultValue(null)
 				;
 			case 'string_options':
-				return $this->createProperty()->addEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
+				return $this->createProperty()->setAsOptions(StringOptions::class)->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)

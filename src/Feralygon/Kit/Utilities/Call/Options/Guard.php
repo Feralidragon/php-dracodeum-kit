@@ -68,7 +68,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * If not set, then the object or class of the current function or method in the stack is used.</p>
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the hint message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use for 
  * the hint message.</p>
  * @property callable|null $stringifier [coercive] [default = null]
@@ -120,7 +120,7 @@ class Guard extends Options
 			case 'parameters':
 				return $this->createProperty()->setAsArray()->setDefaultValue([]);
 			case 'string_options':
-				return $this->createProperty()->addEvaluator([StringOptions::class, 'evaluate'])->setDefaultValue(null);
+				return $this->createProperty()->setAsOptions(StringOptions::class)->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)

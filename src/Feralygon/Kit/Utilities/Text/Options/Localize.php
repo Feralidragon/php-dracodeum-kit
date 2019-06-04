@@ -16,7 +16,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @since 1.0.0
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
@@ -44,7 +44,7 @@ class Localize extends Options
 			case 'parameters':
 				return $this->createProperty()->setAsArray()->setDefaultValue([]);
 			case 'string_options':
-				return $this->createProperty()->addEvaluator([Stringify::class, 'evaluate'])->setDefaultValue(null);
+				return $this->createProperty()->setAsOptions(Stringify::class)->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)

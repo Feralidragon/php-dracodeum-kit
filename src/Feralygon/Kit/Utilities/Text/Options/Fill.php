@@ -28,7 +28,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <br>
  * Return: <code><b>bool</b></code><br>
  * Boolean <code>true</code> if the given value was successfully evaluated for the given placeholder.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
@@ -59,7 +59,7 @@ class Fill extends Options
 					->setDefaultValue(null)
 				;
 			case 'string_options':
-				return $this->createProperty()->addEvaluator([Stringify::class, 'evaluate'])->setDefaultValue(null);
+				return $this->createProperty()->setAsOptions(Stringify::class)->setDefaultValue(null);
 			case 'stringifier':
 				return $this->createProperty()
 					->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)
