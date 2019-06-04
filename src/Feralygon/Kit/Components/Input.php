@@ -41,9 +41,9 @@ use Feralygon\Kit\Utilities\{
  * then that character is stripped from the given name and the input is set as nullable.
  * 
  * @since 1.0.0
- * @property-write bool $nullable [writeonce] [default = false]
+ * @property-write bool $nullable [writeonce] [coercive] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
- * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [default = []]
+ * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [coercive] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 

@@ -15,7 +15,7 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * Call utility <code>guard</code> method options.
  * 
  * @since 1.0.0
- * @property string|null $error_message [default = null]
+ * @property string|null $error_message [coercive] [default = null]
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * If set, then placeholders must be exclusively composed by identifiers, 
@@ -28,15 +28,15 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
- * @property string|null $error_message_plural [default = null]
+ * @property string|null $error_message_plural [coercive] [default = null]
  * <p>The plural version of the <var>$error_message</var> above to use in the thrown exception.</p>
- * @property float|null $error_message_number [default = null]
+ * @property float|null $error_message_number [coercive] [default = null]
  * <p>The number to use to select either the singular (<var>$error_message</var>) 
  * or plural (<var>$error_message_plural</var>) version of the error message to use in the thrown exception.</p>
- * @property string|null $error_message_number_placeholder [default = null]
+ * @property string|null $error_message_number_placeholder [coercive] [default = null]
  * <p>The placeholder to fill with the given <var>$error_message_number</var> above in the error message 
  * (<var>$error_message</var> and <var>$error_message_plural</var>).</p>
- * @property string|null $hint_message [default = null]
+ * @property string|null $hint_message [coercive] [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * If set, then placeholders must be exclusively composed by identifiers, 
@@ -49,29 +49,29 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
- * @property string|null $hint_message_plural [default = null]
+ * @property string|null $hint_message_plural [coercive] [default = null]
  * <p>The plural version of the <var>$hint_message</var> above to use in the thrown exception.</p>
- * @property float|null $hint_message_number [default = null]
+ * @property float|null $hint_message_number [coercive] [default = null]
  * <p>The number to use to select either the singular (<var>$hint_message</var>) 
  * or plural (<var>$hint_message_plural</var>) version of the hint message to use in the thrown exception.</p>
- * @property string|null $hint_message_number_placeholder [default = null]
+ * @property string|null $hint_message_number_placeholder [coercive] [default = null]
  * <p>The placeholder to fill with the given <var>$hint_message_number</var> above in the hint message 
  * (<var>$hint_message</var> and <var>$hint_message_plural</var>).</p>
- * @property string|null $function_name [default = null]
+ * @property string|null $function_name [coercive] [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
- * @property int $stack_offset [default = 0]
+ * @property int $stack_offset [coercive] [default = 0]
  * <p>The stack offset to use.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property object|string|null $object_class [default = null]
+ * @property object|string|null $object_class [coercive] [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>
- * @property array $parameters [default = []]
+ * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the hint message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use for 
  * the hint message.</p>
- * @property callable|null $stringifier [default = null]
+ * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

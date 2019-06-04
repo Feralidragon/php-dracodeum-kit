@@ -14,11 +14,11 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * JSON utility <code>encode</code> method options.
  * 
  * @since 1.0.0
- * @property int $flags [default = 0x00]
+ * @property int $flags [strict] [default = 0x00]
  * <p>The flags to use, as supported as <var>$options</var> by the PHP <code>json_encode</code> function.</p>
- * @property int|null $depth [default = null]
+ * @property int|null $depth [coercive] [default = null]
  * <p>The depth to use, as supported as <var>$depth</var> by the PHP <code>json_encode</code> function.</p>
- * @property bool $no_throw [default = false]
+ * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
  * @see http://php.net/manual/en/function.json-encode.php
  * @see \Feralygon\Kit\Utilities\Json

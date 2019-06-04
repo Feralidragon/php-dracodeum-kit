@@ -12,9 +12,9 @@ use Feralygon\Kit\Components\Input as Component;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Components\Input $component
+ * @property-read \Feralygon\Kit\Components\Input $component [strict]
  * <p>The component instance.</p>
- * @property-read \Feralygon\Kit\Prototypes\Input $prototype
+ * @property-read \Feralygon\Kit\Prototypes\Input $prototype [strict]
  * <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Components\Input
  */

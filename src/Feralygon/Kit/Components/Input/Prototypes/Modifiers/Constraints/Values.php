@@ -22,9 +22,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a value to a set of allowed values.
  * 
  * @since 1.0.0
- * @property-write array $values [writeonce]
+ * @property-write array $values [writeonce] [coercive]
  * <p>The allowed values to restrict a given value to.</p>
- * @property-write bool $negate [writeonce] [default = false]
+ * @property-write bool $negate [writeonce] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  */
 class Values extends Constraint implements IName, IInformation, IStringification, ISchemaData

@@ -13,10 +13,10 @@ use Feralygon\Kit\Primitives\Vector\Exception;
  * This exception is thrown from a vector whenever a given index is invalid.
  * 
  * @since 1.0.0
- * @property-read int $index
+ * @property-read int $index [strict]
  * <p>The index.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-read int|null $max_index [default = null]
+ * @property-read int|null $max_index [strict] [default = null]
  * <p>The maximum allowed index.<br>
  * If set, then it must be greater than or equal to <code>0</code>.</p>
  */

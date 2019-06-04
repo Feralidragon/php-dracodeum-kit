@@ -26,10 +26,10 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to an exact length.
  * 
  * @since 1.0.0
- * @property-write int $length [writeonce]
+ * @property-write int $length [writeonce] [coercive]
  * <p>The length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write bool $unicode [writeonce] [default = false]
+ * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData

@@ -15,11 +15,11 @@ use Feralygon\Kit\Root\Locale;
 
 /**
  * @since 1.0.0
- * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]
+ * @property int $info_scope [coercive = enumeration value] [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]
  * <p>The info scope to use, as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
- * @property bool $translate [default = false]
+ * @property bool $translate [coercive] [default = false]
  * <p>Translate the returning text.</p>
- * @property string|null $language [default = null]
+ * @property string|null $language [coercive = language] [default = null]
  * <p>The language ISO 639 code to translate the returning text to.<br>
  * If not set, then the currently set locale language is used.<br>
  * This property is only relevant if the property <var>$translate</var> above is set to <code>true</code>.</p>

@@ -14,11 +14,11 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * into a non-array value.
  * 
  * @since 1.0.0
- * @property-read array $array
+ * @property-read array $array [coercive]
  * <p>The array.</p>
- * @property-read string $path
+ * @property-read string $path [coercive]
  * <p>The path.</p>
- * @property-read string $key
+ * @property-read string $key [coercive]
  * <p>The key.</p>
  * @property-read mixed $value
  * <p>The value.</p>

@@ -39,10 +39,10 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
  * @since 1.0.0
- * @property-write int|null $bits [writeonce] [default = null]
+ * @property-write int|null $bits [writeonce] [coercive] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
- * @property-write string|null $label [writeonce] [default = null]
+ * @property-write string|null $label [writeonce] [coercive] [default = null]
  * <p>The label to use.<br>
  * If set, then it cannot be empty.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function

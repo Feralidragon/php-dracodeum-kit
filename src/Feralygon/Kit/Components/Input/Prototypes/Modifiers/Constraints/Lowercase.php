@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to lowercase.
  * 
  * @since 1.0.0
- * @property-write bool $unicode [writeonce] [default = false]
+ * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class Lowercase extends Constraint implements IName, IInformation, ISchemaData

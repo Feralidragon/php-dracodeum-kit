@@ -14,9 +14,9 @@ use Feralygon\Kit\Utilities\Text\Exceptions\Extract as Exception;
  * to match against a given mask.
  * 
  * @since 1.0.0
- * @property-read string $string
+ * @property-read string $string [coercive]
  * <p>The string.</p>
- * @property-read string $mask
+ * @property-read string $mask [coercive]
  * <p>The mask.</p>
  */
 class MatchFailed extends Exception

@@ -16,7 +16,7 @@ use Feralygon\Kit\Utilities\Text\Exceptions\Stringify as Exception;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $type [default = auto]
+ * @property-read string $type [coercive] [default = auto]
  * <p>The type.</p>
  */
 class UnsupportedValueType extends Exception

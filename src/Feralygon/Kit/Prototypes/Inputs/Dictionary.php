@@ -37,9 +37,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a JSON array or object.
  * 
  * @since 1.0.0
- * @property-write \Feralygon\Kit\Components\Input|null $key_input [writeonce] [default = null]
+ * @property-write \Feralygon\Kit\Components\Input|null $key_input [writeonce] [coercive = component] [default = null]
  * <p>The input instance to evaluate keys with.</p>
- * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [default = null]
+ * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [coercive = component] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Feralygon\Kit\Primitives\Dictionary

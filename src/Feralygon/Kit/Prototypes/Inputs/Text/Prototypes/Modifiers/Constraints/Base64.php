@@ -26,7 +26,7 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a text or string to a Base64 format.
  * 
  * @since 1.0.0
- * @property-write bool|null $url_safe [writeonce] [default = null]
+ * @property-write bool|null $url_safe [writeonce] [coercive] [default = null]
  * <p>Allow or disallow the URL-safe format only, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) 
  * are replaced by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
  * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>

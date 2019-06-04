@@ -14,7 +14,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * URL utility <code>unquerify</code> method options.
  * 
  * @since 1.0.0
- * @property bool $allow_arrays [default = false]
+ * @property bool $allow_arrays [coercive] [default = false]
  * <p>Allow the given string to be unquerified into array values.</p>
  * @see \Feralygon\Kit\Utilities\Url
  */

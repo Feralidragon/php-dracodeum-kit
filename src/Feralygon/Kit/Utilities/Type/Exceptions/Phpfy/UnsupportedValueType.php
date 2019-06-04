@@ -15,9 +15,9 @@ use Feralygon\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $type [default = auto]
+ * @property-read string $type [coercive] [default = auto]
  * <p>The type.</p>
- * @property-read string|null $hint_message [default = null]
+ * @property-read string|null $hint_message [coercive] [default = null]
  * <p>The hint message.</p>
  */
 class UnsupportedValueType extends Exception

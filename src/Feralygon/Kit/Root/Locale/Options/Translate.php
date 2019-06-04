@@ -17,16 +17,16 @@ use Feralygon\Kit\Root\Locale;
  * Root locale <code>translate</code> method options.
  * 
  * @since 1.0.0
- * @property array $parameters [default = []]
+ * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property int $info_scope [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]
+ * @property int $info_scope [coercive = enumeration value] [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]
  * <p>The info scope to use, as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
- * @property string|null $language [default = null]
+ * @property string|null $language [coercive = language] [default = null]
  * <p>The language ISO 639 code to translate the message to.<br>
  * If not set, then the currently set locale language is used.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = auto]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = auto]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property callable|null $stringifier [default = null]
+ * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

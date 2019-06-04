@@ -26,13 +26,13 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a range of lengths.
  * 
  * @since 1.0.0
- * @property-write int $min_length [writeonce]
+ * @property-write int $min_length [writeonce] [coercive]
  * <p>The minimum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write int $max_length [writeonce]
+ * @property-write int $max_length [writeonce] [coercive]
  * <p>The maximum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write bool $unicode [writeonce] [default = false]
+ * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class LengthRange extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData

@@ -12,7 +12,7 @@ use Feralygon\Kit\Factory;
 
 /**
  * @since 1.0.0
- * @property-read string $factory
+ * @property-read string $factory [strict = class]
  * <p>The factory class.</p>
  * @see \Feralygon\Kit\Factory
  */

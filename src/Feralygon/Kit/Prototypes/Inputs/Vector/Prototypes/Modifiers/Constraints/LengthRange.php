@@ -25,10 +25,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a vector to a range of lengths.
  * 
  * @since 1.0.0
- * @property-write int $min_length [writeonce]
+ * @property-write int $min_length [writeonce] [coercive]
  * <p>The minimum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write int $max_length [writeonce]
+ * @property-write int $max_length [writeonce] [coercive]
  * <p>The maximum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector

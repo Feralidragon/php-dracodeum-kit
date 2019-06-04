@@ -14,11 +14,11 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Type utility <code>phpfy</code> method options.
  * 
  * @since 1.0.0
- * @property bool $pretty [default = false]
+ * @property bool $pretty [coercive] [default = false]
  * <p>Return human-readable and visually appealing PHP code.</p>
- * @property bool $no_throw [default = false]
+ * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
- * @property int|null $spaces [default = null]
+ * @property int|null $spaces [coercive] [default = null]
  * <p>The number of space characters to use for indentation.<br>
  * If not set, then a tab character is used.<br>
  * If set, then it must be greater than or equal to <code>0</code>.</p>

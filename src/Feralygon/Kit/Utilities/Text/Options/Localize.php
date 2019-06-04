@@ -14,11 +14,11 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Text utility <code>localize</code> method options.
  * 
  * @since 1.0.0
- * @property array $parameters [default = []]
+ * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
+ * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property callable|null $stringifier [default = null]
+ * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

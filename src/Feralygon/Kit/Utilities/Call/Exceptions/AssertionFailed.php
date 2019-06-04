@@ -16,11 +16,11 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * towards a given template fails.
  * 
  * @since 1.0.0
- * @property-read string $name
+ * @property-read string $name [coercive]
  * <p>The name.</p>
- * @property-read callable|array|string $function
+ * @property-read callable|array|string $function [strict]
  * <p>The function.</p>
- * @property-read callable|array|string $template
+ * @property-read callable|array|string $template [strict]
  * <p>The template.</p>
  * @property-read string $function_signature [readonly] [default = auto]
  * <p>The function signature.<br>
@@ -28,9 +28,9 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @property-read string $template_signature [readonly] [default = auto]
  * <p>The template signature.<br>
  * It is automatically got from the given <var>$template</var> property above.</p>
- * @property-read object|string|null $source_object_class [default = null]
+ * @property-read object|string|null $source_object_class [coercive = object or class] [default = null]
  * <p>The source object or class.</p>
- * @property-read string|null $source_function_name [default = null]
+ * @property-read string|null $source_function_name [coercive] [default = null]
  * <p>The source function or method name.</p>
  */
 class AssertionFailed extends Exception implements IAssertive

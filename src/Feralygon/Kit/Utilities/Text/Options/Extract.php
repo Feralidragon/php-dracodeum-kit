@@ -15,13 +15,13 @@ use Feralygon\Kit\Utilities\Type as UType;
  * Text utility <code>extract</code> method options.
  * 
  * @since 1.0.0
- * @property string[] $patterns [default = []]
+ * @property string[] $patterns [coercive] [default = []]
  * <p>The regular expression patterns to use for each parameter, as <samp>placeholder => pattern</samp> pairs.</p>
- * @property string $pattern_modifiers [default = '']
+ * @property string $pattern_modifiers [coercive] [default = '']
  * <p>The regular expression pattern modifiers to use.</p>
- * @property string $pattern_delimiter [default = '/']
+ * @property string $pattern_delimiter [coercive] [default = '/']
  * <p>The regular expression delimiter character to use.</p>
- * @property bool $no_throw [default = false]
+ * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
  * @see \Feralygon\Kit\Utilities\Text
  */

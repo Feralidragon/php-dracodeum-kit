@@ -38,9 +38,9 @@ use Feralygon\Kit\Utilities\{
  * Only an integer, float or string may be evaluated as a text or string.
  * 
  * @since 1.0.0
- * @property-write bool $unicode [writeonce] [default = false]
+ * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Set as Unicode text.</p>
- * @property-write bool $trim [writeonce] [default = false]
+ * @property-write bool $trim [writeonce] [coercive] [default = false]
  * <p>Trim the given text or string from whitespace.</p>
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)

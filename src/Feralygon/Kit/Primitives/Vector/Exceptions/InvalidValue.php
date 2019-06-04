@@ -16,10 +16,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read int|null $index [default = null]
+ * @property-read int|null $index [strict] [default = null]
  * <p>The index.<br>
  * If set, then it must be greater than or equal to <code>0</code>.</p>
- * @property-read string|null $error_message [default = null]
+ * @property-read string|null $error_message [coercive] [default = null]
  * <p>The error message.</p>
  */
 class InvalidValue extends Exception

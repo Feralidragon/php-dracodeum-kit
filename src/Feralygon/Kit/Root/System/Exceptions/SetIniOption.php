@@ -13,7 +13,7 @@ use Feralygon\Kit\Root\System\Exception;
  * Root system <code>setIniOption</code> method exception.
  * 
  * @since 1.0.0
- * @property-read string $name
+ * @property-read string $name [coercive]
  * <p>The name.</p>
  * @property-read mixed $value
  * <p>The value.</p>

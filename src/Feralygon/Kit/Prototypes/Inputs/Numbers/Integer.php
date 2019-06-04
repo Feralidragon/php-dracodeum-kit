@@ -35,9 +35,9 @@ use Feralygon\Kit\Utilities\{
  * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
  * @since 1.0.0
- * @property-write bool $unsigned [writeonce] [default = false]
+ * @property-write bool $unsigned [writeonce] [coercive] [default = false]
  * <p>Set as an unsigned integer.</p>
- * @property-write int|null $bits [writeonce] [default = null]
+ * @property-write int|null $bits [writeonce] [coercive] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be greater than <code>0</code>.<br>
  * <br>

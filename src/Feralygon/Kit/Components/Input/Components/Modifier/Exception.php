@@ -12,9 +12,9 @@ use Feralygon\Kit\Components\Input\Components\Modifier as Component;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Components\Input\Components\Modifier $component
+ * @property-read \Feralygon\Kit\Components\Input\Components\Modifier $component [strict]
  * <p>The component instance.</p>
- * @property-read \Feralygon\Kit\Components\Input\Prototypes\Modifier $prototype
+ * @property-read \Feralygon\Kit\Components\Input\Prototypes\Modifier $prototype [strict]
  * <p>The prototype instance.</p>
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  */

@@ -12,9 +12,9 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 
 /**
  * @since 1.0.0
- * @property bool $exclude_null [default = false]
+ * @property bool $exclude_null [coercive] [default = false]
  * <p>Exclude null information.</p>
- * @property bool $exclude_modifiers [default = false]
+ * @property bool $exclude_modifiers [coercive] [default = false]
  * <p>Exclude modifiers information.</p>
  * @see \Feralygon\Kit\Components\Input
  */

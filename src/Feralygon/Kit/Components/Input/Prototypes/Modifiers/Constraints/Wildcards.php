@@ -26,11 +26,11 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a value to a set of allowed wildcard matches.
  * 
  * @since 1.0.0
- * @property-write string[] $wildcards [writeonce]
+ * @property-write string[] $wildcards [writeonce] [coercive]
  * <p>The allowed wildcard matches to restrict a given value to.</p>
- * @property-write bool $insensitive [writeonce] [default = false]
+ * @property-write bool $insensitive [writeonce] [coercive] [default = false]
  * <p>Match the given wildcards in a case-insensitive manner.</p>
- * @property-write bool $negate [writeonce] [default = false]
+ * @property-write bool $negate [writeonce] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
 class Wildcards extends Constraint implements IName, IInformation, IStringification, ISchemaData

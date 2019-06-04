@@ -12,7 +12,7 @@ use Feralygon\Kit\Options;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Options|string $options
+ * @property-read \Feralygon\Kit\Options|string $options [coercive = object or class]
  * <p>The options instance or class.</p>
  * @see \Feralygon\Kit\Options
  */

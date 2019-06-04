@@ -13,14 +13,14 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Text utility <code>mbulletify</code> method options.
  * 
  * @since 1.0.0
- * @property bool $merge [default = false]
+ * @property bool $merge [coercive] [default = false]
  * <p>Merge all the given strings into a single one, with each string in a new line.</p>
- * @property bool $punctuate [default = false]
+ * @property bool $punctuate [coercive] [default = false]
  * <p>Punctuate each given string with the appropriate symbol, 
  * with a period in the last one and a semicolon in the others.</p>
- * @property bool $append_newline [default = false]
+ * @property bool $append_newline [coercive] [default = false]
  * <p>Append an extra newline to each given string.</p>
- * @property bool $multiline_newline_append [default = false]
+ * @property bool $multiline_newline_append [coercive] [default = false]
  * <p>Append an extra newline to each given multiline string.</p>
  */
 class Mbulletify extends Bulletify

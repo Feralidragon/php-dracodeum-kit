@@ -12,7 +12,7 @@ use Feralygon\Kit\Primitives\Dictionary;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Primitives\Dictionary|string $dictionary
+ * @property-read \Feralygon\Kit\Primitives\Dictionary|string $dictionary [coercive = object or class]
  * <p>The dictionary instance or class.</p>
  * @see \Feralygon\Kit\Primitives\Dictionary
  */

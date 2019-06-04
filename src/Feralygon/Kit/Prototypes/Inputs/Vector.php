@@ -39,7 +39,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a JSON array.
  * 
  * @since 1.0.0
- * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [default = null]
+ * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [coercive = component] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector

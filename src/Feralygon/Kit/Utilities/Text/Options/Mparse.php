@@ -13,7 +13,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Text utility <code>mparse</code> method options.
  * 
  * @since 1.0.0
- * @property bool $keep_nulls [default = false]
+ * @property bool $keep_nulls [coercive] [default = false]
  * <p>Keep the <code>null</code> values in the returned array.</p>
  */
 class Mparse extends Parse

@@ -12,7 +12,7 @@ use Feralygon\Kit\Structure;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Structure|string $structure
+ * @property-read \Feralygon\Kit\Structure|string $structure [coercive = object or class]
  * <p>The structure instance or class.</p>
  * @see \Feralygon\Kit\Structure
  */

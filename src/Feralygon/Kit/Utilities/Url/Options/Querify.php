@@ -14,12 +14,12 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * URL utility <code>querify</code> method options.
  * 
  * @since 1.0.0
- * @property string $delimiter [default = '&']
+ * @property string $delimiter [coercive] [default = '&']
  * <p>The delimiter to use between key-value pairs.<br>
  * It must be a single character.</p>
- * @property bool $allow_arrays [default = false]
+ * @property bool $allow_arrays [coercive] [default = false]
  * <p>Allow array values to be querified.</p>
- * @property bool $no_encode [default = false]
+ * @property bool $no_encode [coercive] [default = false]
  * <p>Do not encode the keys nor the values.</p>
  * @see \Feralygon\Kit\Utilities\Url
  */

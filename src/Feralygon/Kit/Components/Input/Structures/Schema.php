@@ -13,14 +13,14 @@ use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * @since 1.0.0
- * @property string $name
+ * @property string $name [coercive]
  * <p>The name.<br>
  * It cannot be empty.</p>
- * @property bool $nullable [default = false]
+ * @property bool $nullable [coercive] [default = false]
  * <p>Allow null values.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
- * @property \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []]
+ * @property \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [coercive] [default = []]
  * <p>The modifier schema instances.</p>
  * @see \Feralygon\Kit\Components\Input
  */

@@ -14,7 +14,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * Exception <code>construct</code> method options.
  * 
  * @since 1.0.0
- * @property string|null $message [default = null]
+ * @property string|null $message [coercive] [default = null]
  * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
@@ -26,7 +26,7 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * with no limit on the number of chained pointers.<br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
- * @property callable|null $stringifier [default = null]
+ * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
@@ -40,9 +40,9 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <br>
  * Return: <code><b>string|null</b></code><br>
  * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.</p>
- * @property int|null $code [default = null]
+ * @property int|null $code [strict] [default = null]
  * <p>The numeric code.</p>
- * @property \Throwable|null $previous [default = null]
+ * @property \Throwable|null $previous [strict] [default = null]
  * <p>The previous throwable instance.</p>
  * @see \Feralygon\Kit\Exception
  */

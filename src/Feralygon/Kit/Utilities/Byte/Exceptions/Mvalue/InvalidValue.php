@@ -13,7 +13,7 @@ use Feralygon\Kit\Utilities\Byte\Exceptions\Mvalue as Exception;
  * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
  * 
  * @since 1.0.0
- * @property-read string $value
+ * @property-read string $value [coercive]
  * <p>The value.</p>
  */
 class InvalidValue extends Exception

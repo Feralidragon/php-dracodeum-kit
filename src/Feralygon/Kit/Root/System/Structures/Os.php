@@ -13,19 +13,19 @@ use Feralygon\Kit\Structure;
  * Root system OS (Operating System) structure.
  * 
  * @since 1.0.0
- * @property string $name
+ * @property string $name [coercive]
  * <p>The name.<br>
  * It cannot be empty.</p>
- * @property string $hostname
+ * @property string $hostname [coercive]
  * <p>The hostname.<br>
  * It cannot be empty.</p>
- * @property string $release
+ * @property string $release [coercive]
  * <p>The release.<br>
  * It cannot be empty.</p>
- * @property string $information
+ * @property string $information [coercive]
  * <p>The information.<br>
  * It cannot be empty.</p>
- * @property string $architecture
+ * @property string $architecture [coercive]
  * <p>The architecture.<br>
  * It cannot be empty.</p>
  * @see \Feralygon\Kit\Root\System

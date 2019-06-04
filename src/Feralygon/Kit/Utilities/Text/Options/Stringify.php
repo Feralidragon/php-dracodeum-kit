@@ -15,24 +15,24 @@ use Feralygon\Kit\Utilities\Text as UText;
  * Text utility <code>stringify</code> method options.
  * 
  * @since 1.0.0
- * @property bool $prepend_type [default = false]
+ * @property bool $prepend_type [coercive] [default = false]
  * <p>Prepend the type of the given value in the returning string.<br>
  * When prepending the type, a slightly different string may be generated for the given value, 
  * when compared with the resulting string otherwise.<br>
  * <br>
  * NOTE: This property is entirely ignored if the used text info scope is of an end-user 
  * or ignored for non-associative arrays only if <var>$non_assoc_mode</var> below is set.</p>
- * @property bool $quote_strings [default = false]
+ * @property bool $quote_strings [coercive] [default = false]
  * <p>Add quotation marks to string value types in the returning string.<br>
  * Even if not enabled, if <var>$prepend_type</var> above is set to boolean <code>true</code>, 
  * quotation marks may still be added anyway.</p>
- * @property bool $associative [default = false]
+ * @property bool $associative [coercive] [default = false]
  * <p>If the given value is an array, stringify it as an associative array.</p>
- * @property bool $non_stringifiable [default = false]
+ * @property bool $non_stringifiable [coercive] [default = false]
  * <p>If the given value is an object which implements either the <code>__toString</code> method or 
  * the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface, 
  * then do not attempt to stringify it through any of them.</p>
- * @property string|null $non_assoc_mode [default = null]
+ * @property string|null $non_assoc_mode [coercive] [default = null]
  * <p>The text utility <code>Feralygon\Kit\Utilities\Text</code> class non-associative array 
  * stringification mode to use, which can be any of the following:<br>
  * <br>
@@ -50,7 +50,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <br>
  * NOTE: If the used text info scope is of an end-user, 
  * then the mode applied is <code>STRING_NONASSOC_MODE_COMMA_LIST</code> by default.</p>
- * @property bool $no_throw [default = false]
+ * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
  * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
  * @see \Feralygon\Kit\Utilities\Text

@@ -17,9 +17,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string|null $error_code [default = null]
+ * @property-read string|null $error_code [coercive] [default = null]
  * <p>The error code.</p>
- * @property-read string|null $error_message [default = null]
+ * @property-read string|null $error_message [coercive] [default = null]
  * <p>The error message.</p>
  * @see \Feralygon\Kit\Exception
  * @see \Feralygon\Kit\Interfaces\Throwables\Coercive

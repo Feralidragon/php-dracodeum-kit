@@ -27,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @property-write mixed $value [writeonce]
  * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
- * @property-write bool $exclusive [writeonce] [default = false]
+ * @property-write bool $exclusive [writeonce] [coercive] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
  */

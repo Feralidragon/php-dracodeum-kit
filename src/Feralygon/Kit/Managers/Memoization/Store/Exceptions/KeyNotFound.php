@@ -13,7 +13,7 @@ use Feralygon\Kit\Managers\Memoization\Store\Exception;
  * This exception is thrown from a store whenever a given key is not found.
  * 
  * @since 1.0.0
- * @property-read string $name
+ * @property-read string $name [coercive]
  * <p>The name.</p>
  */
 class KeyNotFound extends Exception

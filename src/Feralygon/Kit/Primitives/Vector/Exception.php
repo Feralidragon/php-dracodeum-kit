@@ -12,7 +12,7 @@ use Feralygon\Kit\Primitives\Vector;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Primitives\Vector|string $vector
+ * @property-read \Feralygon\Kit\Primitives\Vector|string $vector [coercive = object or class]
  * <p>The vector instance or class.</p>
  * @see \Feralygon\Kit\Primitives\Vector
  */

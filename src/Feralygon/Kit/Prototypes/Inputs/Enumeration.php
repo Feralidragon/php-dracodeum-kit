@@ -28,21 +28,21 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
  * @since 1.0.0
- * @property-write string $enumeration [writeonce]
+ * @property-write string $enumeration [writeonce] [strict = class]
  * <p>The enumeration class to use.</p>
- * @property-write int[]|float[]|string[] $values [writeonce] [default = []]
+ * @property-write int[]|float[]|string[] $values [writeonce] [coercive] [default = []]
  * <p>The enumeration element values to restrict a given value to.</p>
- * @property-write int[]|float[]|string[] $non_values [writeonce] [default = []]
+ * @property-write int[]|float[]|string[] $non_values [writeonce] [coercive] [default = []]
  * <p>The enumeration element values to restrict a given value from.</p>
- * @property-write bool $names_only [writeonce] [default = false]
+ * @property-write bool $names_only [writeonce] [coercive] [default = false]
  * <p>Only allow enumeration element names to be set.</p>
- * @property-write bool $values_only [writeonce] [default = false]
+ * @property-write bool $values_only [writeonce] [coercive] [default = false]
  * <p>Only allow enumeration element values to be set.</p>
- * @property-write bool $hide_names [writeonce] [default = false]
+ * @property-write bool $hide_names [writeonce] [coercive] [default = false]
  * <p>Hide enumeration element names in labels, descriptions and messages.</p>
- * @property-write bool $hide_values [writeonce] [default = false]
+ * @property-write bool $hide_values [writeonce] [coercive] [default = false]
  * <p>Hide enumeration element values in labels, descriptions and messages.</p>
- * @property-write bool $namify [writeonce] [default = false]
+ * @property-write bool $namify [writeonce] [coercive] [default = false]
  * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */

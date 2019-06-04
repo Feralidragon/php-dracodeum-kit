@@ -13,9 +13,9 @@ use Feralygon\Kit\Utilities\Base64\Exceptions\Decode as Exception;
  * This exception is thrown from the Base64 utility <code>decode</code> method whenever a given string is invalid.
  * 
  * @since 1.0.0
- * @property-read string $string
+ * @property-read string $string [coercive]
  * <p>The string.</p>
- * @property-read bool $url_safe [default = false]
+ * @property-read bool $url_safe [coercive] [default = false]
  * <p>URL-safe decoding.</p>
  */
 class InvalidString extends Exception

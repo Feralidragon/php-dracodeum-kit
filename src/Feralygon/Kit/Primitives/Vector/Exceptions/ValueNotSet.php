@@ -13,7 +13,7 @@ use Feralygon\Kit\Primitives\Vector\Exception;
  * This exception is thrown from a vector whenever no value is set at a given index.
  * 
  * @since 1.0.0
- * @property-read int $index
+ * @property-read int $index [strict]
  * <p>The index.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */

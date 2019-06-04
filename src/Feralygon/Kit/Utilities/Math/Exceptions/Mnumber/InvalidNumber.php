@@ -13,7 +13,7 @@ use Feralygon\Kit\Utilities\Math\Exceptions\Mnumber as Exception;
  * This exception is thrown from the math utility <code>mnumber</code> method whenever a given number is invalid.
  * 
  * @since 1.0.0
- * @property-read string $number
+ * @property-read string $number [coercive]
  * <p>The number.</p>
  */
 class InvalidNumber extends Exception

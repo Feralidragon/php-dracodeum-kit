@@ -16,7 +16,7 @@ use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
  * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string|null $exec_function_full_name [default = null]
+ * @property-read string|null $exec_function_full_name [coercive] [default = null]
  * <p>The executed function full name.</p>
  */
 class ReturnError extends Exception

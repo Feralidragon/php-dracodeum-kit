@@ -12,7 +12,7 @@ use Feralygon\Kit\Managers\Properties as Manager;
 
 /**
  * @since 1.0.0
- * @property-read \Feralygon\Kit\Managers\Properties $manager
+ * @property-read \Feralygon\Kit\Managers\Properties $manager [strict]
  * <p>The manager instance.</p>
  * @see \Feralygon\Kit\Managers\Properties
  */

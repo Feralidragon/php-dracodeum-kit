@@ -25,10 +25,10 @@ use Feralygon\Kit\Utilities\{
  * This constraint prototype restricts a number to a set of allowed multiples.
  * 
  * @since 1.0.0
- * @property-write int[]|float[] $multiples [writeonce]
+ * @property-write int[]|float[] $multiples [writeonce] [coercive]
  * <p>The allowed multiples to restrict a given number to.<br>
  * They must all be different from <code>0</code>.</p>
- * @property-write bool $negate [writeonce] [default = false]
+ * @property-write bool $negate [writeonce] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */

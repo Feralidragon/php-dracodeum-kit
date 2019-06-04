@@ -29,13 +29,13 @@ use Feralygon\Kit\Utilities\{
  * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
  * @property-write mixed $max_value [writeonce]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
- * @property-write bool $min_exclusive [writeonce] [default = false]
+ * @property-write bool $min_exclusive [writeonce] [coercive] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property-write bool $max_exclusive [writeonce] [default = false]
+ * @property-write bool $max_exclusive [writeonce] [coercive] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
- * @property-write bool $negate [writeonce] [default = false]
+ * @property-write bool $negate [writeonce] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IName, IInformation, IStringification, ISchemaData
