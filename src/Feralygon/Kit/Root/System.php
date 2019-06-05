@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Root;
 
+use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
 use Feralygon\Kit\Root\System\{
 	Components,
 	Structures,
@@ -27,7 +28,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  */
-final class System
+final class System implements INonInstantiable
 {
 	//Traits
 	use KitTraits\NonInstantiable;

@@ -13,6 +13,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * This trait turns a class into a non-instantiable one by preventing its instantiation.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Interfaces\NonInstantiable
  */
 trait NonInstantiable
 {

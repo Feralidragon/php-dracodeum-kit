@@ -15,7 +15,8 @@ use Feralygon\Kit\Utilities\Type\{
 use Feralygon\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
-	StringInstantiable as IStringInstantiable
+	StringInstantiable as IStringInstantiable,
+	NonInstantiable as INonInstantiable
 };
 
 /**
@@ -1595,15 +1596,30 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Construct a new instance from a given object or class reference.
+	 * Check if a given class is instantiable.
+	 * 
+	 * @since 1.0.0
+	 * @param string $class
+	 * <p>The class to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given class is instantiable.</p>
+	 */
+	final public static function instantiable(string $class): bool
+	{
+		$class = self::class($class);
+		return (new \ReflectionClass($class))->isInstantiable() && !self::implements($class, INonInstantiable::class);
+	}
+	
+	/**
+	 * Construct a new instance from a given object or class.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class reference to construct from.</p>
+	 * <p>The object or class to construct from.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to construct with.</p>
 	 * @return object
-	 * <p>The new instance from the given object or class reference.</p>
+	 * <p>The new instance from the given object or class.</p>
 	 */
 	final public static function construct($object_class, ...$arguments): object
 	{

@@ -7,6 +7,8 @@
 
 namespace Feralygon\Kit;
 
+use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
+
 /**
  * This class is the base to be extended from when creating an utility.
  * 
@@ -15,7 +17,7 @@ namespace Feralygon\Kit;
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Utility_class
  */
-abstract class Utility
+abstract class Utility implements INonInstantiable
 {
 	//Traits
 	use Traits\NonInstantiable;

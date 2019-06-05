@@ -5,11 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Feralygon\Kit\Interfaces\Throwables;
+namespace Feralygon\Kit\Interfaces;
 
 /**
- * This interface tags an assertive throwable for catching purposes.
+ * This interface tags a class as non-instantiable.
  * 
  * @since 1.0.0
+ * @see \Feralygon\Kit\Traits\NonInstantiable
  */
-interface Assertive extends \Throwable {}
+interface NonInstantiable {}

@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Root;
 
+use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
 use Feralygon\Kit\Traits as KitTraits;
 
 /**
@@ -15,7 +16,7 @@ use Feralygon\Kit\Traits as KitTraits;
  * 
  * @since 1.0.0
  */
-final class Vendor
+final class Vendor implements INonInstantiable
 {
 	//Traits
 	use KitTraits\NonInstantiable;
