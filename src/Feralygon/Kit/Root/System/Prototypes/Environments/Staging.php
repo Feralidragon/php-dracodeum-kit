@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Root\System\Prototypes\Environments;
 
 use Feralygon\Kit\Root\System\Prototypes\Environment;
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Root\System;
 
 /**
@@ -28,6 +29,12 @@ class Staging extends Environment
 	public function isDebug(): bool
 	{
 		return false;
+	}
+	
+	/** {@inheritdoc} */
+	public function getDumpVerbosityLevel(): int
+	{
+		return EDumpVerbosityLevel::LOW;
 	}
 	
 	/** {@inheritdoc} */

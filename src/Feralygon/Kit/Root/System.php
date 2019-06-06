@@ -13,6 +13,7 @@ use Feralygon\Kit\Root\System\{
 	Structures,
 	Exceptions
 };
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Root\System\Factories\Component as FComponent;
 use Feralygon\Kit\Utilities\{
@@ -112,6 +113,19 @@ final class System implements INonInstantiable
 	final public static function isDebug(): bool
 	{
 		return isset(self::$environment) ? self::$environment->isDebug() : false;
+	}
+	
+	/**
+	 * Get dump verbosity level.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel
+	 * @return int
+	 * <p>The dump verbosity level.</p>
+	 */
+	final public static function getDumpVerbosityLevel(): int
+	{
+		return isset(self::$environment) ? self::$environment->getDumpVerbosityLevel() : EDumpVerbosityLevel::HIGH;
 	}
 	
 	/**

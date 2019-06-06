@@ -8,6 +8,8 @@
 namespace Feralygon\Kit\Managers;
 
 use Feralygon\Kit\Manager;
+use Feralygon\Kit\Root\System;
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -43,6 +45,40 @@ class Readonly extends Manager
 	final public function __construct(object $owner)
 	{
 		$this->owner = $owner;
+	}
+	
+	/**
+	 * Get debug info.
+	 * 
+	 * @since 1.0.0
+	 * @return array
+	 * <p>The debug info.</p>
+	 */
+	final public function __debugInfo(): array
+	{
+		return $this->getDebugInfo();
+	}
+	
+	
+
+	//Public methods
+	/**
+	 * Get debug info.
+	 * 
+	 * @since 1.0.0
+	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
+	 * @return array
+	 * <p>The debug info.</p>
+	 */
+	public function getDebugInfo(): array
+	{
+		if (System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::MEDIUM) {
+			return [
+				'enabled' => $this->enabled,
+				'recursive' => $this->recursive
+			];
+		}
+		return (array)$this;
 	}
 	
 	

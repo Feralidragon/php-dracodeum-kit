@@ -12,17 +12,17 @@ use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
 use Feralygon\Kit\Root\System;
 
 /**
- * This environment prototype sets the system for development.
+ * This environment prototype sets the system for internal debugging.
  * 
  * @since 1.0.0
  */
-class Development extends Environment
+class Debug extends Environment
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'development';
+		return 'debug';
 	}
 	
 	/** {@inheritdoc} */
@@ -34,7 +34,7 @@ class Development extends Environment
 	/** {@inheritdoc} */
 	public function getDumpVerbosityLevel(): int
 	{
-		return EDumpVerbosityLevel::MEDIUM;
+		return EDumpVerbosityLevel::HIGH;
 	}
 	
 	/** {@inheritdoc} */

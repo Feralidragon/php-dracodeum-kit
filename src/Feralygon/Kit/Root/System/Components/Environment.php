@@ -13,6 +13,7 @@ use Feralygon\Kit\Root\System\Prototypes\{
 	Environments as Prototypes
 };
 use Feralygon\Kit\Root\System;
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -22,6 +23,8 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @since 1.0.0
  * @see \Feralygon\Kit\Root\System
  * @see \Feralygon\Kit\Root\System\Prototypes\Environment
+ * @see \Feralygon\Kit\Root\System\Prototypes\Environments\Debug
+ * [prototype, name = 'debug']
  * @see \Feralygon\Kit\Root\System\Prototypes\Environments\Development
  * [prototype, name = 'development']
  * @see \Feralygon\Kit\Root\System\Prototypes\Environments\Staging
@@ -45,6 +48,8 @@ class Environment extends Component
 	protected function producePrototype(string $name, array $properties)
 	{
 		switch ($name) {
+			case 'debug':
+				return Prototypes\Debug::class;
 			case 'development':
 				return Prototypes\Development::class;
 			case 'staging':
@@ -87,6 +92,19 @@ class Environment extends Component
 	public function isDebug(): bool
 	{
 		return $this->getPrototype()->isDebug();
+	}
+	
+	/**
+	 * Get dump verbosity level.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel
+	 * @return int
+	 * <p>The dump verbosity level.</p>
+	 */
+	public function getDumpVerbosityLevel(): int
+	{
+		return EDumpVerbosityLevel::coerceValue($this->getPrototype()->getDumpVerbosityLevel());
 	}
 	
 	

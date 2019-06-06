@@ -21,6 +21,8 @@ use Feralygon\Kit\Structure\{
 };
 use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Options\Text as TextOptions;
+use Feralygon\Kit\Root\System;
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -88,6 +90,18 @@ IStringifiable, IStringInstantiable
 		});
 	}
 	
+	/**
+	 * Get debug info.
+	 * 
+	 * @since 1.0.0
+	 * @return array
+	 * <p>The debug info.</p>
+	 */
+	final public function __debugInfo(): array
+	{
+		return $this->getDebugInfo();
+	}
+	
 	
 	
 	//Abstract protected methods
@@ -133,6 +147,46 @@ IStringifiable, IStringInstantiable
 	final public static function fromString(string $string): object
 	{
 		return static::build(static::getStringProperties($string));
+	}
+	
+	
+
+	//Public methods
+	/**
+	 * Get debug info.
+	 * 
+	 * @since 1.0.0
+	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
+	 * @return array
+	 * <p>The debug info.</p>
+	 */
+	public function getDebugInfo(): array
+	{
+		if (System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::MEDIUM) {
+			//initialize
+			$info = [
+				'@readonly' => $this->isReadonly(),
+				'@properties' => $this->getPropertiesDebugInfo()
+			];
+			
+			//properties
+			foreach ((array)$this as $name => $value) {
+				
+				//TODO: create Type::propertyName to strip name from NULL characters
+				//TODO: add bind info to properties + isPropertyBound(string $name)
+				//TODO: create isPropertiesTraitPropertyName(string $name)
+				//TODO: create isReadonlyTraitPropertyName(string $name)
+				//...
+				
+				if (!is_object($value) || !($value instanceof Manager)) {
+					$info[$name] = $value;
+				}
+			}
+			
+			//return
+			return $info;
+		}
+		return (array)$this;
 	}
 	
 	

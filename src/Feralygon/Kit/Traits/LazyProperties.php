@@ -333,6 +333,21 @@ trait LazyProperties
 		return $this;
 	}
 	
+	/**
+	 * Get properties debug info.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @since 1.0.0
+	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
+	 * @return array
+	 * <p>The properties debug info.</p>
+	 */
+	final protected function getPropertiesDebugInfo(): array
+	{
+		return $this->getPropertiesManager()->getDebugInfo();
+	}
+	
 	
 	
 	//Final private methods

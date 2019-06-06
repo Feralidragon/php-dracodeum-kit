@@ -42,6 +42,16 @@ abstract class Environment extends Prototype
 	abstract public function isDebug(): bool;
 	
 	/**
+	 * Get dump verbosity level.
+	 * 
+	 * @since 1.0.0
+	 * @see \Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel
+	 * @return int
+	 * <p>The dump verbosity level.</p>
+	 */
+	abstract public function getDumpVerbosityLevel(): int;
+	
+	/**
 	 * Apply.
 	 * 
 	 * @since 1.0.0

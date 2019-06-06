@@ -96,6 +96,19 @@ trait Readonly
 		return $this;
 	}
 	
+	/**
+	 * Get read-only debug info.
+	 * 
+	 * @since 1.0.0
+	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
+	 * @return array
+	 * <p>The read-only debug info.</p>
+	 */
+	final protected function getReadonlyDebugInfo(): array
+	{
+		return $this->getReadonlyManager()->getDebugInfo();
+	}
+	
 	
 	
 	//Final private methods
