@@ -44,6 +44,7 @@ use Feralygon\Kit\Utilities\{
 abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, IArrayInstantiable, IStringInstantiable
 {
 	//Traits
+	use KitTraits\LazyProperties;
 	use KitTraits\LazyProperties\ArrayAccess;
 	use KitTraits\Readonly;
 	use Traits\DefaultBuilder;

@@ -7,10 +7,8 @@
 
 namespace Feralygon\Kit\Traits\Properties;
 
-use Feralygon\Kit\Traits\Properties;
-
 /**
- * This trait extends the properties trait and implements the PHP <code>ArrayAccess</code> interface.
+ * This trait implements the PHP <code>ArrayAccess</code> interface when the properties trait is used.
  * 
  * @since 1.0.0
  * @see https://php.net/manual/en/class.arrayaccess.php
@@ -18,11 +16,6 @@ use Feralygon\Kit\Traits\Properties;
  */
 trait ArrayAccess
 {
-	//Traits
-	use Properties;
-	
-	
-	
 	//Implemented final public methods (ArrayAccess)
 	/** {@inheritdoc} */
 	final public function offsetExists($offset): bool

@@ -47,7 +47,9 @@ implements IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadon
 IStringifiable, IStringInstantiable
 {
 	//Traits
-	use KitTraits\Properties\ArrayableAccess;
+	use KitTraits\Properties;
+	use KitTraits\Properties\Arrayable;
+	use KitTraits\Properties\ArrayAccess;
 	use KitTraits\Readonly;
 	use KitTraits\Stringifiable;
 	use Traits\DefaultBuilder;

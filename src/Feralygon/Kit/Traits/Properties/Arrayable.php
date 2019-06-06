@@ -7,23 +7,18 @@
 
 namespace Feralygon\Kit\Traits\Properties;
 
-use Feralygon\Kit\Traits\Properties;
 use Feralygon\Kit\Utilities\Data as UData;
 
 /**
- * This trait extends the properties trait and implements the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
+ * This trait implements the PHP <code>Feralygon\Kit\Interfaces\Arrayable</code> interface 
+ * when the properties trait is used.
  * 
  * @since 1.0.0
- * @see \Feralygon\Kit\Traits\Properties
  * @see \Feralygon\Kit\Interfaces\Arrayable
+ * @see \Feralygon\Kit\Traits\Properties
  */
 trait Arrayable
 {
-	//Traits
-	use Properties;
-	
-	
-	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
 	final public function toArray(bool $recursive = false): array

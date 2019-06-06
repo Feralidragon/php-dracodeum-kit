@@ -31,6 +31,7 @@ use Feralygon\Kit\Utilities\Text as UText;
 abstract class Exception extends \Exception implements IPropertiesable, IArrayable
 {
 	//Traits
+	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use Traits\PropertiesLoader;
 	
