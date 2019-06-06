@@ -1318,7 +1318,7 @@ final class Type extends Utility
 			
 			//instantiate
 			try {
-				$object = self::construct($class, ...$arguments);
+				$object = self::instantiate($class, ...$arguments);
 			} catch (\Exception $exception) {
 				if ($no_throw) {
 					return false;
@@ -1611,19 +1611,23 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Construct a new instance from a given object or class.
+	 * Instantiate a new instance from a given object or class.
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $object_class
-	 * <p>The object or class to construct from.</p>
+	 * <p>The object or class to instantiate from.</p>
 	 * @param mixed ...$arguments
-	 * <p>The arguments to construct with.</p>
+	 * <p>The arguments to instantiate with.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NonInstantiableClass
 	 * @return object
 	 * <p>The new instance from the given object or class.</p>
 	 */
-	final public static function construct($object_class, ...$arguments): object
+	final public static function instantiate($object_class, ...$arguments): object
 	{
 		$class = self::class($object_class);
+		if (!self::instantiable($class)) {
+			throw new Exceptions\NonInstantiableClass([$class]);
+		}
 		return new $class(...$arguments);
 	}
 	

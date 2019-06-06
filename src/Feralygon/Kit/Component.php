@@ -141,7 +141,7 @@ abstract class Component implements IPropertiesable
 						if (isset($value)) {
 							$value = UType::coerceObjectClass($value, $prototype_base_class);
 							if (!is_object($value)) {
-								$value = new $value($properties);
+								$value = UType::instantiate($value, $properties);
 							}
 						}
 						return true;
@@ -164,7 +164,7 @@ abstract class Component implements IPropertiesable
 						if (isset($value)) {
 							$value = UType::coerceObjectClass($value, $prototype_base_class);
 							if (!is_object($value)) {
-								$value = new $value($properties);
+								$value = UType::instantiate($value, $properties);
 							}
 						}
 						return true;
@@ -199,7 +199,7 @@ abstract class Component implements IPropertiesable
 			
 			//prototype instantiation
 			if (is_string($prototype)) {
-				$prototype = new $prototype($properties);
+				$prototype = UType::instantiate($prototype, $properties);
 			} else {
 				UCall::guardParameter('properties', $properties, empty($properties), [
 					'hint_message' => "Prototype specific properties are only allowed to be given whenever " . 
