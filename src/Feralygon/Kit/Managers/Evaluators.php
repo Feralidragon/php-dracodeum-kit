@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Managers;
 
+use Feralygon\Kit\Manager;
 use Feralygon\Kit\{
 	Component,
 	Enumeration,
@@ -31,7 +32,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  */
-class Evaluators
+class Evaluators extends Manager
 {
 	//Private properties
 	/** @var object */

@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Managers;
 
+use Feralygon\Kit\Manager;
 use Feralygon\Kit\Managers\Properties\{
 	Property,
 	Exceptions
@@ -29,7 +30,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Managers\Properties\Property
  */
-class Properties
+class Properties extends Manager
 {
 	//Public constants
 	/** Allowed modes. */

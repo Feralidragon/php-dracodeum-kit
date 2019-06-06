@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Primitives;
 
+use Feralygon\Kit\Primitive;
 use Feralygon\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
@@ -34,7 +35,7 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  */
-final class Vector
+final class Vector extends Primitive
 implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable, IArrayable, IArrayInstantiable,
 IStringifiable
 {

@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Managers;
 
+use Feralygon\Kit\Manager;
 use Feralygon\Kit\Managers\Memoization\{
 	Store,
 	Exceptions
@@ -26,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  */
-class Memoization
+class Memoization extends Manager
 {
 	//Private constants
 	/** Values selector. */

@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Primitives;
 
+use Feralygon\Kit\Primitive;
 use Feralygon\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
@@ -37,7 +38,7 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Associative_array
  */
-final class Dictionary
+final class Dictionary extends Primitive
 implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable, IArrayable, IArrayInstantiable,
 IStringifiable
 {

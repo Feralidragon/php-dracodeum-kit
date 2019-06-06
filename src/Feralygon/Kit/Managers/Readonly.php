@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Managers;
 
+use Feralygon\Kit\Manager;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -14,7 +15,7 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * 
  * @since 1.0.0
  */
-class Readonly
+class Readonly extends Manager
 {
 	//Private properties
 	/** @var object */
