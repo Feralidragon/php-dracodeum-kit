@@ -172,7 +172,6 @@ IStringifiable, IStringInstantiable
 			//properties
 			foreach ((array)$this as $name => $value) {
 				
-				//TODO: create Type::propertyName to strip name from NULL characters
 				//TODO: add bind info to properties + isPropertyBound(string $name)
 				//TODO: create isPropertiesTraitPropertyName(string $name)
 				//TODO: create isReadonlyTraitPropertyName(string $name)
