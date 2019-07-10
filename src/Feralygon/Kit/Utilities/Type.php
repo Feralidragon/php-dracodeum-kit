@@ -1941,7 +1941,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
-	 * @return string
+	 * @return string|null
 	 * <p>The filename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function filename($object_class): ?string
@@ -1958,7 +1958,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
-	 * @return string
+	 * @return string|null
 	 * <p>The directory from the given object or class 
 	 * or <code>null</code> if the class is not declared in any file.</p>
 	 */
@@ -1976,7 +1976,7 @@ final class Type extends Utility
 	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
-	 * @return string
+	 * @return string|null
 	 * <p>The basename from the given object or class or <code>null</code> if the class is not declared in any file.</p>
 	 */
 	final public static function basename($object_class): ?string

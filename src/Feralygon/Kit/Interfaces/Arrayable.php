@@ -20,7 +20,7 @@ interface Arrayable
 	 * 
 	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
-	 * <p>Cast all possible referenced subobjects to arrays recursively (if applicable).</p>
+	 * <p>Cast all the possible referenced subobjects to arrays recursively (if applicable).</p>
 	 * @return array
 	 * <p>This object cast to an array.</p>
 	 */

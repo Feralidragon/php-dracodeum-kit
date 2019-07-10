@@ -31,7 +31,7 @@ interface Readonlyable
 	 * 
 	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
-	 * <p>Set all possible referenced subobjects as read-only recursively (if applicable).</p>
+	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
