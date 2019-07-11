@@ -7,6 +7,11 @@
 
 namespace Feralygon\Kit\Traits;
 
+use Feralygon\Kit\Interfaces\DebugInfo as IDebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\{
+	Info,
+	Interfaces
+};
 use Feralygon\Kit\Root\System;
 use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 
@@ -40,14 +45,50 @@ trait DebugInfo
 	/** {@inheritdoc} */
 	final public function getDebugInfo(bool $recursive = false): array
 	{
+		//process
+		$debug_info = [];
+		if (System::getDumpVerbosityLevel() < EDumpVerbosityLevel::HIGH) {
+			//info
+			$info = new Info();
+			if ($this instanceof Interfaces\DebugInfoProcessor) {
+				$this->processDebugInfo($info);
+			}
+			
+			//debug info
+			$debug_info = $info->getAll();
+			if ($info->isObjectPropertiesDumpEnabled()) {
+				foreach ((array)$this as $name => $value) {
+					//initialize
+					$pname = $name;
+					$class = null;
+					if (preg_match('/^\0(?P<class>(?:\*|[\w\\\\]+))\0(?P<name>\w+)$/', $name, $m)) {
+						$pname = $m['name'];
+						if ($m['class'] !== '*') {
+							$class = $m['class'];
+						}
+					}
+					
+					//set
+					if (!$info->isObjectPropertyIgnored($pname, $class)) {
+						$debug_info[$name] = $value;
+					}
+				}
+			}
+		} else {
+			$debug_info = (array)$this;
+		}
 		
-		//TODO
+		//recursive
+		if ($recursive) {
+			foreach ($debug_info as &$value) {
+				if (is_object($value) && $value instanceof IDebugInfo) {
+					$value = $value->getDebugInfo($recursive);
+				}
+			}
+			unset($value);
+		}
 		
-		/**
-		 * Public members: member_name
-		 * Protected memebers: \0*\0member_name
-		 * Private members: \0Class_name\0member_name
-		 */
-		
+		//return
+		return $debug_info;
 	}
 }

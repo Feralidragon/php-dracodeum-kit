@@ -8,6 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
 	Readonlyable as IReadonlyable,
@@ -20,9 +21,9 @@ use Feralygon\Kit\Structure\{
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Options\Text as TextOptions;
-use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -45,10 +46,11 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Structure\Traits\StringPropertiesExtractor
  */
 abstract class Structure
-implements IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable, IArrayInstantiable,
-IStringifiable, IStringInstantiable
+implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
+IArrayInstantiable, IStringifiable, IStringInstantiable
 {
 	//Traits
+	use KitTraits\DebugInfo;
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use KitTraits\Properties\ArrayAccess;
@@ -90,18 +92,6 @@ IStringifiable, IStringInstantiable
 		});
 	}
 	
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	final public function __debugInfo(): array
-	{
-		return $this->getDebugInfo();
-	}
-	
 	
 	
 	//Abstract protected methods
@@ -112,6 +102,23 @@ IStringifiable, IStringInstantiable
 	 * @return void
 	 */
 	abstract protected function loadProperties(): void;
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		//TODO: add bind info to properties + isPropertyBound(string $name)
+		//TODO: create processPropertiesDebugInfo(DebugInfo $info): void
+		//TODO: create processReadonlyDebugInfo(DebugInfo $info): void
+		
+		$info
+			->set('@readonly', $this->getReadonlyDebugInfo())
+			->set('@properties', $this->getPropertiesDebugInfo())
+			//->enableObjectPropertiesDump()
+		;
+	}
 	
 	
 	
@@ -147,45 +154,6 @@ IStringifiable, IStringInstantiable
 	final public static function fromString(string $string): object
 	{
 		return static::build(static::getStringProperties($string));
-	}
-	
-	
-
-	//Public methods
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	public function getDebugInfo(): array
-	{
-		if (System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::MEDIUM) {
-			//initialize
-			$info = [
-				'@readonly' => $this->isReadonly(),
-				'@properties' => $this->getPropertiesDebugInfo()
-			];
-			
-			//properties
-			foreach ((array)$this as $name => $value) {
-				
-				//TODO: add bind info to properties + isPropertyBound(string $name)
-				//TODO: create isPropertiesTraitPropertyName(string $name)
-				//TODO: create isReadonlyTraitPropertyName(string $name)
-				//...
-				
-				if (!is_object($value) || !($value instanceof Manager)) {
-					$info[$name] = $value;
-				}
-			}
-			
-			//return
-			return $info;
-		}
-		return (array)$this;
 	}
 	
 	

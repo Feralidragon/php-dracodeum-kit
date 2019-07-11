@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Traits\DebugInfo;
 
 use Feralygon\Kit\Traits;
 use Feralygon\Kit\Traits\DebugInfo\Info\Exceptions;
+use Feralygon\Kit\Utilities\Type as UType;
 
 /**
  * This class represents the object used to configure the properties to set up in the debug info of a given object.
@@ -23,9 +24,21 @@ final class Info
 	
 	
 	
+	//Private constants
+	/** Class wildcard. */
+	private const CLASS_WILDCARD = '*';
+	
+	
+	
 	//Private properties
 	/** @var array */
 	private $properties = [];
+	
+	/** @var bool */
+	private $object_properties_dump = false;
+	
+	/** @var bool[] */
+	private $ignored_object_properties_map = [];
 	
 	
 	
@@ -138,6 +151,100 @@ final class Info
 	final public function clear(): Info
 	{
 		$this->properties = [];
+		return $this;
+	}
+	
+	/**
+	 * Check if the dump of object properties is enabled.
+	 * 
+	 * @since 1.0.0
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the dump of object properties is enabled.</p>
+	 */
+	final public function isObjectPropertiesDumpEnabled(): bool
+	{
+		return $this->object_properties_dump;
+	}
+	
+	/**
+	 * Enable the dump of object properties.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function enableObjectPropertiesDump(): Info
+	{
+		$this->object_properties_dump = true;
+		return $this;
+	}
+	
+	/**
+	 * Disable the dump of object properties.
+	 * 
+	 * @since 1.0.0
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function disableObjectPropertiesDump(): Info
+	{
+		$this->object_properties_dump = false;
+		return $this;
+	}
+	
+	/**
+	 * Check if an object property with a given name is ignored.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @param string|null $class [default = null]
+	 * <p>The class to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the object property with the given name is ignored.</p>
+	 */
+	final public function isObjectPropertyIgnored(string $name, ?string $class = null): bool
+	{
+		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
+		return isset($this->ignored_object_properties_map[$class][$name]);
+	}
+	
+	/**
+	 * Set object property with a given name as ignored.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to set with.</p>
+	 * @param string|null $class [default = null]
+	 * <p>The class to set with.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setObjectPropertyAsIgnored(string $name, ?string $class = null): Info
+	{
+		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
+		$this->ignored_object_properties_map[$class][$name] = true;
+		return $this;
+	}
+	
+	/**
+	 * Unset object property with a given name as ignored.
+	 * 
+	 * @since 1.0.0
+	 * @param string $name
+	 * <p>The name to unset with.</p>
+	 * @param string|null $class [default = null]
+	 * <p>The class to unset with.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function unsetObjectPropertyAsIgnored(string $name, ?string $class = null): Info
+	{
+		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
+		unset($this->ignored_object_properties_map[$class][$name]);
+		if (empty($this->ignored_object_properties_map[$class])) {
+			unset($this->ignored_object_properties_map[$class]);
+		}
 		return $this;
 	}
 }

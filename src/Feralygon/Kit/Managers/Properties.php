@@ -7,7 +7,13 @@
 
 namespace Feralygon\Kit\Managers;
 
-use Feralygon\Kit\Manager;
+use Feralygon\Kit\{
+	Manager,
+	Traits
+};
+use Feralygon\Kit\Interfaces\DebugInfo as IDebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Managers\Properties\{
 	Property,
 	Exceptions
@@ -32,8 +38,13 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Managers\Properties\Property
  */
-class Properties extends Manager
+class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 {
+	//Traits
+	use Traits\DebugInfo;
+	
+	
+	
 	//Public constants
 	/** Allowed modes. */
 	public const MODES = ['r', 'r+', 'rw', 'w', 'w-'];
@@ -121,16 +132,20 @@ class Properties extends Manager
 		$this->mode = $mode;
 	}
 	
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	final public function __debugInfo(): array
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
 	{
-		return $this->getDebugInfo();
+		$properties = $this->getAll();
+		if (System::getDumpVerbosityLevel() >= EDumpVerbosityLevel::MEDIUM) {
+			foreach ($properties as $name => $value) {
+				$info->set("{$this->getProperty($name)->getMode()}:{$name}", $value);
+			}
+		} else {
+			$info->setAll($properties);
+		}
 	}
 	
 	
@@ -148,40 +163,6 @@ class Properties extends Manager
 	public function createProperty(string $name): Property
 	{
 		return new Property($this, $name);
-	}
-	
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	public function getDebugInfo(): array
-	{
-		$level = System::getDumpVerbosityLevel();
-		if ($level <= EDumpVerbosityLevel::MEDIUM) {
-			//properties
-			$properties = $this->getAll();
-			if ($this->lazy) {
-				ksort($properties, SORT_STRING);
-			}
-			
-			//medium
-			if ($level === EDumpVerbosityLevel::MEDIUM) {
-				$extended_properties = [];
-				foreach ($properties as $name => $value) {
-					$extended_properties["{$this->getProperty($name)->getMode()}:{$name}"] = $value;
-				}
-				$properties = $extended_properties;
-				unset($extended_properties);
-			}
-			
-			//return
-			return $properties;
-		}
-		return (array)$this;
 	}
 	
 	

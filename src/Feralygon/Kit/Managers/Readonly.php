@@ -7,9 +7,13 @@
 
 namespace Feralygon\Kit\Managers;
 
-use Feralygon\Kit\Manager;
-use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
+use Feralygon\Kit\{
+	Manager,
+	Traits
+};
+use Feralygon\Kit\Interfaces\DebugInfo as IDebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -17,8 +21,13 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * 
  * @since 1.0.0
  */
-class Readonly extends Manager
+class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 {
+	//Traits
+	use Traits\DebugInfo;
+	
+	
+	
 	//Private properties
 	/** @var object */
 	private $owner;
@@ -47,38 +56,13 @@ class Readonly extends Manager
 		$this->owner = $owner;
 	}
 	
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	final public function __debugInfo(): array
-	{
-		return $this->getDebugInfo();
-	}
 	
 	
-
-	//Public methods
-	/**
-	 * Get debug info.
-	 * 
-	 * @since 1.0.0
-	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
-	 * @return array
-	 * <p>The debug info.</p>
-	 */
-	public function getDebugInfo(): array
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
 	{
-		if (System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::MEDIUM) {
-			return [
-				'enabled' => $this->enabled,
-				'recursive' => $this->recursive
-			];
-		}
-		return (array)$this;
+		$info->set('enabled', $this->enabled)->set('recursive', $this->recursive);
 	}
 	
 	
