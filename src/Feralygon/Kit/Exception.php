@@ -8,10 +8,13 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Exception\{
 	Options,
 	Traits
@@ -28,9 +31,10 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://php.net/manual/en/class.exception.php
  * @see \Feralygon\Kit\Exception\Traits\PropertiesLoader
  */
-abstract class Exception extends \Exception implements IPropertiesable, IArrayable
+abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, IArrayable
 {
 	//Traits
+	use KitTraits\DebugInfo;
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use Traits\PropertiesLoader;
@@ -104,6 +108,16 @@ abstract class Exception extends \Exception implements IPropertiesable, IArrayab
 	 * <p>The default message.</p>
 	 */
 	abstract public function getDefaultMessage(): string;
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		$this->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
+	}
 	
 	
 	

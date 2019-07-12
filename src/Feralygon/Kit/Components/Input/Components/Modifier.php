@@ -15,6 +15,7 @@ use Feralygon\Kit\Components\Input\Components\Modifier\{
 };
 use Feralygon\Kit\Components\Input\Prototypes\Modifier as Prototype;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces as PrototypeInterfaces;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Options\Text as TextOptions;
 
 /**
@@ -325,5 +326,20 @@ abstract class Modifier extends Component
 	final public function getPriority(): int
 	{
 		return $this->priority;
+	}
+	
+	
+	
+	//Overridden public methods
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		//parent
+		parent::processDebugInfo($info);
+		
+		//hidden properties
+		if (!isset($this->error)) {
+			$info->hideObjectProperty('error', self::class);
+		}
 	}
 }

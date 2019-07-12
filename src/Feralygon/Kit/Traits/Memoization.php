@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Managers\Memoization as Manager;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -43,6 +44,21 @@ trait Memoization
 			$this->memoization_manager = new Manager($this);
 		}
 		return $this->memoization_manager;
+	}
+	
+	/**
+	 * Process a given memoization debug info instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
+	 * <p>The debug info instance to process.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processMemoizationDebugInfo(DebugInfo $info): object
+	{
+		$info->hideObjectProperty('memoization_manager', self::class);
+		return $this;
 	}
 	
 	

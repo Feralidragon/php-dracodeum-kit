@@ -109,15 +109,8 @@ IArrayInstantiable, IStringifiable, IStringInstantiable
 	/** {@inheritdoc} */
 	public function processDebugInfo(DebugInfo $info): void
 	{
-		//TODO: add bind info to properties + isPropertyBound(string $name)
-		//TODO: create processPropertiesDebugInfo(DebugInfo $info): void
-		//TODO: create processReadonlyDebugInfo(DebugInfo $info): void
-		
-		$info
-			->set('@readonly', $this->getReadonlyDebugInfo())
-			->set('@properties', $this->getPropertiesDebugInfo())
-			//->enableObjectPropertiesDump()
-		;
+		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
 	}
 	
 	

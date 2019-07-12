@@ -8,6 +8,9 @@
 namespace Feralygon\Kit\Traits;
 
 use Feralygon\Kit\Managers\Readonly as Manager;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Root\System;
+use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 
 /**
  * This trait enables read-only support for a class 
@@ -107,6 +110,30 @@ trait Readonly
 	final protected function getReadonlyDebugInfo(): array
 	{
 		return $this->getReadonlyManager()->getDebugInfo();
+	}
+	
+	/**
+	 * Process a given read-only debug info instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
+	 * <p>The debug info instance to process.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processReadonlyDebugInfo(DebugInfo $info): object
+	{
+		$readonly = $this->isReadonly();
+		$info
+			->set(
+				'@readonly',
+				System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::LOW || $readonly === $this->isReadonly(true)
+					? $readonly
+					: $this->getReadonlyDebugInfo()
+			)
+			->hideObjectProperty('readonly_manager', self::class)
+		;
+		return $this;
 	}
 	
 	

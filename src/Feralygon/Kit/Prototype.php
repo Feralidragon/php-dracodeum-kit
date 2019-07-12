@@ -7,12 +7,17 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
+	Propertiesable as IPropertiesable
+};
 use Feralygon\Kit\Prototype\{
 	Interfaces,
 	Traits
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Type as UType
@@ -31,9 +36,10 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototype\Traits\PropertyBuilder
  * @see \Feralygon\Kit\Prototype\Traits\Initializer
  */
-abstract class Prototype implements IPropertiesable
+abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IPropertiesable
 {
 	//Traits
+	use KitTraits\DebugInfo;
 	use KitTraits\LazyProperties;
 	use Traits\RequiredPropertyNamesLoader;
 	use Traits\PropertyBuilder;
@@ -67,6 +73,16 @@ abstract class Prototype implements IPropertiesable
 		
 		//initialization
 		$this->initialize();
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		$this->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
 	}
 	
 	

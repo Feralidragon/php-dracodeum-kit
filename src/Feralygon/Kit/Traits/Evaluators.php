@@ -12,6 +12,7 @@ use Feralygon\Kit\Primitives\{
 	Dictionary,
 	Vector
 };
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 
 /**
  * This trait enables the support for evaluators in a class, and adds some common ones.
@@ -1026,5 +1027,20 @@ trait Evaluators
 			$this->evaluators_manager = new Manager($this);
 		}
 		return $this->evaluators_manager;
+	}
+	
+	/**
+	 * Process a given evaluators debug info instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
+	 * <p>The debug info instance to process.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processEvaluatorsDebugInfo(DebugInfo $info): object
+	{
+		$info->hideObjectProperty('evaluators_manager', self::class);
+		return $this;
 	}
 }

@@ -9,6 +9,7 @@ namespace Feralygon\Kit\Primitives;
 
 use Feralygon\Kit\Primitive;
 use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
@@ -16,6 +17,8 @@ use Feralygon\Kit\Interfaces\{
 };
 use Feralygon\Kit\Primitives\Dictionary\Exceptions;
 use Feralygon\Kit\Traits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
@@ -39,10 +42,11 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Associative_array
  */
 final class Dictionary extends Primitive
-implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable, IArrayable, IArrayInstantiable,
-IStringifiable
+implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
+IArrayable, IArrayInstantiable, IStringifiable
 {
 	//Traits
+	use Traits\DebugInfo;
 	use Traits\Readonly;
 	use Traits\Stringifiable;
 	use Traits\Evaluators;
@@ -123,6 +127,43 @@ IStringifiable
 		if (!empty($pairs)) {
 			$this->setAll($pairs);
 		}
+	}
+	
+	
+	
+	//Implemented final public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	final public function processDebugInfo(DebugInfo $info): void
+	{
+		//initialize
+		$complex = false;
+		foreach ($this->keys as $key) {
+			if (!is_int($key) && !is_string($key)) {
+				$complex = true;
+				break;
+			}
+		}
+		
+		//pairs
+		$pairs = [];
+		if ($complex) {
+			foreach ($this->keys as $index => $key) {
+				$pairs[] = [
+					'key' => $key,
+					'value' => $this->values[$index]
+				];
+			}
+		} else {
+			foreach ($this->keys as $index => $key) {
+				$pairs[$key] = $this->values[$index];
+			}
+		}
+		
+		//process
+		$this->processReadonlyDebugInfo($info)->processEvaluatorsDebugInfo($info)->processKeyEvaluatorsDebugInfo($info);
+		
+		//set
+		$info->set('@pairs', $pairs);
 	}
 	
 	

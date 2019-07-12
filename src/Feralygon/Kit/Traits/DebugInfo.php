@@ -69,7 +69,7 @@ trait DebugInfo
 					}
 					
 					//set
-					if (!$info->isObjectPropertyIgnored($pname, $class)) {
+					if (!$info->isObjectPropertyHidden($pname, $class)) {
 						$debug_info[$name] = $value;
 					}
 				}

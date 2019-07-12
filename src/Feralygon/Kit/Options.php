@@ -8,6 +8,7 @@
 namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
 	Readonlyable as IReadonlyable,
 	ArrayInstantiable as IArrayInstantiable,
@@ -18,6 +19,8 @@ use Feralygon\Kit\Options\{
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
@@ -41,9 +44,12 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Options\Traits\DefaultBuilder
  * @see \Feralygon\Kit\Options\Traits\StringPropertiesExtractor
  */
-abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, IArrayInstantiable, IStringInstantiable
+abstract class Options
+implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IReadonlyable, IArrayInstantiable,
+IStringInstantiable
 {
 	//Traits
+	use KitTraits\DebugInfo;
 	use KitTraits\LazyProperties;
 	use KitTraits\LazyProperties\ArrayAccess;
 	use KitTraits\Readonly;
@@ -94,6 +100,16 @@ abstract class Options implements IPropertiesable, \ArrayAccess, IReadonlyable, 
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected function buildProperty(string $name): ?Property;
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
+	}
 	
 	
 	

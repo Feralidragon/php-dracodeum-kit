@@ -12,6 +12,7 @@ use Feralygon\Kit\Traits\LazyProperties\{
 	Property
 };
 use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
@@ -346,6 +347,33 @@ trait LazyProperties
 	final protected function getPropertiesDebugInfo(): array
 	{
 		return $this->getPropertiesManager()->getDebugInfo();
+	}
+	
+	/**
+	 * Process a given properties debug info instance.
+	 * 
+	 * @since 1.0.0
+	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
+	 * <p>The debug info instance to process.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processPropertiesDebugInfo(DebugInfo $info): object
+	{
+		//debug info
+		$debug_info = $this->getPropertiesDebugInfo();
+		if (!empty($debug_info)) {
+			$info->set('@properties', $debug_info);
+		}
+		
+		//hidden properties
+		$info
+			->hideObjectProperty('properties_manager', self::class)
+			->hideObjectProperty('properties_builder_current_name', self::class)
+		;
+		
+		//return
+		return $this;
 	}
 	
 	

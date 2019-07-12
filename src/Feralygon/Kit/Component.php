@@ -7,13 +7,18 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Feralygon\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
+	Propertiesable as IPropertiesable
+};
 use Feralygon\Kit\Component\{
 	Exceptions,
 	Traits,
 	Proxy
 };
 use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Type as UType
@@ -76,9 +81,10 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\PrototypeProducer
  * @see \Feralygon\Kit\Component\Traits\ProxyProducer
  */
-abstract class Component implements IPropertiesable
+abstract class Component implements IDebugInfo, IDebugInfoProcessor, IPropertiesable
 {
 	//Traits
+	use KitTraits\DebugInfo;
 	use KitTraits\LazyProperties;
 	use Traits\DefaultBuilder;
 	use Traits\PreInitializer;
@@ -237,6 +243,22 @@ abstract class Component implements IPropertiesable
 	 * <p>The base prototype class.</p>
 	 */
 	abstract public static function getBasePrototypeClass(): string;
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		//initialize
+		$this->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
+		
+		//ignored properties
+		if (!isset($this->proxy)) {
+			$info->hideObjectProperty('proxy', self::class);
+		}
+	}
 	
 	
 	

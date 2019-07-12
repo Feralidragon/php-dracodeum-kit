@@ -38,7 +38,7 @@ final class Info
 	private $object_properties_dump = false;
 	
 	/** @var bool[] */
-	private $ignored_object_properties_map = [];
+	private $hidden_object_properties_map = [];
 	
 	
 	
@@ -193,7 +193,7 @@ final class Info
 	}
 	
 	/**
-	 * Check if an object property with a given name is ignored.
+	 * Check if an object property with a given name is hidden.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
@@ -201,49 +201,49 @@ final class Info
 	 * @param string|null $class [default = null]
 	 * <p>The class to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the object property with the given name is ignored.</p>
+	 * <p>Boolean <code>true</code> if the object property with the given name is hidden.</p>
 	 */
-	final public function isObjectPropertyIgnored(string $name, ?string $class = null): bool
+	final public function isObjectPropertyHidden(string $name, ?string $class = null): bool
 	{
 		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
-		return isset($this->ignored_object_properties_map[$class][$name]);
+		return isset($this->hidden_object_properties_map[$class][$name]);
 	}
 	
 	/**
-	 * Set object property with a given name as ignored.
+	 * Hide object property with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to set with.</p>
+	 * <p>The name to hide with.</p>
 	 * @param string|null $class [default = null]
-	 * <p>The class to set with.</p>
+	 * <p>The class to hide with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setObjectPropertyAsIgnored(string $name, ?string $class = null): Info
+	final public function hideObjectProperty(string $name, ?string $class = null): Info
 	{
 		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
-		$this->ignored_object_properties_map[$class][$name] = true;
+		$this->hidden_object_properties_map[$class][$name] = true;
 		return $this;
 	}
 	
 	/**
-	 * Unset object property with a given name as ignored.
+	 * Unhide object property with a given name.
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name to unset with.</p>
+	 * <p>The name to unhide with.</p>
 	 * @param string|null $class [default = null]
-	 * <p>The class to unset with.</p>
+	 * <p>The class to unhide with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unsetObjectPropertyAsIgnored(string $name, ?string $class = null): Info
+	final public function unhideObjectProperty(string $name, ?string $class = null): Info
 	{
 		$class = isset($class) ? UType::class($class) : self::CLASS_WILDCARD;
-		unset($this->ignored_object_properties_map[$class][$name]);
-		if (empty($this->ignored_object_properties_map[$class])) {
-			unset($this->ignored_object_properties_map[$class]);
+		unset($this->hidden_object_properties_map[$class][$name]);
+		if (empty($this->hidden_object_properties_map[$class])) {
+			unset($this->hidden_object_properties_map[$class]);
 		}
 		return $this;
 	}

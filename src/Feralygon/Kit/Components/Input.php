@@ -26,6 +26,7 @@ use Feralygon\Kit\Prototypes\{
 	Inputs as Prototypes
 };
 use Feralygon\Kit\Prototypes\Input\Interfaces as PrototypeInterfaces;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -1139,5 +1140,30 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//return
 		return true;
+	}
+	
+	
+	
+	//Overridden public methods
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		//parent
+		parent::processDebugInfo($info);
+		
+		//modifiers
+		$modifiers = $this->getModifiers();
+		if (!empty($modifiers)) {
+			$info->set('@modifiers', $modifiers);
+		}
+		
+		//hidden properties
+		$info
+			->hideObjectProperty('modifiers_tree', self::class)
+			->hideObjectProperty('value_evaluators_tree', self::class)
+		;
+		if (!isset($this->error)) {
+			$info->hideObjectProperty('error', self::class);
+		}
 	}
 }
