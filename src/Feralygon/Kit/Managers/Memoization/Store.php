@@ -41,7 +41,7 @@ final class Store
 	 * 
 	 * @since 1.0.0
 	 * @param int|null $limit [default = null]
-	 * <p>The limit on the number of keys.<br>
+	 * <p>The limit on the number of keys to instantiate with.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
 	 */
 	final public function __construct(?int $limit = null)

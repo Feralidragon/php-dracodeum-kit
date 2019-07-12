@@ -62,9 +62,9 @@ class Property
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Managers\Properties $manager
-	 * <p>The manager instance.</p>
+	 * <p>The manager instance to instantiate with.</p>
 	 * @param string $name
-	 * <p>The name.</p>
+	 * <p>The name to instantiate with.</p>
 	 */
 	final public function __construct(Manager $manager, string $name)
 	{

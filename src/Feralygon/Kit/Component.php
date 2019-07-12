@@ -113,10 +113,10 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototype|string|null $prototype [default = null]
-	 * <p>The prototype instance, class or name.<br>
+	 * <p>The prototype instance, class or name to instantiate with.<br>
 	 * If not set, then the default prototype instance or the base prototype class is used.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.<br>
 	 * <br>

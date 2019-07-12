@@ -32,11 +32,11 @@ final class Key
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name.</p>
+	 * <p>The name to instantiate with.</p>
 	 * @param mixed $value
-	 * <p>The value.</p>
+	 * <p>The value to instantiate with.</p>
 	 * @param float|null $expiry [default = null]
-	 * <p>The expiry, as an Unix timestamp, with microseconds.</p>
+	 * <p>The expiry to instantiate with, as an Unix timestamp, with microseconds.</p>
 	 */
 	final public function __construct(string $name, $value, ?float $expiry = null)
 	{

@@ -32,7 +32,7 @@ final class Error
 	 * 
 	 * @since 1.0.0
 	 * @param mixed $value
-	 * <p>The value.</p>
+	 * <p>The value to instantiate with.</p>
 	 * @param callable[] $messengers [default = []]
 	 * <p>The messenger functions to use to get error messages from.<br>
 	 * They are expected to be compatible with the following signature:<br>

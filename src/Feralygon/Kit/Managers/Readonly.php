@@ -49,7 +49,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * @since 1.0.0
 	 * @param object $owner
-	 * <p>The owner object.</p>
+	 * <p>The owner object to instantiate with.</p>
 	 */
 	final public function __construct(object $owner)
 	{

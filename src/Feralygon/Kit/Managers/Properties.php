@@ -90,7 +90,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * @since 1.0.0
 	 * @param object $owner
-	 * <p>The owner object.</p>
+	 * <p>The owner object to instantiate with.</p>
 	 * @param bool $lazy [default = false] 
 	 * <p>Use lazy-loading, so that each property is only loaded on access.<br>
 	 * <br>

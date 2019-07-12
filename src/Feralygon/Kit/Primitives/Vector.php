@@ -71,7 +71,7 @@ IArrayable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @since 1.0.0
 	 * @param array $values [default = []]
-	 * <p>The values.</p>
+	 * <p>The values to instantiate with.</p>
 	 */
 	final public function __construct(array $values = [])
 	{
@@ -121,7 +121,7 @@ IArrayable, IArrayInstantiable, IStringifiable
 	final public function processDebugInfo(DebugInfo $info): void
 	{
 		$this->processReadonlyDebugInfo($info)->processEvaluatorsDebugInfo($info);
-		$info->set('@array', $this->getAll());
+		$info->set('@values', $this->getAll());
 	}
 	
 	

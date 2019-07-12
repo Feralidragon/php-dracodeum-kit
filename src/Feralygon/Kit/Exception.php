@@ -47,7 +47,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
-	 * <p>The properties, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param \Feralygon\Kit\Exception\Options\Construct|array|null $options [default = null]

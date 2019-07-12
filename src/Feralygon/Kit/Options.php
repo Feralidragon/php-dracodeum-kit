@@ -64,7 +64,7 @@ IStringInstantiable
 	 * 
 	 * @since 1.0.0
 	 * @param array $properties [default = []]
-	 * <p>The properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [])
 	{

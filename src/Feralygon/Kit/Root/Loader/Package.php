@@ -31,13 +31,13 @@ final class Package
 	 * 
 	 * @since 1.0.0
 	 * @param string $vendor
-	 * <p>The vendor.<br>
+	 * <p>The vendor to instantiate with.<br>
 	 * It is converted to lowercase.</p>
 	 * @param string $name
-	 * <p>The name.<br>
+	 * <p>The name to instantiate with.<br>
 	 * It is converted to lowercase.</p>
 	 * @param string $path
-	 * <p>The path.</p>
+	 * <p>The path to instantiate with.</p>
 	 */
 	final public function __construct(string $vendor, string $name, string $path)
 	{

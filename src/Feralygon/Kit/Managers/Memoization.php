@@ -71,7 +71,7 @@ class Memoization extends Manager
 	 * 
 	 * @since 1.0.0
 	 * @param object|string $owner
-	 * <p>The owner object or class.</p>
+	 * <p>The owner object or class to instantiate with.</p>
 	 */
 	final public function __construct($owner)
 	{

@@ -36,12 +36,12 @@ final class Type
 	 * 
 	 * @since 1.0.0
 	 * @param string $name
-	 * <p>The name.</p>
+	 * <p>The name to instantiate with.</p>
 	 * @param string $builder_interface
-	 * <p>The builder interface.<br>
+	 * <p>The builder interface to instantiate with.<br>
 	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
 	 * @param \Feralygon\Kit\Factory\Builder|string $builder
-	 * <p>The builder instance or class.<br>
+	 * <p>The builder instance or class to instantiate with.<br>
 	 * It must implement the builder interface given above as <var>$builder_interface</var>.</p>
 	 */
 	final public function __construct(string $name, string $builder_interface, $builder)

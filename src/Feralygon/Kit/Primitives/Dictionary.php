@@ -72,7 +72,7 @@ IArrayable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @since 1.0.0
 	 * @param array $pairs [default = []]
-	 * <p>The pairs, as <samp>key => value</samp>.</p>
+	 * <p>The pairs to instantiate with, as <samp>key => value</samp>.</p>
 	 */
 	final public function __construct(array $pairs = [])
 	{
