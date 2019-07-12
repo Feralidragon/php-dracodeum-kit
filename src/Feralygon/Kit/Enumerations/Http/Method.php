@@ -61,46 +61,55 @@ class Method extends Enumeration
 	{
 		switch ($name) {
 			case 'HEAD':
+				/** @description "HEAD" description. */
 				return UText::localize(
 					"Get the head of an HTTP resource (headers only).",
 					self::class, $text_options
 				);
 			case 'GET':
+				/** @description "GET" description. */
 				return UText::localize(
 					"Get a full HTTP resource (both headers and content).",
 					self::class, $text_options
 				);
 			case 'POST':
+				/** @description "POST" description. */
 				return UText::localize(
 					"Create a new HTTP resource.",
 					self::class, $text_options
 				);
 			case 'PUT':
+				/** @description "PUT" description. */
 				return UText::localize(
 					"Update an existing HTTP resource fully.",
 					self::class, $text_options
 				);
 			case 'PATCH':
+				/** @description "PATCH" description. */
 				return UText::localize(
 					"Update an existing HTTP resource partially.",
 					self::class, $text_options
 				);
 			case 'DELETE':
+				/** @description "DELETE" description. */
 				return UText::localize(
 					"Eliminate an existing HTTP resource permanently.",
 					self::class, $text_options
 				);
 			case 'TRACE':
+				/** @description "TRACE" description. */
 				return UText::localize(
 					"Get back the current request exactly as it arrived to the remote web server.",
 					self::class, $text_options
 				);
 			case 'OPTIONS':
+				/** @description "OPTIONS" description. */
 				return UText::localize(
 					"Get the allowed HTTP methods of an HTTP resource.",
 					self::class, $text_options
 				);
 			case 'CONNECT':
+				/** @description "CONNECT" description. */
 				return UText::localize(
 					"Open a TCP/IP tunnel for bidireccional communication with an HTTP resource through a proxy.",
 					self::class, $text_options
