@@ -16,6 +16,7 @@ use Feralygon\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
 	StringInstantiable as IStringInstantiable,
+	Uncloneable as IUncloneable,
 	NonInstantiable as INonInstantiable
 };
 
@@ -1629,6 +1630,38 @@ final class Type extends Utility
 			throw new Exceptions\NonInstantiableClass([$class]);
 		}
 		return new $class(...$arguments);
+	}
+	
+	/**
+	 * Check if a given object is cloneable.
+	 * 
+	 * @since 1.0.0
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is cloneable.</p>
+	 */
+	final public static function cloneable(object $object): bool
+	{
+		return !($object instanceof IUncloneable);
+	}
+	
+	/**
+	 * Clone a given object.
+	 * 
+	 * @since 1.0.0
+	 * @param object $object
+	 * <p>The object to clone.</p>
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\UncloneableObject
+	 * @return object
+	 * <p>The cloned object from the given one.</p>
+	 */
+	final public static function clone(object $object): object
+	{
+		if (!self::cloneable($object)) {
+			throw new Exceptions\UncloneableObject([$object]);
+		}
+		return clone $object;
 	}
 	
 	/**
