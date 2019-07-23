@@ -148,9 +148,12 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => $show_names && $show_values && $name !== $value
-								? UText::commify([$name, $value], $text_options, 'or', true)
-								: ($show_names ? $name : $value)
+							'name_value' => UText::commify(
+								$show_names && $show_values && $name !== $value
+									? [$name, $value]
+									: ($show_names ? [$name] : [$value])
+								, $text_options, 'or', true
+							)
 						]
 					]
 				);
@@ -549,9 +552,12 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 						self::class, $text_options, [
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
-								'name_value' => $show_names && $show_values && $name !== $value
-									? UText::commify([$name, $value], $text_options, 'or', true)
-									: ($show_names ? $name : $value),
+								'name_value' => UText::commify(
+									$show_names && $show_values && $name !== $value
+										? [$name, $value]
+										: ($show_names ? [$name] : [$value])
+									, $text_options, 'or', true
+								),
 								'description' => $description
 							]
 						]
@@ -585,9 +591,12 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => $show_names && $show_values && $name !== $value
-								? UText::commify([$name, $value], $text_options, 'or', true)
-								: ($show_names ? $name : $value)
+							'name_value' => UText::commify(
+								$show_names && $show_values && $name !== $value
+									? [$name, $value]
+									: ($show_names ? [$name] : [$value])
+								, $text_options, 'or', true
+							)
 						]
 					]
 				);
