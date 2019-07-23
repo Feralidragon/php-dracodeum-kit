@@ -140,7 +140,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				/**
 				 * @description Enumeration element label.
 				 * @placeholder label The enumeration element label.
-				 * @placeholder name_value The enumeration element name and value.
+				 * @placeholder name_value The enumeration element name and/or value.
 				 * @example Not Modified: "NOT_MODIFIED" or 304
 				 */
 				$labels[] = UText::localize(
@@ -148,12 +148,9 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => UText::commify(
-								$show_names && $show_values && $name !== $value
-									? [$name, $value]
-									: ($show_names ? $name : $value),
-								$text_options, 'or', true
-							)
+							'name_value' => $show_names && $show_values && $name !== $value
+								? UText::commify([$name, $value], $text_options, 'or', true)
+								: ($show_names ? $name : $value)
 						]
 					]
 				);
@@ -542,7 +539,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					/**
 					 * @description Enumeration element description (with name and value).
 					 * @placeholder label The enumeration element label.
-					 * @placeholder name_value The enumeration element name and value.
+					 * @placeholder name_value The enumeration element name and/or value.
 					 * @placeholder description The enumeration element description.
 					 * @example Not Modified (given as "NOT_MODIFIED" or 304): \
 					 * redirection "Not Modified" HTTP status code.
@@ -552,12 +549,9 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 						self::class, $text_options, [
 							'parameters' => [
 								'label' => $enumeration::getNameLabel($name, $text_options),
-								'name_value' => UText::commify(
-									$show_names && $show_values && $name !== $value
-										? [$name, $value]
-										: ($show_names ? $name : $value),
-									$text_options, 'or', true
-								),
+								'name_value' => $show_names && $show_values && $name !== $value
+									? UText::commify([$name, $value], $text_options, 'or', true)
+									: ($show_names ? $name : $value),
 								'description' => $description
 							]
 						]
@@ -583,7 +577,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				/**
 				 * @description Enumeration element description (no description).
 				 * @placeholder label The enumeration element label.
-				 * @placeholder name_value The enumeration element name and value.
+				 * @placeholder name_value The enumeration element name and/or value.
 				 * @example Not Modified: given as "NOT_MODIFIED" or 304.
 				 */
 				$descriptions[$name] = UText::localize(
@@ -591,12 +585,9 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					self::class, $text_options, [
 						'parameters' => [
 							'label' => $enumeration::getNameLabel($name, $text_options),
-							'name_value' => UText::commify(
-								$show_names && $show_values && $name !== $value
-									? [$name, $value]
-									: ($show_names ? $name : $value),
-								$text_options, 'or', true
-							)
+							'name_value' => $show_names && $show_values && $name !== $value
+								? UText::commify([$name, $value], $text_options, 'or', true)
+								: ($show_names ? $name : $value)
 						]
 					]
 				);
