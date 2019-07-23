@@ -19,12 +19,12 @@ trait Uncloneable
 {
 	//Final public magic methods
 	/**
-	 * Prevent object from being cloned.
+	 * Prevent class from being cloned.
 	 * 
 	 * @since 1.0.0
 	 */
 	final public function __clone()
 	{
-		UCall::guard(false, ['error_message' => "This object cannot be cloned."]);
+		UCall::guard(false, ['error_message' => "This class cannot be cloned."]);
 	}
 }
