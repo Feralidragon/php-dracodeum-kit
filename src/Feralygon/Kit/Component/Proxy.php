@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Component;
 
+use Feralygon\Kit\Interfaces\Uncloneable as IUncloneable;
 use Feralygon\Kit\{
 	Component,
 	Traits
@@ -25,10 +26,11 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
-abstract class Proxy
+abstract class Proxy implements IUncloneable
 {
 	//Traits
 	use Traits\NoConstructor;
+	use Traits\Uncloneable;
 	
 	
 	

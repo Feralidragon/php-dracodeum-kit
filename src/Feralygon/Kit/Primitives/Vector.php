@@ -13,7 +13,8 @@ use Feralygon\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable
+	Stringifiable as IStringifiable,
+	Cloneable as ICloneable
 };
 use Feralygon\Kit\Primitives\Vector\Exceptions;
 use Feralygon\Kit\Traits;
@@ -40,13 +41,14 @@ use Feralygon\Kit\Utilities\{
  */
 final class Vector extends Primitive
 implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
-IArrayable, IArrayInstantiable, IStringifiable
+IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
 	use Traits\Readonly;
 	use Traits\Stringifiable;
 	use Traits\Evaluators;
+	use Traits\CloneableOnly;
 	
 	
 	
@@ -244,17 +246,9 @@ IArrayable, IArrayInstantiable, IStringifiable
 	
 	
 	
-	//Final public methods
-	/**
-	 * Clone into a new instance.
-	 * 
-	 * The returning cloned instance is a new instance with the same values and evaluator functions.
-	 * 
-	 * @since 1.0.0
-	 * @return static
-	 * <p>The new cloned instance from this one.</p>
-	 */
-	final public function clone(): Vector
+	//Implemented final public methods (Feralygon\Kit\Interfaces\Cloneable)
+	/** {@inheritdoc} */
+	final public function clone(): object
 	{
 		//instance
 		$instance = new static();
@@ -273,6 +267,9 @@ IArrayable, IArrayInstantiable, IStringifiable
 		return $instance;
 	}
 	
+	
+	
+	//Final public methods
 	/**
 	 * Check if has value at a given index.
 	 * 

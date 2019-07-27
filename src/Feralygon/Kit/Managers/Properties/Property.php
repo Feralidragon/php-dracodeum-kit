@@ -7,6 +7,7 @@
 
 namespace Feralygon\Kit\Managers\Properties;
 
+use Feralygon\Kit\Interfaces\Uncloneable as IUncloneable;
 use Feralygon\Kit\Managers\Properties as Manager;
 use Feralygon\Kit\Managers\Properties\Property\Exceptions;
 use Feralygon\Kit\Traits;
@@ -19,10 +20,11 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see \Feralygon\Kit\Managers\Properties
  */
-class Property
+class Property implements IUncloneable
 {	
 	//Traits
 	use Traits\Evaluators;
+	use Traits\Uncloneable;
 	
 	
 	

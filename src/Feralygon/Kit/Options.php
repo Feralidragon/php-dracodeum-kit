@@ -12,7 +12,8 @@ use Feralygon\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Readonlyable as IReadonlyable,
 	ArrayInstantiable as IArrayInstantiable,
-	StringInstantiable as IStringInstantiable
+	StringInstantiable as IStringInstantiable,
+	Cloneable as ICloneable
 };
 use Feralygon\Kit\Options\{
 	Traits,
@@ -46,13 +47,14 @@ use Feralygon\Kit\Utilities\{
  */
 abstract class Options
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IReadonlyable, IArrayInstantiable,
-IStringInstantiable
+IStringInstantiable, ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
 	use KitTraits\LazyProperties;
 	use KitTraits\LazyProperties\ArrayAccess;
 	use KitTraits\Readonly;
+	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\StringPropertiesExtractor;
 	
@@ -131,17 +133,9 @@ IStringInstantiable
 	
 	
 	
-	//Final public methods
-	/**
-	 * Clone into a new instance.
-	 * 
-	 * The returning cloned instance is a new instance with the same properties.
-	 * 
-	 * @since 1.0.0
-	 * @return static
-	 * <p>The new cloned instance from this one.</p>
-	 */
-	final public function clone(): Options
+	//Implemented final public methods (Feralygon\Kit\Interfaces\Cloneable)
+	/** {@inheritdoc} */
+	final public function clone(): object
 	{
 		return new static($this->getAll());
 	}

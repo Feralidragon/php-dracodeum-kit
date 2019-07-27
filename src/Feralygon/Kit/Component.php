@@ -9,7 +9,8 @@ namespace Feralygon\Kit;
 
 use Feralygon\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable
+	Propertiesable as IPropertiesable,
+	Uncloneable as IUncloneable
 };
 use Feralygon\Kit\Component\{
 	Exceptions,
@@ -81,11 +82,12 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Feralygon\Kit\Component\Traits\PrototypeProducer
  * @see \Feralygon\Kit\Component\Traits\ProxyProducer
  */
-abstract class Component implements IDebugInfo, IDebugInfoProcessor, IPropertiesable
+abstract class Component implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
 	use KitTraits\LazyProperties;
+	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\PreInitializer;
 	use Traits\RequiredPropertyNamesLoader;
