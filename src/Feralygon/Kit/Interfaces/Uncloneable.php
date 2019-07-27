@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Interfaces;
 /**
  * This interface tags a class as uncloneable.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Traits\Uncloneable
  */
 interface Uncloneable {}

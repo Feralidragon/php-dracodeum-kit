@@ -14,7 +14,6 @@ use Feralygon\Kit\Options\Text as Options;
 /**
  * This builder is used to build text instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Options
  * @see \Feralygon\Kit\Options\Text
  * [object]

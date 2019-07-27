@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /** 
  * This trait defines a method to produce the default prototype in a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait DefaultPrototypeProducer
@@ -22,7 +21,6 @@ trait DefaultPrototypeProducer
 	 * The returning prototype is used if none is given during instantiation.<br>
 	 * If none is produced, then the base prototype class is used instead.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties
 	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 

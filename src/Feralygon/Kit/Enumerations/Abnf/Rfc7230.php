@@ -12,7 +12,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * This enumeration represents RFC 7230 ABNF regular expressions.
  * 
- * @since 1.0.0
  * @see https://tools.ietf.org/html/rfc7230#appendix-B
  */
 class Rfc7230 extends Enumeration

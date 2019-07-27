@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Options\Traits;
 /** 
  * This trait defines a method to get the default builder function from an options class.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Options
  */
 trait DefaultBuilder
@@ -31,7 +30,6 @@ trait DefaultBuilder
 	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
 	 * The built instance.
 	 * 
-	 * @since 1.0.0
 	 * @return callable|null
 	 * <p>The default builder function or <code>null</code> if none is set.</p>
 	 */

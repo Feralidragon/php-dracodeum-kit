@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Filter as Component;
 /**
  * This interface defines a method to build a filter instance.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Factories\Component
  */
 interface Filter
@@ -21,7 +20,6 @@ interface Filter
 	/**
 	 * Build instance with a given prototype and set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties

@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Component;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Component|string $component [coercive = object or class]
  * <p>The component instance or class.</p>
  * @see \Feralygon\Kit\Component

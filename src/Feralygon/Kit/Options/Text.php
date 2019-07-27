@@ -14,7 +14,6 @@ use Feralygon\Kit\Factories\Options as Factory;
 use Feralygon\Kit\Root\Locale;
 
 /**
- * @since 1.0.0
  * @property int $info_scope [coercive = enumeration value] [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]
  * <p>The info scope to use, as a value from the <code>Feralygon\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property bool $translate [coercive] [default = false]

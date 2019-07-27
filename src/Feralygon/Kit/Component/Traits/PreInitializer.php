@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /**
  * This trait defines a method to pre-initialize a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait PreInitializer
@@ -19,7 +18,6 @@ trait PreInitializer
 	/**
 	 * Pre-initialize.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototype|string|null $prototype [reference]
 	 * <p>The prototype instance, class or name to pre-initialize with.</p>
 	 * @param array $properties [reference]

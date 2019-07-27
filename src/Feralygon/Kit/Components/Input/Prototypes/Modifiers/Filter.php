@@ -9,17 +9,13 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifier;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
- */
+/** @see \Feralygon\Kit\Components\Input\Components\Modifiers\Filter */
 abstract class Filter extends Modifier
 {
 	//Abstract public methods
 	/**
 	 * Process a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
 	 * @return bool

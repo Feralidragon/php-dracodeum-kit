@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Managers\Properties\Property;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Properties\Property $property [strict]
  * <p>The property instance.</p>
  * @see \Feralygon\Kit\Managers\Properties\Property

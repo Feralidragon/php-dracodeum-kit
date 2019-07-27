@@ -13,8 +13,6 @@ use Feralygon\Kit\Traits\Exception as Traits;
 
 /**
  * This exception is thrown from an enumeration whenever the coercion into an element value fails with a given value.
- * 
- * @since 1.0.0
  */
 class ValueCoercionFailed extends Exception implements ICoercive
 {

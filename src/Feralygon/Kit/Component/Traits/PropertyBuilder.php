@@ -12,7 +12,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * This trait defines a method to build properties in a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait PropertyBuilder
@@ -21,7 +20,6 @@ trait PropertyBuilder
 	/**
 	 * Build property instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to build with.</p>
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property|null

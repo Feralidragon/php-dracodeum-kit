@@ -16,11 +16,7 @@ use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Utilities\Call as UCall;
 
-/**
- * This manager handles the read-only state and the resulting callback functions of an object.
- * 
- * @since 1.0.0
- */
+/** This manager handles the read-only state and the resulting callback functions of an object. */
 class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 {
 	//Traits
@@ -47,7 +43,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param object $owner
 	 * <p>The owner object to instantiate with.</p>
 	 */
@@ -71,7 +66,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Get owner object.
 	 * 
-	 * @since 1.0.0
 	 * @return object
 	 * <p>The owner object.</p>
 	 */
@@ -83,7 +77,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if is enabled.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Check if it has been recursively enabled.</p>
 	 * @return bool
@@ -97,7 +90,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Enable.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Enable recursively.<br>
 	 * <br>
@@ -124,7 +116,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <br>
 	 * This method may only be called before enablement.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $callback
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -151,7 +142,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Guard the current function or method in the stack from being called after enablement.
 	 * 
-	 * @since 1.0.0
 	 * @param int $stack_offset [default = 0]
 	 * <p>The stack offset to use.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>

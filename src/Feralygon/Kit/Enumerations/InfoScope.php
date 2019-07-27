@@ -12,8 +12,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * This enumeration represents info scopes, which are used to define which kind of information to return 
  * depending on the targetted scope.
- * 
- * @since 1.0.0
  */
 class InfoScope extends Enumeration
 {

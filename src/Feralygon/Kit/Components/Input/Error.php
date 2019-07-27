@@ -11,7 +11,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Components\Input
  */
@@ -30,7 +29,6 @@ final class Error
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to instantiate with.</p>
 	 * @param callable[] $messengers [default = []]
@@ -69,7 +67,6 @@ final class Error
 	/**
 	 * Get value.
 	 * 
-	 * @since 1.0.0
 	 * @return mixed
 	 * <p>The value.</p>
 	 */
@@ -81,7 +78,6 @@ final class Error
 	/**
 	 * Get messenger functions.
 	 * 
-	 * @since 1.0.0
 	 * @return \Closure[]
 	 * <p>The messenger functions.</p>
 	 */

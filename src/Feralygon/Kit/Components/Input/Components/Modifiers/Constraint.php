@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This component represents a constraint modifier which checks an input value.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint
  */
 class Constraint extends Modifier

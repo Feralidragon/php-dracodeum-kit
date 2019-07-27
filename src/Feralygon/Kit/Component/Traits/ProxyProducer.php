@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /**
  * This trait defines a method to produce a proxy in a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait ProxyProducer
@@ -19,7 +18,6 @@ trait ProxyProducer
 	/**
 	 * Produce proxy.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Component\Proxy|string|null
 	 * <p>The produced proxy instance or class or <code>null</code> if none was produced.</p>
 	 */

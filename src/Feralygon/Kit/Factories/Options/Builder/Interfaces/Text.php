@@ -12,7 +12,6 @@ use Feralygon\Kit\Options\Text as Options;
 /**
  * This interface defines a method to build a text instance.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Options
  */
 interface Text
@@ -21,7 +20,6 @@ interface Text
 	/**
 	 * Build instance with a given set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Options\Text

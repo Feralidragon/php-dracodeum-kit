@@ -16,7 +16,6 @@ use Feralygon\Kit\Options\Text;
 /**
  * This factory is used to build options instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Options\Builder\Interfaces\Text
  * [builder interface, type = 'text']
  * @see \Feralygon\Kit\Factories\Options\Builders\Text
@@ -41,7 +40,6 @@ class Options extends Factory
 	/**
 	 * Build text instance.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @return \Feralygon\Kit\Options\Text

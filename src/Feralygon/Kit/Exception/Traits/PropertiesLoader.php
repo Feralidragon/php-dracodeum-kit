@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Exception\Traits;
 /**
  * This trait defines a method to load properties in an exception.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Exception
  */
 trait PropertiesLoader
@@ -19,7 +18,6 @@ trait PropertiesLoader
 	/**
 	 * Load properties.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	protected function loadProperties(): void {}

@@ -19,7 +19,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 /**
  * This factory is used to build component instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces\Constraint
  * [builder interface, type = 'constraint']
  * @see \Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces\Filter
@@ -50,7 +49,6 @@ class Component extends Factory
 	/**
 	 * Build constraint instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
@@ -68,7 +66,6 @@ class Component extends Factory
 	/**
 	 * Build filter instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]

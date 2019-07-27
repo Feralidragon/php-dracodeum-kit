@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Primitives\Vector\Exceptions;
 
 use Feralygon\Kit\Primitives\Vector\Exception;
 
-/**
- * This exception is thrown from a vector whenever no values are set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from a vector whenever no values are set. */
 class ValuesNotSet extends Exception
 {
 	//Implemented public methods

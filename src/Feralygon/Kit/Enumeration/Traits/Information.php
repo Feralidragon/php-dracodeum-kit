@@ -12,7 +12,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 /**
  * This trait defines a set of methods to return information from an enumeration, namely the label and description.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Enumeration
  */
 trait Information
@@ -21,7 +20,6 @@ trait Information
 	/**
 	 * Return label for a given element name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to return for.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options
@@ -37,7 +35,6 @@ trait Information
 	/**
 	 * Return description for a given element name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to return for.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a range of values.
  * 
- * @since 1.0.0
  * @property-write mixed $min_value [writeonce]
  * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
  * @property-write mixed $max_value [writeonce]
@@ -351,7 +350,6 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	/**
 	 * Evaluate a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -365,7 +363,6 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	/**
 	 * Generate a string from a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to generate a string from.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

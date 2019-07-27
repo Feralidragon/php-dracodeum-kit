@@ -41,7 +41,6 @@ use Feralygon\Kit\Utilities\{
  * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
  * then that character is stripped from the given name and the input is set as nullable.
  * 
- * @since 1.0.0
  * @property-write bool $nullable [writeonce] [coercive] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
  * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [coercive] [default = []]
@@ -273,7 +272,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * The returning name is a canonical string, which uniquely identifies this input.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -285,7 +283,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Check if is scalar.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is scalar.</p>
 	 */
@@ -297,7 +294,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get value string.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -316,7 +312,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get label.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
@@ -357,7 +352,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get default null label.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -382,7 +376,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get description.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
@@ -427,7 +420,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get default null description.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -454,7 +446,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * The returning message is assertive relative to the expected value.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
@@ -499,7 +490,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get default null message.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -526,7 +516,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * The returning error message is only set if a previous <code>setValue</code> method call has failed.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -573,7 +562,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get default error message.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -587,7 +575,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Unset error.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -618,7 +605,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * The returning schema describes this input by using a structure.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Components\Input\Structures\Schema
 	 * <p>The schema instance.</p>
 	 */
@@ -641,7 +627,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * An input is only considered to have been initialized after a value has been set.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
@@ -655,7 +640,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * This method may only be called after initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return mixed
 	 * <p>The value.</p>
 	 */
@@ -680,7 +664,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Set value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
@@ -775,7 +758,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * By unsetting the value, the input reverts back to an uninitialized state.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -789,7 +771,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Check if is nullable.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is nullable.</p>
 	 */
@@ -801,7 +782,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Check if has modifiers.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has modifiers.</p>
 	 */
@@ -813,7 +793,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get modifier instances.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier[]
 	 * <p>The modifier instances.</p>
 	 */
@@ -831,7 +810,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get modifier labels.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]
@@ -867,7 +845,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get modifier messages.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string[]
@@ -891,7 +868,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
@@ -930,7 +906,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Add value evaluator function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The function to evaluate a given value with.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -976,7 +951,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Check if has an error.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has an error.</p>
 	 */
@@ -990,7 +964,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * 
 	 * The returning schemas describe the modifiers from this input by using structures.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[]
 	 * <p>The modifier schema instances.</p>
 	 */
@@ -1011,7 +984,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Evaluate a given value with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
@@ -1031,7 +1003,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Coerce a given value with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
@@ -1053,7 +1024,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Process the coercion of a given value with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
@@ -1091,7 +1061,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Evaluate a given value with value evaluators.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $before_modifiers [default = false]

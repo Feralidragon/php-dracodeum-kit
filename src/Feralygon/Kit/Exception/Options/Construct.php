@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Exception <code>construct</code> method options.
  * 
- * @since 1.0.0
  * @property string|null $message [coercive] [default = null]
  * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * If set, then placeholders must be exclusively composed by identifiers, 

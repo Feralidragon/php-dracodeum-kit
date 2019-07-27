@@ -12,7 +12,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * This enumeration represents RFC 4647 ABNF regular expressions.
  * 
- * @since 1.0.0
  * @see https://tools.ietf.org/html/rfc4647#section-2.1
  * @see https://tools.ietf.org/html/rfc4647#section-2.2
  */

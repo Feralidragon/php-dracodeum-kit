@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 /**
  * This interface defines a method to get the priority from an input modifier prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 interface Priority
@@ -22,7 +21,6 @@ interface Priority
 	 * The returning priority determines the order by which this modifier is applied.<br>
 	 * Modifiers with the same priority are grouped together and are all executed, even if any one of them fails.
 	 * 
-	 * @since 1.0.0
 	 * @return int
 	 * <p>The priority.</p>
 	 */

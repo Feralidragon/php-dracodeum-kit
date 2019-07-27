@@ -11,11 +11,7 @@ use Feralygon\Kit\Enumeration\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from an enumeration whenever the coercion into an element name fails with a given value.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from an enumeration whenever the coercion into an element name fails with a given value. */
 class NameCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

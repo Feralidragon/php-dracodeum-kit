@@ -12,7 +12,6 @@ use Feralygon\Kit\Primitives\Dictionary\Exception;
 /**
  * This exception is thrown from a dictionary whenever no value is set at a given key.
  * 
- * @since 1.0.0
  * @property-read mixed $key
  * <p>The key.</p>
  */

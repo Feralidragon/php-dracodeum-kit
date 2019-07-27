@@ -7,18 +7,13 @@
 
 namespace Feralygon\Kit\Interfaces;
 
-/**
- * This interface defines a set of methods to check and set an object as read-only.
- * 
- * @since 1.0.0
- */
+/** This interface defines a set of methods to check and set an object as read-only. */
 interface Readonlyable
 {
 	//Public methods
 	/**
 	 * Check if is read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Check if it has been recursively set as read-only.</p>
 	 * @return bool
@@ -29,7 +24,6 @@ interface Readonlyable
 	/**
 	 * Set as read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @return $this

@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This component represents a filter modifier which processes an input value.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter
  */
 class Filter extends Modifier

@@ -22,7 +22,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * This component represents a modifier which alters the behavior of an input towards a given value, 
  * in the form of an additional constraint, filter or other.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
@@ -41,7 +40,6 @@ abstract class Modifier extends Component
 	/**
 	 * Handle the evaluation of a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to handle the evaluation of (validate and sanitize).</p>
 	 * @return bool
@@ -54,7 +52,6 @@ abstract class Modifier extends Component
 	 * 
 	 * The returning error message is the one used by default when the value evaluation fails.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string
@@ -72,7 +69,6 @@ abstract class Modifier extends Component
 	 * Modifiers which end up with the same priority are grouped together and are all executed, 
 	 * even if any one of them fails.
 	 * 
-	 * @since 1.0.0
 	 * @return int
 	 * <p>The base priority.</p>
 	 */
@@ -109,7 +105,6 @@ abstract class Modifier extends Component
 	/**
 	 * Check if has name.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has name.</p>
 	 */
@@ -123,7 +118,6 @@ abstract class Modifier extends Component
 	 * 
 	 * The returning name is a canonical string, which uniquely identifies this modifier within an input.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Components\Modifier\Exceptions\NameNotSet
@@ -145,7 +139,6 @@ abstract class Modifier extends Component
 	/**
 	 * Get label.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -164,7 +157,6 @@ abstract class Modifier extends Component
 	 * 
 	 * The returning message is assertive relative to the expected value.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -184,7 +176,6 @@ abstract class Modifier extends Component
 	 * The returning string represents the full set of properties which defines how a value is evaluated.<br>
 	 * If no such properties are set, then <code>null</code> is returned instead.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -203,7 +194,6 @@ abstract class Modifier extends Component
 	 * 
 	 * The returning error message is only set if a previous <code>evaluateValue</code> method call has failed.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return string|null
@@ -232,7 +222,6 @@ abstract class Modifier extends Component
 	/**
 	 * Unset error.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -254,7 +243,6 @@ abstract class Modifier extends Component
 	/**
 	 * Check if has schema.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has schema.</p>
 	 */
@@ -268,7 +256,6 @@ abstract class Modifier extends Component
 	 * 
 	 * The returning schema describes this modifier by using a structure.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Components\Input\Components\Modifier\Exceptions\SchemaNotSet
@@ -296,7 +283,6 @@ abstract class Modifier extends Component
 	/**
 	 * Evaluate a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -319,7 +305,6 @@ abstract class Modifier extends Component
 	 * The returning priority determines the order by which this modifier is applied.<br>
 	 * Modifiers with the same priority should be grouped together and be all executed, even if any one of them fails.
 	 * 
-	 * @since 1.0.0
 	 * @return int
 	 * <p>The priority.</p>
 	 */

@@ -12,7 +12,6 @@ use Feralygon\Kit\Enumeration\Exception;
 /**
  * This exception is thrown from an enumeration whenever a given name is not found.
  * 
- * @since 1.0.0
  * @property-read string $name [coercive]
  * <p>The name.</p>
  */

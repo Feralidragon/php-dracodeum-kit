@@ -13,7 +13,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * This interface defines a set of methods to get information from an input modifier prototype, 
  * namely the label and message.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 interface Information
@@ -22,7 +21,6 @@ interface Information
 	/**
 	 * Get label.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string
@@ -36,7 +34,6 @@ interface Information
 	 * The returning message is meant to be assertive relative to the expected value.<br>
 	 * It may also be used as an error message if the value evaluation fails.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string

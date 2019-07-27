@@ -25,7 +25,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a set of allowed wildcard matches.
  * 
- * @since 1.0.0
  * @property-write string[] $wildcards [writeonce] [coercive]
  * <p>The allowed wildcard matches to restrict a given value to.</p>
  * @property-write bool $insensitive [writeonce] [coercive] [default = false]

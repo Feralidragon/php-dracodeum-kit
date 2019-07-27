@@ -14,7 +14,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 /**
  * This enumeration represents HTTP request methods.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
  */
 class Method extends Enumeration
@@ -124,7 +123,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents an HTTP method which has a request body.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -138,7 +136,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents an HTTP method which requires a request body.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -152,7 +149,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents an HTTP method which has a response body.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -168,7 +164,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents a cacheable HTTP method.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -182,7 +177,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents a nullipotent HTTP method.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -196,7 +190,6 @@ class Method extends Enumeration
 	/**
 	 * Check if a given element represents an idempotent HTTP method.
 	 * 
-	 * @since 1.0.0
 	 * @param string $element
 	 * <p>The element to check.</p>
 	 * @return bool

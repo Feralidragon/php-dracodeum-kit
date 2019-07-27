@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Components\Input\Components\Modifier;
 
 /**
- * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  */
@@ -24,7 +23,6 @@ final class Error
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to instantiate with.</p>
 	 */

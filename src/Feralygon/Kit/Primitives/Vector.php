@@ -35,7 +35,6 @@ use Feralygon\Kit\Utilities\{
  * It may also be restricted to specific value types through evaluator functions, 
  * and set as read-only to prevent any further changes.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  */
@@ -71,7 +70,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param array $values [default = []]
 	 * <p>The values to instantiate with.</p>
 	 */
@@ -273,7 +271,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if has value at a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to check.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -291,7 +288,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get value from a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -323,7 +319,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if value is set at a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to check.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -338,7 +333,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set value at a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to set at.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -395,7 +389,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Prepend value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to prepend.</p>
 	 * @param bool $no_throw [default = false]
@@ -442,7 +435,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * <br>
 	 * This method is an alias of the <code>prepend</code> method.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to unshift.</p>
 	 * @param bool $no_throw [default = false]
@@ -462,7 +454,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Append value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to append.</p>
 	 * @param bool $no_throw [default = false]
@@ -509,7 +500,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * <br>
 	 * This method is an alias of the <code>append</code> method.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to push.</p>
 	 * @param bool $no_throw [default = false]
@@ -529,7 +519,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Unset value from a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to unset from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -577,7 +566,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * 
 	 * The process of shifting a value consists in removing it from the start of a vector.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\ValuesNotSet
@@ -609,7 +597,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * 
 	 * The process of popping a value consists in removing it from the end of a vector.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Primitives\Vector\Exceptions\ValuesNotSet
@@ -639,7 +626,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if is empty.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is empty.</p>
 	 */
@@ -651,7 +637,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get all values.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the values.</p>
 	 */
@@ -666,7 +651,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set all values.
 	 * 
-	 * @since 1.0.0
 	 * @param array $values
 	 * <p>The values to set.</p>
 	 * @param bool $no_throw [default = false]
@@ -715,7 +699,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Clear values.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -730,7 +713,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Truncate values to a given length.
 	 * 
-	 * @since 1.0.0
 	 * @param int $length
 	 * <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -756,7 +738,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Slice values from a given index.
 	 * 
-	 * @since 1.0.0
 	 * @param int $index
 	 * <p>The index to slice from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -792,7 +773,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * The removal is performed in such a way that only strictly unique values are left within this vector, 
 	 * as not only the values are considered, but also their types as well.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -810,7 +790,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Build instance.
 	 * 
-	 * @since 1.0.0
 	 * @param array $values [default = []]
 	 * <p>The values to build with.</p>
 	 * @return static
@@ -829,7 +808,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -857,7 +835,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -888,7 +865,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
@@ -973,7 +949,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Reset.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

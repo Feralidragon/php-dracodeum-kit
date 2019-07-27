@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /**
  * This trait defines a method to load required property names in a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait RequiredPropertyNamesLoader
@@ -21,7 +20,6 @@ trait RequiredPropertyNamesLoader
 	 * 
 	 * All the required property names loaded here must be given during instantiation.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	protected function loadRequiredPropertyNames(): void {}

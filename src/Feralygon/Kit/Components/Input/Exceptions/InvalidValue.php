@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This exception is thrown from an input whenever a given value is invalid.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string|null $error_message [coercive] [default = null]

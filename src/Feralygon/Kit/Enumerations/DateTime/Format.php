@@ -12,7 +12,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * This enumeration represents date and time formats, to be used in the PHP <code>date</code> function or similar.
  * 
- * @since 1.0.0
  * @see https://php.net/manual/en/function.date.php
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Unix_time

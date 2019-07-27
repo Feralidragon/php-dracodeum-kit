@@ -25,7 +25,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a minimum length.
  * 
- * @since 1.0.0
  * @property-write int $length [writeonce] [coercive]
  * <p>The minimum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>

@@ -16,10 +16,7 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Managers\Properties
- */
+/** @see \Feralygon\Kit\Managers\Properties */
 class Property implements IUncloneable
 {	
 	//Traits
@@ -62,7 +59,6 @@ class Property implements IUncloneable
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Managers\Properties $manager
 	 * <p>The manager instance to instantiate with.</p>
 	 * @param string $name
@@ -80,7 +76,6 @@ class Property implements IUncloneable
 	/**
 	 * Get manager instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Managers\Properties
 	 * <p>The manager instance.</p>
 	 */
@@ -92,7 +87,6 @@ class Property implements IUncloneable
 	/**
 	 * Get name.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -106,7 +100,6 @@ class Property implements IUncloneable
 	 * 
 	 * A property becomes implicitly initialized once a value is set.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
@@ -118,7 +111,6 @@ class Property implements IUncloneable
 	/**
 	 * Check if is required.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is required.</p>
 	 */
@@ -131,7 +123,6 @@ class Property implements IUncloneable
 	/**
 	 * Initialize.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -154,7 +145,6 @@ class Property implements IUncloneable
 	 * This method may only be called before initialization, of both the property and the manager, 
 	 * with lazy-loading disabled and only if the mode is not set to strict read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -193,7 +183,6 @@ class Property implements IUncloneable
 	/**
 	 * Get mode.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The mode.</p>
 	 */
@@ -205,7 +194,6 @@ class Property implements IUncloneable
 	/**
 	 * Set mode.
 	 * 
-	 * @since 1.0.0
 	 * @param string $mode
 	 * <p>The access mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
@@ -271,7 +259,6 @@ class Property implements IUncloneable
 	 * 
 	 * This method may only be called after initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return mixed
 	 * <p>The value.</p>
 	 */
@@ -290,7 +277,6 @@ class Property implements IUncloneable
 	 * 
 	 * This method may only be called during or after the manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
@@ -341,7 +327,6 @@ class Property implements IUncloneable
 	/**
 	 * Check if has default value.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has default value.</p>
 	 */
@@ -353,7 +338,6 @@ class Property implements IUncloneable
 	/**
 	 * Get default value.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
@@ -391,7 +375,6 @@ class Property implements IUncloneable
 	 * 
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The default value to set.</p>
 	 * @return $this
@@ -423,7 +406,6 @@ class Property implements IUncloneable
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $getter
 	 * <p>The default getter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -452,7 +434,6 @@ class Property implements IUncloneable
 	 * 
 	 * This method may only be called after initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
@@ -493,7 +474,6 @@ class Property implements IUncloneable
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $getter
 	 * <p>The getter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -534,7 +514,6 @@ class Property implements IUncloneable
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $setter
 	 * <p>The setter function to set.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -574,7 +553,6 @@ class Property implements IUncloneable
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string|null $class [default = null]
 	 * <p>The class scope to use.<br>
 	 * If not set, then the manager owner object of this instance is used.</p>

@@ -12,7 +12,6 @@ use Feralygon\Kit\Primitives\Vector\Exception;
 /**
  * This exception is thrown from a vector whenever a given set of values is invalid.
  * 
- * @since 1.0.0
  * @property-read array $values [strict]
  * <p>The values.</p>
  */

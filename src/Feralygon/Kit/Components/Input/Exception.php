@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Components\Input as Component;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Components\Input $component [strict]
  * <p>The component instance.</p>
  * @property-read \Feralygon\Kit\Prototypes\Input $prototype [strict]

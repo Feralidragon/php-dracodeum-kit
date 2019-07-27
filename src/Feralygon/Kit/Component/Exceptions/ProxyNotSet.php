@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Component\Exceptions;
 
 use Feralygon\Kit\Component\Exception;
 
-/**
- * This exception is thrown from a component whenever no proxy is set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from a component whenever no proxy is set. */
 class ProxyNotSet extends Exception
 {
 	//Implemented public methods

@@ -14,11 +14,7 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/**
- * This enumeration represents time values in seconds.
- * 
- * @since 1.0.0
- */
+/** This enumeration represents time values in seconds. */
 class Time extends Enumeration
 {
 	//Public constants

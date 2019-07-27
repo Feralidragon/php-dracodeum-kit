@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Components\Input\Components\Modifier\Structures;
 use Feralygon\Kit\Structure;
 
 /**
- * @since 1.0.0
  * @property string $name [coercive]
  * <p>The name.<br>
  * It cannot be empty.</p>

@@ -13,7 +13,6 @@ namespace Feralygon\Kit\Factory;
  * A builder is responsible for building objects in the context of a factory.<br>
  * For more information, please check the <code>Feralygon\Kit\Factory</code> class.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factory
  */
 abstract class Builder {}

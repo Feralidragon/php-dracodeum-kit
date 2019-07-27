@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Managers\Memoization\Store;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Memoization\Store $store [strict]
  * <p>The store instance.</p>
  * @see \Feralygon\Kit\Managers\Memoization\Store

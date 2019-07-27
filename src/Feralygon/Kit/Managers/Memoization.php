@@ -24,8 +24,6 @@ use Feralygon\Kit\Utilities\{
  * Memoized data may also be cached persistently, to be shared across different requests and processes (TODO).
  * 
  * @todo Support persistent cache.
- * 
- * @since 1.0.0
  */
 class Memoization extends Manager
 {
@@ -69,7 +67,6 @@ class Memoization extends Manager
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $owner
 	 * <p>The owner object or class to instantiate with.</p>
 	 */
@@ -84,7 +81,6 @@ class Memoization extends Manager
 	/**
 	 * Get owner object or class.
 	 * 
-	 * @since 1.0.0
 	 * @return object|string
 	 * <p>The owner object or class.</p>
 	 */
@@ -96,7 +92,6 @@ class Memoization extends Manager
 	/**
 	 * Check if has value at a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param string $key
 	 * <p>The key to check at.</p>
 	 * @param mixed $value [reference output] [default = null]
@@ -117,7 +112,6 @@ class Memoization extends Manager
 	/**
 	 * Check if has values.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has values.</p>
 	 */
@@ -129,7 +123,6 @@ class Memoization extends Manager
 	/**
 	 * Get value from a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param string $key
 	 * <p>The key to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -154,7 +147,6 @@ class Memoization extends Manager
 	/**
 	 * Set a given value at a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param string $key
 	 * <p>The key to set at.</p>
 	 * @param mixed $value
@@ -191,7 +183,6 @@ class Memoization extends Manager
 	/**
 	 * Unset value with a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param string $key
 	 * <p>The key to unset with.</p>
 	 * @return $this
@@ -210,7 +201,6 @@ class Memoization extends Manager
 	 * In other words, after the given function is called once, 
 	 * all subsequent call attempts will return the cached value instead.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to memoize with.</p>
 	 * @param callable $function
@@ -255,7 +245,6 @@ class Memoization extends Manager
 	/**
 	 * Get store instance for a given selector.
 	 * 
-	 * @since 1.0.0
 	 * @param string $selector
 	 * <p>The selector to get for.</p>
 	 * @return \Feralygon\Kit\Managers\Memoization\Store

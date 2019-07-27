@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema as Modi
 use Feralygon\Kit\Utilities\Type as UType;
 
 /**
- * @since 1.0.0
  * @property string $name [coercive]
  * <p>The name.<br>
  * It cannot be empty.</p>

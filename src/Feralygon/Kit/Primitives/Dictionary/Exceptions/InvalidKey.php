@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This exception is thrown from a dictionary whenever a given key is invalid.
  * 
- * @since 1.0.0
  * @property-read mixed $key
  * <p>The key.</p>
  * @property-read string|null $error_message [coercive] [default = null]

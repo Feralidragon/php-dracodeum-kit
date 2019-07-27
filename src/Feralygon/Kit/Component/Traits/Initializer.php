@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /**
  * This trait defines a method to initialize a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait Initializer
@@ -19,7 +18,6 @@ trait Initializer
 	/**
 	 * Initialize.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	protected function initialize(): void {}

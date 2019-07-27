@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a maximum value.
  * 
- * @since 1.0.0
  * @property-write mixed $value [writeonce]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
  * @property-write bool $exclusive [writeonce] [coercive] [default = false]
@@ -162,7 +161,6 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 	/**
 	 * Evaluate a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -176,7 +174,6 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 	/**
 	 * Generate a string from a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to generate a string from.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

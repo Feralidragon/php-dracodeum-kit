@@ -8,7 +8,6 @@
 namespace Feralygon\Kit\Managers\Memoization\Store;
 
 /**
- * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Managers\Memoization\Store
  */
@@ -30,7 +29,6 @@ final class Key
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to instantiate with.</p>
 	 * @param mixed $value
@@ -51,7 +49,6 @@ final class Key
 	/**
 	 * Get name.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -63,7 +60,6 @@ final class Key
 	/**
 	 * Get value.
 	 * 
-	 * @since 1.0.0
 	 * @return mixed
 	 * <p>The value.</p>
 	 */
@@ -75,7 +71,6 @@ final class Key
 	/**
 	 * Check if has expiry.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has expiry.</p>
 	 */
@@ -87,7 +82,6 @@ final class Key
 	/**
 	 * Get expiry.
 	 * 
-	 * @since 1.0.0
 	 * @return float|null
 	 * <p>The expiry, as an Unix timestamp, with microseconds, or <code>null</code> if none is set.</p>
 	 */

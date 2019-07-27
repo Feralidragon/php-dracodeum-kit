@@ -35,7 +35,6 @@ use Feralygon\Kit\Utilities\{
  * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
  * each one may hold.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Managers\Properties\Property
  */
 class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
@@ -88,7 +87,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param object $owner
 	 * <p>The owner object to instantiate with.</p>
 	 * @param bool $lazy [default = false] 
@@ -154,7 +152,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Create a property instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to create with.</p>
 	 * @return \Feralygon\Kit\Managers\Properties\Property
@@ -171,7 +168,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Get owner object.
 	 * 
-	 * @since 1.0.0
 	 * @return object
 	 * <p>The owner object.</p>
 	 */
@@ -183,7 +179,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if lazy-loading is enabled.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if lazy-loading is enabled.</p>
 	 */
@@ -195,7 +190,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Get mode.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The mode.</p>
 	 */
@@ -207,7 +201,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if properties are read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
@@ -219,7 +212,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Set properties as read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -249,7 +241,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * This method may only be called before initialization, with lazy-loading enabled 
 	 * and only if the base access mode is not set to strict read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add.</p>
 	 * @return $this
@@ -268,7 +259,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * This method may only be called before initialization, with lazy-loading enabled 
 	 * and only if the base access mode is not set to strict read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param string[] $names
 	 * <p>The names to add.</p>
 	 * @return $this
@@ -308,7 +298,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if a given property name is required.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check.</p>
 	 * @return bool
@@ -324,7 +313,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * This method may only be called before initialization and with lazy-loading disabled.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add with.</p>
 	 * @return \Feralygon\Kit\Managers\Properties\Property
@@ -373,7 +361,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <br>
 	 * This method may only be called before initialization and with lazy-loading enabled.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to set to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -415,7 +402,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <br>
 	 * This method may only be called before initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $remainderer
 	 * <p>The function to set to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -449,7 +435,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * By setting a fallback object, any property not found in this manager is attempted to be got from 
 	 * the given fallback object instead.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Interfaces\Propertiesable $object
 	 * <p>The object to set.</p>
 	 * @return $this
@@ -464,7 +449,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Unset fallback object.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -477,7 +461,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if is initialized.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initialized.</p>
 	 */
@@ -489,7 +472,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if is initializing.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is initializing.</p>
 	 */
@@ -501,7 +483,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Initialize.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
@@ -634,7 +615,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if has property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -653,7 +633,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Get property value with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
@@ -687,7 +666,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * however it only allows properties which hold boolean values, 
 	 * and is simply meant to improve code readability when retrieving boolean properties specifically.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
@@ -715,7 +693,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if property with a given name is set.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -734,7 +711,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Set property with a given name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -777,7 +753,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Unset property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return $this
@@ -825,7 +800,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * If lazy-loading is enabled, then only the currently loaded properties are returned.<br>
 	 * Only properties which allow read access are returned.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -854,7 +828,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if has property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -868,7 +841,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Get property instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $no_throw [default = false]

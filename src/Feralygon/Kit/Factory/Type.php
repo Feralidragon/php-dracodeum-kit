@@ -12,10 +12,7 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Factory
- */
+/** @see \Feralygon\Kit\Factory */
 final class Type
 {
 	//Private properties
@@ -34,7 +31,6 @@ final class Type
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to instantiate with.</p>
 	 * @param string $builder_interface
@@ -66,7 +62,6 @@ final class Type
 	/**
 	 * Get name.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -78,7 +73,6 @@ final class Type
 	/**
 	 * Get builder interface.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The builder interface.</p>
 	 */
@@ -90,7 +84,6 @@ final class Type
 	/**
 	 * Get builder instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Factory\Builder
 	 * <p>The builder instance.</p>
 	 */
@@ -102,7 +95,6 @@ final class Type
 	/**
 	 * Set builder.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Factory\Builder|string $builder
 	 * <p>The builder instance or class to set.<br>
 	 * It must implement the builder interface set in this type.</p>

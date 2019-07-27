@@ -39,7 +39,6 @@ use Feralygon\Kit\Utilities\{
  * It may also be restricted to specific key and value types through evaluator functions, 
  * and set as read-only to prevent any further changes.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Associative_array
  */
 final class Dictionary extends Primitive
@@ -72,7 +71,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param array $pairs [default = []]
 	 * <p>The pairs to instantiate with, as <samp>key => value</samp>.</p>
 	 */
@@ -325,7 +323,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if has value at a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to check.</p>
 	 * @return bool
@@ -339,7 +336,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get value from a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -365,7 +361,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if value is set at a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to check.</p>
 	 * @return bool
@@ -379,7 +374,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set value at a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to set at.</p>
 	 * @param mixed $value
@@ -425,7 +419,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Unset value from a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to unset from.</p>
 	 * @return $this
@@ -441,7 +434,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Check if is empty.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is empty.</p>
 	 */
@@ -455,7 +447,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * 
 	 * Only pairs whose keys are integers, floats or strings can be converted to PHP associative array keys.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the pairs, as <samp>key => value</samp>.</p>
 	 */
@@ -476,7 +467,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set all pairs.
 	 * 
-	 * @since 1.0.0
 	 * @param array $pairs
 	 * <p>The pairs to set, as <samp>key => value</samp>.</p>
 	 * @param bool $no_throw [default = false]
@@ -534,7 +524,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Clear pairs.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -548,7 +537,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get keys.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>The keys.</p>
 	 */
@@ -560,7 +548,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get values.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>The values.</p>
 	 */
@@ -575,7 +562,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Build instance.
 	 * 
-	 * @since 1.0.0
 	 * @param array $pairs [default = []]
 	 * <p>The pairs to build with, as <samp>key => value</samp>.</p>
 	 * @return static
@@ -594,7 +580,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -622,7 +607,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -653,7 +637,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
@@ -744,7 +727,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Get index from a given key.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to get from.</p>
 	 * @return string
@@ -758,7 +740,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set index with a given key and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $index
 	 * <p>The index to set.</p>
 	 * @param mixed $key
@@ -779,7 +760,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Unset index.
 	 * 
-	 * @since 1.0.0
 	 * @param string $index
 	 * <p>The index to unset.</p>
 	 * @return $this
@@ -797,7 +777,6 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/**
 	 * Set key with a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $key
 	 * <p>The key to set.</p>
 	 * @param mixed $value

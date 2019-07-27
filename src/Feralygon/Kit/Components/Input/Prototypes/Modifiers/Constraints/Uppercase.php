@@ -23,7 +23,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to uppercase.
  * 
- * @since 1.0.0
  * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */

@@ -9,17 +9,13 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifier;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
- */
+/** @see \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint */
 abstract class Constraint extends Modifier
 {
 	//Abstract public methods
 	/**
 	 * Check a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to check.</p>
 	 * @return bool

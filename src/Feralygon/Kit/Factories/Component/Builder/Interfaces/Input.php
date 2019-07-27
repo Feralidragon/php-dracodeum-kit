@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input as Component;
 /**
  * This interface defines a method to build an input instance.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component
  */
 interface Input
@@ -21,7 +20,6 @@ interface Input
 	/**
 	 * Build instance with a given prototype and set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties

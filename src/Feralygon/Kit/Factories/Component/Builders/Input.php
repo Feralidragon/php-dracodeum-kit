@@ -14,7 +14,6 @@ use Feralygon\Kit\Components\Input as Component;
 /**
  * This builder is used to build input instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component
  * @see \Feralygon\Kit\Components\Input
  * [object]

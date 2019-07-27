@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Managers\Properties\Property\Exceptions;
 
 use Feralygon\Kit\Managers\Properties\Property\Exception;
 
-/**
- * This exception is thrown from a property whenever no default value is set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from a property whenever no default value is set. */
 class DefaultValueNotSet extends Exception
 {
 	//Implemented public methods

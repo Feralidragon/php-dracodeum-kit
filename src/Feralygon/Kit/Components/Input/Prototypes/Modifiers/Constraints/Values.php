@@ -21,7 +21,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a value to a set of allowed values.
  * 
- * @since 1.0.0
  * @property-write array $values [writeonce] [coercive]
  * <p>The allowed values to restrict a given value to.</p>
  * @property-write bool $negate [writeonce] [coercive] [default = false]
@@ -164,7 +163,6 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	/**
 	 * Evaluate a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -178,7 +176,6 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	/**
 	 * Generate a string from a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to generate a string from.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

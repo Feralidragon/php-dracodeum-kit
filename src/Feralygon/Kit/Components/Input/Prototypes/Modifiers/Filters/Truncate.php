@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This filter prototype truncates a value to a specific length.
  * 
- * @since 1.0.0
  * @property-write int $length [writeonce] [coercive]
  * <p>The length to truncate a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>

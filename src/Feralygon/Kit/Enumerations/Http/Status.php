@@ -14,7 +14,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 /**
  * This enumeration represents HTTP response status codes.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 class Status extends Enumeration
@@ -478,7 +477,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents an informational HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -493,7 +491,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents a success HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -508,7 +505,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents a redirection HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -523,7 +519,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents a client error HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -538,7 +533,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents a server error HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool
@@ -553,7 +547,6 @@ class Status extends Enumeration
 	/**
 	 * Check if a given element represents an error HTTP status.
 	 * 
-	 * @since 1.0.0
 	 * @param int|string $element
 	 * <p>The element to check.</p>
 	 * @return bool

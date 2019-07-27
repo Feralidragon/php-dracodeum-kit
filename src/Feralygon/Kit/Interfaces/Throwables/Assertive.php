@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit\Interfaces\Throwables;
 
-/**
- * This interface tags an assertive throwable for catching purposes.
- * 
- * @since 1.0.0
- */
+/** This interface tags an assertive throwable for catching purposes. */
 interface Assertive extends \Throwable {}

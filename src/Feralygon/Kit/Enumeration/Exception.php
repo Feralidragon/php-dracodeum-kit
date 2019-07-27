@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Enumeration;
 
 /**
- * @since 1.0.0
  * @property-read string $enumeration [strict = class]
  * <p>The enumeration class.</p>
  * @see \Feralygon\Kit\Enumeration

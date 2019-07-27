@@ -7,18 +7,13 @@
 
 namespace Feralygon\Kit\Interfaces;
 
-/**
- * This interface defines a method to clone an object.
- * 
- * @since 1.0.0
- */
+/** This interface defines a method to clone an object. */
 interface Cloneable
 {
 	//Public methods
 	/**
 	 * Clone into a new instance.
 	 * 
-	 * @since 1.0.0
 	 * @return static
 	 * <p>The new cloned instance from this one.</p>
 	 */

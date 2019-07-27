@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 /**
  * This interface defines a method to get the name from an input modifier prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 interface Name
@@ -21,7 +20,6 @@ interface Name
 	 * 
 	 * The returning name must be a canonical string, which uniquely identifies this modifier within an input.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */

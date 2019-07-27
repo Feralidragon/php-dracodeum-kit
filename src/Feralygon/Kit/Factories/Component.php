@@ -16,7 +16,6 @@ use Feralygon\Kit\Components\Input;
 /**
  * This factory is used to build component instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Factories\Component\Builder\Interfaces\Input
  * [builder interface, type = 'input']
  * @see \Feralygon\Kit\Factories\Component\Builders\Input
@@ -41,7 +40,6 @@ class Component extends Factory
 	/**
 	 * Build input instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]

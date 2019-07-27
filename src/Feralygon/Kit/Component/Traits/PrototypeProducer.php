@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Component\Traits;
 /**
  * This trait defines a method to produce prototypes in a component.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  */
 trait PrototypeProducer
@@ -19,7 +18,6 @@ trait PrototypeProducer
 	/**
 	 * Produce prototype for a given name with a given set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to produce for.</p>
 	 * @param array $properties

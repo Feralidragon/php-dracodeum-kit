@@ -7,18 +7,13 @@
 
 namespace Feralygon\Kit\Interfaces\Throwables;
 
-/**
- * This interface defines a set of methods to get the value, error code and message from a coercive throwable.
- * 
- * @since 1.0.0
- */
+/** This interface defines a set of methods to get the value, error code and message from a coercive throwable. */
 interface Coercive extends \Throwable
 {
 	//Public methods
 	/**
 	 * Get value.
 	 * 
-	 * @since 1.0.0
 	 * @return mixed
 	 * <p>The value.</p>
 	 */
@@ -27,7 +22,6 @@ interface Coercive extends \Throwable
 	/**
 	 * Get error code.
 	 * 
-	 * @since 1.0.0
 	 * @return string|null
 	 * <p>The error code or <code>null</code> if none is set.</p>
 	 */
@@ -36,7 +30,6 @@ interface Coercive extends \Throwable
 	/**
 	 * Get error message.
 	 * 
-	 * @since 1.0.0
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if none is set.</p>
 	 */

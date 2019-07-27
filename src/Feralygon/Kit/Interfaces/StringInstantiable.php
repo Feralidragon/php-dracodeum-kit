@@ -7,18 +7,13 @@
 
 namespace Feralygon\Kit\Interfaces;
 
-/**
- * This interface defines a method to instantiate a class from a string.
- * 
- * @since 1.0.0
- */
+/** This interface defines a method to instantiate a class from a string. */
 interface StringInstantiable
 {
 	//Public static methods
 	/**
 	 * Instantiate class from a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to instantiate from.</p>
 	 * @return static

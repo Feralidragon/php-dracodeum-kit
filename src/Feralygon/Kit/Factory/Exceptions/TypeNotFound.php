@@ -12,7 +12,6 @@ use Feralygon\Kit\Factory\Exception;
 /**
  * This exception is thrown from a factory whenever a given type is not found.
  * 
- * @since 1.0.0
  * @property-read string $name [coercive]
  * <p>The name.</p>
  */

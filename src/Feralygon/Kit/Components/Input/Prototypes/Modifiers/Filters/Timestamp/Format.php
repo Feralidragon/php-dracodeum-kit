@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Time as UTime;
 /**
  * This filter prototype converts a timestamp value into a string or object using a specific format.
  * 
- * @since 1.0.0
  * @property-write string $format [writeonce] [coercive]
  * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>

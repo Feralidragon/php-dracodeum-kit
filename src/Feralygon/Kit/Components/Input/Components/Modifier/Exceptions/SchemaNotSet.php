@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Components\Input\Components\Modifier\Exceptions;
 
 use Feralygon\Kit\Components\Input\Components\Modifier\Exception;
 
-/**
- * This exception is thrown from a modifier whenever no schema is set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from a modifier whenever no schema is set. */
 class SchemaNotSet extends Exception
 {
 	//Implemented public methods

@@ -17,7 +17,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * @since 1.0.0
  * @internal
  * @see \Feralygon\Kit\Managers\Memoization
  */
@@ -39,7 +38,6 @@ final class Store
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param int|null $limit [default = null]
 	 * <p>The limit on the number of keys to instantiate with.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
@@ -58,7 +56,6 @@ final class Store
 	/**
 	 * Check if has key with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @param \Feralygon\Kit\Managers\Memoization\Store\Key|null $key [reference output] [default = null]
@@ -84,7 +81,6 @@ final class Store
 	/**
 	 * Check if has keys.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has keys.</p>
 	 */
@@ -101,7 +97,6 @@ final class Store
 	/**
 	 * Get key instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $no_throw [default = false]
@@ -125,7 +120,6 @@ final class Store
 	/**
 	 * Set key with a given name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -177,7 +171,6 @@ final class Store
 	/**
 	 * Unset key with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return $this

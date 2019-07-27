@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Managers\Memoization as Manager;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Managers\Memoization $manager [strict]
  * <p>The manager instance.</p>
  * @see \Feralygon\Kit\Managers\Memoization

@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes;
 use Feralygon\Kit\Prototype;
 
 /**
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Priority
