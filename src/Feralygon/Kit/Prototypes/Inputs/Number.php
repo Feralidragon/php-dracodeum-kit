@@ -13,7 +13,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Prototypes\Inputs\Number\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -37,18 +37,18 @@ use Feralygon\Kit\Utilities\{
  * 
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Values
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Minimum
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Minimum
  * [modifier, name = 'constraints.minimum' or 'minimum' or 'constraints.positive' or 'positive']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Maximum
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Maximum
  * [modifier, name = 'constraints.maximum' or 'maximum' or 'constraints.negative' or 'negative']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Range
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Range
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Multiples
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Multiples
  * [modifier, name = 'constraints.multiples' or 'multiples' or 'constraints.non_multiples' or 'non_multiples' or 
  * 'constraints.even' or 'even' or 'constraints.odd' or 'odd']
- * @see \Feralygon\Kit\Prototypes\Inputs\Number\Prototypes\Modifiers\Constraints\Powers
+ * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Powers
  * [modifier, name = 'constraints.powers' or 'powers' or 'constraints.non_powers' or 'non_powers']
  */
 class Number extends Input implements IInformation, IModifierBuilder

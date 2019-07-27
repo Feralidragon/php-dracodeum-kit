@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 use Feralygon\Kit\Prototypes\Inputs\Number;
 use Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier as IValueStringifier;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -38,13 +38,13 @@ use Feralygon\Kit\Utilities\{
  * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Byte
  * @see https://en.wikipedia.org/wiki/File_size
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints\Values
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints\Minimum
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Minimum
  * [modifier, name = 'constraints.minimum' or 'minimum' or 'constraints.positive' or 'positive']
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints\Maximum
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Maximum
  * [modifier, name = 'constraints.maximum' or 'maximum' or 'constraints.negative' or 'negative']
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Prototypes\Modifiers\Constraints\Range
+ * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Range
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  */
 class Size extends Number implements IValueStringifier

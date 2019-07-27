@@ -14,7 +14,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\{
+use Feralygon\Kit\Prototypes\Inputs\Hash\{
 	Constraints,
 	Filters
 };
@@ -46,15 +46,15 @@ use Feralygon\Kit\Utilities\{
  * <p>The label to use.<br>
  * If set, then it cannot be empty.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Constraints\Values
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Base64
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Base64
  * [modifier, name = 'filters.base64']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Colonify
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Colonify
  * [modifier, name = 'filters.colonify' or 'colonify']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Raw
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Raw
  * [modifier, name = 'filters.raw']
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Prototypes\Modifiers\Filters\Uppercase
+ * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Uppercase
  * [modifier, name = 'filters.uppercase' or 'upper']
  */
 class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder

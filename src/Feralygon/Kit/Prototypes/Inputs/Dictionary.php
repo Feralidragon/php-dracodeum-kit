@@ -18,7 +18,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 use Feralygon\Kit\Primitives\Dictionary as Primitive;
 use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -44,17 +44,17 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Feralygon\Kit\Primitives\Dictionary
  * @see \Feralygon\Kit\Interfaces\Arrayable
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\Length
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\Length
  * [modifier, name = 'constraints.length' or 'length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\MinLength
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\MinLength
  * [modifier, name = 'constraints.min_length' or 'min_length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\MaxLength
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\MaxLength
  * [modifier, name = 'constraints.max_length' or 'max_length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\LengthRange
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\LengthRange
  * [modifier, name = 'constraints.length_range' or 'length_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\NonEmpty
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\NonEmpty
  * [modifier, name = 'constraints.non_empty' or 'non_empty']
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Prototypes\Modifiers\Constraints\Unique
+ * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\Unique
  * [modifier, name = 'constraints.unique' or 'unique']
  */
 class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset

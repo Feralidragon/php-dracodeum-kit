@@ -18,7 +18,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 use Feralygon\Kit\Primitives\Vector as Primitive;
 use Feralygon\Kit\Components\Input as Component;
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\{
+use Feralygon\Kit\Prototypes\Inputs\Vector\{
 	Constraints,
 	Filters
 };
@@ -45,21 +45,21 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  * @see \Feralygon\Kit\Primitives\Vector
  * @see \Feralygon\Kit\Interfaces\Arrayable
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Length
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\Length
  * [modifier, name = 'constraints.length' or 'length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\MinLength
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\MinLength
  * [modifier, name = 'constraints.min_length' or 'min_length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\MaxLength
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\MaxLength
  * [modifier, name = 'constraints.max_length' or 'max_length']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\LengthRange
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\LengthRange
  * [modifier, name = 'constraints.length_range' or 'length_range']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\NonEmpty
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\NonEmpty
  * [modifier, name = 'constraints.non_empty' or 'non_empty']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Constraints\Unique
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Constraints\Unique
  * [modifier, name = 'constraints.unique' or 'unique']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Filters\Truncate
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Filters\Truncate
  * [modifier, name = 'filters.truncate' or 'truncate']
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Prototypes\Modifiers\Filters\Unique
+ * @see \Feralygon\Kit\Prototypes\Inputs\Vector\Filters\Unique
  * [modifier, name = 'filters.unique']
  */
 class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset

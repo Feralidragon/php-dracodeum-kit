@@ -14,7 +14,7 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	ModifierBuilder as IModifierBuilder
 };
 use Feralygon\Kit\Components\Input\Components\Modifier;
-use Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp as TimestampFilters;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -37,13 +37,13 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
  * @see https://php.net/manual/en/class.datetimeinterface.php
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Values
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Minimum
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Minimum
  * [modifier, name = 'constraints.minimum' or 'minimum']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Maximum
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Maximum
  * [modifier, name = 'constraints.maximum' or 'maximum']
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Prototypes\Modifiers\Constraints\Range
+ * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Range
  * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp\Format
  * [modifier, name = 'filters.format']
