@@ -151,8 +151,8 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 		if ($complex) {
 			foreach ($this->keys as $index => $key) {
 				$pairs[] = [
-					'key' => $key,
-					'value' => $this->values[$index]
+					'@key' => $key,
+					'@value' => $this->values[$index]
 				];
 			}
 		} else {
