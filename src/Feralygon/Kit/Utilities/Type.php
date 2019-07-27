@@ -16,6 +16,7 @@ use Feralygon\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
 	StringInstantiable as IStringInstantiable,
+	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
 	NonInstantiable as INonInstantiable
 };
@@ -1660,6 +1661,8 @@ final class Type extends Utility
 	{
 		if (!self::cloneable($object)) {
 			throw new Exceptions\UncloneableObject([$object]);
+		} elseif ($object instanceof ICloneable) {
+			return $object->clone();
 		}
 		return clone $object;
 	}
