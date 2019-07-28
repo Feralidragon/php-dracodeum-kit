@@ -12,7 +12,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>mbulletify</code> method options.
  * 
- * @since 1.0.0
  * @property bool $merge [coercive] [default = false]
  * <p>Merge all the given strings into a single one, with each string in a new line.</p>
  * @property bool $punctuate [coercive] [default = false]

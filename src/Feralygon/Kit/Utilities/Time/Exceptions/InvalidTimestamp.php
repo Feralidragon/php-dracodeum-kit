@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Time\Exception;
 /**
  * This exception is thrown from the time utility whenever a given timestamp is invalid.
  * 
- * @since 1.0.0
  * @property-read mixed $timestamp
  * <p>The timestamp.</p>
  */

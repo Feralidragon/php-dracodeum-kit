@@ -11,11 +11,7 @@ use Feralygon\Kit\Utilities\Call\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from the call utility whenever the coercion fails with a given value.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the call utility whenever the coercion fails with a given value. */
 class CoercionFailed extends Exception implements ICoercive
 {
 	//Traits

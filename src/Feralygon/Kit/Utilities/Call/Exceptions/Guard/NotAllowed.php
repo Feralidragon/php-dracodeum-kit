@@ -12,8 +12,6 @@ use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
 /**
  * This exception is thrown from the call utility <code>guard</code> method whenever a given function or method call 
  * is not allowed.
- * 
- * @since 1.0.0
  */
 class NotAllowed extends Exception
 {

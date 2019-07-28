@@ -9,8 +9,5 @@ namespace Feralygon\Kit\Utilities\Data;
 
 use Feralygon\Kit\Exception as KitException;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Utilities\Data
- */
+/** @see \Feralygon\Kit\Utilities\Data */
 abstract class Exception extends KitException {}

@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * JSON utility <code>encode</code> method options.
  * 
- * @since 1.0.0
  * @property int $flags [strict] [default = 0x00]
  * <p>The flags to use, as supported as <var>$options</var> by the PHP <code>json_encode</code> function.</p>
  * @property int|null $depth [coercive] [default = null]

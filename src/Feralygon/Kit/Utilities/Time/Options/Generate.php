@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Time utility <code>generate</code> method options.
  * 
- * @since 1.0.0
  * @property string|null $format [coercive] [default = null]
  * <p>The values format to use, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>

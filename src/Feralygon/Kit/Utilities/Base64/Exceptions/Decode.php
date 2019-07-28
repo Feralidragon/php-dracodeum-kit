@@ -9,9 +9,5 @@ namespace Feralygon\Kit\Utilities\Base64\Exceptions;
 
 use Feralygon\Kit\Utilities\Base64\Exception;
 
-/**
- * Base64 utility <code>decode</code> method exception.
- * 
- * @since 1.0.0
- */
+/** Base64 utility <code>decode</code> method exception. */
 abstract class Decode extends Exception {}

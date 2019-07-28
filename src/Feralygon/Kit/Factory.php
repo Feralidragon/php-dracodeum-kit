@@ -22,7 +22,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * <br>
  * Every type has a default builder set, but another one may be set during runtime (dependency injection).
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Factory_method_pattern
  * @see \Feralygon\Kit\Factory\Builder
  * @see \Feralygon\Kit\Factory\Type
@@ -47,7 +46,6 @@ abstract class Factory implements INonInstantiable
 	/**
 	 * Build type instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to build with.</p>
 	 * @return \Feralygon\Kit\Factory\Type|null
@@ -61,7 +59,6 @@ abstract class Factory implements INonInstantiable
 	/**
 	 * Set builder for a given type.
 	 * 
-	 * @since 1.0.0
 	 * @param string $type
 	 * <p>The type to set for.</p>
 	 * @param \Feralygon\Kit\Factory\Builder|string $builder
@@ -80,7 +77,6 @@ abstract class Factory implements INonInstantiable
 	/**
 	 * Get type instance with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $no_throw [default = false]
@@ -125,7 +121,6 @@ abstract class Factory implements INonInstantiable
 	 * 
 	 * This method may only be called from within the <code>buildType</code> method.
 	 * 
-	 * @since 1.0.0
 	 * @param string $builder_interface
 	 * <p>The builder interface to create with.<br>
 	 * It must define a <code>build</code> method, which must return an object or <code>null</code>.</p>
@@ -145,7 +140,6 @@ abstract class Factory implements INonInstantiable
 	/**
 	 * Build object for a given type.
 	 * 
-	 * @since 1.0.0
 	 * @param string $type
 	 * <p>The type to build for.</p>
 	 * @param mixed ...$arguments

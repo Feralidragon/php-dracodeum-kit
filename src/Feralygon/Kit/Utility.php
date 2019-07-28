@@ -14,7 +14,6 @@ use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
  * 
  * All methods of this kind of class must be <code>static</code>.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Utility_class
  */
 abstract class Utility implements INonInstantiable

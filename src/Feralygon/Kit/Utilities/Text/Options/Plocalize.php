@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit\Utilities\Text\Options;
 
-/**
- * Text utility <code>plocalize</code> method options.
- * 
- * @since 1.0.0
- */
+/** Text utility <code>plocalize</code> method options. */
 class Plocalize extends Localize {}

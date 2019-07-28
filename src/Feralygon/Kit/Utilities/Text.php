@@ -16,11 +16,7 @@ use Feralygon\Kit\Utilities\Text\{
 };
 use Feralygon\Kit\Root\Locale;
 
-/**
- * This utility implements a set of methods used to manipulate and get information from text and strings.
- * 
- * @since 1.0.0
- */
+/** This utility implements a set of methods used to manipulate and get information from text and strings. */
 final class Text extends Utility
 {
 	//Public constants
@@ -77,7 +73,6 @@ final class Text extends Utility
 	 * 
 	 * A given string is considered to be empty if its value is either <code>null</code> or <code>''</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param string|null $string
 	 * <p>The string to check.</p>
 	 * @param bool $ignore_whitespace [default = false]
@@ -108,7 +103,6 @@ final class Text extends Utility
 	 * The returning string is the first one from the given set of strings which is not empty 
 	 * (not <code>null</code> nor <code>''</code>).
 	 * 
-	 * @since 1.0.0
 	 * @param string[]|null[] $strings
 	 * <p>The strings to coalesce from.</p>
 	 * @param int[]|string[] $keys [default = []]
@@ -156,7 +150,6 @@ final class Text extends Utility
 	 * the <code>__toString</code> method are stringified through one of them, whichever one is implemented first, 
 	 * with the former preferred over the latter.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
 	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
@@ -392,7 +385,6 @@ final class Text extends Utility
 	 * The process of commification of a given set of strings consists into joining them into a single string, 
 	 * as a comma separated list of strings.
 	 * 
-	 * @since 1.0.0
 	 * @param string[] $strings
 	 * <p>The strings to commify.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -458,7 +450,6 @@ final class Text extends Utility
 	 * <br>
 	 * The returning string is also trimmed and converted to lowercase by omission.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to slugify.</p>
 	 * @param bool $keep_case [default = false]
@@ -491,7 +482,6 @@ final class Text extends Utility
 	 * which results into human-readable words from the original slugified string, 
 	 * although they might not fully correspond to the original string before it was slugified.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to unslugify.</p>
 	 * @param int $flags [default = 0x00]
@@ -521,7 +511,6 @@ final class Text extends Utility
 	 * The process of bulletification of a given string consists in prepending a bullet character to it, 
 	 * turning the string into a bullet point, in a way to be safely localized for different languages.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to bulletify.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -560,7 +549,6 @@ final class Text extends Utility
 	 * The process of bulletification of a given set of strings consists in prepending a bullet character 
 	 * to each string, turning the strings into bullet points, in a way to be safely localized for different languages.
 	 * 
-	 * @since 1.0.0
 	 * @param string[] $strings
 	 * <p>The strings to bulletify.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -638,7 +626,6 @@ final class Text extends Utility
 	 * and is exclusively composed by ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param bool $extended [default = false]
@@ -658,7 +645,6 @@ final class Text extends Utility
 	 * In a given wildcard, the <samp>*</samp> character matches any number and type of characters, 
 	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string $wildcard
@@ -685,7 +671,6 @@ final class Text extends Utility
 	 * In any given wildcard, the <samp>*</samp> character matches any number and type of characters, 
 	 * including no characters at all, and is also the only wildcard character recognized.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string[] $wildcards
@@ -722,7 +707,6 @@ final class Text extends Utility
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to fill.</p>
 	 * @param array $parameters
@@ -856,7 +840,6 @@ final class Text extends Utility
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string1
 	 * <p>The string singular form to fill.</p>
 	 * @param string $string2
@@ -904,7 +887,6 @@ final class Text extends Utility
 	 * If suffixed with opening and closing parenthesis, such as <samp>object.method()</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @return bool
@@ -918,7 +900,6 @@ final class Text extends Utility
 	/**
 	 * Check if a given string has a given placeholder.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string $placeholder
@@ -935,7 +916,6 @@ final class Text extends Utility
 	/**
 	 * Check if a given string has all given placeholders.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string[] $placeholders
@@ -956,7 +936,6 @@ final class Text extends Utility
 	/**
 	 * Check if a given string has any given placeholders.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string[] $placeholders
@@ -988,7 +967,6 @@ final class Text extends Utility
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1038,7 +1016,6 @@ final class Text extends Utility
 	 * by using a dot between identifiers, such as <samp>{{placeholder.key}}</samp>, 
 	 * with no limit on the number of pointers chained.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to extract from.</p>
 	 * @param string $mask
@@ -1119,7 +1096,6 @@ final class Text extends Utility
 	 * sort out between the matches output by their groups, this function allows smaller patterns to be easily 
 	 * set up for each field, and get an associative return with the parsed values set with those fields.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.preg-match.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
@@ -1160,7 +1136,6 @@ final class Text extends Utility
 	 * sort out between the matches output by their groups, this function allows smaller patterns to be easily 
 	 * set up for each field, and get an associative return per string with the parsed values set with those fields.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.preg-match.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.syntax.php
 	 * @see https://php.net/manual/en/reference.pcre.pattern.modifiers.php
@@ -1250,7 +1225,6 @@ final class Text extends Utility
 	/**
 	 * Convert the first letter of a given string to lowercase.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.lcfirst.php
 	 * @param string $string
 	 * <p>The string to convert.</p>
@@ -1272,7 +1246,6 @@ final class Text extends Utility
 	/**
 	 * Convert the first letter of a given string to uppercase.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ucfirst.php
 	 * @param string $string
 	 * <p>The string to convert.</p>
@@ -1294,7 +1267,6 @@ final class Text extends Utility
 	/**
 	 * Calculate the length of a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to calculate from.</p>
 	 * @param bool $unicode [default = false]
@@ -1310,7 +1282,6 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to uppercase.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
@@ -1326,7 +1297,6 @@ final class Text extends Utility
 	/**
 	 * Convert a given string to lowercase.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
@@ -1342,7 +1312,6 @@ final class Text extends Utility
 	/**
 	 * Get sub-string from a given string from a given starting index.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.substr.php
 	 * @param string $string
 	 * <p>The string to get from.</p>
@@ -1372,7 +1341,6 @@ final class Text extends Utility
 	 * The process of capitalization of a given string consists in converting the first character 
 	 * from its first word to uppercase, but only if it is safe to do so.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to capitalize.</p>
 	 * @param bool $unicode [default = false]
@@ -1400,7 +1368,6 @@ final class Text extends Utility
 	 * The process of uncapitalization of a given string consists in converting the first character 
 	 * from its first word to lowercase, but only if it is safe to do so.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to uncapitalize.</p>
 	 * @param bool $unicode [default = false]
@@ -1432,7 +1399,6 @@ final class Text extends Utility
 	 * Alternatively, its Damerau variation (Damerau-Levenshtein) can be used to also consider transpositions 
 	 * of 2 adjacent characters to result into a distance of 1 (1 transposition) instead of 2 (2 substitutions).
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Levenshtein_distance
 	 * @see https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
 	 * @param string $string1
@@ -1512,7 +1478,6 @@ final class Text extends Utility
 	/**
 	 * Truncate a given string to a given length.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to truncate.</p>
 	 * @param int $length
@@ -1598,7 +1563,6 @@ final class Text extends Utility
 	/**
 	 * Indentate a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to indentate.</p>
 	 * @param int $level [default = 1]
@@ -1624,7 +1588,6 @@ final class Text extends Utility
 	/**
 	 * Check if a given string is multiline.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @return bool
@@ -1644,7 +1607,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>fooBar</samp> are two examples of camel case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
@@ -1666,7 +1628,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>Foo</samp> and <samp>FooBar</samp> are two examples of pascal case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
@@ -1689,7 +1650,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>foo_bar</samp> are two examples of snake case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
@@ -1712,7 +1672,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>foo-bar</samp> are two examples of kebab case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to check.</p>
@@ -1734,7 +1693,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>FOO</samp> and <samp>FOO_BAR</samp> are two examples of macro case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>The string to check.</p>
@@ -1756,7 +1714,6 @@ final class Text extends Utility
 	 * <br>
 	 * The strings <samp>FOO</samp> and <samp>FOO-BAR</samp> are two examples of cobol case notation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Naming_convention_(programming)
 	 * @param string $string
 	 * <p>String to check.</p>
@@ -1797,7 +1754,6 @@ final class Text extends Utility
 	 * In other words, <samp>foo</samp> will be recognized to be in snake case notation only, 
 	 * since the snake case check is performed before the kebab and camel case ones.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1847,7 +1803,6 @@ final class Text extends Utility
 	 * If given in camel case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1891,7 +1846,6 @@ final class Text extends Utility
 	 * If given in pascal case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/PascalCase
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/Snake_case
@@ -1928,7 +1882,6 @@ final class Text extends Utility
 	 * If given in snake case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
@@ -1971,7 +1924,6 @@ final class Text extends Utility
 	 * If given in kebab case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
@@ -2014,7 +1966,6 @@ final class Text extends Utility
 	 * If given in macro case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
@@ -2057,7 +2008,6 @@ final class Text extends Utility
 	 * If given in cobol case notation already, 
 	 * then no conversion is performed whatsoever and the same string is returned.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Snake_case
 	 * @see https://en.wikipedia.org/wiki/Camel_case
 	 * @see https://en.wikipedia.org/wiki/PascalCase
@@ -2095,7 +2045,6 @@ final class Text extends Utility
 	/**
 	 * Check if a given string is a word.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param bool $unicode [default = false]
@@ -2155,7 +2104,6 @@ final class Text extends Utility
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
 	 * of all existing entries to translate.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Root\Locale
 	 * @param string $message
 	 * <p>The message to localize.</p>
@@ -2239,7 +2187,6 @@ final class Text extends Utility
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
 	 * of all existing entries to translate.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Root\Locale
 	 * @param string $message1
 	 * <p>The message singular form to localize.</p>
@@ -2305,7 +2252,6 @@ final class Text extends Utility
 	 * in order to break it away from the previous sentence, while still remaining visually clear that 
 	 * it is the object of reference of the previous sentence.
 	 * 
-	 * @since 1.0.0
 	 * @param string $message
 	 * <p>The message to format.</p>
 	 * @param bool $unicode [default = false]

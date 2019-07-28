@@ -28,7 +28,6 @@ use Feralygon\Kit\Interfaces\{
  * For functions or callables see the <code>Feralygon\Kit\Utilities\Call</code> class, 
  * while for arrays see the <code>Feralygon\Kit\Utilities\Data</code> class instead.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Utilities\Call
  * @see \Feralygon\Kit\Utilities\Data
  * @see https://php.net/manual/en/language.types.php
@@ -75,7 +74,6 @@ final class Type extends Utility
 	 * or both <code>Feralygon\Kit\Interfaces\Arrayable</code> 
 	 * and <code>Feralygon\Kit\Interfaces\ArrayInstantiable</code> interfaces, are supported.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.var-export.php
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.set-state
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
@@ -233,7 +231,6 @@ final class Type extends Utility
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -261,7 +258,6 @@ final class Type extends Utility
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -292,7 +288,6 @@ final class Type extends Utility
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -373,7 +368,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -403,7 +397,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -436,7 +429,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -529,7 +521,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $unsigned [default = false]
@@ -569,7 +560,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $unsigned [default = false]
@@ -612,7 +602,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $unsigned [default = false]
@@ -748,7 +737,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -778,7 +766,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -811,7 +798,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -871,7 +857,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
 	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
@@ -896,7 +881,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
 	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
@@ -924,7 +908,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
 	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
@@ -1002,7 +985,6 @@ final class Type extends Utility
 	 * 
 	 * Only a class string or object can be evaluated into a class.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1023,7 +1005,6 @@ final class Type extends Utility
 	 * 
 	 * Only a class string or object can be coerced into a class.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1047,7 +1028,6 @@ final class Type extends Utility
 	 * 
 	 * Only a class string or object can be coerced into a class.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1140,7 +1120,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
@@ -1172,7 +1151,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value
@@ -1207,7 +1185,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
@@ -1388,7 +1365,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
@@ -1418,7 +1394,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value
@@ -1449,7 +1424,6 @@ final class Type extends Utility
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param mixed $value [reference]
@@ -1600,7 +1574,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given class is instantiable.
 	 * 
-	 * @since 1.0.0
 	 * @param string $class
 	 * <p>The class to check.</p>
 	 * @return bool
@@ -1615,7 +1588,6 @@ final class Type extends Utility
 	/**
 	 * Instantiate a new instance from a given object or class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to instantiate from.</p>
 	 * @param mixed ...$arguments
@@ -1636,7 +1608,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object is cloneable.
 	 * 
-	 * @since 1.0.0
 	 * @param object $object
 	 * <p>The object to check.</p>
 	 * @return bool
@@ -1650,7 +1621,6 @@ final class Type extends Utility
 	/**
 	 * Clone a given object.
 	 * 
-	 * @since 1.0.0
 	 * @param object $object
 	 * <p>The object to clone.</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\UncloneableObject
@@ -1670,7 +1640,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class extends from or is of the same class as a given base object or class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
 	 * @param object|string $base_object_class
@@ -1690,7 +1659,6 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as a given base object or class.
 	 * 
-	 * @since 1.0.0
 	 * @param object[]|string[] $objects_classes
 	 * <p>The objects or classes to check.</p>
 	 * @param object|string $base_object_class
@@ -1713,7 +1681,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class extends from or is of the same class as any given base objects or classes.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
 	 * @param object[]|string[] $base_objects_classes
@@ -1738,7 +1705,6 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as any given base objects or classes.
 	 * 
-	 * @since 1.0.0
 	 * @param object[]|string[] $objects_classes
 	 * <p>The objects or classes to check.</p>
 	 * @param object[]|string[] $base_objects_classes
@@ -1782,7 +1748,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class implements a given interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
@@ -1801,7 +1766,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class implements any given interfaces.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
@@ -1826,7 +1790,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class implements all given interfaces.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.interfaces.php
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
@@ -1851,7 +1814,6 @@ final class Type extends Utility
 	/**
 	 * Check if a given object or class is anonymous.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
 	 * @return bool
@@ -1867,7 +1829,6 @@ final class Type extends Utility
 	 * 
 	 * The leading backslash character <samp>\</samp> is never prepended to the returned class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1902,7 +1863,6 @@ final class Type extends Utility
 	 * 
 	 * The leading backslash character <samp>\</samp> is never prepended to the returned interface.
 	 * 
-	 * @since 1.0.0
 	 * @param string $interface
 	 * <p>The interface to validate and sanitize.</p>
 	 * @param bool $no_throw [default = false]
@@ -1928,7 +1888,6 @@ final class Type extends Utility
 	 * 
 	 * The returning short name is the class name without its namespace.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string
@@ -1945,7 +1904,6 @@ final class Type extends Utility
 	 * The returning namespace does not have the leading backslash character <samp>\</samp>, 
 	 * thus an empty namespace is returned for the global one.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.namespaces.php
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
@@ -1974,7 +1932,6 @@ final class Type extends Utility
 	 * 
 	 * The returning filename is the absolute file path in the filesystem where the class is declared.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string|null
@@ -1991,7 +1948,6 @@ final class Type extends Utility
 	 * 
 	 * The returning directory is the absolute directory path in the filesystem where the class is declared.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string|null
@@ -2009,7 +1965,6 @@ final class Type extends Utility
 	 * 
 	 * The returning basename is the complete name of the file where the class is declared.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return string|null

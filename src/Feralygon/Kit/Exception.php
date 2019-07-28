@@ -27,7 +27,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * It also provides the means to define custom read-only properties and a default message.
  * 
- * @since 1.0.0
  * @see https://php.net/manual/en/class.exception.php
  * @see \Feralygon\Kit\Exception\Traits\PropertiesLoader
  */
@@ -45,7 +44,6 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
@@ -103,7 +101,6 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The default message.</p>
 	 */
@@ -125,7 +122,6 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	/**
 	 * Get string for a given placeholder from a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $placeholder
 	 * <p>The placeholder to get for.</p>
 	 * @param mixed $value

@@ -10,8 +10,6 @@ namespace Feralygon\Kit\Utilities\Call\Exceptions\Guard;
 /**
  * This exception is thrown from the call utility <code>guardExecution</code> method whenever a given returned value 
  * from a given executed function in a given function or method call is not allowed.
- * 
- * @since 1.0.0
  */
 class ReturnNotAllowed extends ReturnError
 {

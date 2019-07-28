@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Data\Exception;
 /**
  * This exception is thrown from the data utility whenever a given path is not found.
  * 
- * @since 1.0.0
  * @property-read array $array [coercive]
  * <p>The array.</p>
  * @property-read string $path [coercive]

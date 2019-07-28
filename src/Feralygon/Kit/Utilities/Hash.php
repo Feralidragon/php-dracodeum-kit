@@ -10,11 +10,7 @@ namespace Feralygon\Kit\Utilities;
 use Feralygon\Kit\Utility;
 use Feralygon\Kit\Utilities\Hash\Exceptions;
 
-/**
- * This utility implements a set of methods used to evaluate and coerce hash values.
- * 
- * @since 1.0.0
- */
+/** This utility implements a set of methods used to evaluate and coerce hash values. */
 final class Hash extends Utility
 {
 	//Final public static methods
@@ -25,7 +21,6 @@ final class Hash extends Utility
 	 * using the colon character (<samp>:</samp>) as a delimiter.<br>
 	 * By omission, the hash is colonified into hexadecimal octets.
 	 * 
-	 * @since 1.0.0
 	 * @param string $hash
 	 * <p>The hash to colonify.</p>
 	 * @param bool $hextets [default = false]
@@ -52,7 +47,6 @@ final class Hash extends Utility
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]
@@ -77,7 +71,6 @@ final class Hash extends Utility
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]
@@ -105,7 +98,6 @@ final class Hash extends Utility
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]

@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>truncate</code> method options.
  * 
- * @since 1.0.0
  * @property bool $unicode [coercive] [default = false]
  * <p>Handle the string as Unicode.</p>
  * @property bool $ellipsis [coercive] [default = false]

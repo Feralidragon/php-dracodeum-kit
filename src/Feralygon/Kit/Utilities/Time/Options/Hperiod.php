@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Time as UTime;
 /**
  * Time utility <code>hperiod</code> method options.
  * 
- * @since 1.0.0
  * @property bool $short [coercive] [default = false]
  * <p>Return the short form of the human-readable period.</p>
  * @property int|null $precision [coercive] [default = null]

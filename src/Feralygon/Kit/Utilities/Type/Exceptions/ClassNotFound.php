@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Type\Exception;
 /**
  * This exception is thrown from the type utility whenever a given class is not found.
  * 
- * @since 1.0.0
  * @property-read string $class [coercive]
  * <p>The class.</p>
  */

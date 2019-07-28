@@ -22,7 +22,6 @@ use Feralygon\Kit\Traits as KitTraits;
  * An enumeration is defined by declaring its possible elements as public constants of the class.<br>
  * All enumeration values must be integers, floats or strings.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Enumerated_type
  * @see \Feralygon\Kit\Enumeration\Traits\Information
  */
@@ -58,7 +57,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Check if has a given element.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to check for, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is checked only by its value.</p>
@@ -73,7 +71,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Check if has element with a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $value
 	 * <p>The value to check with.</p>
 	 * @return bool
@@ -87,7 +84,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Check if has element with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -101,7 +97,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get value from a given element.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
@@ -121,7 +116,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get name from a given element.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
@@ -147,7 +141,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get name from the element with a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -172,7 +165,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get value from the element with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -199,7 +191,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be evaluated into an element value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -217,7 +208,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be coerced into an element value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -238,7 +228,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be coerced into an element value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -300,7 +289,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be evaluated into an element name.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -318,7 +306,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be coerced into an element name.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -339,7 +326,6 @@ abstract class Enumeration implements INonInstantiable
 	 * 
 	 * Only an element given as an integer, float or string can be coerced into an element name.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -401,7 +387,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get label from a given element.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
@@ -423,7 +408,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get label from the element with a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -444,7 +428,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get label from the element with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -471,7 +454,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get description from a given element.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
@@ -494,7 +476,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get description from the element with a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -516,7 +497,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get description from the element with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get from.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -545,7 +525,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get names.
 	 * 
-	 * @since 1.0.0
 	 * @return string[]
 	 * <p>The names.</p>
 	 */
@@ -557,7 +536,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get values.
 	 * 
-	 * @since 1.0.0
 	 * @return int[]|float[]|string[]
 	 * <p>The values.</p>
 	 */
@@ -569,7 +547,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get values names.
 	 * 
-	 * @since 1.0.0
 	 * @return string[]
 	 * <p>The values names, as <samp>value => name</samp> pairs.</p>
 	 */
@@ -584,7 +561,6 @@ abstract class Enumeration implements INonInstantiable
 	/**
 	 * Get names values.
 	 * 
-	 * @since 1.0.0
 	 * @return int[]|float[]|string[]
 	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */

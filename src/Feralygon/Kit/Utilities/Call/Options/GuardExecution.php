@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit\Utilities\Call\Options;
 
-/**
- * Call utility <code>guardExecution</code> method options.
- * 
- * @since 1.0.0
- */
+/** Call utility <code>guardExecution</code> method options. */
 class GuardExecution extends Guard {}

@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Type\Exception;
 /**
  * This exception is thrown from the type utility whenever a given object is uncloneable.
  * 
- * @since 1.0.0
  * @property-read object $object [strict]
  * <p>The object.</p>
  */

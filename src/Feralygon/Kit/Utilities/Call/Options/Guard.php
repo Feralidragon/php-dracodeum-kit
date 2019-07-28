@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
 /**
  * Call utility <code>guard</code> method options.
  * 
- * @since 1.0.0
  * @property string|null $error_message [coercive] [default = null]
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>

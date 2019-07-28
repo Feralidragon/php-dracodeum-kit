@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Byte as UByte;
 /**
  * Byte utility <code>hvalue</code> method options.
  * 
- * @since 1.0.0
  * @property bool $long [coercive] [default = false]
  * <p>Return the long form of the human-readable value.</p>
  * @property int|null $precision [coercive] [default = null]

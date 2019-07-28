@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Base64\Exceptions;
 /**
  * This utility implements a set of methods used to encode and decode Base64 strings.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Base64
  */
 final class Base64 extends Utility
@@ -22,7 +21,6 @@ final class Base64 extends Utility
 	/**
 	 * Check if a given string is encoded.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param bool|null $url_safe [default = null]
@@ -52,7 +50,6 @@ final class Base64 extends Utility
 	/**
 	 * Encode a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to encode.</p>
 	 * @param bool $url_safe [default = false]
@@ -70,7 +67,6 @@ final class Base64 extends Utility
 	/**
 	 * Decode a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to decode.</p>
 	 * @param bool|null $url_safe [default = null]
@@ -100,7 +96,6 @@ final class Base64 extends Utility
 	/**
 	 * Normalize a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to normalize.</p>
 	 * @param bool $no_throw [default = false]

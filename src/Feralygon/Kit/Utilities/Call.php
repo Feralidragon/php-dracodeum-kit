@@ -21,7 +21,6 @@ use Feralygon\Kit\Root\System;
  * This utility implements a set of methods used to get information from existing PHP functions, 
  * methods and callables.
  * 
- * @since 1.0.0
  * @see https://php.net/manual/en/language.functions.php
  * @see https://php.net/manual/en/language.types.callable.php
  */
@@ -84,7 +83,6 @@ final class Call extends Utility
 	/**
 	 * Validate a given function reference.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to validate.</p>
 	 * @param bool $no_throw [default = false]
@@ -148,7 +146,6 @@ final class Call extends Utility
 	 * If, however, it's any other type of function, such as a global, local or anonymous function, 
 	 * a reflection instance of the <code>ReflectionFunction</code> class is returned instead.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/class.reflectionfunction.php
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
@@ -193,7 +190,6 @@ final class Call extends Utility
 	 * hashes even if two functions share exactly the same signature and source provided that they are declared 
 	 * in different locations.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.hash.php
 	 * @param callable|array|string $function
 	 * <p>The function to calculate from.</p>
@@ -218,7 +214,6 @@ final class Call extends Utility
 	/**
 	 * Get modifiers from a given function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return string[]
@@ -261,7 +256,6 @@ final class Call extends Utility
 	 * then a string in the format <code>Class::name</code> is returned.<br>
 	 * In every other case only the name itself is returned.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param bool $full [default = false]
@@ -295,7 +289,6 @@ final class Call extends Utility
 	 * In parameters passed by reference, an additional <code>&amp;</code> is prepended.<br>
 	 * In variadic parameters, an additional <code>...</code> is also prepended.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
@@ -388,7 +381,6 @@ final class Call extends Utility
 	/**
 	 * Get type from a given function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
@@ -430,7 +422,6 @@ final class Call extends Utility
 	 * The expected return format is 
 	 * <samp>modifier function name(type1 param1, type2 param2 = value2, ...): type</samp> .
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
@@ -502,7 +493,6 @@ final class Call extends Utility
 	 * 
 	 * The returning body from the given function is its PHP code.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return string
@@ -539,7 +529,6 @@ final class Call extends Utility
 	 * 
 	 * The returning source from the given function is the entirety of its PHP code (both header and body).
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param int $flags [default = 0x00]
@@ -590,7 +579,6 @@ final class Call extends Utility
 	 * The expected return format is as follows:<br>
 	 * <samp>( parameter1_type , parameter2_type [, optional_parameter3_type [, ... ]] ): return_type</samp>
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return string
@@ -657,7 +645,6 @@ final class Call extends Utility
 	 * 
 	 * This assertion is only performed in a debug environment.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to assert with.</p>
 	 * @param callable|array|string $function
@@ -708,7 +695,6 @@ final class Call extends Utility
 	 * corresponding template parameter type;<br>
 	 * &nbsp; &#8226; &nbsp; the function return type must be an invariant or covariant of the template return type.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to check.</p>
 	 * @param callable|array|string $template
@@ -797,7 +783,6 @@ final class Call extends Utility
 	/**
 	 * Get object from a given function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return object|null
@@ -817,7 +802,6 @@ final class Call extends Utility
 	/**
 	 * Get class from a given function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @param bool $short [default = false]
@@ -861,7 +845,6 @@ final class Call extends Utility
 	/**
 	 * Get extension from a given function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
 	 * @return string|null
@@ -876,7 +859,6 @@ final class Call extends Utility
 	/**
 	 * Evaluate a given value as a callable.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param callable|array|string|null $template [default = null]
@@ -899,7 +881,6 @@ final class Call extends Utility
 	/**
 	 * Coerce a given value into a callable.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param callable|array|string|null $template [default = null]
@@ -925,7 +906,6 @@ final class Call extends Utility
 	/**
 	 * Process the coercion of a given value into a callable.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param callable|array|string|null $template [default = null]
@@ -985,7 +965,6 @@ final class Call extends Utility
 	/**
 	 * Get previous class from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1005,7 +984,6 @@ final class Call extends Utility
 	/**
 	 * Get previous classes from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1038,7 +1016,6 @@ final class Call extends Utility
 	/**
 	 * Get previous object from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1058,7 +1035,6 @@ final class Call extends Utility
 	/**
 	 * Get previous objects from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1091,7 +1067,6 @@ final class Call extends Utility
 	/**
 	 * Get previous object or class from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1112,7 +1087,6 @@ final class Call extends Utility
 	/**
 	 * Get previous objects and classes from the current stack.
 	 * 
-	 * @since 1.0.0
 	 * @param int $offset [default = 0]
 	 * <p>The offset to get from.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
@@ -1145,7 +1119,6 @@ final class Call extends Utility
 	/**
 	 * Guard the current function or method in the stack from being called depending on a given assertion.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
@@ -1196,7 +1169,6 @@ final class Call extends Utility
 	 * Guard the current function or method in the stack from being called depending on a given assertion 
 	 * relative a given parameter name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to use.</p>
 	 * @param mixed $value
@@ -1248,7 +1220,6 @@ final class Call extends Utility
 	/**
 	 * Guard the current function or method in the stack from continuing its execution depending on a given assertion.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
@@ -1299,7 +1270,6 @@ final class Call extends Utility
 	 * Any exception thrown from the given callback function is internally caught, 
 	 * being functionally equivalent to returning boolean <code>false</code> in order to halt execution.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $function
 	 * <p>The function to execute.</p>
 	 * @param array $arguments
@@ -1378,7 +1348,6 @@ final class Call extends Utility
 	/**
 	 * Get guard messages from a given options instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard $options
 	 * <p>The options instance to get from.</p>
 	 * @return string[]

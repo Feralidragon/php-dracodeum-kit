@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Call\Exception;
 /**
  * Call utility <code>guard</code> methods exception.
  * 
- * @since 1.0.0
  * @property-read string $function_name [coercive]
  * <p>The function or method name.</p>
  * @property-read object|string|null $object_class [coercive = object or class] [default = null]

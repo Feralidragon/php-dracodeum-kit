@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * Text utility <code>stringify</code> method options.
  * 
- * @since 1.0.0
  * @property bool $prepend_type [coercive] [default = false]
  * <p>Prepend the type of the given value in the returning string.<br>
  * When prepending the type, a slightly different string may be generated for the given value, 

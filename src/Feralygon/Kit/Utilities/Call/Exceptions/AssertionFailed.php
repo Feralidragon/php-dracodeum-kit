@@ -15,7 +15,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * This exception is thrown from the call utility whenever an assertion on the compatibility of a given function 
  * towards a given template fails.
  * 
- * @since 1.0.0
  * @property-read string $name [coercive]
  * <p>The name.</p>
  * @property-read callable|array|string $function [strict]

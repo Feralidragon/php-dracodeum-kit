@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>fill</code> method options.
  * 
- * @since 1.0.0
  * @property callable|null $evaluator [coercive] [default = null]
  * <p>The function to use to evaluate a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>

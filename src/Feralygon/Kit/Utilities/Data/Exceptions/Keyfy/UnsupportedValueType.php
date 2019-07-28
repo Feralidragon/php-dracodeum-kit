@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Data\Exceptions\Keyfy as Exception;
 /**
  * This exception is thrown from the data utility <code>keyfy</code> method whenever a given value type is unsupported.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [coercive] [default = auto]

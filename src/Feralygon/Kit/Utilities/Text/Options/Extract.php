@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Type as UType;
 /**
  * Text utility <code>extract</code> method options.
  * 
- * @since 1.0.0
  * @property string[] $patterns [coercive] [default = []]
  * <p>The regular expression patterns to use for each parameter, as <samp>placeholder => pattern</samp> pairs.</p>
  * @property string $pattern_modifiers [coercive] [default = '']

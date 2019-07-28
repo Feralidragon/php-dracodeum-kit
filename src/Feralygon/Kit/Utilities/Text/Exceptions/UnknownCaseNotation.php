@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Text\Exception;
 /**
  * This exception is thrown from the text utility whenever the case notation of a given string is unknown.
  * 
- * @since 1.0.0
  * @property-read string $string [coercive]
  * <p>The string.</p>
  */

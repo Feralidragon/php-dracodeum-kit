@@ -9,8 +9,5 @@ namespace Feralygon\Kit\Utilities\Time;
 
 use Feralygon\Kit\Exception as KitException;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Utilities\Time
- */
+/** @see \Feralygon\Kit\Utilities\Time */
 abstract class Exception extends KitException {}

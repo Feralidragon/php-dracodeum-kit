@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>localize</code> method options.
  * 
- * @since 1.0.0
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
  * @property \Feralygon\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]

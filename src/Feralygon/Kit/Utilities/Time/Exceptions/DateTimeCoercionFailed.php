@@ -13,8 +13,6 @@ use Feralygon\Kit\Traits\Exception as Traits;
 
 /**
  * This exception is thrown from the time utility whenever the coercion into a date and time fails with a given value.
- * 
- * @since 1.0.0
  */
 class DateTimeCoercionFailed extends Exception implements ICoercive
 {

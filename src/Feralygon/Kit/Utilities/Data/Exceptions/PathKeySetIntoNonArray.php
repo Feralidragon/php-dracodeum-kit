@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Data\Exception;
  * This exception is thrown from the data utility whenever there is an attempt to set a given path key 
  * into a non-array value.
  * 
- * @since 1.0.0
  * @property-read array $array [coercive]
  * <p>The array.</p>
  * @property-read string $path [coercive]

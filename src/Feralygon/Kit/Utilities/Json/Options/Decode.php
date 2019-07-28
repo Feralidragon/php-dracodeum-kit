@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * JSON utility <code>decode</code> method options.
  * 
- * @since 1.0.0
  * @property bool $associative [coercive] [default = false]
  * <p>Decode into associative arrays instead of objects, 
  * as supported as <var>$assoc</var> by the PHP <code>json_decode</code> function.</p>

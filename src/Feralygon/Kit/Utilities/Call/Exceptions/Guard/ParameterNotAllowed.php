@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
  * This exception is thrown from the call utility <code>guardParameter</code> method whenever a given parameter 
  * from a given function or method call is not allowed.
  * 
- * @since 1.0.0
  * @property-read string $name [coercive]
  * <p>The name.</p>
  * @property-read mixed $value

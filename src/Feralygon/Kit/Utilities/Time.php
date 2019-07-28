@@ -15,11 +15,7 @@ use Feralygon\Kit\Utilities\Time\{
 	Exceptions
 };
 
-/**
- * This utility implements a set of methods used to manipulate and get information about time.
- * 
- * @since 1.0.0
- */
+/** This utility implements a set of methods used to manipulate and get information about time. */
 final class Time extends Utility
 {
 	//Private constants
@@ -118,7 +114,6 @@ final class Time extends Utility
 	/**
 	 * Get Unix timestamp from a given timestamp.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
@@ -159,7 +154,6 @@ final class Time extends Utility
 	/**
 	 * Format a given timestamp.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
@@ -220,7 +214,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -260,7 +253,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -302,7 +294,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -374,7 +365,6 @@ final class Time extends Utility
 	 * 
 	 * The returning string represents the given date and time in order to be shown or printed out in messages.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $datetime
@@ -407,7 +397,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -441,7 +430,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -478,7 +466,6 @@ final class Time extends Utility
 	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Calendar_date
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -547,7 +534,6 @@ final class Time extends Utility
 	 * 
 	 * The returning string represents the given date in order to be shown or printed out in messages.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $date
@@ -580,7 +566,6 @@ final class Time extends Utility
 	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -620,7 +605,6 @@ final class Time extends Utility
 	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -662,7 +646,6 @@ final class Time extends Utility
 	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://en.wikipedia.org/wiki/Unix_time
 	 * @see https://en.wikipedia.org/wiki/Timestamp
 	 * @see https://php.net/manual/en/function.strtotime.php
@@ -734,7 +717,6 @@ final class Time extends Utility
 	 * 
 	 * The returning string represents the given time in order to be shown or printed out in messages.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $time
@@ -769,7 +751,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>2016-10-01 12:00:00</samp> returns <samp>3 months ago</samp>.<br>
 	 * &nbsp; &#8226; &nbsp; <samp>2016-01-01 12:00:00</samp> returns <samp>1 year ago</samp>.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $timestamp
@@ -911,7 +892,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>µs</samp> : microseconds<br>
 	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
 	 * 
-	 * @since 1.0.0
 	 * @param float $period
 	 * <p>The machine-readable period to get from, in seconds.</p>
 	 * @param \Feralygon\Kit\Options\Text|array|null $text_options [default = null]
@@ -1141,7 +1121,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>µs</samp> : microseconds<br>
 	 * &nbsp; &#8226; &nbsp; <samp>ns</samp> : nanoseconds
 	 * 
-	 * @since 1.0.0
 	 * @param string $period
 	 * <p>The human-readable period to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1187,7 +1166,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -1208,7 +1186,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -1232,7 +1209,6 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a symbol string, such as: <code>"h"</code> for hours;<br>
 	 * &nbsp; &#8226; &nbsp; a name string in English, such as: <code>"hour"</code> or <code>"hours"</code> for hours.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -1308,7 +1284,6 @@ final class Time extends Utility
 	 * and ending as set by the <var>$end</var> parameter, with a specific interval between them as set 
 	 * by the <var>$interval</var> parameter.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/class.datetimeinterface.php
 	 * @param int|float|string|\DateTimeInterface $start

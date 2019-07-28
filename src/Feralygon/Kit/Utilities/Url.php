@@ -13,11 +13,7 @@ use Feralygon\Kit\Utilities\Url\{
 	Exceptions
 };
 
-/**
- * This utility implements a set of methods used to manipulate and get URL information.
- * 
- * @since 1.0.0
- */
+/** This utility implements a set of methods used to manipulate and get URL information. */
 final class Url extends Utility
 {
 	//Final public static methods
@@ -26,7 +22,6 @@ final class Url extends Utility
 	 * 
 	 * The returning string represents the given value in order to be used in an URL path or query string.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to stringify.</p>
 	 * @param bool $no_encode [default = false]
@@ -68,7 +63,6 @@ final class Url extends Utility
 	 * The process of querification of a given set of parameters consists in converting all the given parameters 
 	 * into a query string.
 	 * 
-	 * @since 1.0.0
 	 * @param array $parameters
 	 * <p>The parameters to querify, as <samp>name => value</samp> pairs.</p>
 	 * @param \Feralygon\Kit\Utilities\Url\Options\Querify|array|null $options [default = null]
@@ -119,7 +113,6 @@ final class Url extends Utility
 	 * 
 	 * The process of unquerification of a given string consists in parsing it into a set of key-value parameters.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to unquerify.</p>
 	 * @param \Feralygon\Kit\Utilities\Url\Options\Unquerify|array|null $options [default = null]

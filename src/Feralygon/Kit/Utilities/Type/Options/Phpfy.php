@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * Type utility <code>phpfy</code> method options.
  * 
- * @since 1.0.0
  * @property bool $pretty [coercive] [default = false]
  * <p>Return human-readable and visually appealing PHP code.</p>
  * @property bool $no_throw [coercive] [default = false]

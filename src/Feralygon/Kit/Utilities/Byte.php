@@ -13,11 +13,7 @@ use Feralygon\Kit\Utilities\Byte\{
 	Exceptions
 };
 
-/**
- * This utility implements a set of methods used to get information at the byte level.
- * 
- * @since 1.0.0
- */
+/** This utility implements a set of methods used to get information at the byte level. */
 final class Byte extends Utility
 {
 	//Private constants
@@ -96,7 +92,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>47958383032</code> returns <samp>47.96 GB</samp>, 
 	 * or <samp>47.96 gigabytes</samp> in long form.
 	 * 
-	 * @since 1.0.0
 	 * @param int $value
 	 * <p>The machine-readable value to get from, in bytes.</p>
 	 * @param \Feralygon\Kit\Utilities\Byte\Options\Hvalue|array|null $options [default = null]
@@ -149,7 +144,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>47.96 GB</samp> or <samp>47.96G</samp> 
 	 * or <samp>47.96 gigabytes</samp> returns <code>47960000000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param string $value
 	 * <p>The human-readable value to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -206,7 +200,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -237,7 +230,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -271,7 +263,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -339,7 +330,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; an SI name string in English, 
 	 * such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -363,7 +353,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; an SI name string in English, 
 	 * such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -390,7 +379,6 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; an SI name string in English, 
 	 * such as: <code>"kilobyte"</code> or <code>"kilobytes"</code> for kilobytes.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]

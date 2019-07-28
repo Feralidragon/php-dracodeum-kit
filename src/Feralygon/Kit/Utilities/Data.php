@@ -14,7 +14,6 @@ use Feralygon\Kit\Interfaces\Arrayable as IArrayable;
 /**
  * This utility implements a set of methods used to manipulate data structures in the form of PHP arrays.
  * 
- * @since 1.0.0
  * @see https://php.net/manual/en/language.types.array.php
  */
 final class Data extends Utility
@@ -173,7 +172,6 @@ final class Data extends Utility
 	 * The given array is only considered to be associative when it's not empty and 
 	 * its keys are not consecutive integers starting from <code>0</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to check.</p>
 	 * @return bool
@@ -195,7 +193,6 @@ final class Data extends Utility
 	 * given that this function is only meant to efficiently produce a key which can be used in associative arrays 
 	 * for strict mapping and data comparisons.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to convert.</p>
 	 * @param bool|null $safe [reference output] [default = null]
@@ -258,7 +255,6 @@ final class Data extends Utility
 	 * whereas with associative arrays all the keys from the second array are inserted into the first one, 
 	 * which are replaced if already existent.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-merge.php
 	 * @param array $array1
 	 * <p>The first array, to merge into.</p>
@@ -389,7 +385,6 @@ final class Data extends Utility
 	 * values which are themselves arrays are not affected, 
 	 * therefore it's possible to have two or more arrays with exactly the same data in the returning array.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-unique.php
 	 * @param array $array
 	 * <p>The array to remove from.</p>
@@ -462,7 +457,6 @@ final class Data extends Utility
 	 * By omission, in non-associative arrays the keys are recalculated, 
 	 * whereas in associative arrays the keys are kept intact, and the sorting is performed in ascending order.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.sort.php
 	 * @see https://php.net/manual/en/function.rsort.php
 	 * @see https://php.net/manual/en/function.asort.php
@@ -534,7 +528,6 @@ final class Data extends Utility
 	 * 
 	 * By omission, the sorting is performed in ascending order.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ksort.php
 	 * @see https://php.net/manual/en/function.krsort.php
 	 * @param array $array
@@ -595,7 +588,6 @@ final class Data extends Utility
 	 * By omission, in non-associative arrays the keys are recalculated, 
 	 * whereas in associative arrays the keys are kept intact, and the sorting is performed in ascending order.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.usort.php
 	 * @see https://php.net/manual/en/function.uasort.php
 	 * @see https://php.net/manual/en/function.uksort.php
@@ -692,7 +684,6 @@ final class Data extends Utility
 	 * Since the function is recursive and only handles non-array values, 
 	 * values which are themselves arrays are not affected.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-filter.php
 	 * @param array $array
 	 * <p>The array to filter.</p>
@@ -769,7 +760,6 @@ final class Data extends Utility
 	/**
 	 * Filter a given array recursively from a given set of keys.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to filter.</p>
 	 * @param int[]|string[] $keys
@@ -846,7 +836,6 @@ final class Data extends Utility
 	 * Since the function is recursive and only handles non-array values, 
 	 * values which are themselves arrays are not affected.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to trim.</p>
 	 * @param array $values
@@ -943,7 +932,6 @@ final class Data extends Utility
 	/**
 	 * Trim a given array recursively from a given set of keys.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to trim.</p>
 	 * @param int[]|string[] $keys
@@ -1041,7 +1029,6 @@ final class Data extends Utility
 	 * whereas in associative arrays the keys are kept intact 
 	 * and the keys themselves are also considered for the intersection.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-intersect.php
 	 * @param array $array1
 	 * <p>The first array, to intersect from.</p>
@@ -1141,7 +1128,6 @@ final class Data extends Utility
 	/**
 	 * Intersect two given arrays recursively by key.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-intersect-key.php
 	 * @param array $array1
 	 * <p>The first array, to intersect from.</p>
@@ -1214,7 +1200,6 @@ final class Data extends Utility
 	 * whereas in associative arrays the keys are kept intact
 	 * and the keys themselves are also considered for the differentiation.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-diff.php
 	 * @param array $array1
 	 * <p>The first array, to differentiate from.</p>
@@ -1309,7 +1294,6 @@ final class Data extends Utility
 	/**
 	 * Differentiate two given arrays recursively by key.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.array-diff-key.php
 	 * @param array $array1
 	 * <p>The first array, to differentiate from.</p>
@@ -1377,7 +1361,6 @@ final class Data extends Utility
 	 * By omission, in non-associative arrays the keys are recalculated, 
 	 * whereas in associative arrays the keys are kept intact.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.shuffle.php
 	 * @param array $array
 	 * <p>The array to shuffle.</p>
@@ -1436,7 +1419,6 @@ final class Data extends Utility
 	/**
 	 * Align a given array with a given set of keys recursively.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to align.</p>
 	 * @param int[]|string[] $keys
@@ -1500,7 +1482,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to check in.</p>
 	 * @param string $path
@@ -1537,7 +1518,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to get from.</p>
 	 * @param string $path
@@ -1582,7 +1562,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array [reference]
 	 * <p>The array to set in.</p>
 	 * @param string $path
@@ -1636,7 +1615,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is equivalent to <code>$array['foo']['bar']</code>;<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is equivalent to <code>$array['foo']['bar'][123]</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array [reference]
 	 * <p>The array to delete from.</p>
 	 * @param string $path
@@ -1700,7 +1678,6 @@ final class Data extends Utility
 	/**
 	 * Prepend a given value to a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array [reference]
 	 * <p>The array to prepend to.</p>
 	 * @param mixed $value
@@ -1722,7 +1699,6 @@ final class Data extends Utility
 	/**
 	 * Append a given value to a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array [reference]
 	 * <p>The array to append to.</p>
 	 * @param mixed $value
@@ -1744,7 +1720,6 @@ final class Data extends Utility
 	/**
 	 * Get the first value from a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1769,7 +1744,6 @@ final class Data extends Utility
 	/**
 	 * Get the first key from a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1795,7 +1769,6 @@ final class Data extends Utility
 	/**
 	 * Get the last value from a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1820,7 +1793,6 @@ final class Data extends Utility
 	/**
 	 * Get the last key from a given array.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to get from.</p>
 	 * @param bool $no_throw [default = false]
@@ -1852,7 +1824,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar']</code> is converted to <samp>foo.bar</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; <code>$array['foo']['bar'][123]</code> is converted to <samp>foo.bar.123</samp>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to collapse.</p>
 	 * @param string $delimiter [default = '.']
@@ -1935,7 +1906,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar</samp> is converted to <code>$array['foo']['bar']</code>;<br>
 	 * &nbsp; &#8226; &nbsp; <samp>foo.bar.123</samp> is converted to <code>$array['foo']['bar'][123]</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to expand.</p>
 	 * @param string $delimiter [default = '.']
@@ -1995,7 +1965,6 @@ final class Data extends Utility
 	 * 
 	 * The returning value is the first one from the given array which is not <code>null</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param array $array
 	 * <p>The array to coalesce from.</p>
 	 * @param int[]|string[] $keys [default = []]
@@ -2027,7 +1996,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -2071,7 +2039,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -2118,7 +2085,6 @@ final class Data extends Utility
 	 * &nbsp; &#8226; &nbsp; an array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>

@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 /**
  * URL utility <code>querify</code> method options.
  * 
- * @since 1.0.0
  * @property string $delimiter [coercive] [default = '&']
  * <p>The delimiter to use between key-value pairs.<br>
  * It must be a single character.</p>

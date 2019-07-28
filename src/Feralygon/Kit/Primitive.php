@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit;
 
-/**
- * This class is the base to be extended from when creating a primitive.
- * 
- * @since 1.0.0
- */
+/** This class is the base to be extended from when creating a primitive. */
 abstract class Primitive {}

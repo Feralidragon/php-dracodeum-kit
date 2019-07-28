@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Type as UType;
 /**
  * This exception is thrown from the text utility whenever a given string failed to be parsed.
  * 
- * @since 1.0.0
  * @property-read string $string [coercive]
  * <p>The string.</p>
  * @property-read string[] $fields_patterns [coercive]

@@ -29,7 +29,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * For more information, please check the <code>Feralygon\Kit\Component</code> class.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Component
  * @see \Feralygon\Kit\Prototype\Interfaces\Contract
  * @see \Feralygon\Kit\Prototype\Interfaces\Subcontracts
@@ -59,7 +58,6 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
@@ -96,7 +94,6 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * This method may only be called if no component instance has already been set.<br>
 	 * If a contract interface is defined, then the given component instance must also implement that interface.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Component $component
 	 * <p>The component instance to set.</p>
 	 * @return $this
@@ -134,7 +131,6 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * This method may only be called if a contract interface is defined and a component instance has already been set.
 	 * 
-	 * @since 1.0.0
 	 * @param string $method_name
 	 * <p>The method name to call.</p>
 	 * @param mixed ...$arguments
@@ -173,7 +169,6 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * This method may only be called if any subcontract interface is defined 
 	 * and a component instance has already been set.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The subcontract name to use.</p>
 	 * @param string $method_name

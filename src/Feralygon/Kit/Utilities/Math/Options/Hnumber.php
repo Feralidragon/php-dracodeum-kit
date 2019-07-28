@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Math as UMath;
 /**
  * Math utility <code>hnumber</code> method options.
  * 
- * @since 1.0.0
  * @property bool $long [coercive] [default = false]
  * <p>Return the long form of the human-readable number.</p>
  * @property int|null $precision [coercive] [default = null]

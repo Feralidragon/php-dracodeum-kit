@@ -12,8 +12,6 @@ use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
 /**
  * This exception is thrown from the call utility <code>guardInternal</code> method whenever an internal error occurs 
  * in a given function or method call.
- * 
- * @since 1.0.0
  */
 class InternalError extends Exception
 {

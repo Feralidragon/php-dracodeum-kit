@@ -69,7 +69,6 @@ use Feralygon\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * and used through the usage of a name instead, so that the class to use does not need to be known ahead of time 
  * (factory pattern).
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  * @see \Feralygon\Kit\Component\Proxy
  * @see \Feralygon\Kit\Component\Traits\DefaultBuilder
@@ -113,7 +112,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototype|string|null $prototype [default = null]
 	 * <p>The prototype instance, class or name to instantiate with.<br>
 	 * If not set, then the default prototype instance or the base prototype class is used.</p>
@@ -240,7 +238,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * Any prototype class or instance given to be used by this component must be or 
 	 * extend from the same class as the base prototype class returned here.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The base prototype class.</p>
 	 */
@@ -268,7 +265,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Check if has proxy.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has proxy.</p>
 	 */
@@ -280,7 +276,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Get proxy instance.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\ProxyNotSet
@@ -310,7 +305,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Build instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Prototype|string|null $prototype [default = null]
 	 * <p>The prototype instance, class or name to build with.<br>
 	 * If not set, then the default prototype instance or the base prototype class is used.</p>
@@ -338,7 +332,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * Only a component instance or name, or a prototype instance, class or name, can be evaluated into an instance.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param array $properties [default = []]
@@ -398,7 +391,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * Only a component instance or name, or a prototype instance, class or name, can be coerced into an instance.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param array $properties [default = []]
@@ -461,7 +453,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * Only a component instance or name, or a prototype instance, class or name, can be coerced into an instance.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param array $properties [default = []]
@@ -620,7 +611,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Get prototype instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Prototype
 	 * <p>The prototype instance.</p>
 	 */

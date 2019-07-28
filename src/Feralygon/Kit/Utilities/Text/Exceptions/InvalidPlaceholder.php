@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Text\Exception;
 /**
  * This exception is thrown from the text utility whenever a given placeholder is invalid.
  * 
- * @since 1.0.0
  * @property-read string $placeholder [coercive]
  * <p>The placeholder.</p>
  * @property-read string|null $string [coercive] [default = null]

@@ -9,8 +9,5 @@ namespace Feralygon\Kit\Utilities\Base64;
 
 use Feralygon\Kit\Exception as KitException;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Utilities\Base64
- */
+/** @see \Feralygon\Kit\Utilities\Base64 */
 abstract class Exception extends KitException {}

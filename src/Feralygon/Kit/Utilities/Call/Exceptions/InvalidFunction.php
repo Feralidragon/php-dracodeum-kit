@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Call\Exception;
 /**
  * This exception is thrown from the call utility whenever a given function is invalid.
  * 
- * @since 1.0.0
  * @property-read mixed $function
  * <p>The function.</p>
  */

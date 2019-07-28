@@ -14,8 +14,6 @@ use Feralygon\Kit\Traits\Exception as Traits;
 /**
  * This exception is thrown from the type utility whenever the coercion into an object or class 
  * fails with a given value.
- * 
- * @since 1.0.0
  */
 class ObjectClassCoercionFailed extends Exception implements ICoercive
 {

@@ -11,11 +11,7 @@ use Feralygon\Kit\Utilities\Byte\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from the byte utility whenever the coercion into a multiple fails with a given value.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the byte utility whenever the coercion into a multiple fails with a given value. */
 class MultipleCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

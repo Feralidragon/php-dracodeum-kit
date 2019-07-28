@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Call\Exceptions\Guard as Exception;
  * This exception is thrown from the call utility <code>guardExecution</code> method whenever a return error occurs 
  * with a given value from a given executed function in a given function or method call.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string|null $exec_function_full_name [coercive] [default = null]

@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Json\Exceptions\Encode as Exception;
 /**
  * This exception is thrown from the JSON utility <code>encode</code> method whenever given data is invalid.
  * 
- * @since 1.0.0
  * @property-read mixed $data
  * <p>The data.</p>
  * @property-read int|null $error_code [strict] [default = null]

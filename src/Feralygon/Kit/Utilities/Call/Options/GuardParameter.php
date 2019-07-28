@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit\Utilities\Call\Options;
 
-/**
- * Call utility <code>guardParameter</code> method options.
- * 
- * @since 1.0.0
- */
+/** Call utility <code>guardParameter</code> method options. */
 class GuardParameter extends Guard {}

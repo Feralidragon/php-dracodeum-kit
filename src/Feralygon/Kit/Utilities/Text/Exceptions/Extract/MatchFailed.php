@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Text\Exceptions\Extract as Exception;
  * This exception is thrown from the text utility <code>extract</code> method whenever a given string fails 
  * to match against a given mask.
  * 
- * @since 1.0.0
  * @property-read string $string [coercive]
  * <p>The string.</p>
  * @property-read string $mask [coercive]

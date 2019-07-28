@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Utilities\Data\Exceptions;
 
 use Feralygon\Kit\Utilities\Data\Exception;
 
-/**
- * This exception is thrown from the data utility whenever an empty array is given.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the data utility whenever an empty array is given. */
 class EmptyArray extends Exception
 {
 	//Implemented public methods

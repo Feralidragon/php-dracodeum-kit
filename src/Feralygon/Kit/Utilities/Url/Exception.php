@@ -9,8 +9,5 @@ namespace Feralygon\Kit\Utilities\Url;
 
 use Feralygon\Kit\Exception as KitException;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Utilities\Url
- */
+/** @see \Feralygon\Kit\Utilities\Url */
 abstract class Exception extends KitException {}

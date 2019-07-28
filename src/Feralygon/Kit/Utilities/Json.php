@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\Json\{
 /**
  * This utility implements a set of methods used to encode and decode JSON (JavaScript Object Notation) data.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/JSON
  */
 final class Json extends Utility
@@ -25,7 +24,6 @@ final class Json extends Utility
 	/**
 	 * Check if given data is encoded.
 	 * 
-	 * @since 1.0.0
 	 * @param string $data
 	 * <p>The data to check.</p>
 	 * @return bool
@@ -40,7 +38,6 @@ final class Json extends Utility
 	/**
 	 * Encode given data.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $data
 	 * <p>The data to encode.</p>
 	 * @param \Feralygon\Kit\Utilities\Json\Options\Encode|array|null $options [default = null]
@@ -77,7 +74,6 @@ final class Json extends Utility
 	/**
 	 * Decode given data.
 	 * 
-	 * @since 1.0.0
 	 * @param string $data
 	 * <p>The data to decode.</p>
 	 * @param \Feralygon\Kit\Utilities\Json\Options\Decode|array|null $options [default = null]

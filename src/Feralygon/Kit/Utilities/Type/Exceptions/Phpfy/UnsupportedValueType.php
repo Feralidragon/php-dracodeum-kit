@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
 /**
  * This exception is thrown from the type utility <code>phpfy</code> method whenever a given value type is unsupported.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [coercive] [default = auto]

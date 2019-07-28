@@ -41,7 +41,6 @@ use Feralygon\Kit\Utilities\{
  * <br>
  * It may also be set as read-only to prevent any further changes.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  * @see \Feralygon\Kit\Structure\Traits\DefaultBuilder
  * @see \Feralygon\Kit\Structure\Traits\StringPropertiesExtractor
@@ -67,7 +66,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
@@ -100,7 +98,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	/**
 	 * Load properties.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	abstract protected function loadProperties(): void;
@@ -166,7 +163,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	/**
 	 * Build instance.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties [default = []]
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
 	 * @return static
@@ -185,7 +181,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	/**
 	 * Get properties from a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to get from.</p>
 	 * @return array
@@ -208,7 +203,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -248,7 +242,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -291,7 +284,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>

@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This exception is thrown from the type utility whenever the coercion into an integer fails with a given value.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read bool $unsigned [coercive] [default = false]

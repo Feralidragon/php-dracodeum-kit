@@ -11,11 +11,7 @@ use Feralygon\Kit\Utilities\Time\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from the time utility whenever the coercion into a date fails with a given value.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the time utility whenever the coercion into a date fails with a given value. */
 class DateCoercionFailed extends Exception implements ICoercive
 {
 	//Traits
