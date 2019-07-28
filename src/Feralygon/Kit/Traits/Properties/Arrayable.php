@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Traits\Properties;
 use Feralygon\Kit\Utilities\Data as UData;
 
 /**
- * This trait implements the PHP <code>Feralygon\Kit\Interfaces\Arrayable</code> interface 
+ * This trait implements the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface 
  * when the properties trait is used.
  * 
  * @see \Feralygon\Kit\Interfaces\Arrayable
