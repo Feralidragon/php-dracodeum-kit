@@ -21,6 +21,8 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
  * Each and every property is only loaded on demand (lazy-loading).
+ * 
+ * @see \Feralygon\Kit\Traits\LazyProperties\ArrayAccess
  */
 trait LazyProperties
 {

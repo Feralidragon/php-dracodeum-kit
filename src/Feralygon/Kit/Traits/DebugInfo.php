@@ -22,6 +22,12 @@ use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
  * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
  * @see \Feralygon\Kit\Interfaces\DebugInfo
  * @see \Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\PropertiesProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\PropertiesDumpProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\ReadonlyProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\ReadonlyDumpProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\ReadonlyPropertiesProcessor
+ * @see \Feralygon\Kit\Traits\DebugInfo\ReadonlyPropertiesDumpProcessor
  */
 trait DebugInfo
 {

@@ -20,6 +20,9 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * 
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.
+ * 
+ * @see \Feralygon\Kit\Traits\Properties\Arrayable
+ * @see \Feralygon\Kit\Traits\Properties\ArrayAccess
  */
 trait Properties
 {
