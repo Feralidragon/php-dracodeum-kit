@@ -136,7 +136,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** {@inheritdoc} */
 	public function processDebugInfo(DebugInfo $info): void
 	{
-		$properties = $this->getAll();
+		//properties
+		$properties = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized()) {
+				$properties[$name] = $property->getValue();
+			}
+		}
+		
+		//set
 		if (System::getDumpVerbosityLevel() >= EDumpVerbosityLevel::MEDIUM) {
 			foreach ($properties as $name => $value) {
 				$info->set("{$this->getProperty($name)->getMode()}:{$name}", $value);
