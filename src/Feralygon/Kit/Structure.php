@@ -22,7 +22,6 @@ use Feralygon\Kit\Structure\{
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
-use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
@@ -51,6 +50,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
+	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use KitTraits\Properties\ArrayAccess;
@@ -101,16 +101,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @return void
 	 */
 	abstract protected function loadProperties(): void;
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
-	/** {@inheritdoc} */
-	public function processDebugInfo(DebugInfo $info): void
-	{
-		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
-		$info->enableObjectPropertiesDump();
-	}
 	
 	
 	

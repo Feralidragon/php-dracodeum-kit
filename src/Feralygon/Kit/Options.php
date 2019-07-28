@@ -20,7 +20,6 @@ use Feralygon\Kit\Options\{
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
-use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\{
@@ -50,6 +49,7 @@ IStringInstantiable, ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
+	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
 	use KitTraits\LazyProperties;
 	use KitTraits\LazyProperties\ArrayAccess;
 	use KitTraits\Readonly;
@@ -99,16 +99,6 @@ IStringInstantiable, ICloneable
 	 * <p>The built property instance with the given name or <code>null</code> if none was built.</p>
 	 */
 	abstract protected function buildProperty(string $name): ?Property;
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
-	/** {@inheritdoc} */
-	public function processDebugInfo(DebugInfo $info): void
-	{
-		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
-		$info->enableObjectPropertiesDump();
-	}
 	
 	
 	
