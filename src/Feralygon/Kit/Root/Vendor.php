@@ -7,17 +7,17 @@
 
 namespace Feralygon\Kit\Root;
 
-use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
-use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Interfaces\Uninstantiable as IUninstantiable;
+use Feralygon\Kit\Traits;
 
 /**
  * This class represents the vendor package and is used to set up how the overall package is meant to work and be used, 
  * such as setting the package to work as just a library instead of the main application framework.
  */
-final class Vendor implements INonInstantiable
+final class Vendor implements IUninstantiable
 {
 	//Traits
-	use KitTraits\NonInstantiable;
+	use Traits\Uninstantiable;
 	
 	
 	

@@ -18,7 +18,7 @@ use Feralygon\Kit\Interfaces\{
 	StringInstantiable as IStringInstantiable,
 	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
-	NonInstantiable as INonInstantiable
+	Uninstantiable as IUninstantiable
 };
 
 /**
@@ -1582,7 +1582,7 @@ final class Type extends Utility
 	final public static function instantiable(string $class): bool
 	{
 		$class = self::class($class);
-		return (new \ReflectionClass($class))->isInstantiable() && !self::implements($class, INonInstantiable::class);
+		return (new \ReflectionClass($class))->isInstantiable() && !self::implements($class, IUninstantiable::class);
 	}
 	
 	/**
@@ -1592,7 +1592,7 @@ final class Type extends Utility
 	 * <p>The object or class to instantiate from.</p>
 	 * @param mixed ...$arguments
 	 * <p>The arguments to instantiate with.</p>
-	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\NonInstantiableClass
+	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\UninstantiableClass
 	 * @return object
 	 * <p>The new instance from the given object or class.</p>
 	 */
@@ -1600,7 +1600,7 @@ final class Type extends Utility
 	{
 		$class = self::class($object_class);
 		if (!self::instantiable($class)) {
-			throw new Exceptions\NonInstantiableClass([$class]);
+			throw new Exceptions\UninstantiableClass([$class]);
 		}
 		return new $class(...$arguments);
 	}

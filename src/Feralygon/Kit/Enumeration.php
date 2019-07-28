@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
+use Feralygon\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Feralygon\Kit\Enumeration\{
 	Traits,
 	Exceptions
@@ -25,10 +25,10 @@ use Feralygon\Kit\Traits as KitTraits;
  * @see https://en.wikipedia.org/wiki/Enumerated_type
  * @see \Feralygon\Kit\Enumeration\Traits\Information
  */
-abstract class Enumeration implements INonInstantiable
+abstract class Enumeration implements IUninstantiable
 {
 	//Traits
-	use KitTraits\NonInstantiable;
+	use KitTraits\Uninstantiable;
 	use Traits\Information;
 	
 	

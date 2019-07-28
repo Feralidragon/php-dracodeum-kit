@@ -7,14 +7,14 @@
 
 namespace Feralygon\Kit\Root;
 
-use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
+use Feralygon\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Feralygon\Kit\Root\System\{
 	Components,
 	Structures,
 	Exceptions
 };
 use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
-use Feralygon\Kit\Traits as KitTraits;
+use Feralygon\Kit\Traits;
 use Feralygon\Kit\Root\System\Factories\Component as FComponent;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
@@ -27,11 +27,11 @@ use Feralygon\Kit\Utilities\{
  * active system related objects, such as the operating system, main process, environment and running application, 
  * all of which can be accessed statically from anywhere through this class.
  */
-final class System implements INonInstantiable
+final class System implements IUninstantiable
 {
 	//Traits
-	use KitTraits\NonInstantiable;
-	use KitTraits\Memoization;
+	use Traits\Uninstantiable;
+	use Traits\Memoization;
 	
 	
 	

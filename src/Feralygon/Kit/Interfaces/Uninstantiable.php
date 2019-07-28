@@ -8,8 +8,8 @@
 namespace Feralygon\Kit\Interfaces;
 
 /**
- * This interface tags a class as non-instantiable.
+ * This interface tags a class as uninstantiable.
  * 
- * @see \Feralygon\Kit\Traits\NonInstantiable
+ * @see \Feralygon\Kit\Traits\Uninstantiable
  */
-interface NonInstantiable {}
+interface Uninstantiable {}

@@ -7,7 +7,7 @@
 
 namespace Feralygon\Kit;
 
-use Feralygon\Kit\Interfaces\NonInstantiable as INonInstantiable;
+use Feralygon\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Feralygon\Kit\Factory\{
 	Type,
 	Exceptions
@@ -26,10 +26,10 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * @see \Feralygon\Kit\Factory\Builder
  * @see \Feralygon\Kit\Factory\Type
  */
-abstract class Factory implements INonInstantiable
+abstract class Factory implements IUninstantiable
 {
 	//Traits
-	use Traits\NonInstantiable;
+	use Traits\Uninstantiable;
 	
 	
 	

@@ -7,10 +7,12 @@
 
 namespace Feralygon\Kit\Root;
 
+use Feralygon\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Feralygon\Kit\Root\Locale\{
 	Options,
 	Exceptions
 };
+use Feralygon\Kit\Traits;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
@@ -20,8 +22,13 @@ use Feralygon\Kit\Utilities\{
  * This class is used to statically handle localization, 
  * such as encoding and text translations into different languages.
  */
-final class Locale
+final class Locale implements IUninstantiable
 {
+	//Traits
+	use Traits\Uninstantiable;
+	
+	
+	
 	//Private static properties
 	/** @var string */
 	private static $encoding = 'UTF-8';

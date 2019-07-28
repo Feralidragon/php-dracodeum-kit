@@ -10,18 +10,18 @@ namespace Feralygon\Kit\Utilities\Type\Exceptions;
 use Feralygon\Kit\Utilities\Type\Exception;
 
 /**
- * This exception is thrown from the type utility whenever a given class is non-instantiable.
+ * This exception is thrown from the type utility whenever a given class is uninstantiable.
  * 
  * @property-read string $class [coercive = class]
  * <p>The class.</p>
  */
-class NonInstantiableClass extends Exception
+class UninstantiableClass extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Class {{class}} is non-instantiable.";
+		return "Class {{class}} is uninstantiable.";
 	}
 	
 	

@@ -10,11 +10,11 @@ namespace Feralygon\Kit\Traits;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /**
- * This trait turns a class into a non-instantiable one by preventing its instantiation.
+ * This trait turns a class into an uninstantiable one by preventing its instantiation.
  * 
- * @see \Feralygon\Kit\Interfaces\NonInstantiable
+ * @see \Feralygon\Kit\Interfaces\Uninstantiable
  */
-trait NonInstantiable
+trait Uninstantiable
 {
 	//Final public magic methods
 	/** Prevent class from being instantiated. */
