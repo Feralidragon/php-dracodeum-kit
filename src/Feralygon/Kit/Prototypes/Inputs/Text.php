@@ -37,7 +37,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * Only an integer, float or string may be evaluated as a text or string.
  * 
- * @since 1.0.0
  * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Set as Unicode text.</p>
  * @property-write bool $trim [writeonce] [coercive] [default = false]

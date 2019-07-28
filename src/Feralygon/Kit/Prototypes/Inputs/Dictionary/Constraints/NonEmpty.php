@@ -19,7 +19,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype prevents a dictionary from being empty.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary
  */
 class NonEmpty extends Constraint implements IName, IInformation

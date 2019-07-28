@@ -21,7 +21,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a text or string to hexadecimal characters.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Hexadecimal extends Constraint implements IName, IInformation

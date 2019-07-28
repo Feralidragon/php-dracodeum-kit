@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 /**
  * This interface defines a method to unset the error from an input prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
 interface ErrorUnset
@@ -19,7 +18,6 @@ interface ErrorUnset
 	/**
 	 * Unset error.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	public function unsetError(): void;

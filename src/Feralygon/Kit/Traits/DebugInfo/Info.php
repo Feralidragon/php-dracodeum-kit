@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Type as UType;
 /**
  * This class represents the object used to configure the properties to set up in the debug info of a given object.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Traits\DebugInfo
  */
 final class Info
@@ -46,7 +45,6 @@ final class Info
 	/**
 	 * Check if has property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -60,7 +58,6 @@ final class Info
 	/**
 	 * Get property value with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $no_throw [default = false]
@@ -85,7 +82,6 @@ final class Info
 	/**
 	 * Get all properties.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -97,7 +93,6 @@ final class Info
 	/**
 	 * Set property with a given name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -114,7 +109,6 @@ final class Info
 	/**
 	 * Set all properties.
 	 * 
-	 * @since 1.0.0
 	 * @param array $properties
 	 * <p>All the properties to set, as <samp>name => value</samp> pairs.</p>
 	 * @return $this
@@ -129,7 +123,6 @@ final class Info
 	/**
 	 * Unset property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return $this
@@ -144,7 +137,6 @@ final class Info
 	/**
 	 * Clear all properties.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -157,7 +149,6 @@ final class Info
 	/**
 	 * Check if the dump of object properties is enabled.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the dump of object properties is enabled.</p>
 	 */
@@ -169,7 +160,6 @@ final class Info
 	/**
 	 * Enable the dump of object properties.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -182,7 +172,6 @@ final class Info
 	/**
 	 * Disable the dump of object properties.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -195,7 +184,6 @@ final class Info
 	/**
 	 * Check if an object property with a given name is hidden.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @param string|null $class [default = null]
@@ -212,7 +200,6 @@ final class Info
 	/**
 	 * Hide object property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to hide with.</p>
 	 * @param string|null $class [default = null]
@@ -230,7 +217,6 @@ final class Info
 	/**
 	 * Unhide object property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unhide with.</p>
 	 * @param string|null $class [default = null]

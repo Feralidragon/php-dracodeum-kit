@@ -27,7 +27,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; an integer, float or string as the enumeration element value;<br>
  * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
- * @since 1.0.0
  * @property-write string $enumeration [writeonce] [strict = class]
  * <p>The enumeration class to use.</p>
  * @property-write int[]|float[]|string[] $values [writeonce] [coercive] [default = []]
@@ -458,7 +457,6 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/**
 	 * Check if names can be shown.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if names can be shown.</p>
 	 */
@@ -470,7 +468,6 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/**
 	 * Check if values can be shown.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if values can be shown.</p>
 	 */
@@ -482,7 +479,6 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/**
 	 * Get names values.
 	 * 
-	 * @since 1.0.0
 	 * @return int[]|float[]|string[]
 	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -519,7 +515,6 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/**
 	 * Get names descriptions.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]

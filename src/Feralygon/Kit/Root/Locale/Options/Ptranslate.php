@@ -7,9 +7,5 @@
 
 namespace Feralygon\Kit\Root\Locale\Options;
 
-/**
- * Root locale <code>ptranslate</code> method options.
- * 
- * @since 1.0.0
- */
+/** Root locale <code>ptranslate</code> method options. */
 class Ptranslate extends Translate {}

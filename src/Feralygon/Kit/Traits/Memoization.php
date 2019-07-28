@@ -11,11 +11,7 @@ use Feralygon\Kit\Managers\Memoization as Manager;
 use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Utilities\Call as UCall;
 
-/**
- * This trait enables memoization support for a class.
- * 
- * @since 1.0.0
- */
+/** This trait enables memoization support for a class. */
 trait Memoization
 {
 	//Private properties
@@ -34,7 +30,6 @@ trait Memoization
 	/**
 	 * Get memoization manager instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Managers\Memoization
 	 * <p>The memoization manager instance.</p>
 	 */
@@ -49,7 +44,6 @@ trait Memoization
 	/**
 	 * Process a given memoization debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return $this
@@ -67,7 +61,6 @@ trait Memoization
 	/**
 	 * Get memoization static manager instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Managers\Memoization
 	 * <p>The memoization static manager instance.</p>
 	 */
@@ -90,7 +83,6 @@ trait Memoization
 	 * thus the given function is expected to be a mirror of that method, or to have a compatible signature at least, 
 	 * since it is called and cached with the same arguments the previous caller method was called with.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $function
 	 * <p>The function to memoize (call and cache).<br>
 	 * It is expected to be compatible with the signature from the previous caller method in the stack.</p>

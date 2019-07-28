@@ -14,10 +14,7 @@ use Feralygon\Kit\Utilities\{
 	Time as UTime
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Inputs\Date
- */
+/** @see \Feralygon\Kit\Prototypes\Inputs\Date */
 class Minimum extends Constraints\Minimum
 {
 	//Overridden public methods

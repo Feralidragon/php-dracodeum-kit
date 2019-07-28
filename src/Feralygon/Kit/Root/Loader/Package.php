@@ -7,10 +7,7 @@
 
 namespace Feralygon\Kit\Root\Loader;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Root\Loader
- */
+/** @see \Feralygon\Kit\Root\Loader */
 final class Package
 {
 	//Private properties
@@ -29,7 +26,6 @@ final class Package
 	/**
 	 * Instantiate class.
 	 * 
-	 * @since 1.0.0
 	 * @param string $vendor
 	 * <p>The vendor to instantiate with.<br>
 	 * It is converted to lowercase.</p>
@@ -52,7 +48,6 @@ final class Package
 	/**
 	 * Get vendor.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The vendor.</p>
 	 */
@@ -64,7 +59,6 @@ final class Package
 	/**
 	 * Get name.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -76,7 +70,6 @@ final class Package
 	/**
 	 * Get path.
 	 * 
-	 * @since 1.0.0
 	 * @param string|null $class [default = null]
 	 * <p>The class to get for.</p>
 	 * @return string

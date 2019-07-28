@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a number to a set of allowed multiples.
  * 
- * @since 1.0.0
  * @property-write int[]|float[] $multiples [writeonce] [coercive]
  * <p>The allowed multiples to restrict a given number to.<br>
  * They must all be different from <code>0</code>.</p>

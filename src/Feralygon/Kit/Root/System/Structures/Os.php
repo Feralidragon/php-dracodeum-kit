@@ -12,7 +12,6 @@ use Feralygon\Kit\Structure;
 /**
  * Root system OS (Operating System) structure.
  * 
- * @since 1.0.0
  * @property string $name [coercive]
  * <p>The name.<br>
  * It cannot be empty.</p>
@@ -49,7 +48,6 @@ final class Os extends Structure
 	/**
 	 * Check if is Linux.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Linux.</p>
 	 */
@@ -61,7 +59,6 @@ final class Os extends Structure
 	/**
 	 * Check if is Windows.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Windows.</p>
 	 */
@@ -73,7 +70,6 @@ final class Os extends Structure
 	/**
 	 * Check if is Unix.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is Unix.</p>
 	 */

@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input\Components\Modifier;
 /**
  * This interface defines a method to build modifier instances in an input prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
 interface ModifierBuilder
@@ -21,7 +20,6 @@ interface ModifierBuilder
 	/**
 	 * Build modifier instance for a given name with a given set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to build for.</p>
 	 * @param array $properties

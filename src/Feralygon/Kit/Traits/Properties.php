@@ -20,8 +20,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * 
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.
- * 
- * @since 1.0.0
  */
 trait Properties
 {
@@ -35,7 +33,6 @@ trait Properties
 	/**
 	 * Get property value with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
@@ -49,7 +46,6 @@ trait Properties
 	/**
 	 * Check if property with a given name is set.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -63,7 +59,6 @@ trait Properties
 	/**
 	 * Set property with a given name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -78,7 +73,6 @@ trait Properties
 	/**
 	 * Unset property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return void
@@ -96,7 +90,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -112,7 +105,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
@@ -132,7 +124,6 @@ trait Properties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
@@ -148,7 +139,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -164,7 +154,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -183,7 +172,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return $this
@@ -202,7 +190,6 @@ trait Properties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -214,7 +201,6 @@ trait Properties
 	/**
 	 * Check if properties are read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
@@ -231,7 +217,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization and from within a builder function.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add with.</p>
 	 * @return \Feralygon\Kit\Traits\Properties\Property
@@ -247,7 +232,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -265,7 +249,6 @@ trait Properties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Interfaces\Propertiesable $object
 	 * <p>The object to set.</p>
 	 * @return $this
@@ -282,7 +265,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -297,7 +279,6 @@ trait Properties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
 	 * @return array
 	 * <p>The properties debug info.</p>
@@ -310,7 +291,6 @@ trait Properties
 	/**
 	 * Process a given properties debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return $this
@@ -332,7 +312,6 @@ trait Properties
 	/**
 	 * Initialize properties with a given builder function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to use to build all properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -414,7 +393,6 @@ trait Properties
 	 * This method also guards the current function or method in the stack from being called until the properties 
 	 * manager has been initialized.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Traits\Properties\Manager
 	 * <p>The properties manager instance.</p>
 	 */

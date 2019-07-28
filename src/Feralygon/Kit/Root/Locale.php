@@ -19,8 +19,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This class is used to statically handle localization, 
  * such as encoding and text translations into different languages.
- * 
- * @since 1.0.0
  */
 final class Locale
 {
@@ -34,7 +32,6 @@ final class Locale
 	/**
 	 * Get encoding.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The encoding.</p>
 	 */
@@ -46,7 +43,6 @@ final class Locale
 	/**
 	 * Set encoding.
 	 * 
-	 * @since 1.0.0
 	 * @param string $encoding
 	 * <p>The encoding to set.</p>
 	 * @return void
@@ -77,7 +73,6 @@ final class Locale
 	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
 	 * value is meant to eventually become an actual object representing the instance.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -103,7 +98,6 @@ final class Locale
 	 * @TODO: Please do NOT use this method for now externally, given that this is a temporary definition as the 
 	 * value is meant to eventually become an actual object representing the instance.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -129,7 +123,6 @@ final class Locale
 	 * such as: <code>"en-US"</code> or <code>"eng-USA"</code> for English from United States of America
 	 * (both underscores (<samp>_</samp>) and hyphens (<samp>-</samp>) are allowed, with any combination of code types).
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -222,7 +215,6 @@ final class Locale
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
 	 * of all existing entries to translate.
 	 * 
-	 * @since 1.0.0
 	 * @param string $message
 	 * <p>The message to translate.</p>
 	 * @param string|null $context [default = null]
@@ -300,7 +292,6 @@ final class Locale
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
 	 * of all existing entries to translate.
 	 * 
-	 * @since 1.0.0
 	 * @param string $message1
 	 * <p>The message singular form to translate.</p>
 	 * @param string $message2

@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a text or string to an identifier format.
  * 
- * @since 1.0.0
  * @property-write bool $extended [writeonce] [coercive] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text

@@ -34,7 +34,6 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
  * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
- * @since 1.0.0
  * @property-write bool $unsigned [writeonce] [coercive] [default = false]
  * <p>Set as an unsigned integer.</p>
  * @property-write int|null $bits [writeonce] [coercive] [default = null]

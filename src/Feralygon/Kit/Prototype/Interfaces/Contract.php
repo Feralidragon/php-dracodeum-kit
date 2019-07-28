@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Prototype\Interfaces;
 /**
  * This interface defines a method to get the contract from a prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  */
 interface Contract
@@ -21,7 +20,6 @@ interface Contract
 	 * 
 	 * The returning contract interface must be implemented by the component using this prototype.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The contract interface.</p>
 	 */

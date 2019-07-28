@@ -13,7 +13,6 @@ use Feralygon\Kit\Utilities\Data as UData;
  * This trait implements the PHP <code>Feralygon\Kit\Interfaces\Arrayable</code> interface 
  * when the properties trait is used.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Interfaces\Arrayable
  * @see \Feralygon\Kit\Traits\Properties
  */

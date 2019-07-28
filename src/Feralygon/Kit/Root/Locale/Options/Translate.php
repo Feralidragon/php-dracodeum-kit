@@ -16,7 +16,6 @@ use Feralygon\Kit\Root\Locale;
 /**
  * Root locale <code>translate</code> method options.
  * 
- * @since 1.0.0
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
  * @property int $info_scope [coercive = enumeration value] [default = \Feralygon\Kit\Enumerations\InfoScope::NONE]

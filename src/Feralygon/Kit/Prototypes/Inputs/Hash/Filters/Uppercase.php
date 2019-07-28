@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 /**
  * This filter prototype converts a hash to uppercase.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
 class Uppercase extends Filter

@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a vector to an exact length.
  * 
- * @since 1.0.0
  * @property-write int $length [writeonce] [coercive]
  * <p>The length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>

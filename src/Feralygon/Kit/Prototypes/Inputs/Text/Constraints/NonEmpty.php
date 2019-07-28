@@ -22,7 +22,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype prevents a text or string from being empty.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class NonEmpty extends Constraint implements IName, IInformation

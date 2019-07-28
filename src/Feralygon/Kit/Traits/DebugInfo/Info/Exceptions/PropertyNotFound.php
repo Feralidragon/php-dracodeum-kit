@@ -12,7 +12,6 @@ use Feralygon\Kit\Traits\DebugInfo\Info\Exception;
 /**
  * This exception is thrown from a debug info instance whenever a given property is not found.
  * 
- * @since 1.0.0
  * @property-read string $name [coercive]
  * <p>The name.</p>
  */

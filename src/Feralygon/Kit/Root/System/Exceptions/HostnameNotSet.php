@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Root\System\Exceptions;
 
 use Feralygon\Kit\Root\System\Exception;
 
-/**
- * This exception is thrown from the system whenever a hostname is not set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the system whenever a hostname is not set. */
 class HostnameNotSet extends Exception
 {
 	//Implemented public methods

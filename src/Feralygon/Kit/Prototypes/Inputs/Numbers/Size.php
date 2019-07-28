@@ -35,7 +35,6 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
  * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Byte
  * @see https://en.wikipedia.org/wiki/File_size
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Values

@@ -36,7 +36,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * such as <samp>key1:value1,key2:value2,key3:value3</samp>;<br>
  * &nbsp; &#8226; &nbsp; a JSON array or object.
  * 
- * @since 1.0.0
  * @property-write \Feralygon\Kit\Components\Input|null $key_input [writeonce] [coercive = component] [default = null]
  * <p>The input instance to evaluate keys with.</p>
  * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [coercive = component] [default = null]
@@ -829,7 +828,6 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/**
 	 * Get formatted key input description.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
@@ -849,7 +847,6 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/**
 	 * Get formatted input description.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
@@ -869,7 +866,6 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/**
 	 * Get key description bullet point with a given description.
 	 * 
-	 * @since 1.0.0
 	 * @param string $description
 	 * <p>The description to get with.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options
@@ -897,7 +893,6 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	/**
 	 * Get value description bullet point with a given description.
 	 * 
-	 * @since 1.0.0
 	 * @param string $description
 	 * <p>The description to get with.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

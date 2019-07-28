@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Structure\Traits;
 /** 
  * This trait defines a method to extract properties from a string in a structure.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Structure
  */
 trait StringPropertiesExtractor
@@ -19,7 +18,6 @@ trait StringPropertiesExtractor
 	/**
 	 * Extract properties from a given string.
 	 * 
-	 * @since 1.0.0
 	 * @param string $string
 	 * <p>The string to extract from.</p>
 	 * @return array|null

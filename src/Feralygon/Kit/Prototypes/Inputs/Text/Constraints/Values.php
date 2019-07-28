@@ -17,7 +17,6 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * @since 1.0.0
  * @property-write bool $unicode [writeonce] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
@@ -34,7 +33,6 @@ class Values extends Constraints\Values
 	/**
 	 * Check if is words only.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is words only.</p>
 	 */

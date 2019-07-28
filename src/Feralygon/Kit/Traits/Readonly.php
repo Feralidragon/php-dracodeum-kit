@@ -16,7 +16,6 @@ use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
  * This trait enables read-only support for a class 
  * and may be used as an implementation of the <code>Feralygon\Kit\Interfaces\Readonlyable</code> interface.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Interfaces\Readonlyable
  */
 trait Readonly
@@ -31,7 +30,6 @@ trait Readonly
 	/**
 	 * Check if is read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Check if it has been recursively set as read-only.</p>
 	 * @return bool
@@ -45,7 +43,6 @@ trait Readonly
 	/**
 	 * Set as read-only.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $recursive [default = false]
 	 * <p>Set all possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @return $this
@@ -63,7 +60,6 @@ trait Readonly
 	/**
 	 * Guard the current function or method in the stack from being called if this object is set as read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	final protected function guardNonReadonlyCall(): void
@@ -80,7 +76,6 @@ trait Readonly
 	 * <br>
 	 * This method may only be called before read-only enablement.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $callback
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -102,7 +97,6 @@ trait Readonly
 	/**
 	 * Get read-only debug info.
 	 * 
-	 * @since 1.0.0
 	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
 	 * @return array
 	 * <p>The read-only debug info.</p>
@@ -115,7 +109,6 @@ trait Readonly
 	/**
 	 * Process a given read-only debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return $this
@@ -142,7 +135,6 @@ trait Readonly
 	/**
 	 * Check if the read-only manager is loaded.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the read-only manager is loaded.</p>
 	 */
@@ -154,7 +146,6 @@ trait Readonly
 	/**
 	 * Get read-only manager instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Managers\Readonly
 	 * <p>The read-only manager instance.</p>
 	 */

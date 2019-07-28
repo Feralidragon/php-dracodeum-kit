@@ -14,7 +14,6 @@ use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
  * This interface defines a set of methods to get information from an input prototype, 
  * namely the label, description and message.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
 interface Information
@@ -23,7 +22,6 @@ interface Information
 	/**
 	 * Get label.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
@@ -36,7 +34,6 @@ interface Information
 	/**
 	 * Get description.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options
@@ -52,7 +49,6 @@ interface Information
 	 * The returning message is meant to be assertive relative to the expected value.<br>
 	 * It may also be used as an error message if the value evaluation fails.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @param \Feralygon\Kit\Components\Input\Options\Info $info_options

@@ -14,10 +14,7 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Inputs\Number
- */
+/** @see \Feralygon\Kit\Prototypes\Inputs\Number */
 class Range extends Constraints\Range
 {
 	//Overridden public methods

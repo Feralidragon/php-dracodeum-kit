@@ -24,7 +24,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a number to a set of allowed powers.
  * 
- * @since 1.0.0
  * @property-write int[]|float[] $powers [writeonce] [coercive]
  * <p>The allowed powers to restrict a given number to.<br>
  * They must all be greater than <code>0</code>.</p>

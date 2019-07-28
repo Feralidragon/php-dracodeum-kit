@@ -11,11 +11,7 @@ use Feralygon\Kit\Root\System\Prototypes\Environment;
 use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Feralygon\Kit\Root\System;
 
-/**
- * This environment prototype sets the system for production.
- * 
- * @since 1.0.0
- */
+/** This environment prototype sets the system for production. */
 class Production extends Environment
 {
 	//Implemented public methods

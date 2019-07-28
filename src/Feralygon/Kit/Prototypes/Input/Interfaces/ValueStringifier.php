@@ -12,7 +12,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 /**
  * This interface defines a method to stringify a value in an input prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Input
  */
 interface ValueStringifier
@@ -21,7 +20,6 @@ interface ValueStringifier
 	/**
 	 * Generate a string from a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value
 	 * <p>The value to generate a string from.</p>
 	 * @param \Feralygon\Kit\Options\Text $text_options

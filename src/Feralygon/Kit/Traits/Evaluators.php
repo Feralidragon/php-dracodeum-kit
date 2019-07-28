@@ -14,11 +14,7 @@ use Feralygon\Kit\Primitives\{
 };
 use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 
-/**
- * This trait enables the support for evaluators in a class, and adds some common ones.
- * 
- * @since 1.0.0
- */
+/** This trait enables the support for evaluators in a class, and adds some common ones. */
 trait Evaluators
 {
 	//Private properties
@@ -31,7 +27,6 @@ trait Evaluators
 	/**
 	 * Add evaluator function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The evaluator function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -56,7 +51,6 @@ trait Evaluators
 	/**
 	 * Set evaluator function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $evaluator
 	 * <p>The evaluator function to set.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -81,7 +75,6 @@ trait Evaluators
 	/**
 	 * Get evaluator functions.
 	 * 
-	 * @since 1.0.0
 	 * @return \Closure[]
 	 * <p>The evaluator functions.</p>
 	 */
@@ -93,7 +86,6 @@ trait Evaluators
 	/**
 	 * Clear all evaluator functions.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -106,7 +98,6 @@ trait Evaluators
 	/**
 	 * Lock evaluators.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
 	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
@@ -139,7 +130,6 @@ trait Evaluators
 	 * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
 	 * <code>"on"</code> or <code>"yes"</code> for boolean <code>true</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -154,7 +144,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as a boolean.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -183,7 +172,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -198,7 +186,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as a number.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -226,7 +213,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $unsigned [default = false]
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
@@ -250,7 +236,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as an integer.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $unsigned [default = false]
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
@@ -290,7 +275,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -305,7 +289,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as a float.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -335,7 +318,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
 	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -355,7 +337,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
 	 * @see \Feralygon\Kit\Interfaces\Stringifiable
 	 * @param bool $non_empty [default = false]
@@ -374,7 +355,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as a string.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false]
@@ -393,7 +373,6 @@ trait Evaluators
 	 * 
 	 * Only a class string or object can be evaluated into a class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
@@ -410,7 +389,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as a class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
@@ -434,7 +412,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
@@ -457,7 +434,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as an object.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
@@ -481,7 +457,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
 	 * the <code>Feralygon\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\ArrayInstantiable
 	 * @see \Feralygon\Kit\Interfaces\StringInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
@@ -500,7 +475,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value evaluated as a callable.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|null $template [default = null]
 	 * <p>The template callable declaration to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false]
@@ -522,7 +496,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value evaluated as a closure.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|null $template [default = null]
 	 * <p>The template callable declaration to validate the compatibility against.</p>
 	 * @param bool $nullable [default = false]
@@ -548,7 +521,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; an array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
@@ -587,7 +559,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as an array.
 	 * 
-	 * @since 1.0.0
 	 * @param callable|null $evaluator [default = null]
 	 * <p>The evaluator function to use for each element in the resulting array.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -624,7 +595,6 @@ trait Evaluators
 	 * 
 	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $enumeration
 	 * <p>The enumeration class to use.</p>
 	 * @param bool $nullable [default = false]
@@ -641,7 +611,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as an enumeration value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $enumeration
 	 * <p>The enumeration class to use.</p>
 	 * @param bool $nullable [default = false]
@@ -660,7 +629,6 @@ trait Evaluators
 	 * 
 	 * Only an enumeration element given as an integer, float or string can be evaluated into an enumeration name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $enumeration
 	 * <p>The enumeration class to use.</p>
 	 * @param bool $nullable [default = false]
@@ -677,7 +645,6 @@ trait Evaluators
 	/**
 	 * Set to only allow a value strictly evaluated as an enumeration name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $enumeration
 	 * <p>The enumeration class to use.</p>
 	 * @param bool $nullable [default = false]
@@ -700,7 +667,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
-	 * @since 1.0.0
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to evaluate with.<br>
 	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
@@ -725,7 +691,6 @@ trait Evaluators
 	 * such as: <samp>2017-Jan-01 12:00:00</samp> for <samp>2017-01-01 12:00:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
@@ -762,7 +727,6 @@ trait Evaluators
 	 * such as: <samp>2017-Jan-01</samp> for <samp>2017-01-01</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/class.datetime.php
@@ -793,7 +757,6 @@ trait Evaluators
 	 * such as: <samp>2:05PM</samp> for <samp>14:05:00</samp>;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.strtotime.php
 	 * @see https://php.net/manual/en/function.date.php
 	 * @see https://php.net/manual/en/function.date-default-timezone-set.php
@@ -823,7 +786,6 @@ trait Evaluators
 	 * 
 	 * Only a component instance or name, or a prototype instance, class or name, can be evaluated into an instance.
 	 * 
-	 * @since 1.0.0
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param array $properties [default = []]
@@ -887,7 +849,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
@@ -926,7 +887,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
@@ -967,7 +927,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; an associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param \Feralygon\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
@@ -994,7 +953,6 @@ trait Evaluators
 	 * &nbsp; &#8226; &nbsp; a non-associative array;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Feralygon\Kit\Interfaces\Arrayable</code> interface.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Interfaces\Arrayable
 	 * @param \Feralygon\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
@@ -1017,7 +975,6 @@ trait Evaluators
 	/**
 	 * Get evaluators manager instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Managers\Evaluators
 	 * <p>The evaluators manager instance.</p>
 	 */
@@ -1032,7 +989,6 @@ trait Evaluators
 	/**
 	 * Process a given evaluators debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return $this

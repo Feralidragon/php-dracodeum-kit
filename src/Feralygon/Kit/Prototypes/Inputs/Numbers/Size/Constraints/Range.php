@@ -14,10 +14,7 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size
- */
+/** @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size */
 class Range extends Constraints\Range
 {
 	//Overridden public methods

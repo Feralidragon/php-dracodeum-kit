@@ -12,10 +12,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
- */
+/** @see \Feralygon\Kit\Prototypes\Inputs\Text */
 class Truncate extends Filters\Truncate
 {
 	//Overridden public methods

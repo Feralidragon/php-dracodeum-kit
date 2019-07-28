@@ -38,7 +38,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a string as a comma separated list of values, such as <samp>value1,value2,value3</samp>;<br>
  * &nbsp; &#8226; &nbsp; a JSON array.
  * 
- * @since 1.0.0
  * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [coercive = component] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Array_data_structure

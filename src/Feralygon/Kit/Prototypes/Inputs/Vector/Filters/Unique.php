@@ -20,7 +20,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This filter prototype removes duplicated values from a vector.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class Unique extends Filter implements IName, IInformation

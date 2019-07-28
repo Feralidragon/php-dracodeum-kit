@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Prototype\Interfaces;
 /**
  * This interface defines a method to get subcontracts from a prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  */
 interface Subcontracts
@@ -22,7 +21,6 @@ interface Subcontracts
 	 * The returning subcontract interface should be implemented by the component using this prototype, 
 	 * but such is not required.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get for.</p>
 	 * @return string|null

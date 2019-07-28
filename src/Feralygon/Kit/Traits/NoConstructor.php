@@ -7,18 +7,10 @@
 
 namespace Feralygon\Kit\Traits;
 
-/**
- * This trait removes the ability to implement a custom constructor for a class.
- * 
- * @since 1.0.0
- */
+/** This trait removes the ability to implement a custom constructor for a class. */
 trait NoConstructor
 {
 	//Final public magic methods
-	/**
-	 * Prevent class from implementing its own constructor.
-	 * 
-	 * @since 1.0.0
-	 */
+	/** Prevent class from implementing its own constructor. */
 	final public function __construct() {}
 }

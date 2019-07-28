@@ -11,11 +11,7 @@ use Feralygon\Kit\Root\Locale\Exception;
 use Feralygon\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Feralygon\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from the locale whenever the coercion into a language fails with a given value.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the locale whenever the coercion into a language fails with a given value. */
 class LanguageCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

@@ -17,7 +17,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\{
 };
 
 /**
- * @since 1.0.0
  * @see \Feralygon\Kit\Components\Input
  * @see \Feralygon\Kit\Prototypes\Input\Subcontracts\ConstraintCreator
  * [subcontract, name = 'ConstraintCreator']
@@ -38,7 +37,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	 * 
 	 * The returning name must be a canonical string, which uniquely identifies this input.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -47,7 +45,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	/**
 	 * Check if is scalar.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is scalar.</p>
 	 */
@@ -56,7 +53,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	/**
 	 * Evaluate a given value.
 	 * 
-	 * @since 1.0.0
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -85,7 +81,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	/**
 	 * Create a constraint instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]
@@ -105,7 +100,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	/**
 	 * Create a filter instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]

@@ -14,10 +14,7 @@ use Feralygon\Kit\Utilities\{
 	Time as UTime
 };
 
-/**
- * @since 1.0.0
- * @see \Feralygon\Kit\Prototypes\Inputs\DateTime
- */
+/** @see \Feralygon\Kit\Prototypes\Inputs\DateTime */
 class Range extends Constraints\Range
 {
 	//Overridden public methods

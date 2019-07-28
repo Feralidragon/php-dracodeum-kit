@@ -35,7 +35,6 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
  * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Number
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Values
  * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
@@ -219,7 +218,6 @@ class Number extends Input implements IInformation, IModifierBuilder
 	/**
 	 * Get notation strings.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]

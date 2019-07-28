@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * This trait adds the ability for an object to be cast to a string, 
  * by using the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Interfaces\Stringifiable
  */
 trait Stringifiable
@@ -26,7 +25,6 @@ trait Stringifiable
 	 * This method requires this object to have 
 	 * the <code>Feralygon\Kit\Interfaces\Stringifiable</code> interface implemented.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>This object cast to a string.</p>
 	 */

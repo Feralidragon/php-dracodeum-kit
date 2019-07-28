@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * and adds some properties, namely <var>$value</var>, <var>$error_code</var> and <var>$error_message</var>, 
  * to be used exclusively by <code>Feralygon\Kit\Exception</code> classes.
  * 
- * @since 1.0.0
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string|null $error_code [coercive] [default = null]

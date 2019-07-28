@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\DebugInfo\Info;
  * This interface defines a method to process a debug info instance in an object 
  * using the <code>Feralygon\Kit\Traits\DebugInfo</code> trait.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Traits\DebugInfo
  */
 interface DebugInfoProcessor
@@ -22,7 +21,6 @@ interface DebugInfoProcessor
 	/**
 	 * Process a given debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return void

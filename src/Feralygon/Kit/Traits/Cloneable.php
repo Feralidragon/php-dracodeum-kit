@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Traits;
 /**
  * This trait implements the <code>Feralygon\Kit\Interfaces\Cloneable</code> interface.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Interfaces\Cloneable
  */
 trait Cloneable

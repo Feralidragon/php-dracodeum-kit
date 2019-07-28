@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Root\System\Exceptions;
 
 use Feralygon\Kit\Root\System\Exception;
 
-/**
- * This exception is thrown from the system whenever an IP address is not set.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the system whenever an IP address is not set. */
 class IpAddressNotSet extends Exception
 {
 	//Implemented public methods

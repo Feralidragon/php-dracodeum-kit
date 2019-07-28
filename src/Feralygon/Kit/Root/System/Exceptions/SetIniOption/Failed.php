@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Root\System\Exceptions\SetIniOption;
 
 use Feralygon\Kit\Root\System\Exceptions\SetIniOption as Exception;
 
-/**
- * This exception is thrown from the system <code>setIniOption</code> method whenever it fails.
- * 
- * @since 1.0.0
- */
+/** This exception is thrown from the system <code>setIniOption</code> method whenever it fails. */
 class Failed extends Exception
 {
 	//Implemented public methods

@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Structure\Traits;
 /** 
  * This trait defines a method to get the default builder function from a structure.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Structure
  */
 trait DefaultBuilder
@@ -33,7 +32,6 @@ trait DefaultBuilder
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
 	 * The built instance.
 	 * 
-	 * @since 1.0.0
 	 * @return callable|null
 	 * <p>The default builder function or <code>null</code> if none is set.</p>
 	 */

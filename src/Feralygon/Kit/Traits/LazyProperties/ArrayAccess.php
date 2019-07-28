@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Traits\LazyProperties;
 /**
  * This trait implements the PHP <code>ArrayAccess</code> interface when the lazy properties trait is used.
  * 
- * @since 1.0.0
  * @see https://php.net/manual/en/class.arrayaccess.php
  * @see \Feralygon\Kit\Traits\LazyProperties
  */

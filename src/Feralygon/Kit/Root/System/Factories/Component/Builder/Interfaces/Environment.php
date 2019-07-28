@@ -12,7 +12,6 @@ use Feralygon\Kit\Root\System\Components\Environment as Component;
 /**
  * This interface defines a method to build an environment instance.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Root\System\Factories\Component
  */
 interface Environment
@@ -21,7 +20,6 @@ interface Environment
 	/**
 	 * Build instance with a given prototype and set of properties.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Root\System\Prototypes\Environment|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties

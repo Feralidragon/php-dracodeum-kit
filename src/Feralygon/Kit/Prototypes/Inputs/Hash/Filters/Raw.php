@@ -12,7 +12,6 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 /**
  * This filter prototype converts a hash in hexadecimal notation into a raw binary string.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
 class Raw extends Filter

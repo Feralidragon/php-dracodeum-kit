@@ -21,8 +21,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * All these properties are validated and sanitized, guaranteeing their type and integrity, 
  * and may be accessed and modified directly just like public object properties.<br>
  * Each and every property is only loaded on demand (lazy-loading).
- * 
- * @since 1.0.0
  */
 trait LazyProperties
 {
@@ -39,7 +37,6 @@ trait LazyProperties
 	/**
 	 * Get property value with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
@@ -53,7 +50,6 @@ trait LazyProperties
 	/**
 	 * Check if property with a given name is set.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -67,7 +63,6 @@ trait LazyProperties
 	/**
 	 * Set property with a given name and value.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -82,7 +77,6 @@ trait LazyProperties
 	/**
 	 * Unset property with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return void
@@ -100,7 +94,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -116,7 +109,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
@@ -136,7 +128,6 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
@@ -152,7 +143,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -168,7 +158,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
@@ -187,7 +176,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to unset with.</p>
 	 * @return $this
@@ -206,7 +194,6 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>All the loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -218,7 +205,6 @@ trait LazyProperties
 	/**
 	 * Check if properties are read-only.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties are read-only.</p>
 	 */
@@ -237,7 +223,6 @@ trait LazyProperties
 	 * <br>
 	 * The property name is given and set automatically.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Property
 	 * <p>The created property instance.</p>
 	 */
@@ -255,7 +240,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to add.</p>
 	 * @return $this
@@ -272,7 +256,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param string[] $names
 	 * <p>The names to add.</p>
 	 * @return $this
@@ -289,7 +272,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -307,7 +289,6 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Interfaces\Propertiesable $object
 	 * <p>The object to set.</p>
 	 * @return $this
@@ -324,7 +305,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -339,7 +319,6 @@ trait LazyProperties
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @since 1.0.0
 	 * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
 	 * @return array
 	 * <p>The properties debug info.</p>
@@ -352,7 +331,6 @@ trait LazyProperties
 	/**
 	 * Process a given properties debug info instance.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
 	 * @return $this
@@ -382,7 +360,6 @@ trait LazyProperties
 	/**
 	 * Initialize properties with a given builder function.
 	 * 
-	 * @since 1.0.0
 	 * @param callable $builder
 	 * <p>The function to use to build a property instance with a given name.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -491,7 +468,6 @@ trait LazyProperties
 	 * This method also guards the current function or method in the stack from being called until the properties 
 	 * manager has been initialized.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Traits\LazyProperties\Manager
 	 * <p>The properties manager instance.</p>
 	 */

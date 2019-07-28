@@ -20,7 +20,6 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype prevents a vector from being empty.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class NonEmpty extends Constraint implements IName, IInformation

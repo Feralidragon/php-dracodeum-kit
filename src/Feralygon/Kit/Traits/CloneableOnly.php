@@ -14,17 +14,12 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * allowing only the <code>clone</code> method defined in the <code>Feralygon\Kit\Interfaces\Cloneable</code> interface 
  * to be used instead.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Interfaces\Cloneable
  */
 trait CloneableOnly
 {
 	//Final public magic methods
-	/**
-	 * Prevent class instance from being cloned through the PHP <code>clone</code> keyword.
-	 * 
-	 * @since 1.0.0
-	 */
+	/** Prevent class instance from being cloned through the PHP <code>clone</code> keyword. */
 	final public function __clone()
 	{
 		UCall::guard(false, [

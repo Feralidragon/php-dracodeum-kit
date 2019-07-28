@@ -38,7 +38,6 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
- * @since 1.0.0
  * @property-write int|null $bits [writeonce] [coercive] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
@@ -364,7 +363,6 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 	/**
 	 * Get notation strings.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]

@@ -13,8 +13,6 @@ use Feralygon\Kit\Traits as KitTraits;
 /**
  * This class represents the vendor package and is used to set up how the overall package is meant to work and be used, 
  * such as setting the package to work as just a library instead of the main application framework.
- * 
- * @since 1.0.0
  */
 final class Vendor implements INonInstantiable
 {
@@ -37,7 +35,6 @@ final class Vendor implements INonInstantiable
 	 * (such as ones through <code>ini_set</code> calls) which might be used and set by other scripts, frameworks 
 	 * or any other systems being used instead.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	final public static function useAsLibrary(): void
@@ -48,7 +45,6 @@ final class Vendor implements INonInstantiable
 	/**
 	 * Check if is library.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is a library.</p>
 	 */

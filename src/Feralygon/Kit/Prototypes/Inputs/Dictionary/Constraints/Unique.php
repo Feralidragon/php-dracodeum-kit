@@ -22,7 +22,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a dictionary to unique values.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary
  */
 class Unique extends Constraint implements IName, IInformation

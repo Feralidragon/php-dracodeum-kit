@@ -26,8 +26,6 @@ use Feralygon\Kit\Utilities\{
  * get local information and launch an application, thus it also holds a global system state with the currently 
  * active system related objects, such as the operating system, main process, environment and running application, 
  * all of which can be accessed statically from anywhere through this class.
- * 
- * @since 1.0.0
  */
 final class System implements INonInstantiable
 {
@@ -53,7 +51,6 @@ final class System implements INonInstantiable
 	/**
 	 * Get environment instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The environment instance.</p>
 	 */
@@ -65,7 +62,6 @@ final class System implements INonInstantiable
 	/**
 	 * Set environment.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Root\System\Components\Environment|\Feralygon\Kit\Root\System\Prototypes\Environment|string $environment
 	 * <p>The environment component instance, or prototype instance, class or name, to set.</p>
 	 * @return void
@@ -90,7 +86,6 @@ final class System implements INonInstantiable
 	/**
 	 * Check if is setting environment.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is setting environment.</p>
 	 */
@@ -106,7 +101,6 @@ final class System implements INonInstantiable
 	 * by performing additional integrity checks during runtime, at the potential cost of lower performance 
 	 * and a higher memory footprint.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is in debug mode.</p>
 	 */
@@ -118,7 +112,6 @@ final class System implements INonInstantiable
 	/**
 	 * Get dump verbosity level.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel
 	 * @return int
 	 * <p>The dump verbosity level.</p>
@@ -135,7 +128,6 @@ final class System implements INonInstantiable
 	 * if the package is set to be used as a library, throws an exception instead of failing silently, 
 	 * and an integer, float, boolean or <code>null</code> value is also safely accepted.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.ini-set.php
 	 * @param string $name
 	 * <p>The name to set with.</p>
@@ -191,7 +183,6 @@ final class System implements INonInstantiable
 	 * This method is mostly equivalent to the PHP <code>error_reporting</code> function, 
 	 * however it holds no effect if the package is set to be used as a library.
 	 * 
-	 * @since 1.0.0
 	 * @see https://php.net/manual/en/function.error-reporting.php
 	 * @see https://php.net/manual/en/errorfunc.constants.php
 	 * @param int $flags
@@ -208,7 +199,6 @@ final class System implements INonInstantiable
 	/**
 	 * Get hostname.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\HostnameNotSet
@@ -231,7 +221,6 @@ final class System implements INonInstantiable
 	/**
 	 * Get IP address.
 	 * 
-	 * @since 1.0.0
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Root\System\Exceptions\IpAddressNotSet
@@ -265,7 +254,6 @@ final class System implements INonInstantiable
 	/**
 	 * Get OS (Operating System) instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Root\System\Structures\Os
 	 * <p>The OS (Operating System) instance.</p>
 	 */
@@ -286,7 +274,6 @@ final class System implements INonInstantiable
 	/**
 	 * Check if has command with a given name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
@@ -310,7 +297,6 @@ final class System implements INonInstantiable
 	/**
 	 * Load environment instance.
 	 * 
-	 * @since 1.0.0
 	 * @return \Feralygon\Kit\Root\System\Components\Environment
 	 * <p>The loaded environment instance.</p>
 	 */

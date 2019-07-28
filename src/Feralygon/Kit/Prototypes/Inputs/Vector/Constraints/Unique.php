@@ -23,7 +23,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a vector to unique values.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class Unique extends Constraint implements IName, IInformation

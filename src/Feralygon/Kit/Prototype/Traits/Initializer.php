@@ -10,7 +10,6 @@ namespace Feralygon\Kit\Prototype\Traits;
 /**
  * This trait defines a method to initialize a prototype.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Prototype
  */
 trait Initializer
@@ -19,7 +18,6 @@ trait Initializer
 	/**
 	 * Initialize.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	protected function initialize(): void {}

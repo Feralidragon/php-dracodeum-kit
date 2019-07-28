@@ -20,7 +20,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * This component represents an environment which sets the system configuration to use 
  * and how the code should run (debugging or production).
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Root\System
  * @see \Feralygon\Kit\Root\System\Prototypes\Environment
  * @see \Feralygon\Kit\Root\System\Prototypes\Environments\Debug
@@ -69,7 +68,6 @@ class Environment extends Component
 	 * The returning name defines an unique canonical identifier for this environment, 
 	 * to be used to select which configuration profile to use.
 	 * 
-	 * @since 1.0.0
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -85,7 +83,6 @@ class Environment extends Component
 	 * by performing additional integrity checks during runtime (assertions), 
 	 * at the potential cost of lower performance and a higher memory footprint.
 	 * 
-	 * @since 1.0.0
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is a debug environment.</p>
 	 */
@@ -97,7 +94,6 @@ class Environment extends Component
 	/**
 	 * Get dump verbosity level.
 	 * 
-	 * @since 1.0.0
 	 * @see \Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel
 	 * @return int
 	 * <p>The dump verbosity level.</p>
@@ -116,7 +112,6 @@ class Environment extends Component
 	 * This method may only be called from within the <code>setEnvironment</code> method 
 	 * from the <code>Feralygon\Kit\Root\System</code> class.
 	 * 
-	 * @since 1.0.0
 	 * @return void
 	 */
 	final public function apply(): void

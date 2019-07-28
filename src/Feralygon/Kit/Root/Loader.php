@@ -10,11 +10,7 @@ namespace Feralygon\Kit\Root;
 use Feralygon\Kit\Root\Loader\Package;
 use Feralygon\Kit\Utilities\Type as UType;
 
-/**
- * This class is used to statically set packages and autoload their classes.
- * 
- * @since 1.0.0
- */
+/** This class is used to statically set packages and autoload their classes. */
 final class Loader
 {
 	//Private static properties
@@ -30,7 +26,6 @@ final class Loader
 	/**
 	 * Prevent class from being instantiated.
 	 * 
-	 * @since 1.0.0
 	 * @throws \RuntimeException
 	 */
 	final public function __construct()
@@ -44,7 +39,6 @@ final class Loader
 	/**
 	 * Check if has package with a given vendor and name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $vendor
 	 * <p>The vendor to check with.<br>
 	 * It is checked in a case-insensitive manner.</p>
@@ -62,7 +56,6 @@ final class Loader
 	/**
 	 * Get package instance with a given vendor and name.
 	 * 
-	 * @since 1.0.0
 	 * @param string $vendor
 	 * <p>The vendor to get with.<br>
 	 * It is used in a case-insensitive manner.</p>
@@ -86,7 +79,6 @@ final class Loader
 	/**
 	 * Set package with a given vendor, name and path.
 	 * 
-	 * @since 1.0.0
 	 * @param string $vendor
 	 * <p>The vendor to set with.<br>
 	 * It is set in a case-insensitive manner and converted to lowercase.</p>
@@ -131,7 +123,6 @@ final class Loader
 	/**
 	 * Get package instance from a given object or class.
 	 * 
-	 * @since 1.0.0
 	 * @param object|string $object_class
 	 * <p>The object or class to get from.</p>
 	 * @return \Feralygon\Kit\Root\Loader\Package|null

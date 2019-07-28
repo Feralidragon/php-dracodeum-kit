@@ -12,8 +12,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * This enumeration represents dump verbosity levels, which are used to define which level of verbosity to use 
  * in the output of the PHP <code>var_dump</code> function when an object is given.
- * 
- * @since 1.0.0
  */
 class DumpVerbosityLevel extends Enumeration
 {

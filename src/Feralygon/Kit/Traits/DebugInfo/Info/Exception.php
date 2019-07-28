@@ -11,7 +11,6 @@ use Feralygon\Kit\Exception as KitException;
 use Feralygon\Kit\Traits\DebugInfo\Info;
 
 /**
- * @since 1.0.0
  * @property-read \Feralygon\Kit\Traits\DebugInfo\Info $info [strict]
  * <p>The info instance.</p>
  * @see \Feralygon\Kit\Traits\DebugInfo\Info

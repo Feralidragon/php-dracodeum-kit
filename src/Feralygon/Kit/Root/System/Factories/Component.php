@@ -16,7 +16,6 @@ use Feralygon\Kit\Root\System\Components\Environment;
 /**
  * This factory is used to build component instances.
  * 
- * @since 1.0.0
  * @see \Feralygon\Kit\Root\System\Factories\Component\Builder\Interfaces\Environment
  * [builder interface, type = 'environment']
  * @see \Feralygon\Kit\Root\System\Factories\Component\Builders\Environment
@@ -41,7 +40,6 @@ class Component extends Factory
 	/**
 	 * Build environment instance with a given prototype.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Root\System\Prototypes\Environment|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]

@@ -32,7 +32,6 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP <code>strtotime</code> function;<br>
  * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/ISO_8601
  * @see https://en.wikipedia.org/wiki/Timestamp
  * @see https://php.net/manual/en/function.strtotime.php
@@ -195,7 +194,6 @@ class DateTime extends Input implements IInformation, IValueStringifier, IModifi
 	/**
 	 * Get notation strings.
 	 * 
-	 * @since 1.0.0
 	 * @param \Feralygon\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]

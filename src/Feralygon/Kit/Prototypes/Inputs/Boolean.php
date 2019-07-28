@@ -30,7 +30,6 @@ use Feralygon\Kit\Utilities\{
  * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
  * <code>"on"</code> and <code>"yes"</code> as boolean <code>true</code>.
  * 
- * @since 1.0.0
  * @see https://en.wikipedia.org/wiki/Boolean
  */
 class Boolean extends Input implements IInformation

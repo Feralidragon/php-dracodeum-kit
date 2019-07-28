@@ -19,7 +19,6 @@ use Feralygon\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
  * This trait enables debug info support for a class 
  * and may be used as an implementation of the <code>Feralygon\Kit\Interfaces\DebugInfo</code> interface.
  * 
- * @since 1.0.0
  * @see https://www.php.net/manual/en/language.oop5.magic.php#object.debuginfo
  * @see \Feralygon\Kit\Interfaces\DebugInfo
  * @see \Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor
@@ -30,7 +29,6 @@ trait DebugInfo
 	/**
 	 * Get debug info.
 	 * 
-	 * @since 1.0.0
 	 * @return array
 	 * <p>The debug info.</p>
 	 */

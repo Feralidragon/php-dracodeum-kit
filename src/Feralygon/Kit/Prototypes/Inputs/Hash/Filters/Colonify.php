@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Hash as UHash;
 /**
  * This filter prototype converts a hash into a colon-hexadecimal string.
  * 
- * @since 1.0.0
  * @property-write bool $hextets [writeonce] [coercive] [default = false]
  * <p>Colonify a given hash into hextets.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
