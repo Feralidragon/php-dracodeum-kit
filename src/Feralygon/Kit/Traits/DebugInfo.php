@@ -65,10 +65,10 @@ trait DebugInfo
 					//initialize
 					$pname = $name;
 					$class = null;
-					if (preg_match('/^\0(?P<class>(?:\*|[\w\\\\]+))\0(?P<name>\w+)$/', $name, $m)) {
-						$pname = $m['name'];
-						if ($m['class'] !== '*') {
-							$class = $m['class'];
+					if (preg_match('/^\0(?P<class>(?:\*|[\w\\\\]+))\0(?P<name>\w+)$/', $name, $matches)) {
+						$pname = $matches['name'];
+						if ($matches['class'] !== '*') {
+							$class = $matches['class'];
 						}
 					}
 					
