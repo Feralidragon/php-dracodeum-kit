@@ -130,7 +130,7 @@ final class Url extends Utility
 		$parameters = [];
 		foreach (preg_split('/[;&]/', $string) as $pair) {
 			//parse
-			if (!preg_match('/^(?P<name>[^=]+)=(?P<value>[^=]*)$/', $pair, $matches)) {
+			if (!preg_match('/^(?P<name>[^=]+)=(?P<value>.*)$/', $pair, $matches)) {
 				continue;
 			}
 			$name = urldecode($matches['name']);
