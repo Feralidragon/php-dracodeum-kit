@@ -65,7 +65,7 @@ class Environment extends Component
 	/**
 	 * Get name.
 	 * 
-	 * The returning name defines an unique canonical identifier for this environment, 
+	 * The returning name defines a unique canonical identifier for this environment, 
 	 * to be used to select which configuration profile to use.
 	 * 
 	 * @return string

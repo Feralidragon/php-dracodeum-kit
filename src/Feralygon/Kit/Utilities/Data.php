@@ -187,7 +187,7 @@ final class Data extends Utility
 	}
 	
 	/**
-	 * Convert a given value into an unique key.
+	 * Convert a given value into a unique key.
 	 * 
 	 * The returning key is not intended to be restored to its original value (and cannot in most cases), 
 	 * given that this function is only meant to efficiently produce a key which can be used in associative arrays 
@@ -202,7 +202,7 @@ final class Data extends Utility
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Feralygon\Kit\Utilities\Data\Exceptions\Keyfy\UnsupportedValueType
 	 * @return string|null
-	 * <p>An unique key from the given value.<br>
+	 * <p>A unique key from the given value.<br>
 	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it failed.</p>
 	 */
 	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false): ?string
