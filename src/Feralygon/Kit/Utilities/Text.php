@@ -979,7 +979,7 @@ final class Text extends Utility
 	final public static function placeholders(string $string, bool $no_throw = false): array
 	{
 		$placeholders = [];
-		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/Us', $string, $matches) > 0) {
+		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/Us', $string, $matches)) {
 			foreach ($matches['placeholders'] as $placeholder) {
 				$placeholder = trim($placeholder);
 				if (!self::isPlaceholder($placeholder)) {
@@ -1517,7 +1517,7 @@ final class Text extends Utility
 		//sentences
 		if ($options->keep_sentences) {
 			$sentences_pattern = $unicode ? '/\P{Po}+\p{Po}+/u' : '/[^\.\?\!]+[\.\?\!]+/';
-			if (preg_match_all($sentences_pattern, $string, $matches) > 0) {
+			if (preg_match_all($sentences_pattern, $string, $matches)) {
 				$t_length = 0;
 				$t_string = '';
 				foreach ($matches[0] as $sentence) {
