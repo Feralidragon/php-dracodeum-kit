@@ -66,6 +66,25 @@ class Evaluators extends Manager
 	
 	
 	
+	//Public methods
+	/**
+	 * Clone into a new instance for a given owner.
+	 * 
+	 * @param object $owner
+	 * <p>The owner object to clone for.</p>
+	 * @return \Feralygon\Kit\Managers\Evaluators
+	 * <p>The new cloned instance from this one for the given owner.</p>
+	 */
+	public function cloneForOwner(object $owner): Evaluators
+	{
+		$clone = new static($owner);
+		$clone->evaluators = $this->evaluators;
+		$clone->addition_callbacks = $this->addition_callbacks;
+		return $clone;
+	}
+	
+	
+	
 	//Final public methods
 	/**
 	 * Get owner object.

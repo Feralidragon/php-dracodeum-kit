@@ -999,4 +999,18 @@ trait Evaluators
 		$info->hideObjectProperty('evaluators_manager', self::class);
 		return $this;
 	}
+	
+	/**
+	 * Process evaluators cloning.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processEvaluatorsCloning(): object
+	{
+		if (isset($this->evaluators_manager)) {
+			$this->evaluators_manager = $this->evaluators_manager->cloneForOwner($this);
+		}
+		return $this;
+	}
 }
