@@ -129,6 +129,20 @@ trait Readonly
 		return $this;
 	}
 	
+	/**
+	 * Process read-only cloning.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processReadonlyCloning(): object
+	{
+		if (isset($this->readonly_manager)) {
+			$this->readonly_manager = $this->readonly_manager->cloneForOwner($this);
+		}
+		return $this;
+	}
+	
 	
 	
 	//Final private methods
