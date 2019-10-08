@@ -248,21 +248,21 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	/** {@inheritdoc} */
 	final public function clone(): object
 	{
-		//instance
-		$instance = new static();
+		//clone
+		$clone = new static();
 		
 		//evaluators
 		foreach ($this->getEvaluators() as $evaluator) {
-			$instance->addEvaluator($evaluator);
+			$clone->addEvaluator($evaluator);
 		}
 		
 		//properties
-		$instance->values = $this->values;
-		$instance->min_index = $this->min_index;
-		$instance->max_index = $this->max_index;
+		$clone->values = $this->values;
+		$clone->min_index = $this->min_index;
+		$clone->max_index = $this->max_index;
 		
 		//return
-		return $instance;
+		return $clone;
 	}
 	
 	
