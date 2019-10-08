@@ -7,6 +7,8 @@
 
 namespace Feralygon\Kit\Managers\Memoization;
 
+use Feralygon\Kit\Interfaces\Cloneable as ICloneable;
+use Feralygon\Kit\Traits;
 use Feralygon\Kit\Managers\Memoization\Store\{
 	Key,
 	Exceptions
@@ -20,8 +22,13 @@ use Feralygon\Kit\Utilities\{
  * @internal
  * @see \Feralygon\Kit\Managers\Memoization
  */
-final class Store
+final class Store implements ICloneable
 {
+	//Traits
+	use Traits\Cloneable;
+	
+	
+	
 	//Private properties
 	/** @var int|null */
 	private $limit = null;
@@ -48,6 +55,18 @@ final class Store
 			'hint_message' => "Only null or a value greater than 0 is allowed."
 		]);
 		$this->limit = $limit;
+	}
+	
+	/** Process instance clone. */
+	final public function __clone()
+	{
+		foreach ($this->keys as $k => &$key) {
+			$key = $key->clone();
+			if (isset($this->expiring_keys[$k])) {
+				$this->expiring_keys[$k] = $key;
+			}
+		}
+		unset($key);
 	}
 	
 	

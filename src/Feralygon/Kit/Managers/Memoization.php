@@ -77,6 +77,33 @@ class Memoization extends Manager
 	
 	
 	
+	//Public methods
+	/**
+	 * Clone into a new instance for a given owner.
+	 * 
+	 * @param object $owner
+	 * <p>The owner object to clone for.</p>
+	 * @return \Feralygon\Kit\Managers\Memoization
+	 * <p>The new cloned instance from this one for the given owner.</p>
+	 */
+	public function cloneForOwner(object $owner): Memoization
+	{
+		//clone
+		$clone = new static($owner);
+		
+		//stores
+		$clone->stores = $this->stores;
+		foreach ($clone->stores as &$store) {
+			$store = $store->clone();
+		}
+		unset($store);
+		
+		//return
+		return $clone;
+	}
+	
+	
+	
 	//Final public methods
 	/**
 	 * Get owner object or class.

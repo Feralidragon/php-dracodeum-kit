@@ -7,12 +7,20 @@
 
 namespace Feralygon\Kit\Managers\Memoization\Store;
 
+use Feralygon\Kit\Interfaces\Cloneable as ICloneable;
+use Feralygon\Kit\Traits;
+
 /**
  * @internal
  * @see \Feralygon\Kit\Managers\Memoization\Store
  */
-final class Key
+final class Key implements ICloneable
 {
+	//Traits
+	use Traits\Cloneable;
+	
+	
+	
 	//Private properties	
 	/** @var string */
 	private $name;

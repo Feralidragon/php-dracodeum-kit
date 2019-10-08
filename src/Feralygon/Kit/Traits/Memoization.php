@@ -55,6 +55,20 @@ trait Memoization
 		return $this;
 	}
 	
+	/**
+	 * Process memoization cloning.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function processMemoizationCloning(): object
+	{
+		if (isset($this->memoization_manager)) {
+			$this->memoization_manager = $this->memoization_manager->cloneForOwner($this);
+		}
+		return $this;
+	}
+	
 	
 	
 	//Final protected static methods
