@@ -14,9 +14,9 @@ namespace Feralygon\Kit\Traits;
  */
 trait Cloneable
 {
-	//Implemented final public methods (Feralygon\Kit\Interfaces\Cloneable)
+	//Implemented public methods (Feralygon\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(): object
+	public function clone(bool $recursive = false): object
 	{
 		return clone $this;
 	}

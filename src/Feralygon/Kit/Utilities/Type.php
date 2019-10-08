@@ -1615,7 +1615,7 @@ final class Type extends Utility
 	 */
 	final public static function cloneable(object $object): bool
 	{
-		return !($object instanceof IUncloneable);
+		return !($object instanceof IUncloneable || $object instanceof \Exception);
 	}
 	
 	/**
@@ -1623,16 +1623,18 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to clone.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @throws \Feralygon\Kit\Utilities\Type\Exceptions\UncloneableObject
 	 * @return object
 	 * <p>The cloned object from the given one.</p>
 	 */
-	final public static function clone(object $object): object
+	final public static function clone(object $object, bool $recursive = false): object
 	{
 		if (!self::cloneable($object)) {
 			throw new Exceptions\UncloneableObject([$object]);
 		} elseif ($object instanceof ICloneable) {
-			return $object->clone();
+			return $object->clone($recursive);
 		}
 		return clone $object;
 	}

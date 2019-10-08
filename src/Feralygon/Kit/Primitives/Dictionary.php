@@ -24,7 +24,8 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
-	Text as UText
+	Text as UText,
+	Type as UType
 };
 
 /**
@@ -294,7 +295,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(): object
+	final public function clone(bool $recursive = false): object
 	{
 		//clone
 		$clone = new static();
@@ -312,6 +313,25 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 		$clone->values = $this->values;
 		$clone->cursor_map = $this->cursor_map;
 		reset($clone->cursor_map);
+		
+		//recursive
+		if ($recursive) {
+			//keys
+			foreach ($clone->keys as &$key) {
+				if (is_object($key) && UType::cloneable($key)) {
+					$key = UType::clone($key, $recursive);
+				}
+			}
+			unset($key);
+			
+			//values
+			foreach ($clone->values as &$value) {
+				if (is_object($value) && UType::cloneable($value)) {
+					$value = UType::clone($value, $recursive);
+				}
+			}
+			unset($value);
+		}
 		
 		//return
 		return $clone;

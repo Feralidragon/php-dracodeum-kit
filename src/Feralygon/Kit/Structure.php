@@ -142,9 +142,18 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	
 	//Implemented final public methods (Feralygon\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(): object
+	final public function clone(bool $recursive = false): object
 	{
-		return new static($this->getAll());
+		$properties = $this->getAll();
+		if ($recursive) {
+			foreach ($properties as &$value) {
+				if (is_object($value) && UType::cloneable($value)) {
+					$value = UType::clone($value, $recursive);
+				}
+			}
+			unset($value);
+		}
+		return new static($properties);
 	}
 	
 	
