@@ -19,7 +19,7 @@ interface DebugInfo
 	 * Get debug info.
 	 * 
 	 * @param bool $recursive [default = false]
-	 * <p>Get debug info from all the possible referenced subobjects recursively.</p>
+	 * <p>Get debug info from all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return array
 	 * <p>The debug info.</p>
 	 */
