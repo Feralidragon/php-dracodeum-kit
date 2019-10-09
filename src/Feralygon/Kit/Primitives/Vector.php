@@ -264,12 +264,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 		
 		//recursive
 		if ($recursive) {
-			foreach ($clone->values as &$value) {
-				if (is_object($value) && UType::cloneable($value)) {
-					$value = UType::clone($value, $recursive);
-				}
-			}
-			unset($value);
+			$clone->values = UType::cloneValue($clone->values, $recursive);
 		}
 		
 		//return

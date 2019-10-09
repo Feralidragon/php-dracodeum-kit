@@ -1640,6 +1640,35 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Clone a given value.
+	 * 
+	 * If the given value is a cloneable object, then a clone of it is returned.<br>
+	 * If the given value is an array and <var>$recursive</var> is set to <code>true</code>, 
+	 * then it is transversed recursively, with every cloneable object found being cloned and returned.<br>
+	 * <br>
+	 * For any other case, the given value is returned as is.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to clone.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
+	 * @return mixed
+	 * <p>The cloned value from the given one if applicable, or the given value if otherwise.</p>
+	 */
+	final public static function cloneValue($value, bool $recursive = false)
+	{
+		if (is_object($value) && self::cloneable($value)) {
+			return self::clone($value, $recursive);
+		} elseif (is_array($value) && $recursive) {
+			foreach ($value as &$v) {
+				$v = self::cloneValue($v, $recursive);
+			}
+			unset($v);
+		}
+		return $value;
+	}
+	
+	/**
 	 * Check if a given object or class extends from or is of the same class as a given base object or class.
 	 * 
 	 * @param object|string $object_class
