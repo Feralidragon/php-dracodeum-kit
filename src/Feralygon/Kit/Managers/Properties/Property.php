@@ -195,7 +195,7 @@ class Property implements IUncloneable
 	 * Set mode.
 	 * 
 	 * @param string $mode
-	 * <p>The access mode to set, which must be one the following:<br>
+	 * <p>The mode to set, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow this property to be only strictly read from, 
 	 * so that it cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow this property to be only read from (read-only), 
@@ -204,13 +204,15 @@ class Property implements IUncloneable
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow this property to be only written to (write-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow this property to be only written to, 
 	 * but only once during initialization (write-once).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w--</samp> : Allow this property to be only written to, 
+	 * but only once during initialization (write-once), and drop it immediately after initialization (transient).<br>
 	 * <br>
 	 * NOTE: The allowed modes may be more restricted depending on the global mode set in the manager:<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
 	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
-	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, <samp>w-</samp> or <samp>w--</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp>, <samp>w-</samp> and <samp>w--</samp> are allowed.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -229,10 +231,13 @@ class Property implements IUncloneable
 				$map = array_combine(Manager::MODES, Manager::MODES);
 				break;
 			case 'w':
-				$map = ['rw' => 'w', 'w' => 'w', 'w-' => 'w-'];
+				$map = ['rw' => 'w', 'w' => 'w', 'w-' => 'w-', 'w--' => 'w--'];
 				break;
 			case 'w-':
-				$map = ['rw' => 'w-', 'w' => 'w-', 'w-' => 'w-'];
+				$map = ['rw' => 'w-', 'w' => 'w-', 'w-' => 'w-', 'w--' => 'w--'];
+				break;
+			case 'w--':
+				$map = ['rw' => 'w--', 'w' => 'w--', 'w-' => 'w--', 'w--' => 'w--'];
 				break;
 		}
 		

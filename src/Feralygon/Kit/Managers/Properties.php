@@ -27,11 +27,12 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded 
- * and restricted to a specific access mode (strict read-only, read-only, read-write, write-only and write-once).
+ * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded and restricted 
+ * to a specific mode of operation (strict read-only, read-only, read-write, write-only, write-once and 
+ * transient write-once).
  * 
  * Each individual property may be set with restrictions and bindings, such as being set as required, 
- * restricted to a specific access mode, bound to existing object properties, have a default value, 
+ * restricted to a specific mode of operation, bound to existing object properties, have a default value, 
  * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
  * each one may hold.
  * 
@@ -46,7 +47,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	
 	//Public constants
 	/** Allowed modes. */
-	public const MODES = ['r', 'r+', 'rw', 'w', 'w-'];
+	public const MODES = ['r', 'r+', 'rw', 'w', 'w-', 'w--'];
 	
 	
 	
@@ -59,6 +60,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	
 	/** @var string */
 	private $mode = 'rw';
+	
+	/** @var bool */
+	private $readonly = false;
 	
 	/** @var bool */
 	private $initialized = false;
@@ -95,7 +99,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * NOTE: With lazy-loading, the existence of each property becomes unknown ahead of time, 
 	 * therefore when retrieving all properties, only the currently loaded ones are returned.</p>
 	 * @param string $mode [default = 'rw']
-	 * <p>The base access mode to set for all properties, which must be one the following:<br>
+	 * <p>The base mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
 	 * so that they cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow all properties to be only read from (read-only), 
@@ -105,13 +109,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow all properties to be only written to (write-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow all properties to be only written to, 
 	 * but only once during initialization (write-once).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w--</samp> : Allow all properties to be only written to, 
+	 * but only once during initialization (write-once), and drop them immediately after initialization (transient).<br>
 	 * <br>
 	 * All properties default to the mode defined here, but if another mode is set, it becomes restricted as so:<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
 	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
-	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, <samp>w-</samp> or <samp>w--</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp>, <samp>w-</samp> and <samp>w--</samp> are allowed.</p>
 	 */
 	final public function __construct(object $owner, bool $lazy = false, string $mode = 'rw')
 	{
@@ -147,7 +153,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		//set
 		if (System::getDumpVerbosityLevel() >= EDumpVerbosityLevel::MEDIUM) {
 			foreach ($properties as $name => $value) {
-				$info->set("{$this->getProperty($name)->getMode()}:{$name}", $value);
+				$property_mode = $this->getProperty($name)->getMode();
+				$property_debug_name = "{$property_mode}:{$name}";
+				if ($this->readonly) {
+					$property_debug_name_prefix = $property_mode[0] === 'r' ? '(readonly)' : '(locked)';
+					$property_debug_name = "{$property_debug_name_prefix} {$property_debug_name}";
+				}
+				$info->set($property_debug_name, $value);
 			}
 		} else {
 			$info->setAll($properties);
@@ -207,37 +219,36 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	}
 	
 	/**
-	 * Check if properties are read-only.
+	 * Check if is read-only.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if properties are read-only.</p>
+	 * <p>Boolean <code>true</code> if is read-only.</p>
 	 */
 	final public function isReadonly(): bool
 	{
-		return $this->mode === 'r' || $this->mode === 'r+';
+		return $this->readonly || $this->mode === 'r' || $this->mode === 'r+';
 	}
 	
 	/**
-	 * Set properties as read-only.
+	 * Set as read-only.
+	 * 
+	 * This method may only be called after initialization.
 	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsReadonly(): Properties
 	{
-		if (!$this->isReadonly()) {
-			foreach ($this->properties as $name => $property) {
-				$mode = $property->getMode();
-				if ($mode !== 'r') {
-					if ($mode[0] === 'r') {
-						$property->setMode('r');
-					} else {
-						unset($this->properties[$name]);
-					}
-				}
-			}
-			$this->mode = 'r';
-		}
+		//guard
+		UCall::guard($this->initialized, [
+			'hint_message' => "This method may only be called after initialization, in manager with owner {{owner}}.",
+			'parameters' => ['owner' => $this->owner]
+		]);
+		
+		//set
+		$this->readonly = true;
+		
+		//return
 		return $this;
 	}
 	
@@ -247,7 +258,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * The property, corresponding to the given name added here, must be given during initialization.<br>
 	 * <br>
 	 * This method may only be called before initialization, with lazy-loading enabled 
-	 * and only if the base access mode is not set to strict read-only.
+	 * and only if the base mode is not set to strict read-only.
 	 * 
 	 * @param string $name
 	 * <p>The name to add.</p>
@@ -265,7 +276,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * The properties, corresponding to the given names added here, must be given during initialization.<br>
 	 * <br>
 	 * This method may only be called before initialization, with lazy-loading enabled 
-	 * and only if the base access mode is not set to strict read-only.
+	 * and only if the base mode is not set to strict read-only.
 	 * 
 	 * @param string[] $names
 	 * <p>The names to add.</p>
@@ -582,10 +593,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			foreach ($properties as $name => $value) {
 				//initialize
 				$property = $this->getProperty($name);
-				$property_mode = $property->getMode();
 				
 				//guard
-				UCall::guardParameter('properties', $properties, $property_mode !== 'r', [
+				UCall::guardParameter('properties', $properties, $property->getMode() !== 'r', [
 					'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
 					'parameters' => ['name' => $name, 'owner' => $this->owner]
 				]);
@@ -595,19 +605,18 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 					'error_message' => "Invalid value {{value}} for property {{name}} in manager with owner {{owner}}.",
 					'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
 				]);
-				
-				//write-once optimization
-				if ($this->lazy && $property_mode === 'w-') {
-					unset($this->properties[$name]);
-				}
 			}
 			
-			//properties (initialize)
-			if (!$this->lazy) {
-				foreach ($this->properties as $property) {
-					if (!$property->isInitialized()) {
-						$property->initialize();
-					}
+			//properties (finish)
+			foreach ($this->properties as $name => $property) {
+				//initialize
+				if (!$this->lazy && !$property->isInitialized()) {
+					$property->initialize();
+				}
+				
+				//transient write-once
+				if ($property->getMode() === 'w--') {
+					unset($this->properties[$name]);
 				}
 			}
 			
@@ -739,11 +748,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$property_mode = $property->getMode();
 		
 		//guard
+		UCall::guard(!$this->readonly, [
+			'error_message' => "Cannot set property {{name}} in read-only manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
 			'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
-		UCall::guard($property_mode !== 'w-', [
+		UCall::guard($property_mode !== 'w-' && $property_mode !== 'w--', [
 			'error_message' => "Cannot set write-once property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
@@ -779,11 +792,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$property_mode = $property->getMode();
 		
 		//guard
+		UCall::guard(!$this->readonly, [
+			'error_message' => "Cannot unset property {{name}} in read-only manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
 			'error_message' => "Cannot unset read-only property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
-		UCall::guard($property_mode !== 'w-', [
+		UCall::guard($property_mode !== 'w-' && $property_mode !== 'w--', [
 			'error_message' => "Cannot unset write-once property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);

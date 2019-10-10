@@ -325,7 +325,7 @@ trait Properties
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param string $mode [default = 'rw']
-	 * <p>The base access mode to set for all properties, which must be one the following:<br>
+	 * <p>The base mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
 	 * so that they cannot be given during initialization (strict read-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r+</samp> : Allow all properties to be only read from (read-only), 
@@ -335,14 +335,16 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; <samp>w</samp> : Allow all properties to be only written to (write-only).<br>
 	 * &nbsp; &#8226; &nbsp; <samp>w-</samp> : Allow all properties to be only written to, 
 	 * but only once during initialization (write-once).<br>
+	 * &nbsp; &#8226; &nbsp; <samp>w--</samp> : Allow all properties to be only written to, 
+	 * but only once during initialization (write-once), and drop them immediately after initialization (transient).<br>
 	 * <br>
 	 * All properties default to the mode defined here, but if another mode is set in each individual property, 
 	 * it becomes restricted as so:<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>r</samp> or <samp>r+</samp>, 
 	 * only <samp>r</samp>, <samp>r+</samp> and <samp>rw</samp> are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
-	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp> or <samp>w-</samp>, 
-	 * only <samp>rw</samp>, <samp>w</samp> and <samp>w-</samp> are allowed.</p>
+	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, <samp>w-</samp> or <samp>w--</samp>, 
+	 * only <samp>rw</samp>, <samp>w</samp>, <samp>w-</samp> and <samp>w--</samp> are allowed.</p>
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
