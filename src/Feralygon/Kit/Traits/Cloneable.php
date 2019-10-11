@@ -11,6 +11,11 @@ namespace Feralygon\Kit\Traits;
  * This trait implements the <code>Feralygon\Kit\Interfaces\Cloneable</code> interface.
  * 
  * @see \Feralygon\Kit\Interfaces\Cloneable
+ * @see \Feralygon\Kit\Traits\Cloneable\EvaluatorsProcessor
+ * @see \Feralygon\Kit\Traits\Cloneable\KeyEvaluatorsProcessor
+ * @see \Feralygon\Kit\Traits\Cloneable\KeyEvaluatorsEvaluatorsProcessor
+ * @see \Feralygon\Kit\Traits\Cloneable\MemoizationProcessor
+ * @see \Feralygon\Kit\Traits\Cloneable\ReadonlyProcessor
  */
 trait Cloneable
 {
