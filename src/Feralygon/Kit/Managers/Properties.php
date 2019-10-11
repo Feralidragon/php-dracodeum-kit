@@ -847,6 +847,26 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		return $properties;
 	}
 	
+	/**
+	 * Get all initializeable properties.
+	 * 
+	 * If lazy-loading is enabled, then only the currently loaded properties are returned.<br>
+	 * Only properties which are allowed to be initialized with are returned.
+	 * 
+	 * @return array
+	 * <p>All the initializeable properties, as <samp>name => value</samp> pairs.</p>
+	 */
+	final public function getAllInitializeable(): array
+	{
+		$properties = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->getMode() !== 'r') {
+				$properties[$name] = $property->getValue();
+			}
+		}
+		return $properties;
+	}
+	
 	
 	
 	//Final protected methods

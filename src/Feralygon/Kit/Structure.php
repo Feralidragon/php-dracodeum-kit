@@ -144,7 +144,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	/** {@inheritdoc} */
 	final public function clone(bool $recursive = false): object
 	{
-		$properties = $this->getAll();
+		$properties = $this->getAllInitializeable();
 		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
 	}
 	

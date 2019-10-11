@@ -309,6 +309,21 @@ trait Properties
 		return $this;
 	}
 	
+	/**
+	 * Get all initializeable properties.
+	 * 
+	 * Only properties which are allowed to be initialized with are returned.<br>
+	 * <br>
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @return array
+	 * <p>All the initializeable properties, as <samp>name => value</samp> pairs.</p>
+	 */
+	final protected function getAllInitializeable(): array
+	{
+		return $this->getPropertiesManager()->getAllInitializeable();
+	}
+	
 	
 	
 	//Final private methods
