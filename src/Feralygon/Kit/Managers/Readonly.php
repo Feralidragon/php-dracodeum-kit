@@ -12,8 +12,8 @@ use Feralygon\Kit\{
 	Traits
 };
 use Feralygon\Kit\Interfaces\DebugInfo as IDebugInfo;
-use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
+use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Feralygon\Kit\Utilities\Call as UCall;
 
 /** This manager handles the read-only state and the resulting callback functions of an object. */

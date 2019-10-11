@@ -12,8 +12,8 @@ use Feralygon\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable
 };
-use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
+use Feralygon\Kit\Traits as KitTraits;
 use Feralygon\Kit\Exception\{
 	Options,
 	Traits

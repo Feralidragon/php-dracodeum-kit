@@ -16,10 +16,10 @@ use Feralygon\Kit\Interfaces\{
 	Stringifiable as IStringifiable,
 	Cloneable as ICloneable
 };
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Primitives\Vector\Exceptions;
 use Feralygon\Kit\Traits;
 use Feralygon\Kit\Traits\DebugInfo\Info as DebugInfo;
-use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,

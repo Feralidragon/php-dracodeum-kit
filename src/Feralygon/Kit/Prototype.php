@@ -12,12 +12,12 @@ use Feralygon\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Uncloneable as IUncloneable
 };
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Prototype\{
 	Interfaces,
 	Traits
 };
 use Feralygon\Kit\Traits as KitTraits;
-use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
 	Type as UType

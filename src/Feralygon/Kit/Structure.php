@@ -17,12 +17,12 @@ use Feralygon\Kit\Interfaces\{
 	StringInstantiable as IStringInstantiable,
 	Cloneable as ICloneable
 };
+use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Structure\{
 	Traits,
 	Exceptions
 };
 use Feralygon\Kit\Traits as KitTraits;
-use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Call as UCall,
