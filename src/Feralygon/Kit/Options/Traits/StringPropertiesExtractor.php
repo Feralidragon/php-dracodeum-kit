@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Options\Traits;
 
-/** 
- * This trait defines a method to extract properties from a string in an options class.
- * 
- * @see \Feralygon\Kit\Options
- */
+/** This trait defines a method to extract properties from a string in an options class. */
 trait StringPropertiesExtractor
 {
 	//Protected static methods

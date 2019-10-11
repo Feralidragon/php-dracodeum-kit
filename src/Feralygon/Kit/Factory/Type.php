@@ -12,7 +12,6 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/** @see \Feralygon\Kit\Factory */
 final class Type
 {
 	//Private properties

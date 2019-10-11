@@ -30,7 +30,6 @@ use Feralygon\Kit\Utilities\{
  * are replaced by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
  * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>
  * If not set, then any format is allowed.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Base64 extends Constraint implements IName, IInformation, ISchemaData
 {

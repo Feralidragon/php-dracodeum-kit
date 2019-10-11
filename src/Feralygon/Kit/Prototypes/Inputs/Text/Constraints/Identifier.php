@@ -26,7 +26,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * @property-write bool $extended [writeonce] [transient] [coercive] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Identifier extends Constraint implements IName, IInformation, ISchemaData
 {

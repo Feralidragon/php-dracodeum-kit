@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Component\Traits;
 
 use Feralygon\Kit\Prototype;
 
-/**
- * This trait defines a method to initialize a prototype instance in a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to initialize a prototype instance in a component. */
 trait PrototypeInitializer
 {
 	//Protected methods

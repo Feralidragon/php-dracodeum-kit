@@ -13,7 +13,6 @@ use Feralygon\Kit\Options;
 /**
  * @property-read \Feralygon\Kit\Options|string $options [coercive = object or class]
  * <p>The options instance or class.</p>
- * @see \Feralygon\Kit\Options
  */
 abstract class Exception extends KitException
 {

@@ -14,7 +14,6 @@ use Feralygon\Kit\Root\System\Components\Environment as Component;
 /**
  * This builder is used to build environment instances.
  * 
- * @see \Feralygon\Kit\Root\System\Factories\Component
  * @see \Feralygon\Kit\Root\System\Components\Environment
  * [object]
  */

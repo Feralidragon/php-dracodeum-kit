@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/** @see \Feralygon\Kit\Prototypes\Inputs\Hash */
 class Values extends Constraints\Values
 {
 	//Overridden public methods

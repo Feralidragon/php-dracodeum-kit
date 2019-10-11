@@ -22,7 +22,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
  * This component represents a modifier which alters the behavior of an input towards a given value, 
  * in the form of an additional constraint, filter or other.
  * 
- * @see \Feralygon\Kit\Components\Input
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 abstract class Modifier extends Component

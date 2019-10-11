@@ -29,7 +29,6 @@ use Feralygon\Kit\Utilities\{
  * They must all be different from <code>0</code>.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
 class Multiples extends Constraint implements IName, IInformation, IStringification, ISchemaData
 {

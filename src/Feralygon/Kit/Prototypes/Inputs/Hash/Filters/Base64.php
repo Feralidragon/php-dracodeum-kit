@@ -18,7 +18,6 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) are replaced 
  * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
  * in order to be safely put in an URL.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
 class Base64 extends Filter
 {

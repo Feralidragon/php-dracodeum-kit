@@ -11,7 +11,6 @@ namespace Feralygon\Kit\Traits\Cloneable;
  * This trait implements the PHP <code>__clone</code> magic method when the cloneable 
  * and the <code>Feralygon\Kit\Traits\Evaluators</code> traits are used.
  * 
- * @see \Feralygon\Kit\Traits\Cloneable
  * @see \Feralygon\Kit\Traits\Evaluators
  */
 trait EvaluatorsProcessor

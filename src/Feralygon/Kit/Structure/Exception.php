@@ -13,7 +13,6 @@ use Feralygon\Kit\Structure;
 /**
  * @property-read \Feralygon\Kit\Structure|string $structure [coercive = object or class]
  * <p>The structure instance or class.</p>
- * @see \Feralygon\Kit\Structure
  */
 abstract class Exception extends KitException
 {

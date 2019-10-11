@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Prototype\Interfaces;
 
-/**
- * This interface defines a method to get subcontracts from a prototype.
- * 
- * @see \Feralygon\Kit\Prototype
- */
+/** This interface defines a method to get subcontracts from a prototype. */
 interface Subcontracts
 {
 	//Public static methods

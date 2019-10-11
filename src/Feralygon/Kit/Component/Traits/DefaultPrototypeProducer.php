@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Component\Traits;
 
-/** 
- * This trait defines a method to produce the default prototype in a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to produce the default prototype in a component. */
 trait DefaultPrototypeProducer
 {
 	//Protected methods

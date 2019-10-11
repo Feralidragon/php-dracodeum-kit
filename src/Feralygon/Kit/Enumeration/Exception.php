@@ -13,7 +13,6 @@ use Feralygon\Kit\Enumeration;
 /**
  * @property-read string $enumeration [strict = class]
  * <p>The enumeration class.</p>
- * @see \Feralygon\Kit\Enumeration
  */
 abstract class Exception extends KitException
 {

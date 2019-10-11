@@ -21,7 +21,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <p>The regular expression delimiter character to use.</p>
  * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
- * @see \Feralygon\Kit\Utilities\Text
  */
 class Parse extends Options
 {

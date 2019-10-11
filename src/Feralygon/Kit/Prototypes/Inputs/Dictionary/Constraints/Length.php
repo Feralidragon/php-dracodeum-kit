@@ -26,7 +26,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property-write int $length [writeonce] [transient] [coercive]
  * <p>The length to restrict a given dictionary to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary
  */
 class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {

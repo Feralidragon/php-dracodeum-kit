@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\{
 	Time as UTime
 };
 
-/** @see \Feralygon\Kit\Prototypes\Inputs\DateTime */
 class Maximum extends Constraints\Maximum
 {
 	//Overridden public methods

@@ -15,7 +15,6 @@ use Feralygon\Kit\Components\Input\Components\Modifier as Component;
  * <p>The component instance.</p>
  * @property-read \Feralygon\Kit\Components\Input\Prototypes\Modifier $prototype [strict]
  * <p>The prototype instance.</p>
- * @see \Feralygon\Kit\Components\Input\Components\Modifier
  */
 abstract class Exception extends KitException
 {

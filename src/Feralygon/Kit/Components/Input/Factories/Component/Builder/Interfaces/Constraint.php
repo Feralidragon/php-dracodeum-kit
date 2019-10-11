@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces;
 
 use Feralygon\Kit\Components\Input\Components\Modifiers\Constraint as Component;
 
-/**
- * This interface defines a method to build a constraint instance.
- * 
- * @see \Feralygon\Kit\Components\Input\Factories\Component
- */
+/** This interface defines a method to build a constraint instance. */
 interface Constraint
 {
 	//Public methods

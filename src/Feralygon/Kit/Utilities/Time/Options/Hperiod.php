@@ -38,7 +38,6 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>second</samp>, <samp>minute</samp>, <samp>hour</samp>, ...<br>
  * <br>
  * If not set, then the highest multiple supported is used.</p>
- * @see \Feralygon\Kit\Utilities\Time
  */
 class Hperiod extends Options
 {

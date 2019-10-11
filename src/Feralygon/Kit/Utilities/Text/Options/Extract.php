@@ -22,7 +22,6 @@ use Feralygon\Kit\Utilities\Type as UType;
  * <p>The regular expression delimiter character to use.</p>
  * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
- * @see \Feralygon\Kit\Utilities\Text
  */
 class Extract extends Options
 {

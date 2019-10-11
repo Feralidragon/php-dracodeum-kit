@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Components\Input\Factories\Component\Builder\Interfaces;
 
 use Feralygon\Kit\Components\Input\Components\Modifiers\Filter as Component;
 
-/**
- * This interface defines a method to build a filter instance.
- * 
- * @see \Feralygon\Kit\Components\Input\Factories\Component
- */
+/** This interface defines a method to build a filter instance. */
 interface Filter
 {
 	//Public methods

@@ -13,7 +13,6 @@ use Feralygon\Kit\Primitives\Dictionary;
 /**
  * @property-read \Feralygon\Kit\Primitives\Dictionary|string $dictionary [coercive = object or class]
  * <p>The dictionary instance or class.</p>
- * @see \Feralygon\Kit\Primitives\Dictionary
  */
 abstract class Exception extends KitException
 {

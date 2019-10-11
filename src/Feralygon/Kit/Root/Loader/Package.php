@@ -7,7 +7,6 @@
 
 namespace Feralygon\Kit\Root\Loader;
 
-/** @see \Feralygon\Kit\Root\Loader */
 final class Package
 {
 	//Private properties

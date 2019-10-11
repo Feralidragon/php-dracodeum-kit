@@ -22,8 +22,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * A proxy is responsible for implementing the prototype contract interface or any subcontract interfaces or both, 
  * and forward any method calls to the component, instead of being directly implemented by the component itself.
- * 
- * @see \Feralygon\Kit\Component
  */
 abstract class Proxy implements IUncloneable
 {

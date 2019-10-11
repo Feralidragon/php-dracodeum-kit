@@ -13,7 +13,6 @@ use Feralygon\Kit\Primitives\Vector;
 /**
  * @property-read \Feralygon\Kit\Primitives\Vector|string $vector [coercive = object or class]
  * <p>The vector instance or class.</p>
- * @see \Feralygon\Kit\Primitives\Vector
  */
 abstract class Exception extends KitException
 {

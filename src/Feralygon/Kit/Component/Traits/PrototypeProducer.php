@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Component\Traits;
 
-/**
- * This trait defines a method to produce prototypes in a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to produce prototypes in a component. */
 trait PrototypeProducer
 {
 	//Protected methods

@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Component\Traits;
 
-/**
- * This trait defines a method to load required property names in a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to load required property names in a component. */
 trait RequiredPropertyNamesLoader
 {
 	//Protected methods

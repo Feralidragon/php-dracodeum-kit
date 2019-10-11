@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Options\Traits;
 
-/** 
- * This trait defines a method to get the default builder function from an options class.
- * 
- * @see \Feralygon\Kit\Options
- */
+/** This trait defines a method to get the default builder function from an options class. */
 trait DefaultBuilder
 {
 	//Protected static methods

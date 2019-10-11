@@ -13,7 +13,6 @@ use Feralygon\Kit\Traits\DebugInfo\Info;
 /**
  * @property-read \Feralygon\Kit\Traits\DebugInfo\Info $info [strict]
  * <p>The info instance.</p>
- * @see \Feralygon\Kit\Traits\DebugInfo\Info
  */
 abstract class Exception extends KitException
 {

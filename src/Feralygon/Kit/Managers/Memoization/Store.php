@@ -18,10 +18,7 @@ use Feralygon\Kit\Utilities\{
 	Data as UData
 };
 
-/**
- * @internal
- * @see \Feralygon\Kit\Managers\Memoization
- */
+/** @internal */
 final class Store implements ICloneable
 {
 	//Traits

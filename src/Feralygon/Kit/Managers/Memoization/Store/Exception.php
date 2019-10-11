@@ -13,7 +13,6 @@ use Feralygon\Kit\Managers\Memoization\Store;
 /**
  * @property-read \Feralygon\Kit\Managers\Memoization\Store $store [strict]
  * <p>The store instance.</p>
- * @see \Feralygon\Kit\Managers\Memoization\Store
  */
 abstract class Exception extends KitException
 {

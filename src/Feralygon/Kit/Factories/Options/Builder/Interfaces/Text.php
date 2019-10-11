@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Factories\Options\Builder\Interfaces;
 
 use Feralygon\Kit\Options\Text as Options;
 
-/**
- * This interface defines a method to build a text instance.
- * 
- * @see \Feralygon\Kit\Factories\Options
- */
+/** This interface defines a method to build a text instance. */
 interface Text
 {
 	//Public methods

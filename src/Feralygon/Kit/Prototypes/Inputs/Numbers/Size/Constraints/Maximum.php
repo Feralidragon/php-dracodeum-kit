@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/** @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size */
 class Maximum extends Constraints\Maximum
 {
 	//Overridden public methods

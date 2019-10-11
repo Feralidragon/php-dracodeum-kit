@@ -27,7 +27,6 @@ use Feralygon\Kit\Structure;
  * @property string $architecture [coercive]
  * <p>The architecture.<br>
  * It cannot be empty.</p>
- * @see \Feralygon\Kit\Root\System
  */
 final class Os extends Structure
 {

@@ -10,10 +10,7 @@ namespace Feralygon\Kit\Components\Input;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Call as UCall;
 
-/**
- * @internal
- * @see \Feralygon\Kit\Components\Input
- */
+/** @internal */
 final class Error
 {
 	//Private properties

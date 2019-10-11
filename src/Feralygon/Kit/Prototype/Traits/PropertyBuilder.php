@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Prototype\Traits;
 
 use Feralygon\Kit\Traits\LazyProperties\Property;
 
-/**
- * This trait defines a method to build properties in a prototype.
- * 
- * @see \Feralygon\Kit\Prototype
- */
+/** This trait defines a method to build properties in a prototype. */
 trait PropertyBuilder
 {
 	//Protected methods

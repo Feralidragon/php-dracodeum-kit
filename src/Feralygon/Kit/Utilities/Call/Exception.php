@@ -9,5 +9,4 @@ namespace Feralygon\Kit\Utilities\Call;
 
 use Feralygon\Kit\Exception as KitException;
 
-/** @see \Feralygon\Kit\Utilities\Call */
 abstract class Exception extends KitException {}

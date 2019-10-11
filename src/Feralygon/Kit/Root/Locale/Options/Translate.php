@@ -40,7 +40,6 @@ use Feralygon\Kit\Root\Locale;
  * Return: <code><b>string|null</b></code><br>
  * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.</p>
  * @see https://en.wikipedia.org/wiki/ISO_639
- * @see \Feralygon\Kit\Root\Locale
  * @see \Feralygon\Kit\Enumerations\InfoScope
  * @see \Feralygon\Kit\Utilities\Text
  */

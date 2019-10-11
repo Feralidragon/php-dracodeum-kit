@@ -13,7 +13,6 @@ use Feralygon\Kit\Factory;
 /**
  * @property-read string $factory [strict = class]
  * <p>The factory class.</p>
- * @see \Feralygon\Kit\Factory
  */
 abstract class Exception extends KitException
 {

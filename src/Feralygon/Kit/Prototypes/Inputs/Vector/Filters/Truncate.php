@@ -26,7 +26,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property-write int $length [writeonce] [transient] [coercive]
  * <p>The length to truncate a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
 {

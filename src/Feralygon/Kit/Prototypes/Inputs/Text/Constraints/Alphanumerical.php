@@ -26,7 +26,6 @@ use Feralygon\Kit\Utilities\{
  * 
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given text or string as Unicode.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Alphanumerical extends Constraint implements IName, IInformation, ISchemaData
 {

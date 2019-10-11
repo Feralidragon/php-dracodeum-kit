@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/** @see \Feralygon\Kit\Managers\Properties */
 class Property implements IUncloneable
 {	
 	//Traits

@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Prototypes\Input\Interfaces;
 
 use Feralygon\Kit\Options\Text as TextOptions;
 
-/**
- * This interface defines a method to get the error message from an input prototype.
- * 
- * @see \Feralygon\Kit\Prototypes\Input
- */
+/** This interface defines a method to get the error message from an input prototype. */
 interface ErrorMessage
 {
 	//Public methods

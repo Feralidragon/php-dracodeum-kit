@@ -19,7 +19,6 @@ use Feralygon\Kit\Utilities\{
 /**
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
 class Values extends Constraints\Values
 {

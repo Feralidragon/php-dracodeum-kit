@@ -84,7 +84,6 @@ use Feralygon\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <br>
  * Return: <code><b>string|null</b></code><br>
  * The stringified value for the given hint message placeholder or <code>null</code> if no stringification occurred.</p>
- * @see \Feralygon\Kit\Utilities\Call
  * @see \Feralygon\Kit\Utilities\Text
  */
 class Guard extends Options

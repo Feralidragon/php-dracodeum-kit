@@ -14,7 +14,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Filter as Component;
 /**
  * This builder is used to build filter instances.
  * 
- * @see \Feralygon\Kit\Components\Input\Factories\Component
  * @see \Feralygon\Kit\Components\Input\Components\Modifiers\Filter
  * [object]
  */

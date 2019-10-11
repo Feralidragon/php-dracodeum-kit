@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Component\Traits;
 
-/** 
- * This trait defines a method to get the default builder function from a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to get the default builder function from a component. */
 trait DefaultBuilder
 {
 	//Protected static methods

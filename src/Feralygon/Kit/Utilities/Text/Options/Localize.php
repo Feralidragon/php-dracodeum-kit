@@ -31,7 +31,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <br>
  * Return: <code><b>string|null</b></code><br>
  * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.</p>
- * @see \Feralygon\Kit\Utilities\Text
  */
 class Localize extends Options
 {

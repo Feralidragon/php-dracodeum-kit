@@ -18,11 +18,7 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/**
- * This constraint prototype restricts a text or string to hexadecimal characters.
- * 
- * @see \Feralygon\Kit\Prototypes\Inputs\Text
- */
+/** This constraint prototype restricts a text or string to hexadecimal characters. */
 class Hexadecimal extends Constraint implements IName, IInformation
 {
 	//Implemented public methods

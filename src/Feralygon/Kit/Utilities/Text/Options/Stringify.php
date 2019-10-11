@@ -52,7 +52,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
  * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
- * @see \Feralygon\Kit\Utilities\Text
  * @see \Feralygon\Kit\Interfaces\Stringifiable
  */
 class Stringify extends Options

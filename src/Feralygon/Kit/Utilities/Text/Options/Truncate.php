@@ -24,7 +24,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @property string|null $ellipsis_string [coercive] [default = null]
  * <p>The ellipsis string to use.<br>
  * If not set, then the internal default ellipsis string is used.</p>
- * @see \Feralygon\Kit\Utilities\Text
  */
 class Truncate extends Options
 {

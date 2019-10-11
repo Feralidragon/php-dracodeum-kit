@@ -34,7 +34,6 @@ use Feralygon\Kit\Utilities\Math as UMath;
  * &nbsp; &#8226; &nbsp; a label, such as: <samp>thousand</samp>, <samp>million</samp>, <samp>billion</samp>, ...<br>
  * <br>
  * If not set, then the highest multiple supported is used.</p>
- * @see \Feralygon\Kit\Utilities\Math
  */
 class Hnumber extends Options
 {

@@ -13,7 +13,6 @@ use Feralygon\Kit\Managers\Memoization as Manager;
 /**
  * @property-read \Feralygon\Kit\Managers\Memoization $manager [strict]
  * <p>The manager instance.</p>
- * @see \Feralygon\Kit\Managers\Memoization
  */
 abstract class Exception extends KitException
 {

@@ -43,7 +43,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <p>The numeric code.</p>
  * @property \Throwable|null $previous [strict] [default = null]
  * <p>The previous throwable instance.</p>
- * @see \Feralygon\Kit\Exception
  */
 class Construct extends Options
 {

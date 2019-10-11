@@ -40,7 +40,6 @@ use Feralygon\Kit\Utilities\Byte as UByte;
  * such as: <samp>byte</samp>, <samp>kilobyte</samp>, <samp>megabyte</samp>, ...<br>
  * <br>
  * If not set, then the highest multiple supported is used.</p>
- * @see \Feralygon\Kit\Utilities\Byte
  */
 class Hvalue extends Options
 {

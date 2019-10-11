@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/** @see \Feralygon\Kit\Prototypes\Inputs\Number */
 class Minimum extends Constraints\Minimum
 {
 	//Overridden public methods

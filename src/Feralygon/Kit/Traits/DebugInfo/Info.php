@@ -11,11 +11,7 @@ use Feralygon\Kit\Traits;
 use Feralygon\Kit\Traits\DebugInfo\Info\Exceptions;
 use Feralygon\Kit\Utilities\Type as UType;
 
-/**
- * This class represents the object used to configure the properties to set up in the debug info of a given object.
- * 
- * @see \Feralygon\Kit\Traits\DebugInfo
- */
+/** This class represents the object used to configure the properties to set up in the debug info of a given object. */
 final class Info
 {
 	//Traits

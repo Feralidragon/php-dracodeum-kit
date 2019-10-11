@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Prototype\Interfaces;
 
-/**
- * This interface defines a method to get the contract from a prototype.
- * 
- * @see \Feralygon\Kit\Prototype
- */
+/** This interface defines a method to get the contract from a prototype. */
 interface Contract
 {
 	//Public static methods

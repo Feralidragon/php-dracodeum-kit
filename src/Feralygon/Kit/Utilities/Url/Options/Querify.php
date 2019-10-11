@@ -20,7 +20,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * <p>Allow array values to be querified.</p>
  * @property bool $no_encode [coercive] [default = false]
  * <p>Do not encode the keys nor the values.</p>
- * @see \Feralygon\Kit\Utilities\Url
  */
 class Querify extends Options
 {

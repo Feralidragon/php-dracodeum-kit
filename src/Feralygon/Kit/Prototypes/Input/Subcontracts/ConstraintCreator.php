@@ -12,8 +12,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Constraint;
 /**
  * This interface defines a subcontract as a method to create constraint instances, 
  * which may be implemented by any component set to use an input prototype.
- * 
- * @see \Feralygon\Kit\Prototypes\Input
  */
 interface ConstraintCreator
 {

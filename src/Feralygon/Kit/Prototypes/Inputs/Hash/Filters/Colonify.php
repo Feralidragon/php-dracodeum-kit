@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\Hash as UHash;
  * 
  * @property-write bool $hextets [writeonce] [transient] [coercive] [default = false]
  * <p>Colonify a given hash into hextets.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
 class Colonify extends Filter
 {

@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Root\System\Factories\Component\Builder\Interfaces;
 
 use Feralygon\Kit\Root\System\Components\Environment as Component;
 
-/**
- * This interface defines a method to build an environment instance.
- * 
- * @see \Feralygon\Kit\Root\System\Factories\Component
- */
+/** This interface defines a method to build an environment instance. */
 interface Environment
 {
 	//Public methods

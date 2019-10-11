@@ -12,7 +12,6 @@ namespace Feralygon\Kit\Traits\Cloneable;
  * the <code>Feralygon\Kit\Traits\Evaluators</code> and the <code>Feralygon\Kit\Traits\KeyEvaluators</code> traits 
  * are used.
  * 
- * @see \Feralygon\Kit\Traits\Cloneable
  * @see \Feralygon\Kit\Traits\Evaluators
  * @see \Feralygon\Kit\Traits\KeyEvaluators
  */

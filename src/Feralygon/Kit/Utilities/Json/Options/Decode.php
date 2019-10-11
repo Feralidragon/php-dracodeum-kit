@@ -23,7 +23,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @property bool $no_throw [coercive] [default = false]
  * <p>Do not throw an exception.</p>
  * @see http://php.net/manual/en/function.json-decode.php
- * @see \Feralygon\Kit\Utilities\Json
  */
 class Decode extends Options
 {

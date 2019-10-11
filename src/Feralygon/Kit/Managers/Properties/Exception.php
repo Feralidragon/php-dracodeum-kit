@@ -13,7 +13,6 @@ use Feralygon\Kit\Managers\Properties as Manager;
 /**
  * @property-read \Feralygon\Kit\Managers\Properties $manager [strict]
  * <p>The manager instance.</p>
- * @see \Feralygon\Kit\Managers\Properties
  */
 abstract class Exception extends KitException
 {

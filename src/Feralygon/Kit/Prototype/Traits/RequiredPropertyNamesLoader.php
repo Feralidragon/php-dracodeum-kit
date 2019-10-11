@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Prototype\Traits;
 
-/**
- * This trait defines a method to load required property names in a prototype.
- * 
- * @see \Feralygon\Kit\Prototype
- */
+/** This trait defines a method to load required property names in a prototype. */
 trait RequiredPropertyNamesLoader
 {
 	//Protected methods

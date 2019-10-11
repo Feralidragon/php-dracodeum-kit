@@ -21,7 +21,6 @@ use Feralygon\Kit\Utilities\Type as UType;
  * <p>The data.</p>
  * @property \Feralygon\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [coercive] [default = []]
  * <p>The modifier schema instances.</p>
- * @see \Feralygon\Kit\Components\Input
  */
 class Schema extends Structure
 {

@@ -15,7 +15,6 @@ use Feralygon\Kit\Structure;
  * It cannot be empty.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
- * @see \Feralygon\Kit\Components\Input\Components\Modifier
  */
 class Schema extends Structure
 {

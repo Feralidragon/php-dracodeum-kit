@@ -9,5 +9,4 @@ namespace Feralygon\Kit\Traits\LazyProperties;
 
 use Feralygon\Kit\Managers\Properties\Property as ManagerProperty;
 
-/** @see \Feralygon\Kit\Traits\LazyProperties */
 final class Property extends ManagerProperty {}

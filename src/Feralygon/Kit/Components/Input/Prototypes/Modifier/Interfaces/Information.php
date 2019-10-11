@@ -12,8 +12,6 @@ use Feralygon\Kit\Options\Text as TextOptions;
 /**
  * This interface defines a set of methods to get information from an input modifier prototype, 
  * namely the label and message.
- * 
- * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
  */
 interface Information
 {

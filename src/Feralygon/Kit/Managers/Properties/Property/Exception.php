@@ -13,7 +13,6 @@ use Feralygon\Kit\Managers\Properties\Property;
 /**
  * @property-read \Feralygon\Kit\Managers\Properties\Property $property [strict]
  * <p>The property instance.</p>
- * @see \Feralygon\Kit\Managers\Properties\Property
  */
 abstract class Exception extends KitException
 {

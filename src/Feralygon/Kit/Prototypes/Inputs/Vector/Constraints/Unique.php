@@ -20,11 +20,7 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/**
- * This constraint prototype restricts a vector to unique values.
- * 
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector
- */
+/** This constraint prototype restricts a vector to unique values. */
 class Unique extends Constraint implements IName, IInformation
 {
 	//Implemented public methods

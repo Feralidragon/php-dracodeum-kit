@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Traits\LazyProperties;
 
 use Feralygon\Kit\Managers\Properties as PropertiesManager;
 
-/** @see \Feralygon\Kit\Traits\LazyProperties */
 final class Manager extends PropertiesManager
 {
 	//Overridden public methods

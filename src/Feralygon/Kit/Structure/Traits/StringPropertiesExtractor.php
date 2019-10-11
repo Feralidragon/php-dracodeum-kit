@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Structure\Traits;
 
-/** 
- * This trait defines a method to extract properties from a string in a structure.
- * 
- * @see \Feralygon\Kit\Structure
- */
+/** This trait defines a method to extract properties from a string in a structure. */
 trait StringPropertiesExtractor
 {
 	//Protected static methods

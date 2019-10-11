@@ -9,11 +9,7 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 
 use Feralygon\Kit\Options\Text as TextOptions;
 
-/**
- * This interface defines a method to get the string from an input modifier prototype.
- * 
- * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier
- */
+/** This interface defines a method to get the string from an input modifier prototype. */
 interface Stringification
 {
 	//Public methods

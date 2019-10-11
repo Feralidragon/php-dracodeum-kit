@@ -14,7 +14,6 @@ namespace Feralygon\Kit\Traits\DebugInfo;
  * <code>Feralygon\Kit\Traits\LazyProperties</code>.
  * 
  * @see \Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor
- * @see \Feralygon\Kit\Traits\DebugInfo
  * @see \Feralygon\Kit\Traits\Readonly
  * @see \Feralygon\Kit\Traits\Properties
  * @see \Feralygon\Kit\Traits\LazyProperties

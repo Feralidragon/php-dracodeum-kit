@@ -16,7 +16,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * 
  * @property string $bullet [coercive] [default = "\u{2022}"]
  * <p>The bullet character to use.</p>
- * @see \Feralygon\Kit\Utilities\Text
  */
 class Bulletify extends Options
 {

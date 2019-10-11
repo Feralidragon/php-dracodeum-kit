@@ -17,11 +17,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
-/**
- * This filter prototype removes duplicated values from a vector.
- * 
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector
- */
+/** This filter prototype removes duplicated values from a vector. */
 class Unique extends Filter implements IName, IInformation
 {
 	//Implemented public methods

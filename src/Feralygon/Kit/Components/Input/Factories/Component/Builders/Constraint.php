@@ -14,7 +14,6 @@ use Feralygon\Kit\Components\Input\Components\Modifiers\Constraint as Component;
 /**
  * This builder is used to build constraint instances.
  * 
- * @see \Feralygon\Kit\Components\Input\Factories\Component
  * @see \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint
  * [object]
  */

@@ -7,10 +7,7 @@
 
 namespace Feralygon\Kit\Components\Input\Components\Modifier;
 
-/**
- * @internal
- * @see \Feralygon\Kit\Components\Input\Components\Modifier
- */
+/** @internal */
 final class Error
 {
 	//Public properties

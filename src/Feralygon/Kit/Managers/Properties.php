@@ -35,8 +35,6 @@ use Feralygon\Kit\Utilities\{
  * restricted to a specific mode of operation, bound to existing object properties, have a default value, 
  * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
  * each one may hold.
- * 
- * @see \Feralygon\Kit\Managers\Properties\Property
  */
 class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 {

@@ -30,7 +30,6 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property-write int $max_length [writeonce] [transient] [coercive]
  * <p>The maximum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @see \Feralygon\Kit\Prototypes\Inputs\Vector
  */
 class LengthRange extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
 {

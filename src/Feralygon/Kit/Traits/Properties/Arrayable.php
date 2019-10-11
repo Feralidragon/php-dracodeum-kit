@@ -14,7 +14,6 @@ use Feralygon\Kit\Utilities\Data as UData;
  * when the properties trait is used.
  * 
  * @see \Feralygon\Kit\Interfaces\Arrayable
- * @see \Feralygon\Kit\Traits\Properties
  */
 trait Arrayable
 {

@@ -7,11 +7,7 @@
 
 namespace Feralygon\Kit\Component\Traits;
 
-/**
- * This trait defines a method to initialize a component.
- * 
- * @see \Feralygon\Kit\Component
- */
+/** This trait defines a method to initialize a component. */
 trait Initializer
 {
 	//Protected methods

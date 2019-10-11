@@ -20,7 +20,6 @@ use Feralygon\Kit\Utilities\Call as UCall;
  * This component represents an environment which sets the system configuration to use 
  * and how the code should run (debugging or production).
  * 
- * @see \Feralygon\Kit\Root\System
  * @see \Feralygon\Kit\Root\System\Prototypes\Environment
  * @see \Feralygon\Kit\Root\System\Prototypes\Environments\Debug
  * [prototype, name = 'debug']

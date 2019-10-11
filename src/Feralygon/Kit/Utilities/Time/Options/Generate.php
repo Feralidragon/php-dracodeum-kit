@@ -34,7 +34,6 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
  * @see https://php.net/manual/en/function.date-default-timezone-set.php
  * @see https://php.net/manual/en/class.datetime.php
  * @see https://php.net/manual/en/class.datetimeimmutable.php
- * @see \Feralygon\Kit\Utilities\Time
  */
 class Generate extends Options
 {
