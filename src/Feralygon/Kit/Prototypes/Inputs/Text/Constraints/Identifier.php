@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a text or string to an identifier format.
  * 
- * @property-write bool $extended [writeonce] [coercive] [default = false]
+ * @property-write bool $extended [writeonce] [transient] [coercive] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
@@ -251,7 +251,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	{
 		switch ($name) {
 			case 'extended':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

@@ -24,10 +24,10 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a vector to a range of lengths.
  * 
- * @property-write int $min_length [writeonce] [coercive]
+ * @property-write int $min_length [writeonce] [transient] [coercive]
  * <p>The minimum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write int $max_length [writeonce] [coercive]
+ * @property-write int $max_length [writeonce] [transient] [coercive]
  * <p>The maximum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
@@ -171,7 +171,7 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 			case 'min_length':
 				//no break
 			case 'max_length':
-				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 		}
 		return null;
 	}

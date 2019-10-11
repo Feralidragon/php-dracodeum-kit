@@ -25,10 +25,10 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a minimum length.
  * 
- * @property-write int $length [writeonce] [coercive]
+ * @property-write int $length [writeonce] [transient] [coercive]
  * <p>The minimum length to restrict a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write bool $unicode [writeonce] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
 class MinLength extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
@@ -128,9 +128,9 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

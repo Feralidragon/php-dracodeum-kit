@@ -38,10 +38,10 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
- * @property-write int|null $bits [writeonce] [coercive] [default = null]
+ * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
- * @property-write string|null $label [writeonce] [coercive] [default = null]
+ * @property-write string|null $label [writeonce] [transient] [coercive] [default = null]
  * <p>The label to use.<br>
  * If set, then it cannot be empty.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
@@ -344,7 +344,7 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 		switch ($name) {
 			case 'bits':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsInteger(true, null, true)
 					->addEvaluator(function (&$value): bool {
 						return !isset($value) || $value % 8 === 0;
@@ -352,7 +352,7 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 					->bind(self::class)
 				;
 			case 'label':
-				return $this->createProperty()->setMode('w-')->setAsString(true, true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsString(true, true)->bind(self::class);
 		}
 		return null;
 	}

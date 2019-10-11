@@ -34,9 +34,9 @@ use Feralygon\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
  * such as <code>"1 thousand"</code> or <code>"1k"</code>.
  * 
- * @property-write bool $unsigned [writeonce] [coercive] [default = false]
+ * @property-write bool $unsigned [writeonce] [transient] [coercive] [default = false]
  * <p>Set as an unsigned integer.</p>
- * @property-write int|null $bits [writeonce] [coercive] [default = null]
+ * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]
  * <p>The number of bits to use.<br>
  * If set, then it must be greater than <code>0</code>.<br>
  * <br>
@@ -80,10 +80,10 @@ class Integer extends Number implements ISchemaData
 	{
 		switch ($name) {
 			case 'unsigned':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 			case 'bits':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsInteger(true, null, true)
 					->addEvaluator(function (&$value): bool {
 						return !isset($value) || $value > 0;

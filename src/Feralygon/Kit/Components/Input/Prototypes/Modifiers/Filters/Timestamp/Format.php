@@ -14,11 +14,11 @@ use Feralygon\Kit\Utilities\Time as UTime;
 /**
  * This filter prototype converts a timestamp value into a string or object using a specific format.
  * 
- * @property-write string $format [writeonce] [coercive]
+ * @property-write string $format [writeonce] [transient] [coercive]
  * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
  * It cannot be empty.</p>
- * @property-write string|null $timezone [writeonce] [coercive] [default = null]
+ * @property-write string|null $timezone [writeonce] [transient] [coercive] [default = null]
  * <p>The timezone to convert a given timestamp value into, 
  * as supported by the PHP <code>date_default_timezone_set</code> function.<br>
  * If not set, then the currently set default timezone is used.<br>
@@ -64,9 +64,9 @@ class Format extends Filter
 	{
 		switch ($name) {
 			case 'format':
-				return $this->createProperty()->setMode('w-')->setAsString(true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsString(true)->bind(self::class);
 			case 'timezone':
-				return $this->createProperty()->setMode('w-')->setAsString(true, true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsString(true, true)->bind(self::class);
 		}
 		return null;
 	}

@@ -24,10 +24,10 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a number to a set of allowed multiples.
  * 
- * @property-write int[]|float[] $multiples [writeonce] [coercive]
+ * @property-write int[]|float[] $multiples [writeonce] [transient] [coercive]
  * <p>The allowed multiples to restrict a given number to.<br>
  * They must all be different from <code>0</code>.</p>
- * @property-write bool $negate [writeonce] [coercive] [default = false]
+ * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Number
  */
@@ -156,14 +156,14 @@ class Multiples extends Constraint implements IName, IInformation, IStringificat
 		switch ($name) {
 			case 'multiples':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {
 						return UType::evaluateNumber($value) && !empty($value);
 					}, true, true)
 					->bind(self::class)
 				;
 			case 'negate':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

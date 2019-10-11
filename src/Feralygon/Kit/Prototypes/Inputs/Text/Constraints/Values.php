@@ -17,7 +17,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * @property-write bool $unicode [writeonce] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
@@ -227,7 +227,7 @@ class Values extends Constraints\Values
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return parent::buildProperty($name);
 	}

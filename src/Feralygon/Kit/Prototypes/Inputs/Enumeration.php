@@ -27,21 +27,21 @@ use Feralygon\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; an integer, float or string as the enumeration element value;<br>
  * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
- * @property-write string $enumeration [writeonce] [strict = class]
+ * @property-write string $enumeration [writeonce] [transient] [strict = class]
  * <p>The enumeration class to use.</p>
- * @property-write int[]|float[]|string[] $values [writeonce] [coercive] [default = []]
+ * @property-write int[]|float[]|string[] $values [writeonce] [transient] [coercive] [default = []]
  * <p>The enumeration element values to restrict a given value to.</p>
- * @property-write int[]|float[]|string[] $non_values [writeonce] [coercive] [default = []]
+ * @property-write int[]|float[]|string[] $non_values [writeonce] [transient] [coercive] [default = []]
  * <p>The enumeration element values to restrict a given value from.</p>
- * @property-write bool $names_only [writeonce] [coercive] [default = false]
+ * @property-write bool $names_only [writeonce] [transient] [coercive] [default = false]
  * <p>Only allow enumeration element names to be set.</p>
- * @property-write bool $values_only [writeonce] [coercive] [default = false]
+ * @property-write bool $values_only [writeonce] [transient] [coercive] [default = false]
  * <p>Only allow enumeration element values to be set.</p>
- * @property-write bool $hide_names [writeonce] [coercive] [default = false]
+ * @property-write bool $hide_names [writeonce] [transient] [coercive] [default = false]
  * <p>Hide enumeration element names in labels, descriptions and messages.</p>
- * @property-write bool $hide_values [writeonce] [coercive] [default = false]
+ * @property-write bool $hide_values [writeonce] [transient] [coercive] [default = false]
  * <p>Hide enumeration element values in labels, descriptions and messages.</p>
- * @property-write bool $namify [writeonce] [coercive] [default = false]
+ * @property-write bool $namify [writeonce] [transient] [coercive] [default = false]
  * <p>Set as an enumeration element name.</p>
  * @see \Feralygon\Kit\Enumeration
  */
@@ -423,7 +423,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		switch ($name) {
 			case 'enumeration':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsStrictClass(KitEnumeration::class)
 					->bind(self::class)
 				;
@@ -431,7 +431,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 				//no break
 			case 'non_values':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {
 						return is_int($value) || is_float($value) || is_string($value);
 					}, true)
@@ -446,7 +446,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			case 'hide_values':
 				//no break
 			case 'namify':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

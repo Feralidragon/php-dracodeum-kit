@@ -24,17 +24,17 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a range of values.
  * 
- * @property-write mixed $min_value [writeonce]
+ * @property-write mixed $min_value [writeonce] [transient]
  * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
- * @property-write mixed $max_value [writeonce]
+ * @property-write mixed $max_value [writeonce] [transient]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
- * @property-write bool $min_exclusive [writeonce] [coercive] [default = false]
+ * @property-write bool $min_exclusive [writeonce] [transient] [coercive] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
- * @property-write bool $max_exclusive [writeonce] [coercive] [default = false]
+ * @property-write bool $max_exclusive [writeonce] [transient] [coercive] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
- * @property-write bool $negate [writeonce] [coercive] [default = false]
+ * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IName, IInformation, IStringification, ISchemaData
@@ -330,7 +330,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 				//no break
 			case 'max_value':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
@@ -339,7 +339,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 			case 'max_exclusive':
 				//no break
 			case 'negate':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

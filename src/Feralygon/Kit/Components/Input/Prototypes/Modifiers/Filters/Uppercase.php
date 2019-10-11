@@ -21,7 +21,7 @@ use Feralygon\Kit\Utilities\{
 /**
  * This filter prototype converts a value to uppercase.
  * 
- * @property-write bool $unicode [writeonce] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Convert a given value as Unicode.</p>
  */
 class Uppercase extends Filter implements IName, ISchemaData
@@ -71,7 +71,7 @@ class Uppercase extends Filter implements IName, ISchemaData
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

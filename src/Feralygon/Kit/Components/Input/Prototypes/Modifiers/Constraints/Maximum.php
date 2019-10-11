@@ -24,9 +24,9 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a value to a maximum value.
  * 
- * @property-write mixed $value [writeonce]
+ * @property-write mixed $value [writeonce] [transient]
  * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
- * @property-write bool $exclusive [writeonce] [coercive] [default = false]
+ * @property-write bool $exclusive [writeonce] [transient] [coercive] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  */
@@ -145,12 +145,12 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 		switch ($name) {
 			case 'value':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->addEvaluator(\Closure::fromCallable([$this, 'evaluateValue']))
 					->bind(self::class)
 				;
 			case 'exclusive':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

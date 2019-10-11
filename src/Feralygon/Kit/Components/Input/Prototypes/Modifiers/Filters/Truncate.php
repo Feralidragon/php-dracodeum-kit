@@ -24,19 +24,19 @@ use Feralygon\Kit\Utilities\{
 /**
  * This filter prototype truncates a value to a specific length.
  * 
- * @property-write int $length [writeonce] [coercive]
+ * @property-write int $length [writeonce] [transient] [coercive]
  * <p>The length to truncate a given value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write bool $unicode [writeonce] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Handle a given value as Unicode.</p>
- * @property-write bool $ellipsis [writeonce] [coercive] [default = false]
+ * @property-write bool $ellipsis [writeonce] [transient] [coercive] [default = false]
  * <p>Add an ellipsis at the end of the truncated value.</p>
  * @property-write string|null $ellipsis_string [writeonce] [coercive] [default = null]
  * <p>The ellipsis string to use.<br>
  * If not set, then the internal default ellipsis string is used.</p>
- * @property-write bool $keep_words [writeonce] [coercive] [default = false]
+ * @property-write bool $keep_words [writeonce] [transient] [coercive] [default = false]
  * <p>Try to keep words preserved in the truncated value.</p>
- * @property-write bool $keep_sentences [writeonce] [coercive] [default = false]
+ * @property-write bool $keep_sentences [writeonce] [transient] [coercive] [default = false]
  * <p>Try to keep sentences preserved in the truncated value.</p>
  */
 class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
@@ -157,17 +157,17 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
 				//no break
 			case 'ellipsis':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 			case 'ellipsis_string':
-				return $this->createProperty()->setMode('w-')->setAsString(false, true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsString(false, true)->bind(self::class);
 			case 'keep_words':
 				//no break
 			case 'keep_sentences':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

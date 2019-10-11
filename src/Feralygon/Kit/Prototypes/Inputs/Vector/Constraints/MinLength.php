@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a vector to a minimum length.
  * 
- * @property-write int $length [writeonce] [coercive]
+ * @property-write int $length [writeonce] [transient] [coercive]
  * <p>The minimum length to restrict a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Vector
@@ -138,7 +138,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	{
 		switch ($name) {
 			case 'length':
-				return $this->createProperty()->setMode('w-')->setAsInteger(true)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 		}
 		return null;
 	}

@@ -36,9 +36,9 @@ use Feralygon\Kit\Utilities\Text as UText;
  * such as <samp>key1:value1,key2:value2,key3:value3</samp>;<br>
  * &nbsp; &#8226; &nbsp; a JSON array or object.
  * 
- * @property-write \Feralygon\Kit\Components\Input|null $key_input [writeonce] [coercive = component] [default = null]
+ * @property-write \Feralygon\Kit\Components\Input|null $key_input [writeonce] [transient] [coercive = component] [default = null]
  * <p>The input instance to evaluate keys with.</p>
- * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [coercive = component] [default = null]
+ * @property-write \Feralygon\Kit\Components\Input|null $input [writeonce] [transient] [coercive = component] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Feralygon\Kit\Primitives\Dictionary
@@ -817,7 +817,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 			case 'key_input':
 				//no break
 			case 'input':
-				return $this->createProperty()->setMode('w-')->setAsComponent(Component::class)->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsComponent(Component::class)->bind(self::class);
 		}
 		return null;
 	}

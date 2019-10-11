@@ -14,7 +14,7 @@ use Feralygon\Kit\Utilities\Hash as UHash;
 /**
  * This filter prototype converts a hash into a colon-hexadecimal string.
  * 
- * @property-write bool $hextets [writeonce] [coercive] [default = false]
+ * @property-write bool $hextets [writeonce] [transient] [coercive] [default = false]
  * <p>Colonify a given hash into hextets.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash
  */
@@ -52,7 +52,7 @@ class Colonify extends Filter
 	{
 		switch ($name) {
 			case 'hextets':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

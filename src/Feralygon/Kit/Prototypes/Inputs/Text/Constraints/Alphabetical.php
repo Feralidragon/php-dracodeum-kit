@@ -24,7 +24,7 @@ use Feralygon\Kit\Utilities\{
 /**
  * This constraint prototype restricts a text or string to alphabetical characters.
  * 
- * @property-write bool $unicode [writeonce] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given text or string as Unicode.</p>
  * @see \Feralygon\Kit\Prototypes\Inputs\Text
  */
@@ -128,7 +128,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	{
 		switch ($name) {
 			case 'unicode':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 		}
 		return null;
 	}

@@ -41,9 +41,9 @@ use Feralygon\Kit\Utilities\{
  * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
  * then that character is stripped from the given name and the input is set as nullable.
  * 
- * @property-write bool $nullable [writeonce] [coercive] [default = false]
+ * @property-write bool $nullable [writeonce] [transient] [coercive] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
- * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [coercive] [default = []]
+ * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [transient] [coercive] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
@@ -154,10 +154,10 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	{
 		switch ($name) {
 			case 'nullable':
-				return $this->createProperty()->setMode('w-')->setAsBoolean()->bind(self::class);
+				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
 			case 'modifiers':
 				return $this->createProperty()
-					->setMode('w-')
+					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {
 						if (is_string($key) && is_array($value)) {
 							$this->addModifier($key, $value);
