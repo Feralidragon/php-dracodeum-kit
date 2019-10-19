@@ -16,6 +16,7 @@ use Feralygon\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoPr
 use Feralygon\Kit\Component\{
 	Exceptions,
 	Traits,
+	PrototypeProducer,
 	Proxy
 };
 use Feralygon\Kit\Traits as KitTraits;
@@ -108,6 +109,12 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	
 	
 	
+	//Private static properties
+	/** @var \Feralygon\Kit\Component\PrototypeProducer[] */
+	private static $prototype_producers = [];
+	
+	
+	
 	//Final public magic methods
 	/**
 	 * Instantiate class.
@@ -162,21 +169,46 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 					$prototype = $prototype_base_class;
 				}
 			} elseif (is_string($prototype)) {
-				//build
-				$instance = UCall::guardExecution(
-					\Closure::fromCallable([$this, 'producePrototype']),
-					[$prototype, $properties],
-					function (&$value) use ($prototype_base_class, $properties): bool {
-						if (isset($value)) {
-							$value = UType::coerceObjectClass($value, $prototype_base_class);
-							if (!is_object($value)) {
-								$value = UType::instantiate($value, $properties);
+				//initialize
+				$instance = null;
+				$callback = function (&$value) use ($prototype_base_class, $properties): bool {
+					$value = UType::coerceObject($value, $prototype_base_class, [$properties], true);
+					return true;
+				};
+				
+				//build (prototype producers)
+				if (!empty(self::$prototype_producers)) {
+					for ($class = static::class; $class !== false; $class = get_parent_class($class)) {
+						//producers
+						if (!empty(self::$prototype_producers[$class])) {
+							foreach (self::$prototype_producers[$class] as $prototype_producer) {
+								//instance
+								$instance = UCall::guardExecution(
+									[$prototype_producer, 'produce'], [$prototype, $properties],
+									$callback, ['function_name' => '__construct']
+								);
+								
+								//check
+								if (isset($instance)) {
+									break;
+								}
 							}
 						}
-						return true;
-					},
-					['function_name' => '__construct']
-				);
+						
+						//check
+						if (isset($instance)) {
+							break;
+						}
+					}
+				}
+				
+				//build (method)
+				if (!isset($instance)) {
+					$instance = UCall::guardExecution(
+						\Closure::fromCallable([$this, 'producePrototype']), [$prototype, $properties],
+						$callback, ['function_name' => '__construct']
+					);
+				}
 				
 				//check
 				if (isset($instance)) {
@@ -603,6 +635,36 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 			return false;
 		}
 		throw new Exceptions\CoercionFailed(['value' => $value, 'component' => static::class]);
+	}
+	
+	/**
+	 * Prepend prototype producer.
+	 * 
+	 * @param \Feralygon\Kit\Component\PrototypeProducer|string $prototype_producer
+	 * <p>The prototype producer instance or class to prepend.</p>
+	 * @return void
+	 */
+	final public static function prependPrototypeProducer($prototype_producer): void
+	{
+		$prototype_producer = UType::coerceObject($prototype_producer, PrototypeProducer::class);
+		if (isset(self::$prototype_producers[static::class])) {
+			array_unshift(self::$prototype_producers[static::class], $prototype_producer);
+		} else {
+			self::$prototype_producers[static::class][] = $prototype_producer;
+		}
+	}
+	
+	/**
+	 * Append prototype producer.
+	 * 
+	 * @param \Feralygon\Kit\Component\PrototypeProducer|string $prototype_producer
+	 * <p>The prototype producer instance or class to append.</p>
+	 * @return void
+	 */
+	final public static function appendPrototypeProducer($prototype_producer): void
+	{
+		$prototype_producer = UType::coerceObject($prototype_producer, PrototypeProducer::class);
+		self::$prototype_producers[static::class][] = $prototype_producer;
 	}
 	
 	
