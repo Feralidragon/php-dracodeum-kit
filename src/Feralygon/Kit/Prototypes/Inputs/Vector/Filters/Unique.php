@@ -37,7 +37,7 @@ class Unique extends Filter implements IName, IInformation
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'filters.unique';
+		return 'unique';
 	}
 	
 	

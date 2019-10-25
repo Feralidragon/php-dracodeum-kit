@@ -12,12 +12,11 @@ use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	ErrorMessage as IErrorMessage,
 	SchemaData as ISchemaData,
-	ModifierBuilder as IModifierBuilder,
+	ConstraintProducer as IConstraintProducer,
 	ErrorUnset as IErrorUnset
 };
 use Feralygon\Kit\Primitives\Dictionary as Primitive;
 use Feralygon\Kit\Components\Input as Component;
-use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
@@ -44,19 +43,19 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @see \Feralygon\Kit\Primitives\Dictionary
  * @see \Feralygon\Kit\Interfaces\Arrayable
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\Length
- * [modifier, name = 'constraints.length' or 'length']
+ * [constraint, name = 'length']
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\MinLength
- * [modifier, name = 'constraints.min_length' or 'min_length']
+ * [constraint, name = 'min_length']
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\MaxLength
- * [modifier, name = 'constraints.max_length' or 'max_length']
+ * [constraint, name = 'max_length']
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\LengthRange
- * [modifier, name = 'constraints.length_range' or 'length_range']
+ * [constraint, name = 'length_range']
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\NonEmpty
- * [modifier, name = 'constraints.non_empty' or 'non_empty']
+ * [constraint, name = 'non_empty']
  * @see \Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints\Unique
- * [modifier, name = 'constraints.unique' or 'unique']
+ * [constraint, name = 'unique']
  */
-class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IModifierBuilder, IErrorUnset
+class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IErrorUnset
 {
 	//Protected properties
 	/** @var \Feralygon\Kit\Components\Input|null */
@@ -755,36 +754,23 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ConstraintProducer)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties): ?Modifier
+	public function produceConstraint(string $name, array $properties)
 	{
 		switch ($name) {
-			//constraints
-			case 'constraints.length':
-				//no break
 			case 'length':
-				return $this->createConstraint(Constraints\Length::class, $properties);
-			case 'constraints.min_length':
-				//no break
+				return Constraints\Length::class;
 			case 'min_length':
-				return $this->createConstraint(Constraints\MinLength::class, $properties);
-			case 'constraints.max_length':
-				//no break
+				return Constraints\MinLength::class;
 			case 'max_length':
-				return $this->createConstraint(Constraints\MaxLength::class, $properties);
-			case 'constraints.length_range':
-				//no break
+				return Constraints\MaxLength::class;
 			case 'length_range':
-				return $this->createConstraint(Constraints\LengthRange::class, $properties);
-			case 'constraints.non_empty':
-				//no break
+				return Constraints\LengthRange::class;
 			case 'non_empty':
-				return $this->createConstraint(Constraints\NonEmpty::class, $properties);
-			case 'constraints.unique':
-				//no break
+				return Constraints\NonEmpty::class;
 			case 'unique':
-				return $this->createConstraint(Constraints\Unique::class, $properties);
+				return Constraints\Unique::class;
 		}
 		return null;
 	}

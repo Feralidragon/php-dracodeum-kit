@@ -54,7 +54,7 @@ class Minimum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.minimum';
+		return 'minimum';
 	}
 	
 	

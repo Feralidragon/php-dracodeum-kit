@@ -73,7 +73,7 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.range';
+		return 'range';
 	}
 	
 	

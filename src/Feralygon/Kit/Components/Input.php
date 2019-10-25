@@ -43,6 +43,16 @@ use Feralygon\Kit\Utilities\{
  * 
  * @property-write bool $nullable [writeonce] [transient] [coercive] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
+ * @property-write \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint[]|\Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint[]|string[] $constraints [writeonce] [transient] [coercive] [default = []]
+ * <p>The constraints to add, as any combination of the following:<br>
+ * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
+ * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
+ * with the properties being given as <samp>name => value</samp> pairs.</p>
+ * @property-write \Feralygon\Kit\Components\Input\Components\Modifiers\Filter[]|\Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter[]|string[] $filters [writeonce] [transient] [coercive] [default = []]
+ * <p>The filters to add, as any combination of the following:<br>
+ * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
+ * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
+ * with the properties being given as <samp>name => value</samp> pairs.</p>
  * @property-write \Feralygon\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [transient] [coercive] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
@@ -155,6 +165,34 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		switch ($name) {
 			case 'nullable':
 				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);
+			case 'constraints':
+				return $this->createProperty()
+					->setMode('w--')
+					->setAsArray(function (&$key, &$value): bool {
+						if (is_string($key) && is_array($value)) {
+							$this->addConstraint($key, $value);
+							return true;
+						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+							$this->addConstraint($value);
+							return true;
+						}
+						return false;
+					})
+				;
+			case 'filters':
+				return $this->createProperty()
+					->setMode('w--')
+					->setAsArray(function (&$key, &$value): bool {
+						if (is_string($key) && is_array($value)) {
+							$this->addFilter($key, $value);
+							return true;
+						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+							$this->addFilter($value);
+							return true;
+						}
+						return false;
+					})
+				;
 			case 'modifiers':
 				return $this->createProperty()
 					->setMode('w--')
@@ -898,6 +936,106 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		if ($is_new_priority) {
 			krsort($this->modifiers_tree, SORT_NUMERIC);
 		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Add constraint.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint|\Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $constraint
+	 * <p>The constraint component instance or name, or prototype instance, class or name, to add.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to add with, as <samp>name => value</samp> pairs, 
+	 * if a component name, or a prototype class or name, is given.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addConstraint($constraint, array $properties = []): Input
+	{
+		//guard
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		
+		//add
+		$this->addModifier(
+			Components\Modifiers\Constraint::coerce(
+				$constraint, $properties, [$this, 'createConstraint'],
+				function (string $name, array $properties): ?Components\Modifiers\Constraint {
+					$prototype = $this->getPrototype();
+					if ($prototype instanceof PrototypeInterfaces\ConstraintProducer) {
+						return UCall::guardExecution(
+							[$prototype, 'produceConstraint'], [$name, $properties],
+							function (&$value) use ($properties): bool {
+								if (isset($value)) {
+									$value = Components\Modifiers\Constraint::coerce(
+										$value, $properties, [$this, 'createConstraint']
+									);
+								}
+								return true;
+							}
+						);
+					}
+					return null;
+				}
+			)
+		);
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Add filter.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param \Feralygon\Kit\Components\Input\Components\Modifiers\Filter|\Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $filter
+	 * <p>The filter component instance or name, or prototype instance, class or name, to add.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to add with, as <samp>name => value</samp> pairs, 
+	 * if a component name, or a prototype class or name, is given.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addFilter($filter, array $properties = []): Input
+	{
+		//guard
+		UCall::guard(!$this->initialized, [
+			'hint_message' => "This method may only be called before initialization."
+		]);
+		
+		//add
+		$this->addModifier(
+			Components\Modifiers\Filter::coerce(
+				$filter, $properties, [$this, 'createFilter'],
+				function (string $name, array $properties): ?Components\Modifiers\Filter {
+					$prototype = $this->getPrototype();
+					if ($prototype instanceof PrototypeInterfaces\FilterProducer) {
+						return UCall::guardExecution(
+							[$prototype, 'produceFilter'], [$name, $properties],
+							function (&$value) use ($properties): bool {
+								if (isset($value)) {
+									$value = Components\Modifiers\Filter::coerce(
+										$value, $properties, [$this, 'createFilter']
+									);
+								}
+								return true;
+							}
+						);
+					}
+					return null;
+				}
+			)
+		);
 		
 		//return
 		return $this;

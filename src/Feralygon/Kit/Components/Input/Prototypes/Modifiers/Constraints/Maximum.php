@@ -54,7 +54,7 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.maximum';
+		return 'maximum';
 	}
 	
 	

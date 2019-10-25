@@ -10,9 +10,8 @@ namespace Feralygon\Kit\Prototypes\Inputs;
 use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
-	ModifierBuilder as IModifierBuilder
+	ConstraintProducer as IConstraintProducer
 };
-use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Number\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -37,20 +36,19 @@ use Feralygon\Kit\Utilities\{
  * 
  * @see https://en.wikipedia.org/wiki/Number
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Values
- * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
+ * [constraint, name = 'values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Minimum
- * [modifier, name = 'constraints.minimum' or 'minimum' or 'constraints.positive' or 'positive']
+ * [constraint, name = 'minimum' or 'positive']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Maximum
- * [modifier, name = 'constraints.maximum' or 'maximum' or 'constraints.negative' or 'negative']
+ * [constraint, name = 'maximum' or 'negative']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Range
- * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
+ * [constraint, name = 'range' or 'non_range']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Multiples
- * [modifier, name = 'constraints.multiples' or 'multiples' or 'constraints.non_multiples' or 'non_multiples' or 
- * 'constraints.even' or 'even' or 'constraints.odd' or 'odd']
+ * [constraint, name = 'multiples' or 'non_multiples' or 'even' or 'odd']
  * @see \Feralygon\Kit\Prototypes\Inputs\Number\Constraints\Powers
- * [modifier, name = 'constraints.powers' or 'powers' or 'constraints.non_powers' or 'non_powers']
+ * [constraint, name = 'powers' or 'non_powers']
  */
-class Number extends Input implements IInformation, IModifierBuilder
+class Number extends Input implements IInformation, IConstraintProducer
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -146,66 +144,37 @@ class Number extends Input implements IInformation, IModifierBuilder
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ConstraintProducer)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties): ?Modifier
+	public function produceConstraint(string $name, array $properties)
 	{
 		switch ($name) {
-			//constraints
-			case 'constraints.values':
-				//no break
 			case 'values':
-				return $this->createConstraint(Constraints\Values::class, $properties);
-			case 'constraints.non_values':
-				//no break
+				return Constraints\Values::class;
 			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
-			case 'constraints.minimum':
-				//no break
 			case 'minimum':
-				return $this->createConstraint(Constraints\Minimum::class, $properties);
-			case 'constraints.positive':
-				//no break
+				return Constraints\Minimum::class;
 			case 'positive':
 				return $this->createConstraint(Constraints\Minimum::class, [0, 'exclusive' => true] + $properties);
-			case 'constraints.maximum':
-				//no break
 			case 'maximum':
-				return $this->createConstraint(Constraints\Maximum::class, $properties);
-			case 'constraints.negative':
-				//no break
+				return Constraints\Maximum::class;
 			case 'negative':
 				return $this->createConstraint(Constraints\Maximum::class, [0, 'exclusive' => true] + $properties);
-			case 'constraints.range':
-				//no break
 			case 'range':
-				return $this->createConstraint(Constraints\Range::class, $properties);
-			case 'constraints.non_range':
-				//no break
+				return Constraints\Range::class;
 			case 'non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
-			case 'constraints.multiples':
-				//no break
 			case 'multiples':
-				return $this->createConstraint(Constraints\Multiples::class, $properties);
-			case 'constraints.non_multiples':
-				//no break
+				return Constraints\Multiples::class;
 			case 'non_multiples':
 				return $this->createConstraint(Constraints\Multiples::class, ['negate' => true] + $properties);
-			case 'constraints.even':
-				//no break
 			case 'even':
 				return $this->createConstraint(Constraints\Multiples::class, [[2]] + $properties);
-			case 'constraints.odd':
-				//no break
 			case 'odd':
 				return $this->createConstraint(Constraints\Multiples::class, [[2], 'negate' => true] + $properties);
-			case 'constraints.powers':
-				//no break
 			case 'powers':
-				return $this->createConstraint(Constraints\Powers::class, $properties);
-			case 'constraints.non_powers':
-				//no break
+				return Constraints\Powers::class;
 			case 'non_powers':
 				return $this->createConstraint(Constraints\Powers::class, ['negate' => true] + $properties);
 		}

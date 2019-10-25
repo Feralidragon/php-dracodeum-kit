@@ -16,7 +16,7 @@ $text_options = [
 $value = 'hasd';
 
 $input = FComponent::input('string');
-$input->addModifier('values', [['asd', 'ggg', 12345678]]);
+$input->addConstraint('values', [['asd', 'ggg', 12345678]]);
 
 
 

@@ -48,7 +48,7 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.length';
+		return 'length';
 	}
 	
 	

@@ -60,7 +60,7 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.wildcards';
+		return 'wildcards';
 	}
 	
 	

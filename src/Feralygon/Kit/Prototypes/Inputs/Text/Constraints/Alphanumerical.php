@@ -48,7 +48,7 @@ class Alphanumerical extends Constraint implements IName, IInformation, ISchemaD
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.alphanumerical';
+		return 'alphanumerical';
 	}
 	
 	

@@ -11,9 +11,9 @@ use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	ValueStringifier as IValueStringifier,
-	ModifierBuilder as IModifierBuilder
+	ConstraintProducer as IConstraintProducer,
+	FilterProducer as IFilterProducer
 };
-use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp as TimestampFilters;
 use Feralygon\Kit\Options\Text as TextOptions;
@@ -37,17 +37,17 @@ use Feralygon\Kit\Utilities\{
  * @see https://php.net/manual/en/function.strtotime.php
  * @see https://php.net/manual/en/class.datetimeinterface.php
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Values
- * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
+ * [constraint, name = 'values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Minimum
- * [modifier, name = 'constraints.minimum' or 'minimum']
+ * [constraints, name = 'minimum']
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Maximum
- * [modifier, name = 'constraints.maximum' or 'maximum']
+ * [constraints, name = 'maximum']
  * @see \Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints\Range
- * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
+ * [constraints, name = 'range' or 'non_range']
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp\Format
- * [modifier, name = 'filters.format']
+ * [filter, name = 'format']
  */
-class DateTime extends Input implements IInformation, IValueStringifier, IModifierBuilder
+class DateTime extends Input implements IInformation, IValueStringifier, IConstraintProducer, IFilterProducer
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -150,40 +150,36 @@ class DateTime extends Input implements IInformation, IValueStringifier, IModifi
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ConstraintProducer)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties): ?Modifier
+	public function produceConstraint(string $name, array $properties)
 	{
 		switch ($name) {
-			//constraints
-			case 'constraints.values':
-				//no break
 			case 'values':
-				return $this->createConstraint(Constraints\Values::class, $properties);
-			case 'constraints.non_values':
-				//no break
+				return Constraints\Values::class;
 			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
-			case 'constraints.minimum':
-				//no break
 			case 'minimum':
-				return $this->createConstraint(Constraints\Minimum::class, $properties);
-			case 'constraints.maximum':
-				//no break
+				return Constraints\Minimum::class;
 			case 'maximum':
-				return $this->createConstraint(Constraints\Maximum::class, $properties);
-			case 'constraints.range':
-				//no break
+				return Constraints\Maximum::class;
 			case 'range':
-				return $this->createConstraint(Constraints\Range::class, $properties);
-			case 'constraints.non_range':
-				//no break
+				return Constraints\Range::class;
 			case 'non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
-			
-			//filters
-			case 'filters.format':
-				return $this->createFilter(TimestampFilters\Format::class, $properties);
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\FilterProducer)
+	/** {@inheritdoc} */
+	public function produceFilter(string $name, array $properties)
+	{
+		switch ($name) {
+			case 'format':
+				return TimestampFilters\Format::class;
 		}
 		return null;
 	}

@@ -58,7 +58,7 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.length_range';
+		return 'length_range';
 	}
 	
 	

@@ -47,7 +47,7 @@ class Lowercase extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.lowercase';
+		return 'lowercase';
 	}
 	
 	

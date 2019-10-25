@@ -48,7 +48,7 @@ class MinLength extends Constraint implements IName, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.min_length';
+		return 'min_length';
 	}
 	
 	

@@ -11,9 +11,9 @@ use Feralygon\Kit\Prototypes\Input;
 use Feralygon\Kit\Prototypes\Input\Interfaces\{
 	Information as IInformation,
 	SchemaData as ISchemaData,
-	ModifierBuilder as IModifierBuilder
+	ConstraintProducer as IConstraintProducer,
+	FilterProducer as IFilterProducer
 };
-use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Hash\{
 	Constraints,
 	Filters
@@ -46,17 +46,17 @@ use Feralygon\Kit\Utilities\{
  * If set, then it cannot be empty.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Constraints\Values
- * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
+ * [constraint, name = 'values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Base64
- * [modifier, name = 'filters.base64']
+ * [filter, name = 'base64']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Colonify
- * [modifier, name = 'filters.colonify' or 'colonify']
+ * [filter, name = 'colonify']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Raw
- * [modifier, name = 'filters.raw']
+ * [filter, name = 'raw']
  * @see \Feralygon\Kit\Prototypes\Inputs\Hash\Filters\Uppercase
- * [modifier, name = 'filters.uppercase' or 'upper']
+ * [filter, name = 'uppercase']
  */
-class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
+class Hash extends Input implements IInformation, ISchemaData, IConstraintProducer, IFilterProducer
 {
 	//Protected properties
 	/** @var int|null */
@@ -303,34 +303,34 @@ class Hash extends Input implements IInformation, ISchemaData, IModifierBuilder
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ModifierBuilder)
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\ConstraintProducer)
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties): ?Modifier
+	public function produceConstraint(string $name, array $properties)
 	{
 		switch ($name) {
-			//constraints
-			case 'constraints.values':
-				//no break
 			case 'values':
-				return $this->createConstraint(Constraints\Values::class, $properties);
-			case 'constraints.non_values':
-				//no break
+				return Constraints\Values::class;
 			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
-			
-			//filters
-			case 'filters.base64':
-				return $this->createFilter(Filters\Base64::class, $properties);
-			case 'filters.colonify':
-				//no break
+		}
+		return null;
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Prototypes\Input\Interfaces\FilterProducer)
+	/** {@inheritdoc} */
+	public function produceFilter(string $name, array $properties)
+	{
+		switch ($name) {
+			case 'base64':
+				return Filters\Base64::class;
 			case 'colonify':
-				return $this->createFilter(Filters\Colonify::class, $properties);
-			case 'filters.raw':
-				return $this->createFilter(Filters\Raw::class, $properties);
-			case 'filters.uppercase':
-				//no break
-			case 'upper':
-				return $this->createFilter(Filters\Uppercase::class, $properties);
+				return Filters\Colonify::class;
+			case 'raw':
+				return Filters\Raw::class;
+			case 'uppercase':
+				return Filters\Uppercase::class;
 		}
 		return null;
 	}

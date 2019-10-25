@@ -47,7 +47,7 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.numerical';
+		return 'numerical';
 	}
 	
 	

@@ -47,7 +47,7 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.uppercase';
+		return 'uppercase';
 	}
 	
 	

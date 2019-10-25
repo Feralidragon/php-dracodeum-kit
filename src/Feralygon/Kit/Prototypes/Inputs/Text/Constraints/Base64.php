@@ -52,7 +52,7 @@ class Base64 extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.base64';
+		return 'base64';
 	}
 	
 	

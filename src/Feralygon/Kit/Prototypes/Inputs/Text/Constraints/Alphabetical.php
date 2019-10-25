@@ -48,7 +48,7 @@ class Alphabetical extends Constraint implements IName, IInformation, ISchemaDat
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.alphabetical';
+		return 'alphabetical';
 	}
 	
 	

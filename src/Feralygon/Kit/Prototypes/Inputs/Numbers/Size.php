@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Numbers;
 
 use Feralygon\Kit\Prototypes\Inputs\Number;
 use Feralygon\Kit\Prototypes\Input\Interfaces\ValueStringifier as IValueStringifier;
-use Feralygon\Kit\Components\Input\Components\Modifier;
 use Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
@@ -38,13 +37,13 @@ use Feralygon\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Byte
  * @see https://en.wikipedia.org/wiki/File_size
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Values
- * [modifier, name = 'constraints.values' or 'values' or 'constraints.non_values' or 'non_values']
+ * [constraint, name = 'values' or 'non_values']
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Minimum
- * [modifier, name = 'constraints.minimum' or 'minimum' or 'constraints.positive' or 'positive']
+ * [constraint, name = 'minimum' or 'positive']
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Maximum
- * [modifier, name = 'constraints.maximum' or 'maximum' or 'constraints.negative' or 'negative']
+ * [constraint, name = 'maximum' or 'negative']
  * @see \Feralygon\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Range
- * [modifier, name = 'constraints.range' or 'range' or 'constraints.non_range' or 'non_range']
+ * [constraint, name = 'range' or 'non_range']
  */
 class Size extends Number implements IValueStringifier
 {
@@ -172,44 +171,27 @@ class Size extends Number implements IValueStringifier
 	}
 	
 	/** {@inheritdoc} */
-	public function buildModifier(string $name, array $properties): ?Modifier
+	public function produceConstraint(string $name, array $properties)
 	{
 		switch ($name) {
-			//constraints
-			case 'constraints.values':
-				//no break
 			case 'values':
-				return $this->createConstraint(Constraints\Values::class, $properties);
-			case 'constraints.non_values':
-				//no break
+				return Constraints\Values::class;
 			case 'non_values':
 				return $this->createConstraint(Constraints\Values::class, ['negate' => true] + $properties);
-			case 'constraints.minimum':
-				//no break
 			case 'minimum':
-				return $this->createConstraint(Constraints\Minimum::class, $properties);
-			case 'constraints.positive':
-				//no break
+				return Constraints\Minimum::class;
 			case 'positive':
 				return $this->createConstraint(Constraints\Minimum::class, [0, 'exclusive' => true] + $properties);
-			case 'constraints.maximum':
-				//no break
 			case 'maximum':
-				return $this->createConstraint(Constraints\Maximum::class, $properties);
-			case 'constraints.negative':
-				//no break
+				return Constraints\Maximum::class;
 			case 'negative':
 				return $this->createConstraint(Constraints\Maximum::class, [0, 'exclusive' => true] + $properties);
-			case 'constraints.range':
-				//no break
 			case 'range':
-				return $this->createConstraint(Constraints\Range::class, $properties);
-			case 'constraints.non_range':
-				//no break
+				return Constraints\Range::class;
 			case 'non_range':
 				return $this->createConstraint(Constraints\Range::class, ['negate' => true] + $properties);
 		}
-		return parent::buildModifier($name, $properties);
+		return parent::produceConstraint($name, $properties);
 	}
 	
 	

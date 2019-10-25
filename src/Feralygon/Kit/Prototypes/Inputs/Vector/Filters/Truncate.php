@@ -52,7 +52,7 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'filters.truncate';
+		return 'truncate';
 	}
 	
 	

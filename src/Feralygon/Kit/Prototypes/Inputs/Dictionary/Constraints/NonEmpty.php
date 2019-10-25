@@ -32,7 +32,7 @@ class NonEmpty extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.non_empty';
+		return 'non_empty';
 	}
 	
 	

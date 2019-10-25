@@ -48,7 +48,7 @@ class Identifier extends Constraint implements IName, IInformation, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.identifier';
+		return 'identifier';
 	}
 	
 	

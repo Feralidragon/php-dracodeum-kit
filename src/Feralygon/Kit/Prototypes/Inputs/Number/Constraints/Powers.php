@@ -63,7 +63,7 @@ class Powers extends Constraint implements IName, IInformation, IStringification
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.powers';
+		return 'powers';
 	}
 	
 	

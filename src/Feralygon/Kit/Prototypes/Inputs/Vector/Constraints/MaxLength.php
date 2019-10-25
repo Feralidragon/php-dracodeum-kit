@@ -49,7 +49,7 @@ class MaxLength extends Constraint implements IName, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.max_length';
+		return 'max_length';
 	}
 	
 	

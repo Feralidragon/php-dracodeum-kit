@@ -47,7 +47,7 @@ class Unique extends Constraint implements IName, IInformation
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'constraints.unique';
+		return 'unique';
 	}
 	
 	

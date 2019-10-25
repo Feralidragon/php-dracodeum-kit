@@ -49,7 +49,7 @@ class Lowercase extends Filter implements IName, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'filters.lowercase';
+		return 'lowercase';
 	}
 	
 	

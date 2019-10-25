@@ -49,7 +49,7 @@ class Uppercase extends Filter implements IName, ISchemaData
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
-		return 'filters.uppercase';
+		return 'uppercase';
 	}
 	
 	
