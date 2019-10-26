@@ -909,7 +909,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Feralygon\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with if a component name is given, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to add with, as <samp>name => value</samp> pairs, if a component name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return $this

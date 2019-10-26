@@ -22,7 +22,7 @@ interface FilterCreator
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to create with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to create with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Filter

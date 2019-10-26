@@ -19,7 +19,7 @@ interface Constraint
 	 * @param \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Feralygon\Kit\Components\Input\Components\Modifiers\Constraint

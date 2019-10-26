@@ -1076,11 +1076,10 @@ class Evaluators extends Manager
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs, 
+	 * if a component name, or a prototype class or name, or <code>null</code>, is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
-	 * in the same order as how these properties were first declared.<br>
-	 * <br>
-	 * If a component instance is given, then the given properties are ignored.</p>
+	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -1092,7 +1091,8 @@ class Evaluators extends Manager
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs, 
+	 * if a prototype class or name, or <code>null</code>, is given.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
