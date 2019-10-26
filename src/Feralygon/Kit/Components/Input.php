@@ -964,26 +964,12 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		]);
 		
 		//add
+		$prototype = $this->getPrototype();
 		$this->addModifier(
-			Components\Modifiers\Constraint::coerce(
-				$constraint, $properties, [$this, 'createConstraint'],
-				function (string $name, array $properties): ?Components\Modifiers\Constraint {
-					$prototype = $this->getPrototype();
-					if ($prototype instanceof PrototypeInterfaces\ConstraintProducer) {
-						return UCall::guardExecution(
-							[$prototype, 'produceConstraint'], [$name, $properties],
-							function (&$value) use ($properties): bool {
-								if (isset($value)) {
-									$value = Components\Modifiers\Constraint::coerce(
-										$value, $properties, [$this, 'createConstraint']
-									);
-								}
-								return true;
-							}
-						);
-					}
-					return null;
-				}
+			Components\Modifiers\Constraint::produce(
+				$constraint, $properties,
+				$prototype instanceof PrototypeInterfaces\ConstraintProducer ? [$prototype, 'produceConstraint'] : null,
+				[$this, 'createConstraint']
 			)
 		);
 		
@@ -1014,26 +1000,12 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		]);
 		
 		//add
+		$prototype = $this->getPrototype();
 		$this->addModifier(
-			Components\Modifiers\Filter::coerce(
-				$filter, $properties, [$this, 'createFilter'],
-				function (string $name, array $properties): ?Components\Modifiers\Filter {
-					$prototype = $this->getPrototype();
-					if ($prototype instanceof PrototypeInterfaces\FilterProducer) {
-						return UCall::guardExecution(
-							[$prototype, 'produceFilter'], [$name, $properties],
-							function (&$value) use ($properties): bool {
-								if (isset($value)) {
-									$value = Components\Modifiers\Filter::coerce(
-										$value, $properties, [$this, 'createFilter']
-									);
-								}
-								return true;
-							}
-						);
-					}
-					return null;
-				}
+			Components\Modifiers\Filter::produce(
+				$filter, $properties,
+				$prototype instanceof PrototypeInterfaces\FilterProducer ? [$prototype, 'produceFilter'] : null,
+				[$this, 'createFilter']
 			)
 		);
 		
