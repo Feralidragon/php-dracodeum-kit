@@ -20,6 +20,15 @@ use Feralygon\Kit\Utilities\Text as UText;
  */
 class Filter extends Modifier
 {
+	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getType(): string
+	{
+		return 'filter';
+	}
+	
+	
+	
 	//Implemented protected methods
 	/** {@inheritdoc} */
 	protected function handleValueEvaluation(&$value): bool

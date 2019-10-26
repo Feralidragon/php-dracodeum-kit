@@ -18,6 +18,12 @@ class Minimum extends Constraints\Minimum
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'size';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Minimum allowed size", self::class, $text_options);

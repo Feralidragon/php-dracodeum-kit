@@ -53,6 +53,8 @@ foreach ($input->getModifiers() as $i => $modifier) {
 	if (isset($schema)) {
 		var_dump([
 			'name' => $schema->name,
+			'type' => $schema->type,
+			'subtype' => $schema->subtype,
 			'data' => $schema->data
 		]);
 	}

@@ -18,6 +18,12 @@ class Values extends Constraints\Values
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'size';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate

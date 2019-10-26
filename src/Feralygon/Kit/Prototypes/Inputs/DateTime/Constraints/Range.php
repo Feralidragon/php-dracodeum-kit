@@ -8,14 +8,24 @@
 namespace Feralygon\Kit\Prototypes\Inputs\DateTime\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype as ISubtype;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
 	Text as UText,
 	Time as UTime
 };
 
-class Range extends Constraints\Range
+class Range extends Constraints\Range implements ISubtype
 {
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'datetime';
+	}
+	
+	
+	
 	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string

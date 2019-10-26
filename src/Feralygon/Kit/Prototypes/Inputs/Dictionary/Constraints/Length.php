@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
+	Subtype as ISubtype,
 	Priority as IPriority,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -27,7 +28,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>The length to restrict a given dictionary to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
-class Length extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
+class Length extends Constraint implements IName, ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -49,6 +50,15 @@ class Length extends Constraint implements IName, IPriority, IInformation, IStri
 	public function getName(): string
 	{
 		return 'length';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'dictionary';
 	}
 	
 	

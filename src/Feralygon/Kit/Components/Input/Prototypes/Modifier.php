@@ -12,6 +12,7 @@ use Feralygon\Kit\Prototype;
 /**
  * @see \Feralygon\Kit\Components\Input\Components\Modifier
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name
+ * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Priority
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification

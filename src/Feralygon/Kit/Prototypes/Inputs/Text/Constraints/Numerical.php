@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
+	Subtype as ISubtype,
 	Information as IInformation,
 	SchemaData as ISchemaData
 };
@@ -26,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given text or string as Unicode.</p>
  */
-class Numerical extends Constraint implements IName, IInformation, ISchemaData
+class Numerical extends Constraint implements IName, ISubtype, IInformation, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -48,6 +49,15 @@ class Numerical extends Constraint implements IName, IInformation, ISchemaData
 	public function getName(): string
 	{
 		return 'numerical';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'text';
 	}
 	
 	

@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Vector\Filters;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
+	Subtype as ISubtype,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -27,7 +28,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>The length to truncate a given vector to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
-class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
+class Truncate extends Filter implements IName, ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -53,6 +54,15 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	public function getName(): string
 	{
 		return 'truncate';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'vector';
 	}
 	
 	

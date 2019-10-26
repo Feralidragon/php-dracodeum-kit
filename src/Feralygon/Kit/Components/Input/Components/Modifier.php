@@ -35,6 +35,19 @@ abstract class Modifier extends Component
 	
 	
 	
+	//Abstract public methods
+	/**
+	 * Get type.
+	 * 
+	 * The returning type is a canonical string.
+	 * 
+	 * @return string
+	 * <p>The type.</p>
+	 */
+	abstract public function getType(): string;
+	
+	
+	
 	//Abstract protected methods
 	/**
 	 * Handle the evaluation of a given value.
@@ -133,6 +146,20 @@ abstract class Modifier extends Component
 			throw new Exceptions\NameNotSet([$this, $prototype]);
 		}
 		return null;
+	}
+	
+	/**
+	 * Get subtype.
+	 * 
+	 * The returning subtype is a canonical string.
+	 * 
+	 * @return string|null
+	 * <p>The subtype or <code>null</code> if none is set.</p>
+	 */
+	public function getSubtype(): ?string
+	{
+		$prototype = $this->getPrototype();
+		return $prototype instanceof PrototypeInterfaces\Subtype ? $prototype->getSubtype() : null;
 	}
 	
 	/**
@@ -268,6 +295,8 @@ abstract class Modifier extends Component
 		if ($this->hasSchema()) {
 			return Structures\Schema::build([
 				'name' => $this->getName(),
+				'type' => $this->getType(),
+				'subtype' => $this->getSubtype(),
 				'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
 			])->setAsReadonly(true);
 		} elseif (!$no_throw) {

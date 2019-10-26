@@ -20,6 +20,15 @@ use Feralygon\Kit\Utilities\Text as UText;
  */
 class Constraint extends Modifier
 {
+	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getType(): string
+	{
+		return 'constraint';
+	}
+	
+	
+	
 	//Implemented protected methods
 	/** {@inheritdoc} */
 	protected function handleValueEvaluation(&$value): bool

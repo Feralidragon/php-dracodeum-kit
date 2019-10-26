@@ -18,6 +18,12 @@ class Maximum extends Constraints\Maximum
 {
 	//Overridden public methods
 	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'size';
+	}
+	
+	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
 		return UText::localize("Maximum allowed size", self::class, $text_options);

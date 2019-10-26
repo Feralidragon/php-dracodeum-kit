@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
+	Subtype as ISubtype,
 	Information as IInformation
 };
 use Feralygon\Kit\Primitives\Dictionary as Primitive;
@@ -17,7 +18,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /** This constraint prototype prevents a dictionary from being empty. */
-class NonEmpty extends Constraint implements IName, IInformation
+class NonEmpty extends Constraint implements IName, ISubtype, IInformation
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -33,6 +34,15 @@ class NonEmpty extends Constraint implements IName, IInformation
 	public function getName(): string
 	{
 		return 'non_empty';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'dictionary';
 	}
 	
 	

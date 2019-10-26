@@ -8,6 +8,7 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype as ISubtype;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
@@ -20,11 +21,20 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class Values extends Constraints\Values
+class Values extends Constraints\Values implements ISubtype
 {
 	//Protected properties
 	/** @var bool */
 	protected $unicode = false;
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'text';
+	}
 	
 	
 	

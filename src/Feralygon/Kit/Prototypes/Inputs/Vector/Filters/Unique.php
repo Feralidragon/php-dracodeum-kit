@@ -10,6 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Vector\Filters;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
 	Name as IName,
+	Subtype as ISubtype,
 	Information as IInformation
 };
 use Feralygon\Kit\Primitives\Vector as Primitive;
@@ -18,7 +19,7 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /** This filter prototype removes duplicated values from a vector. */
-class Unique extends Filter implements IName, IInformation
+class Unique extends Filter implements IName, ISubtype, IInformation
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -38,6 +39,15 @@ class Unique extends Filter implements IName, IInformation
 	public function getName(): string
 	{
 		return 'unique';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'vector';
 	}
 	
 	
