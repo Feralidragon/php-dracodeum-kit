@@ -34,7 +34,7 @@ use Feralygon\Kit\Utilities\{
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given input value to always be less than the maximum allowed value, but never equal.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction condition, so the given allowed range of values acts as a disallowed range of values instead.</p>
+ * <p>Negate the restriction condition, so the given allowed range of values behaves as a disallowed range of values instead.</p>
  */
 class Range extends Constraint implements IInformation, IStringification, ISchemaData
 {
