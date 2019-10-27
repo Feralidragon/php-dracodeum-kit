@@ -22,20 +22,21 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a set of allowed wildcard matches.
+ * This constraint prototype restricts a given input value to a set of allowed wildcard matches.
  * 
- * @property-write string[] $wildcards [writeonce] [transient] [coercive]
- * <p>The allowed wildcard matches to restrict a given value to.</p>
+ * @property-write string[] $values [writeonce] [transient] [coercive]
+ * <p>The allowed wildcard match values to restrict a given input value to.</p>
  * @property-write bool $insensitive [writeonce] [transient] [coercive] [default = false]
- * <p>Match the given wildcards in a case-insensitive manner.</p>
+ * <p>Match the given wildcard match values in a case-insensitive manner.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
+ * <p>Negate the restriction condition, 
+ * so the given allowed wildcard match values behave as disallowed wildcard match values instead.</p>
  */
 class Wildcards extends Constraint implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var string[] */
-	protected $wildcards;
+	protected $values;
 	
 	/** @var bool */
 	protected $insensitive = false;
@@ -56,7 +57,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	public function checkValue($value): bool
 	{
 		return UType::evaluateString($value) && 
-			UText::anyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
+			UText::anyWildcardsMatch($value, $this->values, $this->insensitive) !== $this->negate;
 	}
 	
 	
@@ -72,7 +73,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 				/** @tags end-user */
 				return UText::plocalize(
 					"Disallowed match", "Disallowed matches",
-					count($this->wildcards), null, self::class, $text_options
+					count($this->values), null, self::class, $text_options
 				);
 			}
 			
@@ -80,7 +81,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 			/** @tags non-end-user */
 			return UText::plocalize(
 				"Disallowed wildcard match", "Disallowed wildcard matches",
-				count($this->wildcards), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			);
 		}
 		
@@ -89,7 +90,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 			/** @tags end-user */
 			return UText::plocalize(
 				"Allowed match", "Allowed matches",
-				count($this->wildcards), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			);
 		}
 		
@@ -97,7 +98,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 		/** @tags non-end-user */
 		return UText::plocalize(
 			"Allowed wildcard match", "Allowed wildcard matches",
-			count($this->wildcards), null, self::class, $text_options
+			count($this->values), null, self::class, $text_options
 		);
 	}
 	
@@ -109,55 +110,55 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 		if ($this->negate) {
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/**
-				 * @placeholder wildcards The list of disallowed wildcard matches.
+				 * @placeholder values The list of disallowed wildcard match values.
 				 * @tags end-user
 				 * @example The following matches are not allowed: "*foo", "bar*" and "*abc*".
 				 */
 				$message = UText::plocalize(
-					"The following match is not allowed: {{wildcards}}.",
-					"The following matches are not allowed: {{wildcards}}.",
-					count($this->wildcards), null, self::class, $text_options, [
-						'parameters' => ['wildcards' => $this->getString($text_options)]
+					"The following match is not allowed: {{values}}.",
+					"The following matches are not allowed: {{values}}.",
+					count($this->values), null, self::class, $text_options, [
+						'parameters' => ['values' => $this->getString($text_options)]
 					]
 				);
 			} else {
 				/**
-				 * @placeholder wildcards The list of disallowed wildcard matches.
+				 * @placeholder values The list of disallowed wildcard match values.
 				 * @tags non-end-user
 				 * @example The following wildcard matches are not allowed: "*foo", "bar*" and "*abc*".
 				 */
 				$message = UText::plocalize(
-					"The following wildcard match is not allowed: {{wildcards}}.",
-					"The following wildcard matches are not allowed: {{wildcards}}.",
-					count($this->wildcards), null, self::class, $text_options, [
-						'parameters' => ['wildcards' => $this->getString($text_options)]
+					"The following wildcard match is not allowed: {{values}}.",
+					"The following wildcard matches are not allowed: {{values}}.",
+					count($this->values), null, self::class, $text_options, [
+						'parameters' => ['values' => $this->getString($text_options)]
 					]
 				);
 			}
 		} elseif ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @placeholder wildcards The list of allowed wildcard matches.
+			 * @placeholder values The list of allowed wildcard match values.
 			 * @tags end-user
-			 * @example Only the following matches are allowed: "*foo", "bar*" and "*abc*".
+			 * @example Only the following matches are allowed: "*foo", "bar*" or "*abc*".
 			 */
 			$message = UText::plocalize(
-				"Only the following match is allowed: {{wildcards}}.",
-				"Only the following matches are allowed: {{wildcards}}.",
-				count($this->wildcards), null, self::class, $text_options, [
-					'parameters' => ['wildcards' => $this->getString($text_options)]
+				"Only the following match is allowed: {{values}}.",
+				"Only the following matches are allowed: {{values}}.",
+				count($this->values), null, self::class, $text_options, [
+					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		} else {
 			/**
-			 * @placeholder wildcards The list of allowed wildcard matches.
+			 * @placeholder values The list of allowed wildcard match values.
 			 * @tags non-end-user
-			 * @example Only the following wildcard matches are allowed: "*foo", "bar*" and "*abc*".
+			 * @example Only the following wildcard matches are allowed: "*foo", "bar*" or "*abc*".
 			 */
 			$message = UText::plocalize(
-				"Only the following wildcard match is allowed: {{wildcards}}.",
-				"Only the following wildcard matches are allowed: {{wildcards}}.",
-				count($this->wildcards), null, self::class, $text_options, [
-					'parameters' => ['wildcards' => $this->getString($text_options)]
+				"Only the following wildcard match is allowed: {{values}}.",
+				"Only the following wildcard matches are allowed: {{values}}.",
+				count($this->values), null, self::class, $text_options, [
+					'parameters' => ['values' => $this->getString($text_options)]
 				]
 			);
 		}
@@ -218,7 +219,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::commify($this->wildcards, $text_options, 'and', true);
+		return UText::commify($this->values, $text_options, $this->negate ? 'and' : 'or', true);
 	}
 	
 	
@@ -228,7 +229,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	public function getSchemaData()
 	{
 		return [
-			'wildcards' => $this->wildcards,
+			'values' => $this->values,
 			'insensitive' => $this->insensitive,
 			'negate' => $this->negate
 		];
@@ -240,7 +241,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('wildcards');
+		$this->addRequiredPropertyName('values');
 	}
 	
 	
@@ -250,7 +251,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'wildcards':
+			case 'values':
 				return $this->createProperty()
 					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {

@@ -58,7 +58,7 @@ class Values extends Constraints\Values
 		//default
 		/**
 		 * @placeholder values The list of allowed size values.
-		 * @example Only the following sizes are allowed: 3 B, 8 kB and 27 MB.
+		 * @example Only the following sizes are allowed: 3 B, 8 kB or 27 MB.
 		 */
 		return UText::plocalize(
 			"Only the following size is allowed: {{values}}.",

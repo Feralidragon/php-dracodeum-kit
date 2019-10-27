@@ -62,7 +62,7 @@ class Values extends Constraints\Values implements ISubtype
 		//default
 		/**
 		 * @placeholder values The list of allowed hash values.
-		 * @example Only the following hashes are allowed: "b9b183b8", "13bf50b8" and "ac5139b4".
+		 * @example Only the following hashes are allowed: "b9b183b8", "13bf50b8" or "ac5139b4".
 		 */
 		return UText::plocalize(
 			"Only the following hash is allowed: {{values}}.",

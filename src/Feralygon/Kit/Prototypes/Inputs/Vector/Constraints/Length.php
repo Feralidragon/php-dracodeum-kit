@@ -22,17 +22,17 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This constraint prototype restricts a vector to an exact length.
+ * This constraint prototype restricts a given vector input value to an exact length.
  * 
- * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to restrict a given vector to.<br>
+ * @property-write int $value [writeonce] [transient] [coercive]
+ * <p>The length value to restrict a given vector input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
 class Length extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
-	protected $length;
+	protected $value;
 	
 	
 	
@@ -46,7 +46,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->length : false;
+		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->value : false;
 	}
 	
 	
@@ -82,27 +82,27 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 		//end-user
 		if ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/**
-			 * @placeholder length The allowed length.
+			 * @placeholder value The allowed length value.
 			 * @tags end-user
 			 * @example Only exactly 10 items are allowed.
 			 */
 			return UText::plocalize(
-				"Only exactly {{length}} item is allowed.",
-				"Only exactly {{length}} items are allowed.",
-				$this->length, 'length', self::class, $text_options
+				"Only exactly {{value}} item is allowed.",
+				"Only exactly {{value}} items are allowed.",
+				$this->value, 'value', self::class, $text_options
 			);
 		}
 		
 		//non-end-user
 		/**
-		 * @placeholder length The allowed length.
+		 * @placeholder value The allowed length value.
 		 * @tags non-end-user
 		 * @example Only exactly 10 values are allowed.
 		 */
 		return UText::plocalize(
-			"Only exactly {{length}} value is allowed.",
-			"Only exactly {{length}} values are allowed.",
-			$this->length, 'length', self::class, $text_options
+			"Only exactly {{value}} value is allowed.",
+			"Only exactly {{value}} values are allowed.",
+			$this->value, 'value', self::class, $text_options
 		);
 	}
 	
@@ -112,7 +112,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->length, $text_options);
+		return UText::stringify($this->value, $text_options);
 	}
 	
 	
@@ -122,7 +122,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	public function getSchemaData()
 	{
 		return [
-			'length' => $this->length
+			'value' => $this->value
 		];
 	}
 	
@@ -132,7 +132,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('length');
+		$this->addRequiredPropertyName('value');
 	}
 	
 	
@@ -142,7 +142,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'length':
+			case 'value':
 				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 		}
 		return null;

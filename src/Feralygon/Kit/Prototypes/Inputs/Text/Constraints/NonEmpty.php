@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\{
 	Type as UType
 };
 
-/** This constraint prototype prevents a text or string from being empty. */
+/** This constraint prototype prevents a given text input value from being empty. */
 class NonEmpty extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods

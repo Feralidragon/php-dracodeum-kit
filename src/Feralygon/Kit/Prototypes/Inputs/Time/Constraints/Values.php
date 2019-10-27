@@ -62,7 +62,7 @@ class Values extends Constraints\Values implements ISubtype
 		//default
 		/**
 		 * @placeholder values The list of allowed time values.
-		 * @example Only the following times are allowed: 03:00:00, 12:45:00 and 17:20:00.
+		 * @example Only the following times are allowed: 03:00:00, 12:45:00 or 17:20:00.
 		 */
 		return UText::plocalize(
 			"Only the following time is allowed: {{values}}.",

@@ -22,7 +22,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a text or string to an identifier format.
+ * This constraint prototype restricts a given text input value to an identifier format.
  * 
  * @property-write bool $extended [writeonce] [transient] [coercive] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>

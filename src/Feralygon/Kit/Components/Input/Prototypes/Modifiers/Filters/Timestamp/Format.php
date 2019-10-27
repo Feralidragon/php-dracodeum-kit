@@ -16,14 +16,15 @@ use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Time as UTime;
 
 /**
- * This filter prototype converts a timestamp value into a string or object using a specific format.
+ * This filter prototype converts a given input timestamp value into a string or object using a specific format.
  * 
- * @property-write string $format [writeonce] [transient] [coercive]
- * <p>The format to convert a given timestamp value into, as supported by the PHP <code>date</code> function, 
+ * @property-write string $value [writeonce] [transient] [coercive]
+ * <p>The format value to convert a given input timestamp value into, 
+ * as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
  * It cannot be empty.</p>
  * @property-write string|null $timezone [writeonce] [transient] [coercive] [default = null]
- * <p>The timezone to convert a given timestamp value into, 
+ * <p>The timezone to convert a given input timestamp value into, 
  * as supported by the PHP <code>date_default_timezone_set</code> function.<br>
  * If not set, then the currently set default timezone is used.<br>
  * If set, then it cannot be empty.</p>
@@ -36,7 +37,7 @@ class Format extends Filter implements ISubtype, ISchemaData
 {
 	//Protected properties
 	/** @var string */
-	protected $format;
+	protected $value;
 	
 	/** @var string|null */
 	protected $timezone = null;
@@ -53,7 +54,7 @@ class Format extends Filter implements ISubtype, ISchemaData
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		$value = UTime::format($value, $this->format, $this->timezone, true);
+		$value = UTime::format($value, $this->value, $this->timezone, true);
 		return isset($value);
 	}
 	
@@ -73,7 +74,7 @@ class Format extends Filter implements ISubtype, ISchemaData
 	public function getSchemaData()
 	{
 		return [
-			'format' => $this->format,
+			'value' => $this->value,
 			'timezone' => $this->timezone
 		];
 	}
@@ -84,7 +85,7 @@ class Format extends Filter implements ISubtype, ISchemaData
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('format');
+		$this->addRequiredPropertyName('value');
 	}
 	
 	
@@ -94,7 +95,7 @@ class Format extends Filter implements ISubtype, ISchemaData
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'format':
+			case 'value':
 				return $this->createProperty()->setMode('w--')->setAsString(true)->bind(self::class);
 			case 'timezone':
 				return $this->createProperty()->setMode('w--')->setAsString(true, true)->bind(self::class);

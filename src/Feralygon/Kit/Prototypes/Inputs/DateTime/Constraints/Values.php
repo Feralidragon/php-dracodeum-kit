@@ -64,7 +64,7 @@ class Values extends Constraints\Values implements ISubtype
 		/**
 		 * @placeholder values The list of allowed date and time values.
 		 * @example Only the following dates and times are allowed: \
-		 * 2017-01-15 12:45:00, 2017-01-17 17:20:00 and 2017-01-18 03:00:00.
+		 * 2017-01-15 12:45:00, 2017-01-17 17:20:00 or 2017-01-18 03:00:00.
 		 */
 		return UText::plocalize(
 			"Only the following date and time is allowed: {{values}}.",

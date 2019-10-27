@@ -21,10 +21,10 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a text or string to numerical characters.
+ * This constraint prototype restricts a given text input value to numerical characters.
  * 
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Check a given text or string as Unicode.</p>
+ * <p>Check a given text input value as Unicode.</p>
  */
 class Numerical extends Constraint implements ISubtype, IInformation, ISchemaData
 {

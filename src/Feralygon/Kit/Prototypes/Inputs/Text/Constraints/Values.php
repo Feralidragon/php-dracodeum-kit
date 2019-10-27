@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\{
 
 /**
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Check a given value as Unicode.</p>
+ * <p>Check a given text input value as Unicode.</p>
  */
 class Values extends Constraints\Values implements ISubtype
 {
@@ -172,7 +172,7 @@ class Values extends Constraints\Values implements ISubtype
 			/**
 			 * @placeholder values The list of allowed text values.
 			 * @tags technical
-			 * @example Only the following strings are allowed: "foo", "bar" and "abc".
+			 * @example Only the following strings are allowed: "foo", "bar" or "abc".
 			 */
 			return UText::plocalize(
 				"Only the following string is allowed: {{values}}.",
@@ -188,7 +188,7 @@ class Values extends Constraints\Values implements ISubtype
 			/**
 			 * @placeholder values The list of allowed text values.
 			 * @tags non-technical
-			 * @example Only the following words are allowed: "foo", "bar" and "abc".
+			 * @example Only the following words are allowed: "foo", "bar" or "abc".
 			 */
 			return UText::plocalize(
 				"Only the following word is allowed: {{values}}.",
@@ -203,7 +203,7 @@ class Values extends Constraints\Values implements ISubtype
 		/**
 		 * @placeholder values The list of allowed text values.
 		 * @tags non-technical
-		 * @example Only the following texts are allowed: "foo", "bar" and "abc".
+		 * @example Only the following texts are allowed: "foo", "bar" or "abc".
 		 */
 		return UText::plocalize(
 			"Only the following text is allowed: {{values}}.",

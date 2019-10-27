@@ -16,10 +16,10 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This filter prototype converts a value to uppercase.
+ * This filter prototype converts a given input value to uppercase.
  * 
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Convert a given value as Unicode.</p>
+ * <p>Convert a given input value as Unicode.</p>
  */
 class Uppercase extends Filter implements ISchemaData
 {

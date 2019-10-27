@@ -62,7 +62,7 @@ class Values extends Constraints\Values implements ISubtype
 		//default
 		/**
 		 * @placeholder values The list of allowed number values.
-		 * @example Only the following numbers are allowed: 3, 8 and 27.
+		 * @example Only the following numbers are allowed: 3, 8 or 27.
 		 */
 		return UText::plocalize(
 			"Only the following number is allowed: {{values}}.",

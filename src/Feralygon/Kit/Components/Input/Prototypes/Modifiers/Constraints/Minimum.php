@@ -21,13 +21,13 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a minimum value.
+ * This constraint prototype restricts a given input value to a minimum value.
  * 
  * @property-write mixed $value [writeonce] [transient]
- * <p>The minimum allowed value to restrict a given value to (inclusive).</p>
+ * <p>The minimum allowed value to restrict a given input value to (inclusive).</p>
  * @property-write bool $exclusive [writeonce] [transient] [coercive] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
- * restricting a given value to always be greater than the minimum allowed value, but never equal.</p>
+ * restricting a given input value to always be greater than the minimum allowed value, but never equal.</p>
  */
 class Minimum extends Constraint implements IInformation, IStringification, ISchemaData
 {

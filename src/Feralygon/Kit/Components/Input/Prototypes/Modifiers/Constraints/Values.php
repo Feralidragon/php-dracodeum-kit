@@ -18,12 +18,12 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This constraint prototype restricts a value to a set of allowed values.
+ * This constraint prototype restricts a given input value to a set of allowed values.
  * 
  * @property-write array $values [writeonce] [transient] [coercive]
- * <p>The allowed values to restrict a given value to.</p>
+ * <p>The allowed values to restrict a given input value to.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
+ * <p>Negate the restriction condition, so the given allowed values behave as disallowed values instead.</p>
  */
 class Values extends Constraint implements IInformation, IStringification, ISchemaData
 {
@@ -87,7 +87,7 @@ class Values extends Constraint implements IInformation, IStringification, ISche
 		//default
 		/**
 		 * @placeholder values The list of allowed values.
-		 * @example Only the following values are allowed: "foo", "bar" and "abc".
+		 * @example Only the following values are allowed: "foo", "bar" or "abc".
 		 */
 		return UText::plocalize(
 			"Only the following value is allowed: {{values}}.",
@@ -108,7 +108,7 @@ class Values extends Constraint implements IInformation, IStringification, ISche
 		foreach ($this->values as $value) {
 			$strings[] = $this->stringifyValue($value, $text_options);
 		}
-		return UText::commify($strings, $text_options, 'and');
+		return UText::commify($strings, $text_options, $this->negate ? 'and' : 'or');
 	}
 	
 	

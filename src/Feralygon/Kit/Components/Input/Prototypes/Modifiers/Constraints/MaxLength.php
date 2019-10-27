@@ -22,19 +22,19 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a maximum length.
+ * This constraint prototype restricts a given input value to a maximum length.
  * 
- * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The maximum length to restrict a given value to.<br>
+ * @property-write int $value [writeonce] [transient] [coercive]
+ * <p>The maximum length value to restrict a given input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Check a given value as Unicode.</p>
+ * <p>Check a given input value as Unicode.</p>
  */
 class MaxLength extends Constraint implements IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
-	protected $length;
+	protected $value;
 	
 	/** @var bool */
 	protected $unicode = false;
@@ -51,7 +51,7 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return UType::evaluateString($value) && UText::length($value, $this->unicode) <= $this->length;
+		return UType::evaluateString($value) && UText::length($value, $this->unicode) <= $this->value;
 	}
 	
 	
@@ -76,13 +76,13 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	public function getMessage(TextOptions $text_options): string
 	{
 		/**
-		 * @placeholder length The maximum allowed length.
+		 * @placeholder value The maximum allowed length value.
 		 * @example Only a maximum of 10 characters are allowed.
 		 */
 		return UText::plocalize(
-			"Only a maximum of {{length}} character is allowed.",
-			"Only a maximum of {{length}} characters are allowed.",
-			$this->length, 'length', self::class, $text_options
+			"Only a maximum of {{value}} character is allowed.",
+			"Only a maximum of {{value}} characters are allowed.",
+			$this->value, 'value', self::class, $text_options
 		);
 	}
 	
@@ -92,7 +92,7 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->length, $text_options);
+		return UText::stringify($this->value, $text_options);
 	}
 	
 	
@@ -102,7 +102,7 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	public function getSchemaData()
 	{
 		return [
-			'length' => $this->length,
+			'value' => $this->value,
 			'unicode' => $this->unicode
 		];
 	}
@@ -113,7 +113,7 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('length');
+		$this->addRequiredPropertyName('value');
 	}
 	
 	
@@ -123,7 +123,7 @@ class MaxLength extends Constraint implements IPriority, IInformation, IStringif
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'length':
+			case 'value':
 				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
 				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);

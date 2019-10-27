@@ -22,19 +22,19 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a number to a set of allowed powers.
+ * This constraint prototype restricts a given number input value to a set of allowed powers.
  * 
- * @property-write int[]|float[] $powers [writeonce] [transient] [coercive]
- * <p>The allowed powers to restrict a given number to.<br>
+ * @property-write int[]|float[] $values [writeonce] [transient] [coercive]
+ * <p>The allowed power values to restrict a given number input value to.<br>
  * They must all be greater than <code>0</code>.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>
+ * <p>Negate the restriction condition, so the given allowed power values behave as disallowed power values instead.</p>
  */
 class Powers extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int[]|float[] */
-	protected $powers;
+	protected $values;
 	
 	/** @var bool */
 	protected $negate = false;
@@ -52,8 +52,8 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	public function checkValue($value): bool
 	{
 		if (UType::evaluateNumber($value)) {
-			foreach ($this->powers as $power) {
-				$f = log($value, $power);
+			foreach ($this->values as $v) {
+				$f = log($value, $v);
 				if ($f === floor($f)) {
 					return !$this->negate;
 				}
@@ -81,11 +81,11 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 		return $this->negate
 			? UText::plocalize(
 				"Disallowed power", "Disallowed powers",
-				count($this->powers), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			)
 			: UText::plocalize(
 				"Allowed power", "Allowed powers",
-				count($this->powers), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			);
 	}
 	
@@ -93,28 +93,28 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	public function getMessage(TextOptions $text_options): string
 	{
 		//initialize
-		$powers_string = UText::commify($this->powers, $text_options, 'or');
+		$values_string = UText::commify($this->values, $text_options, 'or');
 		
 		//negate
 		if ($this->negate) {
 			/**
-			 * @placeholder powers The list of disallowed powers.
+			 * @placeholder values The list of disallowed power values.
 			 * @example A power of 2, 3 or 5 is not allowed.
 			 */
 			return UText::localize(
-				"A power of {{powers}} is not allowed.",
-				self::class, $text_options, ['parameters' => ['powers' => $powers_string]]
+				"A power of {{values}} is not allowed.",
+				self::class, $text_options, ['parameters' => ['values' => $values_string]]
 			);
 		}
 		
 		//default
 		/**
-		 * @placeholder powers The list of allowed powers.
+		 * @placeholder values The list of allowed power values.
 		 * @example Only a power of 2, 3 or 5 is allowed.
 		 */
 		return UText::localize(
-			"Only a power of {{powers}} is allowed.",
-			self::class, $text_options, ['parameters' => ['powers' => $powers_string]]
+			"Only a power of {{values}} is allowed.",
+			self::class, $text_options, ['parameters' => ['values' => $values_string]]
 		);
 	}
 	
@@ -124,7 +124,7 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::commify($this->powers, $text_options, 'and');
+		return UText::commify($this->values, $text_options, $this->negate ? 'and' : 'or');
 	}
 	
 	
@@ -134,7 +134,7 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	public function getSchemaData()
 	{
 		return [
-			'powers' => $this->powers,
+			'values' => $this->values,
 			'negate' => $this->negate
 		];
 	}
@@ -145,7 +145,7 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('powers');
+		$this->addRequiredPropertyName('values');
 	}
 	
 	
@@ -155,7 +155,7 @@ class Powers extends Constraint implements ISubtype, IInformation, IStringificat
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'powers':
+			case 'values':
 				return $this->createProperty()
 					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {

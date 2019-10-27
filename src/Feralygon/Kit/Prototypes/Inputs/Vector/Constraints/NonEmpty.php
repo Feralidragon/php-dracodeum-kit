@@ -17,7 +17,7 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
-/** This constraint prototype prevents a vector from being empty. */
+/** This constraint prototype prevents a given vector input value from being empty. */
 class NonEmpty extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods

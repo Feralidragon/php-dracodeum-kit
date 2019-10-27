@@ -10,7 +10,7 @@ namespace Feralygon\Kit\Prototypes\Inputs\Hash\Filters;
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype as ISubtype;
 
-/** This filter prototype converts a hash to uppercase. */
+/** This filter prototype converts a given hash input value to uppercase. */
 class Uppercase extends Filter implements ISubtype
 {
 	//Implemented public methods

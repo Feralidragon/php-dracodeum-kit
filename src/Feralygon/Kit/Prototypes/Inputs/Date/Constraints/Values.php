@@ -62,7 +62,7 @@ class Values extends Constraints\Values implements ISubtype
 		//default
 		/**
 		 * @placeholder values The list of allowed date values.
-		 * @example Only the following dates are allowed: 2017-01-15, 2017-01-17 and 2017-01-18.
+		 * @example Only the following dates are allowed: 2017-01-15, 2017-01-17 or 2017-01-18.
 		 */
 		return UText::plocalize(
 			"Only the following date is allowed: {{values}}.",

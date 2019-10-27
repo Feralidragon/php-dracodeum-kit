@@ -23,7 +23,7 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a text or string to a Base64 format.
+ * This constraint prototype restricts a given text input value to a Base64 format.
  * 
  * @property-write bool|null $url_safe [writeonce] [transient] [coercive] [default = null]
  * <p>Allow or disallow the URL-safe format only, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) 

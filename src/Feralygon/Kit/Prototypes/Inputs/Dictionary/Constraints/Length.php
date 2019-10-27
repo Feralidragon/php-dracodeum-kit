@@ -21,17 +21,17 @@ use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This constraint prototype restricts a dictionary to an exact length.
+ * This constraint prototype restricts a given dictionary input value to an exact length.
  * 
- * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to restrict a given dictionary to.<br>
+ * @property-write int $value [writeonce] [transient] [coercive]
+ * <p>The length value to restrict a given dictionary input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
 class Length extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
-	protected $length;
+	protected $value;
 	
 	
 	
@@ -45,7 +45,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->length : false;
+		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->value : false;
 	}
 	
 	
@@ -79,13 +79,13 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	public function getMessage(TextOptions $text_options): string
 	{
 		/**
-		 * @placeholder length The allowed length.
+		 * @placeholder value The allowed length value.
 		 * @example Only exactly 10 key-value pairs are allowed.
 		 */
 		return UText::plocalize(
-			"Only exactly {{length}} key-value pair is allowed.",
-			"Only exactly {{length}} key-value pairs are allowed.",
-			$this->length, 'length', self::class, $text_options
+			"Only exactly {{value}} key-value pair is allowed.",
+			"Only exactly {{value}} key-value pairs are allowed.",
+			$this->value, 'value', self::class, $text_options
 		);
 	}
 	
@@ -95,7 +95,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::stringify($this->length, $text_options);
+		return UText::stringify($this->value, $text_options);
 	}
 	
 	
@@ -105,7 +105,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	public function getSchemaData()
 	{
 		return [
-			'length' => $this->length
+			'value' => $this->value
 		];
 	}
 	
@@ -115,7 +115,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('length');
+		$this->addRequiredPropertyName('value');
 	}
 	
 	
@@ -125,7 +125,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'length':
+			case 'value':
 				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 		}
 		return null;

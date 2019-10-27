@@ -22,19 +22,20 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a number to a set of allowed multiples.
+ * This constraint prototype restricts a given number input value to a set of allowed multiples.
  * 
- * @property-write int[]|float[] $multiples [writeonce] [transient] [coercive]
- * <p>The allowed multiples to restrict a given number to.<br>
+ * @property-write int[]|float[] $values [writeonce] [transient] [coercive]
+ * <p>The allowed multiple values to restrict a given number input value to.<br>
  * They must all be different from <code>0</code>.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
+ * <p>Negate the restriction condition, 
+ * so the given allowed multiple values behave as disallowed multiple values instead.</p>
  */
 class Multiples extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int[]|float[] */
-	protected $multiples;
+	protected $values;
 	
 	/** @var bool */
 	protected $negate = false;
@@ -52,11 +53,11 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	public function checkValue($value): bool
 	{
 		if (UType::evaluateNumber($value)) {
-			foreach ($this->multiples as $multiple) {
-				if (is_int($multiple) && is_int($value) && $value % $multiple === 0) {
+			foreach ($this->values as $v) {
+				if (is_int($v) && is_int($value) && $value % $v === 0) {
 					return !$this->negate;
-				} elseif (is_float($multiple) || is_float($value)) {
-					$f = (float)$value / (float)$multiple;
+				} elseif (is_float($v) || is_float($value)) {
+					$f = (float)$value / (float)$v;
 					if ($f === floor($f)) {
 						return !$this->negate;
 					}
@@ -85,11 +86,11 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 		return $this->negate
 			? UText::plocalize(
 				"Disallowed multiple", "Disallowed multiples",
-				count($this->multiples), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			)
 			: UText::plocalize(
 				"Allowed multiple", "Allowed multiples",
-				count($this->multiples), null, self::class, $text_options
+				count($this->values), null, self::class, $text_options
 			);
 	}
 	
@@ -97,28 +98,28 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	public function getMessage(TextOptions $text_options): string
 	{
 		//initialize
-		$multiples_string = UText::commify($this->multiples, $text_options, 'or');
+		$values_string = UText::commify($this->values, $text_options, 'or');
 		
 		//negate
 		if ($this->negate) {
 			/**
-			 * @placeholder multiples The list of disallowed multiples.
+			 * @placeholder values The list of disallowed multiple values.
 			 * @example A multiple of 2, 3 or 5 is not allowed.
 			 */
 			return UText::localize(
-				"A multiple of {{multiples}} is not allowed.",
-				self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]
+				"A multiple of {{values}} is not allowed.",
+				self::class, $text_options, ['parameters' => ['values' => $values_string]]
 			);
 		}
 		
 		//default
 		/**
-		 * @placeholder multiples The list of allowed multiples.
+		 * @placeholder values The list of allowed multiple values.
 		 * @example Only a multiple of 2, 3 or 5 is allowed.
 		 */
 		return UText::localize(
-			"Only a multiple of {{multiples}} is allowed.",
-			self::class, $text_options, ['parameters' => ['multiples' => $multiples_string]]
+			"Only a multiple of {{values}} is allowed.",
+			self::class, $text_options, ['parameters' => ['values' => $values_string]]
 		);
 	}
 	
@@ -128,7 +129,7 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	/** {@inheritdoc} */
 	public function getString(TextOptions $text_options): string
 	{
-		return UText::commify($this->multiples, $text_options, 'and');
+		return UText::commify($this->values, $text_options, $this->negate ? 'and' : 'or');
 	}
 	
 	
@@ -138,7 +139,7 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	public function getSchemaData()
 	{
 		return [
-			'multiples' => $this->multiples,
+			'values' => $this->values,
 			'negate' => $this->negate
 		];
 	}
@@ -149,7 +150,7 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyName('multiples');
+		$this->addRequiredPropertyName('values');
 	}
 	
 	
@@ -159,7 +160,7 @@ class Multiples extends Constraint implements ISubtype, IInformation, IStringifi
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'multiples':
+			case 'values':
 				return $this->createProperty()
 					->setMode('w--')
 					->setAsArray(function (&$key, &$value): bool {

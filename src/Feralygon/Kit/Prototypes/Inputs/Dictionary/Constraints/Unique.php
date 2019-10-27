@@ -19,7 +19,7 @@ use Feralygon\Kit\Utilities\{
 	Text as UText
 };
 
-/** This constraint prototype restricts a dictionary to unique values. */
+/** This constraint prototype restricts a given dictionary input value to unique values. */
 class Unique extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods

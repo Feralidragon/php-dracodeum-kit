@@ -21,10 +21,10 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /**
- * This filter prototype truncates a vector to a specific length.
+ * This filter prototype truncates a given vector input value to a specific length.
  * 
  * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to truncate a given vector to.<br>
+ * <p>The length to truncate a given vector input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
 class Truncate extends Filter implements ISubtype, IInformation, IStringification, ISchemaData

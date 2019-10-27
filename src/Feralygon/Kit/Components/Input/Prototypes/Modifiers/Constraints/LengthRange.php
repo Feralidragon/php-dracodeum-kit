@@ -22,25 +22,25 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a range of lengths.
+ * This constraint prototype restricts a given input value to a range of lengths.
  * 
- * @property-write int $min_length [writeonce] [transient] [coercive]
- * <p>The minimum length to restrict a given value to.<br>
+ * @property-write int $min_value [writeonce] [transient] [coercive]
+ * <p>The minimum length value to restrict a given input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
- * @property-write int $max_length [writeonce] [transient] [coercive]
- * <p>The maximum length to restrict a given value to.<br>
+ * @property-write int $max_value [writeonce] [transient] [coercive]
+ * <p>The maximum length value to restrict a given input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Check a given value as Unicode.</p>
+ * <p>Check a given input value as Unicode.</p>
  */
 class LengthRange extends Constraint implements IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
-	protected $min_length;
+	protected $min_value;
 	
 	/** @var int */
-	protected $max_length;
+	protected $max_value;
 	
 	/** @var bool */
 	protected $unicode = false;
@@ -59,7 +59,7 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	{
 		if (UType::evaluateString($value)) {
 			$length = UText::length($value, $this->unicode);
-			return $length >= $this->min_length && $length <= $this->max_length;
+			return $length >= $this->min_value && $length <= $this->max_value;
 		}
 		return false;
 	}
@@ -86,15 +86,15 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	public function getMessage(TextOptions $text_options): string
 	{
 		/**
-		 * @placeholder min_length The minimum allowed length.
-		 * @placeholder max_length The maximum allowed length.
+		 * @placeholder min_value The minimum allowed length value.
+		 * @placeholder max_value The maximum allowed length value.
 		 * @example Only between 5 and 10 characters are allowed.
 		 */
 		return UText::plocalize(
-			"Only between {{min_length}} and {{max_length}} character is allowed.",
-			"Only between {{min_length}} and {{max_length}} characters are allowed.",
-			$this->max_length, 'max_length', self::class, $text_options, [
-				'parameters' => ['min_length' => $this->min_length]
+			"Only between {{min_value}} and {{max_value}} character is allowed.",
+			"Only between {{min_value}} and {{max_value}} characters are allowed.",
+			$this->max_value, 'max_value', self::class, $text_options, [
+				'parameters' => ['min_value' => $this->min_value]
 			]
 		);
 	}
@@ -106,14 +106,14 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	public function getString(TextOptions $text_options): string
 	{
 		/**
-		 * @placeholder min_length The minimum allowed length.
-		 * @placeholder max_length The maximum allowed length.
+		 * @placeholder min_value The minimum allowed length value.
+		 * @placeholder max_value The maximum allowed length value.
 		 * @example 5 to 10
 		 */
 		return UText::localize(
-			"{{min_length}} to {{max_length}}",
+			"{{min_value}} to {{max_value}}",
 			self::class, $text_options, [
-				'parameters' => ['min_length' => $this->min_length, 'max_length' => $this->max_length]
+				'parameters' => ['min_value' => $this->min_value, 'max_value' => $this->max_value]
 			]
 		);
 	}
@@ -125,11 +125,9 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	public function getSchemaData()
 	{
 		return [
-			'minimum' => [
-				'length' => $this->min_length
-			],
-			'maximum' => [
-				'length' => $this->max_length
+			'values' => [
+				'minimum' => $this->min_value,
+				'maximum' => $this->max_value
 			],
 			'unicode' => $this->unicode
 		];
@@ -141,7 +139,7 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	/** {@inheritdoc} */
 	protected function loadRequiredPropertyNames(): void
 	{
-		$this->addRequiredPropertyNames(['min_length', 'max_length']);
+		$this->addRequiredPropertyNames(['min_value', 'max_value']);
 	}
 	
 	
@@ -151,9 +149,9 @@ class LengthRange extends Constraint implements IPriority, IInformation, IString
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'min_length':
+			case 'min_value':
 				//no break
-			case 'max_length':
+			case 'max_value':
 				return $this->createProperty()->setMode('w--')->setAsInteger(true)->bind(self::class);
 			case 'unicode':
 				return $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class);

@@ -21,22 +21,22 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This filter prototype truncates a value to a specific length.
+ * This filter prototype truncates a given input value to a specific length.
  * 
  * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to truncate a given value to.<br>
+ * <p>The length to truncate a given input value to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Handle a given value as Unicode.</p>
+ * <p>Handle a given input value as Unicode.</p>
  * @property-write bool $ellipsis [writeonce] [transient] [coercive] [default = false]
- * <p>Add an ellipsis at the end of the truncated value.</p>
+ * <p>Add an ellipsis at the end of the truncated input value.</p>
  * @property-write string|null $ellipsis_string [writeonce] [coercive] [default = null]
  * <p>The ellipsis string to use.<br>
  * If not set, then the internal default ellipsis string is used.</p>
  * @property-write bool $keep_words [writeonce] [transient] [coercive] [default = false]
- * <p>Try to keep words preserved in the truncated value.</p>
+ * <p>Try to keep words preserved in the truncated input value.</p>
  * @property-write bool $keep_sentences [writeonce] [transient] [coercive] [default = false]
- * <p>Try to keep sentences preserved in the truncated value.</p>
+ * <p>Try to keep sentences preserved in the truncated input value.</p>
  */
 class Truncate extends Filter implements IInformation, IStringification, ISchemaData
 {

@@ -16,7 +16,7 @@ use Feralygon\Kit\Primitives\Dictionary as Primitive;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\Text as UText;
 
-/** This constraint prototype prevents a dictionary from being empty. */
+/** This constraint prototype prevents a given dictionary input value from being empty. */
 class NonEmpty extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods

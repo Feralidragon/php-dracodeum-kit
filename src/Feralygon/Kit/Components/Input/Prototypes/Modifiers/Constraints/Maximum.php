@@ -21,13 +21,13 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a value to a maximum value.
+ * This constraint prototype restricts a given input value to a maximum value.
  * 
  * @property-write mixed $value [writeonce] [transient]
- * <p>The maximum allowed value to restrict a given value to (inclusive).</p>
+ * <p>The maximum allowed value to restrict a given input value to (inclusive).</p>
  * @property-write bool $exclusive [writeonce] [transient] [coercive] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
- * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
+ * restricting a given input value to always be less than the maximum allowed value, but never equal.</p>
  */
 class Maximum extends Constraint implements IInformation, IStringification, ISchemaData
 {

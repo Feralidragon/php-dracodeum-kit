@@ -22,10 +22,10 @@ use Feralygon\Kit\Utilities\{
 };
 
 /**
- * This constraint prototype restricts a text or string to alphanumerical characters.
+ * This constraint prototype restricts a given text input value to alphanumerical characters.
  * 
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
- * <p>Check a given text or string as Unicode.</p>
+ * <p>Check a given text input value as Unicode.</p>
  */
 class Alphanumerical extends Constraint implements ISubtype, IInformation, ISchemaData
 {
