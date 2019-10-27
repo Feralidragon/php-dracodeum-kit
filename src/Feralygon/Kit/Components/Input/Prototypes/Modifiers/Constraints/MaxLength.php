@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Priority as IPriority,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -31,7 +30,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class MaxLength extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
+class MaxLength extends Constraint implements IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -44,18 +43,15 @@ class MaxLength extends Constraint implements IName, IPriority, IInformation, IS
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && UText::length($value, $this->unicode) <= $this->length;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'max_length';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && UText::length($value, $this->unicode) <= $this->length;
 	}
 	
 	

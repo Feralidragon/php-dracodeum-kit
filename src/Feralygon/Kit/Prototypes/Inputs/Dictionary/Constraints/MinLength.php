@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Dictionary\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Priority as IPriority,
 	Information as IInformation,
@@ -28,7 +27,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * <p>The minimum length to restrict a given dictionary to.<br>
  * It must be greater than or equal to <code>0</code>.</p>
  */
-class MinLength extends Constraint implements IName, ISubtype, IPriority, IInformation, IStringification, ISchemaData
+class MinLength extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -38,18 +37,15 @@ class MinLength extends Constraint implements IName, ISubtype, IPriority, IInfor
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return is_object($value) && $value instanceof Primitive ? $value->count() >= $this->length : false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'min_length';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return is_object($value) && $value instanceof Primitive ? $value->count() >= $this->length : false;
 	}
 	
 	

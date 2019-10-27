@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation,
 	SchemaData as ISchemaData
@@ -28,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $extended [writeonce] [transient] [coercive] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
  */
-class Identifier extends Constraint implements IName, ISubtype, IInformation, ISchemaData
+class Identifier extends Constraint implements ISubtype, IInformation, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -38,18 +37,15 @@ class Identifier extends Constraint implements IName, ISubtype, IInformation, IS
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && UText::isIdentifier($value, $this->extended);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'identifier';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && UText::isIdentifier($value, $this->extended);
 	}
 	
 	

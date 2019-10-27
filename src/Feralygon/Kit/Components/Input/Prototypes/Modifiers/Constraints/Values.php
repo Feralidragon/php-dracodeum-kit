@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -26,7 +25,7 @@ use Feralygon\Kit\Utilities\Text as UText;
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed values act as disallowed values instead.</p>
  */
-class Values extends Constraint implements IName, IInformation, IStringification, ISchemaData
+class Values extends Constraint implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var array */
@@ -39,18 +38,15 @@ class Values extends Constraint implements IName, IInformation, IStringification
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return in_array($value, $this->values, true) !== $this->negate;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'values';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return in_array($value, $this->values, true) !== $this->negate;
 	}
 	
 	

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -39,7 +38,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $keep_sentences [writeonce] [transient] [coercive] [default = false]
  * <p>Try to keep sentences preserved in the truncated value.</p>
  */
-class Truncate extends Filter implements IName, IInformation, IStringification, ISchemaData
+class Truncate extends Filter implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -64,6 +63,12 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'truncate';
+	}
+	
+	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
 		if (UType::evaluateString($value)) {
@@ -77,15 +82,6 @@ class Truncate extends Filter implements IName, IInformation, IStringification, 
 			return true;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'truncate';
 	}
 	
 	

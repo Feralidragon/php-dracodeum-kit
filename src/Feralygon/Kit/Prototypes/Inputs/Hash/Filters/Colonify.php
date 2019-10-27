@@ -8,6 +8,10 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
+	Subtype as ISubtype,
+	SchemaData as ISchemaData
+};
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Hash as UHash;
 
@@ -17,7 +21,7 @@ use Feralygon\Kit\Utilities\Hash as UHash;
  * @property-write bool $hextets [writeonce] [transient] [coercive] [default = false]
  * <p>Colonify a given hash into hextets.</p>
  */
-class Colonify extends Filter
+class Colonify extends Filter implements ISubtype, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -26,6 +30,12 @@ class Colonify extends Filter
 	
 	
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'colonify';
+	}
+	
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
@@ -41,6 +51,26 @@ class Colonify extends Filter
 			return false;
 		}
 		return true;
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'hash';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	/** {@inheritdoc} */
+	public function getSchemaData()
+	{
+		return [
+			'hextets' => $this->hextets
+		];
 	}
 	
 	

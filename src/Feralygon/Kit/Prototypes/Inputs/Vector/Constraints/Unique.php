@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Vector\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation
 };
@@ -22,9 +21,15 @@ use Feralygon\Kit\Utilities\{
 };
 
 /** This constraint prototype restricts a vector to unique values. */
-class Unique extends Constraint implements IName, ISubtype, IInformation
+class Unique extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'unique';
+	}
+	
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
@@ -40,15 +45,6 @@ class Unique extends Constraint implements IName, ISubtype, IInformation
 			return true;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'unique';
 	}
 	
 	

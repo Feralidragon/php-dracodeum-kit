@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Priority as IPriority,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -34,7 +33,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class LengthRange extends Constraint implements IName, IPriority, IInformation, IStringification, ISchemaData
+class LengthRange extends Constraint implements IPriority, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int */
@@ -50,6 +49,12 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'length_range';
+	}
+	
+	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
 		if (UType::evaluateString($value)) {
@@ -57,15 +62,6 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 			return $length >= $this->min_length && $length <= $this->max_length;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'length_range';
 	}
 	
 	
@@ -83,7 +79,7 @@ class LengthRange extends Constraint implements IName, IPriority, IInformation, 
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		return UText::localize("Allowed lengths range", self::class, $text_options);
+		return UText::localize("Allowed length range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */

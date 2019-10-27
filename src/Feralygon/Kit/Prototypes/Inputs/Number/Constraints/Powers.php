@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Number\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -31,7 +30,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed powers act as disallowed powers instead.</p>
  */
-class Powers extends Constraint implements IName, ISubtype, IInformation, IStringification, ISchemaData
+class Powers extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int[]|float[] */
@@ -43,6 +42,12 @@ class Powers extends Constraint implements IName, ISubtype, IInformation, IStrin
 	
 	
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'powers';
+	}
+	
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
@@ -56,15 +61,6 @@ class Powers extends Constraint implements IName, ISubtype, IInformation, IStrin
 			return $this->negate;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'powers';
 	}
 	
 	

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation
 };
@@ -20,22 +19,19 @@ use Feralygon\Kit\Utilities\{
 };
 
 /** This constraint prototype restricts a text or string to hexadecimal characters. */
-class Hexadecimal extends Constraint implements IName, ISubtype, IInformation
+class Hexadecimal extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods
-	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && preg_match('/^[\da-f]*$/i', $value);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'hexadecimal';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && preg_match('/^[\da-f]*$/i', $value);
 	}
 	
 	

@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation,
 	SchemaData as ISchemaData
@@ -32,7 +31,7 @@ use Feralygon\Kit\Utilities\{
  * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>
  * If not set, then any format is allowed.</p>
  */
-class Base64 extends Constraint implements IName, ISubtype, IInformation, ISchemaData
+class Base64 extends Constraint implements ISubtype, IInformation, ISchemaData
 {
 	//Protected properties
 	/** @var bool|null */
@@ -42,18 +41,15 @@ class Base64 extends Constraint implements IName, ISubtype, IInformation, ISchem
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && UBase64::encoded($value, $this->url_safe);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'base64';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && UBase64::encoded($value, $this->url_safe);
 	}
 	
 	

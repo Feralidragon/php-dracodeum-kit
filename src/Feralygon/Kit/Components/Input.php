@@ -1081,9 +1081,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	{
 		$schemas = [];
 		foreach ($this->getModifiers() as $modifier) {
-			if ($modifier->hasSchema()) {
-				$schemas[] = $modifier->getSchema();
-			}
+			$schemas[] = $modifier->getSchema();
 		}
 		return $schemas;
 	}

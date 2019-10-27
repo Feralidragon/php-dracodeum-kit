@@ -8,6 +8,10 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
+	Subtype as ISubtype,
+	SchemaData as ISchemaData
+};
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Base64 as UBase64;
 
@@ -19,7 +23,7 @@ use Feralygon\Kit\Utilities\Base64 as UBase64;
  * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
  * in order to be safely put in an URL.</p>
  */
-class Base64 extends Filter
+class Base64 extends Filter implements ISubtype, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -28,6 +32,12 @@ class Base64 extends Filter
 	
 	
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'base64';
+	}
+	
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
@@ -39,6 +49,26 @@ class Base64 extends Filter
 			}
 		}
 		return false;
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'hash';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	/** {@inheritdoc} */
+	public function getSchemaData()
+	{
+		return [
+			'url_safe' => $this->url_safe
+		];
 	}
 	
 	

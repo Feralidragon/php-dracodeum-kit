@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -37,7 +36,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed range of values acts as a disallowed range of values instead.</p>
  */
-class Range extends Constraint implements IName, IInformation, IStringification, ISchemaData
+class Range extends Constraint implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var mixed */
@@ -59,6 +58,12 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'range';
+	}
+	
+	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
 		return UType::evaluateNumber($value) && $this->negate !== (
@@ -69,22 +74,13 @@ class Range extends Constraint implements IName, IInformation, IStringification,
 	
 	
 	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'range';
-	}
-	
-	
-	
 	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information)
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
-			? UText::localize("Disallowed values range", self::class, $text_options)
-			: UText::localize("Allowed values range", self::class, $text_options);
+			? UText::localize("Disallowed value range", self::class, $text_options)
+			: UText::localize("Allowed value range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */

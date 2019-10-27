@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Number\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation,
 	Stringification as IStringification,
@@ -31,7 +30,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed multiples act as disallowed multiples instead.</p>
  */
-class Multiples extends Constraint implements IName, ISubtype, IInformation, IStringification, ISchemaData
+class Multiples extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var int[]|float[] */
@@ -43,6 +42,12 @@ class Multiples extends Constraint implements IName, ISubtype, IInformation, ISt
 	
 	
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'multiples';
+	}
+	
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
@@ -60,15 +65,6 @@ class Multiples extends Constraint implements IName, ISubtype, IInformation, ISt
 			return $this->negate;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'multiples';
 	}
 	
 	

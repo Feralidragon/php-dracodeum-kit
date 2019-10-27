@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -30,7 +29,7 @@ use Feralygon\Kit\Utilities\{
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given value to always be less than the maximum allowed value, but never equal.</p>
  */
-class Maximum extends Constraint implements IName, IInformation, IStringification, ISchemaData
+class Maximum extends Constraint implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var mixed */
@@ -43,18 +42,15 @@ class Maximum extends Constraint implements IName, IInformation, IStringificatio
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateNumber($value) && ($this->exclusive ? $value < $this->value : $value <= $this->value);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'maximum';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateNumber($value) && ($this->exclusive ? $value < $this->value : $value <= $this->value);
 	}
 	
 	

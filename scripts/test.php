@@ -44,19 +44,17 @@ echo "\n\n";
 
 foreach ($input->getModifiers() as $i => $modifier) {
 	echo "INPUT MODIFIER [{$i}]:\n";
-	var_dump($modifier->getName(true));
+	var_dump($modifier->getName());
 	var_dump($modifier->getLabel($text_options));
 	var_dump($modifier->getMessage($text_options));
 	var_dump($modifier->getString($text_options));
 	
-	$schema = $modifier->getSchema(true);
-	if (isset($schema)) {
-		var_dump([
-			'name' => $schema->name,
-			'type' => $schema->type,
-			'subtype' => $schema->subtype,
-			'data' => $schema->data
-		]);
-	}
+	$schema = $modifier->getSchema();
+	var_dump([
+		'name' => $schema->name,
+		'type' => $schema->type,
+		'subtype' => $schema->subtype,
+		'data' => $schema->data
+	]);
 	echo "\n\n";
 }

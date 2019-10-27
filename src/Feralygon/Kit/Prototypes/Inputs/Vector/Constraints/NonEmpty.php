@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Vector\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation
 };
@@ -19,22 +18,19 @@ use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
 use Feralygon\Kit\Utilities\Text as UText;
 
 /** This constraint prototype prevents a vector from being empty. */
-class NonEmpty extends Constraint implements IName, ISubtype, IInformation
+class NonEmpty extends Constraint implements ISubtype, IInformation
 {
 	//Implemented public methods
-	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return is_object($value) && $value instanceof Primitive ? !$value->isEmpty() : false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
 	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'non_empty';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return is_object($value) && $value instanceof Primitive ? !$value->isEmpty() : false;
 	}
 	
 	

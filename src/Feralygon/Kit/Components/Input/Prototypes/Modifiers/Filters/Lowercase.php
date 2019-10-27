@@ -8,10 +8,7 @@
 namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
-use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
-	SchemaData as ISchemaData
-};
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData as ISchemaData;
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\{
 	Text as UText,
@@ -24,7 +21,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Convert a given value as Unicode.</p>
  */
-class Lowercase extends Filter implements IName, ISchemaData
+class Lowercase extends Filter implements ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -34,6 +31,12 @@ class Lowercase extends Filter implements IName, ISchemaData
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'lowercase';
+	}
+	
+	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
 		if (UType::evaluateString($value)) {
@@ -41,15 +44,6 @@ class Lowercase extends Filter implements IName, ISchemaData
 			return true;
 		}
 		return false;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'lowercase';
 	}
 	
 	

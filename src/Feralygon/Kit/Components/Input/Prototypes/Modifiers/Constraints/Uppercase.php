@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	SchemaData as ISchemaData
 };
@@ -26,7 +25,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given value as Unicode.</p>
  */
-class Uppercase extends Constraint implements IName, IInformation, ISchemaData
+class Uppercase extends Constraint implements IInformation, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -36,18 +35,15 @@ class Uppercase extends Constraint implements IName, IInformation, ISchemaData
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && $value === UText::upper($value, $this->unicode);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'uppercase';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && $value === UText::upper($value, $this->unicode);
 	}
 	
 	

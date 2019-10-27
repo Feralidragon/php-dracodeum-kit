@@ -31,8 +31,8 @@ class Range extends Constraints\Range implements ISubtype
 	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
-			? UText::localize("Disallowed numbers range", self::class, $text_options)
-			: UText::localize("Allowed numbers range", self::class, $text_options);
+			? UText::localize("Disallowed number range", self::class, $text_options)
+			: UText::localize("Allowed number range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */

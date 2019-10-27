@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Information as IInformation,
 	Stringification as IStringification,
 	SchemaData as ISchemaData
@@ -32,7 +31,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
  * <p>Negate the restriction, so the given allowed wildcard matches act as disallowed wildcard matches instead.</p>
  */
-class Wildcards extends Constraint implements IName, IInformation, IStringification, ISchemaData
+class Wildcards extends Constraint implements IInformation, IStringification, ISchemaData
 {
 	//Protected properties
 	/** @var string[] */
@@ -48,19 +47,16 @@ class Wildcards extends Constraint implements IName, IInformation, IStringificat
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'wildcards';
+	}
+	
+	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
 		return UType::evaluateString($value) && 
 			UText::anyWildcardsMatch($value, $this->wildcards, $this->insensitive) !== $this->negate;
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
-	public function getName(): string
-	{
-		return 'wildcards';
 	}
 	
 	

@@ -8,6 +8,10 @@
 namespace Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filters\Timestamp;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
+	Subtype as ISubtype,
+	SchemaData as ISchemaData
+};
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Utilities\Time as UTime;
 
@@ -28,7 +32,7 @@ use Feralygon\Kit\Utilities\Time as UTime;
  * @see https://php.net/manual/en/class.datetime.php
  * @see https://php.net/manual/en/class.datetimeimmutable.php
  */
-class Format extends Filter
+class Format extends Filter implements ISubtype, ISchemaData
 {
 	//Protected properties
 	/** @var string */
@@ -41,10 +45,37 @@ class Format extends Filter
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'format';
+	}
+	
+	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
 		$value = UTime::format($value, $this->format, $this->timezone, true);
 		return isset($value);
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'timestamp';
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData)
+	/** {@inheritdoc} */
+	public function getSchemaData()
+	{
+		return [
+			'format' => $this->format,
+			'timezone' => $this->timezone
+		];
 	}
 	
 	

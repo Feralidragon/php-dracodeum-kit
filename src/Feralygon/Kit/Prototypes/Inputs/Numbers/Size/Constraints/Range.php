@@ -27,8 +27,8 @@ class Range extends Constraints\Range
 	public function getLabel(TextOptions $text_options): string
 	{
 		return $this->negate
-			? UText::localize("Disallowed sizes range", self::class, $text_options)
-			: UText::localize("Allowed sizes range", self::class, $text_options);
+			? UText::localize("Disallowed size range", self::class, $text_options)
+			: UText::localize("Allowed size range", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */

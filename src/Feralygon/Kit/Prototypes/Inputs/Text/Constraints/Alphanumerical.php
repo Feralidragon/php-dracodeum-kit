@@ -9,7 +9,6 @@ namespace Feralygon\Kit\Prototypes\Inputs\Text\Constraints;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraint;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\{
-	Name as IName,
 	Subtype as ISubtype,
 	Information as IInformation,
 	SchemaData as ISchemaData
@@ -28,7 +27,7 @@ use Feralygon\Kit\Utilities\{
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given text or string as Unicode.</p>
  */
-class Alphanumerical extends Constraint implements IName, ISubtype, IInformation, ISchemaData
+class Alphanumerical extends Constraint implements ISubtype, IInformation, ISchemaData
 {
 	//Protected properties
 	/** @var bool */
@@ -38,18 +37,15 @@ class Alphanumerical extends Constraint implements IName, ISubtype, IInformation
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function checkValue($value): bool
-	{
-		return UType::evaluateString($value) && preg_match($this->unicode ? '/^[\pL\pN]*$/u' : '/^[a-z\d]*$/i', $value);
-	}
-	
-	
-	
-	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Name)
-	/** {@inheritdoc} */
 	public function getName(): string
 	{
 		return 'alphanumerical';
+	}
+	
+	/** {@inheritdoc} */
+	public function checkValue($value): bool
+	{
+		return UType::evaluateString($value) && preg_match($this->unicode ? '/^[\pL\pN]*$/u' : '/^[a-z\d]*$/i', $value);
 	}
 	
 	

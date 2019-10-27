@@ -8,11 +8,18 @@
 namespace Feralygon\Kit\Prototypes\Inputs\Hash\Filters;
 
 use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Filter;
+use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype as ISubtype;
 
 /** This filter prototype converts a hash to uppercase. */
-class Uppercase extends Filter
+class Uppercase extends Filter implements ISubtype
 {
 	//Implemented public methods
+	/** {@inheritdoc} */
+	public function getName(): string
+	{
+		return 'uppercase';
+	}
+	
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
@@ -21,5 +28,14 @@ class Uppercase extends Filter
 			return true;
 		}
 		return false;
+	}
+	
+	
+	
+	//Implemented public methods (Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype)
+	/** {@inheritdoc} */
+	public function getSubtype(): string
+	{
+		return 'hash';
 	}
 }
