@@ -66,40 +66,49 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		//negate
+		//label
+		$label = '';
 		if ($this->negate) {
-			//end-user
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/** @tags end-user */
-				return UText::plocalize(
+				$label = UText::plocalize(
 					"Disallowed match", "Disallowed matches",
 					count($this->values), null, self::class, $text_options
 				);
+			} else {
+				/** @tags non-end-user */
+				$label = UText::plocalize(
+					"Disallowed wildcard match", "Disallowed wildcard matches",
+					count($this->values), null, self::class, $text_options
+				);
 			}
-			
-			//non-end-user
-			/** @tags non-end-user */
-			return UText::plocalize(
-				"Disallowed wildcard match", "Disallowed wildcard matches",
-				count($this->values), null, self::class, $text_options
-			);
-		}
-		
-		//end-user
-		if ($text_options->info_scope === EInfoScope::ENDUSER) {
+		} elseif ($text_options->info_scope === EInfoScope::ENDUSER) {
 			/** @tags end-user */
-			return UText::plocalize(
+			$label = UText::plocalize(
 				"Allowed match", "Allowed matches",
 				count($this->values), null, self::class, $text_options
 			);
+		} else {
+			/** @tags non-end-user */
+			$label = UText::plocalize(
+				"Allowed wildcard match", "Allowed wildcard matches",
+				count($this->values), null, self::class, $text_options
+			);
 		}
 		
-		//non-end-user
-		/** @tags non-end-user */
-		return UText::plocalize(
-			"Allowed wildcard match", "Allowed wildcard matches",
-			count($this->values), null, self::class, $text_options
-		);
+		//insensitive
+		if ($this->insensitive) {
+			/**
+			 * @placeholder label The label.
+			 * @example Allowed match (case-insensitive)
+			 */
+			$label = UText::localize(
+				"{{label}} (case-insensitive)", self::class, $text_options, ['parameters' => ['label' => $label]]
+			);
+		}
+		
+		//return
+		return $label;
 	}
 	
 	/** {@inheritdoc} */
