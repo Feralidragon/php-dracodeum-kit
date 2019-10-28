@@ -11,8 +11,8 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints;
 use Feralygon\Kit\Components\Input\Prototypes\Modifier\Interfaces\Subtype as ISubtype;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Utilities\{
-	Text as UText,
-	Type as UType
+	Hash as UHash,
+	Text as UText
 };
 
 class Values extends Constraints\Values implements ISubtype
@@ -79,6 +79,6 @@ class Values extends Constraints\Values implements ISubtype
 	/** {@inheritdoc} */
 	protected function evaluateValue(&$value): bool
 	{
-		return UType::evaluateString($value);
+		return UHash::evaluate($value);
 	}
 }
