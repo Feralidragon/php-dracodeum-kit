@@ -25,7 +25,10 @@ use Feralygon\Kit\Components\Input\Prototypes\Modifiers\{
 use Feralygon\Kit\Traits\LazyProperties\Property;
 use Feralygon\Kit\Options\Text as TextOptions;
 use Feralygon\Kit\Components\Input\Options\Info as InfoOptions;
-use Feralygon\Kit\Enumerations\InfoScope as EInfoScope;
+use Feralygon\Kit\Enumerations\{
+	InfoScope as EInfoScope,
+	TextCase as ETextCase
+};
 use Feralygon\Kit\Root\Locale;
 use Feralygon\Kit\Utilities\{
 	Text as UText,
@@ -68,7 +71,7 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Alphanumerical
  * [constraint, name = 'alphanumerical' or 'alphanumeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Identifier
- * [constraint, name = 'identifier']
+ * [constraint, name = 'identifier' or 'lower_identifier' or 'upper_identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Hexadecimal
  * [constraint, name = 'hexadecimal']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Base64
@@ -252,6 +255,14 @@ class Text extends Input implements IInformation, ISchemaData, IConstraintProduc
 				);
 			case 'identifier':
 				return Constraints\Identifier::class;
+			case 'lower_identifier':
+				return $this->createConstraint(
+					Constraints\Identifier::class, ['case' => ETextCase::LOWER] + $properties
+				);
+			case 'upper_identifier':
+				return $this->createConstraint(
+					Constraints\Identifier::class, ['case' => ETextCase::UPPER] + $properties
+				);
 			case 'hexadecimal':
 				return Constraints\Hexadecimal::class;
 			case 'base64':
