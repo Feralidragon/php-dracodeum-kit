@@ -152,6 +152,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 						]
 					]
 				);
+				
 			} elseif ($this->case === ETextCase::UPPER) {
 				//first
 				/**
@@ -194,6 +195,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 						]
 					]
 				);
+				
 			} else {
 				//first
 				/**
@@ -243,6 +245,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 					]
 				);
 			}
+			
 		} elseif ($this->case === ETextCase::LOWER) {
 			//first
 			/**
@@ -285,6 +288,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 					]
 				]
 			);
+			
 		} elseif ($this->case === ETextCase::UPPER) {
 			//first
 			/**
@@ -328,6 +332,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 					]
 				]
 			);
+			
 		} else {
 			//first
 			/**
