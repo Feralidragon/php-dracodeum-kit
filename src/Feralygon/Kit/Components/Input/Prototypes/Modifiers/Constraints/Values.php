@@ -46,7 +46,7 @@ class Values extends Constraint implements IInformation, IStringification, ISche
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return in_array($value, $this->values, true) !== $this->negate;
+		return $this->evaluateValue($value) && $this->isValueAllowed($value) !== $this->negate;
 	}
 	
 	
@@ -156,6 +156,19 @@ class Values extends Constraint implements IInformation, IStringification, ISche
 	
 	
 	//Protected methods
+	/**
+	 * Check if a given value is allowed.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value is allowed.</p>
+	 */
+	protected function isValueAllowed($value): bool
+	{
+		return in_array($value, $this->values, true);
+	}
+	
 	/**
 	 * Evaluate a given value.
 	 * 
