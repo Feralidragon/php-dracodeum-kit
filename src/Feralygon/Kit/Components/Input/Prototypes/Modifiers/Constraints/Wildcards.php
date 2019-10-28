@@ -198,9 +198,7 @@ class Wildcards extends Constraint implements IInformation, IStringification, IS
 			$message .= "\n";
 			if ($text_options->info_scope === EInfoScope::ENDUSER) {
 				/** @tags end-user */
-				$message .= UText::localize(
-					"All matches are case-insensitive.", self::class, $text_options
-				);
+				$message .= UText::localize("All matches are case-insensitive.", self::class, $text_options);
 			} else {
 				/** @tags non-end-user */
 				$message .= UText::localize(
