@@ -390,7 +390,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * The produced component instance or name, or prototype instance, class or name, 
 	 * for the given name with the given set of properties, or <code>null</code> if none was produced.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given prototype and set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
@@ -406,7 +406,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given prototype and set of properties.</p>
 	 * @return static
 	 * <p>The produced instance from the given component or prototype.</p>
 	 */
@@ -458,7 +458,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given prototype and set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
@@ -474,9 +474,9 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given prototype and set of properties.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to use to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
@@ -490,7 +490,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
-	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * The built instance for the given name with the given set of properties 
+	 * or <code>null</code> if none was built.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -517,7 +518,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given prototype and set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
@@ -533,9 +534,9 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given prototype and set of properties.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to use to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
@@ -549,7 +550,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
-	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * The built instance for the given name with the given set of properties 
+	 * or <code>null</code> if none was built.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Component\Exceptions\CoercionFailed
@@ -579,7 +581,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given prototype and set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
@@ -595,9 +597,9 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given prototype and set of properties.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to use to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
@@ -611,7 +613,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
-	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * The built instance for the given name with the given set of properties 
+	 * or <code>null</code> if none was built.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]

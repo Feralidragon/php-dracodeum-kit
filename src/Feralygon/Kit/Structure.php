@@ -200,7 +200,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
@@ -212,7 +212,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given set of properties.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -239,7 +239,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
@@ -251,7 +251,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given set of properties.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Feralygon\Kit\Structure\Exceptions\CoercionFailed
@@ -281,7 +281,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
@@ -293,7 +293,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given set of properties.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]

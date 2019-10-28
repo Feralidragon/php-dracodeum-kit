@@ -796,7 +796,7 @@ trait KeyEvaluators
 	 * <br>
 	 * If a component instance is given, then the given properties are ignored.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given prototype and set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ($prototype, array $properties): Feralygon\Kit\Component</code><br>
@@ -812,9 +812,9 @@ trait KeyEvaluators
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given prototype and set of properties.</p>
 	 * @param callable|null $named_builder [default = null]
-	 * <p>The function to use to build an instance for a given name.<br>
+	 * <p>The function to use to build an instance for a given name with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (string $name, array $properties): ?Feralygon\Kit\Component</code><br>
@@ -828,7 +828,8 @@ trait KeyEvaluators
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Component|null</b></code><br>
-	 * The built instance for the given name or <code>null</code> if none was built.</p>
+	 * The built instance for the given name with the given set of properties 
+	 * or <code>null</code> if none was built.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -857,7 +858,7 @@ trait KeyEvaluators
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $properties): Feralygon\Kit\Options</code><br>
@@ -867,7 +868,7 @@ trait KeyEvaluators
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Options</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given set of properties.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -895,7 +896,7 @@ trait KeyEvaluators
 	 * @param bool $clone [default = false]
 	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
-	 * <p>The function to use to build an instance.<br>
+	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $properties): Feralygon\Kit\Structure</code><br>
@@ -907,7 +908,7 @@ trait KeyEvaluators
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Feralygon\Kit\Structure</b></code><br>
-	 * The built instance.</p>
+	 * The built instance with the given set of properties.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
