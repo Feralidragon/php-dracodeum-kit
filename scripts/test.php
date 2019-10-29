@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Feralygon\Kit\Root\System;
-use Feralygon\Kit\Factories\Component as FComponent;
+use Dracodeum\Kit\Root\System;
+use Dracodeum\Kit\Factories\Component as FComponent;
 
 System::setEnvironment('development');
 

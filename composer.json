@@ -1,9 +1,9 @@
 {
-	"name" : "feralygon/kit",
+	"name" : "dracodeum/kit",
 	"version" : "1.0.0",
 	"type" : "library",
 	"license" : "MIT",
-	"description" : "Feralygon Kit",
+	"description" : "Dracodeum Kit",
 	"keywords" : [
 		"framework"
 	],

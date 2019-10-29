@@ -8,7 +8,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-use Feralygon\Kit\Root\Loader;
+use Dracodeum\Kit\Root\Loader;
 
 
 
@@ -18,15 +18,15 @@ if (class_exists(Loader::class, false)) {
 }
 
 //constants
-define('FERALYGON_KIT_VERSION', '1.0.0');
-define('FERALYGON_KIT_DIRECTORY', __DIR__ . '/src');
+define('DRACODEUM_KIT_VERSION', '1.0.0');
+define('DRACODEUM_KIT_DIRECTORY', __DIR__ . '/src');
 
 //required classes
-require_once FERALYGON_KIT_DIRECTORY . '/Feralygon/Kit/Root/Loader.php';
-require_once FERALYGON_KIT_DIRECTORY . '/Feralygon/Kit/Root/Loader/Package.php';
+require_once DRACODEUM_KIT_DIRECTORY . '/Dracodeum/Kit/Root/Loader.php';
+require_once DRACODEUM_KIT_DIRECTORY . '/Dracodeum/Kit/Root/Loader/Package.php';
 
 //set package
-Loader::setPackage('feralygon', 'kit', FERALYGON_KIT_DIRECTORY);
+Loader::setPackage('dracodeum', 'kit', DRACODEUM_KIT_DIRECTORY);
 
 //return
 return true;
