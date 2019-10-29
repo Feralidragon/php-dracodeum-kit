@@ -219,11 +219,11 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 				 * @placeholder digits.num9 The numeric "9" digit character.
 				 * @placeholder underscore The underscore "_" character.
 				 * @tags end-user
-				 * @example must be only composed by letters (a-z or A-Z), digits (0-9) and underscores (_)
+				 * @example must be only composed by letters (a-z and A-Z), digits (0-9) and underscores (_)
 				 */
 				$entries[] = UText::localize(
 					"must be only composed by letters ({{letters.a}}-{{letters.z}} " . 
-						"or {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
+						"and {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
 						"and underscores ({{underscore}})",
 					self::class, $text_options, [
 						'parameters' => [
@@ -357,11 +357,11 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
-			 * @example must be exclusively composed by ASCII letters (a-z or A-Z), digits (0-9) and underscores (_)
+			 * @example must be exclusively composed by ASCII letters (a-z and A-Z), digits (0-9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
 				"must be exclusively composed by ASCII letters ({{letters.a}}-{{letters.z}} " . 
-					"or {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
+					"and {{letters.A}}-{{letters.Z}}), digits ({{digits.num0}}-{{digits.num9}}) " . 
 					"and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
@@ -406,7 +406,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder entries The format description entries.
 			 * @tags end-user
 			 * @example Only the following format is allowed:
-			 *  &#8226; must start with a letter (a-z and A-Z) or underscore (_);
+			 *  &#8226; must start with a letter (a-z or A-Z) or underscore (_);
 			 *  &#8226; must be only composed by letters (a-z and A-Z), digits (0-9) and underscores (_);
 			 *  &#8226; dots (.) may also be used as delimiters between words.
 			 */
@@ -425,7 +425,7 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 		 * @placeholder entries The format description entries.
 		 * @tags non-end-user
 		 * @example Only an identifier with the following format is allowed:
-		 *  &#8226; must start with an ASCII letter (a-z and A-Z) or underscore (_);
+		 *  &#8226; must start with an ASCII letter (a-z or A-Z) or underscore (_);
 		 *  &#8226; must be exclusively composed by ASCII letters (a-z and A-Z), digits (0-9) and underscores (_);
 		 *  &#8226; dots (.) may also be used as delimiters between words to represent pointers.
 		 */
