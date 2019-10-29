@@ -70,7 +70,8 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Numerical
  * [constraint, name = 'numerical' or 'numeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Alphanumerical
- * [constraint, name = 'alphanumerical' or 'alphanumeric']
+ * [constraint, name = 'alphanumerical' or 'alphanumeric' or 'lower_alphanumerical' or 'lower_alphanumeric'
+ * or 'upper_alphanumerical' or 'upper_alphanumeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Identifier
  * [constraint, name = 'identifier' or 'lower_identifier' or 'upper_identifier']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Hexadecimal
@@ -267,6 +268,20 @@ class Text extends Input implements IInformation, ISchemaData, IConstraintProduc
 			case 'alphanumeric':
 				return $this->createConstraint(
 					Constraints\Alphanumerical::class, $properties + ['unicode' => $this->unicode]
+				);
+			case 'lower_alphanumerical':
+				//no break
+			case 'lower_alphanumeric':
+				return $this->createConstraint(
+					Constraints\Alphanumerical::class,
+					['case' => ETextCase::LOWER] + $properties + ['unicode' => $this->unicode]
+				);
+			case 'upper_alphanumerical':
+				//no break
+			case 'upper_alphanumeric':
+				return $this->createConstraint(
+					Constraints\Alphanumerical::class,
+					['case' => ETextCase::UPPER] + $properties + ['unicode' => $this->unicode]
 				);
 			case 'identifier':
 				return Constraints\Identifier::class;
