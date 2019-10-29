@@ -76,32 +76,21 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 	/** {@inheritdoc} */
 	public function getLabel(TextOptions $text_options): string
 	{
-		//label
-		$label = $this->extended
-			? UText::localize("Extended identifier format", self::class, $text_options)
-			: UText::localize("Identifier format", self::class, $text_options);
-		
 		//case
 		if ($this->case === ETextCase::LOWER) {
-			/**
-			 * @placeholder label The label.
-			 * @example Identifier format (lowercase)
-			 */
-			$label = UText::localize(
-				"{{label}} (lowercase)", self::class, $text_options, ['parameters' => ['label' => $label]]
-			);
+			return $this->extended
+				? UText::localize("Extended lowercase identifier format", self::class, $text_options)
+				: UText::localize("Lowercase identifier format", self::class, $text_options);
 		} elseif ($this->case === ETextCase::UPPER) {
-			/**
-			 * @placeholder label The label.
-			 * @example Identifier format (uppercase)
-			 */
-			$label = UText::localize(
-				"{{label}} (uppercase)", self::class, $text_options, ['parameters' => ['label' => $label]]
-			);
+			return $this->extended
+				? UText::localize("Extended uppercase identifier format", self::class, $text_options)
+				: UText::localize("Uppercase identifier format", self::class, $text_options);
 		}
 		
-		//return
-		return $label;
+		//default
+		return $this->extended
+			? UText::localize("Extended identifier format", self::class, $text_options)
+			: UText::localize("Identifier format", self::class, $text_options);
 	}
 	
 	/** {@inheritdoc} */
@@ -254,10 +243,11 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder letters.z The lowercase "z" letter character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
-			 * @example must start with a lowercase ASCII letter (a-z) or underscore (_)
+			 * @example must start with an ASCII lowercase letter (a-z) or underscore (_)
 			 */
 			$entries[] = UText::localize(
-				"must start with a lowercase ASCII letter ({{letters.a}}-{{letters.z}}) or underscore ({{underscore}})",
+				"must start with an ASCII lowercase letter ({{letters.a}}-{{letters.z}}) " . 
+					"or underscore ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
 						'letters' => ['a' => 'a', 'z' => 'z'],
@@ -275,10 +265,10 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
-			 * @example must be exclusively composed by lowercase ASCII letters (a-z), digits (0-9) and underscores (_)
+			 * @example must be exclusively composed by ASCII lowercase letters (a-z), digits (0-9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
-				"must be exclusively composed by lowercase ASCII letters ({{letters.a}}-{{letters.z}}), " . 
+				"must be exclusively composed by ASCII lowercase letters ({{letters.a}}-{{letters.z}}), " . 
 					"digits ({{digits.num0}}-{{digits.num9}}) and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
@@ -297,10 +287,10 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder letters.Z The uppercase "Z" letter character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
-			 * @example must start with an uppercase ASCII letter (A-Z) or underscore (_)
+			 * @example must start with an ASCII uppercase letter (A-Z) or underscore (_)
 			 */
 			$entries[] = UText::localize(
-				"must start with an uppercase ASCII letter ({{letters.A}}-{{letters.Z}}) " . 
+				"must start with an ASCII uppercase letter ({{letters.A}}-{{letters.Z}}) " . 
 					"or underscore ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
@@ -319,10 +309,10 @@ class Identifier extends Constraint implements ISubtype, IInformation, ISchemaDa
 			 * @placeholder digits.num9 The numeric "9" digit character.
 			 * @placeholder underscore The underscore "_" character.
 			 * @tags non-end-user
-			 * @example must be exclusively composed by uppercase ASCII letters (A-Z), digits (0-9) and underscores (_)
+			 * @example must be exclusively composed by ASCII uppercase letters (A-Z), digits (0-9) and underscores (_)
 			 */
 			$entries[] = UText::localize(
-				"must be exclusively composed by uppercase ASCII letters ({{letters.A}}-{{letters.Z}}), " . 
+				"must be exclusively composed by ASCII uppercase letters ({{letters.A}}-{{letters.Z}}), " . 
 					"digits ({{digits.num0}}-{{digits.num9}}) and underscores ({{underscore}})",
 				self::class, $text_options, [
 					'parameters' => [
