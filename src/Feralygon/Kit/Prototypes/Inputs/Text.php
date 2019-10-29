@@ -65,7 +65,8 @@ use Feralygon\Kit\Utilities\{
  * @see \Feralygon\Kit\Components\Input\Prototypes\Modifiers\Constraints\Uppercase
  * [constraint, name = 'uppercase']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Alphabetical
- * [constraint, name = 'alphabetical' or 'alphabetic']
+ * [constraint, name = 'alphabetical' or 'alphabetic' or 'lower_alphabetical' or 'lower_alphabetic' 
+ * or 'upper_alphabetical' or 'upper_alphabetic']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Numerical
  * [constraint, name = 'numerical' or 'numeric']
  * @see \Feralygon\Kit\Prototypes\Inputs\Text\Constraints\Alphanumerical
@@ -240,6 +241,20 @@ class Text extends Input implements IInformation, ISchemaData, IConstraintProduc
 			case 'alphabetic':
 				return $this->createConstraint(
 					Constraints\Alphabetical::class, $properties + ['unicode' => $this->unicode]
+				);
+			case 'lower_alphabetical':
+				//no break
+			case 'lower_alphabetic':
+				return $this->createConstraint(
+					Constraints\Alphabetical::class,
+					['case' => ETextCase::LOWER] + $properties + ['unicode' => $this->unicode]
+				);
+			case 'upper_alphabetical':
+				//no break
+			case 'upper_alphabetic':
+				return $this->createConstraint(
+					Constraints\Alphabetical::class,
+					['case' => ETextCase::UPPER] + $properties + ['unicode' => $this->unicode]
 				);
 			case 'numerical':
 				//no break
