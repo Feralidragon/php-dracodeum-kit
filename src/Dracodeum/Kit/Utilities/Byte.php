@@ -19,42 +19,42 @@ final class Byte extends Utility
 	//Private constants
 	/** Multiples table. */
 	private const MULTIPLES_TABLE = [[
-		'bytes' => 1e18,
+		'bytes' => 1000000000000000000,
 		'symbol' => 'EB',
 		'symbol_alt' => 'E',
 		'singular' => "exabyte",
 		'plural' => "exabytes",
 		'precision' => 1
 	], [
-		'bytes' => 1e15,
+		'bytes' => 1000000000000000,
 		'symbol' => 'PB',
 		'symbol_alt' => 'P',
 		'singular' => "petabyte",
 		'plural' => "petabytes",
 		'precision' => 1
 	], [
-		'bytes' => 1e12,
+		'bytes' => 1000000000000,
 		'symbol' => 'TB',
 		'symbol_alt' => 'T',
 		'singular' => "terabyte",
 		'plural' => "terabytes",
 		'precision' => 1
 	], [
-		'bytes' => 1e9,
+		'bytes' => 1000000000,
 		'symbol' => 'GB',
 		'symbol_alt' => 'G',
 		'singular' => "gigabyte",
 		'plural' => "gigabytes",
 		'precision' => 1
 	], [
-		'bytes' => 1e6,
+		'bytes' => 1000000,
 		'symbol' => 'MB',
 		'symbol_alt' => 'M',
 		'singular' => "megabyte",
 		'plural' => "megabytes",
 		'precision' => 2
 	], [
-		'bytes' => 1e3,
+		'bytes' => 1000,
 		'symbol' => 'kB',
 		'symbol_alt' => 'k',
 		'singular' => "kilobyte",
