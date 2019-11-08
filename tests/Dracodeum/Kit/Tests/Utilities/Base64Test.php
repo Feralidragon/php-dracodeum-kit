@@ -158,8 +158,9 @@ class Base64Test extends TestCase
 	 */
 	public function testDecodeMethod(string $string, ?bool $url_safe, string $expected): void
 	{
-		$this->assertSame($expected, UBase64::decode($string, $url_safe));
-		$this->assertSame($expected, UBase64::decode($string, $url_safe, true));
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UBase64::decode($string, $url_safe, $no_throw));
+		}
 	}
 	
 	/**
@@ -286,8 +287,9 @@ class Base64Test extends TestCase
 	 */
 	public function testNormalizeMethod(string $string, string $expected): void
 	{
-		$this->assertSame($expected, UBase64::normalize($string));
-		$this->assertSame($expected, UBase64::normalize($string, true));
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UBase64::normalize($string, $no_throw));
+		}
 	}
 	
 	/**
