@@ -110,8 +110,9 @@ class ByteTest extends TestCase
 	 */
 	public function testMvalueMethod(string $value, int $expected): void
 	{
-		$this->assertSame($expected, UByte::mvalue($value));
-		$this->assertSame($expected, UByte::mvalue($value, true));
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UByte::mvalue($value, $no_throw));
+		}
 	}
 	
 	/**
@@ -228,13 +229,325 @@ class ByteTest extends TestCase
 		return [
 			[''],
 			['.'],
+			['3.1'],
 			['abc'],
 			['1m'],
 			['1 mB'],
 			['5 foobytes'],
 			['--5 bytes'],
 			['5_bytes'],
-			['bytes 5']
+			['bytes 5'],
+			['5.5 bytes'],
+			['123.4567 kB']
 		];
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodData
+	 * @testdox Byte::evaluateSize(&{$value} --> &{$expected_value}) === true
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 * @return void
+	 */
+	public function testEvaluateSizeMethod($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertTrue(UByte::evaluateSize($v, $nullable));
+			$this->assertSame($expected_value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodData
+	 * @testdox Byte::coerceSize({$value}) === $expected
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int|null $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testCoerceSizeMethod($value, ?int $expected): void
+	{
+		foreach ([false, true] as $nullable) {
+			$this->assertSame($expected, UByte::coerceSize($value, $nullable));
+		}
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodData
+	 * @testdox Byte::processSizeCoercion(&{$value} --> &{$expected_value}) === true
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param int $expected_value
+	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethod($value, int $expected_value): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $no_throw) {
+				$v = $value;
+				$this->assertTrue(UByte::processSizeCoercion($v, $nullable, $no_throw));
+				$this->assertSame($expected_value, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Provide size coercion method data.
+	 * 
+	 * @return array
+	 * <p>The provided size coercion method data.</p>
+	 */
+	public function provideSizeCoercionMethodData(): array
+	{
+		return [
+			[0, 0],
+			[123000 , 123000],
+			[-123000 , -123000],
+			[0.0 , 0],
+			[123000.0 , 123000],
+			[-123000.0 , -123000],
+			['0' , 0],
+			['123000', 123000],
+			['-123000', -123000],
+			['123e3' , 123000],
+			['123E3' , 123000],
+			['-123e3' , -123000],
+			['0360170', 123000],
+			['0x1e078', 123000],
+			['0x1E078', 123000],
+			['123k', 123000],
+			['123 thousand', 123000],
+			['-123k', -123000],
+			['-123 thousand', -123000],
+			['123 M', 123000000],
+			['123 million', 123000000],
+			['123 B', 123000000000],
+			['123 G', 123000000000],
+			['123 billion', 123000000000],
+			['123kB', 123000],
+			['123 kilobytes', 123000],
+			['-123kB', -123000],
+			['-123 kilobytes', -123000],
+			['123 MB', 123000000],
+			['123 megabytes', 123000000],
+			['123 GB', 123000000000],
+			['123 gigabytes', 123000000000]
+		];
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::evaluateSize(&{NULL} --> &{NULL}, true) === true
+	 * 
+	 * @return void
+	 */
+	public function testEvaluateSizeMethodWithNullValue(): void
+	{
+		$value = null;
+		$this->assertTrue(UByte::evaluateSize($value, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::coerceSize({NULL}, true) === NULL
+	 * 
+	 * @return void
+	 */
+	public function testCoerceSizeMethodWithNullValue(): void
+	{
+		$this->assertNull(UByte::coerceSize(null, true));
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{NULL} --> &{NULL}, true) === true
+	 * 
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethodWithNullValue(): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$value = null;
+			$this->assertTrue(UByte::processSizeCoercion($value, true, $no_throw));
+			$this->assertNull($value);
+		}
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method expecting a boolean <code>false</code>.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
+	 * @testdox Byte::evaluateSize(&{$value}) === false
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testEvaluateSizeMethodFalse($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::evaluateSize($v, $nullable));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
+	 * @testdox Byte::coerceSize({$value}) --> SizeCoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testCoerceSizeMethodSizeCoercionFailedException($value): void
+	{
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		UByte::coerceSize($value);
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
+	 * @testdox Byte::processSizeCoercion(&{$value}) --> SizeCoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethodSizeCoercionFailedException($value): void
+	{
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		UByte::processSizeCoercion($value);
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * expecting boolean <code>false</code>.
+	 * 
+	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
+	 * @testdox Byte::processSizeCoercion(&{$value}, false|true, true) === false
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethodNoThrowFalse($value): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UByte::processSizeCoercion($v, $nullable, true));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Provide size coercion method data for a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @return array
+	 * <p>The provided size coercion method data for a <code>SizeCoercionFailed</code> exception to be thrown.</p>
+	 */
+	public function provideSizeCoercionMethodDataForSizeCoercionFailedException(): array
+	{
+		return [
+			[false],
+			[true],
+			[0.123],
+			[''],
+			['.'],
+			['3.1'],
+			['abc'],
+			['1m'],
+			['1 mB'],
+			['5 foobytes'],
+			['--5 bytes'],
+			['5_bytes'],
+			['bytes 5'],
+			['5.5 bytes'],
+			['123.4567 kB'],
+			[[]],
+			[new \stdClass()],
+			[fopen(__FILE__, 'r')]
+		];
+	}
+	
+	/**
+	 * Test <code>evaluateSize</code> method with a <code>null</code> value, expecting boolean <code>false</code>.
+	 * 
+	 * @testdox Byte::evaluateSize(&{NULL} --> &{NULL}, false) === false
+	 * 
+	 * @return void
+	 */
+	public function testEvaluateSizeMethodWithNullValueFalse(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::evaluateSize($value, false));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerceSize</code> method with a <code>null</code> value, 
+	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::coerceSize({NULL}) --> SizeCoercionFailed exception
+	 * 
+	 * @return void
+	 */
+	public function testCoerceSizeMethodWithNullValueSizeCoercionFailedException(): void
+	{
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		UByte::coerceSize(null);
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
+	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{NULL}) --> SizeCoercionFailed exception
+	 * 
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethodWithNullValueSizeCoercionFailedException(): void
+	{
+		$value = null;
+		$this->expectException(Exceptions\SizeCoercionFailed::class);
+		UByte::processSizeCoercion($value);
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
+	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code>.
+	 * 
+	 * @testdox Byte::processSizeCoercion(&{NULL}, false, true) === false
+	 * 
+	 * @return void
+	 */
+	public function testProcessSizeCoercionMethodWithNullValueNoThrowFalse(): void
+	{
+		$value = null;
+		$this->assertFalse(UByte::processSizeCoercion($value, false, true));
+		$this->assertNull($value);
 	}
 }
