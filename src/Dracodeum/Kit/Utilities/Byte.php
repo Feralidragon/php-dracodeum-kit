@@ -179,6 +179,16 @@ final class Byte extends Utility
 		if ($sign === '-') {
 			$number *= -1;
 		}
+		
+		//evaluate
+		if (!Type::evaluateInteger($number)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Mvalue\InvalidValue([$value]);
+		}
+		
+		//return
 		return $number;
 	}
 	
@@ -292,7 +302,7 @@ final class Byte extends Utility
 		//coerce
 		if (Type::evaluateInteger($value)) {
 			return true;
-		} else {
+		} elseif (is_string($value)) {
 			$v = self::mvalue($value, true);
 			if (isset($v)) {
 				$value = $v;
