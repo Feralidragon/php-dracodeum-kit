@@ -204,7 +204,8 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>mvalue</code> method with <var>$no_throw</var> set to <code>true</code>, expecting <code>null</code>.
+	 * Test <code>mvalue</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
 	 * 
 	 * @dataProvider provideMvalueMethodDataForInvalidValueException
 	 * @testdox Byte::mvalue('$value', true) === NULL
@@ -392,7 +393,7 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateSize</code> method expecting a boolean <code>false</code>.
+	 * Test <code>evaluateSize</code> method expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
 	 * @testdox Byte::evaluateSize(&{$value}) === false
@@ -444,7 +445,7 @@ class ByteTest extends TestCase
 	
 	/**
 	 * Test <code>processSizeCoercion</code> method with <var>$no_throw</var> set to <code>true</code>, 
-	 * expecting boolean <code>false</code>.
+	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideSizeCoercionMethodDataForSizeCoercionFailedException
 	 * @testdox Byte::processSizeCoercion(&{$value}, false|true, true) === false
@@ -493,7 +494,8 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateSize</code> method with a <code>null</code> value, expecting boolean <code>false</code>.
+	 * Test <code>evaluateSize</code> method with a <code>null</code> value, 
+	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::evaluateSize(&{NULL} --> &{NULL}, false) === false
 	 * 
@@ -538,7 +540,7 @@ class ByteTest extends TestCase
 	
 	/**
 	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value, 
-	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code>.
+	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::processSizeCoercion(&{NULL}, false, true) === false
 	 * 
@@ -711,7 +713,7 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateMultiple</code> method expecting a boolean <code>false</code>.
+	 * Test <code>evaluateMultiple</code> method expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideMultipleCoercionMethodDataForMultipleCoercionFailedException
 	 * @testdox Byte::evaluateMultiple(&{$value}) === false
@@ -764,7 +766,7 @@ class ByteTest extends TestCase
 	
 	/**
 	 * Test <code>processMultipleCoercion</code> method with <var>$no_throw</var> set to <code>true</code>, 
-	 * expecting boolean <code>false</code>.
+	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideMultipleCoercionMethodDataForMultipleCoercionFailedException
 	 * @testdox Byte::processMultipleCoercion(&{$value}, false|true, true) === false
@@ -816,7 +818,8 @@ class ByteTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value, expecting boolean <code>false</code>.
+	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value, 
+	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::evaluateMultiple(&{NULL} --> &{NULL}, false) === false
 	 * 
@@ -861,7 +864,7 @@ class ByteTest extends TestCase
 	
 	/**
 	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value, 
-	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code>.
+	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::processMultipleCoercion(&{NULL}, false, true) === false
 	 * 
