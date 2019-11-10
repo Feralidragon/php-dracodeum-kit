@@ -141,8 +141,8 @@ final class Call extends Utility
 	 * Get a new reflection instance from a given function.
 	 * 
 	 * The returning reflection instance depends on the type of function given.<br>
-	 * In the case of a class or instance method, 
-	 * a reflection instance of the <code>ReflectionMethod</code> class is returned.<br>
+	 * In the case of a class or instance method, a reflection instance of the <code>ReflectionMethod</code> class is 
+	 * returned.<br>
 	 * If, however, it's any other type of function, such as a global, local or anonymous function, 
 	 * a reflection instance of the <code>ReflectionFunction</code> class is returned instead.
 	 * 
