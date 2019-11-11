@@ -158,6 +158,108 @@ class CallTest extends TestCase
 			[fopen(__FILE__, 'r')]
 		];
 	}
+	
+	/**
+	 * Test <code>reflection</code> method.
+	 * 
+	 * @dataProvider provideReflectionMethodData
+	 * @testdox Call::reflection({$function}) === $expected_class
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string $expected_class
+	 * <p>The expected method return instance class.</p>
+	 * @return void
+	 */
+	public function testReflectionMethod($function, string $expected_class): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$this->assertInstanceOf($expected_class, UCall::reflection($function, $no_throw));
+		}
+	}
+	
+	/**
+	 * Provide <code>reflection</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>reflection</code> method data.</p>
+	 */
+	public function provideReflectionMethodData(): array
+	{
+		return [
+			['strlen', \ReflectionFunction::class],
+			[function () {}, \ReflectionFunction::class],
+			[new CallTest_InvokeableClass(), \ReflectionMethod::class],
+			[CallTest_Class::class . '::getString', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getString', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getString'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getString'], \ReflectionMethod::class],
+			[CallTest_Class::class . '::getStaticString', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getStaticString', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getStaticString'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getStaticString'], \ReflectionMethod::class],
+			[CallTest_Class::class . '::getProtectedInteger', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getProtectedInteger', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getProtectedInteger'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getProtectedInteger'], \ReflectionMethod::class],
+			[CallTest_Class::class . '::getProtectedStaticInteger', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getProtectedStaticInteger', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			[CallTest_Class::class . '::getPrivateBoolean', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getPrivateBoolean', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getPrivateBoolean'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getPrivateBoolean'], \ReflectionMethod::class],
+			[CallTest_Class::class . '::getPrivateStaticBoolean', \ReflectionMethod::class],
+			[CallTest_Class::class . '->getPrivateStaticBoolean', \ReflectionMethod::class],
+			[[CallTest_Class::class, 'getPrivateStaticBoolean'], \ReflectionMethod::class],
+			[[new CallTest_Class(), 'getPrivateStaticBoolean'], \ReflectionMethod::class],
+			[CallTest_AbstractClass::class . '::getString', \ReflectionMethod::class],
+			[[CallTest_AbstractClass::class, 'getString'], \ReflectionMethod::class],
+			[CallTest_AbstractClass::class . '::getStaticString', \ReflectionMethod::class],
+			[[CallTest_AbstractClass::class, 'getStaticString'], \ReflectionMethod::class],
+			[CallTest_AbstractClass::class . '::getProtectedInteger', \ReflectionMethod::class],
+			[[CallTest_AbstractClass::class, 'getProtectedInteger'], \ReflectionMethod::class],
+			[CallTest_AbstractClass::class . '::getProtectedStaticInteger', \ReflectionMethod::class],
+			[[CallTest_AbstractClass::class, 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			[CallTest_Interface::class . '::getString', \ReflectionMethod::class],
+			[[CallTest_Interface::class, 'getString'], \ReflectionMethod::class],
+			[CallTest_Interface::class . '::getStaticString', \ReflectionMethod::class],
+			[[CallTest_Interface::class, 'getStaticString'], \ReflectionMethod::class]
+		];
+	}
+	
+	/**
+	 * Test <code>reflection</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @testdox Call::reflection({$function}) --> InvalidFunction exception
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testReflectionMethodInvalidFunctionException($function): void
+	{
+		$this->expectException(Exceptions\InvalidFunction::class);
+		UCall::reflection($function);
+	}
+	
+	/**
+	 * Test <code>reflection</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @testdox Call::reflection({$function}, true) === false
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testReflectionMethodNoThrowNull($function): void
+	{
+		$this->assertNull(UCall::reflection($function, true));
+	}
 }
 
 

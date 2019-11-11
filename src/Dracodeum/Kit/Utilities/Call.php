@@ -161,16 +161,22 @@ final class Call extends Utility
 	final public static function reflection($function, bool $no_throw = false): ?\ReflectionFunctionAbstract
 	{
 		//validate
-		if ($no_throw && !self::validate($function, true)) {
+		$valid = self::validate($function, $no_throw);
+		if ($no_throw && !$valid) {
 			return null;
-		} else {
-			self::validate($function);
 		}
 		
-		//method
+		//method (object)
+		if (is_object($function) && !($function instanceof \Closure)) {
+			return (new \ReflectionClass($function))->getMethod('__invoke');
+		}
+		
+		//method (array)
 		if (is_array($function)) {
 			return (new \ReflectionClass($function[0]))->getMethod($function[1]);
 		}
+		
+		//method (string)
 		if (is_string($function)) {
 			$function = str_replace('->', '::', $function);
 			if (strpos($function, '::') !== false) {
