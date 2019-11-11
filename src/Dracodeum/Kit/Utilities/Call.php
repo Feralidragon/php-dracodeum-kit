@@ -83,6 +83,16 @@ final class Call extends Utility
 	/**
 	 * Validate a given function reference.
 	 * 
+	 * Only the following types and formats are considered valid functions:<br>
+	 * &nbsp; &#8226; &nbsp; a callable;<br>
+	 * &nbsp; &#8226; &nbsp; an array with exactly 2 elements, with the first element being an interface name, 
+	 * class name or instance, and the second element being a method name, such as <code>['Class', 'method']</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a string as a function or method name, with a method being composed by an interface or 
+	 * class name and method name, delimited by <samp>::</samp> or <samp>-&gt;</samp>, 
+	 * such as <samp>Class::method</samp>.<br>
+	 * <br>
+	 * All types of methods are considered valid, regardless of their visibility, including protected and private ones.
+	 * 
 	 * @param callable|array|string $function
 	 * <p>The function to validate.</p>
 	 * @param bool $no_throw [default = false]
