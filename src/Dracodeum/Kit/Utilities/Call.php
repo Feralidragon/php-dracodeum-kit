@@ -201,11 +201,6 @@ final class Call extends Utility
 	/**
 	 * Calculate hash from a given function.
 	 * 
-	 * The returning hash of the given function is calculated mostly based on its declaration location, 
-	 * but also its signature, thus it's unique to the function signature and scope, thus resulting in different 
-	 * hashes even if two functions share exactly the same signature and source provided that they are declared 
-	 * in different locations.
-	 * 
 	 * @see https://php.net/manual/en/function.hash.php
 	 * @param callable|array|string $function
 	 * <p>The function to calculate from.</p>
@@ -219,11 +214,34 @@ final class Call extends Utility
 	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false): string
 	{
 		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false): string {
+			//initialize
 			$reflection = self::reflection($function);
-			$export = Type::isA($reflection, \ReflectionMethod::class)
-				? $reflection::export($reflection->getDeclaringClass()->getName(), $reflection->getName(), true)
-				: $reflection::export($reflection->getClosure(), true);
-			return hash($algorithm, $export, $raw);
+			$name = $reflection->getName();
+			
+			//data
+			$data = '';
+			if ($reflection instanceof \ReflectionMethod) {
+				$data = "{$reflection->getDeclaringClass()->getName()}::{$name}";
+			} else {
+				//initialize
+				$data = $name;
+				
+				//lines
+				$start_line = $reflection->getStartLine();
+				$end_line = $reflection->getEndLine();
+				if ($start_line !== false && $end_line !== false) {
+					$data .= "({$start_line}-{$end_line})";
+				}
+				
+				//scope class
+				$reflection_scope_class = $reflection->getClosureScopeClass();
+				if ($reflection_scope_class !== null) {
+					$data = "{$reflection_scope_class->getName()}:{$data}";
+				}
+			}
+			
+			//return
+			return hash($algorithm, $data, $raw);
 		});
 	}
 	

@@ -260,6 +260,74 @@ class CallTest extends TestCase
 	{
 		$this->assertNull(UCall::reflection($function, true));
 	}
+	
+	/**
+	 * Test <code>hash</code> method.
+	 * 
+	 * @dataProvider provideHashMethodData
+	 * @testdox Call::hash({$function}, '$algorithm') === '$expected'
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string $algorithm
+	 * <p>The method <var>$algorithm</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testHashMethod($function, string $algorithm, string $expected): void
+	{
+		$this->assertSame($expected, UCall::hash($function, $algorithm));
+		$this->assertSame(hex2bin($expected), UCall::hash($function, $algorithm, true));
+	}
+	
+	/**
+	 * Provide <code>hash</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>hash</code> method data.</p>
+	 */
+	public function provideHashMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', 'MD5', '73d3a702db472629f27b06ac8f056476'],
+			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
+			[function () {}, 'MD5', '965cc11a3a4ab9adc6fbca323da5b689'],
+			[function () {}, 'SHA1', '3484cced870a27abaf3f90f9fd765af07d2fd431'],
+			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
+			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
+			[[$class, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
+			[[$class, 'getString'], 'SHA1', 'b9a57503eae0f1f314b0cdb601643ba0425831be'],
+			[[$class, 'getStaticString'], 'MD5', '606b220c861176152934f9382769c599'],
+			[[$class, 'getStaticString'], 'SHA1', 'b159051679c6240c133cdef3c0580e94f7c82910'],
+			[[$class, 'getProtectedInteger'], 'MD5', 'dd99454f0ed6bdf40cd53505eb95d82e'],
+			[[$class, 'getProtectedInteger'], 'SHA1', '54a3af5a5a2e3834dc27b2330af720591f08bedd'],
+			[[$class, 'getProtectedStaticInteger'], 'MD5', 'e133f75ff6daf5bcc1f49977f30b2539'],
+			[[$class, 'getProtectedStaticInteger'], 'SHA1', '7eeb8eba694d404d4dd0ee373a440885e0656da9'],
+			[[$class, 'getPrivateBoolean'], 'MD5', '9a48386d5b2337a69be15ee81d72c001'],
+			[[$class, 'getPrivateBoolean'], 'SHA1', 'd404611ae4b96908c71461a068754952d13a3879'],
+			[[$class, 'getPrivateStaticBoolean'], 'MD5', '66dbcf40dcb6a4256ed221f7732a59d8'],
+			[[$class, 'getPrivateStaticBoolean'], 'SHA1', '8b6eecb43fe5e566a15712f3e8a8976fe88aaf79'],
+			[[$class_abstract, 'getString'], 'MD5', 'ece33a1617681db17ead701866ecd9e7'],
+			[[$class_abstract, 'getString'], 'SHA1', 'c3f476aae2ad3b67bb2d285262a2540a73bf04a1'],
+			[[$class_abstract, 'getStaticString'], 'MD5', '7b7150342e21e913a53c81eb63eb287e'],
+			[[$class_abstract, 'getStaticString'], 'SHA1', '19b0cfaaea5573ee99d5fd72c89010f30bccca78'],
+			[[$class_abstract, 'getProtectedInteger'], 'MD5', '72eaa3cc4ce34e479b7cea9e88e43265'],
+			[[$class_abstract, 'getProtectedInteger'], 'SHA1', '1830d3eb48fe3a46e09d7375035ecb1844305f7a'],
+			[[$class_abstract, 'getProtectedStaticInteger'], 'MD5', '025ca1809056650db34bfc4fe408ea6e'],
+			[[$class_abstract, 'getProtectedStaticInteger'], 'SHA1', '004bee0cf4cd8a093038ef1fb93833f9e9e7eab3'],
+			[[$interface, 'getString'], 'MD5', '63bbda9db93a144d13e2cae345129925'],
+			[[$interface, 'getString'], 'SHA1', '5ea3b983c1067d627caded88f2f084705a176370'],
+			[[$interface, 'getStaticString'], 'MD5', 'c80138e2cedbe7fe7b3e6a36f30f6d1e'],
+			[[$interface, 'getStaticString'], 'SHA1', '1714a7d457deace9a68c7ab3b012ec24f597d2b6']
+		];
+	}
 }
 
 
