@@ -328,6 +328,68 @@ class CallTest extends TestCase
 			[[$interface, 'getStaticString'], 'SHA1', '1714a7d457deace9a68c7ab3b012ec24f597d2b6']
 		];
 	}
+	
+	/**
+	 * Test <code>modifiers</code> method.
+	 * 
+	 * @dataProvider provideModifiersMethodData
+	 * @testdox Call::modifiers({$function}) === $expected
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string[] $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testModifiersMethod($function, array $expected): void
+	{
+		$this->assertSame($expected, UCall::modifiers($function));
+	}
+	
+	/**
+	 * Provide <code>modifiers</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>modifiers</code> method data.</p>
+	 */
+	public function provideModifiersMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', []],
+			[function () {}, []],
+			[new CallTest_InvokeableClass(), ['public']],
+			[[$class, 'getString'], ['public']],
+			[[$class, 'getStaticString'], ['public', 'static']],
+			[[$class, 'getProtectedInteger'], ['protected']],
+			[[$class, 'getProtectedStaticInteger'], ['protected', 'static']],
+			[[$class, 'getPrivateBoolean'], ['private']],
+			[[$class, 'getPrivateStaticBoolean'], ['private', 'static']],
+			[[$class, 'getFinalString'], ['final', 'public']],
+			[[$class, 'getFinalStaticString'], ['final', 'public', 'static']],
+			[[$class, 'getFinalProtectedInteger'], ['final', 'protected']],
+			[[$class, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
+			[[$class, 'getFinalPrivateBoolean'], ['final', 'private']],
+			[[$class, 'getFinalPrivateStaticBoolean'], ['final', 'private', 'static']],
+			[[$class_abstract, 'getString'], ['abstract', 'public']],
+			[[$class_abstract, 'getStaticString'], ['abstract', 'public', 'static']],
+			[[$class_abstract, 'getProtectedInteger'], ['abstract', 'protected']],
+			[[$class_abstract, 'getProtectedStaticInteger'], ['abstract', 'protected', 'static']],
+			[[$class_abstract, 'getFinalString'], ['final', 'public']],
+			[[$class_abstract, 'getFinalStaticString'], ['final', 'public', 'static']],
+			[[$class_abstract, 'getFinalProtectedInteger'], ['final', 'protected']],
+			[[$class_abstract, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
+			[[$class_abstract, 'getFinalPrivateBoolean'], ['final', 'private']],
+			[[$class_abstract, 'getFinalPrivateStaticBoolean'], ['final', 'private', 'static']],
+			[[$interface, 'getString'], ['abstract', 'public']],
+			[[$interface, 'getStaticString'], ['abstract', 'public', 'static']]
+		];
+	}
 }
 
 
@@ -384,6 +446,48 @@ class CallTest_Class
 	}
 	
 	private static function setPrivateStaticBoolean(bool $boolean): void {}
+	
+	final public function getFinalString(): string
+	{
+		return '';
+	}
+	
+	final public function setFinalString(string $string): void {}
+	
+	final public static function getFinalStaticString(): string
+	{
+		return '';
+	}
+	
+	final public static function setFinalStaticString(string $string): void {}
+	
+	final protected function getFinalProtectedInteger(): int
+	{
+		return 0;
+	}
+	
+	final protected function setFinalProtectedInteger(int $integer): void {}
+	
+	final protected static function getFinalProtectedStaticInteger(): int
+	{
+		return 0;
+	}
+	
+	final protected static function setFinalProtectedStaticInteger(int $integer): void {}
+	
+	final private function getFinalPrivateBoolean(): bool
+	{
+		return false;
+	}
+	
+	final private function setFinalPrivateBoolean(bool $boolean): void {}
+	
+	final private static function getFinalPrivateStaticBoolean(): bool
+	{
+		return false;
+	}
+	
+	final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}
 }
 
 
@@ -399,6 +503,48 @@ abstract class CallTest_AbstractClass
 	abstract protected function setProtectedInteger(int $integer): void;
 	abstract protected static function getProtectedStaticInteger(): int;
 	abstract protected static function setProtectedStaticInteger(int $integer): void;
+	
+	final public function getFinalString(): string
+	{
+		return '';
+	}
+	
+	final public function setFinalString(string $string): void {}
+	
+	final public static function getFinalStaticString(): string
+	{
+		return '';
+	}
+	
+	final public static function setFinalStaticString(string $string): void {}
+	
+	final protected function getFinalProtectedInteger(): int
+	{
+		return 0;
+	}
+	
+	final protected function setFinalProtectedInteger(int $integer): void {}
+	
+	final protected static function getFinalProtectedStaticInteger(): int
+	{
+		return 0;
+	}
+	
+	final protected static function setFinalProtectedStaticInteger(int $integer): void {}
+	
+	final private function getFinalPrivateBoolean(): bool
+	{
+		return false;
+	}
+	
+	final private function setFinalPrivateBoolean(bool $boolean): void {}
+	
+	final private static function getFinalPrivateStaticBoolean(): bool
+	{
+		return false;
+	}
+	
+	final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}
 }
 
 
