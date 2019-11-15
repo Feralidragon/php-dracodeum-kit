@@ -492,6 +492,204 @@ class CallTest extends TestCase
 			[[$interface, 'getStaticString'], true, true, 'CallTest_Interface::getStaticString']
 		];
 	}
+	
+	/**
+	 * Test <code>parameters</code> method.
+	 * 
+	 * @dataProvider provideParametersMethodData
+	 * @testdox Call::parameters({$function}, $flags) === $expected
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testParametersMethod($function, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UCall::parameters($function, $flags));
+	}
+	
+	/**
+	 * Provide <code>parameters</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>parameters</code> method data.</p>
+	 */
+	public function provideParametersMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$class_invokeable = CallTest_InvokeableClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', 0x00, ['mixed $str']],
+			['strlen', UCall::PARAMETERS_NO_MIXED_TYPE, ['$str']],
+			[function () {}, 0x00, []],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, 0x00,
+				[$class . ' $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['\\' . $class . ' $a' , '\\stdClass $b', 'bool $e = false', 'mixed $k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::PARAMETERS_NO_MIXED_TYPE,
+				[$class . ' $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['\\' . $class . ' $a' , '\\stdClass $b', 'bool $e = false', '$k = null']],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPE,
+				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
+			[new CallTest_InvokeableClass(), 0x00, []],
+			[new CallTest_InvokeableClass2(), 0x00,
+				['string $s_foo = ' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
+			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_CONSTANTS_VALUES,
+				['string $s_foo = "bar2foo"']],
+			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
+			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['string $s_foo = \\' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
+			[new CallTest_InvokeableClass2(),
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['string $s_foo = "bar2foo"']],
+			[new CallTest_InvokeableClass2(),
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['string $s_foo = "bar2foo"']],
+			[new CallTest_InvokeableClass2(),
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
+			[new CallTest_InvokeableClass2(),
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES | 
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['string $s_foo = "bar2foo"']],
+			[[$class, 'getString'], 0x00, []],
+			[[$class, 'setString'], 0x00, ['string $string']],
+			[[$class, 'getStaticString'], 0x00, []],
+			[[$class, 'setStaticString'], 0x00, ['string $string']],
+			[[$class, 'getProtectedInteger'], 0x00, []],
+			[[$class, 'setProtectedInteger'], 0x00, ['int $integer']],
+			[[$class, 'getProtectedStaticInteger'], 0x00, []],
+			[[$class, 'setProtectedStaticInteger'], 0x00, ['int $integer']],
+			[[$class, 'getPrivateBoolean'], 0x00, []],
+			[[$class, 'setPrivateBoolean'], 0x00, ['bool $boolean']],
+			[[$class, 'getPrivateStaticBoolean'], 0x00, []],
+			[[$class, 'setPrivateStaticBoolean'], 0x00, ['bool $boolean']],
+			[[$class_abstract, 'getString'], 0x00, []],
+			[[$class_abstract, 'setString'], 0x00, ['string $string']],
+			[[$class_abstract, 'getStaticString'], 0x00, []],
+			[[$class_abstract, 'setStaticString'], 0x00, ['string $string']],
+			[[$class_abstract, 'getProtectedInteger'], 0x00, []],
+			[[$class_abstract, 'setProtectedInteger'], 0x00, ['int $integer']],
+			[[$class_abstract, 'getProtectedStaticInteger'], 0x00, []],
+			[[$class_abstract, 'setProtectedStaticInteger'], 0x00, ['int $integer']],
+			[[$interface, 'getString'], 0x00, []],
+			[[$interface, 'setString'], 0x00, ['string $string']],
+			[[$interface, 'getStaticString'], 0x00, []],
+			[[$interface, 'setStaticString'], 0x00, ['string $string']],
+			[[$class, 'doStuff'], 0x00,
+				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = ' . $class . '::A_S', 'array $foob = ' . $class . '::B_ARRAY',
+				'int $cint = ' . $class . '::C_CONSTANT', 'bool &$enable = ' . $class . '::D_ENABLE',
+				'?stdClass $std = null', 'mixed $flags = SORT_STRING', 'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES,
+				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', 'mixed $flags = 2',
+				'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
+				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
+				'?stdClass $std = null', 'mixed $flags = SORT_STRING', 'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = \\' . $class . '::A_S',
+				'array $foob = \\' . $class . '::B_ARRAY', 'int $cint = \\' . $class . '::C_CONSTANT',
+				'bool &$enable = \\' . $class . '::D_ENABLE', '?\\stdClass $std = null', 'mixed $flags = \\SORT_STRING',
+				'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', '$options', 'callable $c_function',
+				'string $farboo = ' . $class . '::A_S', 'array $foob = ' . $class . '::B_ARRAY',
+				'int $cint = ' . $class . '::C_CONSTANT', 'bool &$enable = ' . $class . '::D_ENABLE',
+				'?stdClass $std = null', '$flags = SORT_STRING', '...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', 'mixed $flags = 2',
+				'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?\\stdClass $std = null', 'mixed $flags = 2',
+				'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', $class_abstract . ' $ac', '?' . $class . ' &$c', '$options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
+				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
+				'?stdClass $std = null', 'mixed $flags = \\SORT_STRING', 'mixed ...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
+				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
+				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
+				'?stdClass $std = null', '$flags = SORT_STRING', '...$p']],
+			[[$class, 'doStuff'], UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', '$options',
+				'callable $c_function', 'string $farboo = \\' . $class . '::A_S',
+				'array $foob = \\' . $class . '::B_ARRAY', 'int $cint = \\' . $class . '::C_CONSTANT',
+				'bool &$enable = \\' . $class . '::D_ENABLE', '?\\stdClass $std = null', '$flags = \\SORT_STRING',
+				'...$p']],
+			[[$class, 'doStuff'],
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES | 
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', 'mixed $options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', 'mixed $flags = 2',
+				'mixed ...$p']],
+			[[$class, 'doStuff'],
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES | 
+				UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
+			[[$class, 'doStuff'],
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', '\\' . $class_abstract . ' $ac', '?\\' . $class . ' &$c', '$options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?\\stdClass $std = null', '$flags = 2', '...$p']],
+			[[$class, 'doStuff'],
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
+				UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
+				'callable $c_function', 'string $farboo = CallTest_Class::A_S', 'array $foob = CallTest_Class::B_ARRAY',
+				'int $cint = CallTest_Class::C_CONSTANT', 'bool &$enable = CallTest_Class::D_ENABLE',
+				'?stdClass $std = null', '$flags = \\SORT_STRING', '...$p']],
+			[[$class, 'doStuff'],
+				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_CLASSES_SHORT_NAMES | 
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
+				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
+				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
+		];
+	}
 }
 
 
@@ -504,15 +702,36 @@ class CallTest_InvokeableClass
 
 
 
+/** Test case dummy invokeable class 2. */
+class CallTest_InvokeableClass2
+{
+	public const FOO_CONSTANT = 'bar2foo';
+	
+	public function __invoke(string $s_foo = self::FOO_CONSTANT) {}
+}
+
+
+
 /** Test case dummy class. */
 class CallTest_Class
 {
+	public const A_S = 'Aaa';
+	public const B_ARRAY = ['foo' => false, 'bar' => null];
+	protected const C_CONSTANT = 1200;
+	private const D_ENABLE = true;
+	
 	public function getString(): string
 	{
 		return '';
 	}
 	
 	public function setString(string $string): void {}
+	
+	public function doStuff(
+		?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, $options, callable $c_function,
+		string $farboo = self::A_S, array $foob = self::B_ARRAY, int $cint = self::C_CONSTANT,
+		bool &$enable = self::D_ENABLE, ?\stdClass $std = null, $flags = SORT_STRING, ...$p
+	): void {}
 	
 	public static function getStaticString(): string
 	{
