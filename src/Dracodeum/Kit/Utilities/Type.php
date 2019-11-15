@@ -1572,6 +1572,19 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Check if a given class or interface exists.
+	 * 
+	 * @param string $class_interface
+	 * <p>The class or interface to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given class or interface exists.</p>
+	 */
+	final public static function exists(string $class_interface): bool
+	{
+		return class_exists($class_interface) || interface_exists($class_interface);
+	}
+	
+	/**
 	 * Check if a given class is instantiable.
 	 * 
 	 * @param string $class
@@ -1915,18 +1928,19 @@ final class Type extends Utility
 	}
 	
 	/**
-	 * Get short name from a given object or class.
+	 * Get short name from a given object, class or interface.
 	 * 
-	 * The returning short name is the class name without its namespace.
+	 * The returning short name is the class or interface name without its namespace.
 	 * 
-	 * @param object|string $object_class
-	 * <p>The object or class to get from.</p>
+	 * @param object|string $object_class_interface
+	 * <p>The object, class or interface to get from.</p>
 	 * @return string
-	 * <p>The short name from the given object or class.</p>
+	 * <p>The short name from the given object, class or interface.</p>
 	 */
-	final public static function shortname($object_class): string
+	final public static function shortname($object_class_interface): string
 	{
-		return (new \ReflectionClass(self::class($object_class)))->getShortName();
+		$class_interface = self::interface($object_class_interface, true) ?? self::class($object_class_interface);
+		return (new \ReflectionClass($class_interface))->getShortName();
 	}
 	
 	/**

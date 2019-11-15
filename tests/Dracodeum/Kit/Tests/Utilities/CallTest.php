@@ -690,6 +690,136 @@ class CallTest extends TestCase
 				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
 		];
 	}
+	
+	/**
+	 * Test <code>type</code> method.
+	 * 
+	 * @dataProvider provideTypeMethodData
+	 * @testdox Call::type({$function}, $flags) === '$expected'
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testTypeMethod($function, int $flags, string $expected): void
+	{
+		$this->assertSame($expected, UCall::type($function, $flags));
+	}
+	
+	/**
+	 * Provide <code>type</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>type</code> method data.</p>
+	 */
+	public function provideTypeMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', 0x00, 'mixed'],
+			['strlen', UCall::TYPE_NO_MIXED, ''],
+			[function () {}, 0x00, 'mixed'],
+			[function () {}, UCall::TYPE_NO_MIXED, ''],
+			[function (): void {}, 0x00, 'void'],
+			[function (): bool {}, 0x00, 'bool'],
+			[function (): ?bool {}, 0x00, '?bool'],
+			[function (): int {}, 0x00, 'int'],
+			[function (): ?int {}, 0x00, '?int'],
+			[function (): float {}, 0x00, 'float'],
+			[function (): ?float {}, 0x00, '?float'],
+			[function (): string {}, 0x00, 'string'],
+			[function (): ?string {}, 0x00, '?string'],
+			[function (): array {}, 0x00, 'array'],
+			[function (): ?array {}, 0x00, '?array'],
+			[function (): callable {}, 0x00, 'callable'],
+			[function (): ?callable {}, 0x00, '?callable'],
+			[function (): object {}, 0x00, 'object'],
+			[function (): ?object {}, 0x00, '?object'],
+			[function (): \stdClass {}, 0x00, 'stdClass'],
+			[function (): ?\stdClass {}, 0x00, '?stdClass'],
+			[function (): \stdClass {}, UCall::TYPE_CLASS_SHORT_NAME, 'stdClass'],
+			[function (): ?\stdClass {}, UCall::TYPE_CLASS_SHORT_NAME, '?stdClass'],
+			[function (): \stdClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '\\stdClass'],
+			[function (): ?\stdClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '?\\stdClass'],
+			[function (): \stdClass {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH, 'stdClass'],
+			[function (): ?\stdClass {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'?stdClass'],
+			[function (): CallTest_Class {}, 0x00, $class],
+			[function (): ?CallTest_Class {}, 0x00, "?{$class}"],
+			[function (): CallTest_Class {}, UCall::TYPE_CLASS_SHORT_NAME, 'CallTest_Class'],
+			[function (): ?CallTest_Class {}, UCall::TYPE_CLASS_SHORT_NAME, '?CallTest_Class'],
+			[function (): CallTest_Class {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class}"],
+			[function (): ?CallTest_Class {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
+			[function (): CallTest_Class {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'CallTest_Class'],
+			[function (): ?CallTest_Class {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'?CallTest_Class'],
+			[function (): CallTest_AbstractClass {}, 0x00, $class_abstract],
+			[function (): ?CallTest_AbstractClass {}, 0x00, "?{$class_abstract}"],
+			[function (): CallTest_AbstractClass {}, UCall::TYPE_CLASS_SHORT_NAME, 'CallTest_AbstractClass'],
+			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_CLASS_SHORT_NAME, '?CallTest_AbstractClass'],
+			[function (): CallTest_AbstractClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class_abstract}"],
+			[function (): ?CallTest_AbstractClass {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class_abstract}"],
+			[function (): CallTest_AbstractClass {},
+				UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH, 'CallTest_AbstractClass'],
+			[function (): ?CallTest_AbstractClass {},
+				UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH, '?CallTest_AbstractClass'],
+			[function (): CallTest_Interface {}, 0x00, $interface],
+			[function (): ?CallTest_Interface {}, 0x00, "?{$interface}"],
+			[function (): CallTest_Interface {}, UCall::TYPE_CLASS_SHORT_NAME, 'CallTest_Interface'],
+			[function (): ?CallTest_Interface {}, UCall::TYPE_CLASS_SHORT_NAME, '?CallTest_Interface'],
+			[function (): CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$interface}"],
+			[function (): ?CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$interface}"],
+			[function (): CallTest_Interface {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'CallTest_Interface'],
+			[function (): ?CallTest_Interface {}, UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'?CallTest_Interface'],
+			[new CallTest_InvokeableClass(), 0x00, "?{$class}"],
+			[new CallTest_InvokeableClass(), UCall::TYPE_CLASS_SHORT_NAME, '?CallTest_Class'],
+			[new CallTest_InvokeableClass(), UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
+			[new CallTest_InvokeableClass(), UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'?CallTest_Class'],
+			[new CallTest_InvokeableClass2(), 0x00, 'void'],
+			[[$class, 'getString'], 0x00, 'string'],
+			[[$class, 'setString'], 0x00, 'void'],
+			[[$class, 'getStaticString'], 0x00, 'string'],
+			[[$class, 'setStaticString'], 0x00, 'void'],
+			[[$class, 'getProtectedInteger'], 0x00, 'int'],
+			[[$class, 'setProtectedInteger'], 0x00, 'void'],
+			[[$class, 'getProtectedStaticInteger'], 0x00, 'int'],
+			[[$class, 'setProtectedStaticInteger'], 0x00, 'void'],
+			[[$class, 'getPrivateBoolean'], 0x00, 'bool'],
+			[[$class, 'setPrivateBoolean'], 0x00, 'void'],
+			[[$class, 'getPrivateStaticBoolean'], 0x00, 'bool'],
+			[[$class, 'setPrivateStaticBoolean'], 0x00, 'void'],
+			[[$class_abstract, 'getString'], 0x00, 'string'],
+			[[$class_abstract, 'setString'], 0x00, 'void'],
+			[[$class_abstract, 'getStaticString'], 0x00, 'string'],
+			[[$class_abstract, 'setStaticString'], 0x00, 'void'],
+			[[$class_abstract, 'getProtectedInteger'], 0x00, 'int'],
+			[[$class_abstract, 'setProtectedInteger'], 0x00, 'void'],
+			[[$class_abstract, 'getProtectedStaticInteger'], 0x00, 'int'],
+			[[$class_abstract, 'setProtectedStaticInteger'], 0x00, 'void'],
+			[[$interface, 'getString'], 0x00, 'string'],
+			[[$interface, 'setString'], 0x00, 'void'],
+			[[$interface, 'getStaticString'], 0x00, 'string'],
+			[[$interface, 'setStaticString'], 0x00, 'void'],
+			[[$class, 'doStuff'], 0x00, "?{$interface}"],
+			[[$class, 'doStuff'], UCall::TYPE_CLASS_SHORT_NAME, '?CallTest_Interface'],
+			[[$class, 'doStuff'], UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$interface}"],
+			[[$class, 'doStuff'], UCall::TYPE_CLASS_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'?CallTest_Interface']
+		];
+	}
 }
 
 
@@ -697,7 +827,7 @@ class CallTest extends TestCase
 /** Test case dummy invokeable class. */
 class CallTest_InvokeableClass
 {
-	public function __invoke() {}
+	public function __invoke(): ?CallTest_Class {}
 }
 
 
@@ -707,7 +837,7 @@ class CallTest_InvokeableClass2
 {
 	public const FOO_CONSTANT = 'bar2foo';
 	
-	public function __invoke(string $s_foo = self::FOO_CONSTANT) {}
+	public function __invoke(string $s_foo = self::FOO_CONSTANT): void {}
 }
 
 
@@ -731,7 +861,7 @@ class CallTest_Class
 		?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, $options, callable $c_function,
 		string $farboo = self::A_S, array $foob = self::B_ARRAY, int $cint = self::C_CONSTANT,
 		bool &$enable = self::D_ENABLE, ?\stdClass $std = null, $flags = SORT_STRING, ...$p
-	): void {}
+	): ?CallTest_Interface {}
 	
 	public static function getStaticString(): string
 	{

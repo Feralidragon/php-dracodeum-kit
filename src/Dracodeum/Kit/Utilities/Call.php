@@ -448,14 +448,19 @@ final class Call extends Utility
 		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
 		if (isset($rtype)) {
+			//type
 			$type = (string)$rtype;
-			if (($flags & (self::TYPE_CLASS_SHORT_NAME | self::TYPE_NAMESPACE_LEADING_SLASH)) && class_exists($type)) {
+			
+			//flags
+			if (Type::exists($type)) {
 				if ($flags & self::TYPE_CLASS_SHORT_NAME) {
 					$type = Type::shortname($type);
 				} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
 					$type = "\\{$type}";
 				}
 			}
+			
+			//null
 			if ($rtype->allowsNull()) {
 				$type = "?{$type}";
 			}
