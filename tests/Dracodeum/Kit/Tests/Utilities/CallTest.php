@@ -523,7 +523,6 @@ class CallTest extends TestCase
 		//initialize
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
-		$class_invokeable = CallTest_InvokeableClass::class;
 		$interface = CallTest_Interface::class;
 		
 		//return
@@ -554,6 +553,16 @@ class CallTest extends TestCase
 				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | 
 				UCall::PARAMETERS_NO_MIXED_TYPE,
 				['CallTest_Class $a' , 'stdClass $b', 'bool $e = false', '$k = null']],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, 0x00,
+				[$class_abstract . ' $ac' , '?' . $interface . ' $i']],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, UCall::PARAMETERS_CLASSES_SHORT_NAMES,
+				['CallTest_AbstractClass $ac' , '?CallTest_Interface $i']],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {},
+				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['\\' . $class_abstract . ' $ac' , '?\\' . $interface . ' $i']],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {},
+				UCall::PARAMETERS_CLASSES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+				['CallTest_AbstractClass $ac' , '?CallTest_Interface $i']],
 			[new CallTest_InvokeableClass(), 0x00, []],
 			[new CallTest_InvokeableClass2(), 0x00,
 				['string $s_foo = ' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
@@ -687,7 +696,7 @@ class CallTest extends TestCase
 				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH | UCall::PARAMETERS_NO_MIXED_TYPE,
 				['?float $fnumber', 'CallTest_AbstractClass $ac', '?CallTest_Class &$c', '$options',
 				'callable $c_function', 'string $farboo = "Aaa"', 'array $foob = ["foo"=>false,"bar"=>null]',
-				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']],
+				'int $cint = 1200', 'bool &$enable = true', '?stdClass $std = null', '$flags = 2', '...$p']]
 		];
 	}
 	
