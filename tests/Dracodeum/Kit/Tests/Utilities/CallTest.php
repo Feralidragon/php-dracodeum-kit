@@ -829,6 +829,340 @@ class CallTest extends TestCase
 				'?CallTest_Interface']
 		];
 	}
+	
+	/**
+	 * Test <code>header</code> method.
+	 * 
+	 * @dataProvider provideHeaderMethodData
+	 * @testdox Call::header({$function}, $flags) === '$expected'
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testHeaderMethod($function, int $flags, string $expected): void
+	{
+		$this->assertSame($expected, UCall::header($function, $flags));
+	}
+	
+	/**
+	 * Provide <code>header</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>header</code> method data.</p>
+	 */
+	public function provideHeaderMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', 0x00, 'function strlen(mixed $str): mixed'],
+			['strlen', UCall::HEADER_NO_MIXED_TYPE, 'function strlen($str)'],
+			[function () {}, 0x00, 'function (): mixed'],
+			[function () {}, UCall::HEADER_NO_MIXED_TYPE, 'function ()'],
+			[function (): void {}, 0x00, 'function (): void'],
+			[function (): bool {}, 0x00, 'function (): bool'],
+			[function (): ?bool {}, 0x00, 'function (): ?bool'],
+			[function (): int {}, 0x00, 'function (): int'],
+			[function (): ?int {}, 0x00, 'function (): ?int'],
+			[function (): float {}, 0x00, 'function (): float'],
+			[function (): ?float {}, 0x00, 'function (): ?float'],
+			[function (): string {}, 0x00, 'function (): string'],
+			[function (): ?string {}, 0x00, 'function (): ?string'],
+			[function (): array {}, 0x00, 'function (): array'],
+			[function (): ?array {}, 0x00, 'function (): ?array'],
+			[function (): callable {}, 0x00, 'function (): callable'],
+			[function (): ?callable {}, 0x00, 'function (): ?callable'],
+			[function (): object {}, 0x00, 'function (): object'],
+			[function (): ?object {}, 0x00, 'function (): ?object'],
+			[function (): \stdClass {}, 0x00, 'function (): stdClass'],
+			[function (): ?\stdClass {}, 0x00, 'function (): ?stdClass'],
+			[function (): \stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): stdClass'],
+			[function (): ?\stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?stdClass'],
+			[function (): \stdClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): \\stdClass'],
+			[function (): ?\stdClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): ?\\stdClass'],
+			[function (): \stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): stdClass'],
+			[function (): ?\stdClass {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?stdClass'],
+			[function (): CallTest_Class {}, 0x00, 'function (): ' . $class],
+			[function (): ?CallTest_Class {}, 0x00, 'function (): ?' . $class],
+			[function (): CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): CallTest_Class'],
+			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?CallTest_Class'],
+			[function (): CallTest_Class {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): \\' . $class],
+			[function (): ?CallTest_Class {}, UCall::HEADER_NAMESPACES_LEADING_SLASH, 'function (): ?\\' . $class],
+			[function (): CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): CallTest_Class'],
+			[function (): ?CallTest_Class {}, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?CallTest_Class'],
+			[function (): CallTest_AbstractClass {}, 0x00, 'function (): ' . $class_abstract],
+			[function (): ?CallTest_AbstractClass {}, 0x00, 'function (): ?' . $class_abstract],
+			[function (): CallTest_AbstractClass {}, UCall::HEADER_TYPES_SHORT_NAMES,
+				'function (): CallTest_AbstractClass'],
+			[function (): ?CallTest_AbstractClass {}, UCall::HEADER_TYPES_SHORT_NAMES,
+				'function (): ?CallTest_AbstractClass'],
+			[function (): CallTest_AbstractClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): \\' . $class_abstract],
+			[function (): ?CallTest_AbstractClass {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?\\' . $class_abstract],
+			[function (): CallTest_AbstractClass {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): CallTest_AbstractClass'],
+			[function (): ?CallTest_AbstractClass {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?CallTest_AbstractClass'],
+			[function (): CallTest_Interface {}, 0x00, 'function (): ' . $interface],
+			[function (): ?CallTest_Interface {}, 0x00, 'function (): ?' . $interface],
+			[function (): CallTest_Interface {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): CallTest_Interface'],
+			[function (): ?CallTest_Interface {}, UCall::HEADER_TYPES_SHORT_NAMES, 'function (): ?CallTest_Interface'],
+			[function (): CallTest_Interface {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): \\' . $interface],
+			[function (): ?CallTest_Interface {}, UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?\\' . $interface],
+			[function (): CallTest_Interface {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): CallTest_Interface'],
+			[function (): ?CallTest_Interface {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (): ?CallTest_Interface'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): void {}, 0x00,
+				'function (' . $class . ' $a, stdClass $b, bool $e = false, mixed $k = null): void'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): void {},
+				UCall::HEADER_TYPES_SHORT_NAMES,
+				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): void'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {},
+				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, mixed $k = null): mixed'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, UCall::HEADER_NO_MIXED_TYPE,
+				'function (' . $class . ' $a, stdClass $b, bool $e = false, $k = null)'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (CallTest_Class $a, stdClass $b, bool $e = false, mixed $k = null): CallTest_AbstractClass'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPE,
+				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): CallTest_AbstractClass {},
+				UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+				'function (\\' . $class . ' $a, \\stdClass $b, bool $e = false, $k = null): \\' . $class_abstract],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): int {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
+				UCall::HEADER_NO_MIXED_TYPE,
+				'function (CallTest_Class $a, stdClass $b, bool $e = false, $k = null): int'],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): string {}, 0x00,
+				'function (' . $class_abstract . ' $ac, ?' . $interface . ' $i): string'],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {}, UCall::HEADER_TYPES_SHORT_NAMES,
+				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): mixed'],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?\stdClass {},
+				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (\\' . $class_abstract . ' $ac, ?\\' . $interface . ' $i): ?\\stdClass'],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable'],
+			[new CallTest_InvokeableClass(), 0x00, 'public function __invoke(): ?' . $class],
+			[new CallTest_InvokeableClass(), UCall::HEADER_TYPES_SHORT_NAMES,
+				'public function __invoke(): ?CallTest_Class'],
+			[new CallTest_InvokeableClass(), UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(): ?\\' . $class],
+			[new CallTest_InvokeableClass(), UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(): ?CallTest_Class'],
+			[new CallTest_InvokeableClass2(), 0x00,
+				'public function __invoke(string $s_foo = ' . CallTest_InvokeableClass2::class . 
+				'::FOO_CONSTANT): void'],
+			[new CallTest_InvokeableClass2(), UCall::HEADER_CONSTANTS_VALUES,
+				'public function __invoke(string $s_foo = "bar2foo"): void'],
+			[new CallTest_InvokeableClass2(), UCall::HEADER_TYPES_SHORT_NAMES,
+				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
+			[new CallTest_InvokeableClass2(), UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(string $s_foo = \\' . CallTest_InvokeableClass2::class . 
+				'::FOO_CONSTANT): void'],
+			[new CallTest_InvokeableClass2(),
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES,
+				'public function __invoke(string $s_foo = "bar2foo"): void'],
+			[new CallTest_InvokeableClass2(),
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(string $s_foo = "bar2foo"): void'],
+			[new CallTest_InvokeableClass2(),
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
+			[new CallTest_InvokeableClass2(),
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
+				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function __invoke(string $s_foo = "bar2foo"): void'],
+			[[$class, 'getString'], 0x00, 'public function getString(): string'],
+			[[$class, 'setString'], 0x00, 'public function setString(string $string): void'],
+			[[$class, 'getStaticString'], 0x00, 'public static function getStaticString(): string'],
+			[[$class, 'setStaticString'], 0x00, 'public static function setStaticString(string $string): void'],
+			[[$class, 'getProtectedInteger'], 0x00, 'protected function getProtectedInteger(): int'],
+			[[$class, 'setProtectedInteger'], 0x00, 'protected function setProtectedInteger(int $integer): void'],
+			[[$class, 'getProtectedStaticInteger'], 0x00, 'protected static function getProtectedStaticInteger(): int'],
+			[[$class, 'setProtectedStaticInteger'], 0x00,
+				'protected static function setProtectedStaticInteger(int $integer): void'],
+			[[$class, 'getPrivateBoolean'], 0x00, 'private function getPrivateBoolean(): bool'],
+			[[$class, 'setPrivateBoolean'], 0x00, 'private function setPrivateBoolean(bool $boolean): void'],
+			[[$class, 'getPrivateStaticBoolean'], 0x00, 'private static function getPrivateStaticBoolean(): bool'],
+			[[$class, 'setPrivateStaticBoolean'], 0x00,
+				'private static function setPrivateStaticBoolean(bool $boolean): void'],
+			[[$class, 'getFinalString'], 0x00, 'final public function getFinalString(): string'],
+			[[$class, 'setFinalString'], 0x00, 'final public function setFinalString(string $string): void'],
+			[[$class, 'getFinalStaticString'], 0x00, 'final public static function getFinalStaticString(): string'],
+			[[$class, 'setFinalStaticString'], 0x00,
+				'final public static function setFinalStaticString(string $string): void'],
+			[[$class, 'getFinalProtectedInteger'], 0x00, 'final protected function getFinalProtectedInteger(): int'],
+			[[$class, 'setFinalProtectedInteger'], 0x00,
+				'final protected function setFinalProtectedInteger(int $integer): void'],
+			[[$class, 'getFinalProtectedStaticInteger'], 0x00,
+				'final protected static function getFinalProtectedStaticInteger(): int'],
+			[[$class, 'setFinalProtectedStaticInteger'], 0x00,
+				'final protected static function setFinalProtectedStaticInteger(int $integer): void'],
+			[[$class, 'getFinalPrivateBoolean'], 0x00, 'final private function getFinalPrivateBoolean(): bool'],
+			[[$class, 'setFinalPrivateBoolean'], 0x00,
+				'final private function setFinalPrivateBoolean(bool $boolean): void'],
+			[[$class, 'getFinalPrivateStaticBoolean'], 0x00,
+				'final private static function getFinalPrivateStaticBoolean(): bool'],
+			[[$class, 'setFinalPrivateStaticBoolean'], 0x00,
+				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void'],
+			[[$class_abstract, 'getString'], 0x00, 'abstract public function getString(): string'],
+			[[$class_abstract, 'setString'], 0x00, 'abstract public function setString(string $string): void'],
+			[[$class_abstract, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string'],
+			[[$class_abstract, 'setStaticString'], 0x00,
+				'abstract public static function setStaticString(string $string): void'],
+			[[$class_abstract, 'getProtectedInteger'], 0x00, 'abstract protected function getProtectedInteger(): int'],
+			[[$class_abstract, 'setProtectedInteger'], 0x00,
+				'abstract protected function setProtectedInteger(int $integer): void'],
+			[[$class_abstract, 'getProtectedStaticInteger'], 0x00,
+				'abstract protected static function getProtectedStaticInteger(): int'],
+			[[$class_abstract, 'setProtectedStaticInteger'], 0x00,
+				'abstract protected static function setProtectedStaticInteger(int $integer): void'],
+			[[$class_abstract, 'getFinalString'], 0x00, 'final public function getFinalString(): string'],
+			[[$class_abstract, 'setFinalString'], 0x00, 'final public function setFinalString(string $string): void'],
+			[[$class_abstract, 'getFinalStaticString'], 0x00, 'final public static function getFinalStaticString(): string'],
+			[[$class_abstract, 'setFinalStaticString'], 0x00,
+				'final public static function setFinalStaticString(string $string): void'],
+			[[$class_abstract, 'getFinalProtectedInteger'], 0x00, 'final protected function getFinalProtectedInteger(): int'],
+			[[$class_abstract, 'setFinalProtectedInteger'], 0x00,
+				'final protected function setFinalProtectedInteger(int $integer): void'],
+			[[$class_abstract, 'getFinalProtectedStaticInteger'], 0x00,
+				'final protected static function getFinalProtectedStaticInteger(): int'],
+			[[$class_abstract, 'setFinalProtectedStaticInteger'], 0x00,
+				'final protected static function setFinalProtectedStaticInteger(int $integer): void'],
+			[[$class_abstract, 'getFinalPrivateBoolean'], 0x00, 'final private function getFinalPrivateBoolean(): bool'],
+			[[$class_abstract, 'setFinalPrivateBoolean'], 0x00,
+				'final private function setFinalPrivateBoolean(bool $boolean): void'],
+			[[$class_abstract, 'getFinalPrivateStaticBoolean'], 0x00,
+				'final private static function getFinalPrivateStaticBoolean(): bool'],
+			[[$class_abstract, 'setFinalPrivateStaticBoolean'], 0x00,
+				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void'],
+			[[$interface, 'getString'], 0x00, 'abstract public function getString(): string'],
+			[[$interface, 'setString'], 0x00, 'abstract public function setString(string $string): void'],
+			[[$interface, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string'],
+			[[$interface, 'setStaticString'], 0x00,
+				'abstract public static function setStaticString(string $string): void'],
+			[[$class, 'doStuff'], 0x00,
+				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = ' . $class . '::A_S, array $foob = ' . $class . 
+				'::B_ARRAY, int $cint = ' . $class . '::C_CONSTANT, bool &$enable = ' . $class . '::D_ENABLE, ' . 
+				'?stdClass $std = null, mixed $flags = SORT_STRING, mixed ...$p): ?' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES,
+				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
+				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
+				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
+				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
+				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = SORT_STRING, ' . 
+				'mixed ...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'], UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
+				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
+				'bool &$enable = \\' . $class . '::D_ENABLE, ?\\stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
+				'mixed ...$p): ?\\' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
+				'$options, callable $c_function, string $farboo = ' . $class . '::A_S, ' . 
+				'array $foob = ' . $class . '::B_ARRAY, int $cint = ' . $class . '::C_CONSTANT, ' . 
+				'bool &$enable = ' . $class . '::D_ENABLE, ?stdClass $std = null, $flags = SORT_STRING, ' . 
+				'...$p): ?' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
+				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
+				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
+				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
+				'?\\stdClass $std = null, mixed $flags = 2, mixed ...$p): ?\\' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, ' . $class_abstract . ' $ac, ?' . $class . ' &$c, ' . 
+				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
+				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ...$p): ?' . $interface],
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
+				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
+				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, mixed $flags = \\SORT_STRING, ' . 
+				'mixed ...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'], UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
+				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
+				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, $flags = SORT_STRING, ' . 
+				'...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'], UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
+				'$options, callable $c_function, string $farboo = \\' . $class . '::A_S, ' . 
+				'array $foob = \\' . $class . '::B_ARRAY, int $cint = \\' . $class . '::C_CONSTANT, ' . 
+				'bool &$enable = \\' . $class . '::D_ENABLE, ?\\stdClass $std = null, $flags = \\SORT_STRING, ' . 
+				'...$p): ?\\' . $interface],
+			[[$class, 'doStuff'],
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
+				UCall::HEADER_NAMESPACES_LEADING_SLASH,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'mixed $options, callable $c_function, string $farboo = "Aaa", ' . 
+				'array $foob = ["foo"=>false,"bar"=>null], int $cint = 1200, bool &$enable = true, ' . 
+				'?stdClass $std = null, mixed $flags = 2, mixed ...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'],
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
+				UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
+				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
+				'...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'],
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
+				UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, \\' . $class_abstract . ' $ac, ?\\' . $class . ' &$c, ' . 
+				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
+				'int $cint = 1200, bool &$enable = true, ?\\stdClass $std = null, $flags = 2, ' . 
+				'...$p): ?\\' . $interface],
+			[[$class, 'doStuff'],
+				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH | 
+				UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'$options, callable $c_function, string $farboo = CallTest_Class::A_S, ' . 
+				'array $foob = CallTest_Class::B_ARRAY, int $cint = CallTest_Class::C_CONSTANT, ' . 
+				'bool &$enable = CallTest_Class::D_ENABLE, ?stdClass $std = null, $flags = \\SORT_STRING, ' . 
+				'...$p): ?CallTest_Interface'],
+			[[$class, 'doStuff'],
+				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
+				UCall::HEADER_NAMESPACES_LEADING_SLASH | UCall::HEADER_NO_MIXED_TYPE,
+				'public function doStuff(?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, ' . 
+				'$options, callable $c_function, string $farboo = "Aaa", array $foob = ["foo"=>false,"bar"=>null], ' . 
+				'int $cint = 1200, bool &$enable = true, ?stdClass $std = null, $flags = 2, ' . 
+				'...$p): ?CallTest_Interface']
+		];
+	}
 }
 
 
