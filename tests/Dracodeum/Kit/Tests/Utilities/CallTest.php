@@ -1163,6 +1163,96 @@ class CallTest extends TestCase
 				'...$p): ?CallTest_Interface']
 		];
 	}
+	
+	/**
+	 * Test <code>body</code> method.
+	 * 
+	 * @dataProvider provideBodyMethodData
+	 * @testdox Call::body({$function}) === '$expected'
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testBodyMethod($function, string $expected): void
+	{
+		$this->assertSame($expected, UCall::body($function));
+	}
+	
+	/**
+	 * Provide <code>body</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>body</code> method data.</p>
+	 */
+	public function provideBodyMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', ''],
+			[function () {}, ''],
+			[function () {return 'foo2bar';}, "return 'foo2bar';"],
+			[
+				function () {
+					return "foo2bar";
+				},
+				"return \"foo2bar\";"
+			], [
+				function (int $i) {
+					if ($i > 2) {
+						return $i + 1;
+					}
+					return null;
+				},
+				"if (\$i > 2) {\n\treturn \$i + 1;\n}\nreturn null;"
+			],
+			[new CallTest_InvokeableClass(), ''],
+			[new CallTest_InvokeableClass2(),
+				"//condition\nif (strlen(\$s_foo) > 45) {\n\t\$s_foo = substr(\$s_foo, 0, 45);\n}"],
+			[[$class, 'getString'], "return '';"],
+			[[$class, 'setString'], ''],
+			[[$class, 'getStaticString'], "return '';"],
+			[[$class, 'setStaticString'], ''],
+			[[$class, 'getProtectedInteger'], "return 0;"],
+			[[$class, 'setProtectedInteger'], ''],
+			[[$class, 'getProtectedStaticInteger'], "return 0;"],
+			[[$class, 'setProtectedStaticInteger'], ''],
+			[[$class, 'getPrivateBoolean'], "return false;"],
+			[[$class, 'setPrivateBoolean'], ''],
+			[[$class, 'getPrivateStaticBoolean'], "return false;"],
+			[[$class, 'setPrivateStaticBoolean'], ''],
+			[[$class_abstract, 'getString'], ''],
+			[[$class_abstract, 'setString'], ''],
+			[[$class_abstract, 'getStaticString'], ''],
+			[[$class_abstract, 'setStaticString'], ''],
+			[[$class_abstract, 'getProtectedInteger'], ''],
+			[[$class_abstract, 'setProtectedInteger'], ''],
+			[[$class_abstract, 'getProtectedStaticInteger'], ''],
+			[[$class_abstract, 'setProtectedStaticInteger'], ''],
+			[[$interface, 'getString'], ''],
+			[[$interface, 'setString'], ''],
+			[[$interface, 'getStaticString'], ''],
+			[[$interface, 'setStaticString'], ''],
+			[[$class, 'doStuff'],
+				"//iterate\nforeach (\$foob as \$foo) {\n\t\$fnumber *= \$foo;\n}\n\n" . 
+				"//do something\n\$farboo = \"{\$fnumber}{\$cint}\";\nif (\$enable) {\n" . 
+				"\tif (UCall::object(\$c_function) === null) {\n\t\t\$enable = false;\n" . 
+				"\t} elseif (\$flags & SORT_STRING) {\n\t\t\$std->barobj = \$ac;\n\t\t\$c = \$ac;\n" . 
+				"\t}\n}\n\n" . 
+				"//return\nreturn new class implements CallTest_Interface\n{\n" . 
+				"\tpublic function getString(): string {}\n\tpublic function setString(string \$string): void {}\n" . 
+				"\tpublic static function getStaticString(): string {}\n" . 
+				"\tpublic static function setStaticString(string \$string): void {}\n};"
+			]
+		];
+	}
 }
 
 
@@ -1180,7 +1270,12 @@ class CallTest_InvokeableClass2
 {
 	public const FOO_CONSTANT = 'bar2foo';
 	
-	public function __invoke(string $s_foo = self::FOO_CONSTANT): void {}
+	public function __invoke(string $s_foo = self::FOO_CONSTANT): void {
+		//condition
+		if (strlen($s_foo) > 45) {
+			$s_foo = substr($s_foo, 0, 45);
+		}
+	}
 }
 
 
@@ -1204,7 +1299,33 @@ class CallTest_Class
 		?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, $options, callable $c_function,
 		string $farboo = self::A_S, array $foob = self::B_ARRAY, int $cint = self::C_CONSTANT,
 		bool &$enable = self::D_ENABLE, ?\stdClass $std = null, $flags = SORT_STRING, ...$p
-	): ?CallTest_Interface {}
+	): ?CallTest_Interface
+	{
+		//iterate
+		foreach ($foob as $foo) {
+			$fnumber *= $foo;
+		}
+		
+		//do something
+		$farboo = "{$fnumber}{$cint}";
+		if ($enable) {
+			if (UCall::object($c_function) === null) {
+				$enable = false;
+			} elseif ($flags & SORT_STRING) {
+				$std->barobj = $ac;
+				$c = $ac;
+			}
+		}
+		
+		//return
+		return new class implements CallTest_Interface
+		{
+			public function getString(): string {}
+			public function setString(string $string): void {}
+			public static function getStaticString(): string {}
+			public static function setStaticString(string $string): void {}
+		};
+	}
 	
 	public static function getStaticString(): string
 	{

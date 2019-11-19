@@ -543,7 +543,7 @@ final class Call extends Utility
 	/**
 	 * Get body from a given function.
 	 * 
-	 * The returning body from the given function is its PHP code.
+	 * The returning body from the given function is its internal PHP code.
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
@@ -566,7 +566,7 @@ final class Call extends Utility
 			$body = implode("\n", array_slice(
 				file($filepath, FILE_IGNORE_NEW_LINES), $start_line - 1, $end_line - $start_line + 1
 			));
-			$body = preg_replace(['/^[^{]+\{(.*)\}.*$/sm', '/^(?:\s*\n)+|(?:\n\s*)+$/'], ['$1', ''], $body);
+			$body = preg_replace(['/^[^{]+(?:\{(.*)\}|;).*$/sm', '/^(?:\s*\n)+|(?:\n\s*)+$/'], ['$1', ''], $body);
 			if (preg_match('/^\s+/', $body, $matches)) {
 				$body = preg_replace('/^' . preg_quote($matches[0], '/') . '/m', '', $body);
 			}
