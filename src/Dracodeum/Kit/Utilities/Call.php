@@ -496,7 +496,7 @@ final class Call extends Utility
 		$modifiers = self::modifiers($function);
 		$name = self::name($function);
 		
-		//initialize parameters
+		//parameters
 		$parameters_flags = 0x00;
 		if ($flags & self::HEADER_CONSTANTS_VALUES) {
 			$parameters_flags |= self::PARAMETERS_CONSTANTS_VALUES;
@@ -512,7 +512,7 @@ final class Call extends Utility
 		}
 		$parameters = self::parameters($function, $parameters_flags);
 		
-		//initialize type
+		//type
 		$type_flags = 0x00;
 		if ($flags & self::HEADER_NO_MIXED_TYPE) {
 			$type_flags |= self::TYPE_NO_MIXED;
@@ -560,13 +560,19 @@ final class Call extends Utility
 				return '';
 			}
 			
-			//body
+			//lines
 			$start_line = $reflection->getStartLine();
 			$end_line = $reflection->getEndLine();
-			$body = implode("\n", array_slice(
-				file($filepath, FILE_IGNORE_NEW_LINES), $start_line - 1, $end_line - $start_line + 1
-			));
-			$body = preg_replace(['/^[^{]+(?:\{(.*)\}|;).*$/sm', '/^(?:\s*\n)+|(?:\n\s*)+$/'], ['$1', ''], $body);
+			$lines = array_slice(file($filepath, FILE_IGNORE_NEW_LINES), $start_line - 1, $end_line - $start_line + 1);
+			if (empty($lines)) {
+				return '';
+			}
+			$lines[] = preg_replace('/\}.+$/', '}', array_pop($lines));
+			
+			//body
+			$body = preg_replace(
+				['/^[^{]+(?:\{(.*)\}|;).*$/sm', '/^(?:\s*\n)+|(?:\n\s*)+$/'], ['$1', ''], implode("\n", $lines)
+			);
 			if (preg_match('/^\s+/', $body, $matches)) {
 				$body = preg_replace('/^' . preg_quote($matches[0], '/') . '/m', '', $body);
 			}
@@ -600,7 +606,7 @@ final class Call extends Utility
 	final public static function source($function, int $flags = 0x00): string
 	{
 		return self::memoize(function ($function, int $flags = 0x00): string {
-			//initialize header
+			//header
 			$header_flags = 0x00;
 			if ($flags & self::SOURCE_CONSTANTS_VALUES) {
 				$header_flags |= self::HEADER_CONSTANTS_VALUES;
@@ -616,11 +622,17 @@ final class Call extends Utility
 			}
 			$header = self::header($function, $header_flags);
 			
-			//initialize body
-			$body = Text::indentate(self::body($function));
+			//body
+			$body = self::body($function);
 			
-			//return
-			return "{$header}\n{\n{$body}\n}";
+			//finish
+			if ($body !== '') {
+				$body = Text::indentate($body);
+				return "{$header}\n{\n{$body}\n}";
+			} elseif (in_array('abstract', self::modifiers($function), true)) {
+				return "{$header};";
+			}
+			return "{$header} {}";
 		});
 	}
 	
