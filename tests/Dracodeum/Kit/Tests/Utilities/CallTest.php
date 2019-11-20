@@ -2400,6 +2400,66 @@ class CallTest extends TestCase
 			[[$interface, 'getStaticString'], true, 'CallTest_Interface']
 		];
 	}
+	
+	/**
+	 * Test <code>extension</code> method.
+	 * 
+	 * @dataProvider provideExtensionMethodData
+	 * @testdox Call::extension({$function}) === {$expected}
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string|null $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testExtensionMethod($function, ?string $expected): void
+	{
+		$this->assertSame($expected, UCall::extension($function));
+	}
+	
+	/**
+	 * Provide <code>extension</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>extension</code> method data.</p>
+	 */
+	public function provideExtensionMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', 'Core'],
+			['mb_strlen', 'mbstring'],
+			['json_encode', 'json'],
+			['ReflectionClass::export', 'Reflection'],
+			[['ReflectionFunction', 'getName'], 'Reflection'],
+			[[UCall::reflection('strlen'), 'getName'], 'Reflection'],
+			[\Closure::fromCallable('strlen'), 'Core'],
+			[\Closure::fromCallable('mb_strlen'), 'mbstring'],
+			[\Closure::fromCallable('json_encode'), 'json'],
+			[\Closure::fromCallable('ReflectionClass::export'), 'Reflection'],
+			[\Closure::fromCallable([UCall::reflection('strlen'), 'getName']), 'Reflection'],
+			[function () {}, null],
+			[new CallTest_InvokeableClass(), null],
+			[[$class, 'getString'], null],
+			[[$class, 'getStaticString'], null],
+			[[$class, 'getProtectedInteger'], null],
+			[[$class, 'getProtectedStaticInteger'], null],
+			[[$class, 'getPrivateBoolean'], null],
+			[[$class, 'getPrivateStaticBoolean'], null],
+			[[$class_abstract, 'getString'], null],
+			[[$class_abstract, 'getStaticString'], null],
+			[[$class_abstract, 'getProtectedInteger'], null],
+			[[$class_abstract, 'getProtectedStaticInteger'], null],
+			[[$interface, 'getString'], null],
+			[[$interface, 'getStaticString'], null]
+		];
+	}
 }
 
 
