@@ -10,6 +10,7 @@ namespace Dracodeum\Kit\Tests\Utilities;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Call as UCall;
 use Dracodeum\Kit\Utilities\Call\Exceptions;
+use Dracodeum\Kit\Root\System;
 
 /** @see \Dracodeum\Kit\Utilities\Call */
 class CallTest extends TestCase
@@ -298,8 +299,8 @@ class CallTest extends TestCase
 		return [
 			['strlen', 'MD5', '73d3a702db472629f27b06ac8f056476'],
 			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
-			[function () {}, 'MD5', '965cc11a3a4ab9adc6fbca323da5b689'],
-			[function () {}, 'SHA1', '3484cced870a27abaf3f90f9fd765af07d2fd431'],
+			[function () {}, 'MD5', '4fcbf21e9765f9e09cabe17b77e7014e'],
+			[function () {}, 'SHA1', '5351a27e6e63e80f5f13fb37f3f0ded612a26d49'],
 			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
 			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
 			[[$class, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
@@ -2118,6 +2119,133 @@ class CallTest extends TestCase
 			[[$interface, 'setStaticString'], function (?string $s): void {}, false],
 			[[$interface, 'setStaticString'], function (string $s = ''): void {}, false]
 		];
+	}
+	
+	/**
+	 * Test <code>assert</code> method.
+	 * 
+	 * @dataProvider provideAssertMethodData
+	 * @testdox Call::assert('foobar', {$function}, {$template}) === void
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param callable|array|string $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testAssertMethod($function, $template): void
+	{
+		$this->assertNull(UCall::assert('foobar', $function, $template));
+		$this->assertTrue(UCall::assert('foobar', $function, $template, true));
+	}
+	
+	/**
+	 * Provide <code>assert</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>assert</code> method data.</p>
+	 */
+	public function provideAssertMethodData(): array
+	{
+		$data = [];
+		foreach ($this->provideCompatibleMethodData() as $datum) {
+			if ($datum[2]) {
+				$data[] = [$datum[0], $datum[1]];
+			}
+		}
+		return $data;
+	}
+	
+	/**
+	 * Test <code>assert</code> method expecting an <code>AssertionFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideAssertMethodDataForAssertionFailedException
+	 * @testdox Call::assert('foobar', {$function}, {$template}) --> AssertionFailed exception
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param callable|array|string $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testAssertMethodAssertionFailedException($function, $template): void
+	{
+		$this->expectException(Exceptions\AssertionFailed::class);
+		UCall::assert('foobar', $function, $template);
+	}
+	
+	/**
+	 * Test <code>assert</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @dataProvider provideAssertMethodDataForAssertionFailedException
+	 * @testdox Call::assert('foobar', {$function}, {$template}, true) === false
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param callable|array|string $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testAssertMethodNoThrowFalse($function, $template): void
+	{
+		$this->assertFalse(UCall::assert('foobar', $function, $template, true));
+	}
+	
+	/**
+	 * Provide <code>assert</code> method data for an <code>AssertionFailed</code> exception to be thrown.
+	 * 
+	 * @return array
+	 * <p>The provided <code>assert</code> method data for an <code>AssertionFailed</code> exception to be thrown.</p>
+	 */
+	public function provideAssertMethodDataForAssertionFailedException(): array
+	{
+		$data = [];
+		foreach ($this->provideCompatibleMethodData() as $datum) {
+			if (!$datum[2]) {
+				$data[] = [$datum[0], $datum[1]];
+			}
+		}
+		return $data;
+	}
+	
+	/**
+	 * Test <code>assert</code> method in a production environment.
+	 * 
+	 * @dataProvider provideAssertMethodDataForProductionEnvironment
+	 * @testdox Call::assert('foobar', {$function}, {$template}) === void [production]
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param callable|array|string $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testAssertMethodInProductionEnvironment($function, $template): void
+	{
+		$environment = System::getEnvironment();
+		try {
+			System::setEnvironment('production');
+			$this->assertNull(UCall::assert('foobar', $function, $template));
+			$this->assertTrue(UCall::assert('foobar', $function, $template, true));
+		} finally {
+			System::setEnvironment($environment);
+		}
+	}
+	
+	/**
+	 * Provide <code>assert</code> method data for a production environment.
+	 * 
+	 * @return array
+	 * <p>The provided <code>assert</code> method data for a production environment.</p>
+	 */
+	public function provideAssertMethodDataForProductionEnvironment(): array
+	{
+		$data = [];
+		foreach ($this->provideCompatibleMethodData() as $datum) {
+			$data[] = [$datum[0], $datum[1]];
+		}
+		return $data;
 	}
 }
 
