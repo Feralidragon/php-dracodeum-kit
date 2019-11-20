@@ -705,44 +705,6 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Assert if a given function is compatible with a given template, with a given name.
-	 * 
-	 * This assertion is only performed in a debug environment.
-	 * 
-	 * @param string $name
-	 * <p>The name to assert with.</p>
-	 * @param callable|array|string $function
-	 * <p>The function to assert.</p>
-	 * @param callable|array|string $template
-	 * <p>The template callable declaration to assert against.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\AssertionFailed
-	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the assertion succeeded, 
-	 * with the given function being compatible with the given template, or boolean <code>false</code> if otherwise.</p>
-	 */
-	final public static function assert(string $name, $function, $template, bool $no_throw = false)
-	{
-		if (System::isDebug() && !self::compatible($function, $template)) {
-			if ($no_throw) {
-				return false;
-			}
-			$backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1] ?? [];
-			throw new Exceptions\AssertionFailed([
-				'name' => $name,
-				'function' => $function,
-				'template' => $template,
-				'source_object_class' => $backtrace['object'] ?? $backtrace['class'] ?? null,
-				'source_function_name' => $backtrace['function'] ?? null
-			]);
-		} elseif ($no_throw) {
-			return true;
-		}
-	}
-	
-	/**
 	 * Check if a given function is compatible with a given template.
 	 * 
 	 * A function is considered to be compatible with a template whenever, 
@@ -809,8 +771,8 @@ final class Call extends Utility
 					if (
 						(!$f_type_allows_null && $t_type_allows_null) || (
 							$f_type !== $t_type && 
-							(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($t_type, $f_type)) && 
-							($f_type !== 'object' || !class_exists($t_type))
+							(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($t_type, $f_type, true)) && 
+							($f_type !== 'object' || !Type::exists($t_type))
 						)
 					) {
 						return false;
@@ -831,8 +793,8 @@ final class Call extends Utility
 				if (
 					($f_type_allows_null && !$t_type_allows_null) || (
 						$f_type !== $t_type && 
-						(!class_exists($f_type) || !class_exists($t_type) || !Type::isA($f_type, $t_type)) && 
-						(!class_exists($f_type) || $t_type !== 'object')
+						(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($f_type, $t_type, true)) && 
+						(!Type::exists($f_type) || $t_type !== 'object')
 					)
 				) {
 					return false;
@@ -842,6 +804,44 @@ final class Call extends Utility
 			//return
 			return true;
 		});
+	}
+	
+	/**
+	 * Assert if a given function is compatible with a given template, with a given name.
+	 * 
+	 * This assertion is only performed in a debug environment.
+	 * 
+	 * @param string $name
+	 * <p>The name to assert with.</p>
+	 * @param callable|array|string $function
+	 * <p>The function to assert.</p>
+	 * @param callable|array|string $template
+	 * <p>The template callable declaration to assert against.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\AssertionFailed
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the assertion succeeded, 
+	 * with the given function being compatible with the given template, or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public static function assert(string $name, $function, $template, bool $no_throw = false)
+	{
+		if (System::isDebug() && !self::compatible($function, $template)) {
+			if ($no_throw) {
+				return false;
+			}
+			$backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1] ?? [];
+			throw new Exceptions\AssertionFailed([
+				'name' => $name,
+				'function' => $function,
+				'template' => $template,
+				'source_object_class' => $backtrace['object'] ?? $backtrace['class'] ?? null,
+				'source_function_name' => $backtrace['function'] ?? null
+			]);
+		} elseif ($no_throw) {
+			return true;
+		}
 	}
 	
 	/**
