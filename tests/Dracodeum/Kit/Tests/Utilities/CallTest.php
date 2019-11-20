@@ -1651,6 +1651,107 @@ class CallTest extends TestCase
 				'...$p): ?CallTest_Interface' . $dostuff_body]
 		];
 	}
+	
+	/**
+	 * Test <code>signature</code> method.
+	 * 
+	 * @dataProvider provideSignatureMethodData
+	 * @testdox Call::signature({$function}) === '$expected'
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testSignatureMethod($function, string $expected): void
+	{
+		$this->assertSame($expected, UCall::signature($function));
+	}
+	
+	/**
+	 * Provide <code>signature</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>signature</code> method data.</p>
+	 */
+	public function provideSignatureMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
+		return [
+			['strlen', '( mixed ): mixed'],
+			[function () {}, '(): mixed'],
+			[function (): void {}, '(): void'],
+			[function (): bool {}, '(): bool'],
+			[function (): ?bool {}, '(): ?bool'],
+			[function (): int {}, '(): int'],
+			[function (): ?int {}, '(): ?int'],
+			[function (): float {}, '(): float'],
+			[function (): ?float {}, '(): ?float'],
+			[function (): string {}, '(): string'],
+			[function (): ?string {}, '(): ?string'],
+			[function (): array {}, '(): array'],
+			[function (): ?array {}, '(): ?array'],
+			[function (): callable {}, '(): callable'],
+			[function (): ?callable {}, '(): ?callable'],
+			[function (): object {}, '(): object'],
+			[function (): ?object {}, '(): ?object'],
+			[function (): \stdClass {}, '(): stdClass'],
+			[function (): ?\stdClass {}, '(): ?stdClass'],
+			[function (): CallTest_Class {}, '(): ' . $class],
+			[function (): ?CallTest_Class {}, '(): ?' . $class],
+			[function (): CallTest_AbstractClass {}, '(): ' . $class_abstract],
+			[function (): ?CallTest_AbstractClass {}, '(): ?' . $class_abstract],
+			[function (): CallTest_Interface {}, '(): ' . $interface],
+			[function (): ?CallTest_Interface {}, '(): ?' . $interface],
+			[function (int $i): ?bool {}, '( int ): ?bool'],
+			[function (bool $b, ?string $s): int {}, '( bool , ?string ): int'],
+			[function (&$ref): float {}, '( &mixed ): float'],
+			[function (array $array, int $n = 12): ?float {}, '( array [, int ]): ?float'],
+			[function (callable $c, int &$ii = 739): string {}, '( callable [, &int ]): string'],
+			[function (?object $obj = null): ?string {}, '([ ?object ]): ?string'],
+			[function (string $soo, \stdClass $std, ?object $obj = null, float &$f = 0.0, ?int ...$i): ?string {},
+				'( string , stdClass [, ?object [, &float [, ...?int ]]]): ?string'],
+			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null): void {},
+				'( ' . $class . ' , stdClass [, bool [, mixed ]]): void'],
+			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
+				'( ' . $class_abstract . ' , ?' . $interface . ' ): ?callable'],
+			[new CallTest_InvokeableClass(), '(): ?' . $class],
+			[new CallTest_InvokeableClass2(), '([ string ]): void'],
+			[[$class, 'getString'], '(): string'],
+			[[$class, 'setString'], '( string ): void'],
+			[[$class, 'getStaticString'], '(): string'],
+			[[$class, 'setStaticString'], '( string ): void'],
+			[[$class, 'getProtectedInteger'], '(): int'],
+			[[$class, 'setProtectedInteger'], '( int ): void'],
+			[[$class, 'getProtectedStaticInteger'], '(): int'],
+			[[$class, 'setProtectedStaticInteger'], '( int ): void'],
+			[[$class, 'getPrivateBoolean'], '(): bool'],
+			[[$class, 'setPrivateBoolean'], '( bool ): void'],
+			[[$class, 'getPrivateStaticBoolean'], '(): bool'],
+			[[$class, 'setPrivateStaticBoolean'], '( bool ): void'],
+			[[$class_abstract, 'getString'], '(): string'],
+			[[$class_abstract, 'setString'], '( string ): void'],
+			[[$class_abstract, 'getStaticString'], '(): string'],
+			[[$class_abstract, 'setStaticString'], '( string ): void'],
+			[[$class_abstract, 'getProtectedInteger'], '(): int'],
+			[[$class_abstract, 'setProtectedInteger'], '( int ): void'],
+			[[$class_abstract, 'getProtectedStaticInteger'], '(): int'],
+			[[$class_abstract, 'setProtectedStaticInteger'], '( int ): void'],
+			[[$interface, 'getString'], '(): string'],
+			[[$interface, 'setString'], '( string ): void'],
+			[[$interface, 'getStaticString'], '(): string'],
+			[[$interface, 'setStaticString'], '( string ): void'],
+			[[$class, 'doStuff'],
+				'( ?float , ' . $class_abstract . ' , &?' . $class . ' , mixed , callable [, string [, array [, int ' . 
+				'[, &bool [, ?stdClass [, mixed [, ...mixed ]]]]]]]): ?' . $interface]
+		];
+	}
 }
 
 
