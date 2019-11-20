@@ -2247,6 +2247,68 @@ class CallTest extends TestCase
 		}
 		return $data;
 	}
+	
+	/**
+	 * Test <code>object</code> method.
+	 * 
+	 * @dataProvider provideObjectMethodData
+	 * @testdox Call::object({$function}) === $expected
+	 * 
+	 * @param callable|array|string $function
+	 * <p>The method <var>$function</var> parameter to test with.</p>
+	 * @param object|null $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testObjectMethod($function, ?object $expected): void
+	{
+		$this->assertSame($expected, UCall::object($function));
+	}
+	
+	/**
+	 * Provide <code>object</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>object</code> method data.</p>
+	 */
+	public function provideObjectMethodData(): array
+	{
+		//initialize
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		$class_object = new CallTest_Class();
+		$invokeable_object = new CallTest_InvokeableClass();
+		$invokeable_object2 = new CallTest_InvokeableClass2();
+		
+		//return
+		return [
+			['strlen', null],
+			[function () {}, $this],
+			[$invokeable_object, $invokeable_object],
+			[$invokeable_object2, $invokeable_object2],
+			[[$class, 'getString'], null],
+			[[$class, 'getStaticString'], null],
+			[[$class, 'getProtectedInteger'], null],
+			[[$class, 'getProtectedStaticInteger'], null],
+			[[$class, 'getPrivateBoolean'], null],
+			[[$class, 'getPrivateStaticBoolean'], null],
+			[[$class_object, 'getString'], $class_object],
+			[[$class_object, 'getStaticString'], null],
+			[[$class_object, 'getProtectedInteger'], $class_object],
+			[[$class_object, 'getProtectedStaticInteger'], null],
+			[[$class_object, 'getPrivateBoolean'], $class_object],
+			[[$class_object, 'getPrivateStaticBoolean'], null],
+			[\Closure::fromCallable([$class_object, 'getString']), $class_object],
+			[\Closure::fromCallable([$class_object, 'getStaticString']), null],
+			[[$class_abstract, 'getString'], null],
+			[[$class_abstract, 'getStaticString'], null],
+			[[$class_abstract, 'getProtectedInteger'], null],
+			[[$class_abstract, 'getProtectedStaticInteger'], null],
+			[[$interface, 'getString'], null],
+			[[$interface, 'getStaticString'], null]
+		];
+	}
 }
 
 

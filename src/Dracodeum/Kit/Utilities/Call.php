@@ -855,9 +855,11 @@ final class Call extends Utility
 	final public static function object($function): ?object
 	{
 		self::validate($function);
-		if (is_object($function) && $function instanceof \Closure) {
-			return self::reflection($function)->getClosureThis();
-		} elseif (is_array($function) && is_object($function[0])) {
+		if (is_object($function)) {
+			return $function instanceof \Closure ? self::reflection($function)->getClosureThis() : $function;
+		} elseif (
+			is_array($function) && is_object($function[0]) && !in_array('static', self::modifiers($function), true)
+		) {
 			return $function[0];
 		}
 		return null;
