@@ -96,7 +96,12 @@ class CallTest extends TestCase
 	public function testValidateMethodInvalidFunctionException($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
-		UCall::validate($function);
+		try {
+			UCall::validate($function);
+		} catch (Exceptions\InvalidFunction $exception) {
+			$this->assertSame($function, $exception->function);
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -243,7 +248,12 @@ class CallTest extends TestCase
 	public function testReflectionMethodInvalidFunctionException($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
-		UCall::reflection($function);
+		try {
+			UCall::reflection($function);
+		} catch (Exceptions\InvalidFunction $exception) {
+			$this->assertSame($function, $exception->function);
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -299,8 +309,8 @@ class CallTest extends TestCase
 		return [
 			['strlen', 'MD5', '73d3a702db472629f27b06ac8f056476'],
 			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
-			[function () {}, 'MD5', '4fcbf21e9765f9e09cabe17b77e7014e'],
-			[function () {}, 'SHA1', '5351a27e6e63e80f5f13fb37f3f0ded612a26d49'],
+			[function () {}, 'MD5', '86ab92caf023f155e0f0d87cf2979e0b'],
+			[function () {}, 'SHA1', '7ad67dd52442e82dac2ae9729aefe32c9616b9f6'],
 			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
 			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
 			[[$class, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
@@ -2171,7 +2181,16 @@ class CallTest extends TestCase
 	public function testAssertMethodAssertionFailedException($function, $template): void
 	{
 		$this->expectException(Exceptions\AssertionFailed::class);
-		UCall::assert('foobar', $function, $template);
+		try {
+			UCall::assert('foobar', $function, $template);
+		} catch (Exceptions\AssertionFailed $exception) {
+			$this->assertSame('foobar', $exception->name);
+			$this->assertSame($function, $exception->function);
+			$this->assertSame($template, $exception->template);
+			$this->assertSame($this, $exception->source_object_class);
+			$this->assertSame('testAssertMethodAssertionFailedException', $exception->source_function_name);
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2660,7 +2679,12 @@ class CallTest extends TestCase
 	public function testCoerceMethodCoercionFailedException($value, $template): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::coerce($value, $template);
+		try {
+			UCall::coerce($value, $template);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2677,8 +2701,15 @@ class CallTest extends TestCase
 	 */
 	public function testProcessCoercionMethodCoercionFailedException($value, $template): void
 	{
+		$v = $value;
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::processCoercion($value, $template);
+		try {
+			UCall::processCoercion($v, $template);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2796,7 +2827,12 @@ class CallTest extends TestCase
 	public function testCoerceMethodWithNullValueCoercionFailedException(): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::coerce(null);
+		try {
+			UCall::coerce(null);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2811,8 +2847,13 @@ class CallTest extends TestCase
 	{
 		$value = null;
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::processCoercion($value);
-		$this->assertNull($value);
+		try {
+			UCall::processCoercion($value);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertNull($value);
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2892,7 +2933,12 @@ class CallTest extends TestCase
 		
 		//debug
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::coerce($value, $template, false, true);
+		try {
+			UCall::coerce($value, $template, false, true);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -2932,8 +2978,15 @@ class CallTest extends TestCase
 		}
 		
 		//debug (exception)
+		$v = $value;
 		$this->expectException(Exceptions\CoercionFailed::class);
-		UCall::processCoercion($value, $template, false, true);
+		try {
+			UCall::processCoercion($v, $template, false, true);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**

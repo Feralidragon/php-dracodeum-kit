@@ -213,7 +213,13 @@ class Base64Test extends TestCase
 	public function testDecodeMethodInvalidStringException(string $string, ?bool $url_safe): void
 	{
 		$this->expectException(Exceptions\Decode\InvalidString::class);
-		UBase64::decode($string, $url_safe);
+		try {
+			UBase64::decode($string, $url_safe);
+		} catch (Exceptions\Decode\InvalidString $exception) {
+			$this->assertSame($string, $exception->string);
+			$this->assertSame($url_safe ?? false, $exception->url_safe);
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -329,7 +335,12 @@ class Base64Test extends TestCase
 	public function testNormalizeMethodInvalidStringException(string $string): void
 	{
 		$this->expectException(Exceptions\Normalize\InvalidString::class);
-		UBase64::normalize($string);
+		try {
+			UBase64::normalize($string);
+		} catch (Exceptions\Normalize\InvalidString $exception) {
+			$this->assertSame($string, $exception->string);
+			throw $exception;
+		}
 	}
 	
 	/**

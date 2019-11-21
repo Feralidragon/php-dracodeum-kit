@@ -200,7 +200,12 @@ class ByteTest extends TestCase
 	public function testMvalueMethodInvalidValueException(string $value): void
 	{
 		$this->expectException(Exceptions\Mvalue\InvalidValue::class);
-		UByte::mvalue($value);
+		try {
+			UByte::mvalue($value);
+		} catch (Exceptions\Mvalue\InvalidValue $exception) {
+			$this->assertSame($value, $exception->value);
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -424,7 +429,12 @@ class ByteTest extends TestCase
 	public function testCoerceSizeMethodSizeCoercionFailedException($value): void
 	{
 		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		UByte::coerceSize($value);
+		try {
+			UByte::coerceSize($value);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -439,8 +449,15 @@ class ByteTest extends TestCase
 	 */
 	public function testProcessSizeCoercionMethodSizeCoercionFailedException($value): void
 	{
+		$v = $value;
 		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		UByte::processSizeCoercion($value);
+		try {
+			UByte::processSizeCoercion($v);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -519,7 +536,12 @@ class ByteTest extends TestCase
 	public function testCoerceSizeMethodWithNullValueSizeCoercionFailedException(): void
 	{
 		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		UByte::coerceSize(null);
+		try {
+			UByte::coerceSize(null);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -534,8 +556,13 @@ class ByteTest extends TestCase
 	{
 		$value = null;
 		$this->expectException(Exceptions\SizeCoercionFailed::class);
-		UByte::processSizeCoercion($value);
-		$this->assertNull($value);
+		try {
+			UByte::processSizeCoercion($value);
+		} catch (Exceptions\SizeCoercionFailed $exception) {
+			$this->assertNull($value);
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -744,7 +771,12 @@ class ByteTest extends TestCase
 	public function testCoerceMultipleMethodMultipleCoercionFailedException($value): void
 	{
 		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		UByte::coerceMultiple($value);
+		try {
+			UByte::coerceMultiple($value);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -760,8 +792,15 @@ class ByteTest extends TestCase
 	 */
 	public function testProcessMultipleCoercionMethodMultipleCoercionFailedException($value): void
 	{
+		$v = $value;
 		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		UByte::processMultipleCoercion($value);
+		try {
+			UByte::processMultipleCoercion($v);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($value, $exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -843,7 +882,12 @@ class ByteTest extends TestCase
 	public function testCoerceMultipleMethodWithNullValueMultipleCoercionFailedException(): void
 	{
 		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		UByte::coerceMultiple(null);
+		try {
+			UByte::coerceMultiple(null);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
@@ -858,8 +902,13 @@ class ByteTest extends TestCase
 	{
 		$value = null;
 		$this->expectException(Exceptions\MultipleCoercionFailed::class);
-		UByte::processMultipleCoercion($value);
-		$this->assertNull($value);
+		try {
+			UByte::processMultipleCoercion($value);
+		} catch (Exceptions\MultipleCoercionFailed $exception) {
+			$this->assertNull($value);
+			$this->assertNull($exception->getValue());
+			throw $exception;
+		}
 	}
 	
 	/**
