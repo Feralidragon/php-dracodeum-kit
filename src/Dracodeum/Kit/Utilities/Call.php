@@ -991,6 +991,7 @@ final class Call extends Utility
 		&$value, $template = null, bool $nullable = false, bool $assertive = false, bool $no_throw = false
 	): bool
 	{
+		//coerce
 		if (!isset($value)) {
 			if ($nullable) {
 				return true;
@@ -1024,7 +1025,22 @@ final class Call extends Utility
 				)
 			]);
 		}
-		$value = \Closure::fromCallable($value);
+		
+		//closure
+		try {
+			$value = \Closure::fromCallable($value);
+		} catch (\Throwable $throwable) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([
+				'value' => $value,
+				'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_CALLABLE,
+				'error_message' => $throwable->getMessage()
+			]);
+		}
+		
+		//return
 		return true;
 	}
 	

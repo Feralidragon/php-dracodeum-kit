@@ -2148,9 +2148,9 @@ class CallTest extends TestCase
 	public function provideAssertMethodData(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $datum) {
+		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
 			if ($datum[2]) {
-				$data[] = [$datum[0], $datum[1]];
+				$data[$i] = [$datum[0], $datum[1]];
 			}
 		}
 		return $data;
@@ -2201,9 +2201,9 @@ class CallTest extends TestCase
 	public function provideAssertMethodDataForAssertionFailedException(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $datum) {
+		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
 			if (!$datum[2]) {
-				$data[] = [$datum[0], $datum[1]];
+				$data[$i] = [$datum[0], $datum[1]];
 			}
 		}
 		return $data;
@@ -2242,8 +2242,8 @@ class CallTest extends TestCase
 	public function provideAssertMethodDataForProductionEnvironment(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $datum) {
-			$data[] = [$datum[0], $datum[1]];
+		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
+			$data[$i] = [$datum[0], $datum[1]];
 		}
 		return $data;
 	}
@@ -2459,6 +2459,495 @@ class CallTest extends TestCase
 			[[$interface, 'getString'], null],
 			[[$interface, 'getStaticString'], null]
 		];
+	}
+	
+	/**
+	 * Test <code>evaluate</code> method.
+	 * 
+	 * @dataProvider provideCoercionMethodData
+	 * @testdox Call::evaluate(&{$value}, {$template}) === true
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testEvaluateMethod($value, $template): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $assertive) {
+				$v = $value;
+				$this->assertTrue(UCall::evaluate($v, $template, $nullable, $assertive));
+				$this->assertInstanceOf(\Closure::class, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Test <code>coerce</code> method.
+	 * 
+	 * @dataProvider provideCoercionMethodData
+	 * @testdox Call::coerce({$value}, {$template}) === Closure
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testCoerceMethod($value, $template): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $assertive) {
+				$this->assertInstanceOf(\Closure::class, UCall::coerce($value, $template, $nullable, $assertive));
+			}
+		}
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method.
+	 * 
+	 * @dataProvider provideCoercionMethodData
+	 * @testdox Call::processCoercion(&{$value}, {$template}) === true
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessCoercionMethod($value, $template): void
+	{
+		foreach ([false, true] as $nullable) {
+			foreach ([false, true] as $assertive) {
+				foreach ([false, true] as $no_throw) {
+					$v = $value;
+					$this->assertTrue(UCall::processCoercion($v, $template, $nullable, $assertive, $no_throw));
+					$this->assertInstanceOf(\Closure::class, $v);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Provide coercion method data.
+	 * 
+	 * @return array
+	 * <p>The provided coercion method data.</p>
+	 */
+	public function provideCoercionMethodData(): array
+	{
+		return [
+			['strlen', null],
+			['strlen', 'strlen'],
+			['strlen', function ($str) {}],
+			[function () {}, null],
+			[function () {}, function () {}],
+			[function (int $i) {}, function (int $ii) {}],
+			[function (int $i): bool {}, function (int $ii) {}],
+			[function (int $i): bool {}, function (int $ii): ?bool {}],
+			[function (int $i = 0): bool {}, function (int $ii): bool {}],
+			[function (CallTest_Class $c): CallTest_Interface {},
+				function (CallTest_Class2 $c): ?CallTest_Interface {}],
+			[function (CallTest_Class $c): CallTest_InterfaceClass {},
+				function (CallTest_Class2 $c): CallTest_Interface {}],
+			[new CallTest_InvokeableClass(), null],
+			[new CallTest_InvokeableClass(), function () {}],
+			[new CallTest_InvokeableClass(), function (): ?CallTest_Class {}],
+			[new CallTest_InvokeableClass2(), null],
+			[new CallTest_InvokeableClass2(), function (string $s): void {}],
+			[new CallTest_InvokeableClass2(), function (string $s = ''): void {}],
+			[[new CallTest_Class(), 'getString'], null],
+			[[new CallTest_Class(), 'getString'], function () {}],
+			[[new CallTest_Class(), 'getString'], function (): string {}],
+			[[new CallTest_Class(), 'setString'], null],
+			[[new CallTest_Class(), 'setString'], function (string $s): void {}],
+			[CallTest_Class::class . '::getStaticString', null],
+			[CallTest_Class::class . '::getStaticString', function () {}],
+			[CallTest_Class::class . '::getStaticString', function (): string {}],
+			[CallTest_Class::class . '::setStaticString', null],
+			[CallTest_Class::class . '::setStaticString', function (string $s): void {}],
+			[[new CallTest_Class(), 'getStaticString'], null],
+			[[new CallTest_Class(), 'getStaticString'], function () {}],
+			[[new CallTest_Class(), 'getStaticString'], function (): string {}],
+			[[new CallTest_Class(), 'setStaticString'], null],
+			[[new CallTest_Class(), 'setStaticString'], function (string $s): void {}]
+		];
+	}
+	
+	/**
+	 * Test <code>evaluate</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Call::evaluate(&{NULL} --> &{NULL}, null, true) === true
+	 * 
+	 * @return void
+	 */
+	public function testEvaluateMethodWithNullValue(): void
+	{
+		foreach ([false, true] as $assertive) {
+			$value = null;
+			$this->assertTrue(UCall::evaluate($value, null, true, $assertive));
+			$this->assertNull($value);
+		}
+	}
+	
+	/**
+	 * Test <code>coerce</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Call::coerce({NULL}, null, true) === NULL
+	 * 
+	 * @return void
+	 */
+	public function testCoerceMethodWithNullValue(): void
+	{
+		foreach ([false, true] as $assertive) {
+			$this->assertNull(UCall::coerce(null, null, true, $assertive));
+		}
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method with a <code>null</code> value.
+	 * 
+	 * @testdox Call::processCoercion(&{NULL} --> &{NULL}, null, true) === true
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercionMethodWithNullValue(): void
+	{
+		foreach ([false, true] as $assertive) {
+			foreach ([false, true] as $no_throw) {
+				$value = null;
+				$this->assertTrue(UCall::processCoercion($value, null, true, $assertive, $no_throw));
+				$this->assertNull($value);
+			}
+		}
+	}
+	
+	/**
+	 * Test <code>evaluate</code> method expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @testdox Call::evaluate(&{$value}, {$template}) === false
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testEvaluateMethodFalse($value, $template): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UCall::evaluate($v, $template, $nullable));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerce</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @testdox Call::coerce({$value}, {$template}) --> CoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testCoerceMethodCoercionFailedException($value, $template): void
+	{
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::coerce($value, $template);
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @testdox Call::processCoercion(&{$value}, {$template}) --> CoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessCoercionMethodCoercionFailedException($value, $template): void
+	{
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::processCoercion($value, $template);
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, false, true) === false
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessCoercionMethodNoThrowFalse($value, $template): void
+	{
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UCall::processCoercion($v, $template, $nullable, false, true));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Provide coercion method data for a <code>CoercionFailed</code> exception to be thrown.
+	 * 
+	 * @return array
+	 * <p>The provided coercion method data for a <code>CoercionFailed</code> exception to be thrown.</p>
+	 */
+	public function provideCoercionMethodDataForCoercionFailedException(): array
+	{
+		return [
+			[false, null],
+			[true, null],
+			[1, null],
+			[0.123, null],
+			['', null],
+			['non_existent_function', null],
+			['strlen', 'str_repeat'],
+			['strlen', function ($str, $str2) {}],
+			[CallTest_Class::class . '::getString', null],
+			[CallTest_Class::class . '::getStaticString', function (): bool {}],
+			[CallTest_Class::class . '::getStaticString', function (string $s): string {}],
+			[CallTest_Class::class . '::setStaticString', function (): void {}],
+			[CallTest_Class::class . '::getProtectedInteger', null],
+			[CallTest_Class::class . '::getProtectedStaticInteger', null],
+			[CallTest_Class::class . '::getPrivateBoolean', null],
+			[CallTest_Class::class . '::getPrivateStaticBoolean', null],
+			[CallTest_AbstractClass::class . '::getString', null],
+			[CallTest_AbstractClass::class . '::getStaticString', null],
+			[CallTest_AbstractClass::class . '::getProtectedInteger', null],
+			[CallTest_AbstractClass::class . '::getProtectedStaticInteger', null],
+			[CallTest_Interface::class . '::getString', null],
+			[CallTest_Interface::class . '::getStaticString', null],
+			[function (): void {}, function () {}],
+			[function (int $i) {}, function (bool $b) {}],
+			[function (int $i) {}, function (int $i): bool {}],
+			[function (int $i): ?bool {}, function (int $i): bool {}],
+			[function (int $i): bool {}, function (int $i = 0): bool {}],
+			[function (CallTest_Class2 $c): ?CallTest_Interface {},
+				function (CallTest_Class $c): CallTest_Interface {}],
+			[function (CallTest_Class2 $c): CallTest_Interface {},
+				function (CallTest_Class $c): CallTest_InterfaceClass {}],
+			[[], null],
+			[new CallTest_InvokeableClass(), function ($s) {}],
+			[new CallTest_InvokeableClass(), function (): CallTest_Class {}],
+			[new CallTest_InvokeableClass2(), function (int $i): void {}],
+			[new CallTest_InvokeableClass2(), function (string $s) {}],
+			[[new CallTest_Class(), 'getString'], function (): bool {}],
+			[[new CallTest_Class(), 'getString'], function (string $s): string {}],
+			[[new CallTest_Class(), 'setString'], function (): void {}],
+			[[new CallTest_Class(), 'getStaticString'], function (): bool {}],
+			[[new CallTest_Class(), 'getStaticString'], function (string $s): string {}],
+			[[new CallTest_Class(), 'setStaticString'], function (): void {}],
+			[[CallTest_Class::class, 'getString'], null],
+			[[CallTest_Class::class, 'getProtectedInteger'], null],
+			[[CallTest_Class::class, 'getProtectedStaticInteger'], null],
+			[[CallTest_Class::class, 'getPrivateBoolean'], null],
+			[[CallTest_Class::class, 'getPrivateStaticBoolean'], null],
+			[[CallTest_AbstractClass::class, 'getString'], null],
+			[[CallTest_AbstractClass::class, 'getStaticString'], null],
+			[[CallTest_AbstractClass::class, 'getProtectedInteger'], null],
+			[[CallTest_AbstractClass::class, 'getProtectedStaticInteger'], null],
+			[[CallTest_Interface::class, 'getString'], null],
+			[[CallTest_Interface::class, 'getStaticString'], null],
+			[new \stdClass(), null],
+			[fopen(__FILE__, 'r'), null]
+		];
+	}
+	
+	/**
+	 * Test <code>evaluate</code> method with a <code>null</code> value, 
+	 * expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Call::evaluate(&{NULL} --> &{NULL}) === false
+	 * 
+	 * @return void
+	 */
+	public function testEvaluateMethodWithNullValueFalse(): void
+	{
+		$value = null;
+		$this->assertFalse(UCall::evaluate($value));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>coerce</code> method with a <code>null</code> value, 
+	 * expecting a <code>CoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Call::coerce({NULL}) --> CoercionFailed exception
+	 * 
+	 * @return void
+	 */
+	public function testCoerceMethodWithNullValueCoercionFailedException(): void
+	{
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::coerce(null);
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method with a <code>null</code> value, 
+	 * expecting a <code>CoercionFailed</code> exception to be thrown.
+	 * 
+	 * @testdox Call::processCoercion(&{NULL}) --> CoercionFailed exception
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercionMethodWithNullValueCoercionFailedException(): void
+	{
+		$value = null;
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::processCoercion($value);
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method with a <code>null</code> value, 
+	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code> to be returned.
+	 * 
+	 * @testdox Call::processCoercion(&{NULL}, null, false, false, true) === false
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercionMethodWithNullValueNoThrowFalse(): void
+	{
+		$value = null;
+		$this->assertFalse(UCall::processCoercion($value, null, false, false, true));
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Test <code>evaluate</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * 
+	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @testdox Call::evaluate(&{$value}, {$template}, false|true, true) === false|true
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testEvaluateMethodAssertive($value, $template): void
+	{
+		//production
+		$environment = System::getEnvironment();
+		try {
+			System::setEnvironment('production');
+			foreach ([false, true] as $nullable) {
+				$v = $value;
+				$this->assertTrue(UCall::evaluate($v, $template, $nullable, true));
+				$this->assertInstanceOf(\Closure::class, $v);
+			}
+		} finally {
+			System::setEnvironment($environment);
+		}
+		
+		//debug
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UCall::evaluate($v, $template, $nullable, true));
+			$this->assertSame($value, $v);
+		}
+	}
+	
+	/**
+	 * Test <code>coerce</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * 
+	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @testdox Call::coerce({$value}, {$template}, false|true, true) === Closure or --> CoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testCoerceMethodAssertive($value, $template): void
+	{
+		//production
+		$environment = System::getEnvironment();
+		try {
+			System::setEnvironment('production');
+			foreach ([false, true] as $nullable) {
+				$this->assertInstanceOf(\Closure::class, UCall::coerce($value, $template, $nullable, true));
+			}
+		} finally {
+			System::setEnvironment($environment);
+		}
+		
+		//debug
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::coerce($value, $template, false, true);
+	}
+	
+	/**
+	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * 
+	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, true, false|true) === false|true or --> CoercionFailed exception
+	 * 
+	 * @param mixed $value
+	 * <p>The method <var>$value</var> parameter to test with.</p>
+	 * @param callable|array|string|null $template
+	 * <p>The method <var>$template</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testProcessCoercionMethodAssertive($value, $template): void
+	{
+		//production
+		$environment = System::getEnvironment();
+		try {
+			System::setEnvironment('production');
+			foreach ([false, true] as $nullable) {
+				foreach ([false, true] as $no_throw) {
+					$v = $value;
+					$this->assertTrue(UCall::processCoercion($v, $template, $nullable, true, $no_throw));
+					$this->assertInstanceOf(\Closure::class, $v);
+				}
+			}
+		} finally {
+			System::setEnvironment($environment);
+		}
+		
+		//debug (no throw)
+		foreach ([false, true] as $nullable) {
+			$v = $value;
+			$this->assertFalse(UCall::processCoercion($v, $template, $nullable, true, true));
+			$this->assertSame($value, $v);
+		}
+		
+		//debug (exception)
+		$this->expectException(Exceptions\CoercionFailed::class);
+		UCall::processCoercion($value, $template, false, true);
+	}
+	
+	/**
+	 * Provide coercion method data with <var>$assertive</var> set to <code>true</code>.
+	 * 
+	 * @return array
+	 * <p>The provided coercion method data with <var>$assertive</var> set to <code>true</code>.</p>
+	 */
+	public function provideCoercionMethodDataAssertive(): array
+	{
+		$data = $this->provideCoercionMethodDataForCoercionFailedException();
+		return array_filter($data, function (array $datum): bool {
+			return $datum[1] !== null;
+		});
 	}
 }
 
