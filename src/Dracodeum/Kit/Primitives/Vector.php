@@ -302,7 +302,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\ValueNotSet
 	 * @return mixed
 	 * <p>The value from the given index.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public function get(int $index, bool $no_throw = false)
@@ -350,7 +350,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -402,7 +402,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully prepended, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -448,7 +448,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully unshifted, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -467,7 +467,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully appended, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -513,7 +513,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully pushed, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -577,7 +577,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\ValuesNotSet
 	 * @return mixed
 	 * <p>The shifted value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if no values are set.</p>
 	 */
 	final public function shift(bool $no_throw = false)
@@ -608,7 +608,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\ValuesNotSet
 	 * @return mixed
 	 * <p>The popped value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if no values are set.</p>
 	 */
 	final public function pop(bool $no_throw = false)
@@ -665,7 +665,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the values were successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */

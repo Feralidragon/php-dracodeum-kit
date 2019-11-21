@@ -84,7 +84,8 @@ abstract class Factory implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Factory\Exceptions\TypeNotFound
 	 * @return \Dracodeum\Kit\Factory\Type|null
 	 * <p>The type instance with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final protected static function getType(string $name, bool $no_throw = false): ?Type
 	{

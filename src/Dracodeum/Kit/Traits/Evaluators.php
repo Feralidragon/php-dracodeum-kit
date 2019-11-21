@@ -119,8 +119,7 @@ trait Evaluators
 	 * Set to only allow a value evaluated as a boolean.
 	 * 
 	 * Only the following types and formats can be evaluated into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
-	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a boolean;<br>
 	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
 	 * and <code>1</code> for boolean <code>true</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 

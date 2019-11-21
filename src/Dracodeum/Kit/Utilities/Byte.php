@@ -151,7 +151,7 @@ final class Byte extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Byte\Exceptions\Mvalue\InvalidValue
 	 * @return int|null
 	 * <p>The machine-readable value in bytes from the given human one.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mvalue(string $value, bool $no_throw = false): ?int

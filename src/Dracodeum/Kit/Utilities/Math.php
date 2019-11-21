@@ -295,7 +295,7 @@ final class Math extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Math\Exceptions\Mnumber\InvalidNumber
 	 * @return int|null
 	 * <p>The machine-readable number from the given human one.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mnumber(string $number, bool $no_throw = false): ?int

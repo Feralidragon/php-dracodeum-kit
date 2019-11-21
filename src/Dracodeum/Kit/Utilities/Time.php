@@ -127,7 +127,7 @@ final class Time extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\InvalidTimestamp
 	 * @return int|null
 	 * <p>The Unix timestamp from the given timestamp.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function timestamp($timestamp, bool $no_throw = false): ?int
@@ -176,7 +176,7 @@ final class Time extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\InvalidTimestamp
 	 * @return string|\DateTime|\DateTimeImmutable|null
 	 * <p>The formatted timestamp from the given one.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be formatted.</p>
 	 */
 	final public static function format($timestamp, string $format, ?string $timezone = null, bool $no_throw = false)
@@ -1128,7 +1128,7 @@ final class Time extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\Mperiod\InvalidPeriod
 	 * @return float|null
 	 * <p>The machine-readable period, in seconds, from the given human one.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function mperiod(string $period, bool $no_throw = false): ?float

@@ -45,7 +45,7 @@ final class Json extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Json\Exceptions\Encode\InvalidData
 	 * @return string|null
 	 * <p>The given data encoded.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be encoded.</p>
 	 */
 	final public static function encode($data, $options = null): ?string
@@ -81,7 +81,7 @@ final class Json extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Json\Exceptions\Decode\InvalidData
 	 * @return mixed
 	 * <p>The given data decoded.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it could not be decoded.</p>
 	 */
 	final public static function decode(string $data, $options = null)

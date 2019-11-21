@@ -891,7 +891,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
 	 * @return \Dracodeum\Kit\Managers\Properties\Property|null
 	 * <p>The property instance with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final protected function getProperty(string $name, bool $no_throw = false): ?Property
 	{

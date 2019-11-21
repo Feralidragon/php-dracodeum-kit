@@ -137,7 +137,7 @@ final class System implements IUninstantiable
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Root\System\Exceptions\SetIniOption\Failed
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the configuration option with the given name was successfully set 
 	 * with the given value, or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -204,7 +204,8 @@ final class System implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Root\System\Exceptions\HostnameNotSet
 	 * @return string|null
 	 * <p>The hostname.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if none is set.</p>
 	 */
 	final public static function getHostname(bool $no_throw = false): ?string
 	{
@@ -226,7 +227,8 @@ final class System implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Root\System\Exceptions\IpAddressNotSet
 	 * @return string|null
 	 * <p>The IP address.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if none is set.</p>
 	 */
 	final public static function getIpAddress(bool $no_throw = false): ?string
 	{

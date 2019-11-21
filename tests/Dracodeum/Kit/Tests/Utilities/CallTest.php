@@ -100,7 +100,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>validate</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>validate</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
@@ -247,7 +247,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>reflection</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>reflection</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
 	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
@@ -2175,7 +2175,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>assert</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>assert</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideAssertMethodDataForAssertionFailedException
@@ -2682,7 +2682,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
@@ -2817,7 +2817,7 @@ class CallTest extends TestCase
 	
 	/**
 	 * Test <code>processCoercion</code> method with a <code>null</code> value, 
-	 * with <var>$no_throw</var> set to <code>true</code>, expecting boolean <code>false</code> to be returned.
+	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Call::processCoercion(&{NULL}, null, false, false, true) === false
 	 * 
@@ -2831,7 +2831,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>evaluate</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * Test <code>evaluate</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
 	 * @dataProvider provideCoercionMethodDataAssertive
 	 * @testdox Call::evaluate(&{$value}, {$template}, false|true, true) === false|true
@@ -2866,7 +2866,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>coerce</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * Test <code>coerce</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
 	 * @dataProvider provideCoercionMethodDataAssertive
 	 * @testdox Call::coerce({$value}, {$template}, false|true, true) === Closure or --> CoercionFailed exception
@@ -2896,7 +2896,7 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to <code>true</code>.
+	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
 	 * @dataProvider provideCoercionMethodDataAssertive
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, true, false|true) === false|true or --> CoercionFailed exception
@@ -2937,10 +2937,10 @@ class CallTest extends TestCase
 	}
 	
 	/**
-	 * Provide coercion method data with <var>$assertive</var> set to <code>true</code>.
+	 * Provide coercion method data with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
 	 * @return array
-	 * <p>The provided coercion method data with <var>$assertive</var> set to <code>true</code>.</p>
+	 * <p>The provided coercion method data with <var>$assertive</var> set to boolean <code>true</code>.</p>
 	 */
 	public function provideCoercionMethodDataAssertive(): array
 	{

@@ -29,7 +29,7 @@ class CoercionFailed extends Exception implements ICoercive
 	/** Invalid signature error code. */
 	public const ERROR_CODE_INVALID_SIGNATURE = 'INVALID_SIGNATURE';
 	
-	/** Invalid callable. */
+	/** Invalid callable error code. */
 	public const ERROR_CODE_INVALID_CALLABLE = 'INVALID_CALLABLE';
 	
 	

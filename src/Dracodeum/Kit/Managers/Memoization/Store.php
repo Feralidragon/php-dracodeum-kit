@@ -120,7 +120,8 @@ final class Store implements ICloneable
 	 * @throws \Dracodeum\Kit\Managers\Memoization\Store\Exceptions\KeyNotFound
 	 * @return \Dracodeum\Kit\Managers\Memoization\Store\Key|null
 	 * <p>The key instance with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public function getKey(string $name, bool $no_throw = false): ?Key
 	{

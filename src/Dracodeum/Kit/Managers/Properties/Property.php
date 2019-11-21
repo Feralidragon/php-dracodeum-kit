@@ -288,7 +288,7 @@ class Property implements IUncloneable
 	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -347,7 +347,7 @@ class Property implements IUncloneable
 	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
 	 * @return mixed
 	 * <p>The default value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public function getDefaultValue(bool $no_throw = false)
@@ -444,7 +444,7 @@ class Property implements IUncloneable
 	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully reset, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */

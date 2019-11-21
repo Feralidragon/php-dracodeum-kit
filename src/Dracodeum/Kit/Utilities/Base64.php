@@ -79,7 +79,7 @@ final class Base64 extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Base64\Exceptions\Decode\InvalidString
 	 * @return string|null
 	 * <p>The given string decoded.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be decoded.</p>
 	 */
 	final public static function decode(string $string, ?bool $url_safe = null, bool $no_throw = false): ?string
@@ -103,7 +103,7 @@ final class Base64 extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Base64\Exceptions\Normalize\InvalidString
 	 * @return string|null
 	 * <p>The given string normalized.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be normalized.</p>
 	 */
 	final public static function normalize(string $string, bool $no_throw = false): ?string

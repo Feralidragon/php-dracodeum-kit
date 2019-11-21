@@ -105,7 +105,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return int|float|string|null
 	 * <p>The value from the given element.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getValue($element, bool $no_throw = false)
 	{
@@ -124,7 +125,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string|null
 	 * <p>The name from the given element.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getName($element, bool $no_throw = false): ?string
 	{
@@ -148,7 +150,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ValueNotFound
 	 * @return string|null
 	 * <p>The name from the element with the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getValueName($value, bool $no_throw = false): ?string
 	{
@@ -172,7 +175,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return int|float|string|null
 	 * <p>The value from the element with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getNameValue(string $name, bool $no_throw = false)
 	{
@@ -397,7 +401,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string|null
 	 * <p>The label from the given element.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getLabel($element, $text_options = null, bool $no_throw = false): ?string
 	{
@@ -417,7 +422,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ValueNotFound
 	 * @return string|null
 	 * <p>The label from the element with the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getValueLabel($value, $text_options = null, bool $no_throw = false): ?string
 	{
@@ -437,7 +443,8 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return string|null
 	 * <p>The label from the element with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function getNameLabel(string $name, $text_options = null, bool $no_throw = false): ?string
 	{
@@ -464,7 +471,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
 	 * @return string|null
 	 * <p>The description from the given element or <code>null</code> if none is set.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
 	final public static function getDescription($element, $text_options = null, bool $no_throw = false): ?string
@@ -485,7 +492,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ValueNotFound
 	 * @return string|null
 	 * <p>The description from the element with the given value or <code>null</code> if none is set.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
 	final public static function getValueDescription($value, $text_options = null, bool $no_throw = false): ?string
@@ -506,7 +513,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\NameNotFound
 	 * @return string|null
 	 * <p>The description from the element with the given name or <code>null</code> if none is set.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
 	final public static function getNameDescription(

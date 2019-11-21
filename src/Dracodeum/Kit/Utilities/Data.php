@@ -203,7 +203,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\Keyfy\UnsupportedValueType
 	 * @return string|null
 	 * <p>A unique key from the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it failed.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, then <code>null</code> is returned if it failed.</p>
 	 */
 	final public static function keyfy($value, ?bool &$safe = null, bool $no_throw = false): ?string
 	{
@@ -1530,7 +1530,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathNotFound
 	 * @return mixed
 	 * <p>The value from the given array at the given path.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public static function get(array $array, string $path, string $delimiter = '.', bool $no_throw = false)
@@ -1575,7 +1575,7 @@ final class Data extends Utility
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathKeySetIntoNonArray
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the given value was successfully set 
 	 * in the given array at the given path, or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -1626,7 +1626,7 @@ final class Data extends Utility
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathKeyDeleteFromNonArray
 	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to <code>true</code>, 
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the given path was successfully deleted from the given array,  
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -1727,7 +1727,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return mixed
 	 * <p>The first value from the given array.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
 	final public static function first(array $array, bool $no_throw = false)
@@ -1751,7 +1751,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return int|string|null
 	 * <p>The first key from the given array.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the given array is empty.</p>
 	 */
 	final public static function kfirst(array $array, bool $no_throw = false)
@@ -1776,7 +1776,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return mixed
 	 * <p>The last value from the given array.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if the given array is empty.</p>
 	 */
 	final public static function last(array $array, bool $no_throw = false)
@@ -1800,7 +1800,7 @@ final class Data extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\EmptyArray
 	 * @return int|string|null
 	 * <p>The last key from the given array.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the given array is empty.</p>
 	 */
 	final public static function klast(array $array, bool $no_throw = false)

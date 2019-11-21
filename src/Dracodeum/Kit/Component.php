@@ -314,7 +314,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * @throws \Dracodeum\Kit\Component\Exceptions\ProxyNotSet
 	 * @return \Dracodeum\Kit\Component\Proxy|null
 	 * <p>The proxy instance.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if none is set.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if none is set.</p>
 	 */
 	final public function getProxy(bool $no_throw = false): ?Proxy
 	{

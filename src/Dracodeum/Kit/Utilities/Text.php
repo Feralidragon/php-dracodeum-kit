@@ -161,7 +161,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\Stringify\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated string from the given value.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
 	final public static function stringify($value, $text_options = null, $options = null): ?string
@@ -974,7 +974,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return string[]
 	 * <p>The placeholders from the given string.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then any invalid placeholders found are ignored.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, then any invalid placeholders found are ignored.</p>
 	 */
 	final public static function placeholders(string $string, bool $no_throw = false): array
 	{
@@ -1025,7 +1025,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\Extract\MatchFailed
 	 * @return array|null
 	 * <p>The extracted parameters from the given string using the given mask, as <samp>key => value</samp> pairs.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if they could not be extracted.</p>
 	 */
 	final public static function extract(string $string, string $mask, $options = null): ?array
@@ -1108,7 +1108,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array|null
 	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if no data could be parsed.</p>
 	 */
 	final public static function parse(string $string, array $fields_patterns, $options = null): ?array
@@ -1148,7 +1148,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array
 	 * <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string, 
-	 * or <code>null</code> per string if <var>$options->keep_nulls</var> is set to <code>true</code> 
+	 * or <code>null</code> per string if <var>$options->keep_nulls</var> is set to boolean <code>true</code> 
 	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
 	 */
@@ -1772,7 +1772,7 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_CAMEL</code> for camel case;<br>
 	 * &nbsp; &#8226; &nbsp; the value of <code>self::CASE_PASCAL</code> for pascal case.<br>
 	 * <br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if no notation was recognized.</p>
 	 */
 	final public static function caseNotation(string $string, bool $no_throw = false): ?string
@@ -1814,7 +1814,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to camel case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toCamelCase(string $string, bool $no_throw = false): ?string
@@ -1857,7 +1857,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to pascal case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toPascalCase(string $string, bool $no_throw = false): ?string
@@ -1893,7 +1893,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to snake case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toSnakeCase(string $string, bool $no_throw = false): ?string
@@ -1935,7 +1935,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to kebab case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toKebabCase(string $string, bool $no_throw = false): ?string
@@ -1977,7 +1977,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to macro case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toMacroCase(string $string, bool $no_throw = false): ?string
@@ -2019,7 +2019,7 @@ final class Text extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\UnknownCaseNotation
 	 * @return string|null
 	 * <p>The given string converted to cobol case notation.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be converted.</p>
 	 */
 	final public static function toCobolCase(string $string, bool $no_throw = false): ?string

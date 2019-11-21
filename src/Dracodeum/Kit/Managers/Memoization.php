@@ -157,7 +157,7 @@ class Memoization extends Manager
 	 * @throws \Dracodeum\Kit\Managers\Memoization\Exceptions\ValueNotSet
 	 * @return mixed
 	 * <p>The value from the given key.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public function getValue(string $key, bool $no_throw = false)

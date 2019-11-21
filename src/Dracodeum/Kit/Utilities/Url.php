@@ -31,7 +31,7 @@ final class Url extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Url\Exceptions\Stringify\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated string from the given value.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
 	final public static function stringify($value, bool $no_encode = false, bool $no_throw = false): ?string

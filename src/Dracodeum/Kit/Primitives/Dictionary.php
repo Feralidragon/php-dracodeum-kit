@@ -350,7 +350,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\ValueNotSet
 	 * @return mixed
 	 * <p>The value from the given key.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if none is set.</p>
 	 */
 	final public function get($key, bool $no_throw = false)
@@ -391,7 +391,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
@@ -482,7 +482,7 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the pairs were successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */

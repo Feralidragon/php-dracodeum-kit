@@ -709,7 +709,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @throws \Dracodeum\Kit\Components\Input\Exceptions\InvalidValue
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */

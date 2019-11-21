@@ -65,7 +65,7 @@ final class Type extends Utility
 	 * The returning PHP code can be evaluated in order to run as PHP.<br>
 	 * <br>
 	 * By omission, the returning code is optimized to be as short as possible, but <var>$options->pretty</var> may be 
-	 * optionally set to <code>true</code> to get a more human-readable and visually appealing PHP code.<br>
+	 * optionally set to boolean <code>true</code> to get a more human-readable and visually appealing PHP code.<br>
 	 * <br>
 	 * This function is similar to <code>var_export</code>, but it provides more control on the returning code style, 
 	 * and it is modernized (arrays become <code>[...]</code> instead of the old syntax <code>array(...)</code>).<br>
@@ -85,7 +85,7 @@ final class Type extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Phpfy\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated PHP code from the given value.<br>
-	 * If <var>$options->no_throw</var> is set to <code>true</code>, 
+	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be generated.</p>
 	 */
 	final public static function phpfy($value, $options = null): ?string
@@ -220,8 +220,7 @@ final class Type extends Utility
 	 * Evaluate a given value as a boolean.
 	 * 
 	 * Only the following types and formats can be evaluated into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
-	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a boolean;<br>
 	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
 	 * and <code>1</code> for boolean <code>true</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
@@ -247,8 +246,7 @@ final class Type extends Utility
 	 * Coerce a given value into a boolean.
 	 * 
 	 * Only the following types and formats can be coerced into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
-	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a boolean;<br>
 	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
 	 * and <code>1</code> for boolean <code>true</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
@@ -277,8 +275,7 @@ final class Type extends Utility
 	 * Process the coercion of a given value into a boolean.
 	 * 
 	 * Only the following types and formats can be coerced into a boolean:<br>
-	 * &nbsp; &#8226; &nbsp; a boolean, as: <code>false</code> for boolean <code>false</code>, 
-	 * and <code>true</code> for boolean <code>true</code>;<br>
+	 * &nbsp; &#8226; &nbsp; a boolean;<br>
 	 * &nbsp; &#8226; &nbsp; an integer, as: <code>0</code> for boolean <code>false</code>, 
 	 * and <code>1</code> for boolean <code>true</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a float, as: <code>0.0</code> for boolean <code>false</code>, 
@@ -1656,7 +1653,7 @@ final class Type extends Utility
 	 * Clone a given value.
 	 * 
 	 * If the given value is a cloneable object, then a clone of it is returned.<br>
-	 * If the given value is an array and <var>$recursive</var> is set to <code>true</code>, 
+	 * If the given value is an array and <var>$recursive</var> is set to boolean <code>true</code>, 
 	 * then it is transversed recursively, with every cloneable object found being cloned and returned.<br>
 	 * <br>
 	 * For any other case, the given value is returned as is.
@@ -1881,7 +1878,7 @@ final class Type extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\ClassNotFound
 	 * @return string|null
 	 * <p>The class from the given object or class.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be got.</p>
 	 */
 	final public static function class($object_class, bool $no_throw = false): ?string
@@ -1914,7 +1911,8 @@ final class Type extends Utility
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\InterfaceNotFound
 	 * @return string|null
 	 * <p>The given interface validated and sanitized.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, then <code>null</code> is returned if it was not found.</p>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public static function interface(string $interface, bool $no_throw = false): ?string
 	{

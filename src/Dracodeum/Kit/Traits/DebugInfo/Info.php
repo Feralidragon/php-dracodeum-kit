@@ -61,7 +61,7 @@ final class Info
 	 * @throws \Dracodeum\Kit\Traits\DebugInfo\Info\Exceptions\PropertyNotFound
 	 * @return mixed
 	 * <p>The property value with the given name.<br>
-	 * If <var>$no_throw</var> is set to <code>true</code>, 
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */
 	final public function get(string $name, bool $no_throw = false)

@@ -217,7 +217,7 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>decode</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
 	 * @dataProvider provideDecodeMethodDataForInvalidStringException
@@ -333,7 +333,7 @@ class Base64Test extends TestCase
 	}
 	
 	/**
-	 * Test <code>normalize</code> method with <var>$no_throw</var> set to <code>true</code>, 
+	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
 	 * @dataProvider provideNormalizeMethodDataForInvalidStringException
