@@ -3002,6 +3002,54 @@ class CallTest extends TestCase
 			return $datum[1] !== null;
 		});
 	}
+	
+	/**
+	 * Test <code>stackPreviousClass</code> method.
+	 * 
+	 * @testdox Call::stackPreviousClass()
+	 * 
+	 * @return void
+	 */
+	public function testStackPreviousClassMethod(): void
+	{
+		//initialize
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC(new CallTest_StackClassD())));
+		
+		//assert
+		$this->assertSame(static::class, $a->getStackPreviousClassA());
+		$this->assertSame(static::class, $a->getStaticStackPreviousClassA());
+		$this->assertSame(static::class, CallTest_StackClassA::getStaticStackPreviousClassA());
+		$this->assertSame(CallTest_StackClassA::class, $a->getStackPreviousClassB());
+		$this->assertSame(CallTest_StackClassA::class, $a->getStaticStackPreviousClassB());
+		$this->assertSame(CallTest_StackClassA::class, CallTest_StackClassA::getStaticStackPreviousClassB());
+		$this->assertSame(CallTest_StackClassB::class, $a->getStackPreviousClassC());
+		$this->assertSame(CallTest_StackClassB::class, $a->getStaticStackPreviousClassC());
+		$this->assertSame(CallTest_StackClassB::class, CallTest_StackClassA::getStaticStackPreviousClassC());
+		$this->assertSame(CallTest_StackClassC::class, $a->getStackPreviousClassD());
+		$this->assertSame(CallTest_StackClassC::class, $a->getStaticStackPreviousClassD());
+		$this->assertSame(CallTest_StackClassC::class, CallTest_StackClassA::getStaticStackPreviousClassD());
+		$this->assertSame(CallTest_StackClassB::class, $a->getStackPreviousClassD(1));
+		$this->assertSame(CallTest_StackClassB::class, $a->getStaticStackPreviousClassD(1));
+		$this->assertSame(CallTest_StackClassB::class, CallTest_StackClassA::getStaticStackPreviousClassD(1));
+		$this->assertSame(CallTest_StackClassA::class, $a->getStackPreviousClassD(2));
+		$this->assertSame(CallTest_StackClassA::class, $a->getStaticStackPreviousClassD(2));
+		$this->assertSame(CallTest_StackClassA::class, CallTest_StackClassA::getStaticStackPreviousClassD(2));
+		$this->assertSame(static::class, $a->getStackPreviousClassD(3));
+		$this->assertSame(static::class, $a->getStaticStackPreviousClassD(3));
+		$this->assertSame(static::class, CallTest_StackClassA::getStaticStackPreviousClassD(3));
+		$this->assertSame(CallTest_StackClassA::class, $a->getStackPreviousClassC(1));
+		$this->assertSame(CallTest_StackClassA::class, $a->getStaticStackPreviousClassC(1));
+		$this->assertSame(CallTest_StackClassA::class, CallTest_StackClassA::getStaticStackPreviousClassC(1));
+		$this->assertSame(static::class, $a->getStackPreviousClassC(2));
+		$this->assertSame(static::class, $a->getStaticStackPreviousClassC(2));
+		$this->assertSame(static::class, CallTest_StackClassA::getStaticStackPreviousClassC(2));
+		$this->assertSame(static::class, $a->getStackPreviousClassB(1));
+		$this->assertSame(static::class, $a->getStaticStackPreviousClassB(1));
+		$this->assertSame(static::class, CallTest_StackClassA::getStaticStackPreviousClassB(1));
+		$this->assertNull($a->getStackPreviousClassD(10000));
+		$this->assertNull($a->getStaticStackPreviousClassD(10000));
+		$this->assertNull(CallTest_StackClassA::getStaticStackPreviousClassD(10000));
+	}
 }
 
 
@@ -3236,4 +3284,152 @@ class CallTest_InterfaceClass implements CallTest_Interface
 	public function setString(string $string): void {}
 	public static function getStaticString(): string {}
 	public static function setStaticString(string $string): void {}
+}
+
+
+
+/** Test case dummy stack class A. */
+class CallTest_StackClassA
+{
+	/** @var \Dracodeum\Kit\Tests\Utilities\CallTest_StackClassB */
+	private $b;
+	
+	public function __construct(CallTest_StackClassB $b)
+	{
+		$this->b = $b;
+	}
+	
+	public function getStackPreviousClassA(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public function getStackPreviousClassB(int $offset = 0): ?string
+	{
+		return $this->b->getStackPreviousClassB($offset);
+	}
+	
+	public function getStackPreviousClassC(int $offset = 0): ?string
+	{
+		return $this->b->getStackPreviousClassC($offset);
+	}
+	
+	public function getStackPreviousClassD(int $offset = 0): ?string
+	{
+		return $this->b->getStackPreviousClassD($offset);
+	}
+	
+	public static function getStaticStackPreviousClassA(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public static function getStaticStackPreviousClassB(int $offset = 0): ?string
+	{
+		return CallTest_StackClassB::getStaticStackPreviousClassB($offset);
+	}
+	
+	public static function getStaticStackPreviousClassC(int $offset = 0): ?string
+	{
+		return CallTest_StackClassB::getStaticStackPreviousClassC($offset);
+	}
+	
+	public static function getStaticStackPreviousClassD(int $offset = 0): ?string
+	{
+		return CallTest_StackClassB::getStaticStackPreviousClassD($offset);
+	}
+}
+
+
+
+/** Test case dummy stack class B. */
+class CallTest_StackClassB
+{
+	/** @var \Dracodeum\Kit\Tests\Utilities\CallTest_StackClassC */
+	private $c;
+	
+	public function __construct(CallTest_StackClassC $c)
+	{
+		$this->c = $c;
+	}
+	
+	public function getStackPreviousClassB(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public function getStackPreviousClassC(int $offset = 0): ?string
+	{
+		return $this->c->getStackPreviousClassC($offset);
+	}
+	
+	public function getStackPreviousClassD(int $offset = 0): ?string
+	{
+		return $this->c->getStackPreviousClassD($offset);
+	}
+	
+	public static function getStaticStackPreviousClassB(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public static function getStaticStackPreviousClassC(int $offset = 0): ?string
+	{
+		return CallTest_StackClassC::getStaticStackPreviousClassC($offset);
+	}
+	
+	public static function getStaticStackPreviousClassD(int $offset = 0): ?string
+	{
+		return CallTest_StackClassC::getStaticStackPreviousClassD($offset);
+	}
+}
+
+
+
+/** Test case dummy stack class C. */
+class CallTest_StackClassC
+{
+	/** @var \Dracodeum\Kit\Tests\Utilities\CallTest_StackClassD */
+	private $d;
+	
+	public function __construct(CallTest_StackClassD $d)
+	{
+		$this->d = $d;
+	}
+	
+	public function getStackPreviousClassC(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public function getStackPreviousClassD(int $offset = 0): ?string
+	{
+		return $this->d->getStackPreviousClassD($offset);
+	}
+	
+	public static function getStaticStackPreviousClassC(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public static function getStaticStackPreviousClassD(int $offset = 0): ?string
+	{
+		return CallTest_StackClassD::getStaticStackPreviousClassD($offset);
+	}
+}
+
+
+
+/** Test case dummy stack class D. */
+class CallTest_StackClassD
+{
+	public function getStackPreviousClassD(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
+	
+	public static function getStaticStackPreviousClassD(int $offset = 0): ?string
+	{
+		return UCall::stackPreviousClass($offset);
+	}
 }
