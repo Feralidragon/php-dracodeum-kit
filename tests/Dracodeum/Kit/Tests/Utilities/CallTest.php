@@ -3127,6 +3127,44 @@ class CallTest extends TestCase
 		$this->assertSame([], $a->getStaticStackPreviousClassesC(10000));
 		$this->assertSame([], CallTest_StackClassA::getStaticStackPreviousClassesC(10000));
 	}
+	
+	/**
+	 * Test <code>stackPreviousObject</code> method.
+	 * 
+	 * @testdox Call::stackPreviousObject()
+	 * 
+	 * @return void
+	 */
+	public function testStackPreviousObjectMethod(): void
+	{
+		//initialize
+		$c = new CallTest_StackClassC();
+		$b = new CallTest_StackClassB($c);
+		$a = new CallTest_StackClassA($b);
+		
+		//assert
+		$this->assertSame($this, $a->getStackPreviousObjectA());
+		$this->assertSame($this, $a->getStaticStackPreviousObjectA());
+		$this->assertSame($this, CallTest_StackClassA::getStaticStackPreviousObjectA());
+		$this->assertSame($a, $a->getStackPreviousObjectB());
+		$this->assertNull($a->getStaticStackPreviousObjectB());
+		$this->assertNull(CallTest_StackClassA::getStaticStackPreviousObjectB());
+		$this->assertSame($b, $a->getStackPreviousObjectC());
+		$this->assertNull($b->getStaticStackPreviousObjectC());
+		$this->assertNull(CallTest_StackClassA::getStaticStackPreviousObjectC());
+		$this->assertSame($a, $a->getStackPreviousObjectC(1));
+		$this->assertNull($a->getStaticStackPreviousObjectC(1));
+		$this->assertNull(CallTest_StackClassA::getStaticStackPreviousObjectC(1));
+		$this->assertSame($this, $a->getStackPreviousObjectC(2));
+		$this->assertSame($this, $a->getStaticStackPreviousObjectC(2));
+		$this->assertSame($this, CallTest_StackClassA::getStaticStackPreviousObjectC(2));
+		$this->assertSame($this, $a->getStackPreviousObjectB(1));
+		$this->assertSame($this, $a->getStaticStackPreviousObjectB(1));
+		$this->assertSame($this, CallTest_StackClassA::getStaticStackPreviousObjectB(1));
+		$this->assertNull($a->getStackPreviousObjectC(10000));
+		$this->assertNull($a->getStaticStackPreviousObjectC(10000));
+		$this->assertNull(CallTest_StackClassA::getStaticStackPreviousObjectC(10000));
+	}
 }
 
 
@@ -3406,6 +3444,21 @@ class CallTest_StackClassA
 		return $this->b->getStackPreviousClassesC($offset, $limit);
 	}
 	
+	public function getStackPreviousObjectA(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
+	}
+	
+	public function getStackPreviousObjectB(int $offset = 0): ?object
+	{
+		return $this->b->getStackPreviousObjectB($offset);
+	}
+	
+	public function getStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return $this->b->getStackPreviousObjectC($offset);
+	}
+	
 	public static function getStaticStackPreviousClassA(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -3434,6 +3487,21 @@ class CallTest_StackClassA
 	public static function getStaticStackPreviousClassesC(int $offset = 0, ?int $limit = null): array
 	{
 		return CallTest_StackClassB::getStaticStackPreviousClassesC($offset, $limit);
+	}
+	
+	public static function getStaticStackPreviousObjectA(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
+	}
+	
+	public static function getStaticStackPreviousObjectB(int $offset = 0): ?object
+	{
+		return CallTest_StackClassB::getStaticStackPreviousObjectB($offset);
+	}
+	
+	public static function getStaticStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return CallTest_StackClassB::getStaticStackPreviousObjectC($offset);
 	}
 }
 
@@ -3470,6 +3538,16 @@ class CallTest_StackClassB
 		return $this->c->getStackPreviousClassesC($offset, $limit);
 	}
 	
+	public function getStackPreviousObjectB(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
+	}
+	
+	public function getStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return $this->c->getStackPreviousObjectC($offset);
+	}
+	
 	public static function getStaticStackPreviousClassB(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -3489,6 +3567,16 @@ class CallTest_StackClassB
 	{
 		return CallTest_StackClassC::getStaticStackPreviousClassesC($offset, $limit);
 	}
+	
+	public static function getStaticStackPreviousObjectB(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
+	}
+	
+	public static function getStaticStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return CallTest_StackClassC::getStaticStackPreviousObjectC($offset);
+	}
 }
 
 
@@ -3506,6 +3594,11 @@ class CallTest_StackClassC
 		return UCall::stackPreviousClasses($offset, $limit);
 	}
 	
+	public function getStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
+	}
+	
 	public static function getStaticStackPreviousClassC(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -3514,5 +3607,10 @@ class CallTest_StackClassC
 	public static function getStaticStackPreviousClassesC(int $offset = 0, ?int $limit = null): array
 	{
 		return UCall::stackPreviousClasses($offset, $limit);
+	}
+	
+	public static function getStaticStackPreviousObjectC(int $offset = 0): ?object
+	{
+		return UCall::stackPreviousObject($offset);
 	}
 }
