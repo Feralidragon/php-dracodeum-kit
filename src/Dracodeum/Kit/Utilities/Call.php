@@ -1412,16 +1412,18 @@ final class Call extends Utility
 		]);
 		$backtrace = $backtrace[$stack_index];
 		
-		//exception
+		//exception properties
 		$exception_properties = [
 			'value' => $value,
 			'exec_function_full_name' => self::name($function, true),
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
-		];
+		] + self::getGuardMessages($options);
+		
+		//throw exception
 		throw isset($exception)
 			? new Exceptions\Guard\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
-			: new Exceptions\Guard\ReturnNotAllowed($exception_properties + self::getGuardMessages($options));
+			: new Exceptions\Guard\ReturnNotAllowed($exception_properties);
 	}
 	
 	
@@ -1497,7 +1499,16 @@ final class Call extends Utility
 			}
 		}
 		
+		//messages
+		$messages = [];
+		if ($error_message !== null) {
+			$messages['error_message'] = $error_message;
+		}
+		if ($hint_message !== null) {
+			$messages['hint_message'] = $hint_message;
+		}
+		
 		//return
-		return ['error_message' => $error_message, 'hint_message' => $hint_message];
+		return $messages;
 	}
 }

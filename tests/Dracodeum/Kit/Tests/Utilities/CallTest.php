@@ -3376,7 +3376,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>guard</code> method.
 	 * 
-	 * @testdox Call::guard(false|true)
+	 * @testdox Call::guard(...)
 	 * 
 	 * @return void
 	 */
@@ -3485,7 +3485,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>guardParameter</code> method.
 	 * 
-	 * @testdox Call::guardParameter(false|true)
+	 * @testdox Call::guardParameter(...)
 	 * 
 	 * @return void
 	 */
@@ -3594,7 +3594,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>guardInternal</code> method.
 	 * 
-	 * @testdox Call::guardInternal(false|true)
+	 * @testdox Call::guardInternal(...)
 	 * 
 	 * @return void
 	 */
@@ -3697,6 +3697,205 @@ class CallTest extends TestCase
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+		}
+	}
+	
+	/**
+	 * Test <code>guardExecution</code> method.
+	 * 
+	 * @testdox Call::guardExecution(...)
+	 * 
+	 * @return void
+	 */
+	public function testGuardExecutionMethod(): void
+	{
+		//initialize
+		$functions = [
+			function (string $a, int $b = 10) {
+				$this->assertSame('_foo_', $a);
+				$this->assertSame(173, $b);
+				return '_bar_';
+			},
+			[CallTest_GuardClass::class, 'getBar']
+		];
+		$parameters = ['_foo_', 173];
+		$callback_true = function (&$value): bool {
+			$this->assertSame('_bar_', $value);
+			$value = 'foo555';
+			return true;
+		};
+		$callback_false = function (&$value): bool {
+			$this->assertSame('_bar_', $value);
+			$value = 'foo555';
+			return false;
+		};
+		$callback_exception = function (&$value): bool {
+			$this->assertSame('_bar_', $value);
+			$value = 'foo555';
+			throw new \Exception();
+		};
+		
+		//success
+		foreach ($functions as $function) {
+			$this->assertSame('foo555', UCall::guardExecution($function, $parameters, $callback_true));
+		}
+		
+		//exception 1
+		foreach ($functions as $function) {
+			foreach ([$callback_false, $callback_exception] as $callback) {
+				try {
+					UCall::guardExecution($function, $parameters, $callback);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Guard\ReturnError $exception) {
+					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
+					$this->assertSame($this, $exception->object_class);
+					if ($callback === $callback_false) {
+						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertNull($exception->error_message);
+					} else {
+						$this->assertNotNull($exception->error_message);
+					}
+					$this->assertNull($exception->hint_message);
+					$this->assertSame('_bar_', $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_GuardClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 2
+		foreach ($functions as $function) {
+			foreach ([$callback_false, $callback_exception] as $callback) {
+				try {
+					UCall::guardExecution($function, $parameters, $callback, [
+						'error_message' => "Potatoes are not for sale.",
+						'hint_message' => "Try some eggs.",
+						'function_name' => 'barFoo',
+						'object_class' => CallTest_Class::class
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Guard\ReturnError $exception) {
+					if ($callback === $callback_false) {
+						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('barFoo', $exception->function_name);
+					$this->assertSame(CallTest_Class::class, $exception->object_class);
+					$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+					$this->assertSame("Try some eggs.", $exception->hint_message);
+					$this->assertSame('_bar_', $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_GuardClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 3
+		foreach ($functions as $function) {
+			foreach ([$callback_false, $callback_exception] as $callback) {
+				try {
+					UCall::guardExecution($function, $parameters, $callback, [
+						'error_message' => "{{product1}} are not for sale.",
+						'hint_message' => "Try some {{product2}}.",
+						'function_name' => 'foo2Bar',
+						'stack_offset' => 1,
+						'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Guard\ReturnError $exception) {
+					if ($callback === $callback_false) {
+						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('foo2Bar', $exception->function_name);
+					$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+					$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+					$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+					$this->assertSame('_bar_', $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_GuardClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 4
+		foreach ($functions as $function) {
+			foreach ([$callback_false, $callback_exception] as $callback) {
+				try {
+					UCall::guardExecution($function, $parameters, $callback, [
+						'error_message' => "There is only {{count1}} {{product1}}.",
+						'error_message_plural' => "There are only {{count1}} {{product1}}.",
+						'error_message_number_placeholder' => 'count1',
+						'hint_message' => "Try this {{count2}} {{product2}}.",
+						'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+						'hint_message_number_placeholder' => 'count2',
+						'function_name' => 'fBar',
+						'error_message_number' => 7,
+						'hint_message_number' => 2,
+						'stack_offset' => 2,
+						'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+						'stringifier' => function (string $placeholder, $value): ?string {
+							return is_int($value) ? (string)$value : "[{$value}]";
+						}
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Guard\ReturnError $exception) {
+					if ($callback === $callback_false) {
+						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('fBar', $exception->function_name);
+					$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+					$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+					$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
+					$this->assertSame('_bar_', $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_GuardClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 5
+		foreach ($functions as $function) {
+			foreach ([$callback_false, $callback_exception] as $callback) {
+				try {
+					UCall::guardExecution($function, $parameters, $callback, function () {
+						return [
+							'error_message' => "There is only {{count}} {{product1}}.",
+							'error_message_plural' => "There are only {{count}} {{product1}}.",
+							'error_message_number_placeholder' => 'count',
+							'hint_message' => "Try this {{count}} {{product2}}.",
+							'hint_message_plural' => "Try these {{count}} {{product2}}.",
+							'hint_message_number_placeholder' => 'count',
+							'error_message_number' => 1,
+							'hint_message_number' => 1,
+							'parameters' => ['product1' => 'banana', 'product2' => 'peach'],
+							'string_options' => [
+								'prepend_type' => true
+							]
+						];
+					});
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Guard\ReturnError $exception) {
+					if ($callback === $callback_false) {
+						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
+					$this->assertSame($this, $exception->object_class);
+					$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
+					$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+					$this->assertSame('_bar_', $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_GuardClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
 		}
 	}
 }
@@ -4326,5 +4525,16 @@ class CallTest_StackClassC
 	public static function getStaticStackPreviousObjectsClassesC(int $offset = 0, ?int $limit = null): array
 	{
 		return UCall::stackPreviousObjectsClasses($offset, $limit);
+	}
+}
+
+
+
+/** Test case dummy guard class. */
+class CallTest_GuardClass
+{
+	public static function getBar(string $a, int $b)
+	{
+		return '_bar_';
 	}
 }
