@@ -3372,6 +3372,115 @@ class CallTest extends TestCase
 		$this->assertSame([], $a->getStaticStackPreviousObjectsClassesC(10000));
 		$this->assertSame([], CallTest_StackClassA::getStaticStackPreviousObjectsClassesC(10000));
 	}
+	
+	/**
+	 * Test <code>guard</code> method.
+	 * 
+	 * @testdox Call::guard(false|true)
+	 * 
+	 * @return void
+	 */
+	public function testGuardMethod(): void
+	{
+		//void
+		$this->assertNull(UCall::guard(true));
+		
+		//exception 1
+		try {
+			UCall::guard(false);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Guard\NotAllowed $exception) {
+			$this->assertSame('testGuardMethod', $exception->function_name);
+			$this->assertSame($this, $exception->object_class);
+			$this->assertNull($exception->error_message);
+			$this->assertNull($exception->hint_message);
+		}
+		
+		//exception 2
+		try {
+			UCall::guard(false, [
+				'error_message' => "Potatoes are not for sale.",
+				'hint_message' => "Try some eggs.",
+				'function_name' => 'barFoo',
+				'object_class' => CallTest_Class::class
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Guard\NotAllowed $exception) {
+			$this->assertSame('barFoo', $exception->function_name);
+			$this->assertSame(CallTest_Class::class, $exception->object_class);
+			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+			$this->assertSame("Try some eggs.", $exception->hint_message);
+		}
+		
+		//exception 3
+		try {
+			UCall::guard(false, [
+				'error_message' => "{{product1}} are not for sale.",
+				'hint_message' => "Try some {{product2}}.",
+				'function_name' => 'foo2Bar',
+				'stack_offset' => 1,
+				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Guard\NotAllowed $exception) {
+			$this->assertSame('foo2Bar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+			$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+		}
+		
+		//exception 4
+		try {
+			UCall::guard(false, [
+				'error_message' => "There is only {{count1}} {{product1}}.",
+				'error_message_plural' => "There are only {{count1}} {{product1}}.",
+				'error_message_number_placeholder' => 'count1',
+				'hint_message' => "Try this {{count2}} {{product2}}.",
+				'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+				'hint_message_number_placeholder' => 'count2',
+				'function_name' => 'fBar',
+				'error_message_number' => 7,
+				'hint_message_number' => 2,
+				'stack_offset' => 2,
+				'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+				'stringifier' => function (string $placeholder, $value): ?string {
+					return is_int($value) ? (string)$value : "[{$value}]";
+				}
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Guard\NotAllowed $exception) {
+			$this->assertSame('fBar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+			$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
+		}
+		
+		//exception 5
+		try {
+			UCall::guard(false, function () {
+				return [
+					'error_message' => "There is only {{count}} {{product1}}.",
+					'error_message_plural' => "There are only {{count}} {{product1}}.",
+					'error_message_number_placeholder' => 'count',
+					'hint_message' => "Try this {{count}} {{product2}}.",
+					'hint_message_plural' => "Try these {{count}} {{product2}}.",
+					'hint_message_number_placeholder' => 'count',
+					'error_message_number' => 1,
+					'hint_message_number' => 1,
+					'parameters' => ['product1' => 'banana', 'product2' => 'peach'],
+					'string_options' => [
+						'prepend_type' => true
+					]
+				];
+			});
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Guard\NotAllowed $exception) {
+			$this->assertSame('testGuardMethod', $exception->function_name);
+			$this->assertSame($this, $exception->object_class);
+			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
+			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+		}
+	}
 }
 
 

@@ -156,6 +156,19 @@ trait LazyProperties
 	}
 	
 	/**
+	 * Check if property with a given name is loaded.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is loaded.</p>
+	 */
+	final public function loaded(string $name): bool
+	{
+		return $this->getPropertiesManager()->loaded($name);
+	}
+	
+	/**
 	 * Set property with a given name and value.
 	 * 
 	 * This method may only be called after the properties manager initialization.

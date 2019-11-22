@@ -724,6 +724,19 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	}
 	
 	/**
+	 * Check if property with a given name is loaded.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is loaded.</p>
+	 */
+	final public function loaded(string $name): bool
+	{
+		return isset($this->properties[$name]);
+	}
+	
+	/**
 	 * Set property with a given name and value.
 	 * 
 	 * @param string $name

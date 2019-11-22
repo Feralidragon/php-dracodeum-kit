@@ -1446,9 +1446,15 @@ final class Call extends Utility
 		if (!isset($stringifier)) {
 			$stringifier = function (string $placeholder, $value) use ($options): ?string {
 				$string_options = $options->string_options->clone();
-				$string_options->quote_strings = true;
-				$string_options->prepend_type = is_bool($value);
-				$string_options->non_stringifiable = true;
+				if (!$string_options->loaded('quote_strings')) {
+					$string_options->quote_strings = true;
+				}
+				if (!$string_options->loaded('prepend_type')) {
+					$string_options->prepend_type = is_bool($value);
+				}
+				if (!$string_options->loaded('non_stringifiable')) {
+					$string_options->non_stringifiable = true;
+				}
 				return Text::stringify($value, null, $string_options);
 			};
 		}
