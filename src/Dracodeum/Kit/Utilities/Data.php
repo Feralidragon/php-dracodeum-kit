@@ -211,24 +211,24 @@ final class Data extends Utility
 		if (!isset($value)) {
 			$safe = true;
 			return 'n';
-		} elseif (is_string($value)) {
+		} elseif (is_bool($value)) {
 			$safe = true;
-			return strlen($value) > self::KEYFY_MAX_RAW_STRING_LENGTH ? 'S:' . sha1($value) : "s:{$value}";
+			return 'b:' . ($value ? '1' : '0');
 		} elseif (is_int($value)) {
 			$safe = true;
 			return "i:{$value}";
 		} elseif (is_float($value)) {
 			$safe = true;
 			return "f:{$value}";
-		} elseif (is_bool($value)) {
+		} elseif (is_string($value)) {
 			$safe = true;
-			return 'b:' . (int)$value;
-		} elseif (is_resource($value)) {
-			$safe = false;
-			return 'R:' . (int)$value;
+			return strlen($value) > self::KEYFY_MAX_RAW_STRING_LENGTH ? 'S:' . sha1($value) : "s:{$value}";
 		} elseif (is_object($value)) {
 			$safe = false;
 			return 'O:' . spl_object_id($value);
+		} elseif (is_resource($value)) {
+			$safe = false;
+			return 'R:' . (int)$value;
 		} elseif (is_array($value)) {
 			$array_safe = true;
 			foreach ($value as &$v) {
