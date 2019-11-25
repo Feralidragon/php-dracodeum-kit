@@ -86,14 +86,14 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>validate</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @dataProvider provideValidateMethodData_InvalidFunctionException
 	 * @testdox Call::validate({$function}) --> InvalidFunction exception
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testValidateMethodInvalidFunctionException($function): void
+	public function testValidateMethod_InvalidFunctionException($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
 		try {
@@ -108,14 +108,14 @@ class CallTest extends TestCase
 	 * Test <code>validate</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @dataProvider provideValidateMethodData_InvalidFunctionException
 	 * @testdox Call::validate({$function}, true) === false
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testValidateMethodNoThrowFalse($function): void
+	public function testValidateMethod_NoThrowFalse($function): void
 	{
 		$this->assertFalse(UCall::validate($function, true));
 	}
@@ -126,7 +126,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>validate</code> method data for an <code>InvalidFunction</code> exception to be thrown.</p>
 	 */
-	public function provideValidateMethodDataForInvalidFunctionException(): array
+	public function provideValidateMethodData_InvalidFunctionException(): array
 	{
 		return [
 			[null],
@@ -238,14 +238,14 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @dataProvider provideValidateMethodData_InvalidFunctionException
 	 * @testdox Call::reflection({$function}) --> InvalidFunction exception
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testReflectionMethodInvalidFunctionException($function): void
+	public function testReflectionMethod_InvalidFunctionException($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
 		try {
@@ -260,14 +260,14 @@ class CallTest extends TestCase
 	 * Test <code>reflection</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateMethodDataForInvalidFunctionException
+	 * @dataProvider provideValidateMethodData_InvalidFunctionException
 	 * @testdox Call::reflection({$function}, true) === false
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testReflectionMethodNoThrowNull($function): void
+	public function testReflectionMethod_NoThrowNull($function): void
 	{
 		$this->assertNull(UCall::reflection($function, true));
 	}
@@ -2169,7 +2169,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method expecting an <code>AssertionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideAssertMethodDataForAssertionFailedException
+	 * @dataProvider provideAssertMethodData_AssertionFailedException
 	 * @testdox Call::assert('foobar', {$function}, {$template}) --> AssertionFailed exception
 	 * 
 	 * @param callable|array|string $function
@@ -2178,7 +2178,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethodAssertionFailedException($function, $template): void
+	public function testAssertMethod_AssertionFailedException($function, $template): void
 	{
 		$this->expectException(Exceptions\AssertionFailed::class);
 		try {
@@ -2188,7 +2188,7 @@ class CallTest extends TestCase
 			$this->assertSame($function, $exception->function);
 			$this->assertSame($template, $exception->template);
 			$this->assertSame($this, $exception->source_object_class);
-			$this->assertSame('testAssertMethodAssertionFailedException', $exception->source_function_name);
+			$this->assertSame('testAssertMethod_AssertionFailedException', $exception->source_function_name);
 			throw $exception;
 		}
 	}
@@ -2197,7 +2197,7 @@ class CallTest extends TestCase
 	 * Test <code>assert</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideAssertMethodDataForAssertionFailedException
+	 * @dataProvider provideAssertMethodData_AssertionFailedException
 	 * @testdox Call::assert('foobar', {$function}, {$template}, true) === false
 	 * 
 	 * @param callable|array|string $function
@@ -2206,7 +2206,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethodNoThrowFalse($function, $template): void
+	public function testAssertMethod_NoThrowFalse($function, $template): void
 	{
 		$this->assertFalse(UCall::assert('foobar', $function, $template, true));
 	}
@@ -2217,7 +2217,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>assert</code> method data for an <code>AssertionFailed</code> exception to be thrown.</p>
 	 */
-	public function provideAssertMethodDataForAssertionFailedException(): array
+	public function provideAssertMethodData_AssertionFailedException(): array
 	{
 		$data = [];
 		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
@@ -2231,7 +2231,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method in a production environment.
 	 * 
-	 * @dataProvider provideAssertMethodDataForProductionEnvironment
+	 * @dataProvider provideAssertMethodData_ProductionEnvironment
 	 * @testdox Call::assert('foobar', {$function}, {$template}) === void [production]
 	 * 
 	 * @param callable|array|string $function
@@ -2240,7 +2240,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethodInProductionEnvironment($function, $template): void
+	public function testAssertMethod_ProductionEnvironment($function, $template): void
 	{
 		$environment = System::getEnvironment();
 		try {
@@ -2258,7 +2258,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>assert</code> method data for a production environment.</p>
 	 */
-	public function provideAssertMethodDataForProductionEnvironment(): array
+	public function provideAssertMethodData_ProductionEnvironment(): array
 	{
 		$data = [];
 		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
@@ -2602,7 +2602,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testEvaluateMethodWithNullValue(): void
+	public function testEvaluateMethod_NullValue(): void
 	{
 		foreach ([false, true] as $assertive) {
 			$value = null;
@@ -2618,7 +2618,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testCoerceMethodWithNullValue(): void
+	public function testCoerceMethod_NullValue(): void
 	{
 		foreach ([false, true] as $assertive) {
 			$this->assertNull(UCall::coerce(null, null, true, $assertive));
@@ -2632,7 +2632,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethodWithNullValue(): void
+	public function testProcessCoercionMethod_NullValue(): void
 	{
 		foreach ([false, true] as $assertive) {
 			foreach ([false, true] as $no_throw) {
@@ -2646,7 +2646,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @dataProvider provideCoercionMethodData_CoercionFailedException
 	 * @testdox Call::evaluate(&{$value}, {$template}) === false
 	 * 
 	 * @param mixed $value
@@ -2655,7 +2655,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testEvaluateMethodFalse($value, $template): void
+	public function testEvaluateMethod_False($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			$v = $value;
@@ -2667,7 +2667,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @dataProvider provideCoercionMethodData_CoercionFailedException
 	 * @testdox Call::coerce({$value}, {$template}) --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2676,7 +2676,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testCoerceMethodCoercionFailedException($value, $template): void
+	public function testCoerceMethod_CoercionFailedException($value, $template): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
 		try {
@@ -2690,7 +2690,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @dataProvider provideCoercionMethodData_CoercionFailedException
 	 * @testdox Call::processCoercion(&{$value}, {$template}) --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2699,7 +2699,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethodCoercionFailedException($value, $template): void
+	public function testProcessCoercionMethod_CoercionFailedException($value, $template): void
 	{
 		$v = $value;
 		$this->expectException(Exceptions\CoercionFailed::class);
@@ -2716,7 +2716,7 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionMethodDataForCoercionFailedException
+	 * @dataProvider provideCoercionMethodData_CoercionFailedException
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, false, true) === false
 	 * 
 	 * @param mixed $value
@@ -2725,7 +2725,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethodNoThrowFalse($value, $template): void
+	public function testProcessCoercionMethod_NoThrowFalse($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			$v = $value;
@@ -2740,7 +2740,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided coercion method data for a <code>CoercionFailed</code> exception to be thrown.</p>
 	 */
-	public function provideCoercionMethodDataForCoercionFailedException(): array
+	public function provideCoercionMethodData_CoercionFailedException(): array
 	{
 		return [
 			[false, null],
@@ -2809,7 +2809,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testEvaluateMethodWithNullValueFalse(): void
+	public function testEvaluateMethod_NullValue_False(): void
 	{
 		$value = null;
 		$this->assertFalse(UCall::evaluate($value));
@@ -2824,7 +2824,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testCoerceMethodWithNullValueCoercionFailedException(): void
+	public function testCoerceMethod_NullValue_CoercionFailedException(): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
 		try {
@@ -2843,7 +2843,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethodWithNullValueCoercionFailedException(): void
+	public function testProcessCoercionMethod_NullValue_CoercionFailedException(): void
 	{
 		$value = null;
 		$this->expectException(Exceptions\CoercionFailed::class);
@@ -2864,7 +2864,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethodWithNullValueNoThrowFalse(): void
+	public function testProcessCoercionMethod_NullValue_NoThrowFalse(): void
 	{
 		$value = null;
 		$this->assertFalse(UCall::processCoercion($value, null, false, false, true));
@@ -2874,7 +2874,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @dataProvider provideCoercionMethodData_Assertive
 	 * @testdox Call::evaluate(&{$value}, {$template}, false|true, true) === false|true
 	 * 
 	 * @param mixed $value
@@ -2883,7 +2883,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testEvaluateMethodAssertive($value, $template): void
+	public function testEvaluateMethod_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -2909,7 +2909,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @dataProvider provideCoercionMethodData_Assertive
 	 * @testdox Call::coerce({$value}, {$template}, false|true, true) === Closure or --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2918,7 +2918,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testCoerceMethodAssertive($value, $template): void
+	public function testCoerceMethod_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -2944,7 +2944,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodDataAssertive
+	 * @dataProvider provideCoercionMethodData_Assertive
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, true, false|true) === false|true or --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2953,7 +2953,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethodAssertive($value, $template): void
+	public function testProcessCoercionMethod_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -2995,9 +2995,9 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided coercion method data with <var>$assertive</var> set to boolean <code>true</code>.</p>
 	 */
-	public function provideCoercionMethodDataAssertive(): array
+	public function provideCoercionMethodData_Assertive(): array
 	{
-		$data = $this->provideCoercionMethodDataForCoercionFailedException();
+		$data = $this->provideCoercionMethodData_CoercionFailedException();
 		return array_filter($data, function (array $datum): bool {
 			return $datum[1] !== null;
 		});

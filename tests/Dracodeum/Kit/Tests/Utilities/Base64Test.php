@@ -201,7 +201,7 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideDecodeMethodDataForInvalidStringException
+	 * @dataProvider provideDecodeMethodData_InvalidStringException
 	 * @testdox Base64::decode('$string', $url_safe) --> InvalidString exception
 	 * 
 	 * @param string $string
@@ -210,7 +210,7 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testDecodeMethodInvalidStringException(string $string, ?bool $url_safe): void
+	public function testDecodeMethod_InvalidStringException(string $string, ?bool $url_safe): void
 	{
 		$this->expectException(Exceptions\Decode\InvalidString::class);
 		try {
@@ -226,7 +226,7 @@ class Base64Test extends TestCase
 	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideDecodeMethodDataForInvalidStringException
+	 * @dataProvider provideDecodeMethodData_InvalidStringException
 	 * @testdox Base64::decode('$string', $url_safe, true) === NULL
 	 * 
 	 * @param string $string
@@ -235,7 +235,7 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testDecodeMethodNoThrowNull(string $string, ?bool $url_safe): void
+	public function testDecodeMethod_NoThrowNull(string $string, ?bool $url_safe): void
 	{
 		$this->assertNull(UBase64::decode($string, $url_safe, true));
 	}
@@ -246,7 +246,7 @@ class Base64Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideDecodeMethodDataForInvalidStringException(): array
+	public function provideDecodeMethodData_InvalidStringException(): array
 	{
 		return [
 			['', null],
@@ -325,14 +325,14 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideNormalizeMethodDataForInvalidStringException
+	 * @dataProvider provideNormalizeMethodData_InvalidStringException
 	 * @testdox Base64::normalize('$string') --> InvalidString exception
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testNormalizeMethodInvalidStringException(string $string): void
+	public function testNormalizeMethod_InvalidStringException(string $string): void
 	{
 		$this->expectException(Exceptions\Normalize\InvalidString::class);
 		try {
@@ -347,14 +347,14 @@ class Base64Test extends TestCase
 	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideNormalizeMethodDataForInvalidStringException
+	 * @dataProvider provideNormalizeMethodData_InvalidStringException
 	 * @testdox Base64::normalize('$string', true) === NULL
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testNormalizeMethodNoThrowNull(string $string): void
+	public function testNormalizeMethod_NoThrowNull(string $string): void
 	{
 		$this->assertNull(UBase64::normalize($string, true));
 	}
@@ -365,7 +365,7 @@ class Base64Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>normalize</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideNormalizeMethodDataForInvalidStringException(): array
+	public function provideNormalizeMethodData_InvalidStringException(): array
 	{
 		return [
 			[''],
