@@ -20,31 +20,28 @@ final class Data extends Utility
 {
 	//Public constants
 	/** Associative union merge (flag). */
-	public const MERGE_ASSOC_UNION = 0x001;
+	public const MERGE_ASSOC_UNION = 0x01;
 	
 	/** Associative left merge (flag). */
-	public const MERGE_ASSOC_LEFT = 0x002;
+	public const MERGE_ASSOC_LEFT = 0x02;
 	
 	/** Non-associative associative merge (flag). */
-	public const MERGE_NONASSOC_ASSOC = 0x004;
-	
-	/** Non-associative append merge (flag). */
-	public const MERGE_NONASSOC_APPEND = 0x008;
+	public const MERGE_NONASSOC_ASSOC = 0x04;
 	
 	/** Non-associative union merge (flag). */
-	public const MERGE_NONASSOC_UNION = 0x010;
+	public const MERGE_NONASSOC_UNION = 0x08;
 	
 	/** Non-associative left merge (flag). */
-	public const MERGE_NONASSOC_LEFT = 0x020;
+	public const MERGE_NONASSOC_LEFT = 0x10;
 	
 	/** Non-associative swap merge (flag). */
-	public const MERGE_NONASSOC_SWAP = 0x040;
+	public const MERGE_NONASSOC_SWAP = 0x20;
 	
 	/** Non-associative keep merge (flag). */
-	public const MERGE_NONASSOC_KEEP = 0x080;
+	public const MERGE_NONASSOC_KEEP = 0x40;
 	
 	/** Non-associative unique merge (flag). */
-	public const MERGE_NONASSOC_UNIQUE = 0x100;
+	public const MERGE_NONASSOC_UNIQUE = 0x80;
 	
 	/** Associative exclude unique (flag). */
 	public const UNIQUE_ASSOC_EXCLUDE = 0x01;
@@ -147,16 +144,7 @@ final class Data extends Utility
 	
 	
 	
-	//Private constants
-	/** Non-associative required merge flags mask. */
-	private const MERGE_NONASSOC_REQUIRED_MASK = 
-		self::MERGE_NONASSOC_ASSOC | 
-		self::MERGE_NONASSOC_APPEND | 
-		self::MERGE_NONASSOC_UNION | 
-		self::MERGE_NONASSOC_LEFT | 
-		self::MERGE_NONASSOC_SWAP | 
-		self::MERGE_NONASSOC_KEEP;
-	
+	//Private constants	
 	/** Keyfy maximum raw string length before converting into a hash. */
 	private const KEYFY_MAX_RAW_STRING_LENGTH = 40;
 	
@@ -263,7 +251,7 @@ final class Data extends Utility
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the merging at.<br>
 	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
-	 * @param int $flags [default = 0x000]
+	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_ASSOC_UNION</code> : 
@@ -273,9 +261,6 @@ final class Data extends Utility
 	 * Merge associative arrays but only from the left, in other words,
 	 * with this flag only the keys present in the first array will remain, 
 	 * while any keys exclusively present in the second will be discarded.<br><br>
-	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_APPEND</code> : 
-	 * Merge non-associative arrays by appending the second to the first.<br>
-	 * This the default flag used if no non-associative flags are set.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_ASSOC</code> : 
 	 * Merge non-associative arrays associatively.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::MERGE_NONASSOC_UNION</code> : 
@@ -295,21 +280,21 @@ final class Data extends Utility
 	 * @return array
 	 * <p>The merged array from the two given ones.</p>
 	 */
-	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x000): array
+	final public static function merge(array $array1, array $array2, ?int $depth = null, int $flags = 0x00): array
 	{
-		//initialize
+		//guard
 		Call::guardParameter('depth', $depth, !isset($depth) || $depth >= 0, [
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
+		
+		//initialize
 		$is_assoc = self::associative($array1) || self::associative($array2);
 		$is_union = ($is_assoc && ($flags & self::MERGE_ASSOC_UNION)) || 
 			(!$is_assoc && ($flags & self::MERGE_NONASSOC_UNION));
 		$is_left = ($is_assoc && ($flags & self::MERGE_ASSOC_LEFT)) || 
 			(!$is_assoc && ($flags & self::MERGE_NONASSOC_LEFT));
 		$is_unique = !$is_assoc && ($flags & self::MERGE_NONASSOC_UNIQUE);
-		if (!($flags & self::MERGE_NONASSOC_REQUIRED_MASK)) {
-			$flags |= self::MERGE_NONASSOC_APPEND;
-		}
+		$unique_flags = ($flags & self::MERGE_NONASSOC_ASSOC) ? self::UNIQUE_NONASSOC_ASSOC : 0x00;
 		
 		//non-associative
 		$non_assoc_flags = self::MERGE_NONASSOC_ASSOC | self::MERGE_NONASSOC_UNION | self::MERGE_NONASSOC_LEFT;
@@ -319,18 +304,18 @@ final class Data extends Utility
 				$array = $array2;
 			} elseif ($flags & self::MERGE_NONASSOC_KEEP) {
 				$array = $array1;
-			} elseif ($flags & self::MERGE_NONASSOC_APPEND) {
+			} else {
 				$array = array_merge($array1, $array2);
 			}
-			return $is_unique ? self::unique($array, 0) : $array;
+			return $is_unique ? self::unique($array, 0, $unique_flags) : $array;
 		}
 		
 		//empty
 		if (empty($array1) || empty($array2)) {
 			if (empty($array1)) {
-				return $is_left ? [] : ($is_unique ? self::unique($array2, 0, self::UNIQUE_NONASSOC_ASSOC) : $array2);
+				return $is_left ? [] : ($is_unique ? self::unique($array2, 0, $unique_flags) : $array2);
 			}
-			return $is_unique ? self::unique($array1, 0, self::UNIQUE_NONASSOC_ASSOC) : $array1;
+			return $is_unique ? self::unique($array1, 0, $unique_flags) : $array1;
 		}
 		
 		//union
@@ -339,12 +324,7 @@ final class Data extends Utility
 			if (!$is_left) {
 				$array += $array2;
 			}
-			return $is_unique ? self::unique($array, 0, self::UNIQUE_NONASSOC_ASSOC) : $array;
-		}
-		
-		//replace
-		if (empty($depth) && !$is_union && !$is_left && !$is_unique && ($flags & self::MERGE_NONASSOC_ASSOC)) {
-			return isset($depth) ? array_replace($array1, $array2) : array_replace_recursive($array1, $array2);
+			return $is_unique ? self::unique($array, 0, $unique_flags) : $array;
 		}
 		
 		//merge
@@ -366,7 +346,7 @@ final class Data extends Utility
 			$array += $array2;
 		}
 		if ($is_unique) {
-			$array = self::unique($array, 0, self::UNIQUE_NONASSOC_ASSOC);
+			$array = self::unique($array, 0, $unique_flags);
 		}
 		
 		//return

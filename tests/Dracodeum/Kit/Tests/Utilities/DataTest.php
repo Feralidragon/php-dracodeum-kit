@@ -112,4 +112,934 @@ class DataTest extends TestCase
 			[['w' => 0.125, 'b' => 'foo', 'bar' => ['zzzz']], 'A:c9d22572427ffc2c0c42d37c45263dac0b7a07ed', true]
 		];
 	}
+	
+	/**
+	 * Test <code>merge</code> method.
+	 * 
+	 * @dataProvider provideMergeMethodData
+	 * @testdox Data::merge($array1, $array2, $depth, $flags) === $expected
+	 * 
+	 * @param array $array1
+	 * <p>The method <var>$array1</var> parameter to test with.</p>
+	 * @param array $array2
+	 * <p>The method <var>$array2</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testMergeMethod(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::merge($array1, $array2, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>merge</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>merge</code> method data.</p>
+	 */
+	public function provideMergeMethodData(): array
+	{
+		//initialize
+		$array1 = [
+			'a' => 'foo',
+			'b' => 'bar',
+			999 => [2, 5, 9, 2, 7, 5, 0],
+			'd' => [0],
+			'e' => null,
+			'zed' => [
+				'k1' => ['X', 'T'],
+				'k2' => [],
+				'k4' => [2 => 3, 3 => 3, 'k' => '#']
+			],
+			'farm' => [
+				'carrots' => 100,
+				'potatoes' => 2412,
+				'cabages' => 'unknown'
+			]
+		];
+		$array2 = [
+			'c' => 'f2b',
+			'b' => 'unreal',
+			997 => [0, 2, 3, 0, '0', 4, 2],
+			999 => [5, 1],
+			'd' => null,
+			'e' => [111],
+			'farm' => [
+				'broccoli' => 73,
+				'potatoes' => 1678,
+				'carrots' => 125
+			],
+			'zed' => [
+				'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+				'k2' => 'foo2bar',
+				'k3' => true,
+				'k4' => [3, false, null]
+			]
+		];
+		
+		//return
+		return [
+			[[], [], null, 0x00, []],
+			[$array1, $array2, null, 0x00, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, 0x00, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, 0x00, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_ASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown'
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_ASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, 0, UData::MERGE_ASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				]
+			]],
+			[$array1, $array2, 1, UData::MERGE_ASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_ASSOC, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_ASSOC, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_ASSOC, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_SWAP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_SWAP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_SWAP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_KEEP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_KEEP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_KEEP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 7, 0, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 0, UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k3' => true,
+					'k4' => [3, false, null]
+				],
+				'farm' => [
+					'broccoli' => 73,
+					'potatoes' => 1678,
+					'carrots' => 125
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, 1, UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 7, 0, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [3, false, null],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_ASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0, 5, 1],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_ASSOC, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['Y', 'F'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_SWAP, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [5, 1],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_KEEP, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'bar',
+				999 => [2, 5, 9, 7, 0, 1],
+				'd' => [0],
+				'e' => null,
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
+					'k2' => [],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => 2412,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_ASSOC, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_UNION, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_LEFT, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_SWAP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_KEEP, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 2, 7, 5, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 7, 0, 1],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#']
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown'
+				]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_ASSOC | UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 6 => 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F', 'X', 'Z', 5 => 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_UNION | UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [2, 5, 9, 7, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['X', 'T', 'Z', 'K'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+			[$array1, $array2, null, UData::MERGE_NONASSOC_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
+				'a' => 'foo',
+				'b' => 'unreal',
+				999 => [5, 1, 9, 2, 7, 0],
+				'd' => null,
+				'e' => [111],
+				'zed' => [
+					'k1' => ['Y', 'F'],
+					'k2' => 'foo2bar',
+					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k3' => true
+				],
+				'farm' => [
+					'carrots' => 125,
+					'potatoes' => 1678,
+					'cabages' => 'unknown',
+					'broccoli' => 73
+				],
+				'c' => 'f2b',
+				997 => [0, 2, 3, 0, '0', 4, 2]
+			]],
+		];
+	}
 }
