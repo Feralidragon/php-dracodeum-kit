@@ -43,6 +43,12 @@ final class Data extends Utility
 	/** Non-associative unique merge (flag). */
 	public const MERGE_NONASSOC_UNIQUE = 0x80;
 	
+	/** Union merge (flag). */
+	public const MERGE_UNION = self::MERGE_ASSOC_UNION | self::MERGE_NONASSOC_UNION;
+	
+	/** Left merge (flag). */
+	public const MERGE_LEFT = self::MERGE_ASSOC_LEFT | self::MERGE_NONASSOC_LEFT;
+	
 	/** Associative exclude unique (flag). */
 	public const UNIQUE_ASSOC_EXCLUDE = 0x01;
 	
