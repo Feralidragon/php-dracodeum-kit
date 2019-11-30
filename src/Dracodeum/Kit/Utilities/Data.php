@@ -58,8 +58,17 @@ final class Data extends Utility
 	/** Non-associative exclude unique (flag). */
 	public const UNIQUE_NONASSOC_EXCLUDE = 0x04;
 	
-	/** Arrays as values unique (flag). */
-	public const UNIQUE_ARRAYS_AS_VALUES = 0x08;
+	/** Unique associative arrays (flag). */
+	public const UNIQUE_ASSOC_ARRAYS = 0x08;
+	
+	/** Unique non-associative arrays (flag). */
+	public const UNIQUE_NONASSOC_ARRAYS = 0x10;
+	
+	/** Unique arrays as values (flag). */
+	public const UNIQUE_ARRAYS_AS_VALUES = 0x20;
+	
+	/** Unique arrays (flag). */
+	public const UNIQUE_ARRAYS = self::UNIQUE_ASSOC_ARRAYS | self::UNIQUE_NONASSOC_ARRAYS;
 	
 	/** Reverse sort (flag). */
 	public const SORT_REVERSE = 0x01;
@@ -386,6 +395,10 @@ final class Data extends Utility
 	 * Remove duplicates from non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from the removal of duplicates.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ASSOC_ARRAYS</code> : 
+	 * Remove duplicated associative arrays.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_NONASSOC_ARRAYS</code> : 
+	 * Remove duplicated non-associative arrays.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::UNIQUE_ARRAYS_AS_VALUES</code> : 
 	 * Handle arrays as values, at the last recursion depth only.</p>
 	 * @return array
@@ -398,12 +411,13 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//unique
+		//initialize
 		$is_assoc = self::associative($array);
-		if (
-			($is_assoc && !($flags & self::UNIQUE_ASSOC_EXCLUDE)) || 
-			(!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE))
-		) {
+		$is_included = ($is_assoc && !($flags & self::UNIQUE_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::UNIQUE_NONASSOC_EXCLUDE));
+		
+		//unique
+		if ($is_included) {
 			$map = [];
 			$is_arrays_as_values = ($flags & self::UNIQUE_ARRAYS_AS_VALUES) && $depth === 0;
 			foreach ($array as $k => $v) {
@@ -426,6 +440,27 @@ final class Data extends Utility
 				}
 			}
 			unset($v);
+		}
+		
+		//arrays
+		if ($is_included && ($flags & self::UNIQUE_ARRAYS)) {
+			$map = [];
+			$is_assoc_arrays = (bool)($flags & self::UNIQUE_ASSOC_ARRAYS);
+			$is_nonassoc_arrays = (bool)($flags & self::UNIQUE_NONASSOC_ARRAYS);
+			foreach ($array as $k => $v) {
+				if (is_array($v)) {
+					$is_array_assoc = ($flags & self::UNIQUE_NONASSOC_ASSOC) || self::associative($v);
+					if (($is_array_assoc && $is_assoc_arrays) || (!$is_array_assoc && $is_nonassoc_arrays)) {
+						$key = self::keyfy($v);
+						if (isset($map[$key])) {
+							unset($array[$k]);
+						} else {
+							$map[$key] = true;
+						}
+					}
+				}
+			}
+			unset($map);
 		}
 		
 		//non-associative

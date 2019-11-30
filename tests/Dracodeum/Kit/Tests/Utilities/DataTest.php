@@ -1455,4 +1455,721 @@ class DataTest extends TestCase
 			]
 		];
 	}
+	
+	/**
+	 * Test <code>unique</code> method.
+	 * 
+	 * @dataProvider provideUniqueMethodData
+	 * @testdox Data::unique($array, $depth, $flags) === $expected
+	 * 
+	 * @param array $array
+	 * <p>The method <var>$array</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testUniqueMethod(array $array, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::unique($array, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>unique</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>unique</code> method data.</p>
+	 */
+	public function provideUniqueMethodData(): array
+	{
+		//initialize
+		$array = [
+			'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+			'b' => 'foobar',
+			999 => 'unreal',
+			'zed' => [
+				'k1' => ['X', 'T', 'T'],
+				'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+				'k3' => ['X', 'X', 'T'],
+				'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+				'k5' => [['j' => 111], ['j' => 111]]
+			],
+			997 => 'foobar',
+			'farm' => [
+				'carrots' => 100,
+				'potatoes' => '100',
+				'cabages' => 100,
+				'broccoli' => 73
+			],
+			'c' => 'unreal',
+			'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+			'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+		];
+		
+		//return
+		return [
+			[[], null, 0x00, []],
+			[$array, null, 0x00, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, 0x00, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, 0x00, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_ASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_ASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_ASSOC, [
+				'a' => [
+					5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => [], 15 => []
+				],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 3 => 'T', 5 => 0, 7 => 1, 8 => null],
+					'k3' => ['X', 2 => 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_NONASSOC_ASSOC, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_NONASSOC_ASSOC, [
+				'a' => [
+					5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => [], 15 => []
+				],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_NONASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_NONASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ARRAYS_AS_VALUES, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 0, UData::UNIQUE_ARRAYS_AS_VALUES, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, 1, UData::UNIQUE_ARRAYS_AS_VALUES, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, 2, UData::UNIQUE_ARRAYS_AS_VALUES, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ASSOC, [
+				'a' => [
+					5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => [], 15 => []
+				],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 3 => 'T', 5 => 0, 7 => 1, 8 => null],
+					'k3' => ['X', 2 => 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_EXCLUDE, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_ARRAYS, [
+				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 'T', 0, 1, null],
+					'k3' => ['X', 'T'],
+					'k4' => [2 => 3, 3 => 3, 'k' => '#', 555 => 1, 777 => '#'],
+					'k5' => [['j' => 111]]
+				],
+				997 => 'foobar',
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'cabages' => 100,
+					'broccoli' => 73
+				],
+				'c' => 'unreal',
+				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 3 => 'T', 5 => 0, 7 => 1, 8 => null],
+					'k3' => ['X', 2 => 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [
+					5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => [], 15 => []
+				],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 3 => 'T', 5 => 0, 7 => 1, 8 => null],
+					'k3' => ['X', 2 => 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_ARRAYS, [
+				'a' => [5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T'],
+					'k2' => [true, 'X', 3 => 'T', 5 => 0, 7 => 1, 8 => null],
+					'k3' => ['X', 2 => 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_ASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ARRAYS, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u'],
+				'e' => ['x' => 333, 'y' => 'u']
+			]],
+			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_ARRAYS, [
+				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
+				'b' => 'foobar',
+				999 => 'unreal',
+				'zed' => [
+					'k1' => ['X', 'T', 'T'],
+					'k2' => [true, 'X', 'X', 'T', true, 0, true, 1, null, 0],
+					'k3' => ['X', 'X', 'T'],
+					'k4' => [2 => 3, 'k' => '#', 555 => 1],
+					'k5' => [['j' => 111], ['j' => 111]]
+				],
+				'farm' => [
+					'carrots' => 100,
+					'potatoes' => '100',
+					'broccoli' => 73
+				],
+				'd' => ['x' => 333, 'y' => 'u']
+			]]
+		];
+	}
 }
