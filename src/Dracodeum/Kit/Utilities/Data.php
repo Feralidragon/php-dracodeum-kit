@@ -74,13 +74,13 @@ final class Data extends Utility
 	public const SORT_REVERSE = 0x01;
 	
 	/** Associative exclude sort (flag). */
-	public const SORT_ASSOC_EXCLUDE = 0x04;
+	public const SORT_ASSOC_EXCLUDE = 0x02;
 	
 	/** Non-associative associative sort (flag). */
-	public const SORT_NONASSOC_ASSOC = 0x08;
+	public const SORT_NONASSOC_ASSOC = 0x04;
 	
 	/** Non-associative exclude sort (flag). */
-	public const SORT_NONASSOC_EXCLUDE = 0x10;
+	public const SORT_NONASSOC_EXCLUDE = 0x08;
 	
 	/** Inverse filter (flag). */
 	public const FILTER_INVERSE = 0x01;
@@ -508,6 +508,17 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::sort($v, $next_depth, $flags);
+				}
+			}
+			unset($v);
+		}
+		
 		//sort
 		$is_assoc = self::associative($array);
 		if (
@@ -527,17 +538,6 @@ final class Data extends Utility
 					sort($array);
 				}
 			}
-		}
-		
-		//recursion
-		if ($depth !== 0) {
-			$next_depth = isset($depth) ? $depth - 1 : null;
-			foreach ($array as &$v) {
-				if (is_array($v)) {
-					$v = self::sort($v, $next_depth, $flags);
-				}
-			}
-			unset($v);
 		}
 		
 		//return
