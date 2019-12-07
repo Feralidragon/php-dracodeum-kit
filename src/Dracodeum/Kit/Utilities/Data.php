@@ -563,6 +563,8 @@ final class Data extends Utility
 	 * Sort array in reverse (descending order).<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from sorting.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_ASSOC</code> : 
+	 * Sort non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::SORT_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from sorting.</p>
 	 * @return array
@@ -575,19 +577,6 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//sort
-		$is_assoc = self::associative($array);
-		if (
-			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
-			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
-		) {
-			if ($flags & self::SORT_REVERSE) {
-				krsort($array);
-			} else {
-				ksort($array);
-			}
-		}
-		
 		//recursion
 		if ($depth !== 0) {
 			$next_depth = isset($depth) ? $depth - 1 : null;
@@ -597,6 +586,22 @@ final class Data extends Utility
 				}
 			}
 			unset($v);
+		}
+		
+		//sort
+		$is_assoc = self::associative($array);
+		if (
+			($is_assoc && !($flags & self::SORT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::SORT_NONASSOC_EXCLUDE))
+		) {
+			if ($flags & self::SORT_REVERSE) {
+				krsort($array);
+				if (!$is_assoc && !($flags & self::SORT_NONASSOC_ASSOC)) {
+					$array = array_values($array);
+				}
+			} elseif ($is_assoc) {
+				ksort($array);
+			}
 		}
 		
 		//return
