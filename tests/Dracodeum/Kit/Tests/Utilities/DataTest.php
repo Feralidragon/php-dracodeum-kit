@@ -2752,6 +2752,46 @@ class DataTest extends TestCase
 				997 => 810,
 				999 => 700
 			]],
+			[$array, 0, 0x00, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'd' => 'bar',
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
+			[$array, 1, 0x00, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k2' => null,
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T']
+				],
+				'd' => 'bar',
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
 			[$array, null, UData::SORT_REVERSE, [
 				999 => 700,
 				997 => 810,
@@ -2772,7 +2812,87 @@ class DataTest extends TestCase
 				'b' => 'foo',
 				'a' => [1, 66, 4]
 			]],
+			[$array, 0, UData::SORT_REVERSE, [
+				999 => 700,
+				997 => 810,
+				711 => 750,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				'd' => 'bar',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'b' => 'foo',
+				'a' => [4, 66, 1]
+			]],
+			[$array, 1, UData::SORT_REVERSE, [
+				999 => 700,
+				997 => 810,
+				711 => 750,
+				'farm' => [
+					'carrots' => 100,
+					'cabages' => 240,
+					'broccoli' => 73
+				],
+				'd' => 'bar',
+				'c' => [
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k5' => 'foobar',
+					'k4' => 'unreal',
+					'k2' => null,
+					'k1' => ['b', 'a']
+				],
+				'b' => 'foo',
+				'a' => [1, 66, 4]
+			]],
 			[$array, null, UData::SORT_ASSOC_EXCLUDE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'a' => [4, 66, 1],
+				997 => 810,
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				711 => 750
+			]],
+			[$array, 0, UData::SORT_ASSOC_EXCLUDE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'a' => [4, 66, 1],
+				997 => 810,
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				711 => 750
+			]],
+			[$array, 1, UData::SORT_ASSOC_EXCLUDE, [
 				'b' => 'foo',
 				'd' => 'bar',
 				'c' => [
@@ -2812,6 +2932,46 @@ class DataTest extends TestCase
 				997 => 810,
 				999 => 700
 			]],
+			[$array, 0, UData::SORT_NONASSOC_ASSOC, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'd' => 'bar',
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
+			[$array, 1, UData::SORT_NONASSOC_ASSOC, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k2' => null,
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T']
+				],
+				'd' => 'bar',
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
 			[$array, null, UData::SORT_NONASSOC_EXCLUDE, [
 				'a' => [4, 66, 1],
 				'b' => 'foo',
@@ -2821,6 +2981,46 @@ class DataTest extends TestCase
 					'k4' => 'unreal',
 					'k5' => 'foobar',
 					'k7' => ['X' => 'T', 'k' => '#', 2 => 3, 555 => 1]
+				],
+				'd' => 'bar',
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
+			[$array, 0, UData::SORT_NONASSOC_EXCLUDE, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'd' => 'bar',
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240
+				],
+				711 => 750,
+				997 => 810,
+				999 => 700
+			]],
+			[$array, 1, UData::SORT_NONASSOC_EXCLUDE, [
+				'a' => [4, 66, 1],
+				'b' => 'foo',
+				'c' => [
+					'k1' => ['b', 'a'],
+					'k2' => null,
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k7' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T']
 				],
 				'd' => 'bar',
 				'farm' => [
