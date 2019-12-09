@@ -742,22 +742,11 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//filter
+		//initialize
 		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
-		if (
-			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
-			(!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))
-		) {
-			//iterate
-			$is_inverse = (bool)($flags & self::FILTER_INVERSE);
-			foreach ($array as $k => $v) {
-				if ($is_empty && is_array($v) && empty($v)) {
-					unset($array[$k]);
-				} elseif (!is_array($v) && in_array($v, $values, true) !== $is_inverse) {
-					unset($array[$k]);
-				}
-			}
+		if (empty($values)) {
+			return $array;
 		}
 		
 		//recursion
@@ -772,6 +761,22 @@ final class Data extends Utility
 				}
 			}
 			unset($v);
+		}
+		
+		//filter
+		if (
+			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))
+		) {
+			//iterate
+			$is_inverse = (bool)($flags & self::FILTER_INVERSE);
+			foreach ($array as $k => $v) {
+				if ($is_empty && is_array($v) && empty($v)) {
+					unset($array[$k]);
+				} elseif (!is_array($v) && in_array($v, $values, true) !== $is_inverse) {
+					unset($array[$k]);
+				}
+			}
 		}
 			
 		//non-associative
