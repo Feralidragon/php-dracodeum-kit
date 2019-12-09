@@ -807,6 +807,8 @@ final class Data extends Utility
 	 * Filter array from empty arrays.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_ASSOC_EXCLUDE</code> : 
 	 * Exclude associative arrays from filtering.<br><br>
+	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_ASSOC</code> : 
+	 * Filter non-associative arrays associatively, in other words, keep the keys intact.<br><br>
 	 * &nbsp; &#8226; &nbsp; <code>self::FILTER_NONASSOC_EXCLUDE</code> : 
 	 * Exclude non-associative arrays from filtering.</p>
 	 * @return array
@@ -819,9 +821,28 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//filter
+		//initialize
 		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::FILTER_EMPTY);
+		if (empty($keys)) {
+			return $array;
+		}
+		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::kfilter($v, $keys, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
+				}
+			}
+			unset($v);
+		}
+		
+		//filter
 		if (
 			($is_assoc && !($flags & self::FILTER_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::FILTER_NONASSOC_EXCLUDE))
@@ -838,18 +859,9 @@ final class Data extends Utility
 			}
 		}
 		
-		//recursion
-		if ($depth !== 0) {
-			$next_depth = isset($depth) ? $depth - 1 : null;
-			foreach ($array as $k => &$v) {
-				if (is_array($v)) {
-					$v = self::kfilter($v, $keys, $next_depth, $flags);
-					if ($is_empty && empty($v)) {
-						unset($array[$k]);
-					}
-				}
-			}
-			unset($v);
+		//non-associative
+		if (!$is_assoc && !($flags & self::FILTER_NONASSOC_ASSOC)) {
+			$array = array_values($array);
 		}
 		
 		//return

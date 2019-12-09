@@ -4449,4 +4449,713 @@ class DataTest extends TestCase
 			]
 		];
 	}
+	
+	/**
+	 * Test <code>kfilter</code> method.
+	 * 
+	 * @dataProvider provideKfilterMethodData
+	 * @testdox Data::kfilter($array, $keys, $depth, $flags) === $expected
+	 * 
+	 * @param array $array
+	 * <p>The method <var>$array</var> parameter to test with.</p>
+	 * @param array $keys
+	 * <p>The method <var>$keys</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testKfilterMethod(array $array, array $keys, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::kfilter($array, $keys, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>kfilter</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>kfilter</code> method data.</p>
+	 */
+	public function provideKfilterMethodData(): array
+	{
+		//initialize
+		$array = [
+			'a' => ['foo', 123, 5, true, null, 0, false],
+			'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+			'foo' => 'unreal',
+			'b' => 'f2b',
+			'c' => [
+				'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+				'k2' => [111, 'foo', 'b4r', '100'],
+				'k3' => 'unreal',
+				6722 => 'bar',
+				'k4' => 'bar2foo',
+				'k5' => ['foo', true],
+				'k6' => ['x' => 'farm'],
+				100 => null
+			],
+			'C' => [
+				123 => 'foobar',
+				'k8' => true,
+				'x' => [true, 1, false, 0, null, '2b'],
+				'k7' => null,
+				1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+				0 => ['a' => 'b22', 'b' => 888]
+			],
+			667 => 'x1x2',
+			123 => 'b2f',
+			'd' => [false, 0],
+			'x' => 11111,
+			'e' => null,
+			100 => [3 => true, 6 => 'U']
+		];
+		$keys = [123, 'foo', 'bar', '100', 0, 1, 5, 'x', 'k4', 'C'];
+		
+		//return
+		return [
+			[[], [], null, 0x00, []],
+			[$array, $keys, null, 0x00, [
+				'a' => [5, true, null, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => [],
+					'k6' => []
+				],
+				667 => 'x1x2',
+				'd' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, 0x00, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, 1, 0x00, [
+				'a' => [5, true, null, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				667 => 'x1x2',
+				'd' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE, [
+				'bar' => ['a', 'b', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null],
+					0 => []
+				],
+				123 => 'b2f',
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, 0, UData::FILTER_INVERSE, [
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				123 => 'b2f',
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 1, UData::FILTER_INVERSE, [
+				'bar' => ['a', 'b', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, false, 0, null, '2b'],
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				123 => 'b2f',
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::FILTER_EMPTY, [
+				'a' => [5, true, null, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar'
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::FILTER_EMPTY, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::FILTER_EMPTY, [
+				'a' => [5, true, null, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => [5, true, null, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 0, UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [false, 0],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 1, UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => [5, true, null, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 6 => false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => [],
+					'k6' => []
+				],
+				667 => 'x1x2',
+				'd' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::FILTER_NONASSOC_ASSOC, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::FILTER_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 6 => false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				667 => 'x1x2',
+				'd' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true],
+					'k6' => []
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::FILTER_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::FILTER_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_EMPTY, [
+				'bar' => ['a', 'b', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null]
+				],
+				123 => 'b2f',
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 0],
+				'bar' => ['a', 'b', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [false, 0],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_NONASSOC_ASSOC, [
+				'bar' => ['a', 'b', 5 => 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, 5 => '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null],
+					0 => []
+				],
+				123 => 'b2f',
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_NONASSOC_EXCLUDE, [
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, false, 0, null, '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null],
+					0 => []
+				],
+				123 => 'b2f',
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::FILTER_EMPTY | UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => [5, true, null, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_EMPTY | UData::FILTER_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 6 => false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					6722 => 'bar'
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_EMPTY | UData::FILTER_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k5' => ['foo', true]
+				],
+				667 => 'x1x2',
+				'd' => [false, 0],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::FILTER_ASSOC_EXCLUDE | UData::FILTER_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_ASSOC_EXCLUDE | UData::FILTER_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [false, 0],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_EMPTY | UData::FILTER_ASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 0],
+				'bar' => ['a', 'b', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [false, 0],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_EMPTY | UData::FILTER_NONASSOC_ASSOC, [
+				'bar' => ['a', 'b', 5 => 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, 5 => '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null]
+				],
+				123 => 'b2f',
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_EMPTY | UData::FILTER_NONASSOC_EXCLUDE, [
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'C' => [
+					123 => 'foobar',
+					'x' => [true, 1, false, 0, null, '2b'],
+					1 => ['x' => 'K', 5 => 'U', 1 => null]
+				],
+				123 => 'b2f',
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::FILTER_INVERSE | UData::FILTER_ASSOC_EXCLUDE | UData::FILTER_NONASSOC_ASSOC, [
+				'a' => ['foo', 123, 5 => 0],
+				'bar' => ['a', 'b', 5 => 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, 5 => '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'd' => [false, 0],
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::FILTER_EMPTY | UData::FILTER_ASSOC_EXCLUDE | UData::FILTER_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					6722 => 'bar',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				123 => 'b2f',
+				'x' => 11111,
+				'e' => null,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null,
+				UData::FILTER_INVERSE | UData::FILTER_EMPTY | UData::FILTER_ASSOC_EXCLUDE | 
+				UData::FILTER_NONASSOC_ASSOC, [
+					'a' => ['foo', 123, 5 => 0],
+					'bar' => ['a', 'b', 5 => 'z'],
+					'foo' => 'unreal',
+					'b' => 'f2b',
+					'c' => [
+						'k1' => [2 => true, 'bar' => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+						'k2' => [111, 'foo'],
+						'k3' => 'unreal',
+						6722 => 'bar',
+						'k4' => 'bar2foo',
+						'k5' => ['foo', true],
+						'k6' => ['x' => 'farm'],
+						100 => null
+					],
+					'C' => [
+						123 => 'foobar',
+						'k8' => true,
+						'x' => [true, 1, 5 => '2b'],
+						'k7' => null,
+						1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 1 => null],
+						0 => ['a' => 'b22', 'b' => 888]
+					],
+					667 => 'x1x2',
+					123 => 'b2f',
+					'd' => [false, 0],
+					'x' => 11111,
+					'e' => null,
+					100 => [3 => true, 6 => 'U']
+				]
+			]
+		];
+	}
 }
