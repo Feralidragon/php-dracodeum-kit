@@ -665,6 +665,17 @@ final class Data extends Utility
 		Call::assert('comparer', $comparer, function ($key1, $value1, $key2, $value2): int {});
 		$comparer = \Closure::fromCallable($comparer);
 		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as &$v) {
+				if (is_array($v)) {
+					$v = self::fsort($v, $comparer, $next_depth, $flags);
+				}
+			}
+			unset($v);
+		}
+		
 		//sort
 		$is_assoc = self::associative($array);
 		if (
@@ -682,17 +693,6 @@ final class Data extends Utility
 			if (!$is_assoc && !($flags & self::SORT_NONASSOC_ASSOC)) {
 				$array = array_values($array);
 			}
-		}
-		
-		//recursion
-		if ($depth !== 0) {
-			$next_depth = isset($depth) ? $depth - 1 : null;
-			foreach ($array as &$v) {
-				if (is_array($v)) {
-					$v = self::fsort($v, $comparer, $next_depth, $flags);
-				}
-			}
-			unset($v);
 		}
 		
 		//return

@@ -3154,4 +3154,523 @@ class DataTest extends TestCase
 			]]
 		];
 	}
+	
+	/**
+	 * Test <code>fsort</code> method.
+	 * 
+	 * @dataProvider provideFsortMethodData
+	 * @testdox Data::fsort($array, $comparer, $depth, $flags) === $expected
+	 * 
+	 * @param array $array
+	 * <p>The method <var>$array</var> parameter to test with.</p>
+	 * @param callable $comparer
+	 * <p>The method <var>$comparer</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testFsortMethod(array $array, callable $comparer, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::fsort($array, $comparer, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>fsort</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>fsort</code> method data.</p>
+	 */
+	public function provideFsortMethodData(): array
+	{
+		//initialize
+		$array = [
+			'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+			'b' => 'foo',
+			997 => 810,
+			'c' => [
+				'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+				2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+				'k4' => 'unreal',
+				'k5' => 'foobar',
+				'k2' => null
+			],
+			999 => 700,
+			'farm' => [
+				'carrots' => 100,
+				'broccoli' => 73,
+				'cabages' => 240,
+				'potatoes' => '100'
+			],
+			'd' => 'bar',
+			711 => 750
+		];
+		$comparer = function ($key1, $value1, $key2, $value2): int {
+			//keys
+			if (gettype($key1) !== gettype($key2)) {
+				return is_int($key1) ? -1 : 1;
+			}
+			
+			//values
+			$type1 = strtolower(gettype($value1));
+			$type2 = strtolower(gettype($value2));
+			if ($type1 !== $type2) {
+				return strcmp($type1, $type2);
+			} elseif ($value1 === null) {
+				return 0;
+			} elseif (is_array($value1)) {
+				return count($value1) - count($value2);
+			}
+			return is_string($value1) ? strcmp($value1, $value2) : -strcmp($value1, $value2);
+		};
+		
+		//return
+		return [
+			[[], $comparer, null, 0x00, []],
+			[$array, $comparer, null, 0x00, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => ['A', 'K', 'U', 'a', 'b', 'z'],
+					'k1' => [2 => 3, 555 => 1, 'k' => '#', 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [73, 66, 4, 20, 1, 1, 0, -6],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 0, 0x00, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 1, 0x00, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [73, 66, 4, 20, 1, 1, 0, -6],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, null, UData::SORT_REVERSE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'a' => [-6, 0, 1, 1, 20, 4, 66, 73],
+				'c' => [
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null,
+					'k1' => ['X' => 'T', 'k' => '#', 555 => 1, 2 => 3],
+					2456 => ['z', 'b', 'a', 'U', 'K', 'A']
+				],
+				'farm' => [
+					'potatoes' => '100',
+					'carrots' => 100,
+					'cabages' => 240,
+					'broccoli' => 73
+				],
+				999 => 700,
+				711 => 750,
+				997 => 810
+			]],
+			[$array, $comparer, 0, UData::SORT_REVERSE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				999 => 700,
+				711 => 750,
+				997 => 810
+			]],
+			[$array, $comparer, 1, UData::SORT_REVERSE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'a' => [-6, 0, 1, 1, 20, 4, 66, 73],
+				'c' => [
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null,
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U']
+				],
+				'farm' => [
+					'potatoes' => '100',
+					'carrots' => 100,
+					'cabages' => 240,
+					'broccoli' => 73
+				],
+				999 => 700,
+				711 => 750,
+				997 => 810
+			]],
+			[$array, $comparer, null, UData::SORT_ASSOC_EXCLUDE, [
+				'a' => [73, 66, 4, 20, 1, 1, 0, -6],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['A', 'K', 'U', 'a', 'b', 'z'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, 0, UData::SORT_ASSOC_EXCLUDE, [
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, 1, UData::SORT_ASSOC_EXCLUDE, [
+				'a' => [73, 66, 4, 20, 1, 1, 0, -6],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, null, UData::SORT_NONASSOC_ASSOC, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => [2 => 'A', 4 => 'K', 5 => 'U', 1 => 'a', 0 => 'b', 3 => 'z'],
+					'k1' => [2 => 3, 555 => 1, 'k' => '#', 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [5 => 73, 1 => 66, 0 => 4, 7 => 20, 2 => 1, 6 => 1, 4 => 0, 3 => -6],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 0, UData::SORT_NONASSOC_ASSOC, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 1, UData::SORT_NONASSOC_ASSOC, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [5 => 73, 1 => 66, 0 => 4, 7 => 20, 2 => 1, 6 => 1, 4 => 0, 3 => -6],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, null, UData::SORT_NONASSOC_EXCLUDE, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k1' => [2 => 3, 555 => 1, 'k' => '#', 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 0, UData::SORT_NONASSOC_EXCLUDE, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, 1, UData::SORT_NONASSOC_EXCLUDE, [
+				997 => 810,
+				711 => 750,
+				999 => 700,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 240,
+					'carrots' => 100,
+					'potatoes' => '100'
+				],
+				'c' => [
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					'k2' => null,
+					'k5' => 'foobar',
+					'k4' => 'unreal'
+				],
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'd' => 'bar',
+				'b' => 'foo'
+			]],
+			[$array, $comparer, null, UData::SORT_REVERSE | UData::SORT_ASSOC_EXCLUDE, [
+				'a' => [-6, 0, 1, 1, 20, 4, 66, 73],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['z', 'b', 'a', 'U', 'K', 'A'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, null, UData::SORT_REVERSE | UData::SORT_NONASSOC_ASSOC, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'a' => [3 => -6, 4 => 0, 2 => 1, 6 => 1, 7 => 20, 0 => 4, 1 => 66, 5 => 73],
+				'c' => [
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null,
+					'k1' => ['X' => 'T', 'k' => '#', 555 => 1, 2 => 3],
+					2456 => [3 => 'z', 0 => 'b', 1 => 'a', 5 => 'U', 4 => 'K', 2 => 'A']
+				],
+				'farm' => [
+					'potatoes' => '100',
+					'carrots' => 100,
+					'cabages' => 240,
+					'broccoli' => 73
+				],
+				999 => 700,
+				711 => 750,
+				997 => 810
+			]],
+			[$array, $comparer, null, UData::SORT_REVERSE | UData::SORT_NONASSOC_EXCLUDE, [
+				'b' => 'foo',
+				'd' => 'bar',
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'c' => [
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null,
+					'k1' => ['X' => 'T', 'k' => '#', 555 => 1, 2 => 3],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U']
+				],
+				'farm' => [
+					'potatoes' => '100',
+					'carrots' => 100,
+					'cabages' => 240,
+					'broccoli' => 73
+				],
+				999 => 700,
+				711 => 750,
+				997 => 810
+			]],
+			[$array, $comparer, null, UData::SORT_ASSOC_EXCLUDE | UData::SORT_NONASSOC_ASSOC, [
+				'a' => [5 => 73, 1 => 66, 0 => 4, 7 => 20, 2 => 1, 6 => 1, 4 => 0, 3 => -6],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => [2 => 'A', 4 => 'K', 5 => 'U', 1 => 'a', 0 => 'b', 3 => 'z'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, null, UData::SORT_ASSOC_EXCLUDE | UData::SORT_NONASSOC_EXCLUDE, [
+				'a' => [4, 66, 1, -6, 0, 73, 1, 20],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => ['b', 'a', 'A', 'z', 'K', 'U'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]],
+			[$array, $comparer, null, UData::SORT_REVERSE | UData::SORT_ASSOC_EXCLUDE | UData::SORT_NONASSOC_ASSOC, [
+				'a' => [3 => -6, 4 => 0, 2 => 1, 6 => 1, 7 => 20, 0 => 4, 1 => 66, 5 => 73],
+				'b' => 'foo',
+				997 => 810,
+				'c' => [
+					'k1' => [2 => 3, 'k' => '#', 555 => 1, 'X' => 'T'],
+					2456 => [3 => 'z', 0 => 'b', 1 => 'a', 5 => 'U', 4 => 'K', 2 => 'A'],
+					'k4' => 'unreal',
+					'k5' => 'foobar',
+					'k2' => null
+				],
+				999 => 700,
+				'farm' => [
+					'carrots' => 100,
+					'broccoli' => 73,
+					'cabages' => 240,
+					'potatoes' => '100'
+				],
+				'd' => 'bar',
+				711 => 750
+			]]
+		];
+	}
 }
