@@ -913,9 +913,28 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//trim
+		//initialize
 		$is_assoc = self::associative($array);
 		$is_empty = (bool)($flags & self::TRIM_EMPTY);
+		if (empty($values)) {
+			return $array;
+		}
+		
+		//recursion
+		if ($depth !== 0) {
+			$next_depth = isset($depth) ? $depth - 1 : null;
+			foreach ($array as $k => &$v) {
+				if (is_array($v)) {
+					$v = self::trim($v, $values, $next_depth, $flags);
+					if ($is_empty && empty($v)) {
+						unset($array[$k]);
+					}
+				}
+			}
+			unset($v);
+		}
+		
+		//trim
 		if (
 			($is_assoc && !($flags & self::TRIM_ASSOC_EXCLUDE)) || 
 			(!$is_assoc && !($flags & self::TRIM_NONASSOC_EXCLUDE))
@@ -937,32 +956,20 @@ final class Data extends Utility
 			$is_inverse = (bool)($flags & self::TRIM_INVERSE);
 			foreach ($pipe_keys as $pkeys) {
 				foreach ($pkeys as $k) {
-					$v = $array[$k];
-					if (
-						(!$is_empty || !is_array($v) || !empty($v)) && 
-						(is_array($v) || in_array($v, $values, true) === $is_inverse)
-					) {
-						break;
-					}
-					unset($array[$k]);
-				}
-			}
-		}
-		
-		//recursion
-		if ($depth !== 0) {
-			$next_depth = isset($depth) ? $depth - 1 : null;
-			foreach ($array as $k => &$v) {
-				if (is_array($v)) {
-					$v = self::trim($v, $values, $next_depth, $flags);
-					if ($is_empty && empty($v)) {
+					if (array_key_exists($k, $array)) {
+						$v = $array[$k];
+						if (
+							(!$is_empty || !is_array($v) || !empty($v)) && 
+							(is_array($v) || in_array($v, $values, true) === $is_inverse)
+						) {
+							break;
+						}
 						unset($array[$k]);
 					}
 				}
 			}
-			unset($v);
 		}
-			
+		
 		//non-associative
 		if (!$is_assoc && !($flags & self::TRIM_NONASSOC_ASSOC)) {
 			$array = array_values($array);

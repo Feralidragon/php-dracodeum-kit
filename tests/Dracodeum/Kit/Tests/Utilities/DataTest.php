@@ -5158,4 +5158,1403 @@ class DataTest extends TestCase
 			]
 		];
 	}
+	
+	/**
+	 * Test <code>trim</code> method.
+	 * 
+	 * @dataProvider provideTrimMethodData
+	 * @testdox Data::trim($array, $values, $depth, $flags) === $expected
+	 * 
+	 * @param array $array
+	 * <p>The method <var>$array</var> parameter to test with.</p>
+	 * @param array $values
+	 * <p>The method <var>$values</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testTrimMethod(array $array, array $values, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::trim($array, $values, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>trim</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>trim</code> method data.</p>
+	 */
+	public function provideTrimMethodData(): array
+	{
+		//array
+		$array = [
+			'a' => 123,
+			'b' => 'foo',
+			777 => ['bar', 'f2b', false, null, true],
+			997 => '123',
+			'c' => [
+				'k0' => [null],
+				'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+				'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+				'k3' => 'unreal',
+				'k4' => 'f2b',
+				'k5' => ['foo', true],
+				'k6' => ['x' => '100'],
+				'k7' => null
+			],
+			'd' => 'bar',
+			999 => 'f2b',
+			'e' => null,
+			'farm' => [
+				'carrots' => '100',
+				'broccoli' => 73,
+				'cabages' => 123,
+				'potatoes' => 100
+			],
+			'f' => ['bar', 'X', 100],
+			'g' => false,
+			'h' => true
+		];
+		$values = [123, 'foo', 'f2b', '100', null, true];
+		
+		//return
+		return [
+			[[], [], null, 0x00, []],
+			[$array, $values, null, 0x00, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => ['X' => 'T'],
+					'k2' => ['123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 0, 0x00, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 1, 0x00, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100']
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 0, UData::TRIM_INVERSE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 1, UData::TRIM_INVERSE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => ['X' => 'T'],
+					'k2' => ['123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => [],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 0, UData::TRIM_LEFT, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 1, UData::TRIM_LEFT, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 0, UData::TRIM_RIGHT, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 1, UData::TRIM_RIGHT, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100']
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_EMPTY, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => ['X' => 'T'],
+					'k2' => ['123', 100],
+					'k3' => 'unreal'
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 0, UData::TRIM_EMPTY, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 1, UData::TRIM_EMPTY, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100']
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 0, UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, 1, UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_NONASSOC_ASSOC, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => ['X' => 'T'],
+					'k2' => [3 => '123', 4 => 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 0, UData::TRIM_NONASSOC_ASSOC, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 1, UData::TRIM_NONASSOC_ASSOC, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100']
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_NONASSOC_EXCLUDE, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 0, UData::TRIM_NONASSOC_EXCLUDE, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, 1, UData::TRIM_NONASSOC_EXCLUDE, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100']
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_LEFT, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_RIGHT, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_EMPTY, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => [1 => 'f2b', 2 => false, 3 => null, 4 => true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'f' => [],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_RIGHT, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => ['X' => 'T'],
+					'k2' => ['123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_EMPTY, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k1' => ['X' => 'T'],
+					'k2' => ['123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_NONASSOC_ASSOC, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => ['X' => 'T'],
+					'k2' => [3 => '123', 4 => 100, 5 => 123, 6 => true, 7 => null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => [],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_NONASSOC_EXCLUDE, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => [],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT | UData::TRIM_EMPTY, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100],
+					'k3' => 'unreal'
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT | UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => []
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_EMPTY | UData::TRIM_NONASSOC_ASSOC, [
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => ['X' => 'T'],
+					'k2' => [3 => '123', 4 => 100],
+					'k3' => 'unreal'
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_EMPTY | UData::TRIM_NONASSOC_EXCLUDE, [
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true]
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false
+			]],
+			[$array, $values, null, UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k0' => [],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => [3 => '123', 4 => 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => [],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_EMPTY, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_INVERSE | UData::TRIM_RIGHT | UData::TRIM_EMPTY, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k0' => [null],
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123],
+					'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k5' => ['foo', true],
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123
+				],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false, null, true],
+				997 => '123',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['123', 100, 123, true, null],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_RIGHT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => ['foo', 'f2b', '100', '123', 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => 123,
+				'b' => 'foo',
+				777 => ['bar', 'f2b', false],
+				997 => '123',
+				'c' => [
+					'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+					'k2' => [3 => '123', 4 => 100],
+					'k3' => 'unreal',
+					'k4' => 'f2b',
+					'k6' => ['x' => '100'],
+					'k7' => null
+				],
+				'd' => 'bar',
+				999 => 'f2b',
+				'e' => null,
+				'farm' => [
+					'carrots' => '100',
+					'broccoli' => 73,
+					'cabages' => 123,
+					'potatoes' => 100
+				],
+				'f' => ['bar', 'X', 100],
+				'g' => false,
+				'h' => true
+			]],
+			[$array, $values, null, 
+				UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+					'a' => 123,
+					'b' => 'foo',
+					777 => [1 => 'f2b', 2 => false, 3 => null, 4 => true],
+					997 => '123',
+					'c' => [
+						'k0' => [null],
+						'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+						'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+						'k3' => 'unreal',
+						'k4' => 'f2b',
+						'k5' => ['foo', true],
+						'k6' => ['x' => '100'],
+						'k7' => null
+					],
+					'd' => 'bar',
+					999 => 'f2b',
+					'e' => null,
+					'farm' => [
+						'carrots' => '100',
+						'broccoli' => 73,
+						'cabages' => 123,
+						'potatoes' => 100
+					],
+					'f' => [],
+					'g' => false,
+					'h' => true
+				]
+			],
+			[$array, $values, null, 
+				UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+					'a' => 123,
+					'b' => 'foo',
+					777 => ['bar', 'f2b', false, null, true],
+					997 => '123',
+					'c' => [
+						'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+						'k2' => [3 => '123', 4 => 100, 5 => 123, 6 => true, 7 => null],
+						'k3' => 'unreal',
+						'k4' => 'f2b',
+						'k6' => ['x' => '100'],
+						'k7' => null
+					],
+					'd' => 'bar',
+					999 => 'f2b',
+					'e' => null,
+					'farm' => [
+						'carrots' => '100',
+						'broccoli' => 73,
+						'cabages' => 123,
+						'potatoes' => 100
+					],
+					'f' => ['bar', 'X', 100],
+					'g' => false,
+					'h' => true
+				]
+			],
+			[$array, $values, null, 
+				UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | 
+				UData::TRIM_NONASSOC_ASSOC, [
+					'a' => 123,
+					'b' => 'foo',
+					777 => [1 => 'f2b', 2 => false, 3 => null, 4 => true],
+					997 => '123',
+					'c' => [
+						'k0' => [null],
+						'k1' => [2 => true, 'k' => 'foo', 555 => 123, 'X' => 'T'],
+						'k2' => ['foo', 'f2b', '100', '123', 100, 123, true, null],
+						'k3' => 'unreal',
+						'k4' => 'f2b',
+						'k5' => ['foo', true],
+						'k6' => ['x' => '100'],
+						'k7' => null
+					],
+					'd' => 'bar',
+					999 => 'f2b',
+					'e' => null,
+					'farm' => [
+						'carrots' => '100',
+						'broccoli' => 73,
+						'cabages' => 123,
+						'potatoes' => 100
+					],
+					'g' => false,
+					'h' => true
+				]
+			]
+		];
+	}
 }
