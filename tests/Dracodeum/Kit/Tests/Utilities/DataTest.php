@@ -5190,7 +5190,7 @@ class DataTest extends TestCase
 	 */
 	public function provideTrimMethodData(): array
 	{
-		//array
+		//initialize
 		$array = [
 			'a' => 123,
 			'b' => 'foo',
@@ -6553,6 +6553,1508 @@ class DataTest extends TestCase
 					],
 					'g' => false,
 					'h' => true
+				]
+			]
+		];
+	}
+	
+	/**
+	 * Test <code>ktrim</code> method.
+	 * 
+	 * @dataProvider provideKtrimMethodData
+	 * @testdox Data::ktrim($array, $keys, $depth, $flags) === $expected
+	 * 
+	 * @param array $array
+	 * <p>The method <var>$array</var> parameter to test with.</p>
+	 * @param array $keys
+	 * <p>The method <var>$keys</var> parameter to test with.</p>
+	 * @param int|null $depth
+	 * <p>The method <var>$depth</var> parameter to test with.</p>
+	 * @param int $flags
+	 * <p>The method <var>$flags</var> parameter to test with.</p>
+	 * @param array $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testKtrimMethod(array $array, array $keys, ?int $depth, int $flags, array $expected): void
+	{
+		$this->assertSame($expected, UData::ktrim($array, $keys, $depth, $flags));
+	}
+	
+	/**
+	 * Provide <code>ktrim</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>ktrim</code> method data.</p>
+	 */
+	public function provideKtrimMethodData(): array
+	{
+		//initialize
+		$array = [
+			123 => 'b2f',
+			'a' => ['foo', 123, 5, true, null, 0, false],
+			'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+			'foo' => 'unreal',
+			'b' => 'f2b',
+			'c' => [
+				'k0' => [null],
+				'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+				'k2' => [111, 'foo', 'b4r', '100'],
+				'k3' => 'unreal',
+				'k4' => 'bar2foo',
+				'k5' => ['foo', true],
+				'k6' => ['x' => 'farm'],
+				100 => null
+			],
+			'C' => [
+				5 => false,
+				123 => 'foobar',
+				'k8' => true,
+				'x' => [true, 1, false, 0, null, '2b'],
+				'k7' => null,
+				1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+				0 => ['a' => 'b22', 'b' => 888]
+			],
+			667 => 'x1x2',
+			'y' => ['k1' => null, 'bar' => 'X'],
+			'e' => null,
+			'x' => 11111,
+			100 => [3 => true, 6 => 'U']
+		];
+		$keys = [123, 'foo', 'bar', '100', 0, 1, 5, 'x', 'k1'];
+		
+		//return
+		return [
+			[[], [], null, 0x00, []],
+			[$array, $keys, null, 0x00, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => []
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, 0x00, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null
+			]],
+			[$array, $keys, 1, 0x00, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U'],
+					0 => []
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, 0, UData::TRIM_INVERSE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 1, UData::TRIM_INVERSE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => [],
+					100 => null
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 0, UData::TRIM_LEFT, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 1, UData::TRIM_LEFT, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => []
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::TRIM_RIGHT, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::TRIM_RIGHT, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_EMPTY, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo'
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::TRIM_EMPTY, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::TRIM_EMPTY, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 0, UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, 1, UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => []
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::TRIM_NONASSOC_ASSOC, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::TRIM_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => []
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, 0, UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null
+			]],
+			[$array, $keys, 1, UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm']
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_LEFT, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => []
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_RIGHT, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U'],
+					0 => []
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_EMPTY, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U']
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_NONASSOC_ASSOC, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U'],
+					0 => []
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_NONASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U'],
+					0 => []
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => []
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_RIGHT, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => []
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_EMPTY, [
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					100 => null
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y', 5 => 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => [],
+					100 => null
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null, 5 => '2b'],
+					'k7' => null,
+					1 => ['y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => [],
+					100 => null
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT | UData::TRIM_EMPTY, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo'
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT | UData::TRIM_NONASSOC_ASSOC, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => []
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT | UData::TRIM_NONASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => []
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'y' => [],
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_EMPTY | UData::TRIM_NONASSOC_ASSOC, [
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo'
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_EMPTY | UData::TRIM_NONASSOC_EXCLUDE, [
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['k' => 'foo', 100 => 'U', 'X' => 'T'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true]
+				],
+				'C' => [
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null
+				],
+				667 => 'x1x2',
+				'e' => null
+			]],
+			[$array, $keys, null, UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+				123 => 'b2f',
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => [],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_EMPTY, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::TRIM_INVERSE | UData::TRIM_RIGHT | UData::TRIM_EMPTY, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0],
+				'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k0' => [null],
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k5' => ['foo', true],
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U']
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111
+			]],
+			[$array, $keys, null, UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => [5, true, null, 0, false],
+				'bar' => ['c', 'x', 'y', 'z'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => ['b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [false, 0, null, '2b'],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_RIGHT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE, [
+				123 => 'b2f',
+				'a' => ['foo', 123, 5, true, null, 0, false],
+				'bar' => ['a', 'b', 'c', 'x', 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [111, 'foo', 'b4r', '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [true, 1, false, 0, null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null, UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+				123 => 'b2f',
+				'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+				'bar' => [2 => 'c', 3 => 'x', 4 => 'y'],
+				'foo' => 'unreal',
+				'b' => 'f2b',
+				'c' => [
+					'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+					'k2' => [2 => 'b4r', 3 => '100'],
+					'k3' => 'unreal',
+					'k4' => 'bar2foo',
+					'k6' => ['x' => 'farm'],
+					100 => null
+				],
+				'C' => [
+					5 => false,
+					123 => 'foobar',
+					'k8' => true,
+					'x' => [2 => false, 3 => 0, 4 => null],
+					'k7' => null,
+					1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+					0 => ['a' => 'b22', 'b' => 888]
+				],
+				667 => 'x1x2',
+				'y' => ['k1' => null, 'bar' => 'X'],
+				'e' => null,
+				'x' => 11111,
+				100 => [3 => true, 6 => 'U']
+			]],
+			[$array, $keys, null,
+				UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+					123 => 'b2f',
+					'a' => ['foo', 123, 5, true, null, 0, false],
+					'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+					'foo' => 'unreal',
+					'b' => 'f2b',
+					'c' => [
+						'k0' => [null],
+						'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+						'k2' => [111, 'foo', 'b4r', '100'],
+						'k3' => 'unreal',
+						'k4' => 'bar2foo',
+						'k5' => ['foo', true],
+						'k6' => ['x' => 'farm'],
+						100 => null
+					],
+					'C' => [
+						5 => false,
+						123 => 'foobar',
+						'k8' => true,
+						'x' => [true, 1, false, 0, null, '2b'],
+						'k7' => null,
+						1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+						0 => ['a' => 'b22', 'b' => 888]
+					],
+					667 => 'x1x2',
+					'y' => ['k1' => null, 'bar' => 'X'],
+					'e' => null,
+					'x' => 11111,
+					100 => [3 => true, 6 => 'U']
+				]
+			],
+			[$array, $keys, null,
+				UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | UData::TRIM_NONASSOC_ASSOC, [
+					123 => 'b2f',
+					'a' => [2 => 5, 3 => true, 4 => null, 5 => 0, 6 => false],
+					'bar' => [2 => 'c', 3 => 'x', 4 => 'y', 5 => 'z'],
+					'foo' => 'unreal',
+					'b' => 'f2b',
+					'c' => [
+						'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+						'k2' => [2 => 'b4r', 3 => '100'],
+						'k3' => 'unreal',
+						'k4' => 'bar2foo',
+						'k6' => ['x' => 'farm'],
+						100 => null
+					],
+					'C' => [
+						5 => false,
+						123 => 'foobar',
+						'k8' => true,
+						'x' => [2 => false, 3 => 0, 4 => null, 5 => '2b'],
+						'k7' => null,
+						1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+						0 => ['a' => 'b22', 'b' => 888]
+					],
+					667 => 'x1x2',
+					'y' => ['k1' => null, 'bar' => 'X'],
+					'e' => null,
+					'x' => 11111,
+					100 => [3 => true, 6 => 'U']
+				]
+			],
+			[$array, $keys, null,
+				UData::TRIM_INVERSE | UData::TRIM_LEFT | UData::TRIM_EMPTY | UData::TRIM_ASSOC_EXCLUDE | 
+				UData::TRIM_NONASSOC_ASSOC, [
+					123 => 'b2f',
+					'a' => ['foo', 123, 5, true, null, 0, false],
+					'bar' => ['a', 'b', 'c', 'x', 'y', 'z'],
+					'foo' => 'unreal',
+					'b' => 'f2b',
+					'c' => [
+						'k0' => [null],
+						'k1' => ['bar' => true, 123 => true, 'k' => 'foo', 100 => 'U', 'X' => 'T', 'foo' => 'J'],
+						'k2' => [111, 'foo', 'b4r', '100'],
+						'k3' => 'unreal',
+						'k4' => 'bar2foo',
+						'k5' => ['foo', true],
+						'k6' => ['x' => 'farm'],
+						100 => null
+					],
+					'C' => [
+						5 => false,
+						123 => 'foobar',
+						'k8' => true,
+						'x' => [true, 1, false, 0, null, '2b'],
+						'k7' => null,
+						1 => ['x' => 'K', 5 => 'U', 'y' => 'M', 3 => null],
+						0 => ['a' => 'b22', 'b' => 888]
+					],
+					667 => 'x1x2',
+					'y' => ['k1' => null, 'bar' => 'X'],
+					'e' => null,
+					'x' => 11111,
+					100 => [3 => true, 6 => 'U']
 				]
 			]
 		];
