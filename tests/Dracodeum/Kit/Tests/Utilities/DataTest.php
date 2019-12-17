@@ -154,12 +154,19 @@ class DataTest extends TestCase
 			'zed' => [
 				'k1' => ['X', 'T'],
 				'k2' => [],
-				'k4' => [2 => 3, 3 => 3, 'k' => '#']
+				'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+				'k5' => ['foo', 'bar', 'f2b']
 			],
 			'farm' => [
 				'carrots' => 100,
 				'potatoes' => 2412,
 				'cabages' => 'unknown'
+			],
+			'o' => [
+				'bar',
+				['a' => 11, 'b' => 4, 'c' => 1],
+				[1, 5, 7],
+				null
 			]
 		];
 		$array2 = [
@@ -174,11 +181,18 @@ class DataTest extends TestCase
 				'potatoes' => 1678,
 				'carrots' => 125
 			],
+			'o' => [
+				'foo',
+				['a' => 1, 'b' => 5],
+				[4, 5, 6, 0, 5],
+				true
+			],
 			'zed' => [
 				'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 				'k2' => 'foo2bar',
 				'k3' => true,
-				'k4' => [3, false, null]
+				'k4' => [3, false, null],
+				'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 			]
 		];
 		
@@ -195,6 +209,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -202,6 +217,16 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -216,12 +241,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -236,6 +268,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -243,6 +276,16 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -257,6 +300,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -264,6 +308,16 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -277,12 +331,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -297,6 +358,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -304,6 +366,16 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -317,12 +389,23 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, 0, UData::MERGE_ASSOC_LEFT, [
@@ -335,12 +418,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, 1, UData::MERGE_ASSOC_LEFT, [
@@ -352,12 +442,23 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_NONASSOC_ASSOC, [
@@ -370,6 +471,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -377,6 +479,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -391,12 +499,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -411,6 +526,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -418,6 +534,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -432,6 +554,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -439,6 +562,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7, 0, 5],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -453,12 +582,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -473,6 +609,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -480,6 +617,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -494,6 +637,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -501,6 +645,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -515,12 +665,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -535,6 +692,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -542,6 +700,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -556,6 +720,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -563,6 +728,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -577,12 +748,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -597,6 +775,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -604,6 +783,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -618,6 +803,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -625,6 +811,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -639,12 +831,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -659,6 +858,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -666,6 +866,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -680,6 +886,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -687,6 +894,16 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -701,12 +918,19 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k3' => true,
-					'k4' => [3, false, null]
+					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar']
 				],
 				'farm' => [
 					'broccoli' => 73,
 					'potatoes' => 1678,
 					'carrots' => 125
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -721,6 +945,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [3, false, null],
+					'k5' => [1 => 'Y', 0 => 227, 3 => 'f2b', 2 => 'foobar'],
 					'k3' => true
 				],
 				'farm' => [
@@ -728,6 +953,16 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -741,12 +976,23 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_UNION | UData::MERGE_NONASSOC_ASSOC, [
@@ -759,6 +1005,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -766,6 +1013,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -780,6 +1033,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -787,6 +1041,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7, 0, 5],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -801,6 +1061,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -808,6 +1069,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[4, 5, 6],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -822,6 +1089,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -829,6 +1097,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -843,6 +1117,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -850,6 +1125,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -864,6 +1145,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -871,6 +1153,16 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -884,12 +1176,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_UNION, [
@@ -901,12 +1200,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7, 0, 5],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_LEFT, [
@@ -918,12 +1224,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_SWAP, [
@@ -935,12 +1248,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F', 'X', 'Z', 'X', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_KEEP, [
@@ -952,12 +1272,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
@@ -969,12 +1296,23 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'Y', 'F', 'Z', 'K'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null,
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_NONASSOC_ASSOC | UData::MERGE_NONASSOC_UNIQUE, [
@@ -987,6 +1325,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 5 => 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -994,6 +1333,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6, 0],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1008,6 +1353,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T', 'Z', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1015,6 +1361,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7, 0],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1029,6 +1381,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1036,6 +1389,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[4, 5, 6],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1050,6 +1409,7 @@ class DataTest extends TestCase
 					'k1' => ['Y', 'F', 'X', 'Z', 'K'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1057,6 +1417,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'foo',
+					['a' => 1, 'b' => 5],
+					[4, 5, 6, 0, 5],
+					true
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1071,6 +1437,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
 					'k4' => [2 => null, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => [227, 'Y', 'foobar', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1078,6 +1445,12 @@ class DataTest extends TestCase
 					'potatoes' => 1678,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1091,12 +1464,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7, 0, 5],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_NONASSOC_LEFT, [
@@ -1109,6 +1489,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1116,6 +1497,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1129,12 +1516,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[4, 5, 6],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_LEFT | UData::MERGE_NONASSOC_UNION, [
@@ -1146,12 +1540,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_LEFT, [
@@ -1163,12 +1564,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
@@ -1180,12 +1588,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'Z', 'K'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7, 0],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_NONASSOC_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
@@ -1198,6 +1613,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1205,6 +1621,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1218,12 +1640,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[4, 5, 6],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_LEFT | UData::MERGE_NONASSOC_UNION | UData::MERGE_NONASSOC_UNIQUE, [
@@ -1235,12 +1664,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_LEFT | UData::MERGE_NONASSOC_UNIQUE, [
@@ -1252,12 +1688,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_ASSOC_LEFT | UData::MERGE_NONASSOC_ASSOC, [
@@ -1269,12 +1712,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T', 'X', 'Z', 'X', 'K'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7, 0, 5],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_NONASSOC_LEFT | UData::MERGE_NONASSOC_ASSOC, [
@@ -1287,6 +1737,7 @@ class DataTest extends TestCase
 					'k1' => ['X', 'T'],
 					'k2' => [],
 					'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+					'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 					'k3' => true
 				],
 				'farm' => [
@@ -1294,6 +1745,12 @@ class DataTest extends TestCase
 					'potatoes' => 2412,
 					'cabages' => 'unknown',
 					'broccoli' => 73
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				],
 				'c' => 'f2b',
 				997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1307,12 +1764,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['Y', 'F'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'foo',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[4, 5, 6],
+					true
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_LEFT | UData::MERGE_NONASSOC_UNION | UData::MERGE_NONASSOC_ASSOC, [
@@ -1324,12 +1788,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => 'foo2bar',
-					'k4' => [2 => null, 3 => 3, 'k' => '#']
+					'k4' => [2 => null, 3 => 3, 'k' => '#'],
+					'k5' => [227, 'Y', 'foobar']
 				],
 				'farm' => [
 					'carrots' => 125,
 					'potatoes' => 1678,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 1, 'b' => 5, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, UData::MERGE_UNION | UData::MERGE_LEFT | UData::MERGE_NONASSOC_ASSOC, [
@@ -1341,12 +1812,19 @@ class DataTest extends TestCase
 				'zed' => [
 					'k1' => ['X', 'T'],
 					'k2' => [],
-					'k4' => [2 => 3, 3 => 3, 'k' => '#']
+					'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+					'k5' => ['foo', 'bar', 'f2b']
 				],
 				'farm' => [
 					'carrots' => 100,
 					'potatoes' => 2412,
 					'cabages' => 'unknown'
+				],
+				'o' => [
+					'bar',
+					['a' => 11, 'b' => 4, 'c' => 1],
+					[1, 5, 7],
+					null
 				]
 			]],
 			[$array1, $array2, null, 
@@ -1360,12 +1838,19 @@ class DataTest extends TestCase
 					'zed' => [
 						'k1' => ['X', 'T', 3 => 'Z', 5 => 'K'],
 						'k2' => [],
-						'k4' => [2 => 3, 3 => 3, 'k' => '#']
+						'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+						'k5' => ['foo', 'bar', 'f2b']
 					],
 					'farm' => [
 						'carrots' => 100,
 						'potatoes' => 2412,
 						'cabages' => 'unknown'
+					],
+					'o' => [
+						'bar',
+						['a' => 11, 'b' => 4, 'c' => 1],
+						[1, 5, 7, 0],
+						null
 					]
 				]
 			],
@@ -1381,6 +1866,7 @@ class DataTest extends TestCase
 						'k1' => ['X', 'T'],
 						'k2' => [],
 						'k4' => [2 => 3, 3 => 3, 'k' => '#', 0 => 3, 1 => false],
+						'k5' => ['foo', 'bar', 'f2b', 'f2b'],
 						'k3' => true
 					],
 					'farm' => [
@@ -1388,6 +1874,12 @@ class DataTest extends TestCase
 						'potatoes' => 2412,
 						'cabages' => 'unknown',
 						'broccoli' => 73
+					],
+					'o' => [
+						'bar',
+						['a' => 11, 'b' => 4, 'c' => 1],
+						[1, 5, 7],
+						null
 					],
 					'c' => 'f2b',
 					997 => [0, 2, 3, 0, '0', 4, 2]
@@ -1404,12 +1896,19 @@ class DataTest extends TestCase
 					'zed' => [
 						'k1' => ['Y', 'F'],
 						'k2' => [],
-						'k4' => [2 => 3, 3 => 3, 'k' => '#']
+						'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+						'k5' => ['foo', 'bar', 'f2b']
 					],
 					'farm' => [
 						'carrots' => 100,
 						'potatoes' => 2412,
 						'cabages' => 'unknown'
+					],
+					'o' => [
+						'foo',
+						['a' => 11, 'b' => 4, 'c' => 1],
+						[4, 5, 6],
+						true
 					]
 				]
 			],
@@ -1424,12 +1923,19 @@ class DataTest extends TestCase
 					'zed' => [
 						'k1' => ['X', 'T'],
 						'k2' => 'foo2bar',
-						'k4' => [2 => null, 3 => 3, 'k' => '#']
+						'k4' => [2 => null, 3 => 3, 'k' => '#'],
+						'k5' => [227, 'Y', 'foobar']
 					],
 					'farm' => [
 						'carrots' => 125,
 						'potatoes' => 1678,
 						'cabages' => 'unknown'
+					],
+					'o' => [
+						'bar',
+						['a' => 1, 'b' => 5, 'c' => 1],
+						[1, 5, 7],
+						null
 					]
 				]
 			],
@@ -1444,12 +1950,19 @@ class DataTest extends TestCase
 					'zed' => [
 						'k1' => ['X', 'T'],
 						'k2' => [],
-						'k4' => [2 => 3, 3 => 3, 'k' => '#']
+						'k4' => [2 => 3, 3 => 3, 'k' => '#'],
+						'k5' => ['foo', 'bar', 'f2b']
 					],
 					'farm' => [
 						'carrots' => 100,
 						'potatoes' => 2412,
 						'cabages' => 'unknown'
+					],
+					'o' => [
+						'bar',
+						['a' => 11, 'b' => 4, 'c' => 1],
+						[1, 5, 7],
+						null
 					]
 				]
 			]
