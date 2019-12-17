@@ -1121,22 +1121,21 @@ final class Data extends Utility
 			'hint_message' => "Only null or a value greater than or equal to 0 is allowed."
 		]);
 		
-		//empty arrays
+		//initialize
 		if (empty($array1) || empty($array2)) {
 			return [];
 		}
+		$is_assoc = self::associative($array1) || self::associative($array2);
+		$is_included = ($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
+			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE));
 		
 		//intersect
-		$is_assoc = self::associative($array1) || self::associative($array2);
-		if (
-			($is_assoc && !($flags & self::INTERSECT_ASSOC_EXCLUDE)) || 
-			(!$is_assoc && !($flags & self::INTERSECT_NONASSOC_EXCLUDE))
-		) {
+		if ($is_included) {
 			//associative
 			if ($is_assoc || ($flags & self::INTERSECT_NONASSOC_ASSOC)) {
 				$array1 = array_intersect_key($array1, $array2);
 				foreach ($array1 as $k => $v) {
-					if (!is_array($v) && $v !== $array2[$k]) {
+					if ((!is_array($v) && $v !== $array2[$k]) || (is_array($v) && !is_array($array2[$k]))) {
 						unset($array1[$k]);
 					}
 				}
@@ -1157,7 +1156,7 @@ final class Data extends Utility
 				foreach (array_intersect_key($maps[0], $maps[1]) as $map) {
 					$array += array_intersect_key($array1, $map);
 				}
-				$array1 = array_values($array);
+				$array1 = $array;
 				unset($maps, $arrays, $array);
 			}
 		}
@@ -1166,13 +1165,9 @@ final class Data extends Utility
 		if ($depth !== 0) {
 			$next_depth = isset($depth) ? $depth - 1 : null;
 			foreach ($array1 as $k => &$v) {
-				if (is_array($v)) {
-					if (isset($array2[$k]) && is_array($array2[$k])) {
-						$v = self::intersect($v, $array2[$k], $next_depth, $flags);
-						if (empty($v)) {
-							unset($array1[$k]);
-						}
-					} else {
+				if (is_array($v) && isset($array2[$k]) && is_array($array2[$k])) {
+					$v = self::intersect($v, $array2[$k], $next_depth, $flags);
+					if ($is_included && empty($v)) {
 						unset($array1[$k]);
 					}
 				}
