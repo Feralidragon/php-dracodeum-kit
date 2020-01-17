@@ -2019,7 +2019,19 @@ class DataTest extends TestCase
 			],
 			'c' => 'unreal',
 			'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-			'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+			'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+			'o' => [
+				'bar',
+				777,
+				false,
+				['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+				[1, 5, 7, 5, '1', 0, 7],
+				[1, 5, 5, 1, 7, 5, '1', 0, 7],
+				null,
+				false,
+				'0',
+				777
+			]
 		];
 		
 		//return
@@ -2042,7 +2054,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, 0, 0x00, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2062,7 +2084,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, 0x00, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2081,7 +2115,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2103,7 +2147,17 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, 0, UData::UNIQUE_ASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2125,7 +2179,19 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_ASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2147,7 +2213,17 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_ASSOC, [
 				'a' => [
@@ -2168,7 +2244,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 4 => '1', 5 => 0],
+					[1, 5, 4 => 7, 6 => '1', 7 => 0],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, 0, UData::UNIQUE_NONASSOC_ASSOC, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2188,7 +2274,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_NONASSOC_ASSOC, [
 				'a' => [
@@ -2209,7 +2307,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2228,7 +2336,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 0, UData::UNIQUE_NONASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2248,7 +2368,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_NONASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2267,7 +2399,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2285,7 +2429,17 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, 0, UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2305,7 +2459,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2323,7 +2489,17 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
@@ -2341,7 +2517,16 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, 0, UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2361,7 +2546,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
@@ -2380,7 +2577,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ARRAYS_AS_VALUES, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2399,7 +2606,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, 0, UData::UNIQUE_ARRAYS_AS_VALUES, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2419,7 +2636,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, 1, UData::UNIQUE_ARRAYS_AS_VALUES, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
@@ -2438,7 +2667,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					'0'
+				]
 			]],
 			[$array, 2, UData::UNIQUE_ARRAYS_AS_VALUES, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2457,7 +2696,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ASSOC, [
 				'a' => [
@@ -2481,7 +2730,17 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 4 => '1', 5 => 0],
+					[1, 5, 4 => 7, 6 => '1', 7 => 0],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_EXCLUDE, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2503,7 +2762,19 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, [], []],
@@ -2525,7 +2796,17 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, '1', 0],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
@@ -2547,7 +2828,16 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_ASSOC_EXCLUDE | UData::UNIQUE_ARRAYS, [
 				'a' => [5, 3, 0, '0', 7, '7', 7.0, null, false, true, []],
@@ -2569,7 +2859,16 @@ class DataTest extends TestCase
 				],
 				'c' => 'unreal',
 				'd' => ['x' => 333, 'y' => 'u', 'z' => 333],
-				'e' => ['x' => 333, 'z' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'z' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'd' => 11, 'e' => '4', 'f' => 1],
+					[1, 5, 7, '1', 0],
+					null,
+					'0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => []],
@@ -2587,7 +2886,17 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 4 => '1', 5 => 0],
+					[1, 5, 4 => 7, 6 => '1', 7 => 0],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [
@@ -2608,7 +2917,17 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 4 => '1', 5 => 0],
+					[1, 5, 4 => 7, 6 => '1', 7 => 0],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_ASSOC | UData::UNIQUE_ARRAYS, [
 				'a' => [5, 3, 0, '0', 5 => 7, 6 => '7', 7 => 7.0, 8 => null, 9 => false, 10 => true, 13 => []],
@@ -2626,7 +2945,17 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 4 => '1', 5 => 0],
+					[1, 5, 4 => 7, 6 => '1', 7 => 0],
+					null,
+					8 => '0'
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_ASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2644,7 +2973,19 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_NONASSOC_ARRAYS, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2663,7 +3004,19 @@ class DataTest extends TestCase
 					'broccoli' => 73
 				],
 				'd' => ['x' => 333, 'y' => 'u'],
-				'e' => ['x' => 333, 'y' => 'u']
+				'e' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]],
 			[$array, null, UData::UNIQUE_NONASSOC_EXCLUDE | UData::UNIQUE_ARRAYS, [
 				'a' => [5, 3, 0, '0', 3, 7, '7', 7.0, null, false, true, false, '0', [], 5, []],
@@ -2681,7 +3034,19 @@ class DataTest extends TestCase
 					'potatoes' => '100',
 					'broccoli' => 73
 				],
-				'd' => ['x' => 333, 'y' => 'u']
+				'd' => ['x' => 333, 'y' => 'u'],
+				'o' => [
+					'bar',
+					777,
+					false,
+					['a' => 11, 'b' => 4, 'c' => 1, 'e' => '4'],
+					[1, 5, 7, 5, '1', 0, 7],
+					[1, 5, 5, 1, 7, 5, '1', 0, 7],
+					null,
+					false,
+					'0',
+					777
+				]
 			]]
 		];
 	}
