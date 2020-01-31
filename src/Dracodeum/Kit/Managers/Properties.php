@@ -68,6 +68,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** @var bool */
 	private $initializing = false;
 	
+	/** @var bool */
+	private $persisted = false;
+	
 	/** @var bool[] */
 	private $required_map = [];
 	
@@ -143,20 +146,37 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
-				$properties[$name] = $property->getValue();
-			}
+			$properties[$name] = $property->isInitialized() ? $property->getValue() : null;
 		}
 		
 		//set
 		if (System::getDumpVerbosityLevel() >= EDumpVerbosityLevel::MEDIUM) {
 			foreach ($properties as $name => $value) {
-				$property_mode = $this->getProperty($name)->getMode();
+				//initialize
+				$property = $this->getProperty($name);
+				$property_mode = $property->getMode();
 				$property_debug_name = "{$property_mode}:{$name}";
+				
+				//persistence
+				if ($property->isImmutable()) {
+					$property_debug_name = "immutable {$property_debug_name}";
+				}
+				if ($property->isAutomatic()) {
+					$property_debug_name = "auto {$property_debug_name}";
+				}
+				
+				//read-only
 				if ($this->readonly) {
 					$property_debug_name_prefix = $property_mode[0] === 'r' ? '(readonly)' : '(locked)';
 					$property_debug_name = "{$property_debug_name_prefix} {$property_debug_name}";
 				}
+				
+				//uninitialized
+				if (!$property->isInitialized()) {
+					$property_debug_name = "(uninitialized) {$property_debug_name}";
+				}
+				
+				//set
 				$info->set($property_debug_name, $value);
 			}
 		} else {
@@ -410,6 +430,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	}
 	
 	/**
+	 * Check if has already been persisted at least once.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
+	 */
+	final public function isPersisted(): bool
+	{
+		return $this->persisted;
+	}
+	
+	/**
 	 * Set remainderer function.
 	 * 
 	 * A remainderer function is meant to handle any remaining properties which were not found during initialization, 
@@ -504,6 +535,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
+	 * @param bool $persisted [default = false]
+	 * <p>Set properties as having already been persisted at least once.</p>
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
 	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
@@ -511,7 +544,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function initialize(array $properties = [], ?array &$remainder = null): Properties
+	final public function initialize(
+		array $properties = [], bool $persisted = false, ?array &$remainder = null
+	): Properties
 	{
 		//guard
 		UCall::guard(!$this->initialized, [
@@ -531,6 +566,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		
 		//initialize
 		$this->initializing = true;
+		$this->persisted = $persisted;
 		try {
 			//required (initialize)
 			$required_map = [];
@@ -597,6 +633,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 					'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
 					'parameters' => ['name' => $name, 'owner' => $this->owner]
 				]);
+				UCall::guardParameter('properties', $properties, $this->persisted || !$property->isAutomatic(), [
+					'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
+					'hint_message' => "Automatic properties may only be set after the first data persistence.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
 				
 				//set
 				UCall::guardParameter('properties', $properties, $property->setValue($value, true), [
@@ -608,7 +649,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			//properties (finish)
 			foreach ($this->properties as $name => $property) {
 				//initialize
-				if (!$this->lazy && !$property->isInitialized()) {
+				if (!$this->lazy && !$property->isInitialized() && ($this->persisted || !$property->isAutomatic())) {
 					$property->initialize();
 				}
 				
@@ -667,6 +708,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		//guard
 		UCall::guard($property_mode[0] === 'r', [
 			'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		UCall::guard($this->persisted || !$property->isAutomatic(), [
+			'error_message' => "Cannot get automatic property {{name}} in manager with owner {{owner}}.",
+			'hint_message' => "Automatic properties may only be got after the first data persistence.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
 		
@@ -772,6 +818,21 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
 		
+		//guard (persistence)
+		if ($this->persisted) {
+			UCall::guard(!$property->isImmutable(), [
+				'error_message' => "Cannot set immutable property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Immutable properties may only be set before the first data persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} else {
+			UCall::guard(!$property->isAutomatic(), [
+				'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Automatic properties may only be set after the first data persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
+		
 		//set
 		UCall::guardParameter('value', $value, $property->setValue($value, true), [
 			'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
@@ -819,6 +880,21 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			'error_message' => "Cannot unset required property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
+		
+		//guard (persistence)
+		if ($this->persisted) {
+			UCall::guard(!$property->isImmutable(), [
+				'error_message' => "Cannot unset immutable property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Immutable properties may only be unset before the first data persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} else {
+			UCall::guard(!$property->isAutomatic(), [
+				'error_message' => "Cannot unset automatic property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Automatic properties may only be unset after the first data persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//unset
 		UCall::guard($property->resetValue(true), [

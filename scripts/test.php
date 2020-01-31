@@ -7,6 +7,40 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 
 System::setEnvironment('development');
 
+class A implements Dracodeum\Kit\Interfaces\Propertiesable, Dracodeum\Kit\Interfaces\DebugInfo, 
+Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor, Dracodeum\Kit\Interfaces\Readonlyable
+{
+	use Dracodeum\Kit\Traits\DebugInfo;
+	use Dracodeum\Kit\Traits\DebugInfo\ReadonlyPropertiesDumpProcessor;
+	use Dracodeum\Kit\Traits\Properties;
+	use Dracodeum\Kit\Traits\Readonly;
+	
+	final public function __construct(array $properties = [], bool $persisted = false)
+	{
+		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw', $persisted);
+		$this->addReadonlyCallback(function (bool $recursive): void {
+			$this->setPropertiesAsReadonly();
+		});
+	}
+	
+	protected function loadProperties(): void
+	{
+		$this->addProperty('id')->setAsInteger()->setAsAutomatic()->setAsImmutable();
+		$this->addProperty('name')->setAsString(true)->setAsImmutable();
+		$this->addProperty('enabled')->setAsBoolean()->setDefaultValue(false)->setAsImmutable();
+	}
+}
+
+$a = new A([
+	'id' => 123,
+	'name' => 'asd',
+	'enabled' => 1
+],true);
+//$a->id = 1555;
+//unset($a->enabled);
+
+var_dump($a);die();
+
 
 $text_options = [
 	'info_scope' => 0

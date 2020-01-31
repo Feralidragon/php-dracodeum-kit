@@ -212,6 +212,17 @@ trait Properties
 		return $this->getPropertiesManager()->isReadonly();
 	}
 	
+	/**
+	 * Check if properties have already been persisted at least once.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if properties have already been persisted at least once.</p>
+	 */
+	final public function arePropertiesPersisted(): bool
+	{
+		return $this->getPropertiesManager()->isPersisted();
+	}
+	
 	
 	
 	//Final protected methods
@@ -360,6 +371,8 @@ trait Properties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, <samp>w-</samp> or <samp>w--</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp>, <samp>w-</samp> and <samp>w--</samp> are allowed.</p>
+	 * @param bool $persisted [default = false]
+	 * <p>Set properties as having already been persisted at least once.</p>
 	 * @param callable|null $remainderer [default = null]
 	 * <p>The function to use to handle a given set of remaining properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -381,8 +394,8 @@ trait Properties
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final private function initializeProperties(
-		callable $builder, array $properties = [], string $mode = 'rw', ?callable $remainderer = null, 
-		?array &$remainder = null
+		callable $builder, array $properties = [], string $mode = 'rw', bool $persisted = false, 
+		?callable $remainderer = null, ?array &$remainder = null
 	): object
 	{
 		//initialize
@@ -401,7 +414,7 @@ trait Properties
 		}
 		
 		//initialize
-		$this->properties_manager->initialize($properties, $remainder);
+		$this->properties_manager->initialize($properties, $persisted, $remainder);
 		
 		//return
 		return $this;
