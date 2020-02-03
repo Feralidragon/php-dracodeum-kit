@@ -35,6 +35,11 @@ use Dracodeum\Kit\Utilities\{
  * restricted to a specific mode of operation, bound to existing object properties, have a default value, 
  * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
  * each one may hold.
+ * 
+ * These properties may also be persisted to any data storage of choice, through the addition and implementation of 
+ * persistence functions to both insert and update property values, with each individual property able to be defined as 
+ * automatic (automatically generated value during insert, disallowing the value to be set before insertion) or 
+ * immutable (disallowing the value to be set to a new value after insertion) or both.
  */
 class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 {
@@ -158,11 +163,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				$property_debug_name = "{$property_mode}:{$name}";
 				
 				//persistence
-				if ($property->isImmutable()) {
+				if ($property->isAutoImmutable()) {
+					$property_debug_name = "auto-immutable {$property_debug_name}";
+				} elseif ($property->isImmutable()) {
 					$property_debug_name = "immutable {$property_debug_name}";
-				}
-				if ($property->isAutomatic()) {
-					$property_debug_name = "auto {$property_debug_name}";
+				} elseif ($property->isAutomatic()) {
+					$property_debug_name = "automatic {$property_debug_name}";
 				}
 				
 				//read-only
@@ -633,11 +639,21 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 					'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
 					'parameters' => ['name' => $name, 'owner' => $this->owner]
 				]);
-				UCall::guardParameter('properties', $properties, $this->persisted || !$property->isAutomatic(), [
-					'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
-					'hint_message' => "Automatic properties may only be set after the first data persistence.",
-					'parameters' => ['name' => $name, 'owner' => $this->owner]
-				]);
+				
+				//guard (persistence)
+				if (!$this->persisted) {
+					UCall::guardParameter('properties', $properties, !$property->isAutoImmutable(), [
+						'error_message' => "Cannot set auto-immutable property {{name}} in manager " . 
+							"with owner {{owner}}.",
+						'hint_message' => "Auto-immutable properties cannot be set.",
+						'parameters' => ['name' => $name, 'owner' => $this->owner]
+					]);
+					UCall::guardParameter('properties', $properties, !$property->isAutomatic(), [
+						'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
+						'hint_message' => "Automatic properties may only be set after the first data persistence.",
+						'parameters' => ['name' => $name, 'owner' => $this->owner]
+					]);
+				}
 				
 				//set
 				UCall::guardParameter('properties', $properties, $property->setValue($value, true), [
@@ -819,6 +835,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		]);
 		
 		//guard (persistence)
+		UCall::guard(!$property->isAutoImmutable(), [
+			'error_message' => "Cannot set auto-immutable property {{name}} in manager with owner {{owner}}.",
+			'hint_message' => "Auto-immutable properties cannot be set.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		if ($this->persisted) {
 			UCall::guard(!$property->isImmutable(), [
 				'error_message' => "Cannot set immutable property {{name}} in manager with owner {{owner}}.",
@@ -882,6 +903,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		]);
 		
 		//guard (persistence)
+		UCall::guard(!$property->isAutoImmutable(), [
+			'error_message' => "Cannot unset auto-immutable property {{name}} in manager with owner {{owner}}.",
+			'hint_message' => "Auto-immutable properties cannot be unset.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
 		if ($this->persisted) {
 			UCall::guard(!$property->isImmutable(), [
 				'error_message' => "Cannot unset immutable property {{name}} in manager with owner {{owner}}.",

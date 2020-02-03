@@ -7,7 +7,7 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 
 System::setEnvironment('development');
 
-class A implements Dracodeum\Kit\Interfaces\Propertiesable, Dracodeum\Kit\Interfaces\DebugInfo, 
+class Entity implements Dracodeum\Kit\Interfaces\Propertiesable, Dracodeum\Kit\Interfaces\DebugInfo, 
 Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor, Dracodeum\Kit\Interfaces\Readonlyable
 {
 	use Dracodeum\Kit\Traits\DebugInfo;
@@ -25,19 +25,23 @@ Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor, Dracodeum\Kit\Inte
 	
 	protected function loadProperties(): void
 	{
-		$this->addProperty('id')->setAsInteger()->setAsAutomatic()->setAsImmutable();
+		$this->addProperty('id')->setAsInteger()->setAsAutoImmutable();
 		$this->addProperty('name')->setAsString(true)->setAsImmutable();
-		$this->addProperty('enabled')->setAsBoolean()->setDefaultValue(false)->setAsImmutable();
+		$this->addProperty('value')->setAsFloat()->setDefaultValue(0.0)->setAsImmutable();
+		$this->addProperty('reference')->setAsString()->setAsAutomatic()->setDefaultValue('ABC');
+		$this->addProperty('enabled')->setAsBoolean()->setDefaultValue(false);
 	}
 }
 
-$a = new A([
+$a = new Entity([
 	'id' => 123,
 	'name' => 'asd',
+	'value' => 7.25,
+	'reference' => 'fooBAR',
 	'enabled' => 1
-],true);
+], true);
 //$a->id = 1555;
-//unset($a->enabled);
+//unset($a->reference);
 
 var_dump($a);die();
 

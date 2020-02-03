@@ -365,6 +365,50 @@ class Property implements IUncloneable
 	}
 	
 	/**
+	 * Check if is auto-immutable (both automatic and immutable).
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is auto-immutable (both automatic and immutable).</p>
+	 */
+	final public function isAutoImmutable(): bool
+	{
+		return ($this->flags & self::FLAG_AUTOMATIC) && ($this->flags & self::FLAG_IMMUTABLE);
+	}
+	
+	/**
+	 * Set as auto-immutable (both automatic and immutable).
+	 * 
+	 * By setting this property as auto-immutable (both automatic and immutable), no value is ever allowed to be set, 
+	 * as the value of this property is meant to be automatically generated once during the first data persistence and 
+	 * then remain as an immutable read-only value.<br>
+	 * <br>
+	 * This method may only be called before initialization, of both the property and the manager.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsAutoImmutable(): Property
+	{
+		//guard
+		UCall::guard(!$this->isInitialized(), [
+			'hint_message' => "This method may only be called before initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
+		]);
+		UCall::guard(!$this->manager->isInitialized(), [
+			'hint_message' => "This method may only be called before the manager initialization, " . 
+				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
+		]);
+		
+		//set
+		$this->flags |= self::FLAG_AUTOMATIC | self::FLAG_IMMUTABLE;
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Get value.
 	 * 
 	 * This method may only be called after initialization.
