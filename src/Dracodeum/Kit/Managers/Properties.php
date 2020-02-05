@@ -676,11 +676,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				if ($property->getMode() === 'w--') {
 					unset($this->properties[$name]);
 				}
-				
-				//persistence
-				if ($this->persisted && $property->isInitialized()) {
-					$this->persisted_values[$name] = $property->getValue();
-				}
+			}
+			
+			//persistence
+			if ($this->persisted) {
+				$this->reloadPersistedValues();
 			}
 			
 		} finally {
@@ -1122,12 +1122,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		
 		//finish
 		$this->persisted = true;
-		$this->persisted_values = [];
-		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
-				$this->persisted_values[$name] = $property->getValue();
-			}
-		}
+		$this->reloadPersistedValues();
 		
 		//return
 		return $this;
@@ -1196,5 +1191,23 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			$this->properties[$name] = $property;
 		}
 		return $this->properties[$name];
+	}
+	
+	
+	
+	//Final private methods
+	/**
+	 * Reload persisted property values.
+	 * 
+	 * @return void
+	 */
+	final private function reloadPersistedValues(): void
+	{
+		$this->persisted_values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized()) {
+				$this->persisted_values[$name] = $property->getValue();
+			}
+		}
 	}
 }
