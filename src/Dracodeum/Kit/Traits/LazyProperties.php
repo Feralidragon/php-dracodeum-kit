@@ -395,6 +395,66 @@ trait LazyProperties
 		return $this->getPropertiesManager()->getAllInitializeable();
 	}
 	
+	/**
+	 * Persist properties with a given inserter function and updater function.
+	 * 
+	 * Only the currently loaded properties are persisted.
+	 * 
+	 * @param callable $inserter
+	 * <p>The function to use to insert a new given set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $values): array</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The property values to insert, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Automatic properties are not included in this set, being required to be automatically 
+	 * generated during insertion.<br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The inserted property values, including all automatically generated ones not set in <var>$values</var>, 
+	 * as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
+	 * thus all automatically generated property values must be returned, whereas any other property value may 
+	 * optionally be either returned or not, with any corresponding property keeping its current value if a new one is 
+	 * not returned.<br>
+	 * <br>
+	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * @param callable $updater
+	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $old_values, array $new_values): array</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $old_values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $new_values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The updated property values, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
+	 * thus any property value may optionally be either returned or not, with any corresponding property keeping its 
+	 * current value if a new one is not returned.<br>
+	 * <br>
+	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * @param bool $update_changes_only [default = false]
+	 * <p>Include only changed property values, both old and new, during an update.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function persistProperties(
+		callable $inserter, callable $updater, bool $update_changes_only = false
+	): object
+	{
+		$this->getPropertiesManager()->persist($inserter, $updater, $update_changes_only);
+		return $this;
+	}
+	
 	
 	
 	//Final private methods

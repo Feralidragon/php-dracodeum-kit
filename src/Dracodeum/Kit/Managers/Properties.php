@@ -73,9 +73,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** @var bool */
 	private $initializing = false;
 	
-	/** @var bool */
-	private $persisted = false;
-	
 	/** @var bool[] */
 	private $required_map = [];
 	
@@ -90,6 +87,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	
 	/** @var \Dracodeum\Kit\Interfaces\Propertiesable|null */
 	private $fallback_object = null;
+	
+	/** @var bool */
+	private $persisted = false;
+	
+	/** @var array */
+	private $persisted_values = [];
 	
 	
 	
@@ -673,6 +676,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				if ($property->getMode() === 'w--') {
 					unset($this->properties[$name]);
 				}
+				
+				//persistence
+				if ($this->persisted && $property->isInitialized()) {
+					$this->persisted_values[$name] = $property->getValue();
+				}
 			}
 			
 		} finally {
@@ -923,10 +931,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//unset
-		UCall::guard($property->resetValue(true), [
-			'error_message' => "Cannot unset property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
+		if ($this->persisted && array_key_exists($name, $this->persisted_values)) {
+			$property->setValue($this->persisted_values[$name]);
+		} else {
+			UCall::guard($property->resetValue(true), [
+				'error_message' => "Cannot unset property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//return
 		return $this;
@@ -978,6 +990,147 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			}
 		}
 		return $properties;
+	}
+	
+	/**
+	 * Persist properties with a given inserter function and updater function.
+	 * 
+	 * If lazy-loading is enabled, then only the currently loaded properties are persisted.
+	 * 
+	 * @param callable $inserter
+	 * <p>The function to use to insert a new given set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $values): array</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The property values to insert, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Automatic properties are not included in this set, being required to be automatically 
+	 * generated during insertion.<br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The inserted property values, including all automatically generated ones not set in <var>$values</var>, 
+	 * as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
+	 * thus all automatically generated property values must be returned, whereas any other property value may 
+	 * optionally be either returned or not, with any corresponding property keeping its current value if a new one is 
+	 * not returned.<br>
+	 * <br>
+	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * @param callable $updater
+	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $old_values, array $new_values): array</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $old_values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $new_values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The updated property values, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
+	 * thus any property value may optionally be either returned or not, with any corresponding property keeping its 
+	 * current value if a new one is not returned.<br>
+	 * <br>
+	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * @param bool $update_changes_only [default = false]
+	 * <p>Include only changed property values, both old and new, during an update.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function persist(callable $inserter, callable $updater, bool $update_changes_only = false): Properties
+	{
+		//assert
+		UCall::assert('inserter', $inserter, function (array $values): array {});
+		UCall::assert('updater', $updater, function (array $old_values, array $new_values): array {});
+		
+		//new values
+		$new_values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized()) {
+				$new_values[$name] = $property->getValue();
+			}
+		}
+		
+		//persist
+		$values = [];
+		if ($this->persisted) {
+			//initialize
+			$old_values = $this->persisted_values;
+			
+			//changes only
+			if ($update_changes_only) {
+				foreach ($new_values as $name => $value) {
+					if (array_key_exists($name, $old_values) && $value === $old_values[$name]) {
+						unset($old_values[$name], $new_values[$name]);
+					}
+				}
+			}
+			
+			//update
+			if (!empty($new_values)) {
+				$values = $updater($old_values, $new_values);
+			}
+			
+			//finish
+			unset($old_values);
+			
+		} else {
+			//initialize
+			$missing_names = [];
+			
+			//insert
+			$values = UCall::guardExecution(
+				$inserter, [$new_values],
+				function (&$value) use (&$missing_names): bool {
+					foreach ($this->properties as $name => $property) {
+						if ($property->isAutomatic() && !array_key_exists($name, $value)) {
+							$missing_names[] = $name;
+						}
+					}
+					return empty($missing_names);
+				},
+				function () use (&$missing_names) {
+					return [
+						'error_message' => "Missing automatically generated property {{names}} " . 
+							"in manager with owner {{owner}}.",
+						'error_message_plural' => "Missing automatically generated properties {{names}} " . 
+							"in manager with owner {{owner}}.",
+						'error_message_number' => count($missing_names),
+						'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
+						'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+					];
+				}
+			);
+			
+			//finish
+			unset($missing_names);
+		}
+		
+		//set
+		foreach ($values as $name => $value) {
+			if (isset($this->properties[$name])) {
+				$this->properties[$name]->setValue($value);
+			}
+		}
+		
+		//finish
+		$this->persisted = true;
+		$this->persisted_values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized()) {
+				$this->persisted_values[$name] = $property->getValue();
+			}
+		}
+		
+		//return
+		return $this;
 	}
 	
 	
