@@ -595,11 +595,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//initialize
+		$lazy = $this->isLazy();
 		$this->flags |= self::FLAG_INITIALIZING;
 		try {
 			//required (initialize)
 			$required_map = [];
-			if ($this->isLazy()) {
+			if ($lazy) {
 				$required_map = $this->required_map;
 			} else {
 				foreach ($this->properties as $name => $property) {
@@ -688,7 +689,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			//properties (finish)
 			foreach ($this->properties as $name => $property) {
 				//initialize
-				if (!$this->isLazy() && !$property->isInitialized() && ($persisted || !$property->isAutomatic())) {
+				if (!$lazy && !$property->isInitialized() && ($persisted || !$property->isAutomatic())) {
 					$property->initialize();
 				}
 				
