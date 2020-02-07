@@ -94,6 +94,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** @var array */
 	private $persisted_values = [];
 	
+	/** @var \Closure[] */
+	private $pre_persistent_changes_callbacks = [];
+	
+	/** @var \Closure[] */
+	private $post_persistent_changes_callbacks = [];
+	
 	
 	
 	//Final public magic methods
@@ -1058,6 +1064,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			}
 		}
 		
+		//pre-persistence callbacks
+		foreach ($this->pre_persistent_changes_callbacks as $name => $callbacks) {
+			$this->executePersistentChangeCallbacks($name, $callbacks);
+		}
+		
 		//persist
 		$values = [];
 		if ($this->persisted) {
@@ -1120,9 +1131,102 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			}
 		}
 		
+		//post-persistence callbacks
+		foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
+			$this->executePersistentChangeCallbacks($name, $callbacks);
+		}
+		
 		//finish
 		$this->persisted = true;
 		$this->reloadPersistedValues();
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Add pre-persistent property change callback function for a given property name.
+	 * 
+	 * All pre-persistent property change callback functions are called immediately before the corresponding property 
+	 * value change is persisted.
+	 * 
+	 * @param string $name
+	 * <p>The property name to add for.</p>
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($old_value, $new_value): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property value, to be persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property value, to be persisted to.</p>
+	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPrePersistentChangeCallback(string $name, callable $callback): Properties
+	{
+		//validate
+		$this->getProperty($name);
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
+		
+		//guard
+		UCall::guard(!$this->readonly, [
+			'error_message' => "Cannot add pre-persistent property change callback for property {{name}} " . 
+				"in read-only manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		
+		//add
+		$this->pre_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Add post-persistent property change callback function for a given property name.
+	 * 
+	 * All post-persistent property change callback functions are called immediately after the corresponding property 
+	 * value change is persisted.
+	 * 
+	 * @param string $name
+	 * <p>The property name to add for.</p>
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($old_value, $new_value): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
+	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPostPersistentChangeCallback(string $name, callable $callback): Properties
+	{
+		//validate
+		$this->getProperty($name);
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
+		
+		//guard
+		UCall::guard(!$this->readonly, [
+			'error_message' => "Cannot add post-persistent property change callback for property {{name}} " . 
+				"in read-only manager with owner {{owner}}.",
+			'parameters' => ['name' => $name, 'owner' => $this->owner]
+		]);
+		
+		//add
+		$this->post_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
 		
 		//return
 		return $this;
@@ -1208,6 +1312,46 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			if ($property->isInitialized()) {
 				$this->persisted_values[$name] = $property->getValue();
 			}
+		}
+	}
+	
+	/**
+	 * Execute a given set of persistent property change callback functions for a given property name.
+	 * 
+	 * @param string $name
+	 * <p>The property name to execute for.</p>
+	 * @param \Closure[] $callbacks
+	 * <p>The callback functions to execute.<br>
+	 * They are expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($old_value, $new_value): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
+	 * @return void
+	 */
+	final private function executePersistentChangeCallbacks(string $name, array $callbacks): void
+	{
+		//property
+		$property = $this->properties[$name] ?? null;
+		if ($property === null || !$property->isInitialized()) {
+			return;
+		}
+		
+		//values
+		$old_value = $this->persisted ? ($this->persisted_values[$name] ?? null) : null;
+		$new_value = $property->getValue();
+		if ($new_value === $old_value) {
+			return;
+		}
+		
+		//callbacks
+		foreach ($callbacks as $callback) {
+			$callback($old_value, $new_value);
 		}
 	}
 }

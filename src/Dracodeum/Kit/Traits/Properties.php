@@ -393,6 +393,66 @@ trait Properties
 		return $this;
 	}
 	
+	/**
+	 * Add pre-persistent property change callback function for a given property name.
+	 * 
+	 * All pre-persistent property change callback functions are called immediately before the corresponding property 
+	 * value change is persisted.
+	 * 
+	 * @param string $name
+	 * <p>The property name to add for.</p>
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($old_value, $new_value): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property value, to be persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property value, to be persisted to.</p>
+	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addPrePersistentPropertyChangeCallback(string $name, callable $callback): object
+	{
+		$this->getPropertiesManager()->addPrePersistentChangeCallback($name, $callback);
+		return $this;
+	}
+	
+	/**
+	 * Add post-persistent property change callback function for a given property name.
+	 * 
+	 * All post-persistent property change callback functions are called immediately after the corresponding property 
+	 * value change is persisted.
+	 * 
+	 * @param string $name
+	 * <p>The property name to add for.</p>
+	 * @param callable $callback
+	 * <p>The callback function to add.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function ($old_value, $new_value): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
+	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addPostPersistentPropertyChangeCallback(string $name, callable $callback): object
+	{
+		$this->getPropertiesManager()->addPostPersistentChangeCallback($name, $callback);
+		return $this;
+	}
+	
 	
 	
 	//Final private methods
