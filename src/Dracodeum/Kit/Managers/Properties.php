@@ -54,24 +54,33 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	
 	
 	
+	//Private constants
+	/** Lazy flag. */
+	private const FLAG_LAZY = 0x01;
+	
+	/** Initialized flag. */
+	private const FLAG_INITIALIZED = 0x02;
+	
+	/** Initializing flag. */
+	private const FLAG_INITIALIZING = 0x04;
+	
+	/** Read-only flag. */
+	private const FLAG_READONLY = 0x08;
+	
+	/** Persisted flag. */
+	private const FLAG_PERSISTED = 0x10;
+	
+	
+	
 	//Private properties
 	/** @var object */
 	private $owner;
 	
-	/** @var bool */
-	private $lazy = false;
-	
 	/** @var string */
 	private $mode = 'rw';
 	
-	/** @var bool */
-	private $readonly = false;
-	
-	/** @var bool */
-	private $initialized = false;
-	
-	/** @var bool */
-	private $initializing = false;
+	/** @var int */
+	private $flags = 0x00;
 	
 	/** @var bool[] */
 	private $required_map = [];
@@ -87,9 +96,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	
 	/** @var \Dracodeum\Kit\Interfaces\Propertiesable|null */
 	private $fallback_object = null;
-	
-	/** @var bool */
-	private $persisted = false;
 	
 	/** @var array */
 	private $persisted_values = [];
@@ -147,8 +153,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		
 		//initialize
 		$this->owner = $owner;
-		$this->lazy = $lazy;
 		$this->mode = $mode;
+		
+		//lazy
+		if ($lazy) {
+			$this->flags |= self::FLAG_LAZY;
+		}
 	}
 	
 	
@@ -181,7 +191,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				}
 				
 				//read-only
-				if ($this->readonly) {
+				if ($this->isReadonly()) {
 					$property_debug_name_prefix = $property_mode[0] === 'r' ? '(readonly)' : '(locked)';
 					$property_debug_name = "{$property_debug_name_prefix} {$property_debug_name}";
 				}
@@ -237,7 +247,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isLazy(): bool
 	{
-		return $this->lazy;
+		return $this->flags & self::FLAG_LAZY;
 	}
 	
 	/**
@@ -259,7 +269,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isReadonly(): bool
 	{
-		return $this->readonly || $this->mode === 'r' || $this->mode === 'r+';
+		return $this->flags & self::FLAG_READONLY;
 	}
 	
 	/**
@@ -273,13 +283,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	final public function setAsReadonly(): Properties
 	{
 		//guard
-		UCall::guard($this->initialized, [
+		UCall::guard($this->isInitialized(), [
 			'hint_message' => "This method may only be called after initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
 		
 		//set
-		$this->readonly = true;
+		$this->flags |= self::FLAG_READONLY;
 		
 		//return
 		return $this;
@@ -319,11 +329,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	final public function addRequiredPropertyNames(array $names): Properties
 	{
 		//guard
-		UCall::guard(!$this->initialized, [
+		UCall::guard(!$this->isInitialized(), [
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::guard($this->lazy, [
+		UCall::guard($this->isLazy(), [
 			'hint_message' => "In order to explicitly set property {{names}} as required " . 
 				"in manager with owner {{owner}}, please use the {{method}} method instead from " . 
 				"the corresponding property instance, as lazy-loading is disabled in this manager.",
@@ -357,7 +367,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isRequiredPropertyName(string $name): bool
 	{
-		return $this->lazy ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
+		return $this->isLazy() ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
 	}
 	
 	/**
@@ -373,12 +383,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	final public function addProperty(string $name): Property
 	{
 		//guard
-		UCall::guard(!$this->lazy, [
+		UCall::guard(!$this->isLazy(), [
 			'hint_message' => "In order to add new properties to manager with owner {{owner}}, " . 
 				"please set and use a builder function instead, as lazy-loading is enabled in this manager.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::guard(!$this->initialized, [
+		UCall::guard(!$this->isInitialized(), [
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
@@ -430,12 +440,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function setBuilder(callable $builder): Properties
 	{
-		UCall::guard($this->lazy, [
+		UCall::guard($this->isLazy(), [
 			'hint_message' => "A builder function cannot be set in manager with owner {{owner}}, " . 
 				"as lazy-loading is disabled.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::guard(!$this->initialized, [
+		UCall::guard(!$this->isInitialized(), [
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
@@ -452,7 +462,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isPersisted(): bool
 	{
-		return $this->persisted;
+		return $this->flags & self::FLAG_PERSISTED;
 	}
 	
 	/**
@@ -483,7 +493,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function setRemainderer(callable $remainderer): Properties
 	{
-		UCall::guard(!$this->initialized, [
+		UCall::guard(!$this->isInitialized(), [
 			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
@@ -529,7 +539,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isInitialized(): bool
 	{
-		return $this->initialized;
+		return $this->flags & self::FLAG_INITIALIZED;
 	}
 	
 	/**
@@ -540,7 +550,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function isInitializing(): bool
 	{
-		return $this->initializing;
+		return $this->flags & self::FLAG_INITIALIZING;
 	}
 	
 	/**
@@ -564,11 +574,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	): Properties
 	{
 		//guard
-		UCall::guard(!$this->initialized, [
+		UCall::guard(!$this->isInitialized(), [
 			'error_message' => "Manager with owner {{owner}} already initialized.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::guard(!$this->lazy || isset($this->builder), [
+		UCall::guard(!$this->isLazy() || isset($this->builder), [
 			'error_message' => "No builder function set in manager with owner {{owner}}.",
 			'hint_message' => "A builder function is required to be set, as lazy-loading is enabled.",
 			'parameters' => ['owner' => $this->owner]
@@ -579,13 +589,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			$remainder = [];
 		}
 		
+		//persisted
+		if ($persisted) {
+			$this->flags |= self::FLAG_PERSISTED;
+		}
+		
 		//initialize
-		$this->initializing = true;
-		$this->persisted = $persisted;
+		$this->flags |= self::FLAG_INITIALIZING;
 		try {
 			//required (initialize)
 			$required_map = [];
-			if ($this->lazy) {
+			if ($this->isLazy()) {
 				$required_map = $this->required_map;
 			} else {
 				foreach ($this->properties as $name => $property) {
@@ -650,7 +664,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				]);
 				
 				//guard (persistence)
-				if (!$this->persisted) {
+				if (!$persisted) {
 					UCall::guardParameter('properties', $properties, !$property->isAutoImmutable(), [
 						'error_message' => "Cannot set auto-immutable property {{name}} in manager " . 
 							"with owner {{owner}}.",
@@ -674,7 +688,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			//properties (finish)
 			foreach ($this->properties as $name => $property) {
 				//initialize
-				if (!$this->lazy && !$property->isInitialized() && ($this->persisted || !$property->isAutomatic())) {
+				if (!$this->isLazy() && !$property->isInitialized() && ($persisted || !$property->isAutomatic())) {
 					$property->initialize();
 				}
 				
@@ -685,14 +699,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			}
 			
 			//persistence
-			if ($this->persisted) {
+			if ($persisted) {
 				$this->reloadPersistedValues();
 			}
 			
 		} finally {
-			$this->initializing = false;
+			$this->flags &= ~self::FLAG_INITIALIZING;
 		}
-		$this->initialized = true;
+		$this->flags |= self::FLAG_INITIALIZED;
 		
 		//return
 		return $this;
@@ -740,7 +754,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
-		UCall::guard($this->persisted || !$property->isAutomatic(), [
+		UCall::guard($this->isPersisted() || !$property->isAutomatic(), [
 			'error_message' => "Cannot get automatic property {{name}} in manager with owner {{owner}}.",
 			'hint_message' => "Automatic properties may only be got after the first data persistence.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
@@ -835,7 +849,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$property_mode = $property->getMode();
 		
 		//guard
-		UCall::guard(!$this->readonly, [
+		UCall::guard(!$this->isReadonly(), [
 			'error_message' => "Cannot set property {{name}} in read-only manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
@@ -854,7 +868,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			'hint_message' => "Auto-immutable properties cannot be set.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
-		if ($this->persisted) {
+		if ($this->isPersisted()) {
 			UCall::guard(!$property->isImmutable(), [
 				'error_message' => "Cannot set immutable property {{name}} in manager with owner {{owner}}.",
 				'hint_message' => "Immutable properties may only be set before the first data persistence.",
@@ -899,7 +913,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$property_mode = $property->getMode();
 		
 		//guard
-		UCall::guard(!$this->readonly, [
+		UCall::guard(!$this->isReadonly(), [
 			'error_message' => "Cannot unset property {{name}} in read-only manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
@@ -917,12 +931,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		]);
 		
 		//guard (persistence)
+		$persisted = $this->isPersisted();
 		UCall::guard(!$property->isAutoImmutable(), [
 			'error_message' => "Cannot unset auto-immutable property {{name}} in manager with owner {{owner}}.",
 			'hint_message' => "Auto-immutable properties cannot be unset.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
-		if ($this->persisted) {
+		if ($persisted) {
 			UCall::guard(!$property->isImmutable(), [
 				'error_message' => "Cannot unset immutable property {{name}} in manager with owner {{owner}}.",
 				'hint_message' => "Immutable properties may only be unset before the first data persistence.",
@@ -937,7 +952,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//unset
-		if ($this->persisted && array_key_exists($name, $this->persisted_values)) {
+		if ($persisted && array_key_exists($name, $this->persisted_values)) {
 			$property->setValue($this->persisted_values[$name]);
 		} else {
 			UCall::guard($property->resetValue(true), [
@@ -1071,7 +1086,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		
 		//persist
 		$values = [];
-		if ($this->persisted) {
+		if ($this->isPersisted()) {
 			//initialize
 			$old_values = $this->persisted_values;
 			
@@ -1137,7 +1152,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//finish
-		$this->persisted = true;
+		$this->flags |= self::FLAG_PERSISTED;
 		$this->reloadPersistedValues();
 		
 		//return
@@ -1170,16 +1185,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function addPrePersistentChangeCallback(string $name, callable $callback): Properties
 	{
-		//validate
-		$this->getProperty($name);
-		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
-		
 		//guard
-		UCall::guard(!$this->readonly, [
+		UCall::guard(!$this->isReadonly(), [
 			'error_message' => "Cannot add pre-persistent property change callback for property {{name}} " . 
 				"in read-only manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
+		
+		//validate
+		$this->getProperty($name);
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		
 		//add
 		$this->pre_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
@@ -1214,16 +1229,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 */
 	final public function addPostPersistentChangeCallback(string $name, callable $callback): Properties
 	{
-		//validate
-		$this->getProperty($name);
-		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
-		
 		//guard
-		UCall::guard(!$this->readonly, [
+		UCall::guard(!$this->isReadonly(), [
 			'error_message' => "Cannot add post-persistent property change callback for property {{name}} " . 
 				"in read-only manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
+		
+		//validate
+		$this->getProperty($name);
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		
 		//add
 		$this->post_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
@@ -1268,7 +1283,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			$property = null;
 			if (isset($this->builder)) {
 				$property = ($this->builder)($name);
-				if ($this->initialized && isset($property) && !$property->isInitialized()) {
+				if ($this->isInitialized() && isset($property) && !$property->isInitialized()) {
 					$property->initialize();
 				}
 			}
@@ -1343,7 +1358,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//values
-		$old_value = $this->persisted ? ($this->persisted_values[$name] ?? null) : null;
+		$old_value = $this->isPersisted() ? ($this->persisted_values[$name] ?? null) : null;
 		$new_value = $property->getValue();
 		if ($new_value === $old_value) {
 			return;
