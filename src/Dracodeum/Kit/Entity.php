@@ -13,9 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	Readonlyable as IReadonlyable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable,
-	StringInstantiable as IStringInstantiable,
-	Cloneable as ICloneable
+	Stringifiable as IStringifiable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Entity\{
@@ -38,12 +36,12 @@ use Dracodeum\Kit\Utilities\{
  * on which all persistent CRUD operations may be performed: create (insert), read (check and load), update and 
  * delete.<br>
  * <br>
- * As such, it may be used to verify, expose, modify or remove a database record, a resource from a remote service, 
- * among others, using a common class interface.<br>
+ * As such, it may be used to verify, expose, add, modify or remove an object corresponding to a database record, 
+ * or a resource from a remote service, or any other type of persistent object, using a common class interface.<br>
  * <br>
  * All persistent operations are optimized to only persist changes, as well prevent changes to protected properties, 
  * with each and every single one of its properties validated and sanitized, guaranteeing its type and integrity, 
- * which may be got and set directly just like any public object property.<br>
+ * and which may be got and set directly just like any public object property.<br>
  * <br>
  * Additional internal functions may also be called automatically upon the persistence of a property value change.<br>
  * <br>
@@ -51,10 +49,11 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @see https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
+ * @see \Dracodeum\Kit\Entity\Traits\Initializer
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
-IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
+IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -64,8 +63,9 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	use KitTraits\Properties\ArrayAccess;
 	use KitTraits\Readonly;
 	use KitTraits\Stringifiable;
-	use KitTraits\CloneableOnly;
+	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
+	use Traits\Initializer;
 	
 	
 	
@@ -99,6 +99,9 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 				}
 			}
 		});
+		
+		//initialize
+		$this->initialize();
 	}
 	
 	
@@ -162,16 +165,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	
 	
 	
-	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
-	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
-	{
-		$properties = $this->getAllInitializeable();
-		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties, $this->isPersisted());
-	}
-	
-	
-	
 	//Final public methods
 	/**
 	 * Check if has already been persisted at least once.
@@ -191,7 +184,9 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Build instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @param bool $persisted [default = false]
 	 * <p>Set as having already been persisted at least once.</p>
 	 * @return static
@@ -211,7 +206,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -219,20 +214,21 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
-	 * <p>Set as having already been persisted at least once.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * <p>Set as having already been persisted at least once, if an array of properties, an object implementing the 
+	 * <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface or <code>null</code> is given.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties): Dracodeum\Kit\Entity</code><br>
+	 * <code>function (array $properties, bool $persisted): Dracodeum\Kit\Entity</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set as having already been persisted at least once.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Entity</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -242,17 +238,17 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, bool $persisted = false, bool $clone = false, ?callable $builder = null, bool $nullable = false
+		&$value, bool $persisted = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $persisted, $clone, $builder, $nullable, true);
+		return self::processCoercion($value, $persisted, $builder, $nullable, true);
 	}
 	
 	/**
 	 * Coerce a given value into an instance.
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -260,20 +256,21 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
-	 * <p>Set as having already been persisted at least once.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * <p>Set as having already been persisted at least once, if an array of properties, an object implementing the 
+	 * <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface or <code>null</code> is given.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties): Dracodeum\Kit\Entity</code><br>
+	 * <code>function (array $properties, bool $persisted): Dracodeum\Kit\Entity</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set as having already been persisted at least once.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Entity</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -285,10 +282,10 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, bool $persisted = false, bool $clone = false, ?callable $builder = null, bool $nullable = false
+		$value, bool $persisted = false, ?callable $builder = null, bool $nullable = false
 	): ?Entity
 	{
-		self::processCoercion($value, $persisted, $clone, $builder, $nullable);
+		self::processCoercion($value, $persisted, $builder, $nullable);
 		return $value;
 	}
 	
@@ -296,7 +293,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Process the coercion of a given value into an instance.
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -304,20 +301,21 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
-	 * <p>Set as having already been persisted at least once.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * <p>Set as having already been persisted at least once, if an array of properties, an object implementing the 
+	 * <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface or <code>null</code> is given.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $properties): Dracodeum\Kit\Entity</code><br>
+	 * <code>function (array $properties, bool $persisted): Dracodeum\Kit\Entity</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set as having already been persisted at least once.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Entity</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -330,8 +328,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, bool $persisted = false, bool $clone = false, ?callable $builder = null, bool $nullable = false,
-		bool $no_throw = false
+		&$value, bool $persisted = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//builder
@@ -354,8 +351,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 				if ($instance instanceof Entity) {
 					if (!UType::isA($instance, static::class)) {
 						$value = UType::coerceObject($builder($instance->getAll(), $persisted), static::class);
-					} elseif ($clone) {
-						$value = $value->clone();
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {
@@ -384,7 +379,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 			'entity' => static::class,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
-				" - null, a string or an instance;\n" . 
+				" - null or an instance;\n" . 
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface."
 		]);

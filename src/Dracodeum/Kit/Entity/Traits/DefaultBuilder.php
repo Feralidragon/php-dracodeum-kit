@@ -28,7 +28,7 @@ trait DefaultBuilder
 	 * &nbsp; &nbsp; &nbsp; Set as having already been persisted at least once.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Entity</b></code><br>
-	 * The built instance.
+	 * The built instance with the given set of properties.</p>
 	 * 
 	 * @return callable|null
 	 * <p>The default builder function or <code>null</code> if none is set.</p>
