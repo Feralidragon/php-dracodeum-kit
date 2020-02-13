@@ -32,7 +32,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This class is the base to be extended from when creating an entity.
  * 
- * An entity represents an object with a name, a unique identifier and multiple properties of multiple types, 
+ * An entity represents an object with a name, a UID (unique identifier) and multiple properties of multiple types, 
  * on which all persistent CRUD operations may be performed: create (insert), read (check and load), update and 
  * delete.<br>
  * <br>
@@ -48,6 +48,7 @@ use Dracodeum\Kit\Utilities\{
  * It may also be set as read-only to prevent any further changes.
  * 
  * @see https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model
+ * @see https://en.wikipedia.org/wiki/Unique_identifier
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
  */
@@ -110,6 +111,8 @@ IArrayInstantiable, IStringifiable
 	/**
 	 * Get name.
 	 * 
+	 * The returning name is a canonical string, which uniquely identifies this entity class.
+	 * 
 	 * @return string
 	 * <p>The name.</p>
 	 */
@@ -119,22 +122,19 @@ IArrayInstantiable, IStringifiable
 	
 	//Abstract protected methods
 	/**
+	 * Get UID (unique identifier) property name.
+	 * 
+	 * @return string
+	 * <p>The UID (unique identifier) property name.</p>
+	 */
+	abstract protected function getUidPropertyName(): string;
+	
+	/**
 	 * Load properties.
 	 * 
 	 * @return void
 	 */
 	abstract protected function loadProperties(): void;
-	
-	
-	
-	//Abstract protected static methods
-	/**
-	 * Get unique identifier property name.
-	 * 
-	 * @return string
-	 * <p>The unique identifier property name.</p>
-	 */
-	abstract protected static function getUidPropertyName(): string;
 	
 	
 	
@@ -166,6 +166,17 @@ IArrayInstantiable, IStringifiable
 	
 	
 	//Final public methods
+	/**
+	 * Get UID (unique identifier).
+	 * 
+	 * @return mixed
+	 * <p>The UID (unique identifier).</p>
+	 */
+	final public function getUid()
+	{
+		return $this->get($this->getUidPropertyName());
+	}
+	
 	/**
 	 * Check if has already been persisted at least once.
 	 * 
