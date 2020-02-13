@@ -51,6 +51,8 @@ use Dracodeum\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Unique_identifier
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
+ * @see \Dracodeum\Kit\Entity\Traits\UidPropertyName
+ * @see \Dracodeum\Kit\Entity\Traits\ScopeUidPropertyNames
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
@@ -67,6 +69,8 @@ IArrayInstantiable, IStringifiable
 	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
+	use Traits\UidPropertyName;
+	use Traits\ScopeUidPropertyNames;
 	
 	
 	
@@ -120,15 +124,7 @@ IArrayInstantiable, IStringifiable
 	
 	
 	
-	//Abstract protected methods
-	/**
-	 * Get UID (unique identifier) property name.
-	 * 
-	 * @return string
-	 * <p>The UID (unique identifier) property name.</p>
-	 */
-	abstract protected function getUidPropertyName(): string;
-	
+	//Abstract protected methods	
 	/**
 	 * Load properties.
 	 * 
@@ -170,11 +166,27 @@ IArrayInstantiable, IStringifiable
 	 * Get UID (unique identifier).
 	 * 
 	 * @return mixed
-	 * <p>The UID (unique identifier).</p>
+	 * <p>The UID (unique identifier) or <code>null</code> if none is set.</p>
 	 */
 	final public function getUid()
 	{
-		return $this->get($this->getUidPropertyName());
+		$name = $this->getUidPropertyName();
+		return $name !== null ? $this->get($name) : null;
+	}
+	
+	/**
+	 * Get scope UIDs (unique identifiers).
+	 * 
+	 * @return array
+	 * <p>The scope UIDs (unique identifiers).</p>
+	 */
+	final public function getScopeUids(): array
+	{
+		$uids = [];
+		foreach ($this->getScopeUidPropertyNames() as $name) {
+			$uids[] = $this->get($name);
+		}
+		return $uids;
 	}
 	
 	/**
