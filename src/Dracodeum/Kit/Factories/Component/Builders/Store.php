@@ -8,18 +8,18 @@
 namespace Dracodeum\Kit\Factories\Component\Builders;
 
 use Dracodeum\Kit\Factory\Builder;
-use Dracodeum\Kit\Factories\Component\Builder\Interfaces\Provider as IBuilder;
-use Dracodeum\Kit\Components\Provider as Component;
+use Dracodeum\Kit\Factories\Component\Builder\Interfaces\Store as IBuilder;
+use Dracodeum\Kit\Components\Store as Component;
 
 /**
- * This builder is used to build provider instances.
+ * This builder is used to build store instances.
  * 
- * @see \Dracodeum\Kit\Components\Provider
+ * @see \Dracodeum\Kit\Components\Store
  * [object]
  */
-class Provider extends Builder implements IBuilder
+class Store extends Builder implements IBuilder
 {
-	//Implemented public methods (Dracodeum\Kit\Factories\Component\Builder\Interfaces\Provider)
+	//Implemented public methods (Dracodeum\Kit\Factories\Component\Builder\Interfaces\Store)
 	/** {@inheritdoc} */
 	public function build($prototype, array $properties): Component
 	{

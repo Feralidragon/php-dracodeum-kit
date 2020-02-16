@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Prototypes\Providers;
+namespace Dracodeum\Kit\Prototypes\Stores;
 
-use Dracodeum\Kit\Prototypes\Provider;
-use Dracodeum\Kit\Prototypes\Provider\Interfaces\{
+use Dracodeum\Kit\Prototypes\Store;
+use Dracodeum\Kit\Prototypes\Store\Interfaces\{
 	Checker as IChecker,
 	Returner as IReturner,
 	Inserter as IInserter,
@@ -20,8 +20,8 @@ use Dracodeum\Kit\Utilities\{
 	Data as UData
 };
 
-/** This provider prototype persists resources in memory, being generally used as a stub for testing. */
-class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdater, IDeleter
+/** This store prototype persists resources in memory, being generally used as a stub for testing. */
+class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, IDeleter
 {
 	//Private properties
 	/** @var array */
@@ -29,7 +29,7 @@ class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdate
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Provider\Interfaces\Checker)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Checker)
 	/** {@inheritdoc} */
 	public function exists(string $name, $uid, ?string $scope, bool $readonly): bool
 	{
@@ -38,7 +38,7 @@ class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdate
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Provider\Interfaces\Returner)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Returner)
 	/** {@inheritdoc} */
 	public function return(string $name, $uid, ?string $scope, bool $readonly): ?array
 	{
@@ -47,7 +47,7 @@ class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdate
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Provider\Interfaces\Inserter)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter)
 	/** {@inheritdoc} */
 	public function insert(string $name, &$uid, array $values, ?string $scope): array
 	{
@@ -75,7 +75,7 @@ class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdate
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Provider\Interfaces\Updater)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Updater)
 	/** {@inheritdoc} */
 	public function update(string $name, $uid, array $values, ?string $scope): ?array
 	{
@@ -105,7 +105,7 @@ class Memory extends Provider implements IChecker, IReturner, IInserter, IUpdate
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Provider\Interfaces\Deleter)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Deleter)
 	/** {@inheritdoc} */
 	public function delete(string $name, $uid, ?string $scope): bool
 	{

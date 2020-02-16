@@ -13,7 +13,7 @@ use Dracodeum\Kit\Factories\Component\Builders;
 use Dracodeum\Kit\Factories\Component\Builder\Interfaces as BuilderInterfaces;
 use Dracodeum\Kit\Components\{
 	Input,
-	Provider
+	Store
 };
 
 /**
@@ -23,10 +23,10 @@ use Dracodeum\Kit\Components\{
  * [builder interface, type = 'input']
  * @see \Dracodeum\Kit\Factories\Component\Builders\Input
  * [builder, type = 'input']
- * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Provider
- * [builder interface, type = 'provider']
- * @see \Dracodeum\Kit\Factories\Component\Builders\Provider
- * [builder, type = 'provider']
+ * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Store
+ * [builder interface, type = 'store']
+ * @see \Dracodeum\Kit\Factories\Component\Builders\Store
+ * [builder, type = 'store']
  */
 class Component extends Factory
 {
@@ -37,8 +37,8 @@ class Component extends Factory
 		switch ($name) {
 			case 'input':
 				return static::createType(BuilderInterfaces\Input::class, Builders\Input::class);
-			case 'provider':
-				return static::createType(BuilderInterfaces\Provider::class, Builders\Provider::class);
+			case 'store':
+				return static::createType(BuilderInterfaces\Store::class, Builders\Store::class);
 		}
 		return null;
 	}
@@ -64,19 +64,19 @@ class Component extends Factory
 	}
 	
 	/**
-	 * Build provider instance with a given prototype.
+	 * Build store instance with a given prototype.
 	 * 
-	 * @param \Dracodeum\Kit\Prototypes\Provider|string $prototype
+	 * @param \Dracodeum\Kit\Prototypes\Store|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to build with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
-	 * @return \Dracodeum\Kit\Components\Provider
-	 * <p>The built provider instance with the given prototype.</p>
+	 * @return \Dracodeum\Kit\Components\Store
+	 * <p>The built store instance with the given prototype.</p>
 	 */
-	public static function provider($prototype, array $properties = []): Provider
+	public static function store($prototype, array $properties = []): Store
 	{
-		return static::build('provider', $prototype, $properties);
+		return static::build('store', $prototype, $properties);
 	}
 }

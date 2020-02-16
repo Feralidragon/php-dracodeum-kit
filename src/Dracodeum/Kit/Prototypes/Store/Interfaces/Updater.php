@@ -5,9 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Prototypes\Provider\Interfaces;
+namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
-/** This interface defines a method to update a resource in a provider prototype. */
+/** This interface defines a method to update a resource in a store prototype. */
 interface Updater
 {
 	//Public methods

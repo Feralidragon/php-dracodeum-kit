@@ -5,9 +5,9 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Prototypes\Provider\Interfaces;
+namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
-/** This interface defines a method to check if a resource exists in a provider prototype. */
+/** This interface defines a method to check if a resource exists in a store prototype. */
 interface Checker
 {
 	//Public methods

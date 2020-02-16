@@ -8,23 +8,23 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
-use Dracodeum\Kit\Components\Provider\Exceptions;
+use Dracodeum\Kit\Components\Store\Exceptions;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\{
-	Provider as Prototype,
-	Providers as Prototypes
+	Store as Prototype,
+	Stores as Prototypes
 };
-use Dracodeum\Kit\Prototypes\Provider\Interfaces as PrototypeInterfaces;
+use Dracodeum\Kit\Prototypes\Store\Interfaces as PrototypeInterfaces;
 
 /**
- * This component represents a provider which performs persistent CRUD operations of resources, namely create (insert), 
+ * This component represents a store which performs persistent CRUD operations of resources, namely create (insert), 
  * read (exists and return), update and delete.
  * 
- * @see \Dracodeum\Kit\Prototypes\Provider
- * @see \Dracodeum\Kit\Prototypes\Providers\Memory
+ * @see \Dracodeum\Kit\Prototypes\Store
+ * @see \Dracodeum\Kit\Prototypes\Stores\Memory
  * [prototype, name = 'memory' or 'mem']
  */
-class Provider extends Component
+class Store extends Component
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */
@@ -39,7 +39,7 @@ class Provider extends Component
 	/** {@inheritdoc} */
 	protected static function getDefaultBuilder(): ?callable
 	{
-		return [Factory::class, 'provider'];
+		return [Factory::class, 'store'];
 	}
 	
 	
@@ -69,7 +69,7 @@ class Provider extends Component
 	 * <p>The UID (unique identifier) to check with.</p>
 	 * @param string|null $scope [default = null]
 	 * <p>The scope to check with.</p>
-	 * @throws \Dracodeum\Kit\Components\Provider\Exceptions\MethodNotImplemented
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
 	 * <p>Boolean <code>true</code> if a resource with the given name and UID (unique identifier) exists.</p>
 	 */
@@ -93,7 +93,7 @@ class Provider extends Component
 	 * <p>The UID (unique identifier) to return with.</p>
 	 * @param string|null $scope [default = null]
 	 * <p>The scope to return with.</p>
-	 * @throws \Dracodeum\Kit\Components\Provider\Exceptions\MethodNotImplemented
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The resource with the given name and UID (unique identifier), as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
@@ -119,7 +119,7 @@ class Provider extends Component
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @param string|null $scope [default = null]
 	 * <p>The scope to insert with.</p>
-	 * @throws \Dracodeum\Kit\Components\Provider\Exceptions\MethodNotImplemented
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array
 	 * <p>The inserted values of the resource with the given name and UID (unique identifier), 
 	 * as <samp>name => value</samp> pairs.</p>
@@ -147,7 +147,7 @@ class Provider extends Component
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @param string|null $scope [default = null]
 	 * <p>The scope to update with.</p>
-	 * @throws \Dracodeum\Kit\Components\Provider\Exceptions\MethodNotImplemented
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The updated values of the resource with the given name and UID (unique identifier), 
 	 * as <samp>name => value</samp> pairs, or <code>null</code> if the resource does not exist.</p>
@@ -170,7 +170,7 @@ class Provider extends Component
 	 * <p>The UID (unique identifier) to delete with.</p>
 	 * @param string|null $scope [default = null]
 	 * <p>The scope to delete with.</p>
-	 * @throws \Dracodeum\Kit\Components\Provider\Exceptions\MethodNotImplemented
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the resource with the given name and UID (unique identifier) was deleted.</p>
 	 */

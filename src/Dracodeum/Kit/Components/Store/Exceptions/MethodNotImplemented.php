@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Components\Provider\Exceptions;
+namespace Dracodeum\Kit\Components\Store\Exceptions;
 
-use Dracodeum\Kit\Components\Provider\Exception;
+use Dracodeum\Kit\Components\Store\Exception;
 
 /**
- * This exception is thrown from a provider whenever a given method is not implemented.
+ * This exception is thrown from a store whenever a given method is not implemented.
  * 
  * @property-read string $name
  * <p>The name.<br>
@@ -22,7 +22,7 @@ class MethodNotImplemented extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Method {{name}} not implemented in provider {{component}} (with prototype {{prototype}}).";
+		return "Method {{name}} not implemented in store {{component}} (with prototype {{prototype}}).";
 	}
 	
 	
