@@ -52,7 +52,7 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
  * @see \Dracodeum\Kit\Entity\Traits\UidPropertyName
- * @see \Dracodeum\Kit\Entity\Traits\ScopeUidPropertyNames
+ * @see \Dracodeum\Kit\Entity\Traits\BaseScope
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
@@ -70,7 +70,7 @@ IArrayInstantiable, IStringifiable
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
 	use Traits\UidPropertyName;
-	use Traits\ScopeUidPropertyNames;
+	use Traits\BaseScope;
 	
 	
 	
@@ -172,21 +172,6 @@ IArrayInstantiable, IStringifiable
 	{
 		$name = $this->getUidPropertyName();
 		return $name !== null ? $this->get($name) : null;
-	}
-	
-	/**
-	 * Get scope UIDs (unique identifiers).
-	 * 
-	 * @return array
-	 * <p>The scope UIDs (unique identifiers).</p>
-	 */
-	final public function getScopeUids(): array
-	{
-		$uids = [];
-		foreach ($this->getScopeUidPropertyNames() as $name) {
-			$uids[] = $this->get($name);
-		}
-		return $uids;
 	}
 	
 	/**
