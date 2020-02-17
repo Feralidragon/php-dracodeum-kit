@@ -14,8 +14,8 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * Exception <code>construct</code> method options.
  * 
  * @property string|null $message [coercive] [default = null]
- * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>, corresponding directly to the 
- * given properties.<br>
+ * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>, corresponding directly to given 
+ * properties.<br>
  * <br>
  * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
