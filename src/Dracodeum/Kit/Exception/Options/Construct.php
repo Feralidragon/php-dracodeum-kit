@@ -14,17 +14,20 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * Exception <code>construct</code> method options.
  * 
  * @property string|null $message [coercive] [default = null]
- * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+ * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>, corresponding directly to the 
+ * given properties.<br>
+ * <br>
  * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
  * <br>
  * They may also be used with pointers to specific object properties or associative array values, 
- * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+ * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
  * with no limit on the number of chained pointers.<br>
+ * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
  * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>

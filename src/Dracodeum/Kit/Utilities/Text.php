@@ -704,8 +704,9 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties 
 	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
 	 * @param string $string
 	 * <p>The string to fill.</p>
@@ -837,8 +838,9 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties 
 	 * or associative array values towards the given parameters, by using a dot between identifiers, 
 	 * such as <samp>{{object.property}}</samp>, with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
 	 * @param string $string1
 	 * <p>The string singular form to fill.</p>
@@ -884,8 +886,9 @@ final class Text extends Utility
 	 * It may also have pointers to specific object properties or associative array values, 
 	 * by using a dot between identifiers, such as <samp>object.property</samp>, 
 	 * with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>object.method()</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
 	 * @param string $string
 	 * <p>The string to check.</p>
@@ -964,8 +967,9 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties or associative array values, 
 	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
 	 * @param string $string
 	 * <p>The string to get from.</p>
@@ -2073,8 +2077,9 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties or associative array values towards 
 	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>
@@ -2155,8 +2160,9 @@ final class Text extends Utility
 	 * They may also be used as pointers to specific object properties or associative array values towards 
 	 * the given parameters, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of pointers chained.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.<br>
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.<br>
 	 * <br>
 	 * A context may also be given to differentiate the same message across distinct contexts.<br>
 	 * All parameters are stringified.<br>

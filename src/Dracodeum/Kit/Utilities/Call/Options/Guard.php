@@ -17,16 +17,18 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property string|null $error_message [coercive] [default = null]
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+ * <br>
  * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
  * <br>
  * They may also be used with pointers to specific object properties or associative array values, 
- * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+ * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
  * with no limit on the number of chained pointers.<br>
+ * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
  * @property string|null $error_message_plural [coercive] [default = null]
  * <p>The plural version of the <var>$error_message</var> above to use in the thrown exception.</p>
  * @property float|null $error_message_number [coercive] [default = null]
@@ -38,16 +40,18 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property string|null $hint_message [coercive] [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+ * <br>
  * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
  * <br>
  * They may also be used with pointers to specific object properties or associative array values, 
- * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+ * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
  * with no limit on the number of chained pointers.<br>
+ * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.</p>
+ * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
  * @property string|null $hint_message_plural [coercive] [default = null]
  * <p>The plural version of the <var>$hint_message</var> above to use in the thrown exception.</p>
  * @property float|null $hint_message_number [coercive] [default = null]

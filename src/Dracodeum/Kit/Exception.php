@@ -90,16 +90,19 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	/**
 	 * Get default message.
 	 * 
-	 * If set, then placeholders must be exclusively composed by identifiers, set as <samp>{{placeholder}}</samp>.<br>
+	 * Placeholders may optionally be set as <samp>{{placeholder}}</samp>, corresponding directly to the loaded 
+	 * properties in this class, and must be exclusively composed by identifiers.<br>
+	 * <br>
 	 * Identifiers are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
 	 * They may also be used with pointers to specific object properties or associative array values, 
-	 * within the set properties, by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
 	 * with no limit on the number of chained pointers.<br>
+	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the identifiers are interpreted as getter method calls, but they cannot be given any custom parameters.
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
 	 * @return string
 	 * <p>The default message.</p>
