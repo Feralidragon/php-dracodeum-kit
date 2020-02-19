@@ -41,7 +41,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * This implementation is performed through a <b>prototype</b>.<br>
  * <br>
  * Any methods meant to implement a component are publicly declared as abstract in a prototype instead, 
- * which generally shares the same class name as that component, but reside under different namespaces, 
+ * which generally shares the same class name as that component, but resides in a different namespace, 
  * resulting in a component using a prototype to define specific details of its internal behavior.<br>
  * <br>
  * While every method declared in a prototype must be implemented, additional interfaces recognized by the component 
