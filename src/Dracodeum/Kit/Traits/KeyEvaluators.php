@@ -847,7 +847,7 @@ trait KeyEvaluators
 	 * Set to only allow a key evaluated as an options instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an options instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -885,7 +885,7 @@ trait KeyEvaluators
 	 * Set to only allow a key evaluated as a structure instance.
 	 * 
 	 * Only the following types and formats can be evaluated into a structure instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 

@@ -12,9 +12,11 @@ use Dracodeum\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
 	Readonlyable as IReadonlyable,
-	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
+	IntegerInstantiable as IIntegerInstantiable,
+	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
+	ArrayInstantiable as IArrayInstantiable,
 	Cloneable as ICloneable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
@@ -42,11 +44,13 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  * @see \Dracodeum\Kit\Structure\Traits\DefaultBuilder
+ * @see \Dracodeum\Kit\Structure\Traits\IntegerPropertiesExtractor
+ * @see \Dracodeum\Kit\Structure\Traits\FloatPropertiesExtractor
  * @see \Dracodeum\Kit\Structure\Traits\StringPropertiesExtractor
  */
 abstract class Structure
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
-IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
+IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -58,6 +62,8 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	use KitTraits\Stringifiable;
 	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
+	use Traits\IntegerPropertiesExtractor;
+	use Traits\FloatPropertiesExtractor;
 	use Traits\StringPropertiesExtractor;
 	
 	
@@ -113,15 +119,6 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	
 	
 	
-	//Implemented final public static methods (Dracodeum\Kit\Interfaces\ArrayInstantiable)
-	/** {@inheritdoc} */
-	final public static function fromArray(array $array): object
-	{
-		return static::build($array);
-	}
-	
-	
-	
 	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringifiable)
 	/** {@inheritdoc} */
 	public function toString(?TextOptions $text_options = null): string
@@ -131,11 +128,38 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	
 	
 	
+	//Implemented final public static methods (Dracodeum\Kit\Interfaces\IntegerInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromInteger(int $integer): object
+	{
+		return static::build(static::getIntegerProperties($integer));
+	}
+	
+	
+	
+	//Implemented final public static methods (Dracodeum\Kit\Interfaces\FloatInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromFloat(float $float): object
+	{
+		return static::build(static::getFloatProperties($float));
+	}
+	
+	
+	
 	//Implemented final public static methods (Dracodeum\Kit\Interfaces\StringInstantiable)
 	/** {@inheritdoc} */
 	final public static function fromString(string $string): object
 	{
 		return static::build(static::getStringProperties($string));
+	}
+	
+	
+	
+	//Implemented final public static methods (Dracodeum\Kit\Interfaces\ArrayInstantiable)
+	/** {@inheritdoc} */
+	final public static function fromArray(array $array): object
+	{
+		return static::build($array);
 	}
 	
 	
@@ -170,6 +194,40 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	}
 	
 	/**
+	 * Get properties from a given integer.
+	 * 
+	 * @param int $integer
+	 * <p>The integer to get from.</p>
+	 * @return array
+	 * <p>The properties from the given integer, as <samp>name => value</samp> pairs.</p>
+	 */
+	final public static function getIntegerProperties(int $integer): array
+	{
+		$properties = static::extractIntegerProperties($integer);
+		UCall::guardParameter('integer', $integer, $properties !== null, [
+			'error_message' => "No properties could be extracted from the given integer."
+		]);
+		return $properties;
+	}
+	
+	/**
+	 * Get properties from a given float.
+	 * 
+	 * @param float $float
+	 * <p>The float to get from.</p>
+	 * @return array
+	 * <p>The properties from the given float, as <samp>name => value</samp> pairs.</p>
+	 */
+	final public static function getFloatProperties(float $float): array
+	{
+		$properties = static::extractFloatProperties($float);
+		UCall::guardParameter('float', $float, $properties !== null, [
+			'error_message' => "No properties could be extracted from the given float."
+		]);
+		return $properties;
+	}
+	
+	/**
 	 * Get properties from a given string.
 	 * 
 	 * @param string $string
@@ -190,7 +248,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -229,7 +287,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Coerce a given value into an instance.
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -271,7 +329,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	 * Process the coercion of a given value into an instance.
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
-	 * &nbsp; &#8226; &nbsp; <code>null</code>, a string or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
@@ -307,7 +365,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 	): bool
 	{
 		//builder
-		if (isset($builder)) {
+		if ($builder !== null) {
 			UCall::assert('builder', $builder, function (array $properties): Structure {});
 		} else {
 			$builder = [static::class, 'build'];
@@ -315,10 +373,19 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 		
 		//coerce
 		try {
-			if (!isset($value) && $nullable) {
+			if ($value === null && $nullable) {
 				return true;
-			} elseif (!isset($value) || is_string($value) || is_array($value)) {
-				$properties = is_string($value) ? static::getStringProperties($value) : $value ?? [];
+			} elseif ($value === null || is_int($value) || is_float($value) || is_string($value) || is_array($value)) {
+				$properties = [];
+				if (is_int($value)) {
+					$properties = static::getIntegerProperties($value);
+				} elseif (is_float($value)) {
+					$properties = static::getFloatProperties($value);
+				} elseif (is_string($value)) {
+					$properties = static::getStringProperties($value);
+				} elseif (is_array($value)) {
+					$properties = $value;
+				}
 				$value = UType::coerceObject($builder($properties), static::class);
 				return true;
 			} elseif (is_object($value)) {
@@ -356,7 +423,7 @@ IArrayInstantiable, IStringifiable, IStringInstantiable, ICloneable
 			'structure' => static::class,
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
-				" - null, a string or an instance;\n" . 
+				" - null, an integer, a float, a string or an instance;\n" . 
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface."
 		]);
