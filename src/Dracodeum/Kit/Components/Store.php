@@ -9,6 +9,7 @@ namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
 use Dracodeum\Kit\Components\Store\Exceptions;
+use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\{
 	Store as Prototype,
@@ -61,124 +62,114 @@ class Store extends Component
 	
 	//Final public methods
 	/**
-	 * Check if a resource with a given name and UID (unique identifier) exists.
+	 * Check if a resource identified with a given UID exists.
 	 * 
-	 * @param string $name
-	 * <p>The name to check with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to check with.</p>
-	 * @param string|null $scope [default = null]
-	 * <p>The scope to check with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
+	 * a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if a resource with the given name and UID (unique identifier) exists.</p>
+	 * <p>Boolean <code>true</code> if the resource identified with the given UID exists.</p>
 	 */
-	final public function exists(string $name, $uid, ?string $scope = null): bool
+	final public function exists($uid): bool
 	{
+		$uid = Uid::coerce($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Checker) {
-			return $prototype->exists($name, $uid, $scope, false);
+			return $prototype->exists($uid, false);
 		} elseif ($prototype instanceof PrototypeInterfaces\Returner) {
-			return $prototype->return($name, $uid, $scope, false) !== null;
+			return $prototype->return($uid, false) !== null;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'exists']);
 	}
 	
 	/**
-	 * Return a resource with a given name and UID (unique identifier).
+	 * Return a resource identified with a given UID.
 	 * 
-	 * @param string $name
-	 * <p>The name to return with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to return with.</p>
-	 * @param string|null $scope [default = null]
-	 * <p>The scope to return with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
+	 * a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The resource with the given name and UID (unique identifier), as <samp>name => value</samp> pairs, 
+	 * <p>The resource identified with the given UID, as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
 	 */
-	final public function return(string $name, $uid, ?string $scope = null): ?array
+	final public function return($uid): ?array
 	{
+		$uid = Uid::coerce($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Returner) {
-			return $prototype->return($name, $uid, $scope, false);
+			return $prototype->return($uid, false);
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'return']);
 	}
 	
 	/**
-	 * Insert a resource with a given name and UID (unique identifier) with a given set of values.
+	 * Insert a resource identified with a given UID with a given set of values.
 	 * 
-	 * @param string $name
-	 * <p>The name to insert with.</p>
-	 * @param mixed $uid [reference]
-	 * <p>The UID (unique identifier) to insert with.<br>
-	 * It may be modified during insertion into a new one, such as when it is meant to be automatically generated.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid [reference]
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
+	 * a string, a float or an integer.<br>
+	 * It is coerced into an instance, and may be modified during insertion, 
+	 * such as when any of its properties is automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
-	 * @param string|null $scope [default = null]
-	 * <p>The scope to insert with.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array
-	 * <p>The inserted values of the resource with the given name and UID (unique identifier), 
-	 * as <samp>name => value</samp> pairs.</p>
+	 * <p>The inserted values of the resource identified with the given UID, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function insert(string $name, &$uid, array $values, ?string $scope = null): array
+	final public function insert(&$uid, array $values): array
 	{
+		$insert_uid = Uid::coerce($uid, true);
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Inserter) {
-			$insert_uid = $uid;
-			$inserted_values = $prototype->insert($name, $insert_uid, $values, $scope);
+			$inserted_values = $prototype->insert($insert_uid, $values);
 			$uid = $insert_uid;
 			return $inserted_values;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'insert']);
 	}
 	
+	
 	/**
-	 * Update a resource with a given name and UID (unique identifier) with a given set of values.
+	 * Update a resource identified with a given UID with a given set of values.
 	 * 
-	 * @param string $name
-	 * <p>The name to update with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to update with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
+	 * a string, a float or an integer.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
-	 * @param string|null $scope [default = null]
-	 * <p>The scope to update with.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The updated values of the resource with the given name and UID (unique identifier), 
-	 * as <samp>name => value</samp> pairs, or <code>null</code> if the resource does not exist.</p>
+	 * <p>The updated values of the resource identified with the given UID, as <samp>name => value</samp> pairs, 
+	 * or <code>null</code> if the resource does not exist.</p>
 	 */
-	final public function update(string $name, $uid, array $values, ?string $scope = null): ?array
+	final public function update($uid, array $values): ?array
 	{
+		$uid = Uid::coerce($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Updater) {
-			return $prototype->update($name, $uid, $values, $scope);
+			return $prototype->update($uid, $values);
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'update']);
 	}
 	
 	/**
-	 * Delete a resource with a given name and UID (unique identifier).
+	 * Delete a resource identified with a given UID.
 	 * 
-	 * @param string $name
-	 * <p>The name to delete with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to delete with.</p>
-	 * @param string|null $scope [default = null]
-	 * <p>The scope to delete with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
+	 * a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given name and UID (unique identifier) was deleted.</p>
+	 * <p>Boolean <code>true</code> if the resource identified with the given UID was deleted.</p>
 	 */
-	final public function delete(string $name, $uid, ?string $scope = null): bool
+	final public function delete($uid): bool
 	{
+		$uid = Uid::coerce($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Deleter) {
-			return $prototype->delete($name, $uid, $scope);
+			return $prototype->delete($uid);
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'delete']);
 	}

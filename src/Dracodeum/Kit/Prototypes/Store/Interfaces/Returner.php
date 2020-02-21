@@ -7,24 +7,22 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
+use Dracodeum\Kit\Components\Store\Structures\Uid;
+
 /** This interface defines a method to return a resource in a store prototype. */
 interface Returner
 {
 	//Public methods
 	/**
-	 * Return a resource with a given name, UID (unique identifier) and scope.
+	 * Return a resource identified with a given UID instance.
 	 * 
-	 * @param string $name
-	 * <p>The name to return with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to return with.</p>
-	 * @param string|null $scope
-	 * <p>The scope to return with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to identify with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return array|null
-	 * <p>The resource with the given name, UID (unique identifier) and scope, as <samp>name => value</samp> pairs, 
+	 * <p>The resource identified with the given UID instance, as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
 	 */
-	public function return(string $name, $uid, ?string $scope, bool $readonly): ?array;
+	public function return(Uid $uid, bool $readonly): ?array;
 }

@@ -7,25 +7,23 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
+use Dracodeum\Kit\Components\Store\Structures\Uid;
+
 /** This interface defines a method to insert a resource in a store prototype. */
 interface Inserter
 {
 	//Public methods
 	/**
-	 * Insert a resource with a given name, UID (unique identifier) and scope with a given set of values.
+	 * Insert a resource identified with a given UID instance with a given set of values.
 	 * 
-	 * @param string $name
-	 * <p>The name to insert with.</p>
-	 * @param mixed $uid [reference]
-	 * <p>The UID (unique identifier) to insert with.<br>
-	 * It may be modified during insertion into a new one, such as when it is meant to be automatically generated.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to identify with.<br>
+	 * It may be modified during insertion, such as when any of its properties is automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
-	 * @param string|null $scope
-	 * <p>The scope to insert with.</p>
 	 * @return array
-	 * <p>The inserted values of the resource with the given name, UID (unique identifier) and scope, 
+	 * <p>The inserted values of the resource identified with the given UID instance, 
 	 * as <samp>name => value</samp> pairs.</p>
 	 */
-	public function insert(string $name, &$uid, array $values, ?string $scope): array;
+	public function insert(Uid $uid, array $values): array;
 }

@@ -15,6 +15,7 @@ use Dracodeum\Kit\Prototypes\Store\Interfaces\{
 	Updater as IUpdater,
 	Deleter as IDeleter
 };
+use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData
@@ -31,43 +32,43 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Checker)
 	/** {@inheritdoc} */
-	public function exists(string $name, $uid, ?string $scope, bool $readonly): bool
+	public function exists(Uid $uid, bool $readonly): bool
 	{
-		return isset($this->values[UData::keyfy($scope)][UData::keyfy($name)][UData::keyfy($uid)]);
+		return isset($this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->value)]);
 	}
 	
 	
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Returner)
 	/** {@inheritdoc} */
-	public function return(string $name, $uid, ?string $scope, bool $readonly): ?array
+	public function return(Uid $uid, bool $readonly): ?array
 	{
-		return $this->values[UData::keyfy($scope)][UData::keyfy($name)][UData::keyfy($uid)] ?? null;
+		return $this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->value)] ?? null;
 	}
 	
 	
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter)
 	/** {@inheritdoc} */
-	public function insert(string $name, &$uid, array $values, ?string $scope): array
+	public function insert(Uid $uid, array $values): array
 	{
 		//initialize
-		$scope_key = UData::keyfy($scope);
-		$name_key = UData::keyfy($name);
-		$uid_key = UData::keyfy($uid);
+		$scope_key = UData::keyfy($uid->scope);
+		$name_key = UData::keyfy($uid->name);
+		$value_key = UData::keyfy($uid->value);
 		
 		//guard
-		UCall::guard(!isset($this->values[$scope_key][$name_key][$uid_key]), [
-			'error_message' => "Cannot insert resource {{name}} with UID {{uid}} (scope: {{scope}}).",
+		UCall::guard(!isset($this->values[$scope_key][$name_key][$value_key]), [
+			'error_message' => "Cannot insert resource {{name}} with UID value {{value}} (scope: {{scope}}).",
 			'parameters' => [
-				'name' => $name,
-				'uid' => $uid,
-				'scope' => $scope
+				'name' => $uid->name,
+				'value' => $uid->value,
+				'scope' => $uid->scope
 			]
 		]);
 		
 		//insert
-		$this->values[$scope_key][$name_key][$uid_key] = $values;
+		$this->values[$scope_key][$name_key][$value_key] = $values;
 		
 		//return
 		return $values;
@@ -77,21 +78,21 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Updater)
 	/** {@inheritdoc} */
-	public function update(string $name, $uid, array $values, ?string $scope): ?array
+	public function update(Uid $uid, array $values): ?array
 	{
 		//initialize
-		$scope_key = UData::keyfy($scope);
-		$name_key = UData::keyfy($name);
-		$uid_key = UData::keyfy($uid);
+		$scope_key = UData::keyfy($uid->scope);
+		$name_key = UData::keyfy($uid->name);
+		$value_key = UData::keyfy($uid->value);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$uid_key])) {
+		if (!isset($this->values[$scope_key][$name_key][$value_key])) {
 			return null;
 		}
 		
 		//update
 		$updated_values = [];
-		$ref = &$this->values[$scope_key][$name_key][$uid_key];
+		$ref = &$this->values[$scope_key][$name_key][$value_key];
 		foreach ($values as $k => $v) {
 			if (array_key_exists($k, $ref)) {
 				$ref[$k] = $updated_values[$k] = $v;
@@ -107,20 +108,20 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Deleter)
 	/** {@inheritdoc} */
-	public function delete(string $name, $uid, ?string $scope): bool
+	public function delete(Uid $uid): bool
 	{
 		//initialize
-		$scope_key = UData::keyfy($scope);
-		$name_key = UData::keyfy($name);
-		$uid_key = UData::keyfy($uid);
+		$scope_key = UData::keyfy($uid->scope);
+		$name_key = UData::keyfy($uid->name);
+		$value_key = UData::keyfy($uid->value);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$uid_key])) {
+		if (!isset($this->values[$scope_key][$name_key][$value_key])) {
 			return false;
 		}
 		
 		//delete
-		unset($this->values[$scope_key][$name_key][$uid_key]);
+		unset($this->values[$scope_key][$name_key][$value_key]);
 		if (empty($this->values[$scope_key][$name_key])) {
 			unset($this->values[$scope_key][$name_key]);
 			if (empty($this->values[$scope_key])) {

@@ -7,23 +7,21 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
+use Dracodeum\Kit\Components\Store\Structures\Uid;
+
 /** This interface defines a method to check if a resource exists in a store prototype. */
 interface Checker
 {
 	//Public methods
 	/**
-	 * Check if a resource with a given name, UID (unique identifier) and scope exists.
+	 * Check if a resource identified with a given UID instance exists.
 	 * 
-	 * @param string $name
-	 * <p>The name to check with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to check with.</p>
-	 * @param string|null $scope
-	 * <p>The scope to check with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to identify with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if a resource with the given name, UID (unique identifier) and scope exists.</p>
+	 * <p>Boolean <code>true</code> if the resource identified with the given UID instance exists.</p>
 	 */
-	public function exists(string $name, $uid, ?string $scope, bool $readonly): bool;
+	public function exists(Uid $uid, bool $readonly): bool;
 }

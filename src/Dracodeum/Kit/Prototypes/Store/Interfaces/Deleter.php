@@ -7,22 +7,19 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
+use Dracodeum\Kit\Components\Store\Structures\Uid;
+
 /** This interface defines a method to delete a resource in a store prototype. */
 interface Deleter
 {
 	//Public methods
 	/**
-	 * Delete a resource with a given name, UID (unique identifier) and scope.
+	 * Delete a resource identified with a given UID instance.
 	 * 
-	 * @param string $name
-	 * <p>The name to delete with.</p>
-	 * @param mixed $uid
-	 * <p>The UID (unique identifier) to delete with.</p>
-	 * @param string|null $scope
-	 * <p>The scope to delete with.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to identify with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given name, UID (unique identifier) and scope was 
-	 * deleted.</p>
+	 * <p>Boolean <code>true</code> if the resource identified with the given UID instance was deleted.</p>
 	 */
-	public function delete(string $name, $uid, ?string $scope): bool;
+	public function delete(Uid $uid): bool;
 }
