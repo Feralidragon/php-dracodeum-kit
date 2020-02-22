@@ -956,10 +956,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		if ($persisted && array_key_exists($name, $this->persisted_values)) {
 			$property->setValue($this->persisted_values[$name]);
 		} else {
-			UCall::guard($property->resetValue(true), [
-				'error_message' => "Cannot unset property {{name}} in manager with owner {{owner}}.",
-				'parameters' => ['name' => $name, 'owner' => $this->owner]
-			]);
+			$property->unsetValue();
 		}
 		
 		//return

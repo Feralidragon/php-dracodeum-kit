@@ -37,6 +37,24 @@ class Property implements IUncloneable
 	/** Immutable flag. */
 	private const FLAG_IMMUTABLE = 0x08;
 	
+	/** Value flag. */
+	private const FLAG_VALUE = 0x10;
+	
+	/** Getter flag. */
+	private const FLAG_GETTER = 0x20;
+	
+	/** Default value flag. */
+	private const FLAG_DEFAULT_VALUE = 0x40;
+	
+	/** Default getter flag. */
+	private const FLAG_DEFAULT_GETTER = 0x80;
+	
+	/** Auto-immutable flag. */
+	private const FLAG_AUTOIMMUTABLE = self::FLAG_AUTOMATIC | self::FLAG_IMMUTABLE;
+	
+	/** Default flag. */
+	private const FLAG_DEFAULT = self::FLAG_DEFAULT_VALUE | self::FLAG_DEFAULT_GETTER;
+	
 	
 	
 	//Private properties
@@ -50,13 +68,10 @@ class Property implements IUncloneable
 	private $mode = null;
 	
 	/** @var mixed */
-	private $value = null;
+	private $value_getter = null;
 	
-	/** @var \Closure|null */
-	private $default_getter = null;
-	
-	/** @var \Closure|null */
-	private $getter = null;
+	/** @var mixed */
+	private $default_value_getter = null;
 	
 	/** @var \Closure|null */
 	private $setter = null;
@@ -132,7 +147,7 @@ class Property implements IUncloneable
 				"in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		$this->setValue($this->getDefaultValue());
+		$this->flags |= self::FLAG_INITIALIZED;
 		return $this;
 	}
 	
@@ -144,14 +159,17 @@ class Property implements IUncloneable
 	 */
 	final public function isRequired(): bool
 	{
-		//persistence
 		if (!$this->manager->isPersisted() && $this->isAutomatic()) {
 			return false;
+		} elseif (
+			($this->flags & self::FLAG_REQUIRED) || 
+			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name))
+		) {
+			return true;
+		} elseif ($this->flags & self::FLAG_GETTER) {
+			return false;
 		}
-		
-		//return
-		return ($this->flags & self::FLAG_REQUIRED) || !isset($this->default_getter) || 
-			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name));
+		return !$this->hasDefaultValue();
 	}
 	
 	/**
@@ -402,7 +420,7 @@ class Property implements IUncloneable
 		]);
 		
 		//set
-		$this->flags |= self::FLAG_AUTOMATIC | self::FLAG_IMMUTABLE;
+		$this->flags |= self::FLAG_AUTOIMMUTABLE;
 		
 		//return
 		return $this;
@@ -418,12 +436,31 @@ class Property implements IUncloneable
 	 */
 	final public function getValue()
 	{
+		//guard
 		UCall::guard($this->isInitialized(), [
 			'hint_message' => "This method may only be called after initialization, " . 
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		return isset($this->getter) ? ($this->getter)() : $this->value;
+		
+		//get
+		if ($this->flags & self::FLAG_VALUE) {
+			return $this->value_getter;
+		} elseif ($this->flags & self::FLAG_GETTER) {
+			//get
+			$value = ($this->value_getter)();
+			
+			//evaluate
+			UCall::guardInternal($this->getEvaluatorsManager()->evaluate($value), [
+				'error_message' => "Invalid getter value {{value}} for property {{property.getName()}} " . 
+					"in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this, 'value' => $value]
+			]);
+			
+			//return
+			return $value;
+		}
+		return $this->getDefaultValue();
 	}
 	
 	/**
@@ -463,7 +500,16 @@ class Property implements IUncloneable
 		if (isset($this->setter)) {
 			($this->setter)($value);
 		} else {
-			$this->value = $value;
+			//guard
+			UCall::guard(!($this->flags & self::FLAG_GETTER), [
+				'error_message' => "Cannot set value in getter property {{property.getName()}} " . 
+					"in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this]
+			]);
+			
+			//set
+			$this->value_getter = $value;
+			$this->flags |= self::FLAG_VALUE;
 		}
 		
 		//initialized
@@ -486,7 +532,7 @@ class Property implements IUncloneable
 	 */
 	final public function hasDefaultValue(): bool
 	{
-		return isset($this->default_getter);
+		return $this->flags & self::FLAG_DEFAULT;
 	}
 	
 	/**
@@ -503,7 +549,7 @@ class Property implements IUncloneable
 	final public function getDefaultValue(bool $no_throw = false)
 	{
 		//check
-		if (!isset($this->default_getter)) {
+		if (!$this->hasDefaultValue()) {
 			if ($no_throw) {
 				return null;
 			}
@@ -511,7 +557,12 @@ class Property implements IUncloneable
 		}
 		
 		//value
-		$value = ($this->default_getter)();
+		$value = null;
+		if ($this->flags & self::FLAG_DEFAULT_VALUE) {
+			$value = $this->default_value_getter;
+		} elseif ($this->flags & self::FLAG_DEFAULT_GETTER) {
+			$value = ($this->default_value_getter)();
+		}
 		
 		//evaluate
 		UCall::guardInternal($this->getEvaluatorsManager()->evaluate($value), [
@@ -544,9 +595,9 @@ class Property implements IUncloneable
 		]);
 		
 		//set
-		$this->default_getter = function () use ($value) {
-			return $value;
-		};
+		$this->default_value_getter = $value;
+		$this->flags |= self::FLAG_DEFAULT_VALUE;
+		$this->flags &= ~self::FLAG_DEFAULT_GETTER;
 		
 		//return
 		return $this;
@@ -573,32 +624,32 @@ class Property implements IUncloneable
 	 */
 	final public function setDefaultGetter(callable $getter): Property
 	{
+		//guard
 		UCall::guard(!$this->isInitialized(), [
 			'hint_message' => "This method may only be called before initialization, " . 
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
-		UCall::assert('default_getter', $getter, function () {});
-		$this->default_getter = \Closure::fromCallable($getter);
+		UCall::assert('getter', $getter, function () {});
+		
+		//set
+		$this->default_value_getter = \Closure::fromCallable($getter);
+		$this->flags |= self::FLAG_DEFAULT_GETTER;
+		$this->flags &= ~self::FLAG_DEFAULT_VALUE;
+		
+		//return
 		return $this;
 	}
 	
 	/**
-	 * Reset value.
+	 * Unset value.
 	 * 
 	 * This method may only be called after initialization.
 	 * 
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\DefaultValueNotSet
-	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\InvalidValue
-	 * @return $this|bool
-	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the value was successfully reset, 
-	 * or boolean <code>false</code> if otherwise.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function resetValue(bool $no_throw = false)
+	final public function unsetValue(): Property
 	{
 		//guard
 		UCall::guard($this->isInitialized(), [
@@ -606,19 +657,18 @@ class Property implements IUncloneable
 				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
 			'parameters' => ['property' => $this]
 		]);
+		UCall::guard(!($this->flags & self::FLAG_GETTER), [
+			'error_message' => "Cannot unset value in getter property {{property.getName()}} " . 
+				"in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
+		]);
 		
-		//reset
-		$reset = false;
-		try {
-			$reset = $this->setValue($this->getDefaultValue(), $no_throw);
-		} catch (Exceptions\DefaultValueNotSet $exception) {
-			if (!$no_throw) {
-				throw $exception;
-			}
-		}
+		//unset
+		$this->value_getter = null;
+		$this->flags &= ~self::FLAG_VALUE;
 		
 		//return
-		return $no_throw ? $reset : $this;
+		return $this;
 	}
 	
 	/**
@@ -650,12 +700,8 @@ class Property implements IUncloneable
 		
 		//set
 		UCall::assert('getter', $getter, function () {});
-		$this->getter = \Closure::fromCallable($getter);
-		
-		//default
-		if (!isset($this->default_getter)) {
-			$this->default_getter = $this->getter;
-		}
+		$this->value_getter = \Closure::fromCallable($getter);
+		$this->flags |= self::FLAG_GETTER;
 		
 		//return
 		return $this;
