@@ -56,6 +56,16 @@ interface Propertiesable
 	public function isset(string $name): bool;
 	
 	/**
+	 * Check if property with a given name is defaulted.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is defaulted.</p>
+	 */
+	public function defaulted(string $name): bool;
+	
+	/**
 	 * Set property with a given name and value.
 	 * 
 	 * @param string $name

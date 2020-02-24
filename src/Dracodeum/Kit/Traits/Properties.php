@@ -153,6 +153,19 @@ trait Properties
 	}
 	
 	/**
+	 * Check if property with a given name is defaulted.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is defaulted.</p>
+	 */
+	final public function defaulted(string $name): bool
+	{
+		return $this->getPropertiesManager()->defaulted($name);
+	}
+	
+	/**
 	 * Set property with a given name and value.
 	 * 
 	 * This method may only be called after the properties manager initialization.

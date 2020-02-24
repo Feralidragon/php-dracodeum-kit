@@ -169,7 +169,7 @@ class Property implements IUncloneable
 		} elseif ($this->flags & self::FLAG_GETTER) {
 			return false;
 		}
-		return !$this->hasDefaultValue();
+		return !$this->hasDefault();
 	}
 	
 	/**
@@ -525,14 +525,25 @@ class Property implements IUncloneable
 	}
 	
 	/**
-	 * Check if has default value.
+	 * Check if has default.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has default value.</p>
+	 * <p>Boolean <code>true</code> if has default.</p>
 	 */
-	final public function hasDefaultValue(): bool
+	final public function hasDefault(): bool
 	{
 		return $this->flags & self::FLAG_DEFAULT;
+	}
+	
+	/**
+	 * Check if is defaulted.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is defaulted.</p>
+	 */
+	final public function isDefaulted(): bool
+	{
+		return $this->hasDefault() && !($this->flags & (self::FLAG_VALUE | self::FLAG_GETTER));
 	}
 	
 	/**
@@ -549,7 +560,7 @@ class Property implements IUncloneable
 	final public function getDefaultValue(bool $no_throw = false)
 	{
 		//check
-		if (!$this->hasDefaultValue()) {
+		if (!$this->hasDefault()) {
 			if ($no_throw) {
 				return null;
 			}
