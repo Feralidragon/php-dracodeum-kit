@@ -21,6 +21,7 @@ use Dracodeum\Kit\Entity\{
 	Exceptions
 };
 use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -70,6 +71,12 @@ IArrayInstantiable, IStringifiable
 	use Traits\Initializer;
 	use Traits\IdPropertyName;
 	use Traits\BaseScope;
+	
+	
+	
+	//Private static properties
+	/** @var \Dracodeum\Kit\Components\Store[] */
+	private static $stores = [];
 	
 	
 	
@@ -133,6 +140,17 @@ IArrayInstantiable, IStringifiable
 	
 	
 	
+	//Abstract protected static methods
+	/**
+	 * Produce store.
+	 * 
+	 * @return \Dracodeum\Kit\Components\Store|\Dracodeum\Kit\Prototypes\Store|string
+	 * <p>The produced store component instance or name, or prototype instance, class or name.</p>
+	 */
+	abstract protected static function produceStore();
+	
+	
+	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
 	final public function jsonSerialize()
@@ -156,6 +174,26 @@ IArrayInstantiable, IStringifiable
 	public function toString(?TextOptions $text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
+	}
+	
+	
+	
+	//Protected static methods
+	/**
+	 * Create a store instance with a given prototype.
+	 * 
+	 * @param \Dracodeum\Kit\Prototypes\Store|string $prototype
+	 * <p>The prototype instance, class or name to create with.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to create with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
+	 * @return \Dracodeum\Kit\Components\Store
+	 * <p>The created store instance with the given prototype.</p>
+	 */
+	protected static function createStore($prototype, array $properties = []): Store
+	{
+		return Store::build($prototype, $properties);
 	}
 	
 	
@@ -389,5 +427,28 @@ IArrayInstantiable, IStringifiable
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface."
 		]);
+	}
+	
+	
+	
+	//Final protected static methods
+	/**
+	 * Get store instance.
+	 * 
+	 * @return \Dracodeum\Kit\Components\Store
+	 * <p>The store instance.</p>
+	 */
+	final protected static function getStore(): Store
+	{
+		if (!isset(self::$stores[static::class])) {
+			self::$stores[static::class] = UCall::guardExecution(
+				\Closure::fromCallable([static::class, 'produceStore']), [],
+				function (&$value): bool {
+					$value = Store::coerce($value, [], \Closure::fromCallable([static::class, 'createStore']));
+					return true;
+				}
+			);
+		}
+		return self::$stores[static::class];
 	}
 }
