@@ -14,7 +14,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This structure represents the UID (unique identifier) of a resource in a store.
  * 
  * @property mixed $id
- * <p>The ID (identifier).</p>
+ * <p>The ID.</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
  * If set, then it cannot be empty.</p>

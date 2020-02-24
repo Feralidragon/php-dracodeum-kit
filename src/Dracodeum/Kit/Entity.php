@@ -32,8 +32,8 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This class is the base to be extended from when creating an entity.
  * 
- * An entity represents an object with a name, a UID (unique identifier) and multiple properties of multiple types, 
- * on which all persistent CRUD operations may be performed: create (insert), read (check and load), update and 
+ * An entity represents an object with an ID, a name, a scope and multiple properties of multiple types, 
+ * on which all persistent CRUD operations may be performed: create (insert), read (exists and load), update and 
  * delete.<br>
  * <br>
  * As such, it may be used to verify, expose, add, modify or remove an object corresponding to a database record, 
@@ -48,10 +48,9 @@ use Dracodeum\Kit\Utilities\{
  * It may also be set as read-only to prevent any further changes.
  * 
  * @see https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model
- * @see https://en.wikipedia.org/wiki/Unique_identifier
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
- * @see \Dracodeum\Kit\Entity\Traits\UidPropertyName
+ * @see \Dracodeum\Kit\Entity\Traits\IdPropertyName
  * @see \Dracodeum\Kit\Entity\Traits\BaseScope
  */
 abstract class Entity
@@ -69,7 +68,7 @@ IArrayInstantiable, IStringifiable
 	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
-	use Traits\UidPropertyName;
+	use Traits\IdPropertyName;
 	use Traits\BaseScope;
 	
 	
@@ -115,7 +114,7 @@ IArrayInstantiable, IStringifiable
 	/**
 	 * Get name.
 	 * 
-	 * The returning name is a canonical string, which uniquely identifies this entity class.
+	 * The returning name is a canonical string which identifies this entity class.
 	 * 
 	 * @return string
 	 * <p>The name.</p>
@@ -163,14 +162,14 @@ IArrayInstantiable, IStringifiable
 	
 	//Final public methods
 	/**
-	 * Get UID (unique identifier).
+	 * Get ID.
 	 * 
 	 * @return mixed
-	 * <p>The UID (unique identifier) or <code>null</code> if none is set.</p>
+	 * <p>The ID or <code>null</code> if none is set.</p>
 	 */
-	final public function getUid()
+	final public function getId()
 	{
-		$name = $this->getUidPropertyName();
+		$name = $this->getIdPropertyName();
 		return $name !== null ? $this->get($name) : null;
 	}
 	
@@ -351,8 +350,7 @@ IArrayInstantiable, IStringifiable
 			if ($value === null && $nullable) {
 				return true;
 			} elseif ($value === null || is_array($value)) {
-				$properties = $value ?? [];
-				$value = UType::coerceObject($builder($properties, $persisted), static::class);
+				$value = UType::coerceObject($builder($value ?? [], $persisted), static::class);
 				return true;
 			} elseif (is_object($value)) {
 				$instance = $value;
