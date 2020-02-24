@@ -16,6 +16,7 @@ use Dracodeum\Kit\Prototypes\{
 	Stores as Prototypes
 };
 use Dracodeum\Kit\Prototypes\Store\Interfaces as PrototypeInterfaces;
+use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
  * This component represents a store which performs persistent CRUD operations of resources, namely create (insert), 
@@ -60,20 +61,62 @@ class Store extends Component
 	
 	
 	
+	//Protected methods
+	/**
+	 * Get string for a given UID scope placeholder from a given value.
+	 * 
+	 * @param string $placeholder
+	 * <p>The placeholder to get for.</p>
+	 * @param mixed $value
+	 * <p>The value to get from.</p>
+	 * @return string|null
+	 * <p>The string for the given UID scope placeholder from the given value or <code>null</code> if none is set.</p>
+	 */
+	protected function getUidScopePlaceholderValueString(string $placeholder, $value): ?string
+	{
+		$prototype = $this->getPrototype();
+		return $prototype instanceof PrototypeInterfaces\UidScopePlaceholderValueString
+			? $prototype->getUidScopePlaceholderValueString($placeholder, $value)
+			: null;
+	}
+	
+	
+	
 	//Final public methods
+	/**
+	 * Coerce a given UID into an instance.
+	 * 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
+	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @return \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * <p>The given UID coerced into an instance.</p>
+	 */
+	final public function coerceUid($uid, bool $clone = false): Uid
+	{
+		$uid = Uid::coerce($uid, $clone);
+		if ($uid->defaulted('scope') && $uid->base_scope !== null && !empty($uid->scope_values)) {
+			$uid->scope = UText::fill($uid->base_scope, $uid->scope_values, null, [
+				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
+			]);
+		}
+		return $uid;
+	}
+	
 	/**
 	 * Check if a resource identified with a given UID exists.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
-	 * a string, a float or an integer.</p>
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
+	 * or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the resource identified with the given UID exists.</p>
 	 */
 	final public function exists($uid): bool
 	{
-		$uid = Uid::coerce($uid, true)->setAsReadonly();
+		$uid = $this->coerceUid($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Checker) {
 			return $prototype->exists($uid, false);
@@ -87,8 +130,8 @@ class Store extends Component
 	 * Return a resource identified with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
-	 * a string, a float or an integer.</p>
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
+	 * or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The resource identified with the given UID, as <samp>name => value</samp> pairs, 
@@ -96,7 +139,7 @@ class Store extends Component
 	 */
 	final public function return($uid): ?array
 	{
-		$uid = Uid::coerce($uid, true)->setAsReadonly();
+		$uid = $this->coerceUid($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Returner) {
 			return $prototype->return($uid, false);
@@ -108,8 +151,8 @@ class Store extends Component
 	 * Insert a resource identified with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid [reference]
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
-	 * a string, a float or an integer.<br>
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
+	 * or an integer.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
 	 * such as when any of its properties is automatically generated.</p>
 	 * @param array $values
@@ -120,11 +163,11 @@ class Store extends Component
 	 */
 	final public function insert(&$uid, array $values): array
 	{
-		$insert_uid = Uid::coerce($uid, true);
+		$insert_uid = $this->coerceUid($uid, true);
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Inserter) {
 			$inserted_values = $prototype->insert($insert_uid, $values);
-			$uid = $insert_uid;
+			$uid = $insert_uid->setAsReadonly();
 			return $inserted_values;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'insert']);
@@ -135,8 +178,8 @@ class Store extends Component
 	 * Update a resource identified with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
-	 * a string, a float or an integer.</p>
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
+	 * or an integer.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
@@ -146,7 +189,7 @@ class Store extends Component
 	 */
 	final public function update($uid, array $values): ?array
 	{
-		$uid = Uid::coerce($uid, true)->setAsReadonly();
+		$uid = $this->coerceUid($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Updater) {
 			return $prototype->update($uid, $values);
@@ -158,15 +201,15 @@ class Store extends Component
 	 * Delete a resource identified with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, 
-	 * a string, a float or an integer.</p>
+	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
+	 * or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the resource identified with the given UID was deleted.</p>
 	 */
 	final public function delete($uid): bool
 	{
-		$uid = Uid::coerce($uid, true)->setAsReadonly();
+		$uid = $this->coerceUid($uid, true)->setAsReadonly();
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Deleter) {
 			return $prototype->delete($uid);

@@ -16,5 +16,6 @@ use Dracodeum\Kit\Prototype;
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Updater
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Deleter
+ * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\UidScopePlaceholderValueString
  */
 abstract class Store extends Prototype {}

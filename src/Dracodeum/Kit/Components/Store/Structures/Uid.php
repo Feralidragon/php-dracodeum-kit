@@ -13,13 +13,14 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This structure represents the UID (unique identifier) of a resource in a store.
  * 
- * @property mixed $value [default = null]
- * <p>The value.</p>
+ * @property mixed $id
+ * <p>The ID (identifier).</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
  * If set, then it cannot be empty.</p>
- * @property-read string|null $scope [readonly] [default = auto]
- * <p>The scope.</p>
+ * @property string|null $scope [default = auto]
+ * <p>The scope.<br>
+ * If set, then it cannot be empty.</p>
  * @property string|null $base_scope [coercive] [default = null]
  * <p>The base scope, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
  * corresponding directly to given scope values.<br>
@@ -37,20 +38,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
  * @property array $scope_values [coercive] [default = []]
  * <p>The scope values, as <samp>name => value</samp> pairs.</p>
- * @property callable|null $scope_value_stringifier [coercive] [default = null]
- * <p>The function to use to stringify a given scope value for a given placeholder.<br>
- * It is expected to be compatible with the following signature:<br>
- * <br>
- * <code>function (string $placeholder, $value): ?string</code><br>
- * <br>
- * Parameters:<br>
- * &nbsp; &#8226; &nbsp; <code><b>string $placeholder</b></code><br>
- * &nbsp; &nbsp; &nbsp; The placeholder to stringify for.<br>
- * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code><br>
- * &nbsp; &nbsp; &nbsp; The value to stringify.<br>
- * <br>
- * Return: <code><b>string|null</b></code><br>
- * The stringified scope value for the given placeholder or <code>null</code> if no stringification occurred.</p>
+ * @see https://en.wikipedia.org/wiki/Identifier
  */
 class Uid extends Structure
 {
@@ -58,34 +46,23 @@ class Uid extends Structure
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
-		$this->addProperty('value')->setDefaultValue(null);
+		$this->addProperty('id');
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('scope')
-			->setMode('r')
-			->setGetter(function () {
-				//initialize
+			->setAsString(true, true)
+			->setDefaultGetter(function () {
 				$base_scope = $this->get('base_scope');
 				$scope_values = $this->get('scope_values');
-				
-				//check
 				if ($base_scope === null) {
 					return null;
 				} elseif (empty($scope_values)) {
 					return $base_scope;
 				}
-				
-				//return
-				return UText::fill($base_scope, $scope_values, null, [
-					'stringifier' => $this->get('scope_value_stringifier')
-				]);
+				return UText::fill($base_scope, $scope_values);
 			})
 		;
 		$this->addProperty('base_scope')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('scope_values')->setAsArray()->setDefaultValue([]);
-		$this->addProperty('scope_value_stringifier')
-			->setAsCallable(function (string $placeholder, $value): ?string {}, true, true)
-			->setDefaultValue(null)
-		;
 	}
 	
 	
@@ -95,7 +72,7 @@ class Uid extends Structure
 	protected static function extractIntegerProperties(int $integer): ?array
 	{
 		return [
-			'value' => $integer
+			'id' => $integer
 		];
 	}
 	
@@ -106,7 +83,7 @@ class Uid extends Structure
 	protected static function extractFloatProperties(float $float): ?array
 	{
 		return [
-			'value' => $float
+			'id' => $float
 		];
 	}
 	
@@ -117,7 +94,7 @@ class Uid extends Structure
 	protected static function extractStringProperties(string $string): ?array
 	{
 		return [
-			'value' => $string
+			'id' => $string
 		];
 	}
 }

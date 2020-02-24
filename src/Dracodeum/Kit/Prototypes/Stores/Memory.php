@@ -34,7 +34,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	/** {@inheritdoc} */
 	public function exists(Uid $uid, bool $readonly): bool
 	{
-		return isset($this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->value)]);
+		return isset($this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)]);
 	}
 	
 	
@@ -43,7 +43,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	/** {@inheritdoc} */
 	public function return(Uid $uid, bool $readonly): ?array
 	{
-		return $this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->value)] ?? null;
+		return $this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)] ?? null;
 	}
 	
 	
@@ -55,20 +55,20 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		//initialize
 		$scope_key = UData::keyfy($uid->scope);
 		$name_key = UData::keyfy($uid->name);
-		$value_key = UData::keyfy($uid->value);
+		$id_key = UData::keyfy($uid->id);
 		
 		//guard
-		UCall::guard(!isset($this->values[$scope_key][$name_key][$value_key]), [
-			'error_message' => "Cannot insert resource {{name}} with UID value {{value}} (scope: {{scope}}).",
+		UCall::guard(!isset($this->values[$scope_key][$name_key][$id_key]), [
+			'error_message' => "Cannot insert resource {{name}} with ID {{id}} (scope: {{scope}}).",
 			'parameters' => [
 				'name' => $uid->name,
-				'value' => $uid->value,
+				'id' => $uid->id,
 				'scope' => $uid->scope
 			]
 		]);
 		
 		//insert
-		$this->values[$scope_key][$name_key][$value_key] = $values;
+		$this->values[$scope_key][$name_key][$id_key] = $values;
 		
 		//return
 		return $values;
@@ -83,16 +83,16 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		//initialize
 		$scope_key = UData::keyfy($uid->scope);
 		$name_key = UData::keyfy($uid->name);
-		$value_key = UData::keyfy($uid->value);
+		$id_key = UData::keyfy($uid->id);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$value_key])) {
+		if (!isset($this->values[$scope_key][$name_key][$id_key])) {
 			return null;
 		}
 		
 		//update
 		$updated_values = [];
-		$ref = &$this->values[$scope_key][$name_key][$value_key];
+		$ref = &$this->values[$scope_key][$name_key][$id_key];
 		foreach ($values as $k => $v) {
 			if (array_key_exists($k, $ref)) {
 				$ref[$k] = $updated_values[$k] = $v;
@@ -113,15 +113,15 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		//initialize
 		$scope_key = UData::keyfy($uid->scope);
 		$name_key = UData::keyfy($uid->name);
-		$value_key = UData::keyfy($uid->value);
+		$id_key = UData::keyfy($uid->id);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$value_key])) {
+		if (!isset($this->values[$scope_key][$name_key][$id_key])) {
 			return false;
 		}
 		
 		//delete
-		unset($this->values[$scope_key][$name_key][$value_key]);
+		unset($this->values[$scope_key][$name_key][$id_key]);
 		if (empty($this->values[$scope_key][$name_key])) {
 			unset($this->values[$scope_key][$name_key]);
 			if (empty($this->values[$scope_key])) {
