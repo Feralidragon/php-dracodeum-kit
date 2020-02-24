@@ -1420,7 +1420,7 @@ final class Call extends Utility
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
 		] + self::getGuardMessages($options);
 		
-		//throw exception
+		//exception
 		throw isset($exception)
 			? new Exceptions\Guard\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
 			: new Exceptions\Guard\ReturnNotAllowed($exception_properties);
