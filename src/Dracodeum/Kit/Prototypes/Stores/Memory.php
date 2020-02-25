@@ -58,14 +58,22 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		$id_key = UData::keyfy($uid->id);
 		
 		//guard
-		UCall::guard(!isset(self::$values[$scope_key][$name_key][$id_key]), [
-			'error_message' => "Cannot insert resource {{name}} with ID {{id}} (scope: {{scope}}).",
-			'parameters' => [
-				'name' => $uid->name,
-				'id' => $uid->id,
-				'scope' => $uid->scope
-			]
-		]);
+		UCall::guard(!isset(self::$values[$scope_key][$name_key][$id_key]), function () use ($uid) {
+			//error message
+			$error_message = $uid->scope !== null
+				? "Cannot insert resource {{name}} with the given ID {{id}} and scope {{scope}}."
+				: "Cannot insert resource {{name}} with the given ID {{id}}.";
+			
+			//return
+			return [
+				'error_message' => $error_message,
+				'parameters' => [
+					'name' => $uid->name,
+					'id' => $uid->id,
+					'scope' => $uid->scope
+				]
+			];
+		});
 		
 		//insert
 		self::$values[$scope_key][$name_key][$id_key] = $values;

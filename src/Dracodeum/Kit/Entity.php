@@ -292,6 +292,48 @@ IArrayInstantiable, IStringifiable
 	}
 	
 	/**
+	 * Load instance with a given ID.
+	 * 
+	 * @param mixed $id
+	 * <p>The ID to load with.</p>
+	 * @param array $scope_values [default = []]
+	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 * @return static|null
+	 * <p>The loaded instance with the given ID.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found.</p>
+	 */
+	final public static function load($id, array $scope_values = [], bool $no_throw = false): ?Entity
+	{
+		//initialize
+		$store = static::getStore();
+		$base_scope = static::getBaseScope();
+		
+		//properties
+		$properties = $store->return([
+			'id' => $id,
+			'name' => static::getName(),
+			'base_scope' => $base_scope,
+			'scope_values' => $scope_values
+		]);
+		
+		//check
+		if ($properties === null) {
+			if ($no_throw) {
+				return null;
+			}
+			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
+			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
+		}
+		
+		//return
+		return static::build($properties, true);
+	}
+	
+	/**
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
