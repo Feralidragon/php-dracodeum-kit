@@ -14,14 +14,14 @@ interface Returner
 {
 	//Public methods
 	/**
-	 * Return a resource identified with a given UID instance.
+	 * Return a resource with a given UID instance.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
-	 * <p>The UID instance to identify with.</p>
+	 * <p>The UID instance to return with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return array|null
-	 * <p>The resource identified with the given UID instance, as <samp>name => value</samp> pairs, 
+	 * <p>The resource with the given UID instance, as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
 	 */
 	public function return(Uid $uid, bool $readonly): ?array;

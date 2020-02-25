@@ -14,12 +14,12 @@ interface Deleter
 {
 	//Public methods
 	/**
-	 * Delete a resource identified with a given UID instance.
+	 * Delete a resource with a given UID instance.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
-	 * <p>The UID instance to identify with.</p>
+	 * <p>The UID instance to delete with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource identified with the given UID instance was deleted.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID instance was deleted.</p>
 	 */
 	public function delete(Uid $uid): bool;
 }

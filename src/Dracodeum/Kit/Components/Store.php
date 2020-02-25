@@ -135,14 +135,13 @@ class Store extends Component
 	}
 	
 	/**
-	 * Check if a resource identified with a given UID exists.
+	 * Check if a resource with a given UID exists.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
-	 * or an integer.</p>
+	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource identified with the given UID exists.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
 	 */
 	final public function exists($uid): bool
 	{
@@ -157,15 +156,13 @@ class Store extends Component
 	}
 	
 	/**
-	 * Return a resource identified with a given UID.
+	 * Return a resource with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
-	 * or an integer.</p>
+	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The resource identified with the given UID, as <samp>name => value</samp> pairs, 
-	 * or <code>null</code> if none is set.</p>
+	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs, or <code>null</code> if none is set.</p>
 	 */
 	final public function return($uid): ?array
 	{
@@ -178,18 +175,17 @@ class Store extends Component
 	}
 	
 	/**
-	 * Insert a resource identified with a given UID with a given set of values.
+	 * Insert a resource with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid [reference]
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
-	 * or an integer.<br>
+	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
 	 * such as when any of its properties is automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array
-	 * <p>The inserted values of the resource identified with the given UID, as <samp>name => value</samp> pairs.</p>
+	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.</p>
 	 */
 	final public function insert(&$uid, array $values): array
 	{
@@ -205,16 +201,15 @@ class Store extends Component
 	
 	
 	/**
-	 * Update a resource identified with a given UID with a given set of values.
+	 * Update a resource with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
-	 * or an integer.</p>
+	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The updated values of the resource identified with the given UID, as <samp>name => value</samp> pairs, 
+	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if the resource does not exist.</p>
 	 */
 	final public function update($uid, array $values): ?array
@@ -228,14 +223,13 @@ class Store extends Component
 	}
 	
 	/**
-	 * Delete a resource identified with a given UID.
+	 * Delete a resource with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
-	 * <p>The UID to identify with, as an instance, <samp>name => value</samp> pairs, a string, a float 
-	 * or an integer.</p>
+	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource identified with the given UID was deleted.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID was deleted.</p>
 	 */
 	final public function delete($uid): bool
 	{

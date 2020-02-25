@@ -14,14 +14,14 @@ interface Checker
 {
 	//Public methods
 	/**
-	 * Check if a resource identified with a given UID instance exists.
+	 * Check if a resource with a given UID instance exists.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
-	 * <p>The UID instance to identify with.</p>
+	 * <p>The UID instance to check with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource identified with the given UID instance exists.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID instance exists.</p>
 	 */
 	public function exists(Uid $uid, bool $readonly): bool;
 }

@@ -14,15 +14,15 @@ interface Updater
 {
 	//Public methods
 	/**
-	 * Update a resource identified with a given UID instance with a given set of values.
+	 * Update a resource with a given UID instance with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
-	 * <p>The UID instance to identify with.</p>
+	 * <p>The UID instance to update with.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @return array|null
-	 * <p>The updated values of the resource identified with the given UID instance, 
-	 * as <samp>name => value</samp> pairs, or <code>null</code> if the resource does not exist.</p>
+	 * <p>The updated values of the resource with the given UID instance, as <samp>name => value</samp> pairs, 
+	 * or <code>null</code> if the resource does not exist.</p>
 	 */
 	public function update(Uid $uid, array $values): ?array;
 }
