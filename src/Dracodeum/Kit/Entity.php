@@ -272,6 +272,26 @@ IArrayInstantiable, IStringifiable
 	}
 	
 	/**
+	 * Check if an instance with a given ID exists.
+	 * 
+	 * @param mixed $id
+	 * <p>The ID to check with.</p>
+	 * @param array $scope_values [default = []]
+	 * <p>The scope values to check with, as <samp>name => value</samp> pairs.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if an instance with the given ID exists.</p>
+	 */
+	final public static function exists($id, array $scope_values = []): bool
+	{
+		return static::getStore()->exists([
+			'id' => $id,
+			'name' => static::getName(),
+			'base_scope' => static::getBaseScope(),
+			'scope_values' => $scope_values
+		]);
+	}
+	
+	/**
 	 * Evaluate a given value as an instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
