@@ -21,12 +21,12 @@ use Dracodeum\Kit\Utilities\{
 	Data as UData
 };
 
-/** This store prototype persists resources in memory, being generally used as a stub for testing. */
+/** This store prototype persists resources in static memory, being generally used as a stub for testing. */
 class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, IDeleter
 {
-	//Private properties
+	//Private static properties
 	/** @var array */
-	private $values = [];
+	private static $values = [];
 	
 	
 	
@@ -34,7 +34,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	/** {@inheritdoc} */
 	public function exists(Uid $uid, bool $readonly): bool
 	{
-		return isset($this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)]);
+		return isset(self::$values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)]);
 	}
 	
 	
@@ -43,7 +43,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	/** {@inheritdoc} */
 	public function return(Uid $uid, bool $readonly): ?array
 	{
-		return $this->values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)] ?? null;
+		return self::$values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)] ?? null;
 	}
 	
 	
@@ -58,7 +58,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		$id_key = UData::keyfy($uid->id);
 		
 		//guard
-		UCall::guard(!isset($this->values[$scope_key][$name_key][$id_key]), [
+		UCall::guard(!isset(self::$values[$scope_key][$name_key][$id_key]), [
 			'error_message' => "Cannot insert resource {{name}} with ID {{id}} (scope: {{scope}}).",
 			'parameters' => [
 				'name' => $uid->name,
@@ -68,7 +68,7 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		]);
 		
 		//insert
-		$this->values[$scope_key][$name_key][$id_key] = $values;
+		self::$values[$scope_key][$name_key][$id_key] = $values;
 		
 		//return
 		return $values;
@@ -86,13 +86,13 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		$id_key = UData::keyfy($uid->id);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$id_key])) {
+		if (!isset(self::$values[$scope_key][$name_key][$id_key])) {
 			return null;
 		}
 		
 		//update
 		$updated_values = [];
-		$ref = &$this->values[$scope_key][$name_key][$id_key];
+		$ref = &self::$values[$scope_key][$name_key][$id_key];
 		foreach ($values as $k => $v) {
 			if (array_key_exists($k, $ref)) {
 				$ref[$k] = $updated_values[$k] = $v;
@@ -116,16 +116,16 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 		$id_key = UData::keyfy($uid->id);
 		
 		//check
-		if (!isset($this->values[$scope_key][$name_key][$id_key])) {
+		if (!isset(self::$values[$scope_key][$name_key][$id_key])) {
 			return false;
 		}
 		
 		//delete
-		unset($this->values[$scope_key][$name_key][$id_key]);
-		if (empty($this->values[$scope_key][$name_key])) {
-			unset($this->values[$scope_key][$name_key]);
-			if (empty($this->values[$scope_key])) {
-				unset($this->values[$scope_key]);
+		unset(self::$values[$scope_key][$name_key][$id_key]);
+		if (empty(self::$values[$scope_key][$name_key])) {
+			unset(self::$values[$scope_key][$name_key]);
+			if (empty(self::$values[$scope_key])) {
+				unset(self::$values[$scope_key]);
 			}
 		}
 		
