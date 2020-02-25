@@ -53,6 +53,8 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
  * @see \Dracodeum\Kit\Entity\Traits\IdPropertyName
  * @see \Dracodeum\Kit\Entity\Traits\BaseScope
+ * @see \Dracodeum\Kit\Entity\Traits\PreDeleteProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\PostDeleteProcessor
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
@@ -71,6 +73,8 @@ IArrayInstantiable, IStringifiable
 	use Traits\Initializer;
 	use Traits\IdPropertyName;
 	use Traits\BaseScope;
+	use Traits\PreDeleteProcessor;
+	use Traits\PostDeleteProcessor;
 	
 	
 	
@@ -331,6 +335,56 @@ IArrayInstantiable, IStringifiable
 		
 		//return
 		return static::build($properties, true);
+	}
+	
+	/**
+	 * Delete instance with a given ID.
+	 * 
+	 * @param mixed $id
+	 * <p>The ID to delete with.</p>
+	 * @param array $scope_values [default = []]
+	 * <p>The scope values to delete with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the instance with the given ID was found and deleted, 
+	 * or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public static function delete($id, array $scope_values = [], bool $no_throw = false)
+	{
+		//initialize
+		$store = static::getStore();
+		$base_scope = static::getBaseScope();
+		
+		//pre-delete
+		static::processPreDelete($id, $scope_values);
+		
+		//delete
+		$deleted = $store->delete([
+			'id' => $id,
+			'name' => static::getName(),
+			'base_scope' => $base_scope,
+			'scope_values' => $scope_values
+		]);
+		
+		//check
+		if (!$deleted) {
+			if ($no_throw) {
+				return false;
+			}
+			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
+			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
+		}
+		
+		//post-delete
+		static::processPostDelete($id, $scope_values);
+		
+		//return
+		if ($no_throw) {
+			return true;
+		}
 	}
 	
 	/**
