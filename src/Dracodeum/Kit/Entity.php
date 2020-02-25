@@ -212,6 +212,30 @@ IArrayInstantiable, IStringifiable
 	}
 	
 	/**
+	 * Get scope.
+	 * 
+	 * @return string|null
+	 * <p>The scope or <code>null</code> if none is set.</p>
+	 */
+	final public function getScope(): ?string
+	{
+		//base
+		$base = $this->getBaseScope();
+		if ($base === null) {
+			return null;
+		}
+		
+		//values
+		$values = [];
+		foreach (UText::placeholders($base, true) as $name) {
+			$values[$name] = $this->get($name);
+		}
+		
+		//return
+		return $this->getStore()->getUidScope($base, $values);
+	}
+	
+	/**
 	 * Check if has already been persisted at least once.
 	 * 
 	 * @return bool

@@ -973,6 +973,8 @@ final class Text extends Utility
 	 * 
 	 * @param string $string
 	 * <p>The string to get from.</p>
+	 * @param bool $top_only [default = false]
+	 * <p>Return only the top level identifiers.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
@@ -980,7 +982,7 @@ final class Text extends Utility
 	 * <p>The placeholders from the given string.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, then any invalid placeholders found are ignored.</p>
 	 */
-	final public static function placeholders(string $string, bool $no_throw = false): array
+	final public static function placeholders(string $string, bool $top_only = false, bool $no_throw = false): array
 	{
 		$placeholders = [];
 		if (preg_match_all('/\{{2}(?P<placeholders>.*)\}{2}/Us', $string, $matches)) {
@@ -992,8 +994,9 @@ final class Text extends Utility
 					}
 					throw new Exceptions\InvalidPlaceholder([$placeholder, 'string' => $string]);
 				}
-				$placeholders[] = $placeholder;
+				$placeholders[] = $top_only ? strtok($placeholder, '.') : $placeholder;
 			}
+			$placeholders = array_values(array_unique($placeholders, SORT_STRING));
 		}
 		return $placeholders;
 	}

@@ -96,12 +96,42 @@ class Store extends Component
 	final public function coerceUid($uid, bool $clone = false): Uid
 	{
 		$uid = Uid::coerce($uid, $clone);
-		if ($uid->defaulted('scope') && $uid->base_scope !== null && !empty($uid->scope_values)) {
-			$uid->scope = UText::fill($uid->base_scope, $uid->scope_values, null, [
-				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
-			]);
+		if ($uid->defaulted('scope') && $uid->base_scope !== null) {
+			$uid->scope = $this->getUidScope($uid->base_scope, $uid->scope_values);
 		}
 		return $uid;
+	}
+	
+	/**
+	 * Get UID scope from a given base scope with a given set of scope values.
+	 * 
+	 * @param string $base_scope
+	 * <p>The base scope to get from, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
+	 * corresponding directly to given scope values.<br>
+	 * <br>
+	 * If set, then it cannot be empty, and placeholders must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * <br>
+	 * They may also be used with pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of chained pointers.<br>
+	 * <br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
+	 * @param array $scope_values
+	 * <p>The scope values to get with, as <samp>name => value</samp> pairs.</p>
+	 * @return string
+	 * <p>The UID scope from the given base scope with the given set of scope values.</p>
+	 */
+	final public function getUidScope(string $base_scope, array $scope_values): string
+	{
+		return empty($scope_values)
+			? $base_scope
+			: UText::fill($base_scope, $scope_values, null, [
+				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
+			]);
 	}
 	
 	/**

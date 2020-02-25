@@ -59,16 +59,13 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();
-		$placeholders = UText::placeholders($message);
-		if (!empty($placeholders)) {
-			//parameters
-			$parameters = [];
-			foreach ($placeholders as $placeholder) {
-				$name = strtok($placeholder, '.');
-				$parameters[$name] = $this->get($name);
-			}
-			
-			//message
+		
+		//parameters
+		$parameters = [];
+		foreach (UText::placeholders($message, true) as $name) {
+			$parameters[$name] = $this->get($name);
+		}
+		if (!empty($parameters)) {
 			$message = UText::fill($message, $parameters, null, [
 				'stringifier' => function (string $placeholder, $value) use ($options): ?string {
 					$string = null;
