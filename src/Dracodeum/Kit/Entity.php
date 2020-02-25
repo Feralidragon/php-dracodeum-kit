@@ -12,6 +12,7 @@ use Dracodeum\Kit\Interfaces\{
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
 	Readonlyable as IReadonlyable,
+	Persistable as IPersistable,
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable
 };
@@ -58,7 +59,7 @@ use Dracodeum\Kit\Utilities\{
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
-IArrayInstantiable, IStringifiable
+IPersistable, IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -182,6 +183,51 @@ IArrayInstantiable, IStringifiable
 	
 	
 	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Persistable)
+	/** {@inheritdoc} */
+	final public function isPersisted(bool $recursive = false): bool
+	{
+		//properties
+		if (!$this->arePropertiesPersisted()) {
+			return false;
+		}
+		
+		//recursive
+		if ($recursive) {
+			foreach ($this->getAll() as $value) {
+				if (is_object($value) && $value instanceof IPersistable) {
+					if (!$value->isPersisted($recursive)) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		//return
+		return true;
+	}
+	
+	/** {@inheritdoc} */
+	final public function persist(bool $recursive = false): object
+	{
+		//properties
+		$this->persistProperties(\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']));
+		
+		//recursive
+		if ($recursive) {
+			foreach ($this->getAll() as $value) {
+				if (is_object($value) && $value instanceof IPersistable) {
+					$value->persist($recursive);
+				}
+			}
+		}
+		
+		//return
+		return $this;
+	}
+	
+	
+	
 	//Protected static methods
 	/**
 	 * Create a store instance with a given prototype.
@@ -237,17 +283,6 @@ IArrayInstantiable, IStringifiable
 		
 		//return
 		return $this->getStore()->getUidScope($base, $values);
-	}
-	
-	/**
-	 * Check if has already been persisted at least once.
-	 * 
-	 * @return bool
-	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
-	 */
-	final public function isPersisted(): bool
-	{
-		return $this->arePropertiesPersisted();
 	}
 	
 	
@@ -590,5 +625,74 @@ IArrayInstantiable, IStringifiable
 			);
 		}
 		return self::$stores[static::class];
+	}
+	
+	
+	
+	//Final private methods
+	/**
+	 * Insert a given set of values.
+	 * 
+	 * @param array $values
+	 * <p>The values to insert, as <samp>name => value</samp> pairs.</p>
+	 * @return array
+	 * <p>The inserted values, as <samp>name => value</samp> pairs.</p>
+	 */
+	final private function insert(array $values): array
+	{
+		//id
+		$id = null;
+		$id_name = $this->getIdPropertyName();
+		if ($id_name !== null && array_key_exists($id_name, $values)) {
+			$id = $values[$id_name];
+			unset($values[$id_name]);
+		}
+		
+		//scope
+		$scope_values = [];
+		$base_scope = $this->getBaseScope();
+		if ($base_scope !== null) {
+			foreach (UText::placeholders($base_scope, true) as $name) {
+				if (array_key_exists($name, $values)) {
+					$scope_values[$name] = $values[$name];
+					unset($values[$name]);
+				}
+			}
+		}
+		
+		//uid
+		$uid = [
+			'id' => $id,
+			'name' => $this->getName(),
+			'base_scope' => $base_scope,
+			'scope_values' => $scope_values
+		];
+		
+		//insert
+		$inserted_values = $this->getStore()->insert($uid, $values);
+		
+		//finalize
+		if ($id_name !== null) {
+			$inserted_values += [$id_name => $uid->id];
+		}
+		$inserted_values += $uid->scope_values;
+		
+		//return
+		return $inserted_values;
+	}
+	
+	/**
+	 * Update from a given old set of values to a new given set.
+	 * 
+	 * @param array $old_values
+	 * <p>The old values to update from, as <samp>name => value</samp> pairs.</p>
+	 * @param array $new_values
+	 * <p>The new values to update to, as <samp>name => value</samp> pairs.</p>
+	 * @return array
+	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
+	 */
+	final private function update(array $old_values, array $new_values): array
+	{
+		//TODO
 	}
 }
