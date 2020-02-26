@@ -21,8 +21,9 @@ interface Inserter
 	 * It may be modified during insertion, such as when any of its properties is automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
-	 * @return array
-	 * <p>The inserted values of the resource with the given UID instance, as <samp>name => value</samp> pairs.</p>
+	 * @return array|null
+	 * <p>The inserted values of the resource with the given UID instance, as <samp>name => value</samp> pairs, 
+	 * or <code>null</code> if the resource already exists.</p>
 	 */
-	public function insert(Uid $uid, array $values): array;
+	public function insert(Uid $uid, array $values): ?array;
 }

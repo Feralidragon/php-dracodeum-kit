@@ -16,10 +16,7 @@ use Dracodeum\Kit\Prototypes\Store\Interfaces\{
 	Deleter as IDeleter
 };
 use Dracodeum\Kit\Components\Store\Structures\Uid;
-use Dracodeum\Kit\Utilities\{
-	Call as UCall,
-	Data as UData
-};
+use Dracodeum\Kit\Utilities\Data as UData;
 
 /** This store prototype persists resources in static memory, being generally used as a stub for testing. */
 class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, IDeleter
@@ -50,30 +47,17 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter)
 	/** {@inheritdoc} */
-	public function insert(Uid $uid, array $values): array
+	public function insert(Uid $uid, array $values): ?array
 	{
 		//initialize
 		$scope_key = UData::keyfy($uid->scope);
 		$name_key = UData::keyfy($uid->name);
 		$id_key = UData::keyfy($uid->id);
 		
-		//guard
-		UCall::guard(!isset(self::$values[$scope_key][$name_key][$id_key]), function () use ($uid) {
-			//error message
-			$error_message = $uid->scope !== null
-				? "Cannot insert resource {{name}} with the given ID {{id}} and scope {{scope}}."
-				: "Cannot insert resource {{name}} with the given ID {{id}}.";
-			
-			//return
-			return [
-				'error_message' => $error_message,
-				'parameters' => [
-					'name' => $uid->name,
-					'id' => $uid->id,
-					'scope' => $uid->scope
-				]
-			];
-		});
+		//check
+		if (isset(self::$values[$scope_key][$name_key][$id_key])) {
+			return null;
+		}
 		
 		//insert
 		self::$values[$scope_key][$name_key][$id_key] = $values;

@@ -139,18 +139,30 @@ class Store extends Component
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
 	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID exists.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then boolean <code>false</code> may also be returned if this method is not implemented internally.</p>
 	 */
-	final public function exists($uid): bool
+	final public function exists($uid, bool $no_throw = false): bool
 	{
+		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
+		
+		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Checker) {
 			return $prototype->exists($uid, false);
 		} elseif ($prototype instanceof PrototypeInterfaces\Returner) {
 			return $prototype->return($uid, false) !== null;
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return false;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'exists']);
 	}
@@ -160,16 +172,36 @@ class Store extends Component
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
 	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs, or <code>null</code> if none is set.</p>
+	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it was not found or if this method is not implemented internally.</p>
 	 */
-	final public function return($uid): ?array
+	final public function return($uid, bool $no_throw = false): ?array
 	{
+		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
+		
+		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Returner) {
-			return $prototype->return($uid, false);
+			$values = $prototype->return($uid, false);
+			if ($values === null) {
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+			}
+			return $values;
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return null;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'return']);
 	}
@@ -183,22 +215,41 @@ class Store extends Component
 	 * such as when any of its properties is automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceConflict
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
-	 * @return array
-	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.</p>
+	 * @return array|null
+	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if the resource already exists 
+	 * or if this method is not implemented internally.</p>
 	 */
-	final public function insert(&$uid, array $values): array
+	final public function insert(&$uid, array $values, bool $no_throw = false): ?array
 	{
+		//uid
 		$insert_uid = $this->coerceUid($uid, true);
+		
+		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Inserter) {
 			$inserted_values = $prototype->insert($insert_uid, $values);
+			if ($inserted_values === null) {
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\ResourceConflict([$this, $prototype, $uid]);
+			}
 			$uid = $insert_uid->setAsReadonly();
 			return $inserted_values;
 		}
+		
+		//finalize
+		if ($no_throw) {
+			return null;
+		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'insert']);
 	}
-	
 	
 	/**
 	 * Update a resource with a given UID with a given set of values.
@@ -207,17 +258,37 @@ class Store extends Component
 	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
-	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs, 
-	 * or <code>null</code> if the resource does not exist.</p>
+	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if the resource was not found 
+	 * or if this method is not implemented internally.</p>
 	 */
-	final public function update($uid, array $values): ?array
+	final public function update($uid, array $values, bool $no_throw = false): ?array
 	{
+		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
+		
+		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Updater) {
-			return $prototype->update($uid, $values);
+			$updated_values = $prototype->update($uid, $values);
+			if ($updated_values === null) {
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+			}
+			return $updated_values;
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return null;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'update']);
 	}
@@ -227,16 +298,35 @@ class Store extends Component
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
 	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
-	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given UID was deleted.</p>
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the resource with the given UID was found and deleted, 
+	 * or boolean <code>false</code> if otherwise or if this method is not implemented internally.</p>
 	 */
-	final public function delete($uid): bool
+	final public function delete($uid, bool $no_throw = false)
 	{
+		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
+		
+		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Deleter) {
-			return $prototype->delete($uid);
+			$deleted = $prototype->delete($uid);
+			if ($no_throw) {
+				return $deleted;
+			} elseif (!$deleted) {
+				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+			}
+			return;
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return false;
 		}
 		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'delete']);
 	}

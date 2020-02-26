@@ -25,8 +25,8 @@ class NotFound extends Exception
 	public function getDefaultMessage(): string
 	{
 		return $this->get('scope') !== null
-			? "Entity {{entity}} not found with the given ID {{id}} and scope {{scope}}."
-			: "Entity {{entity}} not found with the given ID {{id}}.";
+			? "Entity {{entity}} with ID {{id}} and scope {{scope}} not found."
+			: "Entity {{entity}} with ID {{id}} not found.";
 	}
 	
 	
