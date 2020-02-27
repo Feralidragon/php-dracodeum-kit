@@ -18,7 +18,7 @@ interface Inserter
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
 	 * <p>The UID instance to insert with.<br>
-	 * It may be modified during insertion, such as when any of its properties is automatically generated.</p>
+	 * It may be modified during insertion, such as when any of its properties are automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @return array|null

@@ -71,9 +71,7 @@ class Uid extends Structure
 	/** {@inheritdoc} */
 	protected static function extractIntegerProperties(int $integer): ?array
 	{
-		return [
-			'id' => $integer
-		];
+		return ['id' => $integer];
 	}
 	
 	
@@ -82,9 +80,7 @@ class Uid extends Structure
 	/** {@inheritdoc} */
 	protected static function extractFloatProperties(float $float): ?array
 	{
-		return [
-			'id' => $float
-		];
+		return ['id' => $float];
 	}
 	
 	
@@ -93,8 +89,6 @@ class Uid extends Structure
 	/** {@inheritdoc} */
 	protected static function extractStringProperties(string $string): ?array
 	{
-		return [
-			'id' => $string
-		];
+		return ['id' => $string];
 	}
 }

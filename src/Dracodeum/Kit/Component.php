@@ -770,4 +770,23 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	{
 		return $this->prototype;
 	}
+	
+	/**
+	 * Halt the current method call in the stack over a given prototype method not being implemented.
+	 * 
+	 * @param string $name
+	 * <p>The prototype method name to use.</p>
+	 * @return void
+	 */
+	final protected function haltPrototypeMethodNotImplemented(string $name): void
+	{
+		UCall::halt([
+			'error_message' => "Method {{name}} not implemented in prototype {{prototype}}.",
+			'parameters' => [
+				'name' => $name,
+				'prototype' => $this->prototype
+			],
+			'stack_offset' => 1
+		]);
+	}
 }

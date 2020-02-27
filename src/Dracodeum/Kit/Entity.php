@@ -357,7 +357,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 			'name' => static::getName(),
 			'base_scope' => $base_scope,
 			'scope_values' => $scope_values
-		]);
+		], true);
 		
 		//check
 		if ($properties === null) {
@@ -402,7 +402,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 			'name' => static::getName(),
 			'base_scope' => $base_scope,
 			'scope_values' => $scope_values
-		]);
+		], true);
 		
 		//check
 		if (!$deleted) {

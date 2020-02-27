@@ -139,15 +139,10 @@ class Store extends Component
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
 	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return bool
-	 * <p>Boolean <code>true</code> if the resource with the given UID exists.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>false</code> may also be returned if this method is not implemented internally.</p>
+	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
 	 */
-	final public function exists($uid, bool $no_throw = false): bool
+	final public function exists($uid): bool
 	{
 		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
@@ -160,11 +155,8 @@ class Store extends Component
 			return $prototype->return($uid, false) !== null;
 		}
 		
-		//finalize
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'exists']);
+		//halt
+		$this->haltPrototypeMethodNotImplemented('exists');
 	}
 	
 	/**
@@ -175,11 +167,10 @@ class Store extends Component
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it was not found or if this method is not implemented internally.</p>
+	 * then <code>null</code> is returned if it was not found.</p>
 	 */
 	final public function return($uid, bool $no_throw = false): ?array
 	{
@@ -199,11 +190,8 @@ class Store extends Component
 			return $values;
 		}
 		
-		//finalize
-		if ($no_throw) {
-			return null;
-		}
-		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'return']);
+		//halt
+		$this->haltPrototypeMethodNotImplemented('return');
 	}
 	
 	/**
@@ -212,18 +200,16 @@ class Store extends Component
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid [reference]
 	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
-	 * such as when any of its properties is automatically generated.</p>
+	 * such as when any of its properties are automatically generated.</p>
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceConflict
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if the resource already exists 
-	 * or if this method is not implemented internally.</p>
+	 * then <code>null</code> is returned if the resource already exists.</p>
 	 */
 	final public function insert(&$uid, array $values, bool $no_throw = false): ?array
 	{
@@ -244,11 +230,8 @@ class Store extends Component
 			return $inserted_values;
 		}
 		
-		//finalize
-		if ($no_throw) {
-			return null;
-		}
-		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'insert']);
+		//halt
+		$this->haltPrototypeMethodNotImplemented('insert');
 	}
 	
 	/**
@@ -261,12 +244,10 @@ class Store extends Component
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return array|null
 	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if the resource was not found 
-	 * or if this method is not implemented internally.</p>
+	 * then <code>null</code> is returned if the resource was not found.</p>
 	 */
 	final public function update($uid, array $values, bool $no_throw = false): ?array
 	{
@@ -286,11 +267,8 @@ class Store extends Component
 			return $updated_values;
 		}
 		
-		//finalize
-		if ($no_throw) {
-			return null;
-		}
-		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'update']);
+		//halt
+		$this->haltPrototypeMethodNotImplemented('update');
 	}
 	
 	/**
@@ -301,11 +279,10 @@ class Store extends Component
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\MethodNotImplemented
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the resource with the given UID was found and deleted, 
-	 * or boolean <code>false</code> if otherwise or if this method is not implemented internally.</p>
+	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public function delete($uid, bool $no_throw = false)
 	{
@@ -324,10 +301,7 @@ class Store extends Component
 			return;
 		}
 		
-		//finalize
-		if ($no_throw) {
-			return false;
-		}
-		throw new Exceptions\MethodNotImplemented([$this, $prototype, 'delete']);
+		//halt
+		$this->haltPrototypeMethodNotImplemented('delete');
 	}
 }
