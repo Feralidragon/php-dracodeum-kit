@@ -20,6 +20,6 @@ trait Uninstantiable
 	/** Prevent class from being instantiated. */
 	final public function __construct()
 	{
-		UCall::guard(false, ['error_message' => "This class cannot be instantiated."]);
+		UCall::halt(['error_message' => "This class cannot be instantiated."]);
 	}
 }

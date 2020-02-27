@@ -22,7 +22,7 @@ trait CloneableOnly
 	/** Prevent class instance from being cloned through the PHP <code>clone</code> keyword. */
 	final public function __clone()
 	{
-		UCall::guard(false, [
+		UCall::halt([
 			'error_message' => "Instances of this class cannot be cloned through the PHP \"clone\" keyword.",
 			'hint_message' => "In order to clone an instance of this class, the \"clone\" method, " . 
 				"as defined in the \"Dracodeum\\Kit\\Interfaces\\Cloneable\" interface, must be used instead."

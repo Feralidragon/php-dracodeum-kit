@@ -1199,41 +1199,25 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called depending on a given assertion.
+	 * Halt the current function or method call in the stack.
 	 * 
-	 * @param bool $assertion
-	 * <p>The assertion to depend on.<br>
-	 * If set to boolean <code>false</code>, then an exception is thrown, 
-	 * preventing the execution of the current function or method in the stack.</p>
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\Guard|array|callable|null $options [default = null]
-	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br>
-	 * <br>
-	 * <code>function ()</code><br>
-	 * <br>
-	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Guard|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Guard\NotAllowed
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
 	 * @return void
 	 */
-	final public static function guard(bool $assertion, $options = null): void
+	final public static function halt($options = null): void
 	{
 		//initialize
-		if ($assertion) {
-			return;
-		} elseif (is_callable($options)) {
-			self::assert('options', $options, function () {});
-			$options = $options();
-		}
-		$options = Options\Guard::coerce($options);
-		
-		//backtrace
+		$options = Options\Halt::coerce($options);
 		$stack_index = $options->stack_offset + 1;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		
+		//backtrace
 		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
 		if (!isset($backtrace[$stack_index]['function'])) {
-			throw new Exceptions\Guard\NotAllowed([
-				'function_name' => 'guard',
+			throw new Exceptions\Halt\NotAllowed([
+				'function_name' => 'halt',
 				'object_class' => self::class,
 				'hint_message' => "This method may only be called from within a function or method."
 			]);
@@ -1241,15 +1225,81 @@ final class Call extends Utility
 		$backtrace = $backtrace[$stack_index];
 		
 		//exception
-		throw new Exceptions\Guard\NotAllowed([
+		throw new Exceptions\Halt\NotAllowed([
 			'function_name' => $options->function_name ?? $backtrace['function'],
 			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
-		] + self::getGuardMessages($options));
+		] + self::getHaltMessages($options));
+	}
+	
+	/**
+	 * Guard the current function or method in the stack from being called depending on a given assertion.
+	 * 
+	 * @param bool $assertion
+	 * <p>The assertion to depend on.<br>
+	 * If set to boolean <code>false</code>, then an exception is thrown, 
+	 * preventing the execution of the current function or method in the stack.</p>
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null $halt_options [default = null]
+	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * with the following signature:<br>
+	 * <br>
+	 * <code>function ()</code><br>
+	 * <br>
+	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
+	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
+	 * @return void
+	 */
+	final public static function guard(bool $assertion, $halt_options = null): void
+	{
+		if ($assertion) {
+			return;
+		} elseif (is_callable($halt_options)) {
+			self::assert('halt_options', $halt_options, function () {});
+			$halt_options = $halt_options();
+		}
+		$halt_options = Options\Halt::coerce($halt_options, true);
+		$halt_options->stack_offset++;
+		self::halt($halt_options);
+	}
+	
+	/**
+	 * Halt the current function or method call in the stack over a given parameter name and value.
+	 * 
+	 * @param string $name
+	 * <p>The name to use.</p>
+	 * @param mixed $value
+	 * <p>The value to use.</p>
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
+	 * @return void
+	 */
+	final public static function haltParameter(string $name, $value, $options = null): void
+	{
+		//initialize
+		$options = Options\HaltParameter::coerce($options);
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		
+		//backtrace
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		if (!isset($backtrace[$stack_index]['function'])) {
+			self::halt(['hint_message' => "This method may only be called from within a function or method."]);
+		}
+		$backtrace = $backtrace[$stack_index];
+		
+		//exception
+		throw new Exceptions\Halt\ParameterNotAllowed([
+			'name' => $name,
+			'value' => $value,
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getHaltMessages($options));
 	}
 	
 	/**
 	 * Guard the current function or method in the stack from being called depending on a given assertion 
-	 * relative a given parameter name and value.
+	 * relative to a given parameter name and value.
 	 * 
 	 * @param string $name
 	 * <p>The name to use.</p>
@@ -1259,97 +1309,137 @@ final class Call extends Utility
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\GuardParameter|array|callable|null $options [default = null]
-	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|callable|null $halt_options [default = null]
+	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
-	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\GuardParameter|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Guard\ParameterNotAllowed
+	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array</b></code><br>
+	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
 	 * @return void
 	 */
-	final public static function guardParameter(string $name, $value, bool $assertion, $options = null): void
+	final public static function guardParameter(string $name, $value, bool $assertion, $halt_options = null): void
 	{
-		//initialize
 		if ($assertion) {
 			return;
-		} elseif (is_callable($options)) {
-			self::assert('options', $options, function () {});
-			$options = $options();
+		} elseif (is_callable($halt_options)) {
+			self::assert('halt_options', $halt_options, function () {});
+			$halt_options = $halt_options();
 		}
-		$options = Options\GuardParameter::coerce($options);
-		
-		//backtrace
-		$stack_index = $options->stack_offset + 1;
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
-		self::guard(isset($backtrace[$stack_index]['function']), [
-			'hint_message' => "This method may only be called from within a function or method."
-		]);
-		$backtrace = $backtrace[$stack_index];
-		
-		//exception
-		throw new Exceptions\Guard\ParameterNotAllowed([
-			'name' => $name,
-			'value' => $value,
-			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
-		] + self::getGuardMessages($options));
+		$halt_options = Options\HaltParameter::coerce($halt_options, true);
+		$halt_options->stack_offset++;
+		self::haltParameter($name, $value, $halt_options);
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from continuing its execution depending on a given assertion.
+	 * Halt the current function or method call in the stack over an internal error.
+	 * 
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
+	 * @return void
+	 */
+	final public static function haltInternal($options = null): void
+	{
+		//initialize
+		$options = Options\HaltInternal::coerce($options);
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		
+		//backtrace
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		if (!isset($backtrace[$stack_index]['function'])) {
+			self::halt(['hint_message' => "This method may only be called from within a function or method."]);
+		}
+		$backtrace = $backtrace[$stack_index];
+		
+		//exception
+		throw new Exceptions\Halt\InternalError([
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getHaltMessages($options));
+	}
+	
+	/**
+	 * Guard the current function or method in the stack from continuing its internal execution 
+	 * depending on a given assertion.
 	 * 
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
-	 * preventing the current function or method in the stack from continuing to execute.</p>
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\GuardInternal|array|callable|null $options [default = null]
-	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * preventing the current function or method in the stack from continuing its internal execution.</p>
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|callable|null $halt_options [default = null]
+	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
-	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\GuardInternal|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Guard\InternalError
+	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array</b></code><br>
+	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
 	 * @return void
 	 */
-	final public static function guardInternal(bool $assertion, $options = null): void
+	final public static function guardInternal(bool $assertion, $halt_options = null): void
 	{
-		//initialize
 		if ($assertion) {
 			return;
-		} elseif (is_callable($options)) {
-			self::assert('options', $options, function () {});
-			$options = $options();
+		} elseif (is_callable($halt_options)) {
+			self::assert('halt_options', $halt_options, function () {});
+			$halt_options = $halt_options();
 		}
-		$options = Options\GuardInternal::coerce($options);
-		
-		//backtrace
-		$stack_index = $options->stack_offset + 1;
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
-		self::guard(isset($backtrace[$stack_index]['function']), [
-			'hint_message' => "This method may only be called from within a function or method."
-		]);
-		$backtrace = $backtrace[$stack_index];
-		
-		//exception
-		throw new Exceptions\Guard\InternalError([
-			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
-		] + self::getGuardMessages($options));
+		$halt_options = Options\HaltInternal::coerce($halt_options, true);
+		$halt_options->stack_offset++;
+		self::haltInternal($halt_options);
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from continuing its execution by executing a given function 
-	 * with a given set of arguments and depending on a given callback function.
+	 * Halt the current function or method call in the stack over the execution of a given function.
+	 * 
+	 * @param callable $function
+	 * <p>The executed function to use.</p>
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltExecution|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
+	 * @return void
+	 */
+	final public static function haltExecution(callable $function, $options = null): void
+	{
+		//initialize
+		$options = Options\HaltExecution::coerce($options);
+		$stack_index = $options->stack_offset + 1;
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		
+		//backtrace
+		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
+		if (!isset($backtrace[$stack_index]['function'])) {
+			self::halt(['hint_message' => "This method may only be called from within a function or method."]);
+		}
+		$backtrace = $backtrace[$stack_index];
+		
+		//exception properties
+		$exception_properties = [
+			'value' => $options->value,
+			'exec_function_full_name' => self::name($function, true),
+			'function_name' => $options->function_name ?? $backtrace['function'],
+			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
+		] + self::getHaltMessages($options);
+		
+		//exception
+		$exception = $options->exception;
+		throw $exception !== null
+			? new Exceptions\Halt\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
+			: new Exceptions\Halt\ReturnNotAllowed($exception_properties);
+	}
+	
+	/**
+	 * Guard the current function or method in the stack over the execution of a given function 
+	 * with a given set of arguments, with its returning value validated and sanitized by a given callback function.
 	 * 
 	 * The given callback function is executed with the returned value from the given executed function.<br>
-	 * Any exception thrown from the given callback function is internally caught, 
+	 * Any exception thrown from either the given function or callback function is internally caught, 
 	 * being functionally equivalent to returning boolean <code>false</code> in order to halt execution.
 	 * 
 	 * @param callable $function
@@ -1357,7 +1447,7 @@ final class Call extends Utility
 	 * @param array $arguments
 	 * <p>The arguments to execute with.</p>
 	 * @param callable $callback
-	 * <p>The callback function to depend on.<br>
+	 * <p>The callback function to validate and sanitize the returning value from the given function to be executed.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (&$value): bool</code><br>
@@ -1376,24 +1466,30 @@ final class Call extends Utility
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\GuardExecution|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Guard\ReturnError
-	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Guard\ReturnNotAllowed
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
+	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
 	 * @return mixed
-	 * <p>The returned value from the given executed function with the given set of arguments 
-	 * using the given callback function.</p>
+	 * <p>The returned value from the given executed function with the given set of arguments, 
+	 * validated and sanitized by the given callback function.</p>
 	 */
 	final public static function guardExecution(
 		callable $function, array $arguments, callable $callback, $options = null
 	) {
-		//execute
-		$exception = null;
-		$value = $function(...$arguments);
+		//assert
 		self::assert('callback', $callback, function (&$value): bool {});
+		
+		//execute
+		$value = $exception = null;
 		try {
+			//function
+			$value = $function(...$arguments);
+			
+			//callback
 			$v = $value;
 			if ($callback($v)) {
 				return $v;
 			}
+			
 		} catch (\Exception $exception) {}
 		
 		//options
@@ -1403,45 +1499,30 @@ final class Call extends Utility
 		}
 		$options = Options\GuardExecution::coerce($options);
 		
-		//backtrace
-		$stack_index = $options->stack_offset + 1;
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		$backtrace = debug_backtrace($debug_flags, $options->stack_offset + 2);
-		self::guard(isset($backtrace[$stack_index]['function']), [
-			'hint_message' => "This method may only be called from within a function or method."
-		]);
-		$backtrace = $backtrace[$stack_index];
-		
-		//exception properties
-		$exception_properties = [
-			'value' => $value,
-			'exec_function_full_name' => self::name($function, true),
-			'function_name' => $options->function_name ?? $backtrace['function'],
-			'object_class' => $options->object_class ?? $backtrace['object'] ?? $backtrace['class'] ?? null
-		] + self::getGuardMessages($options);
-		
-		//exception
-		throw isset($exception)
-			? new Exceptions\Guard\ReturnError($exception_properties + ['error_message' => $exception->getMessage()])
-			: new Exceptions\Guard\ReturnNotAllowed($exception_properties);
+		//halt
+		$halt_options = Options\HaltExecution::coerce($options);
+		$halt_options->value = $value;
+		$halt_options->exception = $exception;
+		$halt_options->stack_offset++;
+		self::haltExecution($function, $halt_options);
 	}
 	
 	
 	
 	//Final private static methods
 	/**
-	 * Get guard messages from a given options instance.
+	 * Get halt messages from a given options instance.
 	 * 
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\Guard $options
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt $options
 	 * <p>The options instance to get from.</p>
 	 * @return string[]
-	 * <p>The guard messages from the given options instance, as:<br>
+	 * <p>The halt messages from the given options instance, as:<br>
 	 * <code>[<br>
 	 * &nbsp; &nbsp; 'error_message' => &lt;error_message&gt;,<br>
 	 * &nbsp; &nbsp; 'hint_message' => &lt;hint_message&gt;<br>
 	 * ]</code></p>
 	 */
-	final private static function getGuardMessages(Options\Guard $options): array
+	final private static function getHaltMessages(Options\Halt $options): array
 	{
 		//stringifier
 		$stringifier = $options->stringifier;

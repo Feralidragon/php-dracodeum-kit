@@ -3374,6 +3374,86 @@ class CallTest extends TestCase
 	}
 	
 	/**
+	 * Test <code>halt</code> method.
+	 * 
+	 * @testdox Call::halt(...)
+	 * 
+	 * @return void
+	 */
+	public function testHaltMethod(): void
+	{
+		//exception 1
+		try {
+			UCall::halt();
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\NotAllowed $exception) {
+			$this->assertSame('testHaltMethod', $exception->function_name);
+			$this->assertSame($this, $exception->object_class);
+			$this->assertNull($exception->error_message);
+			$this->assertNull($exception->hint_message);
+		}
+		
+		//exception 2
+		try {
+			UCall::halt([
+				'error_message' => "Potatoes are not for sale.",
+				'hint_message' => "Try some eggs.",
+				'function_name' => 'barFoo',
+				'object_class' => CallTest_Class::class
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\NotAllowed $exception) {
+			$this->assertSame('barFoo', $exception->function_name);
+			$this->assertSame(CallTest_Class::class, $exception->object_class);
+			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+			$this->assertSame("Try some eggs.", $exception->hint_message);
+		}
+		
+		//exception 3
+		try {
+			UCall::halt([
+				'error_message' => "{{product1}} are not for sale.",
+				'hint_message' => "Try some {{product2}}.",
+				'function_name' => 'foo2Bar',
+				'stack_offset' => 1,
+				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\NotAllowed $exception) {
+			$this->assertSame('foo2Bar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+			$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+		}
+		
+		//exception 4
+		try {
+			UCall::halt([
+				'error_message' => "There is only {{count1}} {{product1}}.",
+				'error_message_plural' => "There are only {{count1}} {{product1}}.",
+				'error_message_number_placeholder' => 'count1',
+				'hint_message' => "Try this {{count2}} {{product2}}.",
+				'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+				'hint_message_number_placeholder' => 'count2',
+				'function_name' => 'fBar',
+				'error_message_number' => 7,
+				'hint_message_number' => 2,
+				'stack_offset' => 2,
+				'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+				'stringifier' => function (string $placeholder, $value): ?string {
+					return is_int($value) ? (string)$value : "[{$value}]";
+				}
+			]);
+			$this->fail("Expected NotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\NotAllowed $exception) {
+			$this->assertSame('fBar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+			$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
+		}
+	}
+	
+	/**
 	 * Test <code>guard</code> method.
 	 * 
 	 * @testdox Call::guard(...)
@@ -3389,7 +3469,7 @@ class CallTest extends TestCase
 		try {
 			UCall::guard(false);
 			$this->fail("Expected NotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\NotAllowed $exception) {
+		} catch (Exceptions\Halt\NotAllowed $exception) {
 			$this->assertSame('testGuardMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
@@ -3405,7 +3485,7 @@ class CallTest extends TestCase
 				'object_class' => CallTest_Class::class
 			]);
 			$this->fail("Expected NotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\NotAllowed $exception) {
+		} catch (Exceptions\Halt\NotAllowed $exception) {
 			$this->assertSame('barFoo', $exception->function_name);
 			$this->assertSame(CallTest_Class::class, $exception->object_class);
 			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
@@ -3422,7 +3502,7 @@ class CallTest extends TestCase
 				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
 			]);
 			$this->fail("Expected NotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\NotAllowed $exception) {
+		} catch (Exceptions\Halt\NotAllowed $exception) {
 			$this->assertSame('foo2Bar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
 			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
@@ -3448,7 +3528,7 @@ class CallTest extends TestCase
 				}
 			]);
 			$this->fail("Expected NotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\NotAllowed $exception) {
+		} catch (Exceptions\Halt\NotAllowed $exception) {
 			$this->assertSame('fBar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
 			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
@@ -3474,11 +3554,91 @@ class CallTest extends TestCase
 				];
 			});
 			$this->fail("Expected NotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\NotAllowed $exception) {
+		} catch (Exceptions\Halt\NotAllowed $exception) {
 			$this->assertSame('testGuardMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+		}
+	}
+	
+	/**
+	 * Test <code>haltParameter</code> method.
+	 * 
+	 * @testdox Call::haltParameter(...)
+	 * 
+	 * @return void
+	 */
+	public function testHaltParameterMethod(): void
+	{
+		//exception 1
+		try {
+			UCall::haltParameter('foobar', null);
+			$this->fail("Expected ParameterNotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
+			$this->assertSame('testHaltParameterMethod', $exception->function_name);
+			$this->assertSame($this, $exception->object_class);
+			$this->assertNull($exception->error_message);
+			$this->assertNull($exception->hint_message);
+		}
+		
+		//exception 2
+		try {
+			UCall::haltParameter('foobar', null, [
+				'error_message' => "Potatoes are not for sale.",
+				'hint_message' => "Try some eggs.",
+				'function_name' => 'barFoo',
+				'object_class' => CallTest_Class::class
+			]);
+			$this->fail("Expected ParameterNotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
+			$this->assertSame('barFoo', $exception->function_name);
+			$this->assertSame(CallTest_Class::class, $exception->object_class);
+			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+			$this->assertSame("Try some eggs.", $exception->hint_message);
+		}
+		
+		//exception 3
+		try {
+			UCall::haltParameter('foobar', null, [
+				'error_message' => "{{product1}} are not for sale.",
+				'hint_message' => "Try some {{product2}}.",
+				'function_name' => 'foo2Bar',
+				'stack_offset' => 1,
+				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+			]);
+			$this->fail("Expected ParameterNotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
+			$this->assertSame('foo2Bar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+			$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+		}
+		
+		//exception 4
+		try {
+			UCall::haltParameter('foobar', null, [
+				'error_message' => "There is only {{count1}} {{product1}}.",
+				'error_message_plural' => "There are only {{count1}} {{product1}}.",
+				'error_message_number_placeholder' => 'count1',
+				'hint_message' => "Try this {{count2}} {{product2}}.",
+				'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+				'hint_message_number_placeholder' => 'count2',
+				'function_name' => 'fBar',
+				'error_message_number' => 7,
+				'hint_message_number' => 2,
+				'stack_offset' => 2,
+				'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+				'stringifier' => function (string $placeholder, $value): ?string {
+					return is_int($value) ? (string)$value : "[{$value}]";
+				}
+			]);
+			$this->fail("Expected ParameterNotAllowed exception not thrown.");
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
+			$this->assertSame('fBar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+			$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
 		}
 	}
 	
@@ -3498,7 +3658,7 @@ class CallTest extends TestCase
 		try {
 			UCall::guardParameter('foobar', null, false);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\ParameterNotAllowed $exception) {
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
 			$this->assertSame('testGuardParameterMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
@@ -3514,7 +3674,7 @@ class CallTest extends TestCase
 				'object_class' => CallTest_Class::class
 			]);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\ParameterNotAllowed $exception) {
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
 			$this->assertSame('barFoo', $exception->function_name);
 			$this->assertSame(CallTest_Class::class, $exception->object_class);
 			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
@@ -3531,7 +3691,7 @@ class CallTest extends TestCase
 				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
 			]);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\ParameterNotAllowed $exception) {
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
 			$this->assertSame('foo2Bar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
 			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
@@ -3557,7 +3717,7 @@ class CallTest extends TestCase
 				}
 			]);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\ParameterNotAllowed $exception) {
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
 			$this->assertSame('fBar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
 			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
@@ -3583,11 +3743,91 @@ class CallTest extends TestCase
 				];
 			});
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
-		} catch (Exceptions\Guard\ParameterNotAllowed $exception) {
+		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
 			$this->assertSame('testGuardParameterMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+		}
+	}
+	
+	/**
+	 * Test <code>haltInternal</code> method.
+	 * 
+	 * @testdox Call::haltInternal(...)
+	 * 
+	 * @return void
+	 */
+	public function testHaltInternalMethod(): void
+	{
+		//exception 1
+		try {
+			UCall::haltInternal();
+			$this->fail("Expected InternalError exception not thrown.");
+		} catch (Exceptions\Halt\InternalError $exception) {
+			$this->assertSame('testHaltInternalMethod', $exception->function_name);
+			$this->assertSame($this, $exception->object_class);
+			$this->assertNull($exception->error_message);
+			$this->assertNull($exception->hint_message);
+		}
+		
+		//exception 2
+		try {
+			UCall::haltInternal([
+				'error_message' => "Potatoes are not for sale.",
+				'hint_message' => "Try some eggs.",
+				'function_name' => 'barFoo',
+				'object_class' => CallTest_Class::class
+			]);
+			$this->fail("Expected InternalError exception not thrown.");
+		} catch (Exceptions\Halt\InternalError $exception) {
+			$this->assertSame('barFoo', $exception->function_name);
+			$this->assertSame(CallTest_Class::class, $exception->object_class);
+			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+			$this->assertSame("Try some eggs.", $exception->hint_message);
+		}
+		
+		//exception 3
+		try {
+			UCall::haltInternal([
+				'error_message' => "{{product1}} are not for sale.",
+				'hint_message' => "Try some {{product2}}.",
+				'function_name' => 'foo2Bar',
+				'stack_offset' => 1,
+				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+			]);
+			$this->fail("Expected InternalError exception not thrown.");
+		} catch (Exceptions\Halt\InternalError $exception) {
+			$this->assertSame('foo2Bar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+			$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+		}
+		
+		//exception 4
+		try {
+			UCall::haltInternal([
+				'error_message' => "There is only {{count1}} {{product1}}.",
+				'error_message_plural' => "There are only {{count1}} {{product1}}.",
+				'error_message_number_placeholder' => 'count1',
+				'hint_message' => "Try this {{count2}} {{product2}}.",
+				'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+				'hint_message_number_placeholder' => 'count2',
+				'function_name' => 'fBar',
+				'error_message_number' => 7,
+				'hint_message_number' => 2,
+				'stack_offset' => 2,
+				'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+				'stringifier' => function (string $placeholder, $value): ?string {
+					return is_int($value) ? (string)$value : "[{$value}]";
+				}
+			]);
+			$this->fail("Expected InternalError exception not thrown.");
+		} catch (Exceptions\Halt\InternalError $exception) {
+			$this->assertSame('fBar', $exception->function_name);
+			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+			$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
 		}
 	}
 	
@@ -3607,7 +3847,7 @@ class CallTest extends TestCase
 		try {
 			UCall::guardInternal(false);
 			$this->fail("Expected InternalError exception not thrown.");
-		} catch (Exceptions\Guard\InternalError $exception) {
+		} catch (Exceptions\Halt\InternalError $exception) {
 			$this->assertSame('testGuardInternalMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
@@ -3623,7 +3863,7 @@ class CallTest extends TestCase
 				'object_class' => CallTest_Class::class
 			]);
 			$this->fail("Expected InternalError exception not thrown.");
-		} catch (Exceptions\Guard\InternalError $exception) {
+		} catch (Exceptions\Halt\InternalError $exception) {
 			$this->assertSame('barFoo', $exception->function_name);
 			$this->assertSame(CallTest_Class::class, $exception->object_class);
 			$this->assertSame("Potatoes are not for sale.", $exception->error_message);
@@ -3640,7 +3880,7 @@ class CallTest extends TestCase
 				'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
 			]);
 			$this->fail("Expected InternalError exception not thrown.");
-		} catch (Exceptions\Guard\InternalError $exception) {
+		} catch (Exceptions\Halt\InternalError $exception) {
 			$this->assertSame('foo2Bar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
 			$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
@@ -3666,7 +3906,7 @@ class CallTest extends TestCase
 				}
 			]);
 			$this->fail("Expected InternalError exception not thrown.");
-		} catch (Exceptions\Guard\InternalError $exception) {
+		} catch (Exceptions\Halt\InternalError $exception) {
 			$this->assertSame('fBar', $exception->function_name);
 			$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
 			$this->assertSame("There are only 7 [bananas].", $exception->error_message);
@@ -3692,11 +3932,158 @@ class CallTest extends TestCase
 				];
 			});
 			$this->fail("Expected InternalError exception not thrown.");
-		} catch (Exceptions\Guard\InternalError $exception) {
+		} catch (Exceptions\Halt\InternalError $exception) {
 			$this->assertSame('testGuardInternalMethod', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
+		}
+	}
+	
+	/**
+	 * Test <code>haltExecution</code> method.
+	 * 
+	 * @testdox Call::haltExecution(...)
+	 * 
+	 * @return void
+	 */
+	public function testHaltExecutionMethod(): void
+	{
+		//initialize
+		$functions = [
+			function () {},
+			[CallTest_HaltClass::class, 'getBar']
+		];
+		$extra_options = [
+			['value' => '_bar_'],
+			['exception' => new \Exception("Something went very wrong!")]
+		];
+		
+		//exception 1
+		foreach ($functions as $function) {
+			foreach ($extra_options as $e_options) {
+				try {
+					UCall::haltExecution($function, $e_options);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Halt\ReturnError $exception) {
+					if (isset($e_options['value'])) {
+						$this->assertNull($exception->error_message);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertSame("Something went very wrong!", $exception->error_message);
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('testHaltExecutionMethod', $exception->function_name);
+					$this->assertSame($this, $exception->object_class);
+					$this->assertNull($exception->hint_message);
+					$this->assertSame($e_options['value'] ?? null, $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_HaltClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 2
+		foreach ($functions as $function) {
+			foreach ($extra_options as $e_options) {
+				try {
+					UCall::haltExecution($function, $e_options + [
+						'error_message' => "Potatoes are not for sale.",
+						'hint_message' => "Try some eggs.",
+						'function_name' => 'barFoo',
+						'object_class' => CallTest_Class::class
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Halt\ReturnError $exception) {
+					if (isset($e_options['value'])) {
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('barFoo', $exception->function_name);
+					$this->assertSame(CallTest_Class::class, $exception->object_class);
+					$this->assertSame("Potatoes are not for sale.", $exception->error_message);
+					$this->assertSame("Try some eggs.", $exception->hint_message);
+					$this->assertSame($e_options['value'] ?? null, $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_HaltClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 3
+		foreach ($functions as $function) {
+			foreach ($extra_options as $e_options) {
+				try {
+					UCall::haltExecution($function, $e_options + [
+						'error_message' => "{{product1}} are not for sale.",
+						'hint_message' => "Try some {{product2}}.",
+						'function_name' => 'foo2Bar',
+						'stack_offset' => 1,
+						'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Halt\ReturnError $exception) {
+					if (isset($e_options['value'])) {
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('foo2Bar', $exception->function_name);
+					$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
+					$this->assertSame("\"Bananas\" are not for sale.", $exception->error_message);
+					$this->assertSame("Try some \"peaches\".", $exception->hint_message);
+					$this->assertSame($e_options['value'] ?? null, $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_HaltClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
+		}
+		
+		//exception 4
+		foreach ($functions as $function) {
+			foreach ($extra_options as $e_options) {
+				try {
+					UCall::haltExecution($function, $e_options + [
+						'error_message' => "There is only {{count1}} {{product1}}.",
+						'error_message_plural' => "There are only {{count1}} {{product1}}.",
+						'error_message_number_placeholder' => 'count1',
+						'hint_message' => "Try this {{count2}} {{product2}}.",
+						'hint_message_plural' => "Try these {{count2}} {{product2}}.",
+						'hint_message_number_placeholder' => 'count2',
+						'function_name' => 'fBar',
+						'error_message_number' => 7,
+						'hint_message_number' => 2,
+						'stack_offset' => 2,
+						'parameters' => ['product1' => 'bananas', 'product2' => 'peaches'],
+						'stringifier' => function (string $placeholder, $value): ?string {
+							return is_int($value) ? (string)$value : "[{$value}]";
+						}
+					]);
+					$this->fail("Expected ReturnError exception not thrown.");
+				} catch (Exceptions\Halt\ReturnError $exception) {
+					if (isset($e_options['value'])) {
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					}
+					$this->assertSame('fBar', $exception->function_name);
+					$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
+					$this->assertSame("There are only 7 [bananas].", $exception->error_message);
+					$this->assertSame("Try these 2 [peaches].", $exception->hint_message);
+					$this->assertSame($e_options['value'] ?? null, $exception->value);
+					$this->assertSame(
+						is_array($function) ? CallTest_HaltClass::class . '::getBar' : null,
+						$exception->exec_function_full_name
+					);
+				}
+			}
 		}
 	}
 	
@@ -3746,13 +4133,14 @@ class CallTest extends TestCase
 				try {
 					UCall::guardExecution($function, $parameters, $callback);
 					$this->fail("Expected ReturnError exception not thrown.");
-				} catch (Exceptions\Guard\ReturnError $exception) {
+				} catch (Exceptions\Halt\ReturnError $exception) {
 					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
 					$this->assertSame($this, $exception->object_class);
 					if ($callback === $callback_false) {
-						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 						$this->assertNull($exception->error_message);
 					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 						$this->assertNotNull($exception->error_message);
 					}
 					$this->assertNull($exception->hint_message);
@@ -3776,9 +4164,11 @@ class CallTest extends TestCase
 						'object_class' => CallTest_Class::class
 					]);
 					$this->fail("Expected ReturnError exception not thrown.");
-				} catch (Exceptions\Guard\ReturnError $exception) {
+				} catch (Exceptions\Halt\ReturnError $exception) {
 					if ($callback === $callback_false) {
-						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
 					$this->assertSame('barFoo', $exception->function_name);
 					$this->assertSame(CallTest_Class::class, $exception->object_class);
@@ -3805,9 +4195,11 @@ class CallTest extends TestCase
 						'parameters' => ['product1' => 'Bananas', 'product2' => 'peaches']
 					]);
 					$this->fail("Expected ReturnError exception not thrown.");
-				} catch (Exceptions\Guard\ReturnError $exception) {
+				} catch (Exceptions\Halt\ReturnError $exception) {
 					if ($callback === $callback_false) {
-						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
 					$this->assertSame('foo2Bar', $exception->function_name);
 					$this->assertSame(UCall::stackPreviousObjectClass(), $exception->object_class);
@@ -3843,9 +4235,11 @@ class CallTest extends TestCase
 						}
 					]);
 					$this->fail("Expected ReturnError exception not thrown.");
-				} catch (Exceptions\Guard\ReturnError $exception) {
+				} catch (Exceptions\Halt\ReturnError $exception) {
 					if ($callback === $callback_false) {
-						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
 					$this->assertSame('fBar', $exception->function_name);
 					$this->assertSame(UCall::stackPreviousObjectClass(1), $exception->object_class);
@@ -3881,9 +4275,11 @@ class CallTest extends TestCase
 						];
 					});
 					$this->fail("Expected ReturnError exception not thrown.");
-				} catch (Exceptions\Guard\ReturnError $exception) {
+				} catch (Exceptions\Halt\ReturnError $exception) {
 					if ($callback === $callback_false) {
-						$this->assertInstanceOf(Exceptions\Guard\ReturnNotAllowed::class, $exception);
+						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
+					} else {
+						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
 					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
 					$this->assertSame($this, $exception->object_class);
@@ -4526,6 +4922,14 @@ class CallTest_StackClassC
 	{
 		return UCall::stackPreviousObjectsClasses($offset, $limit);
 	}
+}
+
+
+
+/** Test case dummy halt class. */
+class CallTest_HaltClass
+{
+	public static function getBar(string $a, int $b) {}
 }
 
 

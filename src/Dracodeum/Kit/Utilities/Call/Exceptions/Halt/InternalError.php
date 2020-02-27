@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Utilities\Call\Exceptions\Guard;
+namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
-use Dracodeum\Kit\Utilities\Call\Exceptions\Guard as Exception;
+use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>guardInternal</code> method whenever an internal error occurs 
+ * This exception is thrown from the call utility <code>haltInternal</code> method whenever an internal error occurs 
  * in a given function or method call.
  */
 class InternalError extends Exception

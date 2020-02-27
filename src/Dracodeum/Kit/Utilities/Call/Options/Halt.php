@@ -12,7 +12,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
 
 /**
- * Call utility <code>guard</code> method options.
+ * Call utility <code>halt</code> method options.
  * 
  * @property string|null $error_message [coercive] [default = null]
  * <p>The error message to use in the thrown exception, 
@@ -90,7 +90,7 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * The stringified value for the given hint message placeholder or <code>null</code> if no stringification occurred.</p>
  * @see \Dracodeum\Kit\Utilities\Text
  */
-class Guard extends Options
+class Halt extends Options
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */

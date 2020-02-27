@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Utilities\Call\Exceptions\Guard;
+namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
-use Dracodeum\Kit\Utilities\Call\Exceptions\Guard as Exception;
+use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>guardParameter</code> method whenever a given parameter 
+ * This exception is thrown from the call utility <code>haltParameter</code> method whenever a given parameter 
  * from a given function or method call is not allowed.
  * 
  * @property-read string $name [coercive]

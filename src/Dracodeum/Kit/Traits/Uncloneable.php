@@ -20,6 +20,6 @@ trait Uncloneable
 	/** Prevent class instance from being cloned. */
 	final public function __clone()
 	{
-		UCall::guard(false, ['error_message' => "Instances of this class cannot be cloned."]);
+		UCall::halt(['error_message' => "Instances of this class cannot be cloned."]);
 	}
 }

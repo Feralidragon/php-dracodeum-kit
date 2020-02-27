@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Utilities\Call\Exceptions\Guard;
+namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
-use Dracodeum\Kit\Utilities\Call\Exceptions\Guard as Exception;
+use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>guard</code> method whenever a given function or method call 
+ * This exception is thrown from the call utility <code>halt</code> method whenever a given function or method call 
  * is not allowed.
  */
 class NotAllowed extends Exception

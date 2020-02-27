@@ -5,10 +5,10 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Utilities\Call\Exceptions\Guard;
+namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
 /**
- * This exception is thrown from the call utility <code>guardExecution</code> method whenever a given returned value 
+ * This exception is thrown from the call utility <code>haltExecution</code> method whenever a given returned value 
  * from a given executed function in a given function or method call is not allowed.
  */
 class ReturnNotAllowed extends ReturnError

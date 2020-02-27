@@ -7,5 +7,5 @@
 
 namespace Dracodeum\Kit\Utilities\Call\Options;
 
-/** Call utility <code>guardInternal</code> method options. */
-class GuardInternal extends Guard {}
+/** Call utility <code>haltParameter</code> method options. */
+class HaltParameter extends Halt {}

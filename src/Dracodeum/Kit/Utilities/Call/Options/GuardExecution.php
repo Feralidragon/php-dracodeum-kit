@@ -8,4 +8,4 @@
 namespace Dracodeum\Kit\Utilities\Call\Options;
 
 /** Call utility <code>guardExecution</code> method options. */
-class GuardExecution extends Guard {}
+class GuardExecution extends Halt {}

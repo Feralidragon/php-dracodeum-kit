@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Utilities\Call\Exceptions;
 use Dracodeum\Kit\Utilities\Call\Exception;
 
 /**
- * Call utility <code>guard</code> methods exception.
+ * Call utility <code>halt</code> methods exception.
  * 
  * @property-read string $function_name [coercive]
  * <p>The function or method name.</p>
@@ -21,7 +21,7 @@ use Dracodeum\Kit\Utilities\Call\Exception;
  * @property-read string|null $hint_message [coercive] [default = null]
  * <p>The hint message.</p>
  */
-abstract class Guard extends Exception
+abstract class Halt extends Exception
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

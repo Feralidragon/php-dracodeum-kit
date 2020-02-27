@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Utilities\Call\Exceptions\Guard;
+namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
-use Dracodeum\Kit\Utilities\Call\Exceptions\Guard as Exception;
+use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>guardExecution</code> method whenever a return error occurs 
+ * This exception is thrown from the call utility <code>haltExecution</code> method whenever a return error occurs 
  * with a given value from a given executed function in a given function or method call.
  * 
  * @property-read mixed $value
