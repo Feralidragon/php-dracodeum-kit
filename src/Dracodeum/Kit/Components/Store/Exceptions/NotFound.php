@@ -16,7 +16,7 @@ use Dracodeum\Kit\Components\Store\Structures\Uid;
  * @property-read \Dracodeum\Kit\Components\Store\Structures\Uid $uid [coercive]
  * <p>The UID instance.</p>
  */
-class ResourceNotFound extends Exception
+class NotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */

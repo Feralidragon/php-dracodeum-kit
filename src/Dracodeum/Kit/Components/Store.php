@@ -166,7 +166,7 @@ class Store extends Component
 	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
 	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
@@ -185,7 +185,7 @@ class Store extends Component
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+				throw new Exceptions\NotFound([$this, $prototype, $uid]);
 			}
 			return $values;
 		}
@@ -205,7 +205,7 @@ class Store extends Component
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceConflict
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
 	 * @return array|null
 	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
@@ -224,7 +224,7 @@ class Store extends Component
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\ResourceConflict([$this, $prototype, $uid]);
+				throw new Exceptions\Conflict([$this, $prototype, $uid]);
 			}
 			$uid = $insert_uid->setAsReadonly();
 			return $inserted_values;
@@ -243,7 +243,7 @@ class Store extends Component
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
 	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
@@ -262,7 +262,7 @@ class Store extends Component
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+				throw new Exceptions\NotFound([$this, $prototype, $uid]);
 			}
 			return $updated_values;
 		}
@@ -278,7 +278,7 @@ class Store extends Component
 	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ResourceNotFound
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then boolean <code>true</code> is returned if the resource with the given UID was found and deleted, 
@@ -296,7 +296,7 @@ class Store extends Component
 			if ($no_throw) {
 				return $deleted;
 			} elseif (!$deleted) {
-				throw new Exceptions\ResourceNotFound([$this, $prototype, $uid]);
+				throw new Exceptions\NotFound([$this, $prototype, $uid]);
 			}
 			return;
 		}
