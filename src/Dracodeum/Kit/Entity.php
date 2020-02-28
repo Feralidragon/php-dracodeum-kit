@@ -829,8 +829,8 @@ IPersistable, IArrayInstantiable, IStringifiable
 	{
 		$id_name = $this->getIdPropertyName();
 		if ($id_name !== null) {
-			$values += [$id_name => $uid->id];
+			$values = [$id_name => $uid->id] + $values;
 		}
-		$values += $uid->scope_values;
+		$values = $uid->scope_values + $values;
 	}
 }
