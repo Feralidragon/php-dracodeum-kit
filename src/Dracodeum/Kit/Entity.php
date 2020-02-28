@@ -827,10 +827,13 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function processPostPersistence(array &$values, Uid $uid): void
 	{
+		//scope
+		$values = $uid->scope_values + $values;
+		
+		//id
 		$id_name = $this->getIdPropertyName();
 		if ($id_name !== null) {
 			$values = [$id_name => $uid->id] + $values;
 		}
-		$values = $uid->scope_values + $values;
 	}
 }
