@@ -23,6 +23,7 @@ use Dracodeum\Kit\Entity\{
 };
 use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Components\Store;
+use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -640,42 +641,14 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function insert(array $values): array
 	{
-		//id
-		$id = null;
-		$id_name = $this->getIdPropertyName();
-		if ($id_name !== null && array_key_exists($id_name, $values)) {
-			$id = $values[$id_name];
-			unset($values[$id_name]);
-		}
-		
-		//scope
-		$scope_values = [];
-		$base_scope = $this->getBaseScope();
-		if ($base_scope !== null) {
-			foreach (UText::placeholders($base_scope, true) as $name) {
-				if (array_key_exists($name, $values)) {
-					$scope_values[$name] = $values[$name];
-					unset($values[$name]);
-				}
-			}
-		}
-		
-		//uid
-		$uid = [
-			'id' => $id,
-			'name' => $this->getName(),
-			'base_scope' => $base_scope,
-			'scope_values' => $scope_values
-		];
+		//pre-persistence
+		$this->processPrePersistence($values, $uid);
 		
 		//insert
 		$inserted_values = $this->getStore()->insert($uid, $values);
 		
-		//finalize
-		if ($id_name !== null) {
-			$inserted_values += [$id_name => $uid->id];
-		}
-		$inserted_values += $uid->scope_values;
+		//post-persistence
+		$this->processPostPersistence($inserted_values, $uid);
 		
 		//return
 		return $inserted_values;
@@ -693,6 +666,171 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function update(array $old_values, array $new_values): array
 	{
-		//TODO
+		//pre-persistence
+		$this->processPrePersistence($new_values, $uid, $old_values);
+		
+		//check
+		if (empty($new_values)) {
+			return [];
+		}
+		
+		//update
+		$updated_values = $this->getStore()->update($uid, $new_values);
+		
+		//post-persistence
+		$this->processPostPersistence($updated_values, $uid);
+		
+		//return
+		return $updated_values;
+	}
+	
+	/**
+	 * Process pre-persistence with a given set of new values.
+	 * 
+	 * @param array $new_values [reference]
+	 * <p>The new values to process with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|null $uid [reference output]
+	 * <p>The output UID instance to use.</p>
+	 * @param array|null $old_values [reference] [default = null]
+	 * <p>The old values to process with, as <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
+	{
+		//initialize
+		$uid = null;
+		$n_values = $new_values;
+		$o_values = $old_values;
+		
+		//id
+		$id = null;
+		$id_name = $this->getIdPropertyName();
+		if ($id_name !== null) {
+			//check
+			if (array_key_exists($id_name, $n_values)) {
+				//old values
+				if ($o_values !== null) {
+					//check
+					if (!array_key_exists($id_name, $o_values)) {
+						UCall::haltParameter('old_values', $old_values, [
+							'error_message' => "Missing ID property {{name}}.",
+							'parameters' => ['name' => $id_name]
+						]);
+					} elseif ($n_values[$id_name] !== $o_values[$id_name]) {
+						UCall::haltParameter('new_values', $new_values, [
+							'error_message' => "ID property {{name}} new value {{new_value}} mismatches " . 
+								"old value {{old value}}.",
+							'hint_message' => "The ID property must be immutable.",
+							'parameters' => [
+								'name' => $id_name,
+								'new_value' => $n_values[$id_name],
+								'old_value' => $o_values[$id_name]
+							]
+						]);
+					}
+					
+					//finalize
+					unset($o_values[$id_name]);
+				}
+				
+				//finalize
+				$id = $n_values[$id_name];
+				unset($n_values[$id_name]);
+				
+			} elseif ($o_values !== null) {
+				UCall::haltParameter('new_values', $new_values, [
+					'error_message' => "Missing ID property {{name}}.",
+					'parameters' => ['name' => $id_name]
+				]);
+			}
+		}
+		
+		//scope
+		$scope_values = [];
+		$base_scope = $this->getBaseScope();
+		if ($base_scope !== null) {
+			foreach (UText::placeholders($base_scope, true) as $name) {
+				//check
+				if (!array_key_exists($name, $n_values)) {
+					UCall::haltParameter('new_values', $new_values, [
+						'error_message' => "Missing scope property {{name}}.",
+						'parameters' => ['name' => $name]
+					]);
+				} elseif ($o_values !== null) {
+					//check
+					if (!array_key_exists($name, $o_values)) {
+						UCall::haltParameter('old_values', $old_values, [
+							'error_message' => "Missing scope property {{name}}.",
+							'parameters' => ['name' => $name]
+						]);
+					} elseif ($n_values[$name] !== $o_values[$name]) {
+						UCall::haltParameter('new_values', $new_values, [
+							'error_message' => "Scope property {{name}} new value {{new_value}} mismatches " . 
+								"old value {{old value}}.",
+							'hint_message' => "The scope properties must be immutable.",
+							'parameters' => [
+								'name' => $name,
+								'new_value' => $n_values[$name],
+								'old_value' => $o_values[$name]
+							]
+						]);
+					}
+					
+					//finalize
+					unset($o_values[$name]);
+				}
+				
+				//finalize
+				$scope_values[$name] = $n_values[$name];
+				unset($n_values[$name]);
+			}
+		}
+		
+		//persistables
+		foreach ($n_values as $name => $value) {
+			if (is_object($value) && $value instanceof IPersistable) {
+				unset($n_values[$name]);
+				if ($o_values !== null) {
+					unset($o_values[$name]);
+				}
+			}
+		}
+		
+		//compare
+		if ($o_values !== null) {
+			foreach ($n_values as $name => $value) {
+				if (array_key_exists($name, $o_values) && $value === $o_values[$name]) {
+					unset($n_values[$name], $o_values[$name]);
+				}
+			}
+		}
+		
+		//finalize
+		$uid = $this->getStore()->coerceUid([
+			'id' => $id,
+			'name' => $this->getName(),
+			'base_scope' => $base_scope,
+			'scope_values' => $scope_values
+		]);
+		$new_values = $n_values;
+		$old_values = $o_values;
+	}
+	
+	/**
+	 * Process post-persistence with a given set of values.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The values to process with, as <samp>name => value</samp> pairs.</p>
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to use.</p>
+	 * @return void
+	 */
+	final private function processPostPersistence(array &$values, Uid $uid): void
+	{
+		$id_name = $this->getIdPropertyName();
+		if ($id_name !== null) {
+			$values += [$id_name => $uid->id];
+		}
+		$values += $uid->scope_values;
 	}
 }
