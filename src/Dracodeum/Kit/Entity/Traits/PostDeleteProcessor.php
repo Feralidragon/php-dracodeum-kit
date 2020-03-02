@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Entity\Traits;
 
-/** This trait defines a method to perform processing after an instance is deleted in an entity. */
+/** This trait defines a method to perform processing after an entity instance is deleted. */
 trait PostDeleteProcessor
 {
 	//Protected static methods

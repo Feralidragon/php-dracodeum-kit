@@ -1121,34 +1121,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 			unset($old_values);
 			
 		} else {
-			//initialize
-			$missing_names = [];
-			
 			//insert
-			$values = UCall::guardExecution(
-				$inserter, [$new_values],
-				function (&$value) use (&$missing_names): bool {
-					foreach ($this->properties as $name => $property) {
-						if ($property->isAutomatic() && !array_key_exists($name, $value)) {
-							$missing_names[] = $name;
-						}
-					}
-					return empty($missing_names);
-				},
-				function () use (&$missing_names) {
-					return [
-						'error_message' => "Missing automatically generated property {{names}} " . 
-							"in manager with owner {{owner}}.",
-						'error_message_plural' => "Missing automatically generated properties {{names}} " . 
-							"in manager with owner {{owner}}.",
-						'error_message_number' => count($missing_names),
-						'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
-						'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-					];
-				}
-			);
+			$values = $inserter($new_values);
 			
-			//finish
+			//missing names
+			$missing_names = [];
+			foreach ($this->properties as $name => $property) {
+				if ($property->isAutomatic() && !array_key_exists($name, $values)) {
+					$missing_names[] = $name;
+				}
+			}
+			if (!empty($missing_names)) {
+				UCall::haltExecution($inserter, [
+					'value' => $values,
+					'error_message' => "Missing automatically generated property {{names}} " . 
+						"in manager with owner {{owner}}.",
+					'error_message_plural' => "Missing automatically generated properties {{names}} " . 
+						"in manager with owner {{owner}}.",
+					'error_message_number' => count($missing_names),
+					'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
+					'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+				]);
+			}
 			unset($missing_names);
 		}
 		

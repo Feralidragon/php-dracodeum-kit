@@ -55,6 +55,10 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
  * @see \Dracodeum\Kit\Entity\Traits\IdPropertyName
  * @see \Dracodeum\Kit\Entity\Traits\BaseScope
+ * @see \Dracodeum\Kit\Entity\Traits\PreInsertProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\PostInsertProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\PreUpdateProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\PostUpdateProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PreDeleteProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PostDeleteProcessor
  */
@@ -75,6 +79,10 @@ IPersistable, IArrayInstantiable, IStringifiable
 	use Traits\Initializer;
 	use Traits\IdPropertyName;
 	use Traits\BaseScope;
+	use Traits\PreInsertProcessor;
+	use Traits\PostInsertProcessor;
+	use Traits\PreUpdateProcessor;
+	use Traits\PostUpdateProcessor;
 	use Traits\PreDeleteProcessor;
 	use Traits\PostDeleteProcessor;
 	
@@ -208,7 +216,11 @@ IPersistable, IArrayInstantiable, IStringifiable
 		return true;
 	}
 	
-	/** {@inheritdoc} */
+	/**
+	 * {@inheritdoc}
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 */
 	final public function persist(bool $recursive = false): object
 	{
 		//properties
@@ -368,6 +380,13 @@ IPersistable, IArrayInstantiable, IStringifiable
 			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
 			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
 		}
+		
+		//finalize
+		$id_name = static::getIdPropertyName();
+		if ($id_name !== null) {
+			$properties += [$id_name => $id];
+		}
+		$properties += $scope_values;
 		
 		//return
 		return static::build($properties, true);
@@ -636,19 +655,29 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param array $values
 	 * <p>The values to insert, as <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
 	 * @return array
 	 * <p>The inserted values, as <samp>name => value</samp> pairs.</p>
 	 */
 	final private function insert(array $values): array
 	{
+		//pre-insert
+		$this->processPreInsert($values);
+		
 		//pre-persistence
 		$this->processPrePersistence($values, $uid);
 		
 		//insert
-		$inserted_values = $this->getStore()->insert($uid, $values);
+		$inserted_values = $this->getStore()->insert($uid, $values, true);
+		if ($inserted_values === null) {
+			throw new Exceptions\Conflict([$this, $uid->id, 'scope' => $uid->scope]);
+		}
 		
 		//post-persistence
 		$this->processPostPersistence($inserted_values, $uid);
+		
+		//post-insert
+		$this->processPostInsert($inserted_values);
 		
 		//return
 		return $inserted_values;
@@ -661,6 +690,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>The old values to update from, as <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values
 	 * <p>The new values to update to, as <samp>name => value</samp> pairs.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return array
 	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -674,8 +704,17 @@ IPersistable, IArrayInstantiable, IStringifiable
 			return [];
 		}
 		
+		//pre-update
+		$this->processPreUpdate($old_values, $new_values);
+		
 		//update
-		$updated_values = $this->getStore()->update($uid, $new_values);
+		$updated_values = $this->getStore()->update($uid, $new_values, true);
+		if ($updated_values === null) {
+			throw new Exceptions\NotFound([$this, $uid->id, 'scope' => $uid->scope]);
+		}
+		
+		//post-update
+		$this->processPostUpdate($old_values, $updated_values + $new_values);
 		
 		//post-persistence
 		$this->processPostPersistence($updated_values, $uid);
@@ -710,7 +749,6 @@ IPersistable, IArrayInstantiable, IStringifiable
 			if (array_key_exists($id_name, $n_values)) {
 				//old values
 				if ($o_values !== null) {
-					//check
 					if (!array_key_exists($id_name, $o_values)) {
 						UCall::haltParameter('old_values', $old_values, [
 							'error_message' => "Missing ID property {{name}}.",
@@ -719,7 +757,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 					} elseif ($n_values[$id_name] !== $o_values[$id_name]) {
 						UCall::haltParameter('new_values', $new_values, [
 							'error_message' => "ID property {{name}} new value {{new_value}} mismatches " . 
-								"old value {{old value}}.",
+								"old value {{old_value}}.",
 							'hint_message' => "The ID property must be immutable.",
 							'parameters' => [
 								'name' => $id_name,
@@ -728,8 +766,6 @@ IPersistable, IArrayInstantiable, IStringifiable
 							]
 						]);
 					}
-					
-					//finalize
 					unset($o_values[$id_name]);
 				}
 				
@@ -757,7 +793,6 @@ IPersistable, IArrayInstantiable, IStringifiable
 						'parameters' => ['name' => $name]
 					]);
 				} elseif ($o_values !== null) {
-					//check
 					if (!array_key_exists($name, $o_values)) {
 						UCall::haltParameter('old_values', $old_values, [
 							'error_message' => "Missing scope property {{name}}.",
@@ -766,7 +801,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 					} elseif ($n_values[$name] !== $o_values[$name]) {
 						UCall::haltParameter('new_values', $new_values, [
 							'error_message' => "Scope property {{name}} new value {{new_value}} mismatches " . 
-								"old value {{old value}}.",
+								"old value {{old_value}}.",
 							'hint_message' => "The scope properties must be immutable.",
 							'parameters' => [
 								'name' => $name,
@@ -775,8 +810,6 @@ IPersistable, IArrayInstantiable, IStringifiable
 							]
 						]);
 					}
-					
-					//finalize
 					unset($o_values[$name]);
 				}
 				
@@ -827,13 +860,13 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function processPostPersistence(array &$values, Uid $uid): void
 	{
-		//scope
-		$values = $uid->scope_values + $values;
-		
 		//id
 		$id_name = $this->getIdPropertyName();
 		if ($id_name !== null) {
-			$values = [$id_name => $uid->id] + $values;
+			$values += [$id_name => $uid->id];
 		}
+		
+		//scope
+		$values += $uid->scope_values;
 	}
 }
