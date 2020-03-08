@@ -15,7 +15,7 @@ interface Persistable
 	 * Check if has already been persisted at least once.
 	 * 
 	 * @param bool $recursive [default = false]
-	 * <p>Check if it has been recursively persisted at least once.</p>
+	 * <p>Check if it has already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
 	 */

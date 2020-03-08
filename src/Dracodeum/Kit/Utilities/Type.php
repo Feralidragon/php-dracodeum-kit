@@ -16,10 +16,11 @@ use Dracodeum\Kit\Interfaces\{
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
 	StringInstantiable as IStringInstantiable,
+	Uninstantiable as IUninstantiable,
 	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
-	Uninstantiable as IUninstantiable,
-	Readonlyable as IReadonlyable
+	Readonlyable as IReadonlyable,
+	Persistable as IPersistable
 };
 
 /**
@@ -1715,6 +1716,80 @@ final class Type extends Utility
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				self::setValueAsReadonly($v, $recursive);
+			}
+		}
+	}
+	
+	/**
+	 * Check if a given object is persistable.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is persistable.</p>
+	 */
+	final public static function persistable(object $object): bool
+	{
+		return $object instanceof IPersistable;
+	}
+	
+	/**
+	 * Check if a given object has already been persisted at least once.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Check if the given object has already been recursively persisted at least once.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object has already been persisted at least once.</p>
+	 */
+	final public static function persisted(object $object, bool $recursive = false): bool
+	{
+		return $object instanceof IPersistable ? $object->isPersisted($recursive) : false;
+	}
+	
+	/**
+	 * Persist a given object.
+	 * 
+	 * @param object $object
+	 * <p>The object to persist.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnpersistableObject
+	 * @return void
+	 */
+	final public static function persist(object $object, bool $recursive = false): void
+	{
+		if ($object instanceof IPersistable) {
+			$object->persist($recursive);
+			return;
+		}
+		throw new Exceptions\UnpersistableObject([$object]);
+	}
+	
+	/**
+	 * Persist a given value.
+	 * 
+	 * If the given value is a persistable object, then it is persisted.<br>
+	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
+	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
+	 * with every persistable object found being persisted.<br>
+	 * <br>
+	 * For any other case, the given value is left as is.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to persist.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
+	 * @return void
+	 */
+	final public static function persistValue($value, bool $recursive = false): void
+	{
+		if (is_object($value) && $value instanceof IPersistable) {
+			$value->persist($recursive);
+		} elseif ($recursive && Data::evaluate($value)) {
+			foreach ($value as $v) {
+				self::persistValue($v, $recursive);
 			}
 		}
 	}
