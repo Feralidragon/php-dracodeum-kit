@@ -18,7 +18,8 @@ use Dracodeum\Kit\Interfaces\{
 	StringInstantiable as IStringInstantiable,
 	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
-	Uninstantiable as IUninstantiable
+	Uninstantiable as IUninstantiable,
+	Readonlyable as IReadonlyable
 };
 
 /**
@@ -1669,13 +1670,53 @@ final class Type extends Utility
 	{
 		if (is_object($value) && self::cloneable($value)) {
 			return self::clone($value, $recursive);
-		} elseif (is_array($value) && $recursive) {
+		} elseif ($recursive && is_array($value)) {
 			foreach ($value as &$v) {
 				$v = self::cloneValue($v, $recursive);
 			}
 			unset($v);
 		}
 		return $value;
+	}
+	
+	/**
+	 * Check if a given object is read-only-able.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is read-only-able.</p>
+	 */
+	final public static function readonlyable(object $object): bool
+	{
+		return $object instanceof IReadonlyable;
+	}
+	
+	/**
+	 * Set a given value as read-only.
+	 * 
+	 * If the given value is a read-only-able object, then it is set as read-only.<br>
+	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
+	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
+	 * with every read-only-able object found being set as read-only.<br>
+	 * <br>
+	 * For any other case, the given value is left as is.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to set as read-only.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
+	 * @return void
+	 */
+	final public static function setValueAsReadonly($value, bool $recursive = false): void
+	{
+		if (is_object($value) && $value instanceof IReadonlyable) {
+			$value->setAsReadonly($recursive);
+		} elseif ($recursive && Data::evaluate($value)) {
+			foreach ($value as $v) {
+				self::setValueAsReadonly($v, $recursive);
+			}
+		}
 	}
 	
 	/**

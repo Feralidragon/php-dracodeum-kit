@@ -84,19 +84,8 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 			
 			//recursive
 			if ($recursive) {
-				//keys
-				foreach ($this->keys as $key) {
-					if (is_object($key) && $key instanceof IReadonlyable) {
-						$key->setAsReadonly($recursive);
-					}
-				}
-				
-				//values
-				foreach ($this->values as $value) {
-					if (is_object($value) && $value instanceof IReadonlyable) {
-						$value->setAsReadonly($recursive);
-					}
-				}
+				UType::setValueAsReadonly($this->keys, $recursive);
+				UType::setValueAsReadonly($this->values, $recursive);
 			}
 		});
 		

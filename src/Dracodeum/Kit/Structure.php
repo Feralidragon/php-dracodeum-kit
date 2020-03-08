@@ -89,11 +89,7 @@ IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, I
 			
 			//recursive
 			if ($recursive) {
-				foreach ($this->getAll() as $value) {
-					if (is_object($value) && $value instanceof IReadonlyable) {
-						$value->setAsReadonly($recursive);
-					}
-				}
+				UType::setValueAsReadonly($this->getAll(), $recursive);
 			}
 		});
 	}
