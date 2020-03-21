@@ -192,23 +192,11 @@ IPersistable, IArrayInstantiable, IStringifiable
 	/** {@inheritdoc} */
 	final public function isPersisted(bool $recursive = false): bool
 	{
-		//properties
 		if (!$this->arePropertiesPersisted()) {
 			return false;
+		} elseif ($recursive) {
+			return UType::persistedValue($this->getAll(), true, true);
 		}
-		
-		//recursive
-		if ($recursive) {
-			foreach ($this->getAll() as $value) {
-				if (is_object($value) && $value instanceof IPersistable) {
-					if (!$value->isPersisted($recursive)) {
-						return false;
-					}
-				}
-			}
-		}
-		
-		//return
 		return true;
 	}
 	
