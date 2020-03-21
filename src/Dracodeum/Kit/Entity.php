@@ -219,19 +219,10 @@ IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function persist(bool $recursive = false): object
 	{
-		//properties
 		$this->persistProperties(\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']));
-		
-		//recursive
 		if ($recursive) {
-			foreach ($this->getAll() as $value) {
-				if (is_object($value) && $value instanceof IPersistable) {
-					$value->persist($recursive);
-				}
-			}
+			UType::persistValue($this->getAll(), true);
 		}
-		
-		//return
 		return $this;
 	}
 	
