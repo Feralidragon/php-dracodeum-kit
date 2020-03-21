@@ -1694,6 +1694,40 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Check if a given object is read-only.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Check if the given object has been recursively set as read-only.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is read-only.</p>
+	 */
+	final public static function readonly(object $object, bool $recursive = false): bool
+	{
+		return $object instanceof IReadonlyable ? $object->isReadonly($recursive) : false;
+	}
+	
+	/**
+	 * Set a given object as read-only.
+	 * 
+	 * @param object $object
+	 * <p>The object to set as read-only.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnreadonlyableObject
+	 * @return void
+	 */
+	final public static function setAsReadonly(object $object, bool $recursive = false): void
+	{
+		if ($object instanceof IReadonlyable) {
+			$object->setAsReadonly($recursive);
+			return;
+		}
+		throw new Exceptions\UnreadonlyableObject([$object]);
+	}
+	
+	/**
 	 * Set a given value as read-only.
 	 * 
 	 * If the given value is a read-only-able object, then it is set as read-only.<br>
