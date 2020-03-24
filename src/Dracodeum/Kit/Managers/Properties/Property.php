@@ -559,6 +559,7 @@ class Property implements IUncloneable
 		if (!$force && $this->isLazy()) {
 			$this->value_getter = $value;
 			$this->flags |= self::FLAG_LAZY_VALUE;
+			$this->flags &= ~self::FLAG_VALUE;
 		} else {
 			//evaluate
 			if (!$this->getEvaluatorsManager()->evaluate($value)) {
