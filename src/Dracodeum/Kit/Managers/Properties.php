@@ -170,7 +170,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			$properties[$name] = $property->isInitialized() ? $property->getValue() : null;
+			$properties[$name] = $property->isInitialized() ? $property->getValue(true) : null;
 		}
 		
 		//set
@@ -180,6 +180,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				$property = $this->getProperty($name);
 				$property_mode = $property->getMode();
 				$property_debug_name = "{$property_mode}:{$name}";
+				
+				//lazy
+				if ($property->isLazy()) {
+					$property_debug_name = "lazy {$property_debug_name}";
+				}
 				
 				//persistence
 				if ($property->isAutoImmutable()) {
@@ -680,7 +685,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 				}
 				
 				//set
-				UCall::guardParameter('properties', $properties, $property->setValue($value, true), [
+				UCall::guardParameter('properties', $properties, $property->setValue($value, false, true), [
 					'error_message' => "Invalid value {{value}} for property {{name}} in manager with owner {{owner}}.",
 					'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
 				]);
@@ -736,10 +741,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
 	 * <p>The property value with the given name.</p>
 	 */
-	final public function get(string $name)
+	final public function get(string $name, bool $lazy = false)
 	{
 		//fallback
 		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
@@ -762,7 +769,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		]);
 		
 		//return
-		return $property->getValue();
+		return $property->getValue($lazy);
 	}
 	
 	/**
@@ -849,14 +856,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
+	 * @param bool $force [default = false]
+	 * <p>Force the given value to be fully evaluated and set, 
+	 * even if the property with the given name is set as lazy.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value): Properties
+	final public function set(string $name, $value, bool $force = false): Properties
 	{
 		//fallback
 		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
-			$this->fallback_object->set($name, $value);
+			$this->fallback_object->set($name, $value, $force);
 			return $this;
 		}
 		
@@ -899,7 +909,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		}
 		
 		//set
-		UCall::guardParameter('value', $value, $property->setValue($value, true), [
+		UCall::guardParameter('value', $value, $property->setValue($value, $force, true), [
 			'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
 			'parameters' => ['name' => $name, 'owner' => $this->owner]
 		]);
@@ -984,22 +994,24 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * If lazy-loading is enabled, then only the currently loaded properties are returned.<br>
 	 * Only properties which allow read access are returned.
 	 * 
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
 	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll(): array
+	final public function getAll(bool $lazy = false): array
 	{
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->getMode()[0] === 'r') {
-				$properties[$name] = $property->getValue();
+				$properties[$name] = $property->getValue($lazy);
 			}
 		}
 		
 		//fallback
 		if (isset($this->fallback_object)) {
-			$properties += $this->fallback_object->getAll();
+			$properties += $this->fallback_object->getAll($lazy);
 		}
 		
 		//return
@@ -1012,15 +1024,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * If lazy-loading is enabled, then only the currently loaded properties are returned.<br>
 	 * Only properties which are allowed to be initialized with are returned.
 	 * 
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
 	 * <p>All the initializeable properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAllInitializeable(): array
+	final public function getAllInitializeable(bool $lazy = false): array
 	{
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->getMode() !== 'r') {
-				$properties[$name] = $property->getValue();
+				$properties[$name] = $property->getValue($lazy);
 			}
 		}
 		return $properties;
@@ -1088,7 +1102,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$new_values = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
-				$new_values[$name] = $property->getValue();
+				$new_values[$name] = $property->getValue(true);
 			}
 		}
 		
@@ -1332,7 +1346,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		$this->persisted_values = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
-				$this->persisted_values[$name] = $property->getValue();
+				$this->persisted_values[$name] = $property->getValue(true);
 			}
 		}
 	}
@@ -1366,7 +1380,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		
 		//values
 		$old_value = $this->isPersisted() ? ($this->persisted_values[$name] ?? null) : null;
-		$new_value = $property->getValue();
+		$new_value = $property->getValue(true);
 		if ($new_value === $old_value) {
 			return;
 		}

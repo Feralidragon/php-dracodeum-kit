@@ -117,7 +117,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 			
 			//recursive
 			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(), $recursive);
+				UType::setValueAsReadonly($this->getAll(true), $recursive);
 			}
 		});
 		
@@ -195,7 +195,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 		if (!$this->arePropertiesPersisted()) {
 			return false;
 		} elseif ($recursive) {
-			return UType::persistedValue($this->getAll(), true, true);
+			return UType::persistedValue($this->getAll(true), true, true);
 		}
 		return true;
 	}
@@ -209,7 +209,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 	{
 		$this->persistProperties(\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']));
 		if ($recursive) {
-			UType::persistValue($this->getAll(), true);
+			UType::persistValue($this->getAll(true), true);
 		}
 		return $this;
 	}
@@ -564,7 +564,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 				$instance = $value;
 				if ($instance instanceof Entity) {
 					if (!UType::isA($instance, static::class)) {
-						$value = UType::coerceObject($builder($instance->getAll(), $persisted), static::class);
+						$value = UType::coerceObject($builder($instance->getAll(true), $persisted), static::class);
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {

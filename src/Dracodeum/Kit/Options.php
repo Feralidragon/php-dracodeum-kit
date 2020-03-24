@@ -84,7 +84,7 @@ IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 			
 			//recursive
 			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(), $recursive);
+				UType::setValueAsReadonly($this->getAll(true), $recursive);
 			}
 		});
 	}
@@ -144,7 +144,7 @@ IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 	/** {@inheritdoc} */
 	final public function clone(bool $recursive = false): object
 	{
-		$properties = $this->getAllInitializeable();
+		$properties = $this->getAllInitializeable(true);
 		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
 	}
 	
@@ -362,7 +362,7 @@ IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 				$instance = $value;
 				if ($instance instanceof Options) {
 					if (!UType::isA($instance, static::class)) {
-						$value = UType::coerceObject($builder($instance->getAll()), static::class);
+						$value = UType::coerceObject($builder($instance->getAll(true)), static::class);
 					} elseif ($clone) {
 						$value = $instance->clone();
 					}

@@ -26,10 +26,12 @@ interface Propertiesable
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
 	 * <p>The property with the given name.</p>
 	 */
-	public function get(string $name);
+	public function get(string $name, bool $lazy = false);
 	
 	/**
 	 * Get boolean property with a given name.
@@ -72,10 +74,13 @@ interface Propertiesable
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
+	 * @param bool $force [default = false]
+	 * <p>Force the given value to be fully evaluated and set, 
+	 * even if the property with the given name is set as lazy.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function set(string $name, $value): object;
+	public function set(string $name, $value, bool $force = false): object;
 	
 	/**
 	 * Unset property with a given name.
@@ -90,8 +95,10 @@ interface Propertiesable
 	/**
 	 * Get all properties.
 	 * 
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
 	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	public function getAll(): array;
+	public function getAll(bool $lazy = false): array;
 }

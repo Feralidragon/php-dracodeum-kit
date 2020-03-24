@@ -89,7 +89,7 @@ IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, I
 			
 			//recursive
 			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(), $recursive);
+				UType::setValueAsReadonly($this->getAll(true), $recursive);
 			}
 		});
 	}
@@ -164,7 +164,7 @@ IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, I
 	/** {@inheritdoc} */
 	final public function clone(bool $recursive = false): object
 	{
-		$properties = $this->getAllInitializeable();
+		$properties = $this->getAllInitializeable(true);
 		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
 	}
 	
@@ -388,7 +388,7 @@ IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, I
 				$instance = $value;
 				if ($instance instanceof Structure) {
 					if (!UType::isA($instance, static::class)) {
-						$value = UType::coerceObject($builder($instance->getAll()), static::class);
+						$value = UType::coerceObject($builder($instance->getAll(true)), static::class);
 					} elseif ($clone) {
 						$value = $value->clone();
 					}

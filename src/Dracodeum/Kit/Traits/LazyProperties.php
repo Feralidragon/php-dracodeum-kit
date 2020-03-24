@@ -113,12 +113,14 @@ trait LazyProperties
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
 	 * <p>The property value with the given name.</p>
 	 */
-	final public function get(string $name)
+	final public function get(string $name, bool $lazy = false)
 	{
-		return $this->getPropertiesManager()->get($name);
+		return $this->getPropertiesManager()->get($name, $lazy);
 	}
 	
 	/**
@@ -190,12 +192,15 @@ trait LazyProperties
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set with.</p>
+	 * @param bool $force [default = false]
+	 * <p>Force the given value to be fully evaluated and set, 
+	 * even if the property with the given name is set as lazy.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value): object
+	final public function set(string $name, $value, bool $force = false): object
 	{
-		$this->getPropertiesManager()->set($name, $value);
+		$this->getPropertiesManager()->set($name, $value, $force);
 		return $this;
 	}
 	
@@ -222,12 +227,14 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
 	 * <p>All the loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll(): array
+	final public function getAll(bool $lazy = false): array
 	{
-		return $this->getPropertiesManager()->getAll();
+		return $this->getPropertiesManager()->getAll($lazy);
 	}
 	
 	/**
@@ -400,12 +407,14 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
+	 * @param bool $lazy [default = false]
+	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
 	 * <p>All the initializeable loaded properties, as <samp>name => value</samp> pairs.</p>
 	 */
-	final protected function getAllInitializeable(): array
+	final protected function getAllInitializeable(bool $lazy = false): array
 	{
-		return $this->getPropertiesManager()->getAllInitializeable();
+		return $this->getPropertiesManager()->getAllInitializeable($lazy);
 	}
 	
 	/**
