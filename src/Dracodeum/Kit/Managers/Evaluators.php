@@ -43,8 +43,8 @@ class Evaluators extends Manager
 	/** @var bool */
 	private $locked = false;
 	
-	/** @var \Dracodeum\Kit\Utilities\Call\Options\Guard|array|callable|null */
-	private $locked_guard_options = null;
+	/** @var \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null */
+	private $locked_halt_options = null;
 	
 	
 	
@@ -58,7 +58,7 @@ class Evaluators extends Manager
 	final public function __construct(object $owner)
 	{
 		$this->owner = $owner;
-		$this->locked_guard_options = [
+		$this->locked_halt_options = [
 			'error_message' => "This method has been locked in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		];
@@ -118,7 +118,7 @@ class Evaluators extends Manager
 	final public function add(callable $evaluator): Evaluators
 	{
 		//initialize
-		UCall::guard(!$this->locked, $this->locked_guard_options);
+		UCall::guard(!$this->locked, $this->locked_halt_options);
 		UCall::assert('evaluator', $evaluator, function (&$value): bool {});
 		
 		//add
@@ -185,7 +185,7 @@ class Evaluators extends Manager
 	 */
 	final public function addAdditionCallback(callable $callback): Evaluators
 	{
-		UCall::guard(!$this->locked, $this->locked_guard_options);
+		UCall::guard(!$this->locked, $this->locked_halt_options);
 		UCall::assert('callback', $callback, function (callable $evaluator): void {});
 		$this->addition_callbacks[] = \Closure::fromCallable($callback);
 		return $this;
@@ -210,7 +210,7 @@ class Evaluators extends Manager
 	 */
 	final public function clear(): Evaluators
 	{
-		UCall::guard(!$this->locked, $this->locked_guard_options);
+		UCall::guard(!$this->locked, $this->locked_halt_options);
 		$this->evaluators = [];
 		return $this;
 	}
@@ -229,22 +229,22 @@ class Evaluators extends Manager
 	/**
 	 * Lock.
 	 * 
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
-	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null $halt_options [default = null]
+	 * <p>The halt options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
-	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Guard|array</b></code><br>
+	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function lock($guard_options = null): Evaluators
+	final public function lock($halt_options = null): Evaluators
 	{
 		$this->locked = true;
-		if (isset($guard_options)) {
-			$this->locked_guard_options = $guard_options;
+		if (isset($halt_options)) {
+			$this->locked_halt_options = $halt_options;
 		}
 		return $this;
 	}

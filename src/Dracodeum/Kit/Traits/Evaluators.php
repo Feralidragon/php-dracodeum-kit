@@ -98,20 +98,20 @@ trait Evaluators
 	/**
 	 * Lock evaluators.
 	 * 
-	 * @param \Dracodeum\Kit\Utilities\Call\Options\Guard|array|callable|null $guard_options [default = null]
-	 * <p>The guard options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null $halt_options [default = null]
+	 * <p>The halt options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
-	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Guard|array</b></code><br>
+	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
 	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function lockEvaluators($guard_options = null): object
+	final public function lockEvaluators($halt_options = null): object
 	{
-		$this->getEvaluatorsManager()->lock();
+		$this->getEvaluatorsManager()->lock($halt_options);
 		return $this;
 	}
 	
