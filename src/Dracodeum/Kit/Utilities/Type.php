@@ -20,6 +20,7 @@ use Dracodeum\Kit\Interfaces\{
 	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
 	Readonlyable as IReadonlyable,
+	Keyable as IKeyable,
 	Persistable as IPersistable
 };
 
@@ -1787,6 +1788,90 @@ final class Type extends Utility
 				self::setValueAsReadonly($v, $recursive);
 			}
 		}
+	}
+	
+	/**
+	 * Check if a given object is key-able.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is key-able.</p>
+	 */
+	final public static function keyable(object $object): bool
+	{
+		return $object instanceof IKeyable;
+	}
+	
+	/**
+	 * Cast a given object to a key.
+	 * 
+	 * @param object $object
+	 * <p>The object to cast.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Cast the given object to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * @param bool|null $safe [reference output] [default = null]
+	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
+	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
+	 * @return string
+	 * <p>The given object cast to a key.</p>
+	 */
+	final public static function key(object $object, bool $recursive = false, ?bool &$safe = null): string
+	{
+		$safe = null;
+		return $object instanceof IKeyable ? $object->toKey($recursive, $safe) : Data::keyfy($object, $safe);
+	}
+	
+	/**
+	 * Cast a given value to a key.
+	 * 
+	 * If the given value is a key-able object, then it is cast to a key.<br>
+	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
+	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
+	 * with every key-able object found being cast to a key.<br>
+	 * <br>
+	 * For any other case, the given value is forcefully keyfied.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to cast.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Cast the given value to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * @param bool $keyables_only [default = false]
+	 * <p>Cast key-able values only.</p>
+	 * @param bool|null $safe [reference output] [default = null]
+	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
+	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
+	 * @return string|null
+	 * <p>The given value cast to a key.<br>
+	 * If <var>$keyables_only</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be cast to a key.</p>
+	 */
+	final public static function keyValue(
+		$value, bool $recursive = false, bool $keyables_only = false, ?bool &$safe = null
+	): ?string
+	{
+		$safe = null;
+		if (is_object($value) && $value instanceof IKeyable) {
+			return $value->toKey($recursive, $safe);
+		} elseif ($recursive && Data::evaluate($value)) {
+			//array
+			$array = [];
+			$array_safe = true;
+			foreach ($value as $k => $v) {
+				if (!$keyables_only || (is_object($v) && self::keyable($v))) {
+					$array[$k] = self::keyValue($v, true, $keyables_only, $s);
+					$array_safe = $array_safe && $s;
+				}
+			}
+			
+			//finalize
+			if ($keyables_only && empty($array)) {
+				return null;
+			}
+			$safe = $array_safe;
+			return Data::keyfy($array);
+		}
+		return $keyables_only ? null : Data::keyfy($value, $safe);
 	}
 	
 	/**
