@@ -1735,7 +1735,7 @@ final class Type extends Utility
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				$readonlyable = is_object($v) && self::readonlyable($v);
-				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, true)) {
+				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, true, $readonlyables_only)) {
 					return false;
 				}
 			}
@@ -1928,7 +1928,7 @@ final class Type extends Utility
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				$persistable = is_object($v) && self::persistable($v);
-				if ((!$persistables_only || $persistable) && !self::persistedValue($v, true)) {
+				if ((!$persistables_only || $persistable) && !self::persistedValue($v, true, $persistables_only)) {
 					return false;
 				}
 			}
