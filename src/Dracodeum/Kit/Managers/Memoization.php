@@ -14,7 +14,6 @@ use Dracodeum\Kit\Managers\Memoization\{
 };
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
-	Data as UData,
 	Type as UType
 };
 
@@ -249,7 +248,7 @@ class Memoization extends Manager
 		array $key_parameters = []
 	) {
 		//key
-		$key = UData::keyfy([$name, $arguments, $key_parameters], $safe);
+		$key = UType::keyValue([$name, $arguments, $key_parameters], true, false, $safe);
 		if (!$safe) {
 			return $function(...$arguments);
 		}

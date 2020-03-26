@@ -10,6 +10,7 @@ namespace Dracodeum\Kit;
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
+	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
 	IntegerInstantiable as IIntegerInstantiable,
 	FloatInstantiable as IFloatInstantiable,
@@ -48,14 +49,15 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Options\Traits\StringPropertiesExtractor
  */
 abstract class Options
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IReadonlyable, IIntegerInstantiable,
-IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
+implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IKeyable, IReadonlyable,
+IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
 	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
 	use KitTraits\LazyProperties;
 	use KitTraits\LazyProperties\ArrayAccess;
+	use KitTraits\LazyProperties\Keyable;
 	use KitTraits\Readonly;
 	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;

@@ -11,6 +11,7 @@ use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
+	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
 	Stringifiable as IStringifiable,
 	IntegerInstantiable as IIntegerInstantiable,
@@ -49,8 +50,9 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Structure\Traits\StringPropertiesExtractor
  */
 abstract class Structure
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
-IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
+implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
+IReadonlyable, IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable,
+ICloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -58,6 +60,7 @@ IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, I
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use KitTraits\Properties\ArrayAccess;
+	use KitTraits\Properties\Keyable;
 	use KitTraits\Readonly;
 	use KitTraits\Stringifiable;
 	use KitTraits\CloneableOnly;

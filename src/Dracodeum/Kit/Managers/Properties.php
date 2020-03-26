@@ -11,7 +11,10 @@ use Dracodeum\Kit\{
 	Manager,
 	Traits
 };
-use Dracodeum\Kit\Interfaces\DebugInfo as IDebugInfo;
+use Dracodeum\Kit\Interfaces\{
+	DebugInfo as IDebugInfo,
+	Keyable as IKeyable
+};
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Managers\Properties\{
@@ -23,7 +26,8 @@ use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
 use Dracodeum\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
-	Text as UText
+	Text as UText,
+	Type as UType
 };
 
 /**
@@ -41,7 +45,7 @@ use Dracodeum\Kit\Utilities\{
  * automatic (automatically generated value during insert, disallowing the value to be set before insertion) or 
  * immutable (disallowing the value to be set to a new value after insertion) or both.
  */
-class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
+class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKeyable
 {
 	//Traits
 	use Traits\DebugInfo;
@@ -212,6 +216,21 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor
 		} else {
 			$info->setAll($properties);
 		}
+	}
+	
+	
+	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Keyable)
+	/** {@inheritdoc} */
+	final public function toKey(bool $recursive = false, ?bool &$safe = null): string
+	{
+		$properties = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized()) {
+				$properties[$name] = $property->getValue(true);
+			}
+		}
+		return get_class($this->owner) . '@properties:' . UType::keyValue($properties, $recursive, false, $safe);
 	}
 	
 	

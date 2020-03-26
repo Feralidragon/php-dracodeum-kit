@@ -1859,8 +1859,11 @@ final class Type extends Utility
 			$array_safe = true;
 			foreach ($value as $k => $v) {
 				if (!$keyables_only || (is_object($v) && self::keyable($v))) {
-					$array[$k] = self::keyValue($v, true, $keyables_only, $s);
-					$array_safe = $array_safe && $s;
+					$key = self::keyValue($v, true, $keyables_only, $s);
+					if ($key !== null) {
+						$array[$k] = $key;
+						$array_safe = $array_safe && $s;
+					}
 				}
 			}
 			
@@ -1869,7 +1872,7 @@ final class Type extends Utility
 				return null;
 			}
 			$safe = $array_safe;
-			return Data::keyfy($array);
+			return 'rK' . Data::keyfy(json_encode($array));
 		}
 		return $keyables_only ? null : Data::keyfy($value, $safe);
 	}

@@ -13,6 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
+	Keyable as IKeyable,
 	Stringifiable as IStringifiable,
 	Cloneable as ICloneable
 };
@@ -44,7 +45,7 @@ use Dracodeum\Kit\Utilities\{
  */
 final class Dictionary extends Primitive
 implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
-IArrayable, IArrayInstantiable, IStringifiable, ICloneable
+IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
@@ -265,6 +266,28 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	final public static function fromArray(array $array): object
 	{
 		return new static($array);
+	}
+	
+	
+	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Keyable)
+	/** {@inheritdoc} */
+	final public function toKey(bool $recursive = false, ?bool &$safe = null): string
+	{
+		//pairs
+		$pairs = [];
+		$pairs_safe = true;
+		foreach ($this->keys as $k => $key) {
+			$pairs[UData::keyfy($key, $s)] = $this->values[$k];
+			$pairs_safe = $pairs_safe && $s;
+		}
+		
+		//key
+		$key = static::class . '@pairs:' . UType::keyValue($pairs, $recursive, false, $safe);
+		$safe = $safe && $pairs_safe;
+		
+		//return
+		return $key;
 	}
 	
 	

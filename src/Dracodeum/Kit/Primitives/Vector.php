@@ -13,6 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
+	Keyable as IKeyable,
 	Stringifiable as IStringifiable,
 	Cloneable as ICloneable
 };
@@ -41,7 +42,7 @@ use Dracodeum\Kit\Utilities\{
  */
 final class Vector extends Primitive
 implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
-IArrayable, IArrayInstantiable, IStringifiable, ICloneable
+IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
@@ -228,6 +229,15 @@ IArrayable, IArrayInstantiable, IStringifiable, ICloneable
 	final public static function fromArray(array $array): object
 	{
 		return new static($array);
+	}
+	
+	
+	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Keyable)
+	/** {@inheritdoc} */
+	final public function toKey(bool $recursive = false, ?bool &$safe = null): string
+	{
+		return static::class . '@values:' . UType::keyValue($this->values, $recursive, false, $safe);
 	}
 	
 	

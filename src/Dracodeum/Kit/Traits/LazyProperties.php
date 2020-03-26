@@ -23,6 +23,7 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * Each and every property is only loaded on demand (lazy-loading).
  * 
  * @see \Dracodeum\Kit\Traits\LazyProperties\ArrayAccess
+ * @see \Dracodeum\Kit\Traits\LazyProperties\Keyable
  */
 trait LazyProperties
 {

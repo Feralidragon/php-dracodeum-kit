@@ -11,6 +11,7 @@ use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
 	Propertiesable as IPropertiesable,
 	Arrayable as IArrayable,
+	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
 	Persistable as IPersistable,
 	ArrayInstantiable as IArrayInstantiable,
@@ -63,8 +64,8 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Entity\Traits\PostDeleteProcessor
  */
 abstract class Entity
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, \JsonSerializable, IReadonlyable,
-IPersistable, IArrayInstantiable, IStringifiable
+implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
+IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -72,6 +73,7 @@ IPersistable, IArrayInstantiable, IStringifiable
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use KitTraits\Properties\ArrayAccess;
+	use KitTraits\Properties\Keyable;
 	use KitTraits\Readonly;
 	use KitTraits\Stringifiable;
 	use KitTraits\Uncloneable;
