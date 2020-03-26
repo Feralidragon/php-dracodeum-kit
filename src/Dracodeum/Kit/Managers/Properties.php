@@ -104,6 +104,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/** @var array */
 	private $persisted_values = [];
 	
+	/** @var string[] */
+	private $persisted_keys = [];
+	
 	/** @var \Closure[] */
 	private $pre_persistent_changes_callbacks = [];
 	
@@ -1090,13 +1093,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $old_values, array $new_values): array</code><br>
+	 * <code>function (array $old_values, array $new_values, array $changed_names): array</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $old_values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $new_values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string[] $changed_names</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The changed property names to update.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
 	 * The updated property values, as <samp>name => value</samp> pairs.<br>
@@ -1106,53 +1111,81 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * current value if a new one is not returned.<br>
 	 * <br>
 	 * Any returned property values that have no corresponding properties are ignored.</p>
-	 * @param bool $update_changes_only [default = false]
-	 * <p>Include only changed property values, both old and new, during an update.</p>
+	 * @param bool $changes_only [default = false]
+	 * <p>Include only changed property values, both old and new, 
+	 * during the call of the given inserter and updater functions.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function persist(callable $inserter, callable $updater, bool $update_changes_only = false): Properties
+	final public function persist(
+		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
+	): Properties
 	{
 		//assert
 		UCall::assert('inserter', $inserter, function (array $values): array {});
-		UCall::assert('updater', $updater, function (array $old_values, array $new_values): array {});
+		UCall::assert(
+			'updater', $updater, function (array $old_values, array $new_values, array $changed_names): array {}
+		);
+		
+		//old values
+		$old_values = $this->persisted_values;
 		
 		//new values
-		$new_values = [];
+		$new_values = $persistables = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
-				$new_values[$name] = $property->getValue(true);
+				$value = $property->getValue(true);
+				if (is_object($value) && UType::persistable($value)) {
+					$persistables[] = $value;
+				} elseif (!$property->isLazy()) {
+					$new_values[$name] = $value;
+				}
+				unset($value);
 			}
+		}
+		
+		//changes map
+		$changes_map = [];
+		if ($this->isPersisted()) {
+			foreach ($this->persisted_keys as $name => $key) {
+				if (array_key_exists($name, $new_values) && UType::keyValue($new_values[$name], true) !== $key) {
+					$changes_map[$name] = true;
+				}
+			}
+		} else {
+			$changes_map = array_fill_keys(array_keys($new_values), true);
+		}
+		
+		//check
+		if (empty($changes_map)) {
+			return $this;
 		}
 		
 		//pre-persistence callbacks
 		foreach ($this->pre_persistent_changes_callbacks as $name => $callbacks) {
-			$this->executePersistentChangeCallbacks($name, $callbacks);
+			if (isset($changes_map[$name])) {
+				$old_value = $old_values[$name] ?? null;
+				$new_value = $new_values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($old_value, $new_value);
+				}
+				unset($old_value, $new_value);
+			}
 		}
 		
 		//persist
 		$values = [];
 		if ($this->isPersisted()) {
-			//initialize
-			$old_values = $this->persisted_values;
-			
-			//changes only
-			if ($update_changes_only) {
-				foreach ($new_values as $name => $value) {
-					if (array_key_exists($name, $old_values) && $value === $old_values[$name]) {
-						unset($old_values[$name], $new_values[$name]);
-					}
-				}
+			$update_old_values = $old_values;
+			$update_new_values = $new_values;
+			if ($changes_only) {
+				$update_old_values = array_intersect_key($update_old_values, $changes_map);
+				$update_new_values = array_intersect_key($update_new_values, $changes_map);
 			}
-			
-			//update
-			if (!empty($new_values)) {
-				$values = $updater($old_values, $new_values);
-			}
-			
-			//finish
-			unset($old_values);
-			
+			$values = $updater($update_old_values, $update_new_values, array_keys($changes_map));
+			unset($update_old_values, $update_new_values);
 		} else {
 			//insert
 			$values = $inserter($new_values);
@@ -1188,10 +1221,24 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//post-persistence callbacks
 		foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
-			$this->executePersistentChangeCallbacks($name, $callbacks);
+			if (isset($changes_map[$name])) {
+				$old_value = $old_values[$name] ?? null;
+				$new_value = $new_values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($old_value, $new_value);
+				}
+				unset($old_value, $new_value);
+			}
 		}
 		
-		//finish
+		//recursive
+		if ($recursive) {
+			foreach ($persistables as $persistable) {
+				UType::persist($persistable, true);
+			}
+		}
+		
+		//finalize
 		$this->flags |= self::FLAG_PERSISTED;
 		$this->reloadPersistedValues();
 		
@@ -1362,51 +1409,29 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final private function reloadPersistedValues(): void
 	{
-		$this->persisted_values = [];
+		$this->persisted_values = $this->persisted_keys = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
-				$this->persisted_values[$name] = $property->getValue(true);
-			}
+			$this->reloadPersistedValue($name);
 		}
 	}
 	
 	/**
-	 * Execute a given set of persistent property change callback functions for a given property name.
+	 * Reload persisted property value with a given name.
 	 * 
 	 * @param string $name
-	 * <p>The property name to execute for.</p>
-	 * @param \Closure[] $callbacks
-	 * <p>The callback functions to execute.<br>
-	 * They are expected to be compatible with the following signature:<br>
-	 * <br>
-	 * <code>function ($old_value, $new_value): void</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
-	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
+	 * <p>The name to reload with.</p>
 	 * @return void
 	 */
-	final private function executePersistentChangeCallbacks(string $name, array $callbacks): void
+	final private function reloadPersistedValue(string $name): void
 	{
-		//property
-		$property = $this->properties[$name] ?? null;
-		if ($property === null || !$property->isInitialized()) {
-			return;
-		}
-		
-		//values
-		$old_value = $this->isPersisted() ? ($this->persisted_values[$name] ?? null) : null;
-		$new_value = $property->getValue(true);
-		if ($new_value === $old_value) {
-			return;
-		}
-		
-		//callbacks
-		foreach ($callbacks as $callback) {
-			$callback($old_value, $new_value);
+		if (isset($this->properties[$name]) && $this->properties[$name]->isInitialized()) {
+			$value = $this->properties[$name]->getValue(true);
+			if (is_object($value) && UType::persistable($value)) {
+				unset($this->persisted_values[$name], $this->persisted_keys[$name]);
+			} else {
+				$this->persisted_values[$name] = $value;
+				$this->persisted_keys[$name] = UType::keyValue($value, true);
+			}
 		}
 	}
 }

@@ -482,6 +482,17 @@ class Property implements IUncloneable
 	}
 	
 	/**
+	 * Check if has lazy value.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has lazy value.</p>
+	 */
+	final public function hasLazyValue(): bool
+	{
+		return $this->flags & self::FLAG_LAZY_VALUE;
+	}
+	
+	/**
 	 * Get value.
 	 * 
 	 * This method may only be called after initialization.
