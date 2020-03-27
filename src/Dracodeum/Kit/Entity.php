@@ -194,12 +194,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	/** {@inheritdoc} */
 	final public function isPersisted(bool $recursive = false): bool
 	{
-		if (!$this->arePropertiesPersisted()) {
-			return false;
-		} elseif ($recursive) {
-			return UType::persistedValue($this->getAll(true), true, true);
-		}
-		return true;
+		return $this->arePropertiesPersisted($recursive);
 	}
 	
 	/**
@@ -209,10 +204,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function persist(bool $recursive = false): object
 	{
-		$this->persistProperties(\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']));
-		if ($recursive) {
-			UType::persistValue($this->getAll(true), true);
-		}
+		$this->persistProperties(
+			\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']), false, $recursive
+		);
 		return $this;
 	}
 	
@@ -667,19 +661,21 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>The old values to update from, as <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values
 	 * <p>The new values to update to, as <samp>name => value</samp> pairs.</p>
+	 * @param string[] $changed_names
+	 * <p>The changed property names to update.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return array
 	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
 	 */
-	final private function update(array $old_values, array $new_values): array
+	final private function update(array $old_values, array $new_values, array $changed_names): array
 	{
 		//pre-persistence
 		$this->processPrePersistence($new_values, $uid, $old_values);
 		
-		//check
-		if (empty($new_values)) {
-			return [];
-		}
+		//changes
+		$changes_map = array_flip($changed_names);
+		$old_values = array_intersect_key($old_values, $changes_map);
+		$new_values = array_intersect_key($new_values, $changes_map);
 		
 		//pre-update
 		$this->processPreUpdate($old_values, $new_values);
@@ -722,7 +718,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		$id = null;
 		$id_name = $this->getIdPropertyName();
 		if ($id_name !== null) {
-			//check
 			if (array_key_exists($id_name, $n_values)) {
 				//old values
 				if ($o_values !== null) {
@@ -793,25 +788,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				//finalize
 				$scope_values[$name] = $n_values[$name];
 				unset($n_values[$name]);
-			}
-		}
-		
-		//persistables
-		foreach ($n_values as $name => $value) {
-			if (is_object($value) && $value instanceof IPersistable) {
-				unset($n_values[$name]);
-				if ($o_values !== null) {
-					unset($o_values[$name]);
-				}
-			}
-		}
-		
-		//compare
-		if ($o_values !== null) {
-			foreach ($n_values as $name => $value) {
-				if (array_key_exists($name, $o_values) && $value === $o_values[$name]) {
-					unset($n_values[$name], $o_values[$name]);
-				}
 			}
 		}
 		

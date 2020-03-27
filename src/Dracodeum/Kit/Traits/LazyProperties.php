@@ -252,12 +252,14 @@ trait LazyProperties
 	/**
 	 * Check if properties have already been persisted at least once.
 	 * 
+	 * @param bool $recursive [default = false]
+	 * <p>Check if properties have already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties have already been persisted at least once.</p>
 	 */
-	final public function arePropertiesPersisted(): bool
+	final public function arePropertiesPersisted(bool $recursive = false): bool
 	{
-		return $this->getPropertiesManager()->isPersisted();
+		return $this->getPropertiesManager()->isPersisted($recursive);
 	}
 	
 	
@@ -449,13 +451,15 @@ trait LazyProperties
 	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (array $old_values, array $new_values): array</code><br>
+	 * <code>function (array $old_values, array $new_values, array $changed_names): array</code><br>
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $old_values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $new_values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>string[] $changed_names</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The changed property names to update.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
 	 * The updated property values, as <samp>name => value</samp> pairs.<br>
@@ -465,16 +469,18 @@ trait LazyProperties
 	 * current value if a new one is not returned.<br>
 	 * <br>
 	 * Any returned property values that have no corresponding properties are ignored.</p>
-	 * @param bool $update_changes_only [default = false]
+	 * @param bool $changes_only [default = false]
 	 * <p>Include only changed property values, both old and new, during an update.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final protected function persistProperties(
-		callable $inserter, callable $updater, bool $update_changes_only = false
+		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
 	): object
 	{
-		$this->getPropertiesManager()->persist($inserter, $updater, $update_changes_only);
+		$this->getPropertiesManager()->persist($inserter, $updater, $changes_only, $recursive);
 		return $this;
 	}
 	

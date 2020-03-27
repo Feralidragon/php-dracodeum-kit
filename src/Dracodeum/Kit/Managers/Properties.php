@@ -484,12 +484,27 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/**
 	 * Check if has already been persisted at least once.
 	 * 
+	 * @param bool $recursive [default = false]
+	 * <p>Check if has already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
 	 */
-	final public function isPersisted(): bool
+	final public function isPersisted(bool $recursive = false): bool
 	{
-		return $this->flags & self::FLAG_PERSISTED;
+		if ($this->flags & self::FLAG_PERSISTED) {
+			if ($recursive) {
+				foreach ($this->properties as $property) {
+					if (
+						$property->isInitialized() && !$property->hasLazyValue() && 
+						!UType::persistedValue($property->getValue(true), true, true)
+					) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -1112,8 +1127,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <br>
 	 * Any returned property values that have no corresponding properties are ignored.</p>
 	 * @param bool $changes_only [default = false]
-	 * <p>Include only changed property values, both old and new, 
-	 * during the call of the given inserter and updater functions.</p>
+	 * <p>Include only changed property values, both old and new, during an update.</p>
 	 * @param bool $recursive [default = false]
 	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
@@ -1123,24 +1137,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
 	): Properties
 	{
+		//initialize
+		$persisted = $this->isPersisted();
+		
 		//assert
 		UCall::assert('inserter', $inserter, function (array $values): array {});
 		UCall::assert(
 			'updater', $updater, function (array $old_values, array $new_values, array $changed_names): array {}
 		);
 		
-		//old values
+		//values
 		$old_values = $this->persisted_values;
-		
-		//new values
 		$new_values = $persistables = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
 				$value = $property->getValue(true);
-				if (is_object($value) && UType::persistable($value)) {
-					$persistables[] = $value;
+				if (is_object($value) && UType::persistable($value) && !$property->hasLazyValue()) {
+					$persistables[$name] = $value;
 				} elseif (!$property->isLazy()) {
 					$new_values[$name] = $value;
+					if ($persisted && $property->isImmutable()) {
+						$old_values[$name] = $value;
+					}
 				}
 				unset($value);
 			}
@@ -1148,7 +1166,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//changes map
 		$changes_map = [];
-		if ($this->isPersisted()) {
+		if ($persisted) {
 			foreach ($this->persisted_keys as $name => $key) {
 				if (array_key_exists($name, $new_values) && UType::keyValue($new_values[$name], true) !== $key) {
 					$changes_map[$name] = true;
@@ -1177,7 +1195,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//persist
 		$values = [];
-		if ($this->isPersisted()) {
+		if ($persisted) {
 			$update_old_values = $old_values;
 			$update_new_values = $new_values;
 			if ($changes_only) {
@@ -1411,24 +1429,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$this->persisted_values = $this->persisted_keys = [];
 		foreach ($this->properties as $name => $property) {
-			$this->reloadPersistedValue($name);
-		}
-	}
-	
-	/**
-	 * Reload persisted property value with a given name.
-	 * 
-	 * @param string $name
-	 * <p>The name to reload with.</p>
-	 * @return void
-	 */
-	final private function reloadPersistedValue(string $name): void
-	{
-		if (isset($this->properties[$name]) && $this->properties[$name]->isInitialized()) {
-			$value = $this->properties[$name]->getValue(true);
-			if (is_object($value) && UType::persistable($value)) {
-				unset($this->persisted_values[$name], $this->persisted_keys[$name]);
-			} else {
+			if ($property->isInitialized() && !$property->isImmutable() && !$property->isLazy()) {
+				$value = $property->getValue(true);
 				$this->persisted_values[$name] = $value;
 				$this->persisted_keys[$name] = UType::keyValue($value, true);
 			}
