@@ -1165,6 +1165,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			}
 		}
 		
+		//recursive
+		if ($recursive) {
+			foreach ($persistables as $persistable) {
+				UType::persist($persistable, true);
+			}
+		}
+		
 		//changes map
 		$changes_map = [];
 		if ($persisted) {
@@ -1247,13 +1254,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					$callback($old_value, $new_value);
 				}
 				unset($old_value, $new_value);
-			}
-		}
-		
-		//recursive
-		if ($recursive) {
-			foreach ($persistables as $persistable) {
-				UType::persist($persistable, true);
 			}
 		}
 		

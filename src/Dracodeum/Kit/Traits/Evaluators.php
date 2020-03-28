@@ -842,6 +842,53 @@ trait Evaluators
 	}
 	
 	/**
+	 * Set to only allow a value evaluated as an entity instance.
+	 * 
+	 * Only the following types and formats can be evaluated into an entity instance:<br>
+	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * to be loaded from.
+	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @param string $class
+	 * <p>The class to use.</p>
+	 * @param bool $persisted [default = false]
+	 * <p>Set as having already been persisted at least once, if an array of properties, an object implementing the 
+	 * <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface or <code>null</code> is given.</p>
+	 * @param callable|null $builder [default = null]
+	 * <p>The function to use to build an instance with a given set of properties.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $properties, bool $persisted): Dracodeum\Kit\Entity</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
+	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; Set as having already been persisted at least once.<br>
+	 * <br>
+	 * Return: <code><b>Dracodeum\Kit\Entity</b></code><br>
+	 * The built instance with the given set of properties.</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow a value to evaluate as <code>null</code>.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsEntity(
+		string $class, bool $persisted = false, ?callable $builder = null, bool $nullable = false
+	): object
+	{
+		$this->getEvaluatorsManager()->setAsEntity($class, $persisted, $builder, $nullable);
+		return $this;
+	}
+	
+	/**
 	 * Set to only allow a value evaluated as an options instance.
 	 * 
 	 * Only the following types and formats can be evaluated into an options instance:<br>

@@ -331,36 +331,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public static function load($id, array $scope_values = [], bool $no_throw = false): ?Entity
 	{
-		//initialize
-		$store = static::getStore();
-		$base_scope = static::getBaseScope();
-		
-		//properties
-		$properties = $store->return([
-			'id' => $id,
-			'name' => static::getName(),
-			'base_scope' => $base_scope,
-			'scope_values' => $scope_values
-		], true);
-		
-		//check
-		if ($properties === null) {
-			if ($no_throw) {
-				return null;
-			}
-			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
-			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
-		}
-		
-		//finalize
-		$id_name = static::getIdPropertyName();
-		if ($id_name !== null) {
-			$properties += [$id_name => $id];
-		}
-		$properties += $scope_values;
-		
-		//return
-		return static::build($properties, true);
+		$properties = static::loadPropertyValues($id, $scope_values, $no_throw);
+		return $properties !== null ? static::build($properties, true) : null;
 	}
 	
 	/**
@@ -418,10 +390,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -460,10 +436,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -505,10 +485,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -556,12 +540,21 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			} elseif ($value === null || is_array($value)) {
 				$value = UType::coerceObject($builder($value ?? [], $persisted), static::class);
 				return true;
+			} elseif (is_int($value) || is_float($value) || is_string($value)) {
+				$value = UType::coerceObject($builder(static::loadPropertyValues($value), true), static::class);
+				return true;
 			} elseif (is_object($value)) {
 				$instance = $value;
 				if ($instance instanceof Entity) {
 					if (!UType::isA($instance, static::class)) {
 						$value = UType::coerceObject($builder($instance->getAll(true), $persisted), static::class);
 					}
+					return true;
+				} elseif ($instance instanceof Uid) {
+					$value = UType::coerceObject(
+						$builder(static::loadPropertyValues($instance->id, $instance->scope_values), true),
+						static::class
+					);
 					return true;
 				} elseif (UData::evaluate($instance)) {
 					$value = UType::coerceObject($builder($instance, $persisted), static::class);
@@ -590,8 +583,10 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
 				" - null or an instance;\n" . 
+				" - an integer, float or string, given as an ID to be loaded from;\n" . 
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface."
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
+				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from."
 		]);
 	}
 	
@@ -821,5 +816,57 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		
 		//scope
 		$values += $uid->scope_values;
+	}
+	
+	
+	
+	//Final private static methods
+	/**
+	 * Load property values with a given ID.
+	 * 
+	 * @param mixed $id
+	 * <p>The ID to load with.</p>
+	 * @param array $scope_values [default = []]
+	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 * @return array|null
+	 * <p>The loaded property values with the given ID, as <samp>name => value</samp> pairs.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if none were found.</p>
+	 */
+	final private static function loadPropertyValues($id, array $scope_values = [], bool $no_throw = false): ?array
+	{
+		//initialize
+		$store = static::getStore();
+		$base_scope = static::getBaseScope();
+		
+		//values
+		$values = $store->return([
+			'id' => $id,
+			'name' => static::getName(),
+			'base_scope' => $base_scope,
+			'scope_values' => $scope_values
+		], true);
+		
+		//check
+		if ($values === null) {
+			if ($no_throw) {
+				return null;
+			}
+			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
+			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
+		}
+		
+		//finalize
+		$id_name = static::getIdPropertyName();
+		if ($id_name !== null) {
+			$values += [$id_name => $id];
+		}
+		$values += $scope_values;
+		
+		//return
+		return $values;
 	}
 }
