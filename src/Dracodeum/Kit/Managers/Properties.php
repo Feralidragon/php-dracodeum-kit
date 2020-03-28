@@ -26,6 +26,7 @@ use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityL
 use Dracodeum\Kit\Interfaces\Propertiesable as IPropertiesable;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -1173,7 +1174,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 			}
 		} else {
-			$changes_map = array_fill_keys(array_keys($new_values), true);
+			$changes_map = array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
 		}
 		
 		//check
