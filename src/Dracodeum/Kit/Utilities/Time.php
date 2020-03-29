@@ -123,7 +123,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param bool $microseconds [default = false]
-	 * <p>Return a Unix timestamp with microseconds.</p>
+	 * <p>Return the Unix timestamp with microseconds.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\InvalidTimestamp
