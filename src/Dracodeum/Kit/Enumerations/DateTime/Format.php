@@ -23,6 +23,15 @@ class Format extends Enumeration
 	/** ISO 8601 format. */
 	public const ISO8601 = self::ISO8601_DATE . '\T' . self::ISO8601_TIME;
 	
+	/** ISO 8601 format with microseconds. */
+	public const ISO8601_MICRO = self::ISO8601_DATE . '\T' . self::ISO8601_TIME_MICRO;
+	
+	/** ISO 8601 format in UTC. */
+	public const ISO8601_UTC = self::ISO8601_DATE . '\T' . self::ISO8601_TIME_UTC;
+	
+	/** ISO 8601 format in UTC with microseconds. */
+	public const ISO8601_UTC_MICRO = self::ISO8601_DATE . '\T' . self::ISO8601_TIME_UTC_MICRO;
+	
 	/** ISO 8601 basic format. */
 	public const ISO8601_BASIC = self::ISO8601_BASIC_DATE . '\T' . self::ISO8601_BASIC_TIME;
 	
@@ -37,6 +46,15 @@ class Format extends Enumeration
 	
 	/** ISO 8601 time format. */
 	public const ISO8601_TIME = 'H:i:sP';
+	
+	/** ISO 8601 time format with microseconds. */
+	public const ISO8601_TIME_MICRO = 'H:i:s.uP';
+	
+	/** ISO 8601 time format in UTC. */
+	public const ISO8601_TIME_UTC = 'H:i:s\Z';
+	
+	/** ISO 8601 time format in UTC with microseconds. */
+	public const ISO8601_TIME_UTC_MICRO = 'H:i:s.u\Z';
 	
 	/** RFC 7231 <samp>HTTP-date</samp> format. */
 	public const RFC7231_HTTP_DATE = 'D, d M Y H:i:s \G\M\T';

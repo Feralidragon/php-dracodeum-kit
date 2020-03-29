@@ -122,29 +122,42 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; a string as supported by the PHP <code>strtotime</code> function;<br> 
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Return a Unix timestamp with microseconds.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\InvalidTimestamp
-	 * @return int|null
+	 * @return int|float|null
 	 * <p>The Unix timestamp from the given timestamp.<br>
+	 * If <var>$microseconds</var> is set to boolean <code>true</code>, 
+	 * then the Unix timestamp is returned as a float, with microseconds.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
-	final public static function timestamp($timestamp, bool $no_throw = false): ?int
+	final public static function timestamp($timestamp, bool $microseconds = false, bool $no_throw = false)
 	{
 		//timestamp
-		if (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
-			return $timestamp->getTimestamp();
-		} elseif (Type::evaluateInteger($timestamp)) {
+		if ($microseconds && Type::evaluateFloat($timestamp)) {
 			return $timestamp;
+		} elseif (!$microseconds && Type::evaluateNumber($timestamp)) {
+			return (int)$timestamp;
 		} elseif (Type::evaluateString($timestamp, true)) {
 			$t = strtotime($timestamp);
 			if ($t !== false) {
+				if ($microseconds) {
+					$t += (float)(new \DateTime($timestamp))->format('u') / 1e6;
+				}
 				return $t;
 			}
+		} elseif (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
+			$t = $timestamp->getTimestamp();
+			if ($microseconds) {
+				$t += (float)$timestamp->format('u') / 1e6;
+			}
+			return $t;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return null;
 		}
@@ -189,11 +202,17 @@ final class Time extends Utility
 			}
 			
 			//timestamp
-			$timestamp = self::timestamp($timestamp, $no_throw);
+			$timestamp = self::timestamp($timestamp, true, $no_throw);
 			if (isset($timestamp)) {
-				return class_exists($format) && Type::isAny($format, [\DateTime::class, \DateTimeImmutable::class])
-					? new $format(date('c', $timestamp))
-					: date($format, $timestamp);
+				$microseconds = (int)(($timestamp - (int)$timestamp) * 1e6);
+				$timestamp = (int)$timestamp;
+				if (class_exists($format) && Type::isAny($format, [\DateTime::class, \DateTimeImmutable::class])) {
+					return new $format(date('c', $timestamp) . " + {$microseconds} usec");
+				} elseif ($microseconds === 0) {
+					return date($format, $timestamp);
+				} else {
+					return (new \DateTime(date('c', $timestamp) . " + {$microseconds} usec"))->format($format);
+				}
 			}
 			
 		} finally {
@@ -227,7 +246,9 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -237,10 +258,10 @@ final class Time extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a date and time.</p>
 	 */
 	final public static function evaluateDateTime(
-		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+		&$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
 	): bool
 	{
-		return self::processDateTimeCoercion($value, $format, $timezone, $nullable, true);
+		return self::processDateTimeCoercion($value, $format, $microseconds, $timezone, $nullable, true);
 	}
 	
 	/**
@@ -266,21 +287,23 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\DateTimeCoercionFailed
-	 * @return int|string|\DateTime|\DateTimeImmutable|null
+	 * @return int|float|string|\DateTime|\DateTimeImmutable|null
 	 * <p>The given value coerced into a date and time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceDateTime(
-		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+		$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
 	) {
-		self::processDateTimeCoercion($value, $format, $timezone, $nullable);
+		self::processDateTimeCoercion($value, $format, $microseconds, $timezone, $nullable);
 		return $value;
 	}
 	
@@ -307,7 +330,9 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -320,7 +345,8 @@ final class Time extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a date and time.</p>
 	 */
 	final public static function processDateTimeCoercion(
-		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false, bool $no_throw = false
+		&$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false,
+		bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -338,7 +364,7 @@ final class Time extends Utility
 		}
 		
 		//timestamp
-		$timestamp = self::timestamp($value, true);
+		$timestamp = self::timestamp($value, $microseconds, true);
 		if (isset($timestamp)) {
 			$value = isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
 			return true;
@@ -506,7 +532,7 @@ final class Time extends Utility
 		}
 		
 		//timestamp
-		$timestamp = self::timestamp($value, true);
+		$timestamp = self::timestamp($value, false, true);
 		if (isset($timestamp)) {
 			$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
 			$value = isset($format) ? self::format($timestamp, $format, 'UTC') : $timestamp;
@@ -579,7 +605,9 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -589,10 +617,10 @@ final class Time extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into a time.</p>
 	 */
 	final public static function evaluateTime(
-		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+		&$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
 	): bool
 	{
-		return self::processTimeCoercion($value, $format, $timezone, $nullable, true);
+		return self::processTimeCoercion($value, $format, $microseconds, $timezone, $nullable, true);
 	}
 	
 	/**
@@ -618,21 +646,23 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\TimeCoercionFailed
-	 * @return int|string|\DateTime|\DateTimeImmutable|null
+	 * @return int|float|string|\DateTime|\DateTimeImmutable|null
 	 * <p>The given value coerced into a time.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerceTime(
-		$value, ?string $format = null, ?string $timezone = null, bool $nullable = false
+		$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
 	) {
-		self::processTimeCoercion($value, $format, $timezone, $nullable);
+		self::processTimeCoercion($value, $format, $microseconds, $timezone, $nullable);
 		return $value;
 	}
 	
@@ -659,7 +689,9 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to coerce into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -672,7 +704,8 @@ final class Time extends Utility
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into a time.</p>
 	 */
 	final public static function processTimeCoercion(
-		&$value, ?string $format = null, ?string $timezone = null, bool $nullable = false, bool $no_throw = false
+		&$value, ?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false,
+		bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -690,7 +723,7 @@ final class Time extends Utility
 		}
 		
 		//timestamp
-		$timestamp = self::timestamp($value, true);
+		$timestamp = self::timestamp($value, $microseconds, true);
 		if (isset($timestamp)) {
 			$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
 			$value = isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
@@ -1312,12 +1345,12 @@ final class Time extends Utility
 		$start_timestamp = $start;
 		$end_timestamp = $end;
 		if (!is_float($start_timestamp)) {
-			$start_timestamp = (float)self::timestamp($start_timestamp);
+			$start_timestamp = self::timestamp($start_timestamp, true);
 		}
 		if (!isset($end_timestamp)) {
 			$end_timestamp = microtime(true);
 		} elseif (!is_float($end_timestamp)) {
-			$end_timestamp = (float)self::timestamp($end_timestamp);
+			$end_timestamp = self::timestamp($end_timestamp, true);
 		}
 		Call::guardParameter('end', $end, $end_timestamp >= $start_timestamp, [
 			'hint_message' => "Only a value before or at the given start {{start}} is allowed.",

@@ -699,7 +699,9 @@ trait KeyEvaluators
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given key is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given key is evaluated into an integer or float as an Unix timestamp.</p>
+	 * @param bool $microseconds [default = false]
+	 * <p>Evaluate the given key with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -709,10 +711,10 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsDateTime(
-		?string $format = null, ?string $timezone = null, bool $nullable = false
+		?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsDateTime($format, $timezone, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsDateTime($format, $microseconds, $timezone, $nullable);
 		return $this;
 	}
 	
@@ -765,7 +767,9 @@ trait KeyEvaluators
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given key is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given key is evaluated into an integer or float as an Unix timestamp.</p>~
+	 * @param bool $microseconds [default = false]
+	 * <p>Evaluate the given key with microseconds.</p>
 	 * @param string|null $timezone [default = null]
 	 * <p>The timezone to evaluate into, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
 	 * If not set, then the currently set default timezone is used.</p>
@@ -774,9 +778,11 @@ trait KeyEvaluators
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsTime(?string $format = null, ?string $timezone = null, bool $nullable = false): object
+	final public function setKeyAsTime(
+		?string $format = null, bool $microseconds = false, ?string $timezone = null, bool $nullable = false
+	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsTime($format, $timezone, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsTime($format, $microseconds, $timezone, $nullable);
 		return $this;
 	}
 	
