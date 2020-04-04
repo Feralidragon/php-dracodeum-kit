@@ -49,19 +49,12 @@ class Logger extends Component
 	 */
 	final public function addEvent($event): Logger
 	{
-		//initialize
 		$event = Event::coerce($event, true);
 		$prototype = $this->getPrototype();
-		
-		//process
 		if ($prototype instanceof PrototypeInterfaces\EventProcessor) {
 			$prototype->processEvent($event);
 		}
-		
-		//add
 		$prototype->addEvent($event->setAsReadonly(true));
-		
-		//return
 		return $this;
 	}
 }
