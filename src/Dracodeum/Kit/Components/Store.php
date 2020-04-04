@@ -88,14 +88,17 @@ class Store extends Component
 	 * 
 	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int $uid
 	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, a float or an integer.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given UID recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
+	 * properties, but not recursively.<br>
+	 * If not set, then the given UID is not cloned.</p>
 	 * @return \Dracodeum\Kit\Components\Store\Structures\Uid
 	 * <p>The given UID coerced into an instance.</p>
 	 */
-	final public function coerceUid($uid, bool $clone = false): Uid
+	final public function coerceUid($uid, ?bool $clone_recursive = null): Uid
 	{
-		$uid = Uid::coerce($uid, $clone);
+		$uid = Uid::coerce($uid, $clone_recursive);
 		if ($uid->defaulted('scope') && $uid->base_scope !== null) {
 			$uid->scope = $this->getUidScope($uid->base_scope, $uid->scope_values);
 		}

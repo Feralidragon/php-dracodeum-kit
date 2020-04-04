@@ -604,18 +604,21 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given value recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
+	 * and evaluator functions, but not recursively.<br>
+	 * If not set, then the given value is not cloned.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
+		&$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $template, $clone, $nullable, true);
+		return self::processCoercion($value, $template, $clone_recursive, $nullable, true);
 	}
 	
 	/**
@@ -631,8 +634,11 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given value recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
+	 * and evaluator functions, but not recursively.<br>
+	 * If not set, then the given value is not cloned.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\CoercionFailed
@@ -641,10 +647,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false
+		$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
 	): ?Dictionary
 	{
-		self::processCoercion($value, $template, $clone, $nullable);
+		self::processCoercion($value, $template, $clone_recursive, $nullable);
 		return $value;
 	}
 	
@@ -661,8 +667,11 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given value recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
+	 * and evaluator functions, but not recursively.<br>
+	 * If not set, then the given value is not cloned.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -672,7 +681,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, ?Dictionary $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
+		&$value, ?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false,
+		bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -695,13 +705,25 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 			//object
 			if (is_object($value) && $value instanceof Dictionary) {
 				if (isset($template)) {
+					//initialize
 					$instance = $template->clone()->clear();
-					foreach ($value->keys as $index => $key) {
-						$instance->set($key, $value->values[$index]);
+					$keys = $value->keys;
+					$values = $value->values;
+					
+					//clone
+					if ($clone_recursive === true) {
+						$keys = UType::cloneValue($keys, true);
+						$values = UType::cloneValue($values, true);
+					}
+					
+					//set
+					foreach ($keys as $index => $key) {
+						$instance->set($key, $values[$index]);
 					}
 					$value = $instance;
-				} elseif ($clone) {
-					$value = $value->clone();
+					
+				} elseif ($clone_recursive !== null) {
+					$value = $value->clone($clone_recursive);
 				}
 				return true;
 			}
@@ -709,6 +731,9 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 			//array
 			$array = $value;
 			if (UData::evaluate($array)) {
+				if ($clone_recursive === true) {
+					$array = UType::cloneValue($array, true);
+				}
 				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
 				return true;
 			}

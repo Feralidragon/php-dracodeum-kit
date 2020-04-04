@@ -907,8 +907,11 @@ trait KeyEvaluators
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given key recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
+	 * properties, but not recursively.<br>
+	 * If not set, then the given key is not cloned.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -927,10 +930,10 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsOptions(
-		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
+		string $class, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsOptions($class, $clone, $builder, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsOptions($class, $clone_recursive, $builder, $nullable);
 		return $this;
 	}
 	
@@ -945,8 +948,11 @@ trait KeyEvaluators
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given key recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
+	 * properties, but not recursively.<br>
+	 * If not set, then the given key is not cloned.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -967,10 +973,10 @@ trait KeyEvaluators
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsStructure(
-		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
+		string $class, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsStructure($class, $clone, $builder, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsStructure($class, $clone_recursive, $builder, $nullable);
 		return $this;
 	}
 	
@@ -985,18 +991,21 @@ trait KeyEvaluators
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given key recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
+	 * and evaluator functions, but not recursively.<br>
+	 * If not set, then the given key is not cloned.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setKeyAsDictionary(
-		?Dictionary $template = null, bool $clone = false, bool $nullable = false
+		?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
 	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsDictionary($template, $clone, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsDictionary($template, $clone_recursive, $nullable);
 		return $this;
 	}
 	
@@ -1011,16 +1020,21 @@ trait KeyEvaluators
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param \Dracodeum\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool $clone [default = false]
-	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
+	 * @param bool|null $clone_recursive [default = null]
+	 * <p>Clone the given key recursively.<br>
+	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same values 
+	 * and evaluator functions, but not recursively.<br>
+	 * If not set, then the given key is not cloned.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setKeyAsVector(?Vector $template = null, bool $clone = false, bool $nullable = false): object
+	final public function setKeyAsVector(
+		?Vector $template = null, ?bool $clone_recursive = null, bool $nullable = false
+	): object
 	{
-		$this->getKeyEvaluatorsManager()->setAsVector($template, $clone, $nullable);
+		$this->getKeyEvaluatorsManager()->setAsVector($template, $clone_recursive, $nullable);
 		return $this;
 	}
 	
