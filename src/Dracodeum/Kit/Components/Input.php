@@ -36,7 +36,7 @@ use Dracodeum\Kit\Utilities\{
 };
 
 /**
- * This component represents an input which can check, sanitize and hold a value.
+ * This component represents an input which checks, sanitizes and holds a value.
  * 
  * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
  * then that character is stripped from the given name and the input is set as nullable.

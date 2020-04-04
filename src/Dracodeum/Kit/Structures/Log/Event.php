@@ -27,7 +27,7 @@ use Dracodeum\Kit\Primitives\Vector;
  * It cannot be empty.</p>
  * @property-read string $origin [coercive]
  * <p>The origin, as the originally used entry point to execute the application which generated this event, 
- * such as <samp>POST http://myservice.com/myresource</samp> when the origin is an HTTP request for example.<br>
+ * such as <samp>POST http://myservice.com/myresource</samp> when the origin was an HTTP request for example.<br>
  * It cannot be empty.</p>
  * @property-read string $execution [coercive]
  * <p>The execution UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 

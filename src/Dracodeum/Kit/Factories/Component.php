@@ -13,6 +13,7 @@ use Dracodeum\Kit\Factories\Component\Builders;
 use Dracodeum\Kit\Factories\Component\Builder\Interfaces as BuilderInterfaces;
 use Dracodeum\Kit\Components\{
 	Input,
+	Logger,
 	Store
 };
 
@@ -23,6 +24,10 @@ use Dracodeum\Kit\Components\{
  * [builder interface, type = 'input']
  * @see \Dracodeum\Kit\Factories\Component\Builders\Input
  * [builder, type = 'input']
+ * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Logger
+ * [builder interface, type = 'logger']
+ * @see \Dracodeum\Kit\Factories\Component\Builders\Logger
+ * [builder, type = 'logger']
  * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Store
  * [builder interface, type = 'store']
  * @see \Dracodeum\Kit\Factories\Component\Builders\Store
@@ -37,6 +42,8 @@ class Component extends Factory
 		switch ($name) {
 			case 'input':
 				return static::createType(BuilderInterfaces\Input::class, Builders\Input::class);
+			case 'logger':
+				return static::createType(BuilderInterfaces\Logger::class, Builders\Logger::class);
 			case 'store':
 				return static::createType(BuilderInterfaces\Store::class, Builders\Store::class);
 		}
@@ -61,6 +68,23 @@ class Component extends Factory
 	public static function input($prototype, array $properties = []): Input
 	{
 		return static::build('input', $prototype, $properties);
+	}
+	
+	/**
+	 * Build logger instance with a given prototype.
+	 *
+	 * @param \Dracodeum\Kit\Prototypes\Logger|string $prototype
+	 * <p>The prototype instance, class or name to build with.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>),
+	 * in the same order as how these properties were first declared.</p>
+	 * @return \Dracodeum\Kit\Components\Logger
+	 * <p>The built logger instance with the given prototype.</p>
+	 */
+	public static function logger($prototype, array $properties = []): Logger
+	{
+		return static::build('logger', $prototype, $properties);
 	}
 	
 	/**
