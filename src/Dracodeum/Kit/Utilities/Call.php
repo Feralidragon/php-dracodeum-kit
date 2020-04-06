@@ -1199,6 +1199,67 @@ final class Call extends Utility
 	}
 	
 	/**
+	 * Get previous function name from the current stack.
+	 * 
+	 * If the previous function is anonymous, then <code>null</code> is returned.<br>
+	 * If the previous function belongs to a class and the <var>$full</var> parameter is passed as
+	 * boolean <code>true</code>, then a string in the format <code>Class::name</code> is returned.<br>
+	 * In every other case only the name itself is returned.
+	 * 
+	 * @param bool $full [default = false]
+	 * <p>Return the full name, including the class it's declared in.</p>
+	 * @param bool $short [default = false]
+	 * <p>Return the short form of the class name instead of the full namespaced one.</p>
+	 * @param int $offset [default = 0]
+	 * <p>The offset to get from.<br>
+	 * It must be greater than or equal to <code>0</code>.</p>
+	 * @return string|null
+	 * <p>The previous function name from the current stack
+	 * or <code>null</code> if there is no previous call in the stack or if it has no name (anonymous).</p>
+	 */
+	final public static function stackPreviousName(bool $full = false, bool $short = false, int $offset = 0): ?string
+	{
+		//guard
+		if ($offset < 0) {
+			self::haltParameter('offset', $offset, [
+				'hint_message' => "Only a value greater than or equal to 0 is allowed."
+			]);
+		}
+		
+		//backtrace
+		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
+		$backtrace = debug_backtrace($debug_flags, $offset + 3)[$offset + 2] ?? null;
+		if ($backtrace === null) {
+			return null;
+		}
+		
+		//name
+		$name = $backtrace['function'];
+		if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
+			return null;
+		} elseif (!$full) {
+			return $name;
+		}
+		
+		//class
+		$class = null;
+		if (isset($backtrace['object'])) {
+			$class = get_class($backtrace['object']);
+		} elseif (isset($backtrace['class'])) {
+			$class = $backtrace['class'];
+		}
+		
+		//finalize
+		if ($class !== null) {
+			if ($short) {
+				$class = self::class("{$class}::{$name}", true);
+			}
+			return "{$class}::{$name}";
+		}
+		return $name;
+	}
+	
+	/**
 	 * Halt the current function or method call in the stack.
 	 * 
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|null $options [default = null]
