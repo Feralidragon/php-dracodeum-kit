@@ -4297,11 +4297,7 @@ class CallTest extends TestCase
 						$exception->exec_function_full_name
 					);
 				}
-			}	
-	
-	
-	
-	
+			}
 		}
 		
 		//exception 2
