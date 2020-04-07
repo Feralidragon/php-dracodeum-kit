@@ -36,6 +36,9 @@ final class Runtime implements IUninstantiable
 	/**
 	 * Get UUID (Universally Unique Identifier).
 	 * 
+	 * The returning UUID is a randomly generated string which uniquely identifies a single runtime instance of the 
+	 * application.
+	 * 
 	 * @return string
 	 * <p>The UUID (Universally Unique Identifier).</p>
 	 */
@@ -46,6 +49,9 @@ final class Runtime implements IUninstantiable
 	
 	/**
 	 * Generate UUID (Universally Unique Identifier).
+	 * 
+	 * The generated UUID is a randomly generated string which uniquely identifies a single runtime instance of the 
+	 * application.
 	 * 
 	 * @return string
 	 * <p>The generated UUID (Universally Unique Identifier).</p>
@@ -60,6 +66,9 @@ final class Runtime implements IUninstantiable
 	
 	/**
 	 * Get origin.
+	 * 
+	 * The returning origin is the originally used entry point to execute the application, 
+	 * such as <samp>POST http://myservice.com/myresource</samp> when the origin is an HTTP request for example.
 	 * 
 	 * @return string
 	 * <p>The origin.</p>
