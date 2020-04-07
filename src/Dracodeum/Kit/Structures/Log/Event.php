@@ -18,27 +18,33 @@ use Dracodeum\Kit\Primitives\Vector;
  * @property-read string $id [coercive]
  * <p>The ID, which uniquely identifies this event.<br>
  * It cannot be empty.</p>
- * @property-read string $timestamp [coercive = datetime]
+ * @property-read string $timestamp [coercive = datetime] [default = 'now']
  * <p>The timestamp, as a string using the ISO 8601 format in UTC with microseconds.</p>
  * @property int $level [coercive = enumeration value]
  * <p>The severity level, as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
  * @property string $message [coercive]
  * <p>The message.<br>
  * It cannot be empty.</p>
+ * @property-read string|null $host [coercive]
+ * <p>The host, as the hostname or IP address where this event was generated from.<br>
+ * If set, then it cannot be empty.</p>
  * @property-read string $origin [coercive]
  * <p>The origin, as the originally used entry point to execute the application which generated this event, 
  * such as <samp>POST http://myservice.com/myresource</samp> when the origin was an HTTP request for example.<br>
  * It cannot be empty.</p>
- * @property-read string $execution [coercive]
- * <p>The execution UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 
- * a single execution instance of the application.<br>
- * It cannot be empty.</p>
- * @property-read string|null $function [coercive]
- * <p>The function name, as a string such as <samp>myFunction</samp> or <samp>MyClass::myMethod</samp> for example, 
- * which identifies the function which generated this event.<br>
+ * @property-read string|null $session [coercive] [default = null]
+ * <p>The session UUID (Universally Unique Identifier), as a string which uniquely identifies a single session instance 
+ * of the application, representing a group of one or more runtimes.<br>
  * If set, then it cannot be empty.</p>
- * @property-read string|null $host [coercive]
- * <p>The host, as the hostname or IP address of the machine which generated this event.<br>
+ * @property-read string $runtime [coercive]
+ * <p>The runtime UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 
+ * a single runtime instance of the application.<br>
+ * It cannot be empty.</p>
+ * @property-read string|null $class [coercive] [default = null]
+ * <p>The class name, which identifies the class which generated this event.<br>
+ * If set, then it cannot be empty.</p>
+ * @property-read string|null $function [coercive] [default = null]
+ * <p>The function name, which identifies the function which generated this event.<br>
  * If set, then it cannot be empty.</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
@@ -61,13 +67,19 @@ class Event extends Structure
 	protected function loadProperties(): void
 	{
 		$this->addProperty('id')->setMode('r+')->setAsString(true);
-		$this->addProperty('timestamp')->setMode('r+')->setAsDateTime(EDateTimeFormat::ISO8601_UTC_MICRO, true);
+		$this->addProperty('timestamp')
+			->setMode('r+')
+			->setAsDateTime(EDateTimeFormat::ISO8601_UTC_MICRO, true)
+			->setDefaultValue('now')
+		;
 		$this->addProperty('level')->setAsEnumerationValue(ELogLevel::class);
 		$this->addProperty('message')->setAsString(true);
-		$this->addProperty('origin')->setMode('r+')->setAsString(true);
-		$this->addProperty('execution')->setMode('r+')->setAsString(true);
-		$this->addProperty('function')->setMode('r+')->setAsString(true, true);
 		$this->addProperty('host')->setMode('r+')->setAsString(true, true);
+		$this->addProperty('origin')->setMode('r+')->setAsString(true);
+		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
+		$this->addProperty('runtime')->setMode('r+')->setAsString(true);
+		$this->addProperty('class')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
+		$this->addProperty('function')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('tag')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('data')->setDefaultValue(null);
