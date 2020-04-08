@@ -178,7 +178,9 @@ ICloneable
 	 * Build instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
