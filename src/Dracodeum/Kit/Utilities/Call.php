@@ -1318,7 +1318,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\Halt::coerce($halt_options, true);
+		$halt_options = Options\Halt::coerce($halt_options, false);
 		$halt_options->stack_offset++;
 		self::halt($halt_options);
 	}
@@ -1389,7 +1389,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\HaltParameter::coerce($halt_options, true);
+		$halt_options = Options\HaltParameter::coerce($halt_options, false);
 		$halt_options->stack_offset++;
 		self::haltParameter($name, $value, $halt_options);
 	}
@@ -1450,7 +1450,7 @@ final class Call extends Utility
 			self::assert('halt_options', $halt_options, function () {});
 			$halt_options = $halt_options();
 		}
-		$halt_options = Options\HaltInternal::coerce($halt_options, true);
+		$halt_options = Options\HaltInternal::coerce($halt_options, false);
 		$halt_options->stack_offset++;
 		self::haltInternal($halt_options);
 	}

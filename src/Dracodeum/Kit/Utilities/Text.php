@@ -1125,7 +1125,7 @@ final class Text extends Utility
 	final public static function parse(string $string, array $fields_patterns, $options = null): ?array
 	{
 		//initialize
-		$options = Options\Mparse::coerce(Options\Parse::coerce($options), true);
+		$options = Options\Mparse::coerce(Options\Parse::coerce($options), false);
 		$no_throw = $options->no_throw;
 		$options->no_throw = true;
 		$options->keep_nulls = true;
