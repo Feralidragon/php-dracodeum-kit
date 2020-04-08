@@ -11,11 +11,16 @@ use Dracodeum\Kit\Structure;
 use Dracodeum\Kit\Enumerations\DateTime\Format as EDateTimeFormat;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
 use Dracodeum\Kit\Primitives\Vector;
+use Dracodeum\Kit\Utilities\Base64 as UBase64;
+use Dracodeum\Kit\Root\{
+	Runtime,
+	System
+};
 
 /**
  * Log event structure.
  * 
- * @property-read string $id [coercive]
+ * @property-read string $id [coercive] [default = auto]
  * <p>The ID, which uniquely identifies this event.<br>
  * It cannot be empty.</p>
  * @property-read string $timestamp [coercive = datetime] [default = 'now']
@@ -25,10 +30,10 @@ use Dracodeum\Kit\Primitives\Vector;
  * @property string $message [coercive]
  * <p>The message.<br>
  * It cannot be empty.</p>
- * @property-read string|null $host [coercive]
+ * @property-read string|null $host [coercive] [default = auto]
  * <p>The host, as the hostname or IP address where this event was generated from.<br>
  * If set, then it cannot be empty.</p>
- * @property-read string $origin [coercive]
+ * @property-read string $origin [coercive] [default = auto]
  * <p>The origin, as the originally used entry point to execute the application which generated this event, 
  * such as <samp>POST http://myservice.com/myresource</samp> when the origin was an HTTP request for example.<br>
  * It cannot be empty.</p>
@@ -36,15 +41,15 @@ use Dracodeum\Kit\Primitives\Vector;
  * <p>The session UUID (Universally Unique Identifier), as a string which uniquely identifies a single session instance 
  * of the application, representing a group of one or more runtimes.<br>
  * If set, then it cannot be empty.</p>
- * @property-read string $runtime [coercive]
+ * @property-read string $runtime [coercive] [default = auto]
  * <p>The runtime UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 
  * a single runtime instance of the application.<br>
  * It cannot be empty.</p>
- * @property-read string|null $class [coercive] [default = null]
- * <p>The class name, which identifies the class which generated this event.<br>
+ * @property-read string|null $class [coercive = class] [default = null]
+ * <p>The class which generated this event.<br>
  * If set, then it cannot be empty.</p>
  * @property-read string|null $function [coercive] [default = null]
- * <p>The function name, which identifies the function which generated this event.<br>
+ * <p>The name of the function which generated this event.<br>
  * If set, then it cannot be empty.</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
@@ -62,11 +67,19 @@ use Dracodeum\Kit\Primitives\Vector;
  */
 class Event extends Structure
 {
+	//Private constants
+	/** Number of bytes to generate the ID with. */
+	private const ID_GENERATION_BYTES = 12;
+	
+	
+	
 	//Implemented protected methods
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
-		$this->addProperty('id')->setMode('r+')->setAsString(true);
+		$this->addProperty('id')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
+			return UBase64::encode(random_bytes(self::ID_GENERATION_BYTES), true); //TODO: use Base32
+		});
 		$this->addProperty('timestamp')
 			->setMode('r+')
 			->setAsDateTime(EDateTimeFormat::ISO8601_UTC_MICRO, true)
@@ -74,11 +87,17 @@ class Event extends Structure
 		;
 		$this->addProperty('level')->setAsEnumerationValue(ELogLevel::class);
 		$this->addProperty('message')->setAsString(true);
-		$this->addProperty('host')->setMode('r+')->setAsString(true, true);
-		$this->addProperty('origin')->setMode('r+')->setAsString(true);
+		$this->addProperty('host')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
+			return System::getHostname(true) ?? System::getIpAddress(true);
+		});
+		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
+			return Runtime::getOrigin();
+		});
 		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
-		$this->addProperty('runtime')->setMode('r+')->setAsString(true);
-		$this->addProperty('class')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
+		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
+			return Runtime::getUuid();
+		});
+		$this->addProperty('class')->setMode('r+')->setAsClass(null, true)->setDefaultValue(null);
 		$this->addProperty('function')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('tag')->setAsString(true, true)->setDefaultValue(null);
