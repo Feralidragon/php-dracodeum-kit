@@ -14,6 +14,7 @@ use Dracodeum\Kit\Structures\Log\Event;
 use Dracodeum\Kit\Components\Logger;
 use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 use Dracodeum\Kit\Utilities\{
+	Base64 as UBase64,
 	Call as UCall,
 	Text as UText
 };
@@ -27,9 +28,18 @@ final class Log implements IUninstantiable
 	
 	
 	
+	//Private constants
+	/** Number of bytes to use to generate an event ID. */
+	private const EVENT_ID_GENERATION_BYTES = 12;
+	
+	
+	
 	//Private static properties
 	/** @var \Dracodeum\Kit\Components\Logger[] */
 	private static $loggers = [];
+	
+	/** @var callable[] */
+	private static $event_processors = [];
 	
 	
 	
@@ -52,6 +62,28 @@ final class Log implements IUninstantiable
 	}
 	
 	/**
+	 * Add event processor function.
+	 * 
+	 * @param callable $processor
+	 * <p>The processor function to use to process a given event instance.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (\Dracodeum\Kit\Structures\Log\Event $event): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Dracodeum\Kit\Structures\Log\Event $event</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The event instance to process.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return void
+	 */
+	final public static function addEventProcessor(callable $processor): void
+	{
+		UCall::assert('processor', $processor, function (Event $event): void {});
+		self::$event_processors[] = $processor;
+	}
+	
+	/**
 	 * Add event.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
@@ -60,10 +92,77 @@ final class Log implements IUninstantiable
 	 */
 	final public static function addEvent($event): void
 	{
-		$event = Event::coerce($event);
+		$event = Event::coerce($event, empty(self::$event_processors) ? null : true);
+		foreach (self::$event_processors as $processor) {
+			$processor($event);
+		}
 		foreach (self::$loggers as $logger) {
 			$logger->addEvent($event);
 		}
+	}
+	
+	/**
+	 * Generate an event ID.
+	 * 
+	 * @return string
+	 * <p>The generated event ID.</p>
+	 */
+	final public static function generateEventId(): string
+	{
+		return UBase64::encode(random_bytes(self::EVENT_ID_GENERATION_BYTES), true); //TODO: use Base32
+	}
+	
+	/**
+	 * Compose an event tag with a given set of strings.
+	 * 
+	 * @param string[] $strings
+	 * <p>The set of strings to compose with.<br>
+	 * It cannot be empty.</p>
+	 * @return string
+	 * <p>The composed event tag with the given set of strings.</p>
+	 */
+	final public static function composeEventTag(array $strings): string
+	{
+		//guard
+		if (empty($strings)) {
+			UCall::haltParameter('strings', $strings, ['error_message' => "An empty set of values is not allowed."]);
+		}
+		
+		//encode
+		foreach ($strings as &$string) {
+			$string = str_replace(['%', ':'], ['%25', '%3A'], $string);
+		}
+		unset($string);
+		
+		//return
+		return implode(':', $strings);
+	}
+	
+	/**
+	 * Decompose a given event tag into a set of strings.
+	 * 
+	 * @param string $tag
+	 * <p>The tag to decompose.<br>
+	 * It cannot be empty.</p>
+	 * @return string[]
+	 * <p>The given event tag decomposed into a set of strings.</p>
+	 */
+	final public static function decomposeEventTag(string $tag): array
+	{
+		//guard
+		if ($tag === '') {
+			UCall::haltParameter('tag', $tag, ['error_message' => "An empty value is not allowed."]);
+		}
+		
+		//decompose
+		$strings = explode(':', $tag);
+		foreach ($strings as &$string) {
+			$string = str_replace(['%3A', '%25'], [':', '%'], $string);
+		}
+		unset($string);
+		
+		//return
+		return $strings;
 	}
 	
 	/**
@@ -115,8 +214,13 @@ final class Log implements IUninstantiable
 		
 		//return
 		return Event::build([
+			'id' => self::generateEventId(),
+			'timestamp' => 'now',
 			'level' => $level,
 			'message' => $message,
+			'host' => System::getHostname(true) ?? System::getIpAddress(true),
+			'origin' => Runtime::getOrigin(),
+			'runtime' => Runtime::getUuid(),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,
@@ -195,8 +299,13 @@ final class Log implements IUninstantiable
 		
 		//return
 		return Event::build([
+			'id' => self::generateEventId(),
+			'timestamp' => 'now',
 			'level' => $level,
 			'message' => $message,
+			'host' => System::getHostname(true) ?? System::getIpAddress(true),
+			'origin' => Runtime::getOrigin(),
+			'runtime' => Runtime::getUuid(),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,

@@ -11,8 +11,8 @@ use Dracodeum\Kit\Structure;
 use Dracodeum\Kit\Enumerations\DateTime\Format as EDateTimeFormat;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
 use Dracodeum\Kit\Primitives\Vector;
-use Dracodeum\Kit\Utilities\Base64 as UBase64;
 use Dracodeum\Kit\Root\{
+	Log,
 	Runtime,
 	System
 };
@@ -67,19 +67,11 @@ use Dracodeum\Kit\Root\{
  */
 class Event extends Structure
 {
-	//Private constants
-	/** Number of bytes to generate the ID with. */
-	private const ID_GENERATION_BYTES = 12;
-	
-	
-	
 	//Implemented protected methods
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
-		$this->addProperty('id')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
-			return UBase64::encode(random_bytes(self::ID_GENERATION_BYTES), true); //TODO: use Base32
-		});
+		$this->addProperty('id')->setMode('r+')->setAsString(true)->setDefaultGetter([Log::class, 'generateEventId']);
 		$this->addProperty('timestamp')
 			->setMode('r+')
 			->setAsDateTime(EDateTimeFormat::ISO8601_UTC_MICRO, true)
@@ -90,13 +82,9 @@ class Event extends Structure
 		$this->addProperty('host')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
 			return System::getHostname(true) ?? System::getIpAddress(true);
 		});
-		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
-			return Runtime::getOrigin();
-		});
+		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getOrigin']);
 		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
-		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter(function () {
-			return Runtime::getUuid();
-		});
+		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getUuid']);
 		$this->addProperty('class')->setMode('r+')->setAsClass(null, true)->setDefaultValue(null);
 		$this->addProperty('function')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
