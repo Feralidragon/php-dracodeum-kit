@@ -26,7 +26,7 @@ use Dracodeum\Kit\Root\{
  * @property-read string $timestamp [coercive = datetime] [default = 'now']
  * <p>The timestamp, as a string using the ISO 8601 format in UTC with microseconds.</p>
  * @property int $level [coercive = enumeration value]
- * <p>The severity level, as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+ * <p>The level, as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
  * @property string $message [coercive]
  * <p>The message.<br>
  * It cannot be empty.</p>

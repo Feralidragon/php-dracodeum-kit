@@ -305,7 +305,7 @@ final class Locale implements IUninstantiable
 	 * <p>The message singular form to translate.</p>
 	 * @param string $message2
 	 * <p>The message plural form to translate.</p>
-	 * @param float|int $number
+	 * @param float $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to translate with.</p>

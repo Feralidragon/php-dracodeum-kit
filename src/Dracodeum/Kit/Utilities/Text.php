@@ -850,7 +850,7 @@ final class Text extends Utility
 	 * <p>The string singular form to fill.</p>
 	 * @param string $string2
 	 * <p>The string plural form to fill.</p>
-	 * @param float|int $number
+	 * @param float $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to fill with.</p>
@@ -2205,7 +2205,7 @@ final class Text extends Utility
 	 * <p>The message singular form to localize.</p>
 	 * @param string $message2
 	 * <p>The message plural form to localize.</p>
-	 * @param float|int $number
+	 * @param float $number
 	 * <p>The number to use.</p>
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to localize with.</p>
