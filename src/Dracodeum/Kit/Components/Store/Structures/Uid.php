@@ -8,12 +8,16 @@
 namespace Dracodeum\Kit\Components\Store\Structures;
 
 use Dracodeum\Kit\Structure;
-use Dracodeum\Kit\Utilities\Text as UText;
+use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions;
+use Dracodeum\Kit\Utilities\{
+	Text as UText,
+	Type as UType
+};
 
 /**
  * This structure represents the UID (unique identifier) of a resource in a store.
  * 
- * @property mixed $id
+ * @property int|float|string|null $id [coercive] [default = null]
  * <p>The ID.</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
@@ -46,7 +50,12 @@ class Uid extends Structure
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
-		$this->addProperty('id');
+		$this->addProperty('id')
+			->addEvaluator(function (&$value): bool {
+				return static::evaluateId($value, true);
+			})
+			->setDefaultValue(null)
+		;
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('scope')
 			->setAsString(true, true)
@@ -90,5 +99,113 @@ class Uid extends Structure
 	protected static function extractStringProperties(string $string): ?array
 	{
 		return ['id' => $string];
+	}
+	
+	
+	
+	//Final public static methods
+	/**
+	 * Evaluate a given value as an ID.
+	 * 
+	 * Only the following types and formats can be evaluated into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an ID.</p>
+	 */
+	final public static function evaluateId(&$value, bool $nullable = false): bool
+	{
+		return self::processIdCoercion($value, $nullable, true);
+	}
+	
+	/**
+	 * Coerce a given value into an ID.
+	 * 
+	 * Only the following types and formats can be coerced into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\IdCoercionFailed
+	 * @return int|float|string|null
+	 * <p>The given value coerced into an ID.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceId($value, bool $nullable = false)
+	{
+		self::processIdCoercion($value, $nullable);
+		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an ID.
+	 * 
+	 * Only the following types and formats can be coerced into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\IdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an ID.</p>
+	 */
+	final public static function processIdCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		//check
+		if (is_int($value) || is_float($value) || is_string($value)) {
+			return true;
+		}
+		
+		//nullable
+		if ($value === null) {
+			if ($nullable) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\IdCoercionFailed([
+				'value' => $value,
+				'uid' => static::class,
+				'error_code' => Exceptions\IdCoercionFailed::ERROR_CODE_NULL,
+				'error_message' => "A null value is not allowed."
+			]);
+		}
+		
+		//coerce
+		$id = $value;
+		if (UType::evaluateNumber($id) || UType::evaluateString($id)) {
+			$value = $id;
+			return true;
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return false;
+		}
+		throw new Exceptions\IdCoercionFailed([
+			'value' => $value,
+			'uid' => static::class,
+			'error_code' => Exceptions\IdCoercionFailed::ERROR_CODE_INVALID_TYPE,
+			'error_message' => "Only the following types and formats can be coerced into an ID:\n" . 
+				" - an integer, float or string;\n" . 
+				" - an object implementing the \"__toString\" method;\n" . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
+		]);
 	}
 }

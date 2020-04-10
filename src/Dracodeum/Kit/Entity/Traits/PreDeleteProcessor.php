@@ -14,7 +14,7 @@ trait PreDeleteProcessor
 	/**
 	 * Perform processing before an instance with a given ID and set of scope values is deleted.
 	 * 
-	 * @param mixed $id
+	 * @param int|float|string|null $id
 	 * <p>The ID to perform processing with.</p>
 	 * @param array $scope_values
 	 * <p>The scope values to perform processing with, as <samp>name => value</samp> pairs.</p>

@@ -858,7 +858,11 @@ trait KeyEvaluators
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
-	 * to be loaded from.
+	 * to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
+	 * given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid

@@ -25,6 +25,7 @@ use Dracodeum\Kit\Entity\{
 use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -236,13 +237,24 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	/**
 	 * Get ID.
 	 * 
-	 * @return mixed
+	 * @return int|float|string|null
 	 * <p>The ID or <code>null</code> if none is set.</p>
 	 */
 	final public function getId()
 	{
 		$name = $this->getIdPropertyName();
-		return $name !== null ? $this->get($name) : null;
+		if ($name !== null) {
+			$id = $this->get($name);
+			if (!self::evaluateId($id)) {
+				UCall::haltInternal([
+					'error_message' => "Invalid ID {{id}} in entity {{entity}}.",
+					'hint_message' => "Only an integer, float or string ID is allowed.",
+					'parameters' => ['id' => $id, 'entity' => $this]
+				]);
+			}
+			return $id;
+		}
+		return null;
 	}
 	
 	/**
@@ -295,19 +307,30 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	}
 	
 	/**
-	 * Check if an instance with a given ID exists.
+	 * Check if has ID.
 	 * 
-	 * @param mixed $id
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has ID.</p>
+	 */
+	final public static function hasId(): bool
+	{
+		return static::getIdPropertyName() !== null;
+	}
+	
+	/**
+	 * Check if an instance exists.
+	 * 
+	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
 	 * @param array $scope_values [default = []]
 	 * <p>The scope values to check with, as <samp>name => value</samp> pairs.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if an instance with the given ID exists.</p>
+	 * <p>Boolean <code>true</code> if an instance exists.</p>
 	 */
-	final public static function exists($id, array $scope_values = []): bool
+	final public static function exists($id = null, array $scope_values = []): bool
 	{
 		return static::getStore()->exists([
-			'id' => $id,
+			'id' => static::coerceId($id),
 			'name' => static::getName(),
 			'base_scope' => static::getBaseScope(),
 			'scope_values' => $scope_values
@@ -315,9 +338,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	}
 	
 	/**
-	 * Load instance with a given ID.
+	 * Load instance.
 	 * 
-	 * @param mixed $id
+	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
 	 * @param array $scope_values [default = []]
 	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
@@ -325,20 +348,20 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return static|null
-	 * <p>The loaded instance with the given ID.<br>
+	 * <p>The loaded instance.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function load($id, array $scope_values = [], bool $no_throw = false): ?Entity
+	final public static function load($id = null, array $scope_values = [], bool $no_throw = false): ?Entity
 	{
-		$properties = static::loadPropertyValues($id, $scope_values, $no_throw);
+		$properties = static::loadPropertyValues(static::coerceId($id), $scope_values, $no_throw);
 		return $properties !== null ? static::build($properties, true) : null;
 	}
 	
 	/**
-	 * Delete instance with a given ID.
+	 * Delete instance.
 	 * 
-	 * @param mixed $id
+	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
 	 * @param array $scope_values [default = []]
 	 * <p>The scope values to delete with, as <samp>name => value</samp> pairs.</p>
@@ -347,12 +370,13 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return void|bool
 	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the instance with the given ID was found and deleted, 
+	 * then boolean <code>true</code> is returned if the instance was found and deleted, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function delete($id, array $scope_values = [], bool $no_throw = false)
+	final public static function delete($id = null, array $scope_values = [], bool $no_throw = false)
 	{
 		//initialize
+		$id = static::coerceId($id);
 		$store = static::getStore();
 		$base_scope = static::getBaseScope();
 		
@@ -394,7 +418,11 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
-	 * to be loaded from.
+	 * to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
+	 * given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
@@ -440,7 +468,11 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
-	 * to be loaded from.
+	 * to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
+	 * given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
@@ -489,7 +521,11 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
-	 * to be loaded from.
+	 * to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
+	 * given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
@@ -556,6 +592,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 						static::class
 					);
 					return true;
+				} elseif (static::evaluateId($instance)) {
+					$value = UType::coerceObject($builder(static::loadPropertyValues($instance), true), static::class);
+					return true;
 				} elseif (UData::evaluate($instance)) {
 					$value = UType::coerceObject($builder($instance, $persisted), static::class);
 					return true;
@@ -586,8 +625,89 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				" - an integer, float or string, given as an ID to be loaded from;\n" . 
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
-				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from."
+				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from;\n" . 
+				" - an object implementing the \"__toString\" method, given as an ID to be loaded from;\n" . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface, " . 
+				"given as an ID to be loaded from."
 		]);
+	}
+	
+	/**
+	 * Evaluate a given value as an ID.
+	 * 
+	 * Only the following types and formats can be evaluated into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an ID.</p>
+	 */
+	final public static function evaluateId(&$value, bool $nullable = false): bool
+	{
+		return self::processIdCoercion($value, $nullable, true);
+	}
+	
+	/**
+	 * Coerce a given value into an ID.
+	 * 
+	 * Only the following types and formats can be coerced into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\IdCoercionFailed
+	 * @return int|float|string|null
+	 * <p>The given value coerced into an ID.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceId($value, bool $nullable = false)
+	{
+		self::processIdCoercion($value, $nullable);
+		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value into an ID.
+	 * 
+	 * Only the following types and formats can be coerced into an ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\IdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an ID.</p>
+	 */
+	final public static function processIdCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
+	{
+		try {
+			if (!Uid::processIdCoercion($value, $nullable || !static::hasId(), $no_throw)) {
+				return false;
+			}
+		} catch (UidExceptions\IdCoercionFailed $exception) {
+			throw new Exceptions\IdCoercionFailed([
+				'value' => $exception->getValue(),
+				'entity' => static::class,
+				'error_code' => $exception->getErrorCode(),
+				'error_message' => $exception->getErrorMessage()
+			]);
+		}
+		return true;
 	}
 	
 	
@@ -721,7 +841,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 							'error_message' => "Missing ID property {{name}}.",
 							'parameters' => ['name' => $id_name]
 						]);
-					} elseif ($n_values[$id_name] !== $o_values[$id_name]) {
+					} elseif (static::coerceId($n_values[$id_name]) !== static::coerceId($o_values[$id_name])) {
 						UCall::haltParameter('new_values', $new_values, [
 							'error_message' => "ID property {{name}} new value {{new_value}} mismatches " . 
 								"old value {{old_value}}.",
@@ -737,7 +857,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				}
 				
 				//finalize
-				$id = $n_values[$id_name];
+				$id = static::coerceId($n_values[$id_name]);
 				unset($n_values[$id_name]);
 				
 			} elseif ($o_values !== null) {
@@ -822,9 +942,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	
 	//Final private static methods
 	/**
-	 * Load property values with a given ID.
+	 * Load property values.
 	 * 
-	 * @param mixed $id
+	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
 	 * @param array $scope_values [default = []]
 	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
@@ -832,13 +952,16 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return array|null
-	 * <p>The loaded property values with the given ID, as <samp>name => value</samp> pairs.<br>
+	 * <p>The loaded property values, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if none were found.</p>
 	 */
-	final private static function loadPropertyValues($id, array $scope_values = [], bool $no_throw = false): ?array
+	final private static function loadPropertyValues(
+		$id = null, array $scope_values = [], bool $no_throw = false
+	): ?array
 	{
 		//initialize
+		$id = static::coerceId($id);
 		$store = static::getStore();
 		$base_scope = static::getBaseScope();
 		

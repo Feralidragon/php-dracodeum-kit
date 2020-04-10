@@ -832,7 +832,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//value
 		$value = $this->get($name);
 		UCall::guard(is_bool($value), [
-			'error_message' => "Invalid boolean value {{value}} in property {{name}} in manager with owner {{owner}}.",
+			'error_message' => "Invalid value {{value}} in property {{name}} in manager with owner {{owner}}.",
 			'hint_message' => "Only a boolean property is allowed be returned with this method.",
 			'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
 		]);
