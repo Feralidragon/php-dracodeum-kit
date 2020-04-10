@@ -112,7 +112,7 @@ final class Runtime implements IUninstantiable
 	final public static function setOrigin(string $origin): void
 	{
 		if ($origin === '') {
-			UCall::haltParameter('origin', $origin, ['error_message' => "An empty value is not allowed."]);
+			UCall::haltParameter('origin', $origin, ['error_message' => "An empty origin is not allowed."]);
 		}
 		self::$origin = $origin;
 	}

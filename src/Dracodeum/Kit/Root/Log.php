@@ -125,7 +125,7 @@ final class Log implements IUninstantiable
 	{
 		//guard
 		if (empty($strings)) {
-			UCall::haltParameter('strings', $strings, ['error_message' => "An empty set of values is not allowed."]);
+			UCall::haltParameter('strings', $strings, ['error_message' => "An empty set of strings is not allowed."]);
 		}
 		
 		//encode
@@ -151,7 +151,7 @@ final class Log implements IUninstantiable
 	{
 		//guard
 		if ($tag === '') {
-			UCall::haltParameter('tag', $tag, ['error_message' => "An empty value is not allowed."]);
+			UCall::haltParameter('tag', $tag, ['error_message' => "An empty tag is not allowed."]);
 		}
 		
 		//decompose
