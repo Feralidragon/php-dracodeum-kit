@@ -177,7 +177,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	/** {@inheritdoc} */
 	final public static function fromArray(array $array): object
 	{
-		return static::build($array);
+		return self::build($array);
 	}
 	
 	
@@ -271,14 +271,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			return null;
 		}
 		
-		//values
-		$values = [];
+		//ids
+		$ids = [];
 		foreach (UText::placeholders($base, true) as $name) {
-			$values[$name] = $this->get($name);
+			$ids[$name] = $this->get($name);
 		}
 		
 		//return
-		return $this->getStore()->getUidScope($base, $values);
+		return $this->getStore()->getUidScope($base, $ids);
 	}
 	
 	
@@ -322,18 +322,18 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
-	 * @param array $scope_values [default = []]
-	 * <p>The scope values to check with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to check with, as <samp>name => id</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if an instance exists.</p>
 	 */
-	final public static function exists($id = null, array $scope_values = []): bool
+	final public static function exists($id = null, array $scope_ids = []): bool
 	{
-		return static::getStore()->exists([
-			'id' => static::coerceId($id),
+		return self::getStore()->exists([
+			'id' => self::coerceId($id),
 			'name' => static::getName(),
 			'base_scope' => static::getBaseScope(),
-			'scope_values' => $scope_values
+			'scope_ids' => self::coerceScopeIds($scope_ids)
 		]);
 	}
 	
@@ -342,8 +342,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param array $scope_values [default = []]
-	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -352,10 +352,10 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public static function load($id = null, array $scope_values = [], bool $no_throw = false): ?Entity
+	final public static function load($id = null, array $scope_ids = [], bool $no_throw = false): ?Entity
 	{
-		$properties = static::loadPropertyValues(static::coerceId($id), $scope_values, $no_throw);
-		return $properties !== null ? static::build($properties, true) : null;
+		$properties = self::loadPropertyValues($id, $scope_ids, $no_throw);
+		return $properties !== null ? self::build($properties, true) : null;
 	}
 	
 	/**
@@ -363,8 +363,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
-	 * @param array $scope_values [default = []]
-	 * <p>The scope values to delete with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to delete with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -373,22 +373,23 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * then boolean <code>true</code> is returned if the instance was found and deleted, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public static function delete($id = null, array $scope_values = [], bool $no_throw = false)
+	final public static function delete($id = null, array $scope_ids = [], bool $no_throw = false)
 	{
 		//initialize
-		$id = static::coerceId($id);
-		$store = static::getStore();
+		$id = self::coerceId($id);
+		$scope_ids = self::coerceScopeIds($scope_ids);
+		$store = self::getStore();
 		$base_scope = static::getBaseScope();
 		
 		//pre-delete
-		static::processPreDelete($id, $scope_values);
+		static::processPreDelete($id, $scope_ids);
 		
 		//delete
 		$deleted = $store->delete([
 			'id' => $id,
 			'name' => static::getName(),
 			'base_scope' => $base_scope,
-			'scope_values' => $scope_values
+			'scope_ids' => $scope_ids
 		], true);
 		
 		//check
@@ -396,12 +397,12 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			if ($no_throw) {
 				return false;
 			}
-			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
-			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
+			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_ids) : null;
+			throw new Exceptions\NotFound([static::class, 'id' => $id, 'scope' => $scope]);
 		}
 		
 		//post-delete
-		static::processPostDelete($id, $scope_values);
+		static::processPostDelete($id, $scope_ids);
 		
 		//return
 		if ($no_throw) {
@@ -577,7 +578,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				$value = UType::coerceObject($builder($value ?? [], $persisted), static::class);
 				return true;
 			} elseif (is_int($value) || is_float($value) || is_string($value)) {
-				$value = UType::coerceObject($builder(static::loadPropertyValues($value), true), static::class);
+				$value = UType::coerceObject($builder(self::loadPropertyValues($value), true), static::class);
 				return true;
 			} elseif (is_object($value)) {
 				$instance = $value;
@@ -588,12 +589,12 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 					return true;
 				} elseif ($instance instanceof Uid) {
 					$value = UType::coerceObject(
-						$builder(static::loadPropertyValues($instance->id, $instance->scope_values), true),
+						$builder(self::loadPropertyValues($instance->id, $instance->scope_ids), true),
 						static::class
 					);
 					return true;
-				} elseif (static::evaluateId($instance)) {
-					$value = UType::coerceObject($builder(static::loadPropertyValues($instance), true), static::class);
+				} elseif (self::evaluateId($instance)) {
+					$value = UType::coerceObject($builder(self::loadPropertyValues($instance), true), static::class);
 					return true;
 				} elseif (UData::evaluate($instance)) {
 					$value = UType::coerceObject($builder($instance, $persisted), static::class);
@@ -696,7 +697,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	final public static function processIdCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
 	{
 		try {
-			if (!Uid::processIdCoercion($value, $nullable || !static::hasId(), $no_throw)) {
+			if (!Uid::processIdCoercion($value, $nullable || !self::hasId(), $no_throw)) {
 				return false;
 			}
 		} catch (UidExceptions\IdCoercionFailed $exception) {
@@ -707,6 +708,165 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				'error_message' => $exception->getErrorMessage()
 			]);
 		}
+		return true;
+	}
+	
+	/**
+	 * Evaluate a given value with a given name as a scope ID.
+	 * 
+	 * Only the following types and formats can be evaluated into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to evaluate with.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value with the given name was successfully evaluated into a 
+	 * scope ID.</p>
+	 */
+	final public static function evaluateScopeId(string $name, &$value, bool $nullable = false): bool
+	{
+		return self::processScopeIdCoercion($name, $value, $nullable, true);
+	}
+	
+	/**
+	 * Coerce a given value with a given name into a scope ID.
+	 * 
+	 * Only the following types and formats can be coerced into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to coerce with.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @return int|float|string|null
+	 * <p>The given value with the given name coerced into a scope ID.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceScopeId(string $name, $value, bool $nullable = false)
+	{
+		self::processScopeIdCoercion($name, $value, $nullable);
+		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value with a given name into a scope ID.
+	 * 
+	 * Only the following types and formats can be coerced into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to process with.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value with the given name was successfully coerced into a scope ID.</p>
+	 */
+	final public static function processScopeIdCoercion(
+		string $name, &$value, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		try {
+			if (!Uid::processScopeIdCoercion($name, $value, $nullable, $no_throw)) {
+				return false;
+			}
+		} catch (UidExceptions\ScopeIdCoercionFailed $exception) {
+			throw new Exceptions\ScopeIdCoercionFailed([
+				'name' => $name,
+				'value' => $exception->getValue(),
+				'entity' => static::class,
+				'error_code' => $exception->getErrorCode(),
+				'error_message' => $exception->getErrorMessage()
+			]);
+		}
+		return true;
+	}
+	
+	/**
+	 * Evaluate a given set of values as a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be evaluated into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The set of values to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given set of values was successfully evaluated into a set of scope IDs.</p>
+	 */
+	final public static function evaluateScopeIds(array &$values): bool
+	{
+		return self::processScopeIdsCoercion($values, true);
+	}
+	
+	/**
+	 * Coerce a given set of values into a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be coerced into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values
+	 * <p>The set of values to coerce (validate and sanitize).</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @return int[]|float[]|string[]
+	 * <p>The given set of values coerced into a set of scope IDs.</p>
+	 */
+	final public static function coerceScopeIds(array $values): array
+	{
+		self::processScopeIdsCoercion($values);
+		return $values;
+	}
+	
+	/**
+	 * Process the coercion of a given set of values into a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be coerced into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The set of values to process (validate and sanitize).</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given set of values was successfully coerced into a set of scope IDs.</p>
+	 */
+	final public static function processScopeIdsCoercion(array &$values, bool $no_throw = false): bool
+	{
+		$ids = [];
+		foreach ($values as $name => $value) {
+			if (self::processScopeIdCoercion($name, $value, false, $no_throw)) {
+				$ids[$name] = $value;
+			} else {
+				return false;
+			}
+		}
+		$values = $ids;
 		return true;
 	}
 	
@@ -756,7 +916,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		//insert
 		$inserted_values = $this->getStore()->insert($uid, $values, true);
 		if ($inserted_values === null) {
-			throw new Exceptions\Conflict([$this, $uid->id, 'scope' => $uid->scope]);
+			throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 		}
 		
 		//post-persistence
@@ -798,7 +958,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		//update
 		$updated_values = $this->getStore()->update($uid, $new_values, true);
 		if ($updated_values === null) {
-			throw new Exceptions\NotFound([$this, $uid->id, 'scope' => $uid->scope]);
+			throw new Exceptions\NotFound([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 		}
 		
 		//post-update
@@ -841,7 +1001,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 							'error_message' => "Missing ID property {{name}}.",
 							'parameters' => ['name' => $id_name]
 						]);
-					} elseif (static::coerceId($n_values[$id_name]) !== static::coerceId($o_values[$id_name])) {
+					} elseif (self::coerceId($n_values[$id_name]) !== self::coerceId($o_values[$id_name])) {
 						UCall::haltParameter('new_values', $new_values, [
 							'error_message' => "ID property {{name}} new value {{new_value}} mismatches " . 
 								"old value {{old_value}}.",
@@ -857,7 +1017,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				}
 				
 				//finalize
-				$id = static::coerceId($n_values[$id_name]);
+				$id = self::coerceId($n_values[$id_name]);
 				unset($n_values[$id_name]);
 				
 			} elseif ($o_values !== null) {
@@ -869,7 +1029,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		}
 		
 		//scope
-		$scope_values = [];
+		$scope_ids = [];
 		$base_scope = $this->getBaseScope();
 		if ($base_scope !== null) {
 			foreach (UText::placeholders($base_scope, true) as $name) {
@@ -885,7 +1045,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 							'error_message' => "Missing scope property {{name}}.",
 							'parameters' => ['name' => $name]
 						]);
-					} elseif ($n_values[$name] !== $o_values[$name]) {
+					} elseif (
+						self::coerceScopeId($name, $n_values[$name]) !== self::coerceScopeId($name, $o_values[$name])
+					) {
 						UCall::haltParameter('new_values', $new_values, [
 							'error_message' => "Scope property {{name}} new value {{new_value}} mismatches " . 
 								"old value {{old_value}}.",
@@ -901,7 +1063,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				}
 				
 				//finalize
-				$scope_values[$name] = $n_values[$name];
+				$scope_ids[$name] = self::coerceScopeId($name, $n_values[$name]);
 				unset($n_values[$name]);
 			}
 		}
@@ -911,7 +1073,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			'id' => $id,
 			'name' => $this->getName(),
 			'base_scope' => $base_scope,
-			'scope_values' => $scope_values
+			'scope_ids' => $scope_ids
 		]);
 		$new_values = $n_values;
 		$old_values = $o_values;
@@ -935,7 +1097,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		}
 		
 		//scope
-		$values += $uid->scope_values;
+		$values += $uid->scope_ids;
 	}
 	
 	
@@ -946,8 +1108,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param array $scope_values [default = []]
-	 * <p>The scope values to load with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -957,12 +1119,13 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * then <code>null</code> is returned if none were found.</p>
 	 */
 	final private static function loadPropertyValues(
-		$id = null, array $scope_values = [], bool $no_throw = false
+		$id = null, array $scope_ids = [], bool $no_throw = false
 	): ?array
 	{
 		//initialize
-		$id = static::coerceId($id);
-		$store = static::getStore();
+		$id = self::coerceId($id);
+		$scope_ids = self::coerceScopeIds($scope_ids);
+		$store = self::getStore();
 		$base_scope = static::getBaseScope();
 		
 		//values
@@ -970,7 +1133,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			'id' => $id,
 			'name' => static::getName(),
 			'base_scope' => $base_scope,
-			'scope_values' => $scope_values
+			'scope_ids' => $scope_ids
 		], true);
 		
 		//check
@@ -978,8 +1141,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			if ($no_throw) {
 				return null;
 			}
-			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_values) : null;
-			throw new Exceptions\NotFound([static::class, $id, 'scope' => $scope]);
+			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_ids) : null;
+			throw new Exceptions\NotFound([static::class, 'id' => $id, 'scope' => $scope]);
 		}
 		
 		//finalize
@@ -987,7 +1150,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		if ($id_name !== null) {
 			$values += [$id_name => $id];
 		}
-		$values += $scope_values;
+		$values += $scope_ids;
 		
 		//return
 		return $values;

@@ -22,10 +22,18 @@ class Conflict extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->get('uid')->scope !== null
-			? "Resource {{uid.name}} with ID {{uid.id}} and scope {{uid.scope}} " . 
-				"conflicts with an existing one in store {{component}} (with prototype {{prototype}})."
-			: "Resource {{uid.name}} with ID {{uid.id}} " . 
+		$uid = $this->get('uid');
+		if ($uid->id !== null && $uid->scope !== null) {
+			return "Resource {{uid.name}} with ID {{uid.id}} and scope {{uid.scope}} " . 
+				"conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
+		} elseif ($uid->scope !== null) {
+			return "Resource {{uid.name}} with scope {{uid.scope}} " . 
+				"conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
+		} elseif ($uid->id !== null) {
+			return "Resource {{uid.name}} with ID {{uid.id}} " . 
+				"conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
+		}
+		return "Resource {{uid.name}} " . 
 				"conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
 	}
 	

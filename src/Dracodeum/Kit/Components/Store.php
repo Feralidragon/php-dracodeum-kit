@@ -101,17 +101,17 @@ class Store extends Component
 	{
 		$uid = Uid::coerce($uid, $clone_recursive);
 		if ($uid->defaulted('scope') && $uid->base_scope !== null) {
-			$uid->scope = $this->getUidScope($uid->base_scope, $uid->scope_values);
+			$uid->scope = $this->getUidScope($uid->base_scope, $uid->scope_ids);
 		}
 		return $uid;
 	}
 	
 	/**
-	 * Get UID scope from a given base scope with a given set of scope values.
+	 * Get UID scope from a given base scope with a given set of scope IDs.
 	 * 
 	 * @param string $base_scope
 	 * <p>The base scope to get from, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
-	 * corresponding directly to given scope values.<br>
+	 * corresponding directly to given scope IDs.<br>
 	 * <br>
 	 * If set, then it cannot be empty, and placeholders must be exclusively composed by identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
@@ -124,16 +124,16 @@ class Store extends Component
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param array $scope_values
-	 * <p>The scope values to get with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids
+	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
 	 * @return string
-	 * <p>The UID scope from the given base scope with the given set of scope values.</p>
+	 * <p>The UID scope from the given base scope with the given set of scope IDs.</p>
 	 */
-	final public function getUidScope(string $base_scope, array $scope_values): string
+	final public function getUidScope(string $base_scope, array $scope_ids): string
 	{
-		return empty($scope_values)
+		return empty($scope_ids)
 			? $base_scope
-			: UText::fill($base_scope, $scope_values, null, [
+			: UText::fill($base_scope, Uid::coerceScopeIds($scope_ids), null, [
 				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
 			]);
 	}

@@ -27,7 +27,7 @@ use Dracodeum\Kit\Utilities\{
  * If set, then it cannot be empty.</p>
  * @property string|null $base_scope [coercive] [default = null]
  * <p>The base scope, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
- * corresponding directly to given scope values.<br>
+ * corresponding directly to given scope IDs.<br>
  * <br>
  * If set, then it cannot be empty, and placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
@@ -40,8 +40,8 @@ use Dracodeum\Kit\Utilities\{
  * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property array $scope_values [coercive] [default = []]
- * <p>The scope values, as <samp>name => value</samp> pairs.</p>
+ * @property int[]|float[]|string[] $scope_ids [coercive] [default = []]
+ * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
  * @see https://en.wikipedia.org/wiki/Identifier
  */
 class Uid extends Structure
@@ -52,7 +52,7 @@ class Uid extends Structure
 	{
 		$this->addProperty('id')
 			->addEvaluator(function (&$value): bool {
-				return static::evaluateId($value, true);
+				return self::evaluateId($value, true);
 			})
 			->setDefaultValue(null)
 		;
@@ -61,17 +61,22 @@ class Uid extends Structure
 			->setAsString(true, true)
 			->setDefaultGetter(function () {
 				$base_scope = $this->get('base_scope');
-				$scope_values = $this->get('scope_values');
+				$scope_ids = $this->get('scope_ids');
 				if ($base_scope === null) {
 					return null;
-				} elseif (empty($scope_values)) {
+				} elseif (empty($scope_ids)) {
 					return $base_scope;
 				}
-				return UText::fill($base_scope, $scope_values);
+				return UText::fill($base_scope, $scope_ids);
 			})
 		;
 		$this->addProperty('base_scope')->setAsString(true, true)->setDefaultValue(null);
-		$this->addProperty('scope_values')->setAsArray()->setDefaultValue([]);
+		$this->addProperty('scope_ids')
+			->setAsArray(function (&$key, &$value): bool {
+				return self::evaluateScopeId($key, $value);
+			})
+			->setDefaultValue([])
+		;
 	}
 	
 	
@@ -207,5 +212,164 @@ class Uid extends Structure
 				" - an object implementing the \"__toString\" method;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
 		]);
+	}
+	
+	/**
+	 * Evaluate a given value with a given name as a scope ID.
+	 * 
+	 * Only the following types and formats can be evaluated into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to evaluate with.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value with the given name was successfully evaluated into a 
+	 * scope ID.</p>
+	 */
+	final public static function evaluateScopeId(string $name, &$value, bool $nullable = false): bool
+	{
+		return self::processScopeIdCoercion($name, $value, $nullable, true);
+	}
+	
+	/**
+	 * Coerce a given value with a given name into a scope ID.
+	 * 
+	 * Only the following types and formats can be coerced into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to coerce with.</p>
+	 * @param mixed $value
+	 * <p>The value to coerce (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @return int|float|string|null
+	 * <p>The given value with the given name coerced into a scope ID.<br>
+	 * If nullable, then <code>null</code> may also be returned.</p>
+	 */
+	final public static function coerceScopeId(string $name, $value, bool $nullable = false)
+	{
+		self::processScopeIdCoercion($name, $value, $nullable);
+		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value with a given name into a scope ID.
+	 * 
+	 * Only the following types and formats can be coerced into a scope ID:<br>
+	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * 
+	 * @param string $name
+	 * <p>The name to process with.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to process (validate and sanitize).</p>
+	 * @param bool $nullable [default = false]
+	 * <p>Allow the given value to coerce as <code>null</code>.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value with the given name was successfully coerced into a scope ID.</p>
+	 */
+	final public static function processScopeIdCoercion(
+		string $name, &$value, bool $nullable = false, bool $no_throw = false
+	): bool
+	{
+		try {
+			if (!self::processIdCoercion($value, $nullable, $no_throw)) {
+				return false;
+			}
+		} catch (Exceptions\IdCoercionFailed $exception) {
+			throw new Exceptions\ScopeIdCoercionFailed([
+				'name' => $name,
+				'value' => $exception->getValue(),
+				'uid' => static::class,
+				'error_code' => $exception->getErrorCode(),
+				'error_message' => $exception->getErrorMessage()
+			]);
+		}
+		return true;
+	}
+	
+	/**
+	 * Evaluate a given set of values as a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be evaluated into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The set of values to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given set of values was successfully evaluated into a set of scope IDs.</p>
+	 */
+	final public static function evaluateScopeIds(array &$values): bool
+	{
+		return self::processScopeIdsCoercion($values, true);
+	}
+	
+	/**
+	 * Coerce a given set of values into a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be coerced into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values
+	 * <p>The set of values to coerce (validate and sanitize).</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @return int[]|float[]|string[]
+	 * <p>The given set of values coerced into a set of scope IDs.</p>
+	 */
+	final public static function coerceScopeIds(array $values): array
+	{
+		self::processScopeIdsCoercion($values);
+		return $values;
+	}
+	
+	/**
+	 * Process the coercion of a given set of values into a set of scope IDs.
+	 * 
+	 * Only the following types and formats can be coerced into scope IDs:<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * interface.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The set of values to process (validate and sanitize).</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given set of values was successfully coerced into a set of scope IDs.</p>
+	 */
+	final public static function processScopeIdsCoercion(array &$values, bool $no_throw = false): bool
+	{
+		$ids = [];
+		foreach ($values as $name => $value) {
+			if (self::processScopeIdCoercion($name, $value, false, $no_throw)) {
+				$ids[$name] = $value;
+			} else {
+				return false;
+			}
+		}
+		$values = $ids;
+		return true;
 	}
 }

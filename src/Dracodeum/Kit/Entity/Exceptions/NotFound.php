@@ -8,11 +8,12 @@
 namespace Dracodeum\Kit\Entity\Exceptions;
 
 use Dracodeum\Kit\Entity\Exception;
+use Dracodeum\Kit\Entity;
 
 /**
  * This exception is thrown from an entity whenever it is not found.
  * 
- * @property-read mixed $id
+ * @property-read int|float|string|null $id [default = null]
  * <p>The ID.</p>
  * @property-read string|null $scope [coercive] [default = null]
  * <p>The scope.<br>
@@ -24,9 +25,16 @@ class NotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->get('scope') !== null
-			? "Entity {{entity}} with ID {{id}} and scope {{scope}} not found."
-			: "Entity {{entity}} with ID {{id}} not found.";
+		$id = $this->get('id');
+		$scope = $this->get('scope');
+		if ($id !== null && $scope !== null) {
+			return "Entity {{entity}} with ID {{id}} and scope {{scope}} not found.";
+		} elseif ($scope !== null) {
+			return "Entity {{entity}} with scope {{scope}} not found.";
+		} elseif ($id !== null) {
+			return "Entity {{entity}} with ID {{id}} not found.";
+		}
+		return "Entity {{entity}} not found.";
 	}
 	
 	
@@ -39,7 +47,12 @@ class NotFound extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('id');
+		$this->addProperty('id')
+			->addEvaluator(function (&$value): bool {
+				return Entity::evaluateId($value, true);
+			})
+			->setDefaultValue(null)
+		;
 		$this->addProperty('scope')->setAsString(true, true)->setDefaultValue(null);
 	}
 }

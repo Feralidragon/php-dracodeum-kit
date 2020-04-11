@@ -12,13 +12,13 @@ trait PostDeleteProcessor
 {
 	//Protected static methods
 	/**
-	 * Perform processing after an instance with a given ID and set of scope values is deleted.
+	 * Perform processing after an instance with a given ID and set of scope IDs is deleted.
 	 * 
 	 * @param int|float|string|null $id
 	 * <p>The ID to perform processing with.</p>
-	 * @param array $scope_values
-	 * <p>The scope values to perform processing with, as <samp>name => value</samp> pairs.</p>
+	 * @param int[]|float[]|string[] $scope_ids
+	 * <p>The scope IDs to perform processing with, as <samp>name => id</samp> pairs.</p>
 	 * @return void
 	 */
-	protected static function processPostDelete($id, array $scope_values): void {}
+	protected static function processPostDelete($id, array $scope_ids): void {}
 }
