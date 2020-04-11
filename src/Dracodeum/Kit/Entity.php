@@ -1118,9 +1118,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if none were found.</p>
 	 */
-	final private static function loadPropertyValues(
-		$id = null, array $scope_ids = [], bool $no_throw = false
-	): ?array
+	final private static function loadPropertyValues($id = null, array $scope_ids = [], bool $no_throw = false): ?array
 	{
 		//initialize
 		$id = self::coerceId($id);
