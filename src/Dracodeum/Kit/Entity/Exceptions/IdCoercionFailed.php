@@ -20,6 +20,9 @@ class IdCoercionFailed extends Exception implements ICoercive
 	
 	
 	//Public constants
+	/** Not implemented error code. */
+	public const ERROR_CODE_NOT_IMPLEMENTED = 'NOT_IMPLEMENTED';
+	
 	/** Null error code. */
 	public const ERROR_CODE_NULL = 'NULL';
 	

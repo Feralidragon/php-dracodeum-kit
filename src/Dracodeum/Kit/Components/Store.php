@@ -131,11 +131,11 @@ class Store extends Component
 	 */
 	final public function getUidScope(string $base_scope, array $scope_ids): string
 	{
-		return empty($scope_ids)
-			? $base_scope
-			: UText::fill($base_scope, Uid::coerceScopeIds($scope_ids), null, [
+		return UText::hasPlaceholders($base_scope)
+			? UText::fill($base_scope, Uid::coerceScopeIds($scope_ids), null, [
 				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
-			]);
+			])
+			: $base_scope;
 	}
 	
 	/**

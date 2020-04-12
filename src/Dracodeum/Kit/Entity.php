@@ -33,6 +33,7 @@ use Dracodeum\Kit\Utilities\{
 	Text as UText,
 	Type as UType
 };
+use Dracodeum\Kit\Root\Log;
 
 /**
  * This class is the base to be extended from when creating an entity.
@@ -94,6 +95,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	//Private static properties
 	/** @var \Dracodeum\Kit\Components\Store[] */
 	private static $stores = [];
+	
+	/** @var string[] */
+	private static $scope_property_names = [];
 	
 	
 	
@@ -273,12 +277,39 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		
 		//ids
 		$ids = [];
-		foreach (UText::placeholders($base, true) as $name) {
+		foreach (self::getScopePropertyNames() as $name) {
 			$ids[$name] = $this->get($name);
 		}
 		
 		//return
 		return $this->getStore()->getUidScope($base, $ids);
+	}
+	
+	/**
+	 * Get log event tag.
+	 * 
+	 * @return string
+	 * <p>The log event tag.</p>
+	 */
+	final public function getLogEventTag(): string
+	{
+		//initialize
+		$strings = ['entity', $this->getName()];
+		
+		//scope
+		$scope = $this->getScope();
+		if ($scope !== null) {
+			$strings[] = $scope;
+		}
+		
+		//id
+		$id = $this->getId();
+		if ($id !== null) {
+			$strings[] = $id;
+		}
+		
+		//return
+		return $this->composeLogEventTag($strings);
 	}
 	
 	
@@ -315,6 +346,32 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	final public static function hasId(): bool
 	{
 		return static::getIdPropertyName() !== null;
+	}
+	
+	/**
+	 * Check if has scope.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has scope.</p>
+	 */
+	final public static function hasScope(): bool
+	{
+		return static::getBaseScope() !== null;
+	}
+	
+	/**
+	 * Get scope property names.
+	 * 
+	 * @return string[]
+	 * <p>The scope property names.</p>
+	 */
+	final public static function getScopePropertyNames(): array
+	{
+		if (!isset(self::$scope_property_names[static::class])) {
+			$base = static::getBaseScope();
+			self::$scope_property_names[static::class] = $base !== null ? UText::placeholders($base, true) : [];
+		}
+		return self::$scope_property_names[static::class];
 	}
 	
 	/**
@@ -696,18 +753,36 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public static function processIdCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
 	{
+		//check
+		if (!self::hasId()) {
+			if ($value === null) {
+				return true;
+			} elseif ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\IdCoercionFailed([
+				'value' => $value,
+				'entity' => static::class,
+				'error_code' => Exceptions\IdCoercionFailed::ERROR_CODE_NOT_IMPLEMENTED,
+				'error_message' => "This entity does not have an ID implemented."
+			]);
+		}
+		
+		//process
 		try {
-			if (!Uid::processIdCoercion($value, $nullable || !self::hasId(), $no_throw)) {
+			if (!Uid::processIdCoercion($value, $nullable, $no_throw)) {
 				return false;
 			}
 		} catch (UidExceptions\IdCoercionFailed $exception) {
 			throw new Exceptions\IdCoercionFailed([
-				'value' => $exception->getValue(),
+				'value' => $exception->value,
 				'entity' => static::class,
-				'error_code' => $exception->getErrorCode(),
-				'error_message' => $exception->getErrorMessage()
+				'error_code' => $exception->error_code,
+				'error_message' => $exception->error_message
 			]);
 		}
+		
+		//return
 		return true;
 	}
 	
@@ -783,6 +858,35 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		string $name, &$value, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
+		//check
+		if (!self::hasScope()) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ScopeIdCoercionFailed([
+				'name' => $name,
+				'value' => $value,
+				'entity' => static::class,
+				'error_code' => Exceptions\ScopeIdCoercionFailed::ERROR_CODE_NOT_IMPLEMENTED,
+				'error_message' => "This entity does not have a scope implemented."
+			]);
+		}
+		
+		//name
+		if (!in_array($name, self::getScopePropertyNames(), true)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ScopeIdCoercionFailed([
+				'name' => $name,
+				'value' => $value,
+				'entity' => static::class,
+				'error_code' => Exceptions\ScopeIdCoercionFailed::ERROR_CODE_INVALID_NAME,
+				'error_message' => "Invalid scope ID name."
+			]);
+		}
+		
+		//process
 		try {
 			if (!Uid::processScopeIdCoercion($name, $value, $nullable, $no_throw)) {
 				return false;
@@ -790,12 +894,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		} catch (UidExceptions\ScopeIdCoercionFailed $exception) {
 			throw new Exceptions\ScopeIdCoercionFailed([
 				'name' => $name,
-				'value' => $exception->getValue(),
+				'value' => $exception->value,
 				'entity' => static::class,
-				'error_code' => $exception->getErrorCode(),
-				'error_message' => $exception->getErrorMessage()
+				'error_code' => $exception->error_code,
+				'error_message' => $exception->error_message
 			]);
 		}
+		
+		//return
 		return true;
 	}
 	
@@ -829,7 +935,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
 	 * @return int[]|float[]|string[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
@@ -852,22 +958,120 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>The set of values to process (validate and sanitize).</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given set of values was successfully coerced into a set of scope IDs.</p>
 	 */
 	final public static function processScopeIdsCoercion(array &$values, bool $no_throw = false): bool
 	{
-		$ids = [];
-		foreach ($values as $name => $value) {
-			if (self::processScopeIdCoercion($name, $value, false, $no_throw)) {
-				$ids[$name] = $value;
-			} else {
+		//check
+		if (!self::hasScope()) {
+			if (empty($values)) {
+				return true;
+			} elseif ($no_throw) {
 				return false;
 			}
+			throw new Exceptions\ScopeIdsCoercionFailed([
+				'value' => $values,
+				'entity' => static::class,
+				'error_code' => Exceptions\ScopeIdsCoercionFailed::ERROR_CODE_NOT_IMPLEMENTED,
+				'error_message' => "This entity does not have a scope implemented."
+			]);
+		}
+		
+		//map
+		$names_map = array_flip(self::getScopePropertyNames());
+		
+		//missing
+		$missing_names = array_keys(array_diff_key($names_map, $values));
+		if (!empty($missing_names)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ScopeIdsCoercionFailed([
+				'value' => $values,
+				'entity' => static::class,
+				'error_code' => Exceptions\ScopeIdsCoercionFailed::ERROR_CODE_MISSING_NAMES,
+				'error_message' => UText::pfill(
+					"Missing scope ID for {{names}}.", "Missing scope IDs for {{names}}.",
+					count($missing_names), null, ['names' => UText::commify($missing_names, null, 'and', true)]
+				)
+			]);
+		}
+		unset($missing_names);
+		
+		//invalid
+		$invalid_names = array_keys(array_diff_key($values, $names_map));
+		if (!empty($invalid_names)) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\ScopeIdsCoercionFailed([
+				'value' => $values,
+				'entity' => static::class,
+				'error_code' => Exceptions\ScopeIdsCoercionFailed::ERROR_CODE_INVALID_NAMES,
+				'error_message' => UText::pfill(
+					"Invalid scope ID name {{names}}.", "Invalid scope ID names {{names}}.",
+					count($invalid_names), null, ['names' => UText::commify($invalid_names, null, 'and', true)]
+				)
+			]);
+		}
+		unset($invalid_names);
+		
+		//process
+		$ids = [];
+		try {
+			foreach ($values as $name => $value) {
+				if (self::processScopeIdCoercion($name, $value, false, $no_throw)) {
+					$ids[$name] = $value;
+				} else {
+					return false;
+				}
+			}
+		} catch (Exceptions\ScopeIdCoercionFailed $exception) {
+			throw new Exceptions\ScopeIdsCoercionFailed([
+				'value' => [$exception->name => $exception->value],
+				'entity' => static::class,
+				'error_code' => $exception->error_code,
+				'error_message' => $exception->error_message
+			]);
 		}
 		$values = $ids;
+		
+		//return
 		return true;
+	}
+	
+	/**
+	 * Get static log event tag.
+	 * 
+	 * @param int|float|string|null $id [default = null]
+	 * <p>The ID to get with.</p>
+	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * @return string
+	 * <p>The static log event tag.</p>
+	 */
+	final public static function getStaticLogEventTag($id = null, array $scope_ids = []): string
+	{
+		//initialize
+		$id = self::coerceId($id);
+		$scope_ids = self::coerceScopeIds($scope_ids);
+		$strings = ['entity', static::getName()];
+		
+		//scope
+		$base_scope = static::getBaseScope();
+		if ($base_scope !== null) {
+			$strings[] = self::getStore()->getUidScope($base_scope, $scope_ids);
+		}
+		
+		//id
+		if ($id !== null) {
+			$strings[] = $id;
+		}
+		
+		//return
+		return self::composeLogEventTag($strings);
 	}
 	
 	
@@ -891,6 +1095,34 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			);
 		}
 		return self::$stores[static::class];
+	}
+	
+	/**
+	 * Compose a log event tag with a given set of strings.
+	 * 
+	 * @param string[] $strings
+	 * <p>The set of strings to compose with.<br>
+	 * It cannot be empty.</p>
+	 * @return string
+	 * <p>The composed log event tag with the given set of strings.</p>
+	 */
+	final protected static function composeLogEventTag(array $strings): string
+	{
+		return Log::composeEventTag($strings);
+	}
+	
+	/**
+	 * Decompose a given log event tag into a set of strings.
+	 * 
+	 * @param string $tag
+	 * <p>The tag to decompose.<br>
+	 * It cannot be empty.</p>
+	 * @return string[]
+	 * <p>The given log event tag decomposed into a set of strings.</p>
+	 */
+	final protected static function decomposeLogEventTag(string $tag): array
+	{
+		return Log::decomposeEventTag($tag);
 	}
 	
 	
@@ -1032,7 +1264,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		$scope_ids = [];
 		$base_scope = $this->getBaseScope();
 		if ($base_scope !== null) {
-			foreach (UText::placeholders($base_scope, true) as $name) {
+			foreach (self::getScopePropertyNames() as $name) {
 				//check
 				if (!array_key_exists($name, $n_values)) {
 					UCall::haltParameter('new_values', $new_values, [

@@ -68,6 +68,12 @@ final class Text extends Utility
 	
 	
 	
+	//Private constants
+	/** Placeholder regular expression pattern. */
+	private const PLACEHOLDER_PATTERN = '(?:[a-zA-Z_]\w*(?:\(\))?)(?:\.[a-zA-Z_]\w*(?:\(\))?)*';
+	
+	
+	
 	//Final public static methods
 	/**
 	 * Check if a given string is empty.
@@ -901,7 +907,7 @@ final class Text extends Utility
 	 */
 	final public static function isPlaceholder(string $string): bool
 	{
-		return preg_match('/^(?:[a-z_]\w*(?:\(\))?)(?:\.[a-z_]\w*(?:\(\))?)*$/i', $string);
+		return preg_match('/^' . self::PLACEHOLDER_PATTERN . '$/', $string);
 	}
 	
 	/**
@@ -918,6 +924,19 @@ final class Text extends Utility
 	{
 		Call::guardParameter('placeholder', $placeholder, self::isPlaceholder($placeholder));
 		return strpos($string, "{{{$placeholder}}}") !== false;
+	}
+	
+	/**
+	 * Check if a given string has placeholders.
+	 * 
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string has placeholders.</p>
+	 */
+	final public static function hasPlaceholders(string $string): bool
+	{
+		return preg_match('/\{\{' . self::PLACEHOLDER_PATTERN . '\}\}/', $string);
 	}
 	
 	/**

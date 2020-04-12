@@ -293,10 +293,10 @@ class Uid extends Structure
 		} catch (Exceptions\IdCoercionFailed $exception) {
 			throw new Exceptions\ScopeIdCoercionFailed([
 				'name' => $name,
-				'value' => $exception->getValue(),
+				'value' => $exception->value,
 				'uid' => static::class,
-				'error_code' => $exception->getErrorCode(),
-				'error_message' => $exception->getErrorMessage()
+				'error_code' => $exception->error_code,
+				'error_message' => $exception->error_message
 			]);
 		}
 		return true;

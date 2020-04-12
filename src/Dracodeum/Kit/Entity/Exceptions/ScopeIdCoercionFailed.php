@@ -15,6 +15,12 @@ namespace Dracodeum\Kit\Entity\Exceptions;
  */
 class ScopeIdCoercionFailed extends IdCoercionFailed
 {
+	//Public constants
+	/** Invalid name error code. */
+	public const ERROR_CODE_INVALID_NAME = 'INVALID_NAME';
+	
+	
+	
 	//Overridden public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
