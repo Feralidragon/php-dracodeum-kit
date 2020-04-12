@@ -8,10 +8,10 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
+use Dracodeum\Kit\Components\Logger\Structures;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\Logger as Prototype;
 use Dracodeum\Kit\Prototypes\Logger\Interfaces as PrototypeInterfaces;
-use Dracodeum\Kit\Structures\Log\Event;
 
 /**
  * This component represents a logger which processes and persists log events.
@@ -42,7 +42,7 @@ class Logger extends Component
 	/**
 	 * Add event.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
+	 * @param \Dracodeum\Kit\Components\Logger\Structures\Event|array $event
 	 * <p>The event to add, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -51,7 +51,7 @@ class Logger extends Component
 	{
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\EventAdder) {
-			$event = Event::coerce($event, true);
+			$event = Structures\Event::coerce($event, true);
 			if ($prototype instanceof PrototypeInterfaces\EventProcessor) {
 				$prototype->processEvent($event);
 			}

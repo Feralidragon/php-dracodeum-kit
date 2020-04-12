@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Structures\Log;
+namespace Dracodeum\Kit\Components\Logger\Structures;
 
 use Dracodeum\Kit\Structure;
 use Dracodeum\Kit\Enumerations\DateTime\Format as EDateTimeFormat;
@@ -18,8 +18,6 @@ use Dracodeum\Kit\Root\{
 };
 
 /**
- * Log event structure.
- * 
  * @property-read string $id [coercive] [default = auto]
  * <p>The ID, which uniquely identifies this event.<br>
  * It cannot be empty.</p>

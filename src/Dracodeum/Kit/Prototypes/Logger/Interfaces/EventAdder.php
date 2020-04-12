@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Prototypes\Logger\Interfaces;
 
-use Dracodeum\Kit\Structures\Log\Event;
+use Dracodeum\Kit\Components\Logger\Structures\Event;
 
 /** This interface defines a method to add an event instance in a logger prototype. */
 interface EventAdder
@@ -16,7 +16,7 @@ interface EventAdder
 	/**
 	 * Add event instance.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Log\Event $event
+	 * @param \Dracodeum\Kit\Components\Logger\Structures\Event $event
 	 * <p>The event instance to add.</p>
 	 * @return void
 	 */
