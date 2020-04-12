@@ -375,6 +375,21 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	}
 	
 	/**
+	 * Get static scope.
+	 * 
+	 * @param int[]|float[]|string[] $ids [default = []]
+	 * <p>The IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * @return string|null
+	 * <p>The static scope or <code>null</code> if none is set.</p>
+	 */
+	final public static function getStaticScope(array $ids = []): ?string
+	{
+		$ids = self::coerceScopeIds($ids);
+		$base = static::getBaseScope();
+		return $base !== null ? self::getStore()->getUidScope($base, $ids) : null;
+	}
+	
+	/**
 	 * Check if an instance exists.
 	 * 
 	 * @param int|float|string|null $id [default = null]
@@ -1055,17 +1070,16 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	final public static function getStaticLogEventTag($id = null, array $scope_ids = []): string
 	{
 		//initialize
-		$id = self::coerceId($id);
-		$scope_ids = self::coerceScopeIds($scope_ids);
 		$strings = ['entity', static::getName()];
 		
 		//scope
-		$base_scope = static::getBaseScope();
-		if ($base_scope !== null) {
-			$strings[] = self::getStore()->getUidScope($base_scope, $scope_ids);
+		$scope = self::getStaticScope($scope_ids);
+		if ($scope !== null) {
+			$strings[] = $scope;
 		}
 		
 		//id
+		$id = self::coerceId($id);
 		if ($id !== null) {
 			$strings[] = $id;
 		}
