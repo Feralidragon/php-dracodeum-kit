@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Entity\Exceptions;
 
 use Dracodeum\Kit\Entity\Exception;
-use Dracodeum\Kit\Entity;
+use Dracodeum\Kit\Components\Store\Structures\Uid;
 
 /**
  * This exception is thrown from an entity whenever it is not found.
@@ -49,7 +49,7 @@ class NotFound extends Exception
 		//properties
 		$this->addProperty('id')
 			->addEvaluator(function (&$value): bool {
-				return Entity::evaluateId($value, true);
+				return Uid::evaluateId($value, true);
 			})
 			->setDefaultValue(null)
 		;
