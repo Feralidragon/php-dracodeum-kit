@@ -325,7 +325,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		//post-delete
 		$this->processPostDelete();
 		
-		//TODO: unpersist properties
+		//properties
+		$this->unpersistProperties();
 		
 		//return
 		return $no_throw ? true : $this;

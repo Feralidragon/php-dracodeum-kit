@@ -423,10 +423,33 @@ trait Properties
 	}
 	
 	/**
+	 * Unpersist properties.
+	 * 
+	 * @param callable|null $deleter [default = null]
+	 * <p>The function to use to delete an old given set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $values): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function unpersistProperties(?callable $deleter = null): object
+	{
+		$this->getPropertiesManager()->unpersist($deleter);
+		return $this;
+	}
+	
+	/**
 	 * Add pre-persistent property change callback function for a given property name.
 	 * 
 	 * All pre-persistent property change callback functions are called immediately before the corresponding property 
-	 * value change is persisted.
+	 * value change is persisted or unpersisted.
 	 * 
 	 * @param string $name
 	 * <p>The property name to add for.</p>
@@ -456,7 +479,7 @@ trait Properties
 	 * Add post-persistent property change callback function for a given property name.
 	 * 
 	 * All post-persistent property change callback functions are called immediately after the corresponding property 
-	 * value change is persisted.
+	 * value change is persisted or unpersisted.
 	 * 
 	 * @param string $name
 	 * <p>The property name to add for.</p>

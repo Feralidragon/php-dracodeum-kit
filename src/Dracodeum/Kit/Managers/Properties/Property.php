@@ -143,6 +143,8 @@ class Property implements IUncloneable
 	/**
 	 * Initialize.
 	 * 
+	 * This method may only be called before initialization.
+	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -154,6 +156,36 @@ class Property implements IUncloneable
 			'parameters' => ['property' => $this]
 		]);
 		$this->flags |= self::FLAG_INITIALIZED;
+		return $this;
+	}
+	
+	/**
+	 * Uninitialize.
+	 * 
+	 * This method may only be called after initialization.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function uninitialize(): Property
+	{
+		//guard
+		UCall::guard($this->isInitialized(), [
+			'error_message' => "Property {{property.getName()}} has not been initialized yet " . 
+				"in manager with owner {{property.getManager().getOwner()}}.",
+			'parameters' => ['property' => $this]
+		]);
+		
+		//unset
+		if (!($this->flags & self::FLAG_GETTER)) {
+			$this->value_getter = null;
+			$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
+		}
+		
+		//finalize
+		$this->flags &= ~self::FLAG_INITIALIZED;
+		
+		//return
 		return $this;
 	}
 	

@@ -1151,15 +1151,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		$old_values = $this->persisted_values;
 		$new_values = $persistables = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
+			if ($property->isInitialized() && !$property->hasLazyValue()) {
 				$value = $property->getValue(true);
-				if (is_object($value) && UType::persistable($value) && !$property->hasLazyValue()) {
+				$new_values[$name] = $value;
+				if ($persisted && $property->isImmutable()) {
+					$old_values[$name] = $value;
+				}
+				if (is_object($value) && UType::persistable($value)) {
 					$persistables[$name] = $value;
-				} elseif (!$property->isLazy()) {
-					$new_values[$name] = $value;
-					if ($persisted && $property->isImmutable()) {
-						$old_values[$name] = $value;
-					}
 				}
 				unset($value);
 			}
@@ -1266,10 +1265,85 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Unpersist properties.
+	 * 
+	 * @param callable|null $deleter [default = null]
+	 * <p>The function to use to delete an old given set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (array $values): void</code><br>
+	 * <br>
+	 * Parameters:<br>
+	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
+	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function unpersist(?callable $deleter = null): Properties
+	{
+		//check
+		if (!$this->isPersisted()) {
+			return $this;
+		}
+		
+		//values
+		$values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isInitialized() && !$property->hasLazyValue()) {
+				$values[$name] = $property->getValue(true);
+			}
+		}
+		
+		//pre-persistence callbacks
+		foreach ($this->pre_persistent_changes_callbacks as $name => $callbacks) {
+			if (isset($values[$name])) {
+				$value = $values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($value, null);
+				}
+				unset($value);
+			}
+		}
+		
+		//delete
+		if ($deleter !== null) {
+			UCall::assert('deleter', $deleter, function (array $values): void {});
+			$deleter($values);
+		}
+		
+		//uninitialize
+		foreach ($this->properties as $property) {
+			if ($property->isAutomatic()) {
+				$property->uninitialize();
+			}
+		}
+		
+		//post-persistence callbacks
+		foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
+			if (isset($values[$name])) {
+				$value = $values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($value, null);
+				}
+				unset($value);
+			}
+		}
+		
+		//finalize
+		$this->flags &= ~self::FLAG_PERSISTED;
+		$this->clearPersistedValues();
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Add pre-persistent property change callback function for a given property name.
 	 * 
 	 * All pre-persistent property change callback functions are called immediately before the corresponding property 
-	 * value change is persisted.
+	 * value change is persisted or unpersisted.
 	 * 
 	 * @param string $name
 	 * <p>The property name to add for.</p>
@@ -1313,7 +1387,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * Add post-persistent property change callback function for a given property name.
 	 * 
 	 * All post-persistent property change callback functions are called immediately after the corresponding property 
-	 * value change is persisted.
+	 * value change is persisted or unpersisted.
 	 * 
 	 * @param string $name
 	 * <p>The property name to add for.</p>
@@ -1428,7 +1502,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final private function reloadPersistedValues(): void
 	{
-		$this->persisted_values = $this->persisted_keys = [];
+		$this->clearPersistedValues();
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized() && !$property->isImmutable() && !$property->isLazy()) {
 				$value = $property->getValue(true);
@@ -1436,5 +1510,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				$this->persisted_keys[$name] = UType::keyValue($value, true);
 			}
 		}
+	}
+	
+	/**
+	 * Clear persisted property values.
+	 * 
+	 * @return void
+	 */
+	final private function clearPersistedValues(): void
+	{
+		$this->persisted_values = $this->persisted_keys = [];
 	}
 }
