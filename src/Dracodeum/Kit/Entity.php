@@ -20,12 +20,14 @@ use Dracodeum\Kit\Interfaces\{
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Entity\{
 	Traits,
+	Options,
 	Exceptions
 };
 use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions as UidExceptions;
+use Dracodeum\Kit\Components\Logger\Structures\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -64,6 +66,7 @@ use Dracodeum\Kit\Root\Log;
  * @see \Dracodeum\Kit\Entity\Traits\PostUpdateProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PreDeleteProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PostDeleteProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\LogEventProcessor
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
@@ -89,6 +92,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	use Traits\PostUpdateProcessor;
 	use Traits\PreDeleteProcessor;
 	use Traits\PostDeleteProcessor;
+	use Traits\LogEventProcessor;
 	
 	
 	
@@ -1110,6 +1114,107 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	
 	
 	
+	//Final protected methods
+	/**
+	 * Log event with a given level and message.
+	 * 
+	 * @see \Dracodeum\Kit\Enumerations\Log\Level
+	 * @param int|string $level
+	 * <p>The level to log with, 
+	 * as a name or value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+	 * @param string $message
+	 * <p>The message to log with, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+	 * <br>
+	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * <br>
+	 * They may also be used with pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of chained pointers.<br>
+	 * <br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
+	 * @param \Dracodeum\Kit\Entity\Options\LogEvent|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final protected function logEvent($level, string $message, $options = null): void
+	{
+		//initialize
+		$options = Options\LogEvent::coerce($options, false);
+		$options->stack_offset++;
+		
+		//event
+		$event = Log::createEvent($level, $message, $options);
+		$this->processLogEvent($event);
+		$this->postProcessLogEvent($event);
+		
+		//add
+		Log::addEvent($event);
+	}
+	
+	/**
+	 * Log event with a given level and message in plural form.
+	 * 
+	 * @see \Dracodeum\Kit\Enumerations\Log\Level
+	 * @param int|string $level
+	 * <p>The level to log with, 
+	 * as a name or value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+	 * @param string $message1
+	 * <p>The message in singular form to log with, 
+	 * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+	 * <br>
+	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * <br>
+	 * They may also be used with pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of chained pointers.<br>
+	 * <br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
+	 * @param string $message2
+	 * <p>The message in plural form to log with, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
+	 * <br>
+	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
+	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
+	 * <br>
+	 * They may also be used with pointers to specific object properties or associative array values, 
+	 * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
+	 * with no limit on the number of chained pointers.<br>
+	 * <br>
+	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
+	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
+	 * @param float $number
+	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
+	 * of the message.</p>
+	 * @param \Dracodeum\Kit\Entity\Options\PlogEvent|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final protected function plogEvent($level, string $message1, string $message2, float $number, $options = null): void
+	{
+		//initialize
+		$options = Options\PlogEvent::coerce($options, false);
+		$options->stack_offset++;
+		
+		//event
+		$event = Log::createPEvent($level, $message1, $message2, $number, $options);
+		$this->processLogEvent($event);
+		$this->postProcessLogEvent($event);
+		
+		//add
+		Log::addEvent($event);
+	}
+	
+	
+	
 	//Final protected static methods
 	/**
 	 * Get store instance.
@@ -1184,12 +1289,25 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		if ($inserted_values === null) {
 			throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 		}
+		$values = $inserted_values + $values;
+		
+		//log (FIXME)
+		$this->logEvent('INFO', "Entity {{name}} inserted.", [
+			'name' => 'entity.insert',
+			'tag' => $this->getStaticLogEventTag($uid->id, $uid->scope_ids),
+			'data' => [
+				'id' => $uid->id,
+				'scope' => $uid->scope,
+				'properties' => $values
+			],
+			'parameters' => ['name' => $this->getName()]
+		]);
 		
 		//post-persistence
 		$this->processPostPersistence($inserted_values, $uid);
 		
 		//post-insert
-		$this->processPostInsert($inserted_values);
+		$this->processPostInsert($values);
 		
 		//return
 		return $inserted_values;
@@ -1364,6 +1482,20 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		
 		//scope
 		$values += $uid->scope_ids;
+	}
+	
+	/**
+	 * Post-process a given log event instance.
+	 * 
+	 * @param \Dracodeum\Kit\Components\Logger\Structures\Event $event
+	 * <p>The log event instance to post-process.</p>
+	 * @return void
+	 */
+	final private function postProcessLogEvent(LogEvent $event): void
+	{
+		if ($event->tag === null) {
+			$event->tag = $this->getLogEventTag();
+		}
 	}
 	
 	
