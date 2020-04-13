@@ -7,12 +7,12 @@
 
 namespace Dracodeum\Kit\Entity\Traits;
 
-/** This trait defines a method to perform processing after an entity instance is inserted. */
+/** This trait defines a method to perform processing after an entity insert. */
 trait PostInsertProcessor
 {
 	//Protected methods
 	/**
-	 * Perform processing after an instance is inserted with a given set of values.
+	 * Perform processing after an insert with a given set of values.
 	 * 
 	 * @param array $values
 	 * <p>The values to perform processing with, as <samp>name => value</samp> pairs.</p>

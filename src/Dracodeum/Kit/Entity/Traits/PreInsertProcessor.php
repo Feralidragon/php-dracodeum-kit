@@ -7,12 +7,12 @@
 
 namespace Dracodeum\Kit\Entity\Traits;
 
-/** This trait defines a method to perform processing before an entity instance is inserted. */
+/** This trait defines a method to perform processing before an entity insert. */
 trait PreInsertProcessor
 {
 	//Protected methods
 	/**
-	 * Perform processing before an instance is inserted with a given set of values.
+	 * Perform processing before an insert with a given set of values.
 	 * 
 	 * @param array $values [reference]
 	 * <p>The values to perform processing with, as <samp>name => value</samp> pairs.</p>

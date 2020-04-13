@@ -269,20 +269,66 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function getScope(): ?string
 	{
-		//base
 		$base = $this->getBaseScope();
-		if ($base === null) {
-			return null;
-		}
-		
-		//ids
+		return $base !== null ? $this->getStore()->getUidScope($base, $this->getScopeIds()) : null;
+	}
+	
+	/**
+	 * Get scope IDs.
+	 * 
+	 * @return int[]|float[]|string[]
+	 * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
+	 */
+	final public function getScopeIds(): array
+	{
 		$ids = [];
-		foreach (self::getScopePropertyNames() as $name) {
+		foreach ($this->getScopePropertyNames() as $name) {
 			$ids[$name] = $this->get($name);
 		}
+		return $ids;
+	}
+	
+	/**
+	 * Unpersist.
+	 * 
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 * @return $this|bool
+	 * <p>This instance, for chaining purposes.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then boolean <code>true</code> is returned if this instance was found and deleted, 
+	 * or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public function unpersist(bool $no_throw = false)
+	{
+		//pre-delete
+		$this->processPreDelete();
+		
+		//delete
+		$id = $this->getId();
+		$deleted = $this->getStore()->delete([
+			'id' => $id,
+			'name' => $this->getName(),
+			'base_scope' => $this->getBaseScope(),
+			'scope_ids' => $this->getScopeIds()
+		], true);
+		
+		//check
+		if (!$deleted) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\NotFound([$this, 'id' => $id, 'scope' => $this->getScope()]);
+		}
+		
+		//post-delete
+		$this->processPostDelete();
+		
+		//TODO: unpersist properties
 		
 		//return
-		return $this->getStore()->getUidScope($base, $ids);
+		return $no_throw ? true : $this;
 	}
 	
 	/**
@@ -410,7 +456,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	}
 	
 	/**
-	 * Load instance.
+	 * Load an instance.
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
@@ -431,7 +477,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	}
 	
 	/**
-	 * Delete instance.
+	 * Delete an instance.
 	 * 
 	 * @param int|float|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
@@ -447,37 +493,10 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public static function delete($id = null, array $scope_ids = [], bool $no_throw = false)
 	{
-		//initialize
-		$id = self::coerceId($id);
-		$scope_ids = self::coerceScopeIds($scope_ids);
-		$store = self::getStore();
-		$base_scope = static::getBaseScope();
-		
-		//pre-delete
-		static::processPreDelete($id, $scope_ids);
-		
-		//delete
-		$deleted = $store->delete([
-			'id' => $id,
-			'name' => static::getName(),
-			'base_scope' => $base_scope,
-			'scope_ids' => $scope_ids
-		], true);
-		
-		//check
-		if (!$deleted) {
-			if ($no_throw) {
-				return false;
-			}
-			$scope = $base_scope !== null ? $store->getUidScope($base_scope, $scope_ids) : null;
-			throw new Exceptions\NotFound([static::class, 'id' => $id, 'scope' => $scope]);
-		}
-		
-		//post-delete
-		static::processPostDelete($id, $scope_ids);
-		
-		//return
-		if ($no_throw) {
+		$instance = self::load($id, $scope_ids, $no_throw);
+		if ($instance === null || !$instance->unpersist($no_throw)) {
+			return false;
+		} elseif ($no_throw) {
 			return true;
 		}
 	}
@@ -1278,7 +1297,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		$scope_ids = [];
 		$base_scope = $this->getBaseScope();
 		if ($base_scope !== null) {
-			foreach (self::getScopePropertyNames() as $name) {
+			foreach ($this->getScopePropertyNames() as $name) {
 				//check
 				if (!array_key_exists($name, $n_values)) {
 					UCall::haltParameter('new_values', $new_values, [

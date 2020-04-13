@@ -7,12 +7,12 @@
 
 namespace Dracodeum\Kit\Entity\Traits;
 
-/** This trait defines a method to perform processing before an entity instance is updated. */
+/** This trait defines a method to perform processing before an entity update. */
 trait PreUpdateProcessor
 {
 	//Protected methods
 	/**
-	 * Perform processing before an instance is updated from a given set of old values to a new given set.
+	 * Perform processing before an update from a given set of old values to a new given set.
 	 * 
 	 * @param array $old_values
 	 * <p>The old values to perform processing with, as <samp>name => value</samp> pairs.</p>
