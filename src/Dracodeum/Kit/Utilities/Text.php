@@ -234,13 +234,49 @@ final class Text extends Utility
 		
 		//object
 		if (is_object($value)) {
+			//initialize
+			$id = spl_object_id($value);
+			$class = get_class($value);
+			
 			//stringifiable
-			if (!$options->non_stringifiable && Type::evaluateString($value)) {
-				return $value;
+			if (!$options->non_stringifiable) {
+				if ($prepend_type && Data::evaluate($value)) {
+					//initialize
+					$k_options = $options->clone();
+					$k_options->prepend_type = false;
+					$k_options->quote_strings = true;
+					
+					//strings
+					$strings = [];
+					foreach ($value as $k => $v) {
+						//key
+						$k_string = self::stringify($k, $text_options, $k_options);
+						if ($k_string === null) {
+							return null;
+						}
+						
+						//value
+						$v_string = self::stringify($v, $text_options, $options);
+						if ($v_string === null) {
+							return null;
+						}
+						
+						//finalize
+						$strings[] = "{$k_string}: {$v_string}";
+						unset($k_string, $v_string);
+					}
+					unset($k_options);
+					
+					//return
+					return "(object){$class}#{$id} " . 
+						(empty($strings) ? '{}' : "{\n" . self::indentate(implode("\n", $strings), 3, ' ') . "\n}");
+					
+				} elseif (Type::evaluateString($value)) {
+					return $prepend_type ? "(object){$class}#{$id} {$value}" : $value;
+				}
 			}
 			
 			//stringify
-			$object_id = spl_object_id($value);
 			if ($is_enduser) {
 				/**
 				 * @description An internal object expression, as a text representation of an object for the end-user, 
@@ -250,18 +286,17 @@ final class Text extends Utility
 				 */
 				return self::localize(
 					"object({{id}})",
-					self::class, $text_options, ['parameters' => ['id' => $object_id]]
+					self::class, $text_options, ['parameters' => ['id' => $id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("object({{id}})", ['id' => $object_id]);
+				return self::fill("object({{id}})", ['id' => $id]);
 			}
-			$class = get_class($value);
-			return $prepend_type ? "(object){$class}#{$object_id}" : "object({$class})#{$object_id}";
+			return $prepend_type ? "(object){$class}#{$id}" : "object({$class})#{$id}";
 		}
 		
 		//resource
 		if (is_resource($value)) {
-			$resource_id = (int)$value;
+			$id = (int)$value;
 			if ($is_enduser) {
 				/**
 				 * @description An internal resource expression, \
@@ -272,12 +307,12 @@ final class Text extends Utility
 				 */
 				return self::localize(
 					"resource({{id}})",
-					self::class, $text_options, ['parameters' => ['id' => $resource_id]]
+					self::class, $text_options, ['parameters' => ['id' => $id]]
 				);
 			} elseif ($is_technical) {
-				return self::fill("resource({{id}})", ['id' => $resource_id]);
+				return self::fill("resource({{id}})", ['id' => $id]);
 			}
-			return $prepend_type ? "(resource)#{$resource_id}" : "resource({$resource_id})";
+			return $prepend_type ? "(resource)#{$id}" : "resource({$id})";
 		}
 		
 		//array
