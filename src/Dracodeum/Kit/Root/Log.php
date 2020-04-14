@@ -316,6 +316,50 @@ final class Log implements IUninstantiable
 	}
 	
 	/**
+	 * Create an event instance with a given level and throwable instance.
+	 * 
+	 * @see \Dracodeum\Kit\Enumerations\Log\Level
+	 * @param int|string $level
+	 * <p>The level to create with, 
+	 * as a name or value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+	 * @param \Throwable $throwable
+	 * <p>The throwable instance to create with.</p>
+	 * @param \Dracodeum\Kit\Root\Log\Options\ThrowableEvent|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return \Dracodeum\Kit\Components\Logger\Structures\Event
+	 * <p>The created event instance with the given level and throwable instance.</p>
+	 */
+	final public static function createThrowableEvent($level, \Throwable $throwable, $options = null): Event
+	{
+		//initialize
+		$level = ELevel::coerceValue($level);
+		$options = Options\ThrowableEvent::coerce($options);
+		
+		//return
+		return Event::build([
+			'id' => self::generateEventId(),
+			'timestamp' => 'now',
+			'level' => $level,
+			'message' => $throwable->getMessage(),
+			'host' => System::getHostname(true) ?? System::getIpAddress(true),
+			'origin' => Runtime::getOrigin(),
+			'runtime' => Runtime::getUuid(),
+			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
+			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
+			'name' => $throwable instanceof \Exception ? 'exception' : 'error',
+			'tag' => $options->tag,
+			'data' => [
+				'code' => $throwable->getCode(),
+				'file' => $throwable->getFile(),
+				'line' => $throwable->getLine(),
+				'previous' => $throwable->getPrevious(),
+				'trace' => $throwable->getTraceAsString()
+			],
+			'tags' => $options->tags
+		]);
+	}
+	
+	/**
 	 * Log event with a given level and message.
 	 * 
 	 * @see \Dracodeum\Kit\Enumerations\Log\Level
@@ -403,5 +447,28 @@ final class Log implements IUninstantiable
 		
 		//add
 		self::addEvent(self::createPEvent($level, $message1, $message2, $number, $options));
+	}
+	
+	/**
+	 * Log event with a given level and throwable instance.
+	 * 
+	 * @see \Dracodeum\Kit\Enumerations\Log\Level
+	 * @param int|string $level
+	 * <p>The level to log with, 
+	 * as a name or value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+	 * @param \Throwable $throwable
+	 * <p>The throwable instance to log with.</p>
+	 * @param \Dracodeum\Kit\Root\Log\Options\ThrowableEvent|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final public static function throwableEvent($level, \Throwable $throwable, $options = null): void
+	{
+		//initialize
+		$options = Options\ThrowableEvent::coerce($options, false);
+		$options->stack_offset++;
+		
+		//add
+		self::addEvent(self::createThrowableEvent($level, $throwable, $options));
 	}
 }

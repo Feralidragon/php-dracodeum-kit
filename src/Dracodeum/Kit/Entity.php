@@ -219,9 +219,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function persist(bool $recursive = false): object
 	{
-		$this->persistProperties(
-			\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']), false, $recursive
-		);
+		try {
+			$this->persistProperties(
+				\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']), false, $recursive
+			);
+		} catch (\Throwable $throwable) {
+			$this->logThrowableEvent('ERROR', $throwable);
+			throw $throwable;
+		}
 		return $this;
 	}
 	
@@ -329,41 +334,47 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function unpersist(bool $no_throw = false)
 	{
-		//pre-delete
-		$this->processPreDelete();
-		
-		//delete
-		$id = $this->getId();
-		$deleted = $this->getStore()->delete([
-			'id' => $id,
-			'name' => $this->getName(),
-			'base_scope' => $this->getBaseScope(),
-			'scope_ids' => $this->getScopeIds()
-		], true);
-		
-		//check
-		if (!$deleted) {
-			if ($no_throw) {
-				return false;
-			}
-			throw new Exceptions\NotFound([$this, 'id' => $id, 'scope' => $this->getScope()]);
-		}
-		
-		//log
-		$this->logEvent('INFO', "Entity {{name}} deleted.", [
-			'name' => 'entity.delete',
-			'data' => [
+		try {
+			//pre-delete
+			$this->processPreDelete();
+			
+			//delete
+			$id = $this->getId();
+			$deleted = $this->getStore()->delete([
 				'id' => $id,
-				'scope' => $this->getScope()
-			],
-			'parameters' => ['name' => $this->getName()]
-		]);
-		
-		//post-delete
-		$this->processPostDelete();
-		
-		//properties
-		$this->unpersistProperties();
+				'name' => $this->getName(),
+				'base_scope' => $this->getBaseScope(),
+				'scope_ids' => $this->getScopeIds()
+			], true);
+			
+			//check
+			if (!$deleted) {
+				if ($no_throw) {
+					return false;
+				}
+				throw new Exceptions\NotFound([$this, 'id' => $id, 'scope' => $this->getScope()]);
+			}
+			
+			//log
+			$this->logEvent('INFO', "Entity {{name}} deleted.", [
+				'name' => 'entity.delete',
+				'data' => [
+					'id' => $id,
+					'scope' => $this->getScope()
+				],
+				'parameters' => ['name' => $this->getName()]
+			]);
+			
+			//post-delete
+			$this->processPostDelete();
+			
+			//properties
+			$this->unpersistProperties();
+			
+		} catch (\Throwable $throwable) {
+			$this->logThrowableEvent('ERROR', $throwable);
+			throw $throwable;
+		}
 		
 		//return
 		return $no_throw ? true : $this;
@@ -1239,6 +1250,34 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		
 		//event
 		$event = Log::createPEvent($level, $message1, $message2, $number, $options);
+		$this->processLogEvent($event);
+		$this->postProcessLogEvent($event);
+		
+		//add
+		Log::addEvent($event);
+	}
+	
+	/**
+	 * Log event with a given level and throwable instance.
+	 * 
+	 * @see \Dracodeum\Kit\Enumerations\Log\Level
+	 * @param int|string $level
+	 * <p>The level to log with, 
+	 * as a name or value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+	 * @param \Throwable $throwable
+	 * <p>The throwable instance to log with.</p>
+	 * @param \Dracodeum\Kit\Entity\Options\LogThrowableEvent|array|null $options [default = null]
+	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final protected function logThrowableEvent($level, \Throwable $throwable, $options = null): void
+	{
+		//initialize
+		$options = Options\LogThrowableEvent::coerce($options, false);
+		$options->stack_offset++;
+		
+		//event
+		$event = Log::createThrowableEvent($level, $throwable, $options);
 		$this->processLogEvent($event);
 		$this->postProcessLogEvent($event);
 		
