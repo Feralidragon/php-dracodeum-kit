@@ -24,6 +24,7 @@ use Dracodeum\Kit\Entity\{
 	Exceptions
 };
 use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions as UidExceptions;
@@ -74,7 +75,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 {
 	//Traits
 	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
 	use KitTraits\Properties\ArrayAccess;
@@ -93,6 +93,12 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	use Traits\PreDeleteProcessor;
 	use Traits\PostDeleteProcessor;
 	use Traits\LogEventProcessor;
+	
+	
+	
+	//Private properties
+	/** @var int|float|string|null */
+	private $temporary_id = null;
 	
 	
 	
@@ -221,6 +227,17 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	
 	
 	
+	//Implemented public methods (Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{	
+		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
+		$info->enableObjectPropertiesDump();
+		$info->hideObjectProperty('temporary_id', self::class);
+	}
+	
+	
+	
 	//Protected static methods
 	/**
 	 * Create a store instance with a given prototype.
@@ -250,8 +267,14 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final public function getId()
 	{
+		//temporary
+		if ($this->temporary_id !== null) {
+			return $this->temporary_id;
+		}
+		
+		//property
 		$name = $this->getIdPropertyName();
-		if ($name !== null) {
+		if ($name !== null && $this->initialized($name)) {
 			$id = $this->get($name);
 			if (!self::evaluateId($id)) {
 				UCall::haltInternal([
@@ -325,6 +348,16 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			}
 			throw new Exceptions\NotFound([$this, 'id' => $id, 'scope' => $this->getScope()]);
 		}
+		
+		//log
+		$this->logEvent('INFO', "Entity {{name}} deleted.", [
+			'name' => 'entity.delete',
+			'data' => [
+				'id' => $id,
+				'scope' => $this->getScope()
+			],
+			'parameters' => ['name' => $this->getName()]
+		]);
 		
 		//post-delete
 		$this->processPostDelete();
@@ -1278,36 +1311,42 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function insert(array $values): array
 	{
-		//pre-insert
-		$this->processPreInsert($values);
-		
-		//pre-persistence
-		$this->processPrePersistence($values, $uid);
-		
-		//insert
-		$inserted_values = $this->getStore()->insert($uid, $values, true);
-		if ($inserted_values === null) {
-			throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
+		$inserted_values = [];
+		try {
+			//pre-insert
+			$this->processPreInsert($values);
+			
+			//pre-persistence
+			$this->processPrePersistence($values, $uid);
+			$this->temporary_id = $uid->id;
+			
+			//insert
+			$inserted_values = $this->getStore()->insert($uid, $values, true);
+			$this->temporary_id = $uid->id;
+			if ($inserted_values === null) {
+				throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
+			}
+			
+			//log
+			$this->logEvent('INFO', "Entity {{name}} inserted.", [
+				'name' => 'entity.insert',
+				'data' => [
+					'id' => $uid->id,
+					'scope' => $uid->scope,
+					'properties' => $inserted_values + $values
+				],
+				'parameters' => ['name' => $this->getName()]
+			]);
+			
+			//post-persistence
+			$this->processPostPersistence($inserted_values, $uid);
+			
+			//post-insert
+			$this->processPostInsert($inserted_values + $values);
+			
+		} finally {
+			$this->temporary_id = null;
 		}
-		$values = $inserted_values + $values;
-		
-		//log (FIXME)
-		$this->logEvent('INFO', "Entity {{name}} inserted.", [
-			'name' => 'entity.insert',
-			'tag' => $this->getStaticLogEventTag($uid->id, $uid->scope_ids),
-			'data' => [
-				'id' => $uid->id,
-				'scope' => $uid->scope,
-				'properties' => $values
-			],
-			'parameters' => ['name' => $this->getName()]
-		]);
-		
-		//post-persistence
-		$this->processPostPersistence($inserted_values, $uid);
-		
-		//post-insert
-		$this->processPostInsert($values);
 		
 		//return
 		return $inserted_values;
@@ -1344,6 +1383,20 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		if ($updated_values === null) {
 			throw new Exceptions\NotFound([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 		}
+		
+		//log
+		$this->logEvent('INFO', "Entity {{name}} updated.", [
+			'name' => 'entity.update',
+			'data' => [
+				'id' => $uid->id,
+				'scope' => $uid->scope,
+				'properties' => [
+					'old' => $old_values,
+					'new' => $updated_values + $new_values
+				]
+			],
+			'parameters' => ['name' => $this->getName()]
+		]);
 		
 		//post-update
 		$this->processPostUpdate($old_values, $updated_values + $new_values);

@@ -873,6 +873,21 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Check if property with a given name is initialized.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is initialized.</p>
+	 */
+	final public function initialized(string $name): bool
+	{
+		return $this->fallback_object !== null && !$this->hasProperty($name)
+			? $this->fallback_object->initialized($name)
+			: $this->getProperty($name)->isInitialized();
+	}
+	
+	/**
 	 * Check if property with a given name is defaulted.
 	 * 
 	 * @param string $name
