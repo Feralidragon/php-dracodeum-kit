@@ -51,11 +51,11 @@ class Logger extends Component
 	{
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\EventAdder) {
-			$event = Structures\Event::coerce($event, true);
-			if ($prototype instanceof PrototypeInterfaces\EventProcessor) {
-				$prototype->processEvent($event);
+			$event = Structures\Event::coerce($event);
+			if (!$event->isReadonly(true)) {
+				$event = $event->clone(true)->setAsReadonly(true);
 			}
-			$prototype->addEvent($event->setAsReadonly(true));
+			$prototype->addEvent($event);
 		}
 		return $this;
 	}

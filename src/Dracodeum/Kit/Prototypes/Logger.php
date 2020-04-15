@@ -11,7 +11,6 @@ use Dracodeum\Kit\Prototype;
 
 /**
  * @see \Dracodeum\Kit\Components\Logger
- * @see \Dracodeum\Kit\Prototypes\Logger\Interfaces\EventProcessor
  * @see \Dracodeum\Kit\Prototypes\Logger\Interfaces\EventAdder
  */
 abstract class Logger extends Prototype {}

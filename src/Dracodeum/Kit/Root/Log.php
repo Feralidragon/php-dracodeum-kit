@@ -92,10 +92,14 @@ final class Log implements IUninstantiable
 	 */
 	final public static function addEvent($event): void
 	{
-		$event = Event::coerce($event, empty(self::$event_processors) ? null : true);
+		//process
+		$event = Event::coerce($event, true);
 		foreach (self::$event_processors as $processor) {
 			$processor($event);
 		}
+		
+		//add
+		$event->setAsReadonly(true);
 		foreach (self::$loggers as $logger) {
 			$logger->addEvent($event);
 		}
