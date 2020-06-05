@@ -1350,7 +1350,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 */
 	final private function insert(array $values): array
 	{
-		$inserted_values = [];
 		try {
 			//pre-insert
 			$this->processPreInsert($values);
@@ -1365,6 +1364,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			if ($inserted_values === null) {
 				throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 			}
+			$values = $inserted_values + $values;
+			unset($inserted_values);
 			
 			//log
 			$this->logEvent('INFO', "Entity {{name}} inserted.", [
@@ -1372,23 +1373,23 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				'data' => [
 					'id' => $uid->id,
 					'scope' => $uid->scope,
-					'properties' => $inserted_values + $values
+					'properties' => $values
 				],
 				'parameters' => ['name' => $this->getName()]
 			]);
 			
 			//post-persistence
-			$this->processPostPersistence($inserted_values, $uid);
+			$this->processPostPersistence($values, $uid);
 			
 			//post-insert
-			$this->processPostInsert($inserted_values + $values);
+			$this->processPostInsert($values);
 			
 		} finally {
 			$this->temporary_id = null;
 		}
 		
 		//return
-		return $inserted_values;
+		return $values;
 	}
 	
 	/**
@@ -1422,6 +1423,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		if ($updated_values === null) {
 			throw new Exceptions\NotFound([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
 		}
+		$new_values = $updated_values + $new_values;
+		unset($updated_values);
 		
 		//log
 		$this->logEvent('INFO', "Entity {{name}} updated.", [
@@ -1431,20 +1434,20 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 				'scope' => $uid->scope,
 				'properties' => [
 					'old' => $old_values,
-					'new' => $updated_values + $new_values
+					'new' => $new_values
 				]
 			],
 			'parameters' => ['name' => $this->getName()]
 		]);
 		
 		//post-update
-		$this->processPostUpdate($old_values, $updated_values + $new_values);
+		$this->processPostUpdate($old_values, $new_values);
 		
 		//post-persistence
-		$this->processPostPersistence($updated_values, $uid);
+		$this->processPostPersistence($new_values, $uid);
 		
 		//return
-		return $updated_values;
+		return $new_values;
 	}
 	
 	/**

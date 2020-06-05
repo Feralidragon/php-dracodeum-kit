@@ -1232,9 +1232,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			
 			//missing names
 			$missing_names = [];
-			$inserted_values = $values + $new_values;
 			foreach ($this->properties as $name => $property) {
-				if ($property->isAutomatic() && !array_key_exists($name, $inserted_values)) {
+				if ($property->isAutomatic() && !array_key_exists($name, $values)) {
 					$missing_names[] = $name;
 				}
 			}
@@ -1250,7 +1249,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 				]);
 			}
-			unset($missing_names, $inserted_values);
+			unset($missing_names);
 		}
 		
 		//set
