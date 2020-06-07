@@ -16,8 +16,7 @@ use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoPr
 use Dracodeum\Kit\Component\{
 	Exceptions,
 	Traits,
-	PrototypeProducer,
-	Proxy
+	PrototypeProducer
 };
 use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
@@ -59,7 +58,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * <br>
  * The implementation of any contracts and subcontracts may be delegated to a proxy, 
  * for cases when it is preferable for the component to not implement the methods from such contracts and subcontracts, 
- * or to implement them with a different signature.<br>
+ * or to implement them with a different access or signature.<br>
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>
@@ -71,7 +70,6 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * (factory pattern).
  * 
  * @see \Dracodeum\Kit\Prototype
- * @see \Dracodeum\Kit\Component\Proxy
  * @see \Dracodeum\Kit\Component\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Component\Traits\PreInitializer
  * @see \Dracodeum\Kit\Component\Traits\RequiredPropertyNamesLoader
@@ -80,7 +78,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Dracodeum\Kit\Component\Traits\DefaultPrototypeProducer
  * @see \Dracodeum\Kit\Component\Traits\PrototypeInitializer
  * @see \Dracodeum\Kit\Component\Traits\PrototypeProducer
- * @see \Dracodeum\Kit\Component\Traits\ProxyProducer
+ * @see \Dracodeum\Kit\Component\Traits\ProxyClass
  */
 abstract class Component implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, IUncloneable
 {
@@ -96,7 +94,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	use Traits\DefaultPrototypeProducer;
 	use Traits\PrototypeInitializer;
 	use Traits\PrototypeProducer;
-	use Traits\ProxyProducer;
+	use Traits\ProxyClass;
 	
 	
 	
@@ -104,7 +102,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/** @var \Dracodeum\Kit\Prototype */
 	private $prototype;
 	
-	/** @var \Dracodeum\Kit\Component\Proxy|null */
+	/** @var \Dracodeum\Kit\Proxy|null */
 	private $proxy = null;
 	
 	
@@ -287,7 +285,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		$info->enableObjectPropertiesDump();
 		
 		//ignored properties
-		if (!isset($this->proxy)) {
+		if ($this->proxy === null) {
 			$info->hideObjectProperty('proxy', self::class);
 		}
 	}
@@ -312,23 +310,22 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Component\Exceptions\ProxyNotSet
-	 * @return \Dracodeum\Kit\Component\Proxy|null
+	 * @return \Dracodeum\Kit\Proxy|null
 	 * <p>The proxy instance.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if none is set.</p>
 	 */
 	final public function getProxy(bool $no_throw = false): ?Proxy
 	{
-		if (!isset($this->proxy)) {
-			$proxy = UType::coerceObject($this->produceProxy(), Proxy::class, [], true);
-			if (isset($proxy)) {
-				$proxy->setComponent($this);
-			} elseif ($no_throw) {
-				return null;
-			} else {
+		if ($this->proxy === null) {
+			$class = $this->getProxyClass();
+			if ($class === null) {
+				if ($no_throw) {
+					return null;
+				}
 				throw new Exceptions\ProxyNotSet([$this]);
 			}
-			$this->proxy = $proxy;
+			$this->proxy = UType::coerceObject($class, Proxy::class, [$this]);
 		}
 		return $this->proxy;
 	}
