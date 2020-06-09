@@ -19,9 +19,9 @@ class InfoScope extends Enumeration
 	/** No info scope specified. */
 	public const NONE = 0;
 	
-	/** Technical info scope, for the developer creating the application. */
+	/** Technical info scope, used to target the developer creating the application. */
 	public const TECHNICAL = 1;
 	
-	/** End-user info scope, for the user interacting with the application. */
+	/** End-user info scope, used to target the user interacting with the application. */
 	public const ENDUSER = 2;
 }
