@@ -344,13 +344,18 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			$this->processPreDelete();
 			
 			//delete
+			$deleted = false;
 			$id = $this->getId();
-			$deleted = $this->getStore()->delete([
-				'id' => $id,
-				'name' => $this->getName(),
-				'base_scope' => $this->getBaseScope(),
-				'scope_ids' => $this->getScopeIds()
-			], true);
+			try {
+				$deleted = $this->getStore()->delete([
+					'id' => $id,
+					'name' => $this->getName(),
+					'base_scope' => $this->getBaseScope(),
+					'scope_ids' => $this->getScopeIds()
+				], $no_throw);
+			} catch (StoreException $exception) {
+				throw $this->mutateStoreException($exception);
+			}
 			
 			//check
 			if (!$deleted) {
