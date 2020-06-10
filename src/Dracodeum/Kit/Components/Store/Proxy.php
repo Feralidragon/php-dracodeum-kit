@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Components\Store;
 
 use Dracodeum\Kit\Proxy as KitProxy;
 use Dracodeum\Kit\Prototypes\Store\Contract as IContract;
-use Dracodeum\Kit\Components\Store as Component;
+use Dracodeum\Kit\Components\Store as Owner;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
 
 class Proxy extends KitProxy implements IContract
@@ -18,7 +18,7 @@ class Proxy extends KitProxy implements IContract
 	/** {@inheritdoc} */
 	protected static function getOwnerBaseClass(): string
 	{
-		return Component::class;
+		return Owner::class;
 	}
 	
 	
