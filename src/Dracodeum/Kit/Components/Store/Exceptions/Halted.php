@@ -9,14 +9,17 @@ namespace Dracodeum\Kit\Components\Store\Exceptions;
 
 use Dracodeum\Kit\Components\Store\Exception;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
 
 /**
- * This exception is thrown from a store whenever a given resource conflicts with an existing one.
+ * This exception is thrown from a store whenever execution is halted for a given resource.
  * 
  * @property-read \Dracodeum\Kit\Components\Store\Structures\Uid $uid [coercive]
  * <p>The UID instance.</p>
+ * @property-read string $type [coercive = enumeration value]
+ * <p>The type, as a value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
  */
-class Conflict extends Exception
+class Halted extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -24,7 +27,7 @@ class Conflict extends Exception
 	{
 		//initialize
 		$uid = $this->get('uid');
-		$message = "Resource";
+		$message = "Execution halted with {{type}} for resource";
 		
 		//name
 		if ($uid->name !== null) {
@@ -41,7 +44,7 @@ class Conflict extends Exception
 		}
 		
 		//finalize
-		$message .= " conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
+		$message .= " in store {{component}} (with prototype {{prototype}}).";
 		
 		//return
 		return $message;
@@ -58,5 +61,6 @@ class Conflict extends Exception
 		
 		//properties
 		$this->addProperty('uid')->setAsStructure(Uid::class);
+		$this->addProperty('type')->setAsEnumerationValue(EHaltType::class);
 	}
 }

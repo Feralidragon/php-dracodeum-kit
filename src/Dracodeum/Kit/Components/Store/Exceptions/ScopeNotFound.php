@@ -11,12 +11,12 @@ use Dracodeum\Kit\Components\Store\Exception;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
 
 /**
- * This exception is thrown from a store whenever a given resource conflicts with an existing one.
+ * This exception is thrown from a store whenever a given resource scope is not found.
  * 
  * @property-read \Dracodeum\Kit\Components\Store\Structures\Uid $uid [coercive]
  * <p>The UID instance.</p>
  */
-class Conflict extends Exception
+class ScopeNotFound extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
@@ -31,17 +31,14 @@ class Conflict extends Exception
 			$message .= " {{uid.name}}";
 		}
 		
-		//id and scope
-		if ($uid->id !== null && $uid->scope !== null) {
-			$message .= " with ID {{uid.id}} and scope {{uid.scope}}";
-		} elseif ($uid->scope !== null) {
-			$message .= " with scope {{uid.scope}}";
-		} elseif ($uid->id !== null) {
-			$message .= " with ID {{uid.id}}";
+		//scope
+		$message .= " scope";
+		if ($uid->scope !== null) {
+			$message .= " {{uid.scope}}";
 		}
 		
 		//finalize
-		$message .= " conflicts with an existing one in store {{component}} (with prototype {{prototype}}).";
+		$message .= " not found in store {{component}} (with prototype {{prototype}}).";
 		
 		//return
 		return $message;

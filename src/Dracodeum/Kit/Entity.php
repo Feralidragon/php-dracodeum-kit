@@ -27,6 +27,10 @@ use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Components\Store\{
+	Exception as StoreException,
+	Exceptions as StoreExceptions
+};
 use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Components\Logger\Structures\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
@@ -214,8 +218,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	
 	/**
 	 * {@inheritdoc}
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeNotFound
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
 	 */
 	final public function persist(bool $recursive = false): object
 	{
@@ -1344,7 +1349,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * 
 	 * @param array $values
 	 * <p>The values to insert, as <samp>name => value</samp> pairs.</p>
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
 	 * @return array
 	 * <p>The inserted values, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -1359,13 +1363,12 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 			$this->temporary_id = $uid->id;
 			
 			//insert
-			$inserted_values = $this->getStore()->insert($uid, $values, true);
-			$this->temporary_id = $uid->id;
-			if ($inserted_values === null) {
-				throw new Exceptions\Conflict([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
+			try {
+				$values = $this->getStore()->insert($uid, $values) + $values;
+			} catch (StoreException $exception) {
+				throw $this->mutateStoreException($exception);
 			}
-			$values = $inserted_values + $values;
-			unset($inserted_values);
+			$this->temporary_id = $uid->id;
 			
 			//log
 			$this->logEvent('INFO', "Entity {{name}} inserted.", [
@@ -1401,7 +1404,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 	 * <p>The new values to update to, as <samp>name => value</samp> pairs.</p>
 	 * @param string[] $changed_names
 	 * <p>The changed property names to update.</p>
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return array
 	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
 	 */
@@ -1419,12 +1421,11 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		$this->processPreUpdate($old_values, $new_values);
 		
 		//update
-		$updated_values = $this->getStore()->update($uid, $new_values, true);
-		if ($updated_values === null) {
-			throw new Exceptions\NotFound([$this, 'id' => $uid->id, 'scope' => $uid->scope]);
+		try {
+			$new_values = $this->getStore()->update($uid, $new_values) + $new_values;
+		} catch (StoreException $exception) {
+			throw $this->mutateStoreException($exception);
 		}
-		$new_values = $updated_values + $new_values;
-		unset($updated_values);
 		
 		//log
 		$this->logEvent('INFO', "Entity {{name}} updated.", [
@@ -1591,6 +1592,26 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
 		if ($event->tag === null) {
 			$event->tag = $this->getLogEventTag();
 		}
+	}
+	
+	/**
+	 * Mutate a given store exception instance into another exception instance.
+	 * 
+	 * @param \Dracodeum\Kit\Components\Store\Exception $exception
+	 * <p>The store exception instance to mutate.</p>
+	 * @return \Exception
+	 * <p>The mutated exception instance.</p>
+	 */
+	final private function mutateStoreException(StoreException $exception): \Exception
+	{
+		if ($exception instanceof StoreExceptions\NotFound) {
+			return new Exceptions\NotFound([$this, 'id' => $exception->uid->id, 'scope' => $exception->uid->scope]);
+		} elseif ($exception instanceof StoreExceptions\ScopeNotFound) {
+			return new Exceptions\ScopeNotFound([$this, $exception->uid->scope]);
+		} elseif ($exception instanceof StoreExceptions\Conflict) {
+			return new Exceptions\Conflict([$this, 'id' => $exception->uid->id, 'scope' => $exception->uid->scope]);
+		}
+		return $exception;
 	}
 	
 	

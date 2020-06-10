@@ -8,7 +8,10 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
-use Dracodeum\Kit\Components\Store\Exceptions;
+use Dracodeum\Kit\Components\Store\{
+	Proxy,
+	Exceptions
+};
 use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\{
@@ -16,6 +19,7 @@ use Dracodeum\Kit\Prototypes\{
 	Stores as Prototypes
 };
 use Dracodeum\Kit\Prototypes\Store\Interfaces as PrototypeInterfaces;
+use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
@@ -42,6 +46,15 @@ class Store extends Component
 	protected static function getDefaultBuilder(): ?callable
 	{
 		return [Factory::class, 'store'];
+	}
+	
+	
+	
+	//Implemented protected static methods (Dracodeum\Kit\Component\Traits\ProxyClass)
+	/** {@inheritdoc} */
+	protected static function getProxyClass(): ?string
+	{
+		return Proxy::class;
 	}
 	
 	
@@ -186,7 +199,18 @@ class Store extends Component
 		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Returner) {
-			$values = $prototype->return($uid, false);
+			//return
+			$values = null;
+			try {
+				$values = $prototype->return($uid, false);
+			} catch (Exceptions\NotFound $exception) {
+				if ($no_throw) {
+					return null;
+				}
+				throw $exception;
+			}
+			
+			//finalize
 			if ($values === null) {
 				if ($no_throw) {
 					return null;
@@ -212,6 +236,7 @@ class Store extends Component
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
 	 * @return array|null
 	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
@@ -226,7 +251,18 @@ class Store extends Component
 		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Inserter) {
-			$inserted_values = $prototype->insert($insert_uid, $values);
+			//insert
+			$inserted_values = null;
+			try {
+				$inserted_values = $prototype->insert($insert_uid, $values);
+			} catch (Exceptions\ScopeNotFound|Exceptions\Conflict $exception) {
+				if ($no_throw) {
+					return null;
+				}
+				throw $exception;
+			}
+			
+			//finalize
 			if ($inserted_values === null) {
 				if ($no_throw) {
 					return null;
@@ -265,7 +301,18 @@ class Store extends Component
 		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Updater) {
-			$updated_values = $prototype->update($uid, $values);
+			//update
+			$updated_values = null;
+			try {
+				$updated_values = $prototype->update($uid, $values);
+			} catch (Exceptions\NotFound $exception) {
+				if ($no_throw) {
+					return null;
+				}
+				throw $exception;
+			}
+			
+			//finalize
 			if ($updated_values === null) {
 				if ($no_throw) {
 					return null;
@@ -301,7 +348,18 @@ class Store extends Component
 		//prototype
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Deleter) {
-			$deleted = $prototype->delete($uid);
+			//delete
+			$deleted = false;
+			try {
+				$deleted = $prototype->delete($uid);
+			} catch (Exceptions\NotFound $exception) {
+				if ($no_throw) {
+					return false;
+				}
+				throw $exception;
+			}
+			
+			//finalize
 			if ($no_throw) {
 				return $deleted;
 			} elseif (!$deleted) {
@@ -312,5 +370,40 @@ class Store extends Component
 		
 		//halt
 		$this->haltPrototypeMethodNotImplemented('delete');
+	}
+	
+	
+	
+	//Protected methods
+	/**
+	 * Halt the current function or method call in the stack with a given UID instance and type.
+	 * 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * <p>The UID instance to halt with.</p>
+	 * @param string $type
+	 * <p>The type to halt with,
+	 * as a name or value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Halted
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
+	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
+	 * @return void
+	 */
+	protected function halt(Uid $uid, string $type): void
+	{
+		//initialize
+		$type = EHaltType::coerceValue($type);
+		$prototype = $this->getPrototype();
+		
+		//halt
+		switch ($type) {
+			case EHaltType::NOT_FOUND:
+				throw new Exceptions\NotFound([$this, $prototype, $uid]);
+			case EHaltType::SCOPE_NOT_FOUND:
+				throw new Exceptions\ScopeNotFound([$this, $prototype, $uid]);
+			case EHaltType::CONFLICT:
+				throw new Exceptions\Conflict([$this, $prototype, $uid]);
+		}
+		throw new Exceptions\Halted([$this, $prototype, $uid, $type]);
 	}
 }
