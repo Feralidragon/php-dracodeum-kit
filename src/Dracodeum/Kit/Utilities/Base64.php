@@ -14,6 +14,7 @@ use Dracodeum\Kit\Utilities\Base64\Exceptions;
  * This utility implements a set of methods used to encode and decode Base64 strings.
  * 
  * @see https://en.wikipedia.org/wiki/Base64
+ * @see https://tools.ietf.org/html/rfc4648
  */
 final class Base64 extends Utility
 {

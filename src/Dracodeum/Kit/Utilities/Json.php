@@ -17,6 +17,7 @@ use Dracodeum\Kit\Utilities\Json\{
  * This utility implements a set of methods used to encode and decode JSON (JavaScript Object Notation) data.
  * 
  * @see https://en.wikipedia.org/wiki/JSON
+ * @see https://tools.ietf.org/html/rfc7159
  */
 final class Json extends Utility
 {
