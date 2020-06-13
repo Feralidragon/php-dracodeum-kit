@@ -66,7 +66,7 @@ final class Base32 extends Utility
 				if ($shift_r < 0) {
 					$shift_l = -$shift_r;
 					$shift_r = 8 - $shift_l;
-					if ($shift_l === 5) {
+					if ($shift_l >= 5) {
 						$shift_l = 0;
 					}
 				}
