@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
-//use Dracodeum\Kit\Utilities\Base32\Exceptions;
+use Dracodeum\Kit\Utilities\Base32\Exceptions;
 use Dracodeum\Kit\Enumerations\Base32\Alphabet as EAlphabet;
 
 /**
@@ -20,6 +20,39 @@ use Dracodeum\Kit\Enumerations\Base32\Alphabet as EAlphabet;
 final class Base32 extends Utility
 {
 	//Final public static methods
+	/**
+	 * Check if a given string is encoded.
+	 *
+	 * @param string $string
+	 * <p>The string to check.</p>
+	 * @param string $alphabet [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
+	 * <p>The alphabet to check with.<br>
+	 * It must be exactly 32 characters long.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given string is encoded.</p>
+	 */
+	final public static function encoded(string $string, string $alphabet = EAlphabet::RFC4648): bool
+	{
+		//check
+		if (strlen($alphabet) !== 32) {
+			Call::haltParameter('alphabet', $alphabet, [
+				'hint_message' => "The given alphabet must be exactly 32 characters long."
+			]);
+		}
+		
+		//patterns
+		static $patterns = [];
+		if (!isset($patterns[$alphabet])) {
+			$p = preg_quote($alphabet, '/');
+			$patterns[$alphabet] = "/^(?:[{$p}]{8})*" . 
+				"(?:[{$p}]{2}(?:\={6})?|[{$p}]{4}(?:\={4})?|[{$p}]{5}(?:\={3})?|[{$p}]{7}\=?|[{$p}]{8})$/";
+			unset($p);
+		}
+		
+		//return
+		return preg_match($patterns[$alphabet], $string);
+	}
+	
 	/**
 	 * Encode a given string.
 	 * 
@@ -100,5 +133,97 @@ final class Base32 extends Utility
 			}
 		}
 		return $encoded_string;
+	}
+	
+	/**
+	 * Decode a given string.
+	 * 
+	 * @param string $string
+	 * <p>The string to decode.</p>
+	 * @param string $alphabet [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
+	 * <p>The alphabet to decode with.<br>
+	 * It must be exactly 32 characters long.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Base32\Exceptions\Decode\InvalidString
+	 * @return string|null
+	 * <p>The given string decoded.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be decoded.</p>
+	 */
+	final public static function decode(
+		string $string, string $alphabet = EAlphabet::RFC4648, bool $no_throw = false
+	): ?string
+	{
+		//check
+		if (strlen($alphabet) !== 32) {
+			Call::haltParameter('alphabet', $alphabet, [
+				'hint_message' => "The given alphabet must be exactly 32 characters long."
+			]);
+		} elseif (!self::encoded($string, $alphabet)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Decode\InvalidString([$string, $alphabet]);
+		}
+		
+		//decode
+		//TODO
+	}
+	
+	/**
+	 * Normalize a given string.
+	 * 
+	 * @param string $string
+	 * <p>The string to normalize.</p>
+	 * @param string $alphabet_from [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
+	 * <p>The alphabet to normalize from.<br>
+	 * It must be exactly 32 characters long.</p>
+	 * @param string $alphabet_to [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
+	 * <p>The alphabet to normalize to.<br>
+	 * It must be exactly 32 characters long.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Utilities\Base32\Exceptions\Normalize\InvalidString
+	 * @return string|null
+	 * <p>The given string normalized.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if it could not be normalized.</p>
+	 */
+	final public static function normalize(
+		string $string, string $alphabet_from = EAlphabet::RFC4648, string $alphabet_to = EAlphabet::RFC4648,
+		bool $no_throw = false
+	): ?string
+	{
+		//check
+		if (strlen($alphabet_from) !== 32) {
+			Call::haltParameter('alphabet_from', $alphabet_from, [
+				'hint_message' => "The given alphabet must be exactly 32 characters long."
+			]);
+		} elseif (strlen($alphabet_to) !== 32) {
+			Call::haltParameter('alphabet_to', $alphabet_to, [
+				'hint_message' => "The given alphabet must be exactly 32 characters long."
+			]);
+		} elseif (!self::encoded($string, $alphabet_from)) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Normalize\InvalidString([$string, $alphabet_from]);
+		}
+		
+		//alphabet
+		if ($alphabet_from !== $alphabet_to) {
+			$string = strtr($string, $alphabet_from, $alphabet_to);
+		}
+		
+		//padding
+		$string = rtrim($string, '=');
+		$padding = 8 - strlen($string) % 8;
+		if ($padding > 0 && $padding < 8) {
+			$string .= str_repeat('=', $padding);
+		}
+		
+		//return
+		return $string;
 	}
 }
