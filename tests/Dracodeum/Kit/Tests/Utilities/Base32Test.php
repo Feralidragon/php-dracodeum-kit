@@ -174,6 +174,81 @@ class Base32Test extends TestCase
 	}
 	
 	/**
+	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideDecodeMethodData_InvalidStringException
+	 * @testdox Base32::decode('$string', '$alphabet') --> InvalidString exception
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param string $alphabet
+	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testDecodeMethod_InvalidStringException(string $string, string $alphabet): void
+	{
+		$this->expectException(Exceptions\Decode\InvalidString::class);
+		try {
+			UBase32::decode($string, $alphabet);
+		} catch (Exceptions\Decode\InvalidString $exception) {
+			$this->assertSame($string, $exception->string);
+			$this->assertSame($alphabet, $exception->alphabet);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @dataProvider provideDecodeMethodData_InvalidStringException
+	 * @testdox Base32::decode('$string', '$alphabet', true) === NULL
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param string $alphabet
+	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
+	 * @return void
+	 */
+	public function testDecodeMethod_NoThrowNull(string $string, string $alphabet): void
+	{
+		$this->assertNull(UBase32::decode($string, $alphabet, true));
+	}
+	
+	/**
+	 * Provide <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.
+	 * 
+	 * @return array
+	 * <p>The provided <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
+	 */
+	public function provideDecodeMethodData_InvalidStringException(): array
+	{
+		return [
+			['', EAlphabet::RFC4648],
+			[' ', EAlphabet::RFC4648],
+			['=', EAlphabet::RFC4648],
+			['a', EAlphabet::RFC4648],
+			['ME==', EAlphabet::RFC4648],
+			['MEI=====', EAlphabet::RFC4648],
+			['ME======', EAlphabet::ZBASE32],
+			['HA4A==', EAlphabet::RFC4648],
+			['HA4A======', EAlphabet::RFC4648],
+			['HA4A', EAlphabet::ZBASE32],
+			['MZXW6====', EAlphabet::RFC4648],
+			['MZXW6==', EAlphabet::RFC4648],
+			['MZXW6===', EAlphabet::ZBASE32],
+			['MJQXEOA==', EAlphabet::RFC4648],
+			['MJQXEOA=', EAlphabet::ZBASE32],
+			['MZXW6YTBOI=', EAlphabet::RFC4648],
+			['MZXW6YTBOI', EAlphabet::ZBASE32],
+			['MZXW6YTBOL6P57QPFYQQ==', EAlphabet::RFC4648],
+			['MZXW6YTBOL6P57QPFYQQ====', EAlphabet::ZBASE32],
+			['AUAB6DB77DGS6M36WY====', EAlphabet::RFC4648],
+			['AUAB6DB77DGS6M36WY======', EAlphabet::ZBASE32]
+		];
+	}
+	
+	/**
 	 * Test <code>normalize</code> method.
 	 * 
 	 * @dataProvider provideNormalizeMethodData
