@@ -167,8 +167,31 @@ final class Base32 extends Utility
 			throw new Exceptions\Decode\InvalidString([$string, $alphabet]);
 		}
 		
+		//alphabet map
+		static $alphabet_map = null;
+		if ($alphabet_map === null) {
+			$alphabet_map = array_flip(str_split(EAlphabet::RFC4648));
+		}
+		
 		//decode
-		//TODO
+		$byte = 0x00;
+		$missing_bits = 8;
+		$decoded_string = '';
+		$string = rtrim(self::normalize($string, $alphabet, EAlphabet::RFC4648), '=');
+		$string_length = strlen($string);
+		for ($i = 0; $i < $string_length; $i++) {
+			$byte5 = $alphabet_map[$string[$i]];
+			$shift = 5 - $missing_bits;
+			if ($shift >= 0) {
+				$byte |= $shift > 0 ? $byte5 >> $shift : $byte5;
+				$decoded_string .= chr($byte);
+				$shift -= 8;
+				$byte = 0x00;
+			}
+			$missing_bits = -$shift;
+			$byte |= $byte5 << $missing_bits;
+		}
+		return $decoded_string;
 	}
 	
 	/**

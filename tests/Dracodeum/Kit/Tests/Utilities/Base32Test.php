@@ -174,6 +174,80 @@ class Base32Test extends TestCase
 	}
 	
 	/**
+	 * Test <code>decode</code> method.
+	 * 
+	 * @dataProvider provideDecodeMethodData
+	 * @testdox Base32::decode('$string', $alphabet, false|true) === '$expected'
+	 * 
+	 * @param string $string
+	 * <p>The method <var>$string</var> parameter to test with.</p>
+	 * @param string $alphabet
+	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected method return value.</p>
+	 * @return void
+	 */
+	public function testDecodeMethod(string $string, string $alphabet, string $expected): void
+	{
+		foreach ([false, true] as $no_throw) {
+			$this->assertSame($expected, UBase32::decode($string, $alphabet, $no_throw));
+		}
+	}
+	
+	/**
+	 * Provide <code>decode</code> method data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>decode</code> method data.</p>
+	 */
+	public function provideDecodeMethodData(): array
+	{
+		return [
+			['ME======', EAlphabet::RFC4648, 'a'],
+			['ME', EAlphabet::RFC4648, 'a'],
+			['cr', EAlphabet::ZBASE32, 'a'],
+			['d4', EAlphabet::GEOHASH, 'a'],
+			['HA4A====', EAlphabet::RFC4648, '88'],
+			['HA4A', EAlphabet::RFC4648, '88'],
+			['8yhy', EAlphabet::ZBASE32, '88'],
+			['70w0', EAlphabet::GEOHASH, '88'],
+			['MZXW6===', EAlphabet::RFC4648, 'foo'],
+			['MZXW6', EAlphabet::RFC4648, 'foo'],
+			['c3zs6', EAlphabet::ZBASE32, 'foo'],
+			['dtrqy', EAlphabet::GEOHASH, 'foo'],
+			['MJQXEOA=', EAlphabet::RFC4648, 'bar8'],
+			['MJQXEOA', EAlphabet::RFC4648, 'bar8'],
+			['cjozrqy', EAlphabet::ZBASE32, 'bar8'],
+			['d9hr4f0', EAlphabet::GEOHASH, 'bar8'],
+			['MZXW6YTBOI======', EAlphabet::RFC4648, 'foobar'],
+			['MZXW6YTBOI', EAlphabet::RFC4648, 'foobar'],
+			['c3zs6aubqe', EAlphabet::ZBASE32, 'foobar'],
+			['dtrqysm1f8', EAlphabet::GEOHASH, 'foobar'],
+			['MZXW6YTBOJAUEQ2E', EAlphabet::RFC4648, 'foobarABCD'],
+			['c3zs6aubqjywro4r', EAlphabet::ZBASE32, 'foobarABCD'],
+			['dtrqysm1f90n4hu4', EAlphabet::GEOHASH, 'foobarABCD'],
+			['MZXW6YTBOL6P57QP', EAlphabet::RFC4648, "foobar\xfc\xfe\xfe\x0f"],
+			['c3zs6aubqm6x79ox', EAlphabet::ZBASE32, "foobar\xfc\xfe\xfe\x0f"],
+			['dtrqysm1fcygxzhg', EAlphabet::GEOHASH, "foobar\xfc\xfe\xfe\x0f"],
+			['MZXW6YTBOL6P57QPFYQQ====', EAlphabet::RFC4648, "foobar\xfc\xfe\xfe\x0f.!"],
+			['MZXW6YTBOL6P57QPFYQQ', EAlphabet::RFC4648, "foobar\xfc\xfe\xfe\x0f.!"],
+			['c3zs6aubqm6x79oxfaoo', EAlphabet::ZBASE32, "foobar\xfc\xfe\xfe\x0f.!"],
+			['dtrqysm1fcygxzhg5shh', EAlphabet::GEOHASH, "foobar\xfc\xfe\xfe\x0f.!"],
+			['RSO2NC2Z5ZJZI6VT', EAlphabet::RFC4648, "\x8c\x9d\xa6\x8b\x59\xee\x53\x94\x7a\xb3"],
+			['t1q4pn4373j3e6iu', EAlphabet::ZBASE32, "\x8c\x9d\xa6\x8b\x59\xee\x53\x94\x7a\xb3"],
+			['jkfue2utxt9t8ypm', EAlphabet::GEOHASH, "\x8c\x9d\xa6\x8b\x59\xee\x53\x94\x7a\xb3"],
+			['AUAB6DB77DGS6M36WY======', EAlphabet::RFC4648, "\x05\x00\x1f\x0c\x3f\xf8\xcd\x2f\x33\x7e\xb6"],
+			['AUAB6DB77DGS6M36WY', EAlphabet::RFC4648, "\x05\x00\x1f\x0c\x3f\xf8\xcd\x2f\x33\x7e\xb6"],
+			['ywyb6db99dg16c56sa', EAlphabet::ZBASE32, "\x05\x00\x1f\x0c\x3f\xf8\xcd\x2f\x33\x7e\xb6"],
+			['0n01y31zz36kydvyqs', EAlphabet::GEOHASH, "\x05\x00\x1f\x0c\x3f\xf8\xcd\x2f\x33\x7e\xb6"],
+			['5LGWNIFZSV2R5YMJCNCQ====', EAlphabet::RFC4648, "\xea\xcd\x66\xa0\xb9\x95\x75\x1e\xe1\x89\x13\x45"],
+			['5LGWNIFZSV2R5YMJCNCQ', EAlphabet::RFC4648, "\xea\xcd\x66\xa0\xb9\x95\x75\x1e\xe1\x89\x13\x45"],
+			['7mgspef31i4t7acjnpno', EAlphabet::ZBASE32, "\xea\xcd\x66\xa0\xb9\x95\x75\x1e\xe1\x89\x13\x45"],
+			['xc6qe85tkpujxsd92e2h', EAlphabet::GEOHASH, "\xea\xcd\x66\xa0\xb9\x95\x75\x1e\xe1\x89\x13\x45"]
+		];
+	}
+	
+	/**
 	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
 	 * @dataProvider provideDecodeMethodData_InvalidStringException
