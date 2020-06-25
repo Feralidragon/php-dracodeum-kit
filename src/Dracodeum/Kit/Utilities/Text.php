@@ -1647,7 +1647,7 @@ final class Text extends Utility
 		Call::guardParameter('expression', $expression, $expression !== '', [
 			'error_message' => "An empty value is not allowed."
 		]);
-		return $level > 0 ? preg_replace('/^/mu', str_repeat($expression, $level), $string) : $string;
+		return $level > 0 ? preg_replace('/^/m', str_repeat($expression, $level), $string) : $string;
 	}
 	
 	/**
