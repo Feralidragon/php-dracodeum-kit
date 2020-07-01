@@ -732,7 +732,10 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//properties (finish)
 			foreach ($this->properties as $name => $property) {
 				//initialize
-				if (!$lazy && !$property->isInitialized() && ($persisted || !$property->isAutomatic())) {
+				if (
+					!$lazy && !$property->isInitialized() && 
+					($property->hasDefault() || $persisted || !$property->isAutomatic())
+				) {
 					$property->initialize();
 				}
 				
