@@ -15,7 +15,8 @@ use Dracodeum\Kit\Interfaces\{
 	Readonlyable as IReadonlyable,
 	Persistable as IPersistable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable
+	Stringifiable as IStringifiable,
+	Uncloneable as IUncloneable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Entity\{
@@ -75,7 +76,7 @@ use Dracodeum\Kit\Root\Log;
  */
 abstract class Entity
 implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable
+IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
