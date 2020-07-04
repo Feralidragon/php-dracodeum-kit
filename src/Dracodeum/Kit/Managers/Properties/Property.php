@@ -572,6 +572,28 @@ class Property implements IUncloneable
 	}
 	
 	/**
+	 * Evaluate value.
+	 * 
+	 * This method may only be called during or after the manager initialization.
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
+	 */
+	final public function evaluateValue(&$value): bool
+	{
+		if (!$this->manager->isInitialized() && !$this->manager->isInitializing()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called during or after the manager initialization, " . 
+					"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this]
+			]);
+		}
+		return $this->getEvaluatorsManager()->evaluate($value);
+	}
+	
+	/**
 	 * Set value.
 	 * 
 	 * This method may only be called during or after the manager initialization.
@@ -605,7 +627,7 @@ class Property implements IUncloneable
 			$this->flags &= ~self::FLAG_VALUE;
 		} else {
 			//evaluate
-			if (!$this->getEvaluatorsManager()->evaluate($value)) {
+			if (!$this->evaluateValue($value)) {
 				if ($no_throw) {
 					return false;
 				}

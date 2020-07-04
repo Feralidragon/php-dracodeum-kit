@@ -906,6 +906,27 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Evaluate a given value with a property with a given name.
+	 * 
+	 * @param string $name
+	 * <p>The name to evaluate with.</p>
+	 * @param mixed $value [reference]
+	 * <p>The value to evaluate (validate and sanitize).</p>
+	 * @return bool|null
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property with the given name, 
+	 * boolean <code>false</code> if otherwise, and <code>null</code> if the property with the given name was not found.
+	 * </p>
+	 */
+	final public function eval(string $name, &$value): ?bool
+	{
+		$property = $this->getProperty($name, true);
+		if ($property === null) {
+			return $this->fallback_object !== null ? $this->fallback_object->eval($name, $value) : null;
+		}
+		return $property->evaluateValue($value);
+	}
+	
+	/**
 	 * Set property with a given name and value.
 	 * 
 	 * @param string $name
