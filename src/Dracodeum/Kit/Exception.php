@@ -9,7 +9,7 @@ namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable,
+	Properties as IProperties,
 	Arrayable as IArrayable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
@@ -29,7 +29,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @see https://php.net/manual/en/class.exception.php
  * @see \Dracodeum\Kit\Exception\Traits\PropertiesLoader
  */
-abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, IArrayable
+abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IProperties, IArrayable
 {
 	//Traits
 	use KitTraits\DebugInfo;

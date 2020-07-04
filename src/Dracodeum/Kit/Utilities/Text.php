@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
-use Dracodeum\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Dracodeum\Kit\Interfaces\Properties as IProperties;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
 use Dracodeum\Kit\Utilities\Text\{
@@ -817,9 +817,9 @@ final class Text extends Utility
 					
 				//object
 				} elseif (is_object($pointer)) {
-					$propertiesable = $pointer instanceof IPropertiesable;
+					$has_properties = $pointer instanceof IProperties;
 					Call::guardParameter('string', $string,
-						$propertiesable ? $pointer->has($identifier) : property_exists($pointer, $identifier), [
+						$has_properties ? $pointer->has($identifier) : property_exists($pointer, $identifier), [
 							'error_message' => "Property identifier {{identifier}} in placeholder {{placeholder}} " . 
 								"not found in {{pointer}}.",
 							'parameters' => [
@@ -827,7 +827,7 @@ final class Text extends Utility
 							]
 						]
 					);
-					$pointer = $propertiesable ? $pointer->get($identifier) : $pointer->$identifier;
+					$pointer = $has_properties ? $pointer->get($identifier) : $pointer->$identifier;
 					
 				//array
 				} elseif (is_array($pointer)) {

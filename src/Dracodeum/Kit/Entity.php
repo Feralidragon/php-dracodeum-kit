@@ -9,7 +9,7 @@ namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable,
+	Properties as IProperties,
 	Arrayable as IArrayable,
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
@@ -75,7 +75,7 @@ use Dracodeum\Kit\Root\Log;
  * @see \Dracodeum\Kit\Entity\Traits\LogEventProcessor
  */
 abstract class Entity
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
+implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
 IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 {
 	//Traits

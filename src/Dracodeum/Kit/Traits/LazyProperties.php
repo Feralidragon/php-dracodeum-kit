@@ -11,7 +11,7 @@ use Dracodeum\Kit\Traits\LazyProperties\{
 	Manager,
 	Property
 };
-use Dracodeum\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Dracodeum\Kit\Interfaces\Properties as IProperties;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
@@ -351,12 +351,12 @@ trait LazyProperties
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
-	 * @param \Dracodeum\Kit\Interfaces\Propertiesable $object
+	 * @param \Dracodeum\Kit\Interfaces\Properties $object
 	 * <p>The object to set.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function setPropertiesFallbackObject(IPropertiesable $object): object
+	final protected function setPropertiesFallbackObject(IProperties $object): object
 	{
 		$this->getPropertiesManager()->setFallbackObject($object);
 		return $this;

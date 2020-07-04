@@ -9,7 +9,7 @@ namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable,
+	Properties as IProperties,
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
 	IntegerInstantiable as IIntegerInstantiable,
@@ -49,7 +49,7 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Options\Traits\StringPropertiesExtractor
  */
 abstract class Options
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IKeyable, IReadonlyable,
+implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IKeyable, IReadonlyable,
 IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable, ICloneable
 {
 	//Traits

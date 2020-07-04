@@ -9,7 +9,7 @@ namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable,
+	Properties as IProperties,
 	Uncloneable as IUncloneable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
@@ -80,7 +80,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Dracodeum\Kit\Component\Traits\PrototypeProducer
  * @see \Dracodeum\Kit\Component\Traits\ProxyClass
  */
-abstract class Component implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, IUncloneable
+abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;

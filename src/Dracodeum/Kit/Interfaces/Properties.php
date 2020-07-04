@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Interfaces;
 
 /** This interface defines a set of methods to check, get, set and unset properties in an object. */
-interface Propertiesable
+interface Properties
 {
 	//Public methods
 	/**

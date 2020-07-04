@@ -23,7 +23,7 @@ use Dracodeum\Kit\Managers\Properties\{
 };
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
-use Dracodeum\Kit\Interfaces\Propertiesable as IPropertiesable;
+use Dracodeum\Kit\Interfaces\Properties as IProperties;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -99,7 +99,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/** @var \Dracodeum\Kit\Managers\Properties\Property[] */
 	private $properties = [];
 	
-	/** @var \Dracodeum\Kit\Interfaces\Propertiesable|null */
+	/** @var \Dracodeum\Kit\Interfaces\Properties|null */
 	private $fallback_object = null;
 	
 	/** @var array */
@@ -551,12 +551,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * By setting a fallback object, any property not found in this manager is attempted to be got from 
 	 * the given fallback object instead.
 	 * 
-	 * @param \Dracodeum\Kit\Interfaces\Propertiesable $object
+	 * @param \Dracodeum\Kit\Interfaces\Properties $object
 	 * <p>The object to set.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setFallbackObject(IPropertiesable $object): Properties
+	final public function setFallbackObject(IProperties $object): Properties
 	{
 		$this->fallback_object = $object;
 		return $this;

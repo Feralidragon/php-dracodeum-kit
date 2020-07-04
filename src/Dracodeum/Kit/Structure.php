@@ -9,7 +9,7 @@ namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Propertiesable as IPropertiesable,
+	Properties as IProperties,
 	Arrayable as IArrayable,
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
@@ -50,7 +50,7 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Structure\Traits\StringPropertiesExtractor
  */
 abstract class Structure
-implements IDebugInfo, IDebugInfoProcessor, IPropertiesable, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
+implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
 IReadonlyable, IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiable,
 ICloneable
 {
