@@ -102,7 +102,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	
 	
 	//Private properties
-	/** @var int|float|string|null */
+	/** @var int|string|null */
 	private $temporary_id = null;
 	
 	
@@ -273,7 +273,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Get ID.
 	 * 
-	 * @return int|float|string|null
+	 * @return int|string|null
 	 * <p>The ID or <code>null</code> if none is set.</p>
 	 */
 	final public function getId()
@@ -290,7 +290,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			if (!self::evaluateId($id)) {
 				UCall::haltInternal([
 					'error_message' => "Invalid ID {{id}} in entity {{entity}}.",
-					'hint_message' => "Only an integer, float or string ID is allowed.",
+					'hint_message' => "Only an integer or string ID is allowed.",
 					'parameters' => ['id' => $id, 'entity' => $this]
 				]);
 			}
@@ -314,7 +314,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Get scope IDs.
 	 * 
-	 * @return int[]|float[]|string[]
+	 * @return int[]|string[]
 	 * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
 	 */
 	final public function getScopeIds(): array
@@ -483,7 +483,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Get static scope.
 	 * 
-	 * @param int[]|float[]|string[] $ids [default = []]
+	 * @param int[]|string[] $ids [default = []]
 	 * <p>The IDs to get with, as <samp>name => id</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The static scope or <code>null</code> if none is set.</p>
@@ -498,9 +498,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Check if an instance exists.
 	 * 
-	 * @param int|float|string|null $id [default = null]
+	 * @param int|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
-	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * @param int[]|string[] $scope_ids [default = []]
 	 * <p>The scope IDs to check with, as <samp>name => id</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if an instance exists.</p>
@@ -518,9 +518,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Load an instance.
 	 * 
-	 * @param int|float|string|null $id [default = null]
+	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * @param int[]|string[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -539,9 +539,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Delete an instance.
 	 * 
-	 * @param int|float|string|null $id [default = null]
+	 * @param int|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
-	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * @param int[]|string[] $scope_ids [default = []]
 	 * <p>The scope IDs to delete with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -566,7 +566,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
@@ -616,7 +616,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
@@ -669,7 +669,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
@@ -728,7 +728,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			} elseif ($value === null || is_array($value)) {
 				$value = UType::coerceObject($builder($value ?? [], $persisted), static::class);
 				return true;
-			} elseif (is_int($value) || is_float($value) || is_string($value)) {
+			} elseif (is_int($value) || is_string($value)) {
 				$value = UType::coerceObject($builder(self::loadPropertyValues($value), true), static::class);
 				return true;
 			} elseif (is_object($value)) {
@@ -774,7 +774,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
 				" - null or an instance;\n" . 
-				" - an integer, float or string, given as an ID to be loaded from;\n" . 
+				" - an integer or string, given as an ID to be loaded from;\n" . 
 				" - an array of properties, given as \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
 				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from;\n" . 
@@ -788,7 +788,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Evaluate a given value as an ID.
 	 * 
 	 * Only the following types and formats can be evaluated into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -808,7 +808,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Coerce a given value into an ID.
 	 * 
 	 * Only the following types and formats can be coerced into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -817,7 +817,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\IdCoercionFailed
-	 * @return int|float|string|null
+	 * @return int|string|null
 	 * <p>The given value coerced into an ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -831,7 +831,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Process the coercion of a given value into an ID.
 	 * 
 	 * Only the following types and formats can be coerced into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -884,7 +884,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Evaluate a given value with a given name as a scope ID.
 	 * 
 	 * Only the following types and formats can be evaluated into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -907,7 +907,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Coerce a given value with a given name into a scope ID.
 	 * 
 	 * Only the following types and formats can be coerced into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -918,7 +918,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdCoercionFailed
-	 * @return int|float|string|null
+	 * @return int|string|null
 	 * <p>The given value with the given name coerced into a scope ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -932,7 +932,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Process the coercion of a given value with a given name into a scope ID.
 	 * 
 	 * Only the following types and formats can be coerced into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -1003,7 +1003,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Evaluate a given set of values as a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be evaluated into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
@@ -1022,7 +1022,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Coerce a given set of values into a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be coerced into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
@@ -1030,7 +1030,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
-	 * @return int[]|float[]|string[]
+	 * @return int[]|string[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array
@@ -1043,7 +1043,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * Process the coercion of a given set of values into a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be coerced into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
@@ -1139,9 +1139,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Get static log event tag.
 	 * 
-	 * @param int|float|string|null $id [default = null]
+	 * @param int|string|null $id [default = null]
 	 * <p>The ID to get with.</p>
-	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * @param int[]|string[] $scope_ids [default = []]
 	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The static log event tag.</p>
@@ -1626,9 +1626,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Load property values.
 	 * 
-	 * @param int|float|string|null $id [default = null]
+	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|float[]|string[] $scope_ids [default = []]
+	 * @param int[]|string[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

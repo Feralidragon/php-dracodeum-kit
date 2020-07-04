@@ -99,8 +99,8 @@ class Store extends Component
 	/**
 	 * Coerce a given UID into an instance.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid
-	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool|null $clone_recursive [default = null]
 	 * <p>Clone the given UID recursively.<br>
@@ -137,7 +137,7 @@ class Store extends Component
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param int[]|float[]|string[] $scope_ids
+	 * @param int[]|string[] $scope_ids
 	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The UID scope from the given base scope with the given set of scope IDs.</p>
@@ -154,8 +154,8 @@ class Store extends Component
 	/**
 	 * Check if a resource with a given UID exists.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid
-	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
@@ -180,8 +180,8 @@ class Store extends Component
 	/**
 	 * Return a resource with a given UID.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid
-	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -227,8 +227,8 @@ class Store extends Component
 	/**
 	 * Insert a resource with a given UID with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid [reference]
-	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid [reference]
+	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
 	 * such as when any of its properties are automatically generated.</p>
@@ -280,8 +280,8 @@ class Store extends Component
 	/**
 	 * Update a resource with a given UID with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid
-	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
@@ -329,8 +329,8 @@ class Store extends Component
 	/**
 	 * Delete a resource with a given UID.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|float|int|null $uid
-	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, a float, an integer 
+	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

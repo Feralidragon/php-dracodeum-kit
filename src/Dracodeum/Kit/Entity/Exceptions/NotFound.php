@@ -13,7 +13,7 @@ use Dracodeum\Kit\Components\Store\Structures\Uid;
 /**
  * This exception is thrown from an entity whenever it is not found.
  * 
- * @property-read int|float|string|null $id [default = null]
+ * @property-read int|string|null $id [default = null]
  * <p>The ID.</p>
  * @property-read string|null $scope [coercive] [default = null]
  * <p>The scope.<br>

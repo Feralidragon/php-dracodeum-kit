@@ -17,7 +17,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This structure represents the UID (unique identifier) of a resource in a store.
  * 
- * @property int|float|string|null $id [coercive] [default = null]
+ * @property int|string|null $id [coercive] [default = null]
  * <p>The ID.</p>
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
@@ -40,7 +40,7 @@ use Dracodeum\Kit\Utilities\{
  * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property int[]|float[]|string[] $scope_ids [coercive] [default = []]
+ * @property int[]|string[] $scope_ids [coercive] [default = []]
  * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
  * @see https://en.wikipedia.org/wiki/Identifier
  */
@@ -90,15 +90,6 @@ class Uid extends Structure
 	
 	
 	
-	//Implemented protected static methods (Dracodeum\Kit\Structure\Traits\FloatPropertiesExtractor)
-	/** {@inheritdoc} */
-	protected static function extractFloatProperties(float $float): ?array
-	{
-		return ['id' => $float];
-	}
-	
-	
-	
 	//Implemented protected static methods (Dracodeum\Kit\Structure\Traits\StringPropertiesExtractor)
 	/** {@inheritdoc} */
 	protected static function extractStringProperties(string $string): ?array
@@ -113,7 +104,7 @@ class Uid extends Structure
 	 * Evaluate a given value as an ID.
 	 * 
 	 * Only the following types and formats can be evaluated into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -133,7 +124,7 @@ class Uid extends Structure
 	 * Coerce a given value into an ID.
 	 * 
 	 * Only the following types and formats can be coerced into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -142,7 +133,7 @@ class Uid extends Structure
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\IdCoercionFailed
-	 * @return int|float|string|null
+	 * @return int|string|null
 	 * <p>The given value coerced into an ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -156,7 +147,7 @@ class Uid extends Structure
 	 * Process the coercion of a given value into an ID.
 	 * 
 	 * Only the following types and formats can be coerced into an ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -173,7 +164,7 @@ class Uid extends Structure
 	final public static function processIdCoercion(&$value, bool $nullable = false, bool $no_throw = false): bool
 	{
 		//check
-		if (is_int($value) || is_float($value) || is_string($value)) {
+		if (is_int($value) || is_string($value)) {
 			return true;
 		}
 		
@@ -194,7 +185,7 @@ class Uid extends Structure
 		
 		//coerce
 		$id = $value;
-		if (UType::evaluateNumber($id) || UType::evaluateString($id)) {
+		if (UType::evaluateInteger($id) || UType::evaluateString($id)) {
 			$value = $id;
 			return true;
 		}
@@ -208,7 +199,7 @@ class Uid extends Structure
 			'uid' => static::class,
 			'error_code' => Exceptions\IdCoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an ID:\n" . 
-				" - an integer, float or string;\n" . 
+				" - an integer or string;\n" . 
 				" - an object implementing the \"__toString\" method;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
 		]);
@@ -218,7 +209,7 @@ class Uid extends Structure
 	 * Evaluate a given value with a given name as a scope ID.
 	 * 
 	 * Only the following types and formats can be evaluated into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -241,7 +232,7 @@ class Uid extends Structure
 	 * Coerce a given value with a given name into a scope ID.
 	 * 
 	 * Only the following types and formats can be coerced into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -252,7 +243,7 @@ class Uid extends Structure
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
-	 * @return int|float|string|null
+	 * @return int|string|null
 	 * <p>The given value with the given name coerced into a scope ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
@@ -266,7 +257,7 @@ class Uid extends Structure
 	 * Process the coercion of a given value with a given name into a scope ID.
 	 * 
 	 * Only the following types and formats can be coerced into a scope ID:<br>
-	 * &nbsp; &#8226; &nbsp; an integer, float or string;<br>
+	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
@@ -306,7 +297,7 @@ class Uid extends Structure
 	 * Evaluate a given set of values as a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be evaluated into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
@@ -325,7 +316,7 @@ class Uid extends Structure
 	 * Coerce a given set of values into a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be coerced into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
@@ -333,7 +324,7 @@ class Uid extends Structure
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
-	 * @return int[]|float[]|string[]
+	 * @return int[]|string[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array
@@ -346,7 +337,7 @@ class Uid extends Structure
 	 * Process the coercion of a given set of values into a set of scope IDs.
 	 * 
 	 * Only the following types and formats can be coerced into scope IDs:<br>
-	 * &nbsp; &#8226; &nbsp; an array of integers, floats or strings;<br>
+	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
