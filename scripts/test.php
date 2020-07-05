@@ -8,6 +8,107 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 System::setEnvironment('development');
 
 
+class Foo extends Dracodeum\Kit\Entity
+{
+	public static function getName(): string
+	{
+		return 'foo';
+	}
+	
+	protected function loadProperties(): void
+	{
+		$this->addProperty('id')->setAsInteger();
+		$this->addProperty('name')->setAsString()->setAsLazy();
+	}
+	
+	protected static function produceStore()
+	{
+		return 'mem';
+	}
+	
+	protected static function getIdPropertyName(): ?string
+	{
+		return 'id';
+	}
+	
+	protected function processPreUpdate(array $old_values, array &$new_values): void
+	{
+		var_dump($old_values, $new_values);
+	}
+}
+
+class Bar extends Dracodeum\Kit\Entity
+{
+	public static function getName(): string
+	{
+		return 'bar';
+	}
+	
+	protected function loadProperties(): void
+	{
+		$this->addProperty('id')->setAsString(true);
+		$this->addProperty('foo')->setAsEntity(Foo::class)->setAsLazy();
+		$this->addProperty('name')->setAsString()->setAsLazy();
+	}
+	
+	protected static function produceStore()
+	{
+		return 'mem';
+	}
+	
+	protected static function getIdPropertyName(): ?string
+	{
+		return 'id';
+	}
+	
+	protected function processPreInsert(array &$values): void
+	{
+		var_dump($values);
+		$values['foo'] = $values['foo']->id;
+	}
+	
+	protected function processPreUpdate(array $old_values, array &$new_values): void
+	{
+		var_dump($old_values, $new_values);
+		if (isset($new_values['foo'])) {
+			$old_values['foo'] = $old_values['foo']->id;
+			$new_values['foo'] = $new_values['foo']->id;
+		}
+	}
+}
+
+
+$f = Foo::build(['id' => 123, 'name' => 11111111]);
+$f->persist();
+
+$f = Foo::build(['id' => 7200, 'name' => 'Yajpll']);
+$f->persist();
+
+$f = Foo::load(123);
+
+$f->name = 6873222;
+$f->persist();
+
+$f = Foo::load(123);
+
+//var_dump($f, $f->getId(), $f->getPersistentUid());
+
+echo "\n\n";
+
+$b = Bar::build(['id' => 'XHS77', 'foo' => 123, 'name' => 9e3]);
+$b->persist();
+
+$b = Bar::load('XHS77');
+$b->foo = 123;
+$b->persist();
+var_dump($b);
+
+die();
+
+
+
+
+
 $text_options = [
 	'info_scope' => 0
 ];
