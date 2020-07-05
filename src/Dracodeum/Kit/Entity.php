@@ -212,6 +212,17 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Persistable)
 	/** {@inheritdoc} */
+	final public function getPersistentUid(): Uid
+	{
+		return $this->getStore()->coerceUid([
+			'id' => $this->getId(),
+			'name' => $this->getName(),
+			'base_scope' => $this->getBaseScope(),
+			'scope_ids' => $this->getScopeIds()
+		])->setAsReadonly(true);
+	}
+	
+	/** {@inheritdoc} */
 	final public function isPersisted(bool $recursive = false): bool
 	{
 		return $this->arePropertiesPersisted($recursive);

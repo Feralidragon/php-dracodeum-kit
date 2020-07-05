@@ -13,7 +13,8 @@ use Dracodeum\Kit\{
 };
 use Dracodeum\Kit\Interfaces\{
 	DebugInfo as IDebugInfo,
-	Keyable as IKeyable
+	Keyable as IKeyable,
+	Persistable as IPersistable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
@@ -1187,15 +1188,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		);
 		
 		//values
+		$new_values = [];
 		$old_values = $this->persisted_values;
-		$new_values = $persistables = [];
+		$old_keys = $this->persisted_keys;
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
 				//initialize
 				$value = $property->getValue();
 				$new_values[$name] = $value;
 				
-				//persisted
+				//immutable and lazy
 				if ($persisted) {
 					if ($property->isImmutable()) {
 						$old_values[$name] = $value;
@@ -1204,9 +1206,26 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					}
 				}
 				
-				//persistable
-				if (is_object($value) && UType::persistable($value)) {
-					$persistables[$name] = $value;
+				//persistable (recursive)
+				if ($recursive && is_object($value) && UType::persistable($value)) {
+					UType::persist($value, true);
+				}
+				
+				//persistable (new uid)
+				if (is_object($value) && $value instanceof IPersistable) {
+					$new_values[$name] = $value->getPersistentUid();
+				}
+				
+				//persistable (old uid)
+				if ($persisted) {
+					$old_value = $old_values[$name] ?? null;
+					if (is_object($old_value) && $old_value instanceof IPersistable) {
+						$old_uid = $old_value->getPersistentUid();
+						$old_values[$name] = $old_uid;
+						$old_keys[$name] = UType::keyValue($old_uid, true);
+						unset($old_uid);
+					}
+					unset($old_value);
 				}
 				
 				//finalize
@@ -1214,17 +1233,10 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			}
 		}
 		
-		//recursive
-		if ($recursive) {
-			foreach ($persistables as $persistable) {
-				UType::persist($persistable, true);
-			}
-		}
-		
 		//changes map
 		$changes_map = [];
 		if ($persisted) {
-			foreach ($this->persisted_keys as $name => $key) {
+			foreach ($old_keys as $name => $key) {
 				if (array_key_exists($name, $new_values) && UType::keyValue($new_values[$name], true) !== $key) {
 					$changes_map[$name] = true;
 				}
