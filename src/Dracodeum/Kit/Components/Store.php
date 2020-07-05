@@ -12,7 +12,7 @@ use Dracodeum\Kit\Components\Store\{
 	Proxy,
 	Exceptions
 };
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\{
 	Store as Prototype,
@@ -99,7 +99,7 @@ class Store extends Component
 	/**
 	 * Coerce a given UID into an instance.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
 	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool|null $clone_recursive [default = null]
@@ -107,7 +107,7 @@ class Store extends Component
 	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
 	 * properties, but not recursively.<br>
 	 * If not set, then the given UID is not cloned.</p>
-	 * @return \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @return \Dracodeum\Kit\Structures\Uid
 	 * <p>The given UID coerced into an instance.</p>
 	 */
 	final public function coerceUid($uid, ?bool $clone_recursive = null): Uid
@@ -154,7 +154,7 @@ class Store extends Component
 	/**
 	 * Check if a resource with a given UID exists.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
 	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @return bool
@@ -180,7 +180,7 @@ class Store extends Component
 	/**
 	 * Return a resource with a given UID.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
 	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -227,7 +227,7 @@ class Store extends Component
 	/**
 	 * Insert a resource with a given UID with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid [reference]
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid [reference]
 	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
@@ -280,7 +280,7 @@ class Store extends Component
 	/**
 	 * Update a resource with a given UID with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
 	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param array $values
@@ -329,7 +329,7 @@ class Store extends Component
 	/**
 	 * Delete a resource with a given UID.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|array|string|int|null $uid
+	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
 	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -378,7 +378,7 @@ class Store extends Component
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance and type.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @param string $type
 	 * <p>The type to halt with,

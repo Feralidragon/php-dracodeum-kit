@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /** This interface defines a method to return a resource in a store prototype. */
 interface Returner
@@ -16,7 +16,7 @@ interface Returner
 	/**
 	 * Return a resource with a given UID instance.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to return with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>

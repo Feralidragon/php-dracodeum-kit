@@ -15,7 +15,7 @@ use Dracodeum\Kit\Prototypes\Store\Interfaces\{
 	Updater as IUpdater,
 	Deleter as IDeleter
 };
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Utilities\Data as UData;
 
 /** This store prototype persists resources in static memory, being generally used as a stub for testing. */

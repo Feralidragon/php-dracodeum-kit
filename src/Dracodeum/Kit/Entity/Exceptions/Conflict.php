@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Entity\Exceptions;
 
 use Dracodeum\Kit\Entity\Exception;
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /**
  * This exception is thrown from an entity whenever it conflicts with an existing one.
@@ -25,8 +25,8 @@ class Conflict extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		$id = $this->get('id');
-		$scope = $this->get('scope');
+		$id = $this->id;
+		$scope = $this->scope;
 		if ($id !== null && $scope !== null) {
 			return "Entity {{entity}} with ID {{id}} and scope {{scope}} conflicts with an existing one.";
 		} elseif ($scope !== null) {

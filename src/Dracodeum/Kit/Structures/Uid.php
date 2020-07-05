@@ -5,17 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Components\Store\Structures;
+namespace Dracodeum\Kit\Structures;
 
 use Dracodeum\Kit\Structure;
-use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions;
+use Dracodeum\Kit\Structures\Uid\Exceptions;
 use Dracodeum\Kit\Utilities\{
 	Text as UText,
 	Type as UType
 };
 
 /**
- * This structure represents the UID (unique identifier) of a resource in a store.
+ * This structure represents the UID (unique identifier) of a resource.
  * 
  * @property int|string|null $id [coercive] [default = null]
  * <p>The ID.</p>
@@ -60,11 +60,11 @@ class Uid extends Structure
 		$this->addProperty('scope')
 			->setAsString(true, true)
 			->setDefaultGetter(function () {
-				$base_scope = $this->get('base_scope');
-				$scope_ids = $this->get('scope_ids');
+				$base_scope = $this->base_scope;
+				$scope_ids = $this->scope_ids;
 				if ($base_scope === null) {
 					return null;
-				} elseif (empty($scope_ids)) {
+				} elseif (!count($scope_ids)) {
 					return $base_scope;
 				}
 				return UText::fill($base_scope, $scope_ids);
@@ -132,7 +132,7 @@ class Uid extends Structure
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\IdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\IdCoercionFailed
 	 * @return int|string|null
 	 * <p>The given value coerced into an ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
@@ -157,7 +157,7 @@ class Uid extends Structure
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\IdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\IdCoercionFailed
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an ID.</p>
 	 */
@@ -242,7 +242,7 @@ class Uid extends Structure
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
 	 * @return int|string|null
 	 * <p>The given value with the given name coerced into a scope ID.<br>
 	 * If nullable, then <code>null</code> may also be returned.</p>
@@ -269,7 +269,7 @@ class Uid extends Structure
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value with the given name was successfully coerced into a scope ID.</p>
 	 */
@@ -323,7 +323,7 @@ class Uid extends Structure
 	 * 
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
 	 * @return int[]|string[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
@@ -346,7 +346,7 @@ class Uid extends Structure
 	 * <p>The set of values to process (validate and sanitize).</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions\ScopeIdCoercionFailed
+	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given set of values was successfully coerced into a set of scope IDs.</p>
 	 */

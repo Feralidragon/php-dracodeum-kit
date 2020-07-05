@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Prototypes;
 use Dracodeum\Kit\Prototype;
 use Dracodeum\Kit\Prototype\Interfaces\Contract as IContract;
 use Dracodeum\Kit\Prototypes\Store\Contract;
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
 
 /**
@@ -38,7 +38,7 @@ abstract class Store extends Prototype implements IContract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance and type.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @param string $type
 	 * <p>The type to halt with,
@@ -53,7 +53,7 @@ abstract class Store extends Prototype implements IContract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance over not being found.
 	 *
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ abstract class Store extends Prototype implements IContract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance over its scope not being found.
 	 *
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ abstract class Store extends Prototype implements IContract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance over a conflict.
 	 *
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @return void
 	 */

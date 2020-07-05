@@ -1146,7 +1146,7 @@ class Evaluators extends Manager
 	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
@@ -1154,7 +1154,7 @@ class Evaluators extends Manager
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param bool $persisted [default = false]

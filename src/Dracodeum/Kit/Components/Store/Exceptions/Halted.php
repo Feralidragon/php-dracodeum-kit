@@ -8,13 +8,13 @@
 namespace Dracodeum\Kit\Components\Store\Exceptions;
 
 use Dracodeum\Kit\Components\Store\Exception;
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
 
 /**
  * This exception is thrown from a store whenever execution is halted for a given resource.
  * 
- * @property-read \Dracodeum\Kit\Components\Store\Structures\Uid $uid [coercive]
+ * @property-read \Dracodeum\Kit\Structures\Uid $uid [coercive]
  * <p>The UID instance.</p>
  * @property-read string $type [coercive = enumeration value]
  * <p>The type, as a value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
@@ -26,7 +26,7 @@ class Halted extends Exception
 	public function getDefaultMessage(): string
 	{
 		//initialize
-		$uid = $this->get('uid');
+		$uid = $this->uid;
 		$message = "Execution halted with {{type}} for resource";
 		
 		//name

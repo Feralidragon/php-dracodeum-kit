@@ -27,12 +27,12 @@ use Dracodeum\Kit\Entity\{
 use Dracodeum\Kit\Traits as KitTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Components\Store;
-use Dracodeum\Kit\Components\Store\Structures\Uid;
 use Dracodeum\Kit\Components\Store\{
 	Exception as StoreException,
 	Exceptions as StoreExceptions
 };
-use Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions as UidExceptions;
+use Dracodeum\Kit\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Components\Logger\Structures\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
@@ -335,7 +335,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * @return $this|bool
 	 * <p>This instance, for chaining purposes.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if this instance was found and deleted, 
+	 * then boolean <code>true</code> is returned if this instance was found and unpersisted, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
 	final public function unpersist(bool $no_throw = false)
@@ -569,7 +569,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
@@ -577,7 +577,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -619,7 +619,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
@@ -627,7 +627,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -672,7 +672,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Components\Store\Structures\Uid</code>, 
+	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
@@ -680,7 +680,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Components\Store\Structures\Uid
+	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $persisted [default = false]
@@ -1462,7 +1462,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * 
 	 * @param array $new_values [reference]
 	 * <p>The new values to process with, as <samp>name => value</samp> pairs.</p>
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid|null $uid [reference output]
+	 * @param \Dracodeum\Kit\Structures\Uid|null $uid [reference output]
 	 * <p>The output UID instance to use.</p>
 	 * @param array|null $old_values [reference] [default = null]
 	 * <p>The old values to process with, as <samp>name => value</samp> pairs.</p>
@@ -1570,7 +1570,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 * 
 	 * @param array $values [reference]
 	 * <p>The values to process with, as <samp>name => value</samp> pairs.</p>
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to use.</p>
 	 * @return void
 	 */

@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /** This interface defines a method to update a resource in a store prototype. */
 interface Updater
@@ -16,7 +16,7 @@ interface Updater
 	/**
 	 * Update a resource with a given UID instance with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to update with.</p>
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>

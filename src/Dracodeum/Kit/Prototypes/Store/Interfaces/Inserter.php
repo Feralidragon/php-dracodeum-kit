@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /** This interface defines a method to insert a resource in a store prototype. */
 interface Inserter
@@ -16,7 +16,7 @@ interface Inserter
 	/**
 	 * Insert a resource with a given UID instance with a given set of values.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to insert with.<br>
 	 * It may be modified during insertion, such as when any of its properties are automatically generated.</p>
 	 * @param array $values

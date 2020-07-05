@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Prototypes\Store;
 
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /** This interface defines a contract as a method to be implemented by any component set to use a store prototype. */
 interface Contract
@@ -16,7 +16,7 @@ interface Contract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance and type.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Store\Structures\Uid $uid
+	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @param string $type
 	 * <p>The type to halt with, 

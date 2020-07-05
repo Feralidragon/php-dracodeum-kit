@@ -5,7 +5,7 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Components\Store\Structures\Uid\Exceptions;
+namespace Dracodeum\Kit\Structures\Uid\Exceptions;
 
 /**
  * This exception is thrown from a UID whenever the coercion into a scope ID fails with a given value.
@@ -19,7 +19,7 @@ class ScopeIdCoercionFailed extends IdCoercionFailed
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Scope ID coercion failed for {{name}} with value {{value}} using UID {{uid}}, " . 
 				"with the following error: {{error_message}}"
 			: "Scope ID coercion failed for {{name}} with value {{value}} using UID {{uid}}.";

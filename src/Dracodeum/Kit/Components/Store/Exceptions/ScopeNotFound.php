@@ -8,12 +8,12 @@
 namespace Dracodeum\Kit\Components\Store\Exceptions;
 
 use Dracodeum\Kit\Components\Store\Exception;
-use Dracodeum\Kit\Components\Store\Structures\Uid;
+use Dracodeum\Kit\Structures\Uid;
 
 /**
  * This exception is thrown from a store whenever a given resource scope is not found.
  * 
- * @property-read \Dracodeum\Kit\Components\Store\Structures\Uid $uid [coercive]
+ * @property-read \Dracodeum\Kit\Structures\Uid $uid [coercive]
  * <p>The UID instance.</p>
  */
 class ScopeNotFound extends Exception
@@ -23,7 +23,7 @@ class ScopeNotFound extends Exception
 	public function getDefaultMessage(): string
 	{
 		//initialize
-		$uid = $this->get('uid');
+		$uid = $this->uid;
 		$message = "Resource";
 		
 		//name
