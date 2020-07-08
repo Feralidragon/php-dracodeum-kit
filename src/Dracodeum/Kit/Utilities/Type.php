@@ -1954,9 +1954,9 @@ final class Type extends Utility
 	{
 		if ($object instanceof IPersistable) {
 			$object->persist($recursive);
-			return;
+		} else {
+			throw new Exceptions\UnpersistableObject([$object]);
 		}
-		throw new Exceptions\UnpersistableObject([$object]);
 	}
 	
 	/**
@@ -1982,6 +1982,52 @@ final class Type extends Utility
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				self::persistValue($v, $recursive);
+			}
+		}
+	}
+	
+	/**
+	 * Unpersist a given object.
+	 * 
+	 * @param object $object
+	 * <p>The object to unpersist.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnpersistableObject
+	 * @return void
+	 */
+	final public static function unpersist(object $object, bool $recursive = false): void
+	{
+		if ($object instanceof IPersistable) {
+			$object->unpersist($recursive);
+		} else {
+			throw new Exceptions\UnpersistableObject([$object]);
+		}
+	}
+	
+	/**
+	 * Unpersist a given value.
+	 * 
+	 * If the given value is a persistable object, then it is unpersisted.<br>
+	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
+	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
+	 * with every persistable object found being unpersisted.<br>
+	 * <br>
+	 * For any other case, the given value is left as is.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to unpersist.</p>
+	 * @param bool $recursive [default = false]
+	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
+	 * @return void
+	 */
+	final public static function unpersistValue($value, bool $recursive = false): void
+	{
+		if (is_object($value) && $value instanceof IPersistable) {
+			$value->unpersist($recursive);
+		} elseif ($recursive && Data::evaluate($value)) {
+			foreach ($value as $v) {
+				self::unpersistValue($v, $recursive);
 			}
 		}
 	}

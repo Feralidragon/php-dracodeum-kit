@@ -528,12 +528,14 @@ trait LazyProperties
 	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
+	 * @param bool $recursive [default = false]
+	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function unpersistProperties(?callable $deleter = null): object
+	final protected function unpersistProperties(?callable $deleter = null, bool $recursive = false): object
 	{
-		$this->getPropertiesManager()->unpersist($deleter);
+		$this->getPropertiesManager()->unpersist($deleter, $recursive);
 		return $this;
 	}
 	

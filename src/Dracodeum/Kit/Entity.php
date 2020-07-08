@@ -247,6 +247,54 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		return $this;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
+	 */
+	final public function unpersist(bool $recursive = false): object
+	{
+		try {
+			//pre-delete
+			$this->processPreDelete();
+			
+			//delete
+			$id = $this->getId();
+			try {
+				$this->getStore()->delete([
+					'id' => $id,
+					'name' => $this->getName(),
+					'base_scope' => $this->getBaseScope(),
+					'scope_ids' => $this->getScopeIds()
+				]);
+			} catch (StoreException $exception) {
+				throw $this->mutateStoreException($exception);
+			}
+			
+			//log
+			$this->logEvent('INFO', "Entity {{name}} deleted.", [
+				'name' => 'entity.delete',
+				'data' => [
+					'id' => $id,
+					'scope' => $this->getScope()
+				],
+				'parameters' => ['name' => $this->getName()]
+			]);
+			
+			//post-delete
+			$this->processPostDelete();
+			
+			//properties
+			$this->unpersistProperties(null, $recursive);
+			
+		} catch (\Throwable $throwable) {
+			$this->logThrowableEvent('ERROR', $throwable);
+			throw $throwable;
+		}
+		
+		//return
+		return $this;
+	}
+	
 	
 	
 	//Implemented public methods (Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
@@ -335,71 +383,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			$ids[$name] = $this->get($name);
 		}
 		return $ids;
-	}
-	
-	/**
-	 * Unpersist.
-	 * 
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
-	 * @return $this|bool
-	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if this instance was found and unpersisted, 
-	 * or boolean <code>false</code> if otherwise.</p>
-	 */
-	final public function unpersist(bool $no_throw = false)
-	{
-		try {
-			//pre-delete
-			$this->processPreDelete();
-			
-			//delete
-			$deleted = false;
-			$id = $this->getId();
-			try {
-				$deleted = $this->getStore()->delete([
-					'id' => $id,
-					'name' => $this->getName(),
-					'base_scope' => $this->getBaseScope(),
-					'scope_ids' => $this->getScopeIds()
-				], $no_throw);
-			} catch (StoreException $exception) {
-				throw $this->mutateStoreException($exception);
-			}
-			
-			//check
-			if (!$deleted) {
-				if ($no_throw) {
-					return false;
-				}
-				throw new Exceptions\NotFound([$this, 'id' => $id, 'scope' => $this->getScope()]);
-			}
-			
-			//log
-			$this->logEvent('INFO', "Entity {{name}} deleted.", [
-				'name' => 'entity.delete',
-				'data' => [
-					'id' => $id,
-					'scope' => $this->getScope()
-				],
-				'parameters' => ['name' => $this->getName()]
-			]);
-			
-			//post-delete
-			$this->processPostDelete();
-			
-			//properties
-			$this->unpersistProperties();
-			
-		} catch (\Throwable $throwable) {
-			$this->logThrowableEvent('ERROR', $throwable);
-			throw $throwable;
-		}
-		
-		//return
-		return $no_throw ? true : $this;
 	}
 	
 	/**
@@ -564,10 +547,27 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 */
 	final public static function delete($id = null, array $scope_ids = [], bool $no_throw = false)
 	{
+		//instance
 		$instance = self::load($id, $scope_ids, $no_throw);
-		if ($instance === null || !$instance->unpersist($no_throw)) {
-			return false;
-		} elseif ($no_throw) {
+		if ($instance === null) {
+			if ($no_throw) {
+				return false;
+			}
+			return;
+		}
+		
+		//unpersist
+		try {
+			$instance->unpersist();
+		} catch (Exceptions\NotFound $exception) {
+			if ($no_throw) {
+				return false;
+			}
+			throw $exception;
+		}
+		
+		//return
+		if ($no_throw) {
 			return true;
 		}
 	}

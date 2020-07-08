@@ -1340,10 +1340,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
+	 * @param bool $recursive [default = false]
+	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unpersist(?callable $deleter = null): Properties
+	final public function unpersist(?callable $deleter = null, bool $recursive = false): Properties
 	{
 		//check
 		if (!$this->isPersisted()) {
@@ -1351,10 +1353,23 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//values
-		$values = [];
+		$values = $persistables = [];
 		foreach ($this->properties as $name => $property) {
 			if ($property->isInitialized()) {
-				$values[$name] = $property->getValue();
+				//initialize
+				$value = $property->getValue();
+				$values[$name] = $value;
+				
+				//persistable
+				if (is_object($value) && UType::persistable($value)) {
+					$persistables[$name] = $value;
+					if ($value instanceof IPersistable) {
+						$values[$name] = $value->getPersistentUid();
+					}
+				}
+				
+				//finalize
+				unset($value);
 			}
 		}
 		
@@ -1391,6 +1406,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 				unset($value);
 			}
+		}
+		
+		//recursive
+		if ($recursive && count($persistables)) {
+			UType::unpersistValue($persistables, true);
 		}
 		
 		//finalize
