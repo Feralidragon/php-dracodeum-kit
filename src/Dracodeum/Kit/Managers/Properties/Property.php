@@ -354,7 +354,7 @@ class Property implements IUncloneable
 	 */
 	final public function isSettable(): bool
 	{
-		return !($this->flags & self::FLAG_GETTER);
+		return $this->setter !== null || !($this->flags & self::FLAG_GETTER);
 	}
 	
 	/**
