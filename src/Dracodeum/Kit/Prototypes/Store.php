@@ -21,7 +21,7 @@ use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Updater
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Deleter
- * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\UidScopePlaceholderValueString
+ * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\UidScopePlaceholderIdString
  */
 abstract class Store extends Prototype implements IContract
 {

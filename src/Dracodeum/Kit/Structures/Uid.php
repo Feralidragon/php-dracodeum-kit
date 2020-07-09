@@ -32,16 +32,7 @@ use Dracodeum\Kit\Utilities\{
  * If set, then it cannot be empty, and placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
- * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
- * <br>
- * They may also be used with pointers to specific object properties or associative array values, 
- * by using a dot between identifiers, such as <samp>{{object.property}}</samp>, 
- * with no limit on the number of chained pointers.<br>
- * <br>
- * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
- * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property int[]|string[] $scope_ids [coercive] [default = []]
- * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
+ * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).</p>
  * @see https://en.wikipedia.org/wiki/Identifier
  */
 class Uid extends Structure

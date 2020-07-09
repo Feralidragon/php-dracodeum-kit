@@ -76,20 +76,20 @@ class Store extends Component
 	
 	//Protected methods
 	/**
-	 * Get string for a given UID scope placeholder from a given value.
+	 * Get string for a given UID scope placeholder from a given ID.
 	 * 
 	 * @param string $placeholder
 	 * <p>The placeholder to get for.</p>
-	 * @param mixed $value
-	 * <p>The value to get from.</p>
+	 * @param int|string $id
+	 * <p>The ID to get from.</p>
 	 * @return string|null
-	 * <p>The string for the given UID scope placeholder from the given value or <code>null</code> if none is set.</p>
+	 * <p>The string for the given UID scope placeholder from the given ID or <code>null</code> if none is set.</p>
 	 */
-	protected function getUidScopePlaceholderValueString(string $placeholder, $value): ?string
+	protected function getUidScopePlaceholderIdString(string $placeholder, $id): ?string
 	{
 		$prototype = $this->getPrototype();
-		return $prototype instanceof PrototypeInterfaces\UidScopePlaceholderValueString
-			? $prototype->getUidScopePlaceholderValueString($placeholder, $value)
+		return $prototype instanceof PrototypeInterfaces\UidScopePlaceholderIdString
+			? $prototype->getUidScopePlaceholderIdString($placeholder, $id)
 			: null;
 	}
 	
@@ -146,7 +146,7 @@ class Store extends Component
 	{
 		return UText::hasPlaceholders($base_scope)
 			? UText::fill($base_scope, Uid::coerceScopeIds($scope_ids), null, [
-				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderValueString'])
+				'stringifier' => \Closure::fromCallable([$this, 'getUidScopePlaceholderIdString'])
 			])
 			: $base_scope;
 	}
