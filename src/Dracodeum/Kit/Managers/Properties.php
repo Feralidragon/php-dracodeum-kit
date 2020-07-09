@@ -733,10 +733,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//properties (finish)
 			foreach ($this->properties as $name => $property) {
 				//initialize
-				if (
-					!$lazy && !$property->isInitialized() && 
-					($property->hasDefault() || $persisted || !$property->isAutomatic())
-				) {
+				if (!$lazy && !$property->isInitialized() && $property->isGettable()) {
 					$property->initialize();
 				}
 				
@@ -791,24 +788,18 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function get(string $name, bool $lazy = false)
 	{
 		//fallback
-		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
-			return $this->fallback_object->get($name);
+		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
+			return $this->fallback_object->get($name, $lazy);
 		}
 		
 		//property
 		$property = $this->getProperty($name);
-		$property_mode = $property->getMode();
-		
-		//guard
-		UCall::guard($property_mode[0] === 'r', [
-			'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard($this->isPersisted() || !$property->isAutomatic(), [
-			'error_message' => "Cannot get automatic property {{name}} in manager with owner {{owner}}.",
-			'hint_message' => "Automatic properties may only be got after the first data persistence.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
+		if ($property->getMode()[0] !== 'r') {
+			UCall::halt([
+				'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//return
 		return $property->getValue($lazy);
@@ -1082,7 +1073,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->getMode()[0] === 'r') {
+			if ($property->isInitialized() && $property->getMode()[0] === 'r') {
 				$properties[$name] = $property->getValue($lazy);
 			}
 		}
@@ -1111,7 +1102,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->getMode() !== 'r') {
+			if ($property->isInitialized() && $property->getMode() !== 'r') {
 				$properties[$name] = $property->getValue($lazy);
 			}
 		}
@@ -1309,9 +1300,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//set
 		foreach ($values as $name => $value) {
-			if (isset($this->properties[$name])) {
-				$this->properties[$name]->setValue($value);
+			$property = $this->properties[$name] ?? null;
+			if ($property !== null && $property->isSettable()) {
+				$property->setValue($value);
 			}
+			unset($property);
 		}
 		
 		//post-persistence callbacks

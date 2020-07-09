@@ -61,6 +61,9 @@ class Property implements IUncloneable
 	/** Default flag. */
 	private const FLAG_DEFAULT = self::FLAG_DEFAULT_VALUE | self::FLAG_DEFAULT_GETTER;
 	
+	/** Gettable flag. */
+	private const FLAG_GETTABLE = self::FLAG_VALUE | self::FLAG_GETTER | self::FLAG_DEFAULT | self::FLAG_LAZY_VALUE;
+	
 	
 	
 	//Private properties
@@ -330,6 +333,28 @@ class Property implements IUncloneable
 		
 		//return
 		return $this;
+	}
+	
+	/**
+	 * Check if is gettable.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is gettable.</p>
+	 */
+	final public function isGettable(): bool
+	{
+		return $this->flags & self::FLAG_GETTABLE;
+	}
+	
+	/**
+	 * Check if is settable.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is settable.</p>
+	 */
+	final public function isSettable(): bool
+	{
+		return !($this->flags & self::FLAG_GETTER);
 	}
 	
 	/**
