@@ -12,9 +12,9 @@ use Dracodeum\Kit\{
 	Traits
 };
 use Dracodeum\Kit\Interfaces\{
+	Uid as IUid,
 	DebugInfo as IDebugInfo,
-	Keyable as IKeyable,
-	Persistable as IPersistable
+	Keyable as IKeyable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
@@ -1187,6 +1187,19 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			'updater', $updater, function (array $old_values, array $new_values, array $changed_names): array {}
 		);
 		
+		//recursive
+		if ($recursive) {
+			foreach ($this->properties as $name => $property) {
+				if ($property->isInitialized()) {
+					$value = $property->getValue();
+					if (is_object($value) && UType::persistable($value)) {
+						UType::persist($value, true);
+					}
+					unset($value);
+				}
+			}
+		}
+		
 		//values
 		$new_values = [];
 		$old_values = $this->persisted_values;
@@ -1206,21 +1219,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					}
 				}
 				
-				//persistable (recursive)
-				if ($recursive && is_object($value) && UType::persistable($value)) {
-					UType::persist($value, true);
-				}
-				
 				//persistable (new uid)
-				if (is_object($value) && $value instanceof IPersistable) {
-					$new_values[$name] = $value->getPersistentUid();
+				if (is_object($value) && UType::persistable($value) && $value instanceof IUid) {
+					$new_values[$name] = $value->getUid();
 				}
 				
 				//persistable (old uid)
 				if ($persisted) {
 					$old_value = $old_values[$name] ?? null;
-					if (is_object($old_value) && $old_value instanceof IPersistable) {
-						$old_uid = $old_value->getPersistentUid();
+					if (is_object($old_value) && UType::persistable($old_value) && $old_value instanceof IUid) {
+						$old_uid = $old_value->getUid();
 						$old_values[$name] = $old_uid;
 						$old_keys[$name] = UType::keyValue($old_uid, true);
 						unset($old_uid);
@@ -1363,8 +1371,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				//persistable
 				if (is_object($value) && UType::persistable($value)) {
 					$persistables[$name] = $value;
-					if ($value instanceof IPersistable) {
-						$values[$name] = $value->getPersistentUid();
+					if ($value instanceof IUid) {
+						$values[$name] = $value->getUid();
 					}
 				}
 				

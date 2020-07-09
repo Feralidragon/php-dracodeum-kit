@@ -8,6 +8,7 @@
 namespace Dracodeum\Kit;
 
 use Dracodeum\Kit\Interfaces\{
+	Uid as IUid,
 	DebugInfo as IDebugInfo,
 	Properties as IProperties,
 	Arrayable as IArrayable,
@@ -75,7 +76,7 @@ use Dracodeum\Kit\Root\Log;
  * @see \Dracodeum\Kit\Entity\Traits\LogEventProcessor
  */
 abstract class Entity
-implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
+implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
 IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 {
 	//Traits
@@ -102,6 +103,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	
 	
 	//Private properties
+	/** @var \Dracodeum\Kit\Structures\Uid|null */
+	private $uid = null;
+	
 	/** @var int|string|null */
 	private $temporary_id = null;
 	
@@ -183,6 +187,23 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	
 	
 	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Uid)
+	/** {@inheritdoc} */
+	final public function getUid(): Uid
+	{
+		if ($this->uid === null) {
+			$this->uid = $this->getStore()->coerceUid([
+				'id' => $this->getId(),
+				'name' => $this->getName(),
+				'base_scope' => $this->getBaseScope(),
+				'scope_ids' => $this->getScopeIds()
+			])->setAsReadonly(true);
+		}
+		return $this->uid;
+	}
+	
+	
+	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
 	final public function jsonSerialize()
@@ -211,17 +232,6 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Persistable)
-	/** {@inheritdoc} */
-	final public function getPersistentUid(): Uid
-	{
-		return $this->getStore()->coerceUid([
-			'id' => $this->getId(),
-			'name' => $this->getName(),
-			'base_scope' => $this->getBaseScope(),
-			'scope_ids' => $this->getScopeIds()
-		])->setAsReadonly(true);
-	}
-	
 	/** {@inheritdoc} */
 	final public function isPersisted(bool $recursive = false): bool
 	{
@@ -302,8 +312,11 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	public function processDebugInfo(DebugInfo $info): void
 	{	
 		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
-		$info->enableObjectPropertiesDump();
-		$info->hideObjectProperty('temporary_id', self::class);
+		$info
+			->enableObjectPropertiesDump()
+			->hideObjectProperty('uid', self::class)
+			->hideObjectProperty('temporary_id', self::class)
+		;
 	}
 	
 	
