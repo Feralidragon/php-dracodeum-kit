@@ -28,8 +28,8 @@ class Property implements IUncloneable
 	/** Initialized flag. */
 	private const FLAG_INITIALIZED = 0x001;
 	
-	/** Required flag. */
-	private const FLAG_REQUIRED = 0x002;
+	/** Optional flag. */
+	private const FLAG_OPTIONAL = 0x002;
 	
 	/** Automatic flag. */
 	private const FLAG_AUTOMATIC = 0x004;
@@ -153,42 +153,29 @@ class Property implements IUncloneable
 	 */
 	final public function initialize(): Property
 	{
-		UCall::guard(!$this->isInitialized(), [
-			'error_message' => "Property {{property.getName()}} already initialized " . 
-				"in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
+		$this->guardNonInitializedCall();
 		$this->flags |= self::FLAG_INITIALIZED;
 		return $this;
 	}
 	
 	/**
-	 * Uninitialize.
+	 * Reset.
 	 * 
 	 * This method may only be called after initialization.
 	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function uninitialize(): Property
+	final public function reset(): Property
 	{
-		//guard
-		UCall::guard($this->isInitialized(), [
-			'error_message' => "Property {{property.getName()}} has not been initialized yet " . 
-				"in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//unset
-		if (!($this->flags & self::FLAG_GETTER)) {
+		$this->guardInitializedCall();
+		if (!$this->hasGetter()) {
 			$this->value_getter = null;
 			$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
+			if (!$this->isGettable()) {
+				$this->flags &= ~self::FLAG_INITIALIZED;
+			}
 		}
-		
-		//finalize
-		$this->flags &= ~self::FLAG_INITIALIZED;
-		
-		//return
 		return $this;
 	}
 	
@@ -200,59 +187,39 @@ class Property implements IUncloneable
 	 */
 	final public function isRequired(): bool
 	{
-		if (!$this->manager->isPersisted() && $this->isAutomatic()) {
-			return false;
-		} elseif (
-			($this->flags & self::FLAG_REQUIRED) || 
-			($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name))
-		) {
-			return true;
-		} elseif ($this->flags & self::FLAG_GETTER) {
-			return false;
-		}
-		return !$this->hasDefault();
+		return !$this->isOptional();
 	}
 	
 	/**
-	 * Set as required.
+	 * Check if is optional.
 	 * 
-	 * Even without being explicitly set as required, a property is considered so if it has no default value set.<br>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is optional.</p>
+	 */
+	final public function isOptional(): bool
+	{
+		if ($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name)) {
+			return false;
+		}
+		return ($this->flags & self::FLAG_OPTIONAL) || $this->hasDefault() || $this->hasGetter() || 
+			($this->isAutomatic() && !$this->manager->isPersisted());
+	}
+	
+	/**
+	 * Set as optional.
+	 * 
+	 * Even without being explicitly set as optional, a property is considered so if it has a default value 
+	 * or a getter function set, or if it is automatic and not yet persisted.<br>
 	 * <br>
-	 * This method may only be called before initialization, of both the property and the manager, 
-	 * with lazy-loading disabled and only if the mode is not set to strict read-only.
+	 * This method may only be called before initialization, of both the property and the manager.
 	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsRequired(): Property
+	final public function setAsOptional(): Property
 	{
-		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!$this->manager->isLazy(), [
-			'hint_message' => "In order to set property {{property.getName()}} as required " . 
-				"in manager with owner {{property.getManager().getOwner()}}, " . 
-				"please use the manager {{method}} method instead, as lazy-loading is enabled.",
-			'parameters' => ['property' => $this, 'method' => 'addRequiredPropertyNames']
-		]);
-		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard($this->getMode() !== 'r', [
-			'hint_message' => "Property {{property.getName()}} is strictly read-only " . 
-				"in manager with owner {{property.getManager().getOwner()}} and thus cannot be set as required.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//set
-		$this->flags |= self::FLAG_REQUIRED;
-		
-		//return
+		$this->guardNonInitializedCall(true);
+		$this->flags |= self::FLAG_OPTIONAL;
 		return $this;
 	}
 	
@@ -294,32 +261,29 @@ class Property implements IUncloneable
 	 */
 	final public function setMode(string $mode): Property
 	{
-		//map
-		$map = [];
-		switch ($this->manager->getMode()) {
-			case 'r':
-				$map = ['r' => 'r', 'r+' => 'r', 'rw' => 'r'];
-				break;
-			case 'r+':
-				$map = ['r' => 'r', 'r+' => 'r+', 'rw' => 'r+'];
-				break;
-			case 'rw':
-				$map = array_combine(Manager::MODES, Manager::MODES);
-				break;
-			case 'w':
-				$map = ['rw' => 'w', 'w' => 'w', 'w-' => 'w-', 'w--' => 'w--'];
-				break;
-			case 'w-':
-				$map = ['rw' => 'w-', 'w' => 'w-', 'w-' => 'w-', 'w--' => 'w--'];
-				break;
-			case 'w--':
-				$map = ['rw' => 'w--', 'w' => 'w--', 'w-' => 'w--', 'w--' => 'w--'];
-				break;
+		//maps
+		static $maps = [
+			'r' => ['r' => 'r', 'r+' => 'r', 'rw' => 'r'],
+			'r+' => ['r' => 'r', 'r+' => 'r+', 'rw' => 'r+'],
+			'rw' => ['r' => 'r', 'r+' => 'r+', 'rw' => 'rw', 'w' => 'w', 'w-' => 'w-', 'w--' => 'w--'],
+			'w' => ['rw' => 'w', 'w' => 'w', 'w-' => 'w-', 'w--' => 'w--'],
+			'w-' => ['rw' => 'w-', 'w' => 'w-', 'w-' => 'w-', 'w--' => 'w--'],
+			'w--' => ['rw' => 'w--', 'w' => 'w--', 'w-' => 'w--', 'w--' => 'w--']
+		];
+		
+		//manager
+		$manager_mode = $this->manager->getMode();
+		if (!isset($maps[$manager_mode])) {
+			UCall::haltInternal([
+				'error_message' => "Invalid manager mode {{mode}} in {{manager}} with owner {{manager.getOwner()}}.",
+				'parameters' => ['mode' => $manager_mode, 'manager' => $this->manager]
+			]);
 		}
 		
 		//set
-		UCall::guardParameter('mode', $mode, isset($map[$mode]), function () use ($map) {
-			return [
+		$map = $maps[$manager_mode];
+		if (!isset($map[$mode])) {
+			UCall::haltParameter('mode', $mode, [
 				'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
 					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
 				'hint_message_plural' => "Only the following modes are allowed for property {{property.getName()}} " . 
@@ -327,8 +291,8 @@ class Property implements IUncloneable
 				'hint_message_number' => count($map),
 				'parameters' => ['property' => $this, 'modes' => array_keys($map)],
 				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-			];
-		});
+			]);
+		}
 		$this->mode = $map[$mode];
 		
 		//return
@@ -354,7 +318,7 @@ class Property implements IUncloneable
 	 */
 	final public function isSettable(): bool
 	{
-		return $this->setter !== null || !($this->flags & self::FLAG_GETTER);
+		return $this->hasSetter() || !$this->hasGetter();
 	}
 	
 	/**
@@ -382,22 +346,8 @@ class Property implements IUncloneable
 	 */
 	final public function setAsAutomatic(): Property
 	{
-		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//set
+		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_AUTOMATIC;
-		
-		//return
 		return $this;
 	}
 	
@@ -426,22 +376,8 @@ class Property implements IUncloneable
 	 */
 	final public function setAsImmutable(): Property
 	{
-		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//set
+		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_IMMUTABLE;
-		
-		//return
 		return $this;
 	}
 	
@@ -453,7 +389,7 @@ class Property implements IUncloneable
 	 */
 	final public function isAutoImmutable(): bool
 	{
-		return ($this->flags & self::FLAG_AUTOMATIC) && ($this->flags & self::FLAG_IMMUTABLE);
+		return $this->isAutomatic() && $this->isImmutable();
 	}
 	
 	/**
@@ -470,22 +406,8 @@ class Property implements IUncloneable
 	 */
 	final public function setAsAutoImmutable(): Property
 	{
-		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//set
+		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_AUTOIMMUTABLE;
-		
-		//return
 		return $this;
 	}
 	
@@ -504,7 +426,7 @@ class Property implements IUncloneable
 	 * Set as lazy.
 	 * 
 	 * By setting this property as lazy, whenever a new value is set, no value evaluation is performed immediately, 
-	 * being only performed later on when the new value is first retrieved.<br>
+	 * being only performed later when the new value is first retrieved.<br>
 	 * <br>
 	 * This method may only be called before initialization, of both the property and the manager, 
 	 * and only if a getter function has not been set.
@@ -514,27 +436,9 @@ class Property implements IUncloneable
 	 */
 	final public function setAsLazy(): Property
 	{
-		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!$this->manager->isInitialized(), [
-			'hint_message' => "This method may only be called before the manager initialization, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		UCall::guard(!($this->flags & self::FLAG_GETTER), [
-			'hint_message' => "This method may only be called if a getter function has not been set, " . 
-				"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
-			'parameters' => ['property' => $this]
-		]);
-		
-		//set
+		$this->guardNonInitializedCall(true);
+		$this->guardGetterNotSetCall();
 		$this->flags |= self::FLAG_LAZY;
-		
-		//return
 		return $this;
 	}
 	
@@ -848,6 +752,17 @@ class Property implements IUncloneable
 	}
 	
 	/**
+	 * Check if has getter function.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has getter function.</p>
+	 */
+	final public function hasGetter(): bool
+	{
+		return $this->flags & self::FLAG_GETTER;
+	}
+	
+	/**
 	 * Set getter function.
 	 * 
 	 * By setting a getter function, the value will always be got using that function.<br>
@@ -886,6 +801,17 @@ class Property implements IUncloneable
 		
 		//return
 		return $this;
+	}
+	
+	/**
+	 * Check if has setter function.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has setter function.</p>
+	 */
+	final public function hasSetter(): bool
+	{
+		return $this->setter !== null;
 	}
 	
 	/**
@@ -971,5 +897,68 @@ class Property implements IUncloneable
 		
 		//return
 		return $this;
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Guard the current function or method in the stack so it may only be called if this property is not initialized.
+	 * 
+	 * @param bool $full [default = false]
+	 * <p>Perform a full initialization check.</p>
+	 * @return void
+	 */
+	final protected function guardNonInitializedCall(bool $full = false): void
+	{
+		if ($this->isInitialized()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called before initialization, " . 
+					"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this],
+				'stack_offset' => 1
+			]);
+		} elseif ($full && $this->manager->isInitialized()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called before the manager initialization, " . 
+					"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this],
+				'stack_offset' => 1
+			]);
+		}
+	}
+	
+	/**
+	 * Guard the current function or method in the stack so it may only be called if this property is initialized.
+	 * 
+	 * @return void
+	 */
+	final protected function guardInitializedCall(): void
+	{
+		if (!$this->isInitialized()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called after initialization, " . 
+					"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this],
+				'stack_offset' => 1
+			]);
+		}
+	}
+	
+	/**
+	 * Guard the current function or method in the stack so it may only be called if no getter function is set.
+	 * 
+	 * @return void
+	 */
+	final protected function guardGetterNotSetCall(): void
+	{
+		if ($this->hasGetter()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called if a getter function has not been set, " . 
+					"in property {{property.getName()}} in manager with owner {{property.getManager().getOwner()}}.",
+				'parameters' => ['property' => $this],
+				'stack_offset' => 1
+			]);
+		}
 	}
 }
