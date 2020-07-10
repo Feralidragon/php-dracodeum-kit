@@ -47,6 +47,9 @@ class Bar extends Dracodeum\Kit\Entity
 	protected function loadProperties(): void
 	{
 		$this->addProperty('id')->setAsString(true);
+		$this->addProperty('foo_id')->setAsAutoImmutable()->setDefaultGetter(function () {
+			return $this->foo->id;
+		});
 		$this->addProperty('foo')->setAsEntity(Foo::class)->setAsLazy();
 		$this->addProperty('name')->setAsString()->setAsLazy();
 	}
@@ -75,6 +78,11 @@ class Bar extends Dracodeum\Kit\Entity
 			$new_values['foo'] = $new_values['foo']->id;
 		}
 	}
+	
+	protected static function getBaseScope(): ?string
+	{
+		return '{{foo_id}}';
+	}
 }
 
 
@@ -96,9 +104,10 @@ $f = Foo::load(123);
 echo "\n\n";
 
 $b = Bar::build(['id' => 'XHS77', 'foo' => 123, 'name' => 9e3]);
+
 $b->persist();
 
-$b = Bar::load('XHS77');
+$b = Bar::load('XHS77', ['foo_id' => $f->id]);
 $b->foo = 123;
 $b->persist();
 var_dump($b);
