@@ -39,12 +39,12 @@ final class Info
 	
 	//Final public methods
 	/**
-	 * Check if has property with a given name.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the property with the given name.</p>
 	 */
 	final public function has(string $name): bool
 	{
@@ -52,7 +52,7 @@ final class Info
 	}
 	
 	/**
-	 * Get property value with a given name.
+	 * Get value from a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
@@ -60,7 +60,7 @@ final class Info
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Traits\DebugInfo\Info\Exceptions\PropertyNotFound
 	 * @return mixed
-	 * <p>The property value with the given name.<br>
+	 * <p>The value from the property with the given name.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> may also be returned if it was not found.</p>
 	 */

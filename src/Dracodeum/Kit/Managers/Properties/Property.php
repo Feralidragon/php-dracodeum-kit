@@ -284,11 +284,8 @@ class Property implements IUncloneable
 		$map = $maps[$manager_mode];
 		if (!isset($map[$mode])) {
 			UCall::haltParameter('mode', $mode, [
-				'hint_message' => "Only the following mode is allowed for property {{property.getName()}} " . 
+				'hint_message' => "Only the following modes are allowed for property {{property.getName()}} " . 
 					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
-				'hint_message_plural' => "Only the following modes are allowed for property {{property.getName()}} " . 
-					"in manager with owner {{property.getManager().getOwner()}}: {{modes}}.",
-				'hint_message_number' => count($map),
 				'parameters' => ['property' => $this, 'modes' => array_keys($map)],
 				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 			]);
@@ -336,8 +333,8 @@ class Property implements IUncloneable
 	 * Set as automatic.
 	 * 
 	 * By setting this property as automatic, no value is allowed to be set while this property has not yet been 
-	 * persisted at least once, as the value of this property is meant to be automatically generated during the first 
-	 * data persistence.<br>
+	 * persisted at least once, as the value of this property is to be automatically generated during the first 
+	 * persistence.<br>
 	 * <br>
 	 * This method may only be called before initialization, of both the property and the manager.
 	 * 
@@ -396,8 +393,8 @@ class Property implements IUncloneable
 	 * Set as auto-immutable (both automatic and immutable).
 	 * 
 	 * By setting this property as auto-immutable (both automatic and immutable), no value is ever allowed to be set, 
-	 * as the value of this property is meant to be automatically generated once during the first data persistence and 
-	 * then remain as an immutable read-only value.<br>
+	 * as the value of this property is to be automatically generated once during the first persistence and then remain 
+	 * as an immutable read-only value.<br>
 	 * <br>
 	 * This method may only be called before initialization, of both the property and the manager.
 	 * 
@@ -784,7 +781,9 @@ class Property implements IUncloneable
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The value to set.</p>
+	 * &nbsp; &nbsp; &nbsp; The value to set.<br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

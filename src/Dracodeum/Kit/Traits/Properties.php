@@ -35,12 +35,12 @@ trait Properties
 	
 	//Final public magic methods
 	/**
-	 * Get property value with a given name.
+	 * Get value from a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return mixed
-	 * <p>The property value with the given name.</p>
+	 * <p>The value from the property with the given name.</p>
 	 */
 	final public function __get(string $name)
 	{
@@ -48,7 +48,7 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property with a given name is set.
+	 * Check if a property with a given name is set.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -61,12 +61,12 @@ trait Properties
 	}
 	
 	/**
-	 * Set property with a given name and value.
+	 * Set value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
-	 * <p>The value to set with.</p>
+	 * <p>The value to set.</p>
 	 * @return void
 	 */
 	final public function __set(string $name, $value): void
@@ -75,7 +75,7 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property with a given name.
+	 * Unset value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
@@ -90,14 +90,14 @@ trait Properties
 	
 	//Final public methods
 	/**
-	 * Check if has property with a given name.
+	 * Check if has a property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the property with the given name.</p>
 	 */
 	final public function has(string $name): bool
 	{
@@ -105,7 +105,7 @@ trait Properties
 	}
 	
 	/**
-	 * Get property value with a given name.
+	 * Get value from a property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
@@ -114,7 +114,7 @@ trait Properties
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
-	 * <p>The property value with the given name.</p>
+	 * <p>The value from the property with the given name.</p>
 	 */
 	final public function get(string $name, bool $lazy = false)
 	{
@@ -122,18 +122,17 @@ trait Properties
 	}
 	
 	/**
-	 * Get boolean property value with a given name.
+	 * Get boolean value from a property with a given name.
 	 * 
-	 * This method is an alias of the <code>get</code> method, 
-	 * however it only allows properties which hold boolean values, 
-	 * and is simply meant to improve code readability when retrieving boolean properties specifically.<br>
+	 * This method is an alias of the <code>get</code> method, however it only returns a boolean property value, 
+	 * and is used to improve code readability when retrieving boolean properties specifically.<br>
 	 * <br>
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
-	 * <p>The boolean property value with the given name.</p>
+	 * <p>The boolean value from the property with the given name.</p>
 	 */
 	final public function is(string $name): bool
 	{
@@ -141,7 +140,7 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property with a given name is set.
+	 * Check if a property with a given name is set.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
@@ -156,7 +155,7 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property with a given name is initialized.
+	 * Check if a property with a given name is initialized.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -169,7 +168,7 @@ trait Properties
 	}
 	
 	/**
-	 * Check if property with a given name is defaulted.
+	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -188,25 +187,24 @@ trait Properties
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool|null
-	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property with the given name, 
-	 * boolean <code>false</code> if otherwise, and <code>null</code> if the property with the given name was not found.
-	 * </p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property 
+	 * with the given name.</p>
 	 */
-	final public function eval(string $name, &$value): ?bool
+	final public function eval(string $name, &$value): bool
 	{
 		return $this->getPropertiesManager()->eval($name, $value);
 	}
 	
 	/**
-	 * Set property with a given name and value.
+	 * Set value in a property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
-	 * <p>The value to set with.</p>
+	 * <p>The value to set.</p>
 	 * @param bool $force [default = false]
 	 * <p>Force the given value to be fully evaluated and set, 
 	 * even if the property with the given name is set as lazy.</p>
@@ -220,7 +218,7 @@ trait Properties
 	}
 	
 	/**
-	 * Unset property with a given name.
+	 * Unset value in a property with a given name.
 	 * 
 	 * This method may only be called after the properties manager initialization.
 	 * 
@@ -589,8 +587,9 @@ trait Properties
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @param array|null $remainder [reference output] [default = null]
-	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
-	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * <p>The properties remainder.<br>
+	 * If set, then it is filled with all remaining properties which have not been found from the given 
+	 * <var>$properties</var> above, as <samp>name => value</samp> pairs or 
 	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>

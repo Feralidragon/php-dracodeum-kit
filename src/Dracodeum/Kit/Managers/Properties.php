@@ -13,6 +13,7 @@ use Dracodeum\Kit\{
 };
 use Dracodeum\Kit\Interfaces\{
 	Uid as IUid,
+	Properties as IProperties,
 	DebugInfo as IDebugInfo,
 	Keyable as IKeyable
 };
@@ -24,7 +25,6 @@ use Dracodeum\Kit\Managers\Properties\{
 };
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
-use Dracodeum\Kit\Interfaces\Properties as IProperties;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -37,15 +37,18 @@ use Dracodeum\Kit\Utilities\{
  * to a specific mode of operation (strict read-only, read-only, read-write, write-only, write-once and 
  * transient write-once).
  * 
- * Each individual property may be set with restrictions and bindings, such as being set as required, 
- * restricted to a specific mode of operation, bound to existing object properties, have a default value, 
- * have their own accessors (a getter and a setter) and their own type or evaluator to limit the type of values 
- * each one may hold.
- * 
+ * Each individual property may be set with restrictions, bindings and other characteristics, such as:<br>
+ * &nbsp; &#8226; &nbsp; being restricted to a specific mode of operation;<br>
+ * &nbsp; &#8226; &nbsp; having their own type or evaluator function to restrict the type of value it may hold;<br>
+ * &nbsp; &#8226; &nbsp; having its own accessor functions (a getter or a setter or both);<br>
+ * &nbsp; &#8226; &nbsp; being bound to an existing native object property;<br>
+ * &nbsp; &#8226; &nbsp; having a default value or getter function;<br>
+ * &nbsp; &#8226; &nbsp; being set as lazy.<br>
+ * <br>
  * These properties may also be persisted to any data storage of choice, through the addition and implementation of 
  * persistence functions to both insert and update property values, with each individual property able to be defined as 
  * automatic (automatically generated value during insert, disallowing the value to be set before insertion) or 
- * immutable (disallowing the value to be set to a new value after insertion) or both.
+ * immutable (disallowing the value to be modified after insertion) or both.
  */
 class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKeyable
 {
@@ -152,13 +155,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function __construct(object $owner, bool $lazy = false, string $mode = 'rw')
 	{
 		//guard
-		UCall::guardParameter('mode', $mode, in_array($mode, self::MODES, true), [
-			'hint_message' => "Only the following mode is allowed in manager with owner {{owner}}: {{modes}}.",
-			'hint_message_plural' => "Only the following modes are allowed in manager with owner {{owner}}: {{modes}}.",
-			'hint_message_number' => count(self::MODES),
-			'parameters' => ['owner' => $owner, 'modes' => self::MODES],
-			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-		]);
+		if (!in_array($mode, self::MODES, true)) {
+			UCall::haltParameter('mode', $mode, [
+				'hint_message' => "Only the following modes are allowed in manager with owner {{owner}}: {{modes}}.",
+				'parameters' => ['owner' => $owner, 'modes' => self::MODES],
+				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+			]);
+		}
 		
 		//initialize
 		$this->owner = $owner;
@@ -311,16 +314,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function setAsReadonly(): Properties
 	{
-		//guard
-		UCall::guard($this->isInitialized(), [
-			'hint_message' => "This method may only be called after initialization, in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		
-		//set
+		$this->guardInitializedCall();
 		$this->flags |= self::FLAG_READONLY;
-		
-		//return
 		return $this;
 	}
 	
@@ -347,8 +342,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * The properties, corresponding to the given names added here, must be given during initialization.<br>
 	 * <br>
-	 * This method may only be called before initialization, with lazy-loading enabled 
-	 * and only if the base mode is not set to strict read-only.
+	 * This method may only be called before initialization and with lazy-loading enabled.
 	 * 
 	 * @param string[] $names
 	 * <p>The names to add.</p>
@@ -358,26 +352,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function addRequiredPropertyNames(array $names): Properties
 	{
 		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		UCall::guard($this->isLazy(), [
-			'hint_message' => "In order to explicitly set property {{names}} as required " . 
-				"in manager with owner {{owner}}, please use the {{method}} method instead from " . 
-				"the corresponding property instance, as lazy-loading is disabled in this manager.",
-			'hint_message_plural' => "In order to explicitly set properties {{names}} as required " . 
-				"in manager with owner {{owner}}, please use the {{method}} method instead from " . 
-				"the corresponding property instances, as lazy-loading is disabled in this manager.",
-			'hint_message_number' => count($names),
-			'parameters' => ['names' => $names, 'owner' => $this->owner, 'method' => 'setAsRequired'],
-			'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-		]);
-		UCall::guard($this->mode !== 'r', [
-			'error_message' => "Required property names cannot be set as all properties are strictly read-only, " . 
-				"in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
+		$this->guardNonInitializedCall();
+		if (!$this->isLazy()) {
+			UCall::halt([
+				'hint_message' => "Lazy-loading is disabled in manager with owner {{owner}}, " . 
+					"therefore any property is implicitly required if it is not explicitly set as optional.",
+				'parameters' => ['owner' => $this->owner]
+			]);
+		}
 		
 		//add
 		$this->required_map += array_fill_keys($names, true);
@@ -412,33 +394,37 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function addProperty(string $name): Property
 	{
 		//guard
-		UCall::guard(!$this->isLazy(), [
-			'hint_message' => "In order to add new properties to manager with owner {{owner}}, " . 
-				"please set and use a builder function instead, as lazy-loading is enabled in this manager.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		UCall::guardParameter('name', $name, !isset($this->properties[$name]), [
-			'error_message' => "Property {{name}} already added to manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
+		$this->guardNonInitializedCall();
+		if ($this->isLazy()) {
+			UCall::halt([
+				'hint_message' => "Lazy-loading is enabled in manager with owner {{owner}}, " . 
+					"therefore in order to add new properties please set and use a builder function instead.",
+				'parameters' => ['owner' => $this->owner]
+			]);
+		} elseif (isset($this->properties[$name])) {
+			UCall::haltParameter('name', $name, [
+				'error_message' => "A property {{name}} has already been added to manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//property
 		$property = $this->createProperty($name);
-		UCall::guardInternal($property->getName() === $name, [
-			'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}, " . 
-				"in manager with owner {{owner}}.",
-			'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guardInternal($property->getManager() === $this, [
-			'error_message' => "Manager mismatch for property {{property.getName()}}, in manager with owner {{owner}}.",
-			'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
-				"must be exactly the same.",
-			'parameters' => ['property' => $property, 'owner' => $this->owner]
-		]);
+		if ($property->getName() !== $name) {
+			UCall::haltInternal([
+				'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}} " . 
+					"in manager with owner {{owner}}.",
+				'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($property->getManager() !== $this) {
+			UCall::haltInternal([
+				'error_message' => "Manager mismatch for property {{property.getName()}} " . 
+					"in manager with owner {{owner}}.",
+				'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
+					"must be exactly the same.",
+				'parameters' => ['property' => $property, 'owner' => $this->owner]
+			]);
+		}
 		$this->properties[$name] = $property;
 		
 		//return
@@ -469,50 +455,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function setBuilder(callable $builder): Properties
 	{
-		UCall::guard($this->isLazy(), [
-			'hint_message' => "A builder function cannot be set in manager with owner {{owner}}, " . 
-				"as lazy-loading is disabled.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
+		//guard
+		$this->guardNonInitializedCall();
+		if (!$this->isLazy()) {
+			UCall::halt([
+				'hint_message' => "Lazy-loading is disabled in manager with owner {{owner}}, " . 
+					"therefore a builder function cannot be set.",
+				'parameters' => ['owner' => $this->owner]
+			]);
+		}
+		
+		//set
 		UCall::assert('builder', $builder, function (string $name): ?Property {});
 		$this->builder = \Closure::fromCallable($builder);
+		
+		//return
 		return $this;
-	}
-	
-	/**
-	 * Check if has already been persisted at least once.
-	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if has already been recursively persisted at least once.</p>
-	 * @return bool
-	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
-	 */
-	final public function isPersisted(bool $recursive = false): bool
-	{
-		if ($this->flags & self::FLAG_PERSISTED) {
-			if ($recursive) {
-				foreach ($this->properties as $property) {
-					if (
-						$property->isInitialized() && !$property->hasLazyValue() && 
-						!UType::persistedValue($property->getValue(), true, true)
-					) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		return false;
 	}
 	
 	/**
 	 * Set remainderer function.
 	 * 
-	 * A remainderer function is meant to handle any remaining properties which were not found during initialization, 
+	 * A remainderer function is used to handle any remaining properties which were not found during initialization, 
 	 * and is executed before any given properties are set.<br>
 	 * It is also executed even if all given properties were found without any remaining properties left to handle, 
 	 * resulting in an execution with an empty properties array.<br>
@@ -537,10 +501,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function setRemainderer(callable $remainderer): Properties
 	{
-		UCall::guard(!$this->isInitialized(), [
-			'hint_message' => "This method may only be called before initialization, in manager with owner {{owner}}.",
-			'parameters' => ['owner' => $this->owner]
-		]);
+		$this->guardNonInitializedCall();
 		UCall::assert('remainderer', $remainderer, function (array $properties): void {});
 		$this->remainderer = \Closure::fromCallable($remainderer);
 		return $this;
@@ -549,11 +510,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/**
 	 * Set fallback object.
 	 * 
-	 * By setting a fallback object, any property not found in this manager is attempted to be got from 
+	 * By setting a fallback object, any property not found in this instance is attempted to be retrieved from 
 	 * the given fallback object instead.
 	 * 
 	 * @param \Dracodeum\Kit\Interfaces\Properties $object
-	 * <p>The object to set.</p>
+	 * <p>The object to set, as an object implementing the <code>Dracodeum\Kit\Interfaces\Properties</code> 
+	 * interface.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -607,8 +569,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * @param bool $persisted [default = false]
 	 * <p>Set properties as having already been persisted at least once.</p>
 	 * @param array|null $remainder [reference output] [default = null]
-	 * <p>The properties remainder, which, if set, is gracefully filled with all remaining properties which have 
-	 * not been found from the given <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * <p>The properties remainder.<br>
+	 * If set, then it is filled with all remaining properties which have not been found from the given 
+	 * <var>$properties</var> above, as <samp>name => value</samp> pairs or 
 	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -618,18 +581,18 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	): Properties
 	{
 		//guard
-		UCall::guard(!$this->isInitialized(), [
-			'error_message' => "Manager with owner {{owner}} already initialized.",
-			'parameters' => ['owner' => $this->owner]
-		]);
-		UCall::guard(!$this->isLazy() || isset($this->builder), [
-			'error_message' => "No builder function set in manager with owner {{owner}}.",
-			'hint_message' => "A builder function is required to be set, as lazy-loading is enabled.",
-			'parameters' => ['owner' => $this->owner]
-		]);
+		$this->guardNonInitializedCall();
+		if ($this->isLazy() && $this->builder === null) {
+			UCall::halt([
+				'error_message' => "No builder function set in manager with owner {{owner}}.",
+				'hint_message' => "Lazy-loading is enabled in manager with owner {{owner}}, " . 
+					"therefore a builder function must be set.",
+				'parameters' => ['owner' => $this->owner]
+			]);
+		}
 		
-		//initialize remainder
-		if (isset($remainder) || isset($this->remainderer)) {
+		//remainder (initialize)
+		if ($remainder !== null || $this->remainderer !== null) {
 			$remainder = [];
 		}
 		
@@ -639,12 +602,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//initialize
-		$lazy = $this->isLazy();
 		$this->flags |= self::FLAG_INITIALIZING;
 		try {
 			//required (initialize)
 			$required_map = [];
-			if ($lazy) {
+			if ($this->isLazy()) {
 				$required_map = $this->required_map;
 			} else {
 				foreach ($this->properties as $name => $property) {
@@ -654,11 +616,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 			}
 			$required_count = count($required_map);
-			$required_names = array_keys($required_map);
 			
 			//required (process)
-			if (!empty($required_map)) {
-				//prepare
+			if ($required_count) {
+				//remap
+				$required_names = array_keys($required_map);
 				foreach ($properties as $name => $value) {
 					if (is_int($name) && isset($required_names[$name])) {
 						$properties[$required_names[$name]] = $value;
@@ -666,20 +628,24 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					}
 				}
 				
-				//process
+				//missing
 				$missing_names = array_keys(array_diff_key($required_map, $properties));
-				UCall::guardParameter('properties', $properties, empty($missing_names), [
-					'error_message' => "Missing required property {{names}} for manager with owner {{owner}}.",
-					'error_message_plural' => "Missing required properties {{names}} for manager with owner {{owner}}.",
-					'error_message_number' => count($missing_names),
-					'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
-					'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
-				]);
+				$missing_names_count = count($missing_names);
+				if ($missing_names_count) {
+					UCall::haltParameter('properties', $properties, [
+						'error_message' => "Missing required property {{names}} for manager with owner {{owner}}.",
+						'error_message_plural' => "Missing required properties {{names}} " . 
+							"for manager with owner {{owner}}.",
+						'error_message_number' => $missing_names_count,
+						'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
+						'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+					]);
+				}
 			}
 			
-			//remainder properties
-			if (isset($remainder)) {
-				//remainder
+			//remainder (properties)
+			if ($remainder !== null) {
+				//process
 				foreach ($properties as $name => $value) {
 					if (is_int($name)) {
 						$remainder[$name - $required_count] = $value;
@@ -691,7 +657,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 				
 				//remainderer
-				if (isset($this->remainderer)) {
+				if ($this->remainderer !== null) {
 					($this->remainderer)($remainder);
 					$this->remainderer = null;
 				}
@@ -699,47 +665,52 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			
 			//properties (set value)
 			foreach ($properties as $name => $value) {
-				//initialize
+				//property
 				$property = $this->getProperty($name);
 				
 				//guard
-				UCall::guardParameter('properties', $properties, $property->getMode() !== 'r', [
-					'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
-					'parameters' => ['name' => $name, 'owner' => $this->owner]
-				]);
+				if ($property->getMode() === 'r') {
+					UCall::haltParameter('properties', $properties, [
+						'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
+						'parameters' => ['name' => $name, 'owner' => $this->owner]
+					]);
+				}
 				
 				//guard (persistence)
 				if (!$persisted) {
-					UCall::guardParameter('properties', $properties, !$property->isAutoImmutable(), [
-						'error_message' => "Cannot set auto-immutable property {{name}} in manager " . 
-							"with owner {{owner}}.",
-						'hint_message' => "Auto-immutable properties cannot be set.",
-						'parameters' => ['name' => $name, 'owner' => $this->owner]
-					]);
-					UCall::guardParameter('properties', $properties, !$property->isAutomatic(), [
-						'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
-						'hint_message' => "Automatic properties may only be set after the first data persistence.",
-						'parameters' => ['name' => $name, 'owner' => $this->owner]
-					]);
+					if ($property->isAutoImmutable()) {
+						UCall::haltParameter('properties', $properties, [
+							'error_message' => "Cannot set auto-immutable property {{name}} in manager " . 
+								"with owner {{owner}}.",
+							'hint_message' => "Auto-immutable properties cannot be set.",
+							'parameters' => ['name' => $name, 'owner' => $this->owner]
+						]);
+					} elseif ($property->isAutomatic()) {
+						UCall::haltParameter('properties', $properties, [
+							'error_message' => "Cannot set automatic property {{name}} in manager " . 
+								"with owner {{owner}}.",
+							'hint_message' => "Automatic properties may only be set after the first persistence.",
+							'parameters' => ['name' => $name, 'owner' => $this->owner]
+						]);
+					}
 				}
 				
 				//set
-				UCall::guardParameter('properties', $properties, $property->setValue($value, false, true), [
-					'error_message' => "Invalid value {{value}} for property {{name}} in manager with owner {{owner}}.",
-					'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
-				]);
+				if (!$property->setValue($value, false, true)) {
+					UCall::haltParameter('properties', $properties, [
+						'error_message' => "Invalid value {{value}} for property {{name}} in manager " . 
+							"with owner {{owner}}.",
+						'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
+					]);
+				}
 			}
 			
-			//properties (finish)
+			//properties (finalize)
 			foreach ($this->properties as $name => $property) {
-				//initialize
-				if (!$lazy && !$property->isInitialized() && $property->isGettable()) {
-					$property->initialize();
-				}
-				
-				//transient write-once
 				if ($property->getMode() === 'w--') {
 					unset($this->properties[$name]);
+				} elseif (!$property->isInitialized() && $property->isGettable()) {
+					$property->initialize();
 				}
 			}
 			
@@ -758,32 +729,32 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
-	 * Check if has property with a given name.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the property with the given name.</p>
 	 */
 	final public function has(string $name): bool
 	{
 		if ($this->hasProperty($name)) {
 			return true;
-		} elseif (isset($this->fallback_object)) {
+		} elseif ($this->fallback_object !== null) {
 			return $this->fallback_object->has($name);
 		}
 		return false;
 	}
 	
 	/**
-	 * Get property value with a given name.
+	 * Get value from a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
-	 * <p>The property value with the given name.</p>
+	 * <p>The value from the property with the given name.</p>
 	 */
 	final public function get(string $name, bool $lazy = false)
 	{
@@ -806,38 +777,39 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
-	 * Get boolean property value with a given name.
+	 * Get boolean value from a property with a given name.
 	 * 
-	 * This method is an alias of the <code>get</code> method, 
-	 * however it only allows properties which hold boolean values, 
-	 * and is simply meant to improve code readability when retrieving boolean properties specifically.
+	 * This method is an alias of the <code>get</code> method, however it only returns a boolean property value, 
+	 * and is used to improve code readability when retrieving boolean properties specifically.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
-	 * <p>The boolean property value with the given name.</p>
+	 * <p>The boolean value from the property with the given name.</p>
 	 */
 	final public function is(string $name): bool
 	{
 		//fallback
-		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
 			return $this->fallback_object->is($name);
 		}
 		
 		//value
 		$value = $this->get($name);
-		UCall::guard(is_bool($value), [
-			'error_message' => "Invalid value {{value}} in property {{name}} in manager with owner {{owner}}.",
-			'hint_message' => "Only a boolean property is allowed be returned with this method.",
-			'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
-		]);
+		if (!is_bool($value)) {
+			UCall::halt([
+				'error_message' => "Invalid value {{value}} in property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Only a boolean value is allowed be returned by this method.",
+				'parameters' => ['name' => $name, 'value' => $value, 'owner' => $this->owner]
+			]);
+		}
 		
 		//return
 		return $value;
 	}
 	
 	/**
-	 * Check if property with a given name is set.
+	 * Check if a property with a given name is set.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -848,14 +820,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		if ($this->hasProperty($name)) {
 			return $this->get($name) !== null;
-		} elseif (isset($this->fallback_object)) {
+		} elseif ($this->fallback_object !== null) {
 			return $this->fallback_object->isset($name);
 		}
 		return false;
 	}
 	
 	/**
-	 * Check if property with a given name is loaded.
+	 * Check if a property with a given name is loaded.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -868,7 +840,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
-	 * Check if property with a given name is initialized.
+	 * Check if a property with a given name is initialized.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -883,7 +855,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
-	 * Check if property with a given name is defaulted.
+	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -904,27 +876,24 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool|null
-	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property with the given name, 
-	 * boolean <code>false</code> if otherwise, and <code>null</code> if the property with the given name was not found.
-	 * </p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property 
+	 * with the given name.</p>
 	 */
-	final public function eval(string $name, &$value): ?bool
+	final public function eval(string $name, &$value): bool
 	{
-		$property = $this->getProperty($name, true);
-		if ($property === null) {
-			return $this->fallback_object !== null ? $this->fallback_object->eval($name, $value) : null;
-		}
-		return $property->evaluateValue($value);
+		return $this->fallback_object !== null && !$this->hasProperty($name)
+			? $this->fallback_object->eval($name, $value)
+			: $this->getProperty($name)->evaluateValue($value);
 	}
 	
 	/**
-	 * Set property with a given name and value.
+	 * Set value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
-	 * <p>The value to set with.</p>
+	 * <p>The value to set.</p>
 	 * @param bool $force [default = false]
 	 * <p>Force the given value to be fully evaluated and set, 
 	 * even if the property with the given name is set as lazy.</p>
@@ -934,7 +903,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function set(string $name, $value, bool $force = false): Properties
 	{
 		//fallback
-		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
 			$this->fallback_object->set($name, $value, $force);
 			return $this;
 		}
@@ -944,51 +913,60 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		$property_mode = $property->getMode();
 		
 		//guard
-		UCall::guard(!$this->isReadonly(), [
-			'error_message' => "Cannot set property {{name}} in read-only manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
-			'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard($property_mode !== 'w-' && $property_mode !== 'w--', [
-			'error_message' => "Cannot set write-once property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		
-		//guard (persistence)
-		UCall::guard(!$property->isAutoImmutable(), [
-			'error_message' => "Cannot set auto-immutable property {{name}} in manager with owner {{owner}}.",
-			'hint_message' => "Auto-immutable properties cannot be set.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		if ($this->isPersisted()) {
-			UCall::guard(!$property->isImmutable(), [
-				'error_message' => "Cannot set immutable property {{name}} in manager with owner {{owner}}.",
-				'hint_message' => "Immutable properties may only be set before the first data persistence.",
+		if ($this->isReadonly()) {
+			UCall::halt([
+				'error_message' => "Cannot set value in property {{name}} in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} else {
-			UCall::guard(!$property->isAutomatic(), [
-				'error_message' => "Cannot set automatic property {{name}} in manager with owner {{owner}}.",
-				'hint_message' => "Automatic properties may only be set after the first data persistence.",
+		} elseif ($property_mode === 'r' || $property_mode === 'r+') {
+			UCall::halt([
+				'error_message' => "Cannot set value in read-only property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
+			UCall::halt([
+				'error_message' => "Cannot set value in write-once property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
+		
+		//guard (persistence)
+		$persisted = $this->isPersisted();
+		if ($property->isAutoImmutable()) {
+			UCall::halt([
+				'error_message' => "Cannot set value in auto-immutable property {{name}} in manager " . 
+					"with owner {{owner}}.",
+				'hint_message' => "Auto-immutable properties cannot be set.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif (!$persisted && $property->isAutomatic()) {
+			UCall::halt([
+				'error_message' => "Cannot set value in automatic property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Automatic properties may only be set after the first persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($persisted && $property->isImmutable()) {
+			UCall::halt([
+				'error_message' => "Cannot set value in immutable property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Immutable properties may only be set before the first persistence.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
 		}
 		
 		//set
-		UCall::guardParameter('value', $value, $property->setValue($value, $force, true), [
-			'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
+		if (!$property->setValue($value, $force, true)) {
+			UCall::haltParameter('value', $value, [
+				'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//return
 		return $this;
 	}
 	
 	/**
-	 * Unset property with a given name.
+	 * Unset value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
@@ -998,7 +976,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function unset(string $name): Properties
 	{
 		//fallback
-		if (isset($this->fallback_object) && !$this->hasProperty($name)) {
+		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
 			$this->fallback_object->unset($name);
 			return $this;
 		}
@@ -1008,40 +986,43 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		$property_mode = $property->getMode();
 		
 		//guard
-		UCall::guard(!$this->isReadonly(), [
-			'error_message' => "Cannot unset property {{name}} in read-only manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard($property_mode !== 'r' && $property_mode !== 'r+', [
-			'error_message' => "Cannot unset read-only property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard($property_mode !== 'w-' && $property_mode !== 'w--', [
-			'error_message' => "Cannot unset write-once property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		UCall::guard(!$property->isRequired(), [
-			'error_message' => "Cannot unset required property {{name}} in manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
+		if ($this->isReadonly()) {
+			UCall::halt([
+				'error_message' => "Cannot unset value in property {{name}} in read-only manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($property_mode === 'r' || $property_mode === 'r+') {
+			UCall::halt([
+				'error_message' => "Cannot unset value in read-only property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
+			UCall::halt([
+				'error_message' => "Cannot unset value in write-once property {{name}} in manager " . 
+					"with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		
 		//guard (persistence)
 		$persisted = $this->isPersisted();
-		UCall::guard(!$property->isAutoImmutable(), [
-			'error_message' => "Cannot unset auto-immutable property {{name}} in manager with owner {{owner}}.",
-			'hint_message' => "Auto-immutable properties cannot be unset.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		if ($persisted) {
-			UCall::guard(!$property->isImmutable(), [
-				'error_message' => "Cannot unset immutable property {{name}} in manager with owner {{owner}}.",
-				'hint_message' => "Immutable properties may only be unset before the first data persistence.",
+		if ($property->isAutoImmutable()) {
+			UCall::halt([
+				'error_message' => "Cannot unset value in auto-immutable property {{name}} in manager " . 
+					"with owner {{owner}}.",
+				'hint_message' => "Auto-immutable properties cannot be unset.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} else {
-			UCall::guard(!$property->isAutomatic(), [
-				'error_message' => "Cannot unset automatic property {{name}} in manager with owner {{owner}}.",
-				'hint_message' => "Automatic properties may only be unset after the first data persistence.",
+		} elseif (!$persisted && $property->isAutomatic()) {
+			UCall::halt([
+				'error_message' => "Cannot unset value in automatic property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Automatic properties may only be unset after the first persistence.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		} elseif ($persisted && $property->isImmutable()) {
+			UCall::halt([
+				'error_message' => "Cannot unset value in immutable property {{name}} in manager with owner {{owner}}.",
+				'hint_message' => "Immutable properties may only be unset before the first persistence.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
 		}
@@ -1049,6 +1030,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//unset
 		if ($persisted && array_key_exists($name, $this->persisted_values)) {
 			$property->setValue($this->persisted_values[$name]);
+		} elseif ($property->isRequired()) {
+			UCall::halt([
+				'error_message' => "Cannot unset value in required property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
 		} else {
 			$property->unsetValue();
 		}
@@ -1079,7 +1065,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//fallback
-		if (isset($this->fallback_object)) {
+		if ($this->fallback_object !== null) {
 			$properties += $this->fallback_object->getAll($lazy);
 		}
 		
@@ -1107,6 +1093,32 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			}
 		}
 		return $properties;
+	}
+	
+	/**
+	 * Check if has already been persisted at least once.
+	 * 
+	 * @param bool $recursive [default = false]
+	 * <p>Check if has already been recursively persisted at least once.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
+	 */
+	final public function isPersisted(bool $recursive = false): bool
+	{
+		if ($this->flags & self::FLAG_PERSISTED) {
+			if ($recursive) {
+				foreach ($this->properties as $property) {
+					if (
+						$property->isInitialized() && !$property->hasLazyValue() && 
+						!UType::persistedValue($property->getValue(), true, true)
+					) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -1573,6 +1585,40 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			$this->properties[$name] = $property;
 		}
 		return $this->properties[$name];
+	}
+	
+	/**
+	 * Guard the current function or method in the stack so it may only be called if this instance is not initialized.
+	 * 
+	 * @return void
+	 */
+	final protected function guardNonInitializedCall(): void
+	{
+		if ($this->isInitialized()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called before initialization, " . 
+					"in manager with owner {{owner}}.",
+				'parameters' => ['owner' => $this->owner],
+				'stack_offset' => 1
+			]);
+		}
+	}
+	
+	/**
+	 * Guard the current function or method in the stack so it may only be called if this instance is initialized.
+	 * 
+	 * @return void
+	 */
+	final protected function guardInitializedCall(): void
+	{
+		if (!$this->isInitialized()) {
+			UCall::halt([
+				'hint_message' => "This method may only be called after initialization, " . 
+					"in manager with owner {{owner}}.",
+				'parameters' => ['owner' => $this->owner],
+				'stack_offset' => 1
+			]);
+		}
 	}
 	
 	

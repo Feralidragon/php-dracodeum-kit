@@ -12,29 +12,29 @@ interface Properties
 {
 	//Public methods
 	/**
-	 * Check if has property with a given name.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the property with the given name.</p>
 	 */
 	public function has(string $name): bool;
 	
 	/**
-	 * Get property with a given name.
+	 * Get value from a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
 	 * @return mixed
-	 * <p>The property with the given name.</p>
+	 * <p>The value from the property with the given name.</p>
 	 */
 	public function get(string $name, bool $lazy = false);
 	
 	/**
-	 * Get boolean property with a given name.
+	 * Get boolean value from a property with a given name.
 	 * 
 	 * This method is an alias of the <code>get</code> method, 
 	 * however it is only meant to allow properties which hold boolean values, 
@@ -43,12 +43,12 @@ interface Properties
 	 * @param string $name
 	 * <p>The name to get with.</p>
 	 * @return bool
-	 * <p>The boolean property with the given name.</p>
+	 * <p>The boolean value from the property with the given name.</p>
 	 */
 	public function is(string $name): bool;
 	
 	/**
-	 * Check if property with a given name is set.
+	 * Check if a property with a given name is set.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -58,7 +58,7 @@ interface Properties
 	public function isset(string $name): bool;
 	
 	/**
-	 * Check if property with a given name is initialized.
+	 * Check if a property with a given name is initialized.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -68,7 +68,7 @@ interface Properties
 	public function initialized(string $name): bool;
 	
 	/**
-	 * Check if property with a given name is defaulted.
+	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
@@ -84,20 +84,19 @@ interface Properties
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @return bool|null
-	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property with the given name, 
-	 * boolean <code>false</code> if otherwise, and <code>null</code> if the property with the given name was not found.
-	 * </p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given value was successfully evaluated with the property 
+	 * with the given name.</p>
 	 */
-	public function eval(string $name, &$value): ?bool;
+	public function eval(string $name, &$value): bool;
 	
 	/**
-	 * Set property with a given name and value.
+	 * Set value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
-	 * <p>The value to set with.</p>
+	 * <p>The value to set.</p>
 	 * @param bool $force [default = false]
 	 * <p>Force the given value to be fully evaluated and set, 
 	 * even if the property with the given name is set as lazy.</p>
@@ -107,7 +106,7 @@ interface Properties
 	public function set(string $name, $value, bool $force = false): object;
 	
 	/**
-	 * Unset property with a given name.
+	 * Unset value in a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
