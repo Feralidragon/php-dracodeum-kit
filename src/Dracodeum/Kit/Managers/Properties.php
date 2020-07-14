@@ -27,7 +27,6 @@ use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
-	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -182,7 +181,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			$properties[$name] = $property->isInitialized() ? $property->getValue(true) : null;
+			$properties[$name] = $property->isGettable() ? $property->getValue(true) : null;
 		}
 		
 		//set
@@ -234,7 +233,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
+			if ($property->isGettable()) {
 				$properties[$name] = $property->getValue(true);
 			}
 		}
@@ -709,7 +708,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			foreach ($this->properties as $name => $property) {
 				if ($property->getMode() === 'w--') {
 					unset($this->properties[$name]);
-				} elseif (!$property->isInitialized() && $property->isGettable()) {
+				} elseif ($property->isInitializeable()) {
 					$property->initialize();
 				}
 			}
@@ -1059,7 +1058,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized() && $property->getMode()[0] === 'r') {
+			if ($property->isGettable() && $property->getMode()[0] === 'r') {
 				$properties[$name] = $property->getValue($lazy);
 			}
 		}
@@ -1087,8 +1086,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function getAllInitializeable(bool $lazy = false): array
 	{
 		$properties = [];
+		$persisted = $this->isPersisted();
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized() && $property->getMode() !== 'r') {
+			if (
+				$property->isGettable() && $property->getMode() !== 'r' && $property->isSettable() && (
+					(!$persisted && !$property->isAutomatic()) || ($persisted && !$property->isImmutable())
+				)
+			) {
 				$properties[$name] = $property->getValue($lazy);
 			}
 		}
@@ -1109,7 +1113,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			if ($recursive) {
 				foreach ($this->properties as $property) {
 					if (
-						$property->isInitialized() && !$property->hasLazyValue() && 
+						$property->isGettable() && !$property->hasLazyValue() && 
 						!UType::persistedValue($property->getValue(), true, true)
 					) {
 						return false;
@@ -1135,21 +1139,20 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The property values to insert, as <samp>name => value</samp> pairs.<br>
-	 * &nbsp; &nbsp; &nbsp; Automatic properties are not included in this set, being required to be automatically 
-	 * generated during insertion.<br>
+	 * &nbsp; &nbsp; &nbsp; Automatic properties may not be included in this set, in which case they are required to be 
+	 * automatically generated during insertion.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
 	 * The inserted property values, including all automatically generated ones not set in <var>$values</var>, 
 	 * as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
-	 * thus all automatically generated property values must be returned, whereas any other property value may 
-	 * optionally be either returned or not, with any corresponding property keeping its current value if a new one is 
-	 * not returned.<br>
+	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
+	 * therefore all automatically generated property values must be returned, whereas any other property value may 
+	 * be either returned or not, with any property keeping its current value if a new one is not returned.<br>
 	 * <br>
-	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param callable $updater
-	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
+	 * <p>The function to use to update from an old given set of property values to a new given set.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $old_values, array $new_values, array $changed_names): array</code><br>
@@ -1165,11 +1168,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * Return: <code><b>array</b></code><br>
 	 * The updated property values, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
-	 * thus any property value may optionally be either returned or not, with any corresponding property keeping its 
-	 * current value if a new one is not returned.<br>
+	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
+	 * therefore any property value may be either returned or not, with any property keeping its current value if a new 
+	 * one is not returned.<br>
 	 * <br>
-	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param bool $changes_only [default = false]
 	 * <p>Include only changed property values, both old and new, during an update.</p>
 	 * @param bool $recursive [default = false]
@@ -1192,8 +1195,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//recursive
 		if ($recursive) {
-			foreach ($this->properties as $name => $property) {
-				if ($property->isInitialized()) {
+			foreach ($this->properties as $property) {
+				if ($property->isGettable()) {
 					$value = $property->getValue();
 					if (is_object($value) && UType::persistable($value)) {
 						UType::persist($value, true);
@@ -1208,7 +1211,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		$old_values = $this->persisted_values;
 		$old_keys = $this->persisted_keys;
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
+			if ($property->isGettable()) {
 				//initialize
 				$value = $property->getValue();
 				$new_values[$name] = $value;
@@ -1253,11 +1256,11 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 			}
 		} else {
-			$changes_map = array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
+			$changes_map = array_fill_keys(array_keys($new_values), true);
 		}
 		
 		//check
-		if (empty($changes_map)) {
+		if (!count($changes_map)) {
 			return $this;
 		}
 		
@@ -1295,7 +1298,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					$missing_names[] = $name;
 				}
 			}
-			if (!empty($missing_names)) {
+			if (count($missing_names)) {
 				UCall::haltExecution($inserter, [
 					'value' => $values,
 					'error_message' => "Missing automatically generated property {{names}} " . 
@@ -1368,7 +1371,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//values
 		$values = $persistables = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized()) {
+			if ($property->isGettable()) {
 				//initialize
 				$value = $property->getValue();
 				$values[$name] = $value;
@@ -1558,7 +1561,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			$property = null;
 			if (isset($this->builder)) {
 				$property = ($this->builder)($name);
-				if ($this->isInitialized() && isset($property) && !$property->isInitialized()) {
+				if ($this->isInitialized() && isset($property) && $property->isInitializeable()) {
 					$property->initialize();
 				}
 			}

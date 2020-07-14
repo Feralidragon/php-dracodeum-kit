@@ -400,21 +400,20 @@ trait Properties
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The property values to insert, as <samp>name => value</samp> pairs.<br>
-	 * &nbsp; &nbsp; &nbsp; Automatic properties are not included in this set, being required to be automatically 
-	 * generated during insertion.<br>
+	 * &nbsp; &nbsp; &nbsp; Automatic properties may not be included in this set, in which case they are required to be 
+	 * automatically generated during insertion.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
 	 * The inserted property values, including all automatically generated ones not set in <var>$values</var>, 
 	 * as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
-	 * thus all automatically generated property values must be returned, whereas any other property value may 
-	 * optionally be either returned or not, with any corresponding property keeping its current value if a new one is 
-	 * not returned.<br>
+	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
+	 * therefore all automatically generated property values must be returned, whereas any other property value may 
+	 * be either returned or not, with any property keeping its current value if a new one is not returned.<br>
 	 * <br>
-	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param callable $updater
-	 * <p>The function to use to update from a given old set of property values to a new given set.<br>
+	 * <p>The function to use to update from an old given set of property values to a new given set.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $old_values, array $new_values, array $changed_names): array</code><br>
@@ -430,11 +429,11 @@ trait Properties
 	 * Return: <code><b>array</b></code><br>
 	 * The updated property values, as <samp>name => value</samp> pairs.<br>
 	 * <br>
-	 * All returned property values are used to reset their corresponding properties to their newly persisted values, 
-	 * thus any property value may optionally be either returned or not, with any corresponding property keeping its 
-	 * current value if a new one is not returned.<br>
+	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
+	 * therefore any property value may be either returned or not, with any property keeping its current value if a new 
+	 * one is not returned.<br>
 	 * <br>
-	 * Any returned property values that have no corresponding properties are ignored.</p>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param bool $changes_only [default = false]
 	 * <p>Include only changed property values, both old and new, during an update.</p>
 	 * @param bool $recursive [default = false]
