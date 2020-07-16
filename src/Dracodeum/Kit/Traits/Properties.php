@@ -453,7 +453,7 @@ trait Properties
 	 * Unpersist properties.
 	 * 
 	 * @param callable|null $deleter [default = null]
-	 * <p>The function to use to delete an old given set of property values.<br>
+	 * <p>The function to use to delete a given old set of property values.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $values): void</code><br>
@@ -490,11 +490,11 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property value, to be persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The old property value.<br>
 	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property value, to be persisted to.</p>
-	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * &nbsp; &nbsp; &nbsp; The new property value.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of a deletion.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -520,11 +520,11 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The old property value.<br>
 	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
-	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * &nbsp; &nbsp; &nbsp; The new property value.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of a deletion.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

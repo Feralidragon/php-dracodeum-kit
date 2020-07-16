@@ -144,17 +144,6 @@ class Property implements IUncloneable
 	}
 	
 	/**
-	 * Check if is initializeable.
-	 * 
-	 * @return bool
-	 * <p>Boolean <code>true</code> if is initializeable.</p>
-	 */
-	final public function isInitializeable(): bool
-	{
-		return !$this->isInitialized() && ($this->flags & self::FLAG_GETTABLE);
-	}
-	
-	/**
 	 * Initialize.
 	 * 
 	 * This method may only be called before initialization.
@@ -172,20 +161,14 @@ class Property implements IUncloneable
 	/**
 	 * Reset.
 	 * 
-	 * This method may only be called after initialization.
-	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function reset(): Property
 	{
-		$this->guardInitializedCall();
 		if (!$this->hasGetter()) {
 			$this->value_getter = null;
 			$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
-			if (!$this->isGettable()) {
-				$this->flags &= ~self::FLAG_INITIALIZED;
-			}
 		}
 		return $this;
 	}

@@ -27,6 +27,7 @@ use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
+	Data as UData,
 	Text as UText,
 	Type as UType
 };
@@ -212,9 +213,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					$property_debug_name = "{$property_debug_name_prefix} {$property_debug_name}";
 				}
 				
-				//uninitialized
-				if (!$property->isInitialized()) {
-					$property_debug_name = "(uninitialized) {$property_debug_name}";
+				//ungettable
+				if (!$property->isGettable()) {
+					$property_debug_name = "(ungettable) {$property_debug_name}";
 				}
 				
 				//set
@@ -708,7 +709,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			foreach ($this->properties as $name => $property) {
 				if ($property->getMode() === 'w--') {
 					unset($this->properties[$name]);
-				} elseif ($property->isInitializeable()) {
+				} elseif (!$property->isInitialized()) {
 					$property->initialize();
 				}
 			}
@@ -1256,7 +1257,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 			}
 		} else {
-			$changes_map = array_fill_keys(array_keys($new_values), true);
+			$changes_map = array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
 		}
 		
 		//check
@@ -1291,26 +1292,29 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//insert
 			$values = $inserter($new_values);
 			
-			//missing names
+			//missing names (process)
 			$missing_names = [];
 			foreach ($this->properties as $name => $property) {
-				if ($property->isAutomatic() && !array_key_exists($name, $values)) {
+				if ($property->isAutomatic() && !$property->isGettable() && !array_key_exists($name, $values)) {
 					$missing_names[] = $name;
 				}
 			}
-			if (count($missing_names)) {
+			
+			//missing names (check)
+			$missing_names_count = count($missing_names);
+			if ($missing_names_count) {
 				UCall::haltExecution($inserter, [
 					'value' => $values,
 					'error_message' => "Missing automatically generated property {{names}} " . 
 						"in manager with owner {{owner}}.",
 					'error_message_plural' => "Missing automatically generated properties {{names}} " . 
 						"in manager with owner {{owner}}.",
-					'error_message_number' => count($missing_names),
+					'error_message_number' => $missing_names_count,
 					'parameters' => ['names' => $missing_names, 'owner' => $this->owner],
 					'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
 				]);
 			}
-			unset($missing_names);
+			unset($missing_names, $missing_names_count);
 		}
 		
 		//set
@@ -1346,7 +1350,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * Unpersist properties.
 	 * 
 	 * @param callable|null $deleter [default = null]
-	 * <p>The function to use to delete an old given set of property values.<br>
+	 * <p>The function to use to delete a given old set of property values.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
 	 * <code>function (array $values): void</code><br>
@@ -1406,7 +1410,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			$deleter($values);
 		}
 		
-		//uninitialize
+		//reset
 		foreach ($this->properties as $property) {
 			if ($property->isAutomatic()) {
 				$property->reset();
@@ -1453,28 +1457,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property value, to be persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The old property value.<br>
 	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property value, to be persisted to.</p>
-	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * &nbsp; &nbsp; &nbsp; The new property value.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of a deletion.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addPrePersistentChangeCallback(string $name, callable $callback): Properties
 	{
 		//guard
-		UCall::guard(!$this->isReadonly(), [
-			'error_message' => "Cannot add pre-persistent property change callback for property {{name}} " . 
-				"in read-only manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		
-		//validate
+		if ($this->isReadonly()) {
+			UCall::halt([
+				'error_message' => "Cannot add pre-persistent property change callback for property {{name}} " . 
+					"in read-only manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		$this->getProperty($name);
-		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		
 		//add
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		$this->pre_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
 		
 		//return
@@ -1497,28 +1501,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $old_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property value, persisted from.<br>
+	 * &nbsp; &nbsp; &nbsp; The old property value.<br>
 	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of an insertion.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>mixed $new_value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property value, persisted to.</p>
-	 * @throws \Dracodeum\Kit\Managers\Properties\Exceptions\PropertyNotFound
+	 * &nbsp; &nbsp; &nbsp; The new property value.<br>
+	 * &nbsp; &nbsp; &nbsp; The value <code>null</code> is given in the case of a deletion.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addPostPersistentChangeCallback(string $name, callable $callback): Properties
 	{
 		//guard
-		UCall::guard(!$this->isReadonly(), [
-			'error_message' => "Cannot add post-persistent property change callback for property {{name}} " . 
-				"in read-only manager with owner {{owner}}.",
-			'parameters' => ['name' => $name, 'owner' => $this->owner]
-		]);
-		
-		//validate
+		if ($this->isReadonly()) {
+			UCall::halt([
+				'error_message' => "Cannot add post-persistent property change callback for property {{name}} " . 
+					"in read-only manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
+		}
 		$this->getProperty($name);
-		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		
 		//add
+		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
 		$this->post_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
 		
 		//return
@@ -1529,12 +1533,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	
 	//Final protected methods
 	/**
-	 * Check if has property with a given name.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has property with the given name.</p>
+	 * <p>Boolean <code>true</code> if has the property with the given name.</p>
 	 */
 	final protected function hasProperty(string $name): bool
 	{
@@ -1559,32 +1563,39 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		if (!isset($this->properties[$name])) {
 			//build
 			$property = null;
-			if (isset($this->builder)) {
+			if ($this->builder !== null) {
 				$property = ($this->builder)($name);
-				if ($this->isInitialized() && isset($property) && $property->isInitializeable()) {
+				if ($this->isInitialized() && $property !== null && !$property->isInitialized()) {
 					$property->initialize();
 				}
 			}
-			if (!isset($property)) {
+			
+			//check
+			if ($property === null) {
 				if ($no_throw) {
 					return null;
 				}
 				throw new Exceptions\PropertyNotFound([$this, $name]);
 			}
 			
-			//property
-			UCall::guardInternal($property->getName() === $name, [
-				'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}, " . 
-					"in manager with owner {{owner}}.",
-				'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
-			]);
-			UCall::guardInternal($property->getManager() === $this, [
-				'error_message' => "Manager mismatch for property {{property.getName()}}, " . 
-					"in manager with owner {{owner}}.",
-				'hint_message' => "The manager which a given property is set with and the one it is being added to " . 
-					"must be exactly the same.",
-				'parameters' => ['property' => $property, 'owner' => $this->owner]
-			]);
+			//guard
+			if ($property->getName() !== $name) {
+				UCall::haltInternal([
+					'error_message' => "Property name {{property.getName()}} mismatches the expected name {{name}}, " . 
+						"in manager with owner {{owner}}.",
+					'parameters' => ['property' => $property, 'name' => $name, 'owner' => $this->owner]
+				]);
+			} elseif ($property->getManager() !== $this) {
+				UCall::haltInternal([
+					'error_message' => "Manager mismatch for property {{property.getName()}}, " . 
+						"in manager with owner {{owner}}.",
+					'hint_message' => "The manager which a given property is set with and the one it is being added " . 
+						"to must be exactly the same.",
+					'parameters' => ['property' => $property, 'owner' => $this->owner]
+				]);
+			}
+			
+			//finalize
 			$this->properties[$name] = $property;
 		}
 		return $this->properties[$name];
@@ -1636,7 +1647,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$this->clearPersistedValues();
 		foreach ($this->properties as $name => $property) {
-			if ($property->isInitialized() && !$property->isImmutable()) {
+			if ($property->isGettable() && !$property->isImmutable()) {
 				$value = $property->getValue(true);
 				$this->persisted_values[$name] = $value;
 				$this->persisted_keys[$name] = UType::keyValue($value, true);
