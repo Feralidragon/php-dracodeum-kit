@@ -192,8 +192,8 @@ class Property implements IUncloneable
 	 */
 	final public function isOptional(): bool
 	{
-		if ($this->manager->isLazy() && $this->manager->isRequiredPropertyName($this->name)) {
-			return false;
+		if ($this->manager->isLazy()) {
+			return !$this->manager->isRequiredPropertyName($this->name);
 		}
 		return ($this->flags & self::FLAG_OPTIONAL) || $this->hasDefault() || $this->hasGetter() || 
 			($this->isAutomatic() && !$this->manager->isPersisted());

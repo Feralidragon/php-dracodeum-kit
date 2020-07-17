@@ -193,11 +193,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				$property_mode = $property->getMode();
 				$property_debug_name = "{$property_mode}:{$name}";
 				
-				//lazy
-				if ($property->isLazy()) {
-					$property_debug_name = "lazy {$property_debug_name}";
-				}
-				
 				//persistence
 				if ($property->isAutoImmutable()) {
 					$property_debug_name = "auto-immutable {$property_debug_name}";
@@ -207,15 +202,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					$property_debug_name = "automatic {$property_debug_name}";
 				}
 				
+				//state
+				if (!$property->isGettable()) {
+					$property_debug_name = "[unset] {$property_debug_name}";
+				} elseif ($property->hasLazyValue()) {
+					$property_debug_name = "[lazy] {$property_debug_name}";
+				}
+				
 				//read-only
 				if ($this->isReadonly()) {
 					$property_debug_name_prefix = $property_mode[0] === 'r' ? '(readonly)' : '(locked)';
 					$property_debug_name = "{$property_debug_name_prefix} {$property_debug_name}";
-				}
-				
-				//ungettable
-				if (!$property->isGettable()) {
-					$property_debug_name = "(ungettable) {$property_debug_name}";
 				}
 				
 				//set
@@ -1090,9 +1087,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		$persisted = $this->isPersisted();
 		foreach ($this->properties as $name => $property) {
 			if (
-				$property->isGettable() && $property->getMode() !== 'r' && $property->isSettable() && (
-					(!$persisted && !$property->isAutomatic()) || ($persisted && !$property->isImmutable())
-				)
+				$property->isGettable() && $property->getMode() !== 'r' && $property->isSettable() && 
+				($persisted || !$property->isAutomatic())
 			) {
 				$properties[$name] = $property->getValue($lazy);
 			}
@@ -1185,9 +1181,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
 	): Properties
 	{
-		//initialize
-		$persisted = $this->isPersisted();
-		
 		//assert
 		UCall::assert('inserter', $inserter, function (array $values): array {});
 		UCall::assert(
@@ -1207,60 +1200,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			}
 		}
 		
-		//values
-		$new_values = [];
-		$old_values = $this->persisted_values;
-		$old_keys = $this->persisted_keys;
-		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable()) {
-				//initialize
-				$value = $property->getValue();
-				$new_values[$name] = $value;
-				
-				//immutable and lazy
-				if ($persisted) {
-					if ($property->isImmutable()) {
-						$old_values[$name] = $value;
-					} elseif ($property->isLazy() && array_key_exists($name, $old_values)) {
-						$property->evaluateValue($old_values[$name]);
-					}
-				}
-				
-				//persistable (new uid)
-				if (is_object($value) && UType::persistable($value) && $value instanceof IUid) {
-					$new_values[$name] = $value->getUid();
-				}
-				
-				//persistable (old uid)
-				if ($persisted) {
-					$old_value = $old_values[$name] ?? null;
-					if (is_object($old_value) && UType::persistable($old_value) && $old_value instanceof IUid) {
-						$old_uid = $old_value->getUid();
-						$old_values[$name] = $old_uid;
-						$old_keys[$name] = UType::keyValue($old_uid, true);
-						unset($old_uid);
-					}
-					unset($old_value);
-				}
-				
-				//finalize
-				unset($value);
-			}
-		}
-		
 		//changes map
-		$changes_map = [];
-		if ($persisted) {
-			foreach ($old_keys as $name => $key) {
-				if (array_key_exists($name, $new_values) && UType::keyValue($new_values[$name], true) !== $key) {
-					$changes_map[$name] = true;
-				}
-			}
-		} else {
-			$changes_map = array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
-		}
-		
-		//check
+		$old_values = $new_values = [];
+		$changes_map = $this->getPersistenceChangesMap($old_values, $new_values);
 		if (!count($changes_map)) {
 			return $this;
 		}
@@ -1279,7 +1221,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//persist
 		$values = [];
-		if ($persisted) {
+		if ($this->isPersisted()) {
 			$update_old_values = $old_values;
 			$update_new_values = $new_values;
 			if ($changes_only) {
@@ -1327,8 +1269,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//post-persistence callbacks
-		foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
-			if (isset($changes_map[$name])) {
+		if (count($this->post_persistent_changes_callbacks)) {
+			//changes map
+			$old_values = $new_values = [];
+			$changes_map = $this->getPersistenceChangesMap(
+				$old_values, $new_values, array_keys($this->post_persistent_changes_callbacks)
+			);
+			
+			//callbacks
+			$changes_callbacks = array_intersect_key($this->post_persistent_changes_callbacks, $changes_map);
+			foreach ($changes_callbacks as $name => $callbacks) {
 				$old_value = $old_values[$name] ?? null;
 				$new_value = $new_values[$name];
 				foreach ($callbacks as $callback) {
@@ -1638,6 +1588,90 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	
 	
 	//Final private methods
+	/**
+	 * Get persistence property changes map.
+	 * 
+	 * @param array $old_values [reference output] [default = []]
+	 * <p>The processed old property values, as <samp>name => value</samp> pairs.</p>
+	 * @param array $new_values [reference output] [default = []]
+	 * <p>The processed new property values, as <samp>name => value</samp> pairs.</p>
+	 * @param array|null $names [default = null]
+	 * <p>The property names to restrict the map to.</p>
+	 * @return array
+	 * <p>The persistence property changes map, as <samp>name => <code>true</code></samp> pairs.</p>
+	 */
+	final private function getPersistenceChangesMap(
+		array &$old_values = [], array &$new_values = [], ?array $names = null
+	): array
+	{
+		//initialize
+		$new_values = [];
+		$old_values = $this->persisted_values;
+		$old_keys = $this->persisted_keys;
+		$persisted = $this->isPersisted();
+		
+		//names map
+		$names_map = $names !== null ? array_flip($names) : null;
+		if ($names_map !== null) {
+			if (!count($names_map)) {
+				$old_values = [];
+				return [];
+			}
+			$old_values = array_intersect_key($old_values, $names_map);
+			$old_keys = array_intersect_key($old_keys, $names_map);
+		}
+		
+		//properties
+		foreach ($this->properties as $name => $property) {
+			if ($property->isGettable() && ($names_map === null || isset($names_map[$name]))) {
+				//initialize
+				$value = $property->getValue();
+				$new_values[$name] = $value;
+				
+				//immutable and lazy
+				if ($persisted) {
+					if ($property->isImmutable()) {
+						$old_values[$name] = $value;
+					} elseif ($property->isLazy() && array_key_exists($name, $old_values)) {
+						$property->evaluateValue($old_values[$name]);
+					}
+				}
+				
+				//persistable (new uid)
+				if (is_object($value) && UType::persistable($value) && $value instanceof IUid) {
+					$new_values[$name] = $value->getUid();
+				}
+				
+				//persistable (old uid)
+				if ($persisted) {
+					$old_value = $old_values[$name] ?? null;
+					if (is_object($old_value) && UType::persistable($old_value) && $old_value instanceof IUid) {
+						$old_uid = $old_value->getUid();
+						$old_values[$name] = $old_uid;
+						$old_keys[$name] = UType::keyValue($old_uid, true);
+						unset($old_uid);
+					}
+					unset($old_value);
+				}
+				
+				//finalize
+				unset($value);
+			}
+		}
+		
+		//map
+		if ($persisted) {
+			$map = [];
+			foreach ($old_keys as $name => $key) {
+				if (array_key_exists($name, $new_values) && UType::keyValue($new_values[$name], true) !== $key) {
+					$map[$name] = true;
+				}
+			}
+			return $map;
+		}
+		return array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
+	}
+	
 	/**
 	 * Reload persisted property values.
 	 * 
