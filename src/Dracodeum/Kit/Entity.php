@@ -246,6 +246,10 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 */
 	final public function persist(bool $recursive = false): object
 	{
+		//guard
+		$this->guardNonReadonlyCall();
+		
+		//persist
 		try {
 			$this->persistProperties(
 				\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']), false, $recursive
@@ -254,6 +258,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			$this->logThrowableEvent('ERROR', $throwable);
 			throw $throwable;
 		}
+		
+		//return
 		return $this;
 	}
 	
@@ -263,6 +269,10 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	 */
 	final public function unpersist(bool $recursive = false): object
 	{
+		//guard
+		$this->guardNonReadonlyCall();
+		
+		//unpersist
 		try {
 			//pre-delete
 			$this->processPreDelete();
