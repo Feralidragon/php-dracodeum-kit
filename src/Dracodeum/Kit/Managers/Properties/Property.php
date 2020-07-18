@@ -159,21 +159,6 @@ class Property implements IUncloneable
 	}
 	
 	/**
-	 * Reset.
-	 * 
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
-	 */
-	final public function reset(): Property
-	{
-		if (!$this->hasGetter()) {
-			$this->value_getter = null;
-			$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
-		}
-		return $this;
-	}
-	
-	/**
 	 * Check if is required.
 	 * 
 	 * @return bool
@@ -685,17 +670,15 @@ class Property implements IUncloneable
 	/**
 	 * Unset value.
 	 * 
-	 * This method may only be called after initialization, and only if a getter function has not been set.
-	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function unsetValue(): Property
 	{
-		$this->guardInitializedCall();
-		$this->guardGetterNotSetCall();
-		$this->value_getter = null;
-		$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
+		if (!$this->hasGetter()) {
+			$this->value_getter = null;
+			$this->flags &= ~(self::FLAG_VALUE | self::FLAG_LAZY_VALUE);
+		}
 		return $this;
 	}
 	

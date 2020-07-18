@@ -1393,7 +1393,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//reset
 		foreach ($this->properties as $property) {
 			if ($property->isAutomatic()) {
-				$property->reset();
+				$property->unsetValue();
 			}
 		}
 		
