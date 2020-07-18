@@ -310,7 +310,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	//Implemented public methods (Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
 	/** {@inheritdoc} */
 	public function processDebugInfo(DebugInfo $info): void
-	{	
+	{
+		$info->set('@persisted', $this->isPersisted());
 		$this->processReadonlyDebugInfo($info)->processPropertiesDebugInfo($info);
 		$info
 			->enableObjectPropertiesDump()
