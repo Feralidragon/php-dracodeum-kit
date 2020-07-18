@@ -1682,7 +1682,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		$base_scope = static::getBaseScope();
 		
 		//values
-		$values = $store->return([
+		$values = $store->select([
 			'id' => $id,
 			'name' => static::getName(),
 			'base_scope' => $base_scope,

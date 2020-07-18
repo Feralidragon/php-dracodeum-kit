@@ -17,7 +17,7 @@ use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
  * @see \Dracodeum\Kit\Components\Store
  * @see \Dracodeum\Kit\Prototypes\Store\Contract
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Checker
- * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Returner
+ * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Selecter
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Inserter
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Updater
  * @see \Dracodeum\Kit\Prototypes\Store\Interfaces\Deleter

@@ -9,20 +9,20 @@ namespace Dracodeum\Kit\Prototypes\Store\Interfaces;
 
 use Dracodeum\Kit\Structures\Uid;
 
-/** This interface defines a method to return a resource in a store prototype. */
-interface Returner
+/** This interface defines a method to select a resource from a store prototype. */
+interface Selecter
 {
 	//Public methods
 	/**
-	 * Return a resource with a given UID instance.
+	 * Select a resource with a given UID instance.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
-	 * <p>The UID instance to return with.</p>
+	 * <p>The UID instance to select with.</p>
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return array|null
-	 * <p>The resource with the given UID instance, as <samp>name => value</samp> pairs, 
+	 * <p>The selected resource with the given UID instance, as <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
 	 */
-	public function return(Uid $uid, bool $readonly): ?array;
+	public function select(Uid $uid, bool $readonly): ?array;
 }

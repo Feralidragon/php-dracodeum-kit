@@ -24,7 +24,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
  * This component represents a store which performs persistent CRUD operations of resources, namely create (insert), 
- * read (exists and return), update and delete.
+ * read (exists and select), update and delete.
  * 
  * @see \Dracodeum\Kit\Prototypes\Store
  * @see \Dracodeum\Kit\Prototypes\Stores\Memory
@@ -169,8 +169,8 @@ class Store extends Component
 		$prototype = $this->getPrototype();
 		if ($prototype instanceof PrototypeInterfaces\Checker) {
 			return $prototype->exists($uid, false);
-		} elseif ($prototype instanceof PrototypeInterfaces\Returner) {
-			return $prototype->return($uid, false) !== null;
+		} elseif ($prototype instanceof PrototypeInterfaces\Selecter) {
+			return $prototype->select($uid, false) !== null;
 		}
 		
 		//halt
@@ -178,31 +178,31 @@ class Store extends Component
 	}
 	
 	/**
-	 * Return a resource with a given UID.
+	 * Select a resource with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to return with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to select with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
-	 * <p>The resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * <p>The selected resource with the given UID, as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it was not found.</p>
 	 */
-	final public function return($uid, bool $no_throw = false): ?array
+	final public function select($uid, bool $no_throw = false): ?array
 	{
 		//uid
 		$uid = $this->coerceUid($uid, true)->setAsReadonly();
 		
 		//prototype
 		$prototype = $this->getPrototype();
-		if ($prototype instanceof PrototypeInterfaces\Returner) {
+		if ($prototype instanceof PrototypeInterfaces\Selecter) {
 			//return
 			$values = null;
 			try {
-				$values = $prototype->return($uid, false);
+				$values = $prototype->select($uid, false);
 			} catch (Exceptions\NotFound $exception) {
 				if ($no_throw) {
 					return null;
@@ -221,7 +221,7 @@ class Store extends Component
 		}
 		
 		//halt
-		$this->haltPrototypeMethodNotImplemented('return');
+		$this->haltPrototypeMethodNotImplemented('select');
 	}
 	
 	/**

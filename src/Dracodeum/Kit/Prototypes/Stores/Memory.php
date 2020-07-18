@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Prototypes\Stores;
 use Dracodeum\Kit\Prototypes\Store;
 use Dracodeum\Kit\Prototypes\Store\Interfaces\{
 	Checker as IChecker,
-	Returner as IReturner,
+	Selecter as ISelecter,
 	Inserter as IInserter,
 	Updater as IUpdater,
 	Deleter as IDeleter
@@ -19,7 +19,7 @@ use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Utilities\Data as UData;
 
 /** This store prototype persists resources in static memory, being generally used as a stub for testing. */
-class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, IDeleter
+class Memory extends Store implements IChecker, ISelecter, IInserter, IUpdater, IDeleter
 {
 	//Private static properties
 	/** @var array */
@@ -36,9 +36,9 @@ class Memory extends Store implements IChecker, IReturner, IInserter, IUpdater, 
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Returner)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Store\Interfaces\Selecter)
 	/** {@inheritdoc} */
-	public function return(Uid $uid, bool $readonly): ?array
+	public function select(Uid $uid, bool $readonly): ?array
 	{
 		return self::$values[UData::keyfy($uid->scope)][UData::keyfy($uid->name)][UData::keyfy($uid->id)] ?? null;
 	}
