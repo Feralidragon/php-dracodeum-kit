@@ -1628,13 +1628,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				$value = $property->getValue();
 				$new_values[$name] = $value;
 				
-				//immutable and lazy
-				if ($persisted) {
-					if ($property->isImmutable()) {
-						$old_values[$name] = $value;
-					} elseif ($property->isLazy() && array_key_exists($name, $old_values)) {
-						$property->evaluateValue($old_values[$name]);
-					}
+				//lazy
+				if ($persisted && $property->isLazy() && array_key_exists($name, $old_values)) {
+					$property->evaluateValue($old_values[$name]);
 				}
 				
 				//persistable (new uid)
@@ -1681,7 +1677,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$this->clearPersistedValues();
 		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable() && !$property->isImmutable()) {
+			if ($property->isGettable()) {
 				$value = $property->getValue(true);
 				$this->persisted_values[$name] = $value;
 				$this->persisted_keys[$name] = UType::keyValue($value, true);
