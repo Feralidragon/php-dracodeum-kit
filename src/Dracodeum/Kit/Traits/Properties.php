@@ -168,6 +168,32 @@ trait Properties
 	}
 	
 	/**
+	 * Check if a property with a given name is gettable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is gettable.</p>
+	 */
+	final public function gettable(string $name): bool
+	{
+		return $this->getPropertiesManager()->gettable($name);
+	}
+	
+	/**
+	 * Check if a property with a given name is settable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is settable.</p>
+	 */
+	final public function settable(string $name): bool
+	{
+		return $this->getPropertiesManager()->settable($name);
+	}
+	
+	/**
 	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name

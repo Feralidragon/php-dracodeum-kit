@@ -358,7 +358,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		
 		//property
 		$name = $this->getIdPropertyName();
-		if ($name !== null && $this->initialized($name)) {
+		if ($name !== null && $this->gettable($name)) {
 			$id = $this->get($name);
 			if (!self::evaluateId($id)) {
 				UCall::haltInternal([

@@ -852,6 +852,36 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Check if a property with a given name is gettable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is gettable.</p>
+	 */
+	final public function gettable(string $name): bool
+	{
+		return $this->fallback_object !== null && !$this->hasProperty($name)
+			? $this->fallback_object->gettable($name)
+			: $this->getProperty($name)->isGettable();
+	}
+	
+	/**
+	 * Check if a property with a given name is settable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is settable.</p>
+	 */
+	final public function settable(string $name): bool
+	{
+		return $this->fallback_object !== null && !$this->hasProperty($name)
+			? $this->fallback_object->settable($name)
+			: $this->getProperty($name)->isSettable();
+	}
+	
+	/**
 	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name

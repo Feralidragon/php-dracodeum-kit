@@ -68,6 +68,26 @@ interface Properties
 	public function initialized(string $name): bool;
 	
 	/**
+	 * Check if a property with a given name is gettable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is gettable.</p>
+	 */
+	public function gettable(string $name): bool;
+	
+	/**
+	 * Check if a property with a given name is settable.
+	 * 
+	 * @param string $name
+	 * <p>The name to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the property with the given name is settable.</p>
+	 */
+	public function settable(string $name): bool;
+	
+	/**
 	 * Check if a property with a given name is defaulted.
 	 * 
 	 * @param string $name
