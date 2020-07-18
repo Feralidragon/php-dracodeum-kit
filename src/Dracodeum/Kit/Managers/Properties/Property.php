@@ -55,6 +55,9 @@ class Property implements IUncloneable
 	/** Lazy value flag. */
 	private const FLAG_LAZY_VALUE = 0x200;
 	
+	/** Volatile flag. */
+	private const FLAG_VOLATILE = 0x400;
+	
 	/** Auto-immutable flag. */
 	private const FLAG_AUTOIMMUTABLE = self::FLAG_AUTOMATIC | self::FLAG_IMMUTABLE;
 	
@@ -324,6 +327,7 @@ class Property implements IUncloneable
 	{
 		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_AUTOMATIC;
+		$this->flags &= ~self::FLAG_VOLATILE;
 		return $this;
 	}
 	
@@ -354,6 +358,7 @@ class Property implements IUncloneable
 	{
 		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_IMMUTABLE;
+		$this->flags &= ~self::FLAG_VOLATILE;
 		return $this;
 	}
 	
@@ -384,6 +389,36 @@ class Property implements IUncloneable
 	{
 		$this->guardNonInitializedCall(true);
 		$this->flags |= self::FLAG_AUTOIMMUTABLE;
+		$this->flags &= ~self::FLAG_VOLATILE;
+		return $this;
+	}
+	
+	/**
+	 * Check if is volatile.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is volatile.</p>
+	 */
+	final public function isVolatile(): bool
+	{
+		return $this->flags & self::FLAG_VOLATILE;
+	}
+	
+	/**
+	 * Set as volatile.
+	 * 
+	 * By setting this property as volatile, the value of this property is never persisted.<br>
+	 * <br>
+	 * This method may only be called before initialization, of both the property and the manager.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsVolatile(): Property
+	{
+		$this->guardNonInitializedCall(true);
+		$this->flags |= self::FLAG_VOLATILE;
+		$this->flags &= ~self::FLAG_AUTOIMMUTABLE;
 		return $this;
 	}
 	

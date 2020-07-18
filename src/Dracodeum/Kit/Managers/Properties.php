@@ -200,6 +200,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					$property_debug_name = "immutable {$property_debug_name}";
 				} elseif ($property->isAutomatic()) {
 					$property_debug_name = "automatic {$property_debug_name}";
+				} elseif ($property->isVolatile()) {
+					$property_debug_name = "volatile {$property_debug_name}";
 				}
 				
 				//state
@@ -1292,7 +1294,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//set
 		foreach ($values as $name => $value) {
 			$property = $this->properties[$name] ?? null;
-			if ($property !== null && $property->isSettable()) {
+			if ($property !== null && $property->isSettable() && !$property->isVolatile()) {
 				$property->setValue($value);
 			}
 			unset($property);
@@ -1352,23 +1354,28 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			return $this;
 		}
 		
-		//values
-		$values = $persistables = [];
-		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable()) {
-				//initialize
-				$value = $property->getValue();
-				$values[$name] = $value;
-				
-				//persistable
-				if (is_object($value) && UType::persistable($value)) {
-					$persistables[$name] = $value;
-					if ($value instanceof IUid) {
-						$values[$name] = $value->getUid();
+		//persistables (initialize)
+		$persistables = [];
+		if ($recursive) {
+			foreach ($this->properties as $name => $property) {
+				if ($property->isGettable()) {
+					$value = $property->getValue();
+					if (is_object($value) && UType::persistable($value)) {
+						$persistables[$name] = $value;
 					}
+					unset($value);
 				}
-				
-				//finalize
+			}
+		}
+		
+		//values
+		$values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isGettable() && !$property->isVolatile()) {
+				$value = $property->getValue();
+				$values[$name] = is_object($value) && UType::persistable($value) && $value instanceof IUid
+					? $value->getUid()
+					: $value;
 				unset($value);
 			}
 		}
@@ -1408,7 +1415,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			}
 		}
 		
-		//recursive
+		//persistables (persist)
 		if ($recursive && count($persistables)) {
 			UType::unpersistValue($persistables, true);
 		}
@@ -1454,8 +1461,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					"in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
+		} elseif ($this->getProperty($name)->isVolatile()) {
+			UCall::halt([
+				'error_message' => "Cannot add pre-persistent property change callback for " . 
+					"volatile property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
 		}
-		$this->getProperty($name);
 		
 		//add
 		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
@@ -1498,8 +1510,13 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 					"in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
+		} elseif ($this->getProperty($name)->isVolatile()) {
+			UCall::halt([
+				'error_message' => "Cannot add post-persistent property change callback for " . 
+					"volatile property {{name}} in manager with owner {{owner}}.",
+				'parameters' => ['name' => $name, 'owner' => $this->owner]
+			]);
 		}
-		$this->getProperty($name);
 		
 		//add
 		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
@@ -1653,7 +1670,10 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//properties
 		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable() && ($names_map === null || isset($names_map[$name]))) {
+			if (
+				$property->isGettable() && !$property->isVolatile() && 
+				($names_map === null || isset($names_map[$name]))
+			) {
 				//initialize
 				$value = $property->getValue();
 				$new_values[$name] = $value;
@@ -1707,7 +1727,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	{
 		$this->clearPersistedValues();
 		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable()) {
+			if ($property->isGettable() && !$property->isVolatile()) {
 				$value = $property->getValue(true);
 				$this->persisted_values[$name] = $value;
 				$this->persisted_keys[$name] = UType::keyValue($value, true);
