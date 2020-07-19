@@ -67,7 +67,7 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	{
 		//properties
 		$this->initializeProperties(
-			\Closure::fromCallable([$this, 'buildProperty']), $properties,
+			\Closure::fromCallable([$this, 'buildProperty']), $properties, 'rw',
 			\Closure::fromCallable([$this, 'loadRequiredPropertyNames'])
 		);
 		

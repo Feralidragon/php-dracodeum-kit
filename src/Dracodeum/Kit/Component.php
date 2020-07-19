@@ -251,8 +251,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		
 		//properties
 		$this->initializeProperties(
-			\Closure::fromCallable([$this, 'buildProperty']), $properties,
-			\Closure::fromCallable([$this, 'loadRequiredPropertyNames']), 'rw', false, $remainderer
+			\Closure::fromCallable([$this, 'buildProperty']), $properties, 'rw',
+			\Closure::fromCallable([$this, 'loadRequiredPropertyNames']), false, $remainderer
 		);
 		$this->setPropertiesFallbackObject($this->prototype);
 		

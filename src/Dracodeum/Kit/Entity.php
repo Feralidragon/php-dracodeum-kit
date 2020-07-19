@@ -134,7 +134,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	final public function __construct(array $properties = [], bool $persisted = false)
 	{
 		//properties
-		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw', $persisted);
+		$this->initializeProperties(
+			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw', null, $persisted
+		);
 		
 		//read-only
 		$this->addReadonlyCallback(function (bool $recursive): void {

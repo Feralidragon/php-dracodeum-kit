@@ -331,10 +331,12 @@ trait LazyProperties
 	 */
 	final protected function createProperty(): Property
 	{
-		UCall::guard(isset($this->properties_builder_current_name), [
-			'hint_message' => "This method may only be called after the properties manager initialization and " . 
-				"from within a builder function."
-		]);
+		if ($this->properties_builder_current_name === null) {
+			UCall::halt([
+				'hint_message' => "This method may only be called after the properties manager initialization and " . 
+					"from within a builder function."
+			]);
+		}
 		return $this->getPropertiesManager()->createProperty($this->properties_builder_current_name);
 	}
 	
@@ -443,7 +445,7 @@ trait LazyProperties
 	{
 		//debug info
 		$debug_info = $this->getPropertiesDebugInfo();
-		if (!empty($debug_info)) {
+		if (count($debug_info)) {
 			$info->set('@properties', $debug_info);
 		}
 		
@@ -671,13 +673,6 @@ trait LazyProperties
 	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
-	 * @param callable|null $required_names_loader [default = null]
-	 * <p>The function to use to load required property names.<br>
-	 * It is expected to be compatible with the following signature:<br>
-	 * <br>
-	 * <code>function (): void</code><br>
-	 * <br>
-	 * Return: <code><b>void</b></code></p>
 	 * @param string $mode [default = 'rw']
 	 * <p>The base mode to set for all properties, which must be one the following:<br>
 	 * &nbsp; &#8226; &nbsp; <samp>r</samp> : Allow all properties to be only strictly read from, 
@@ -699,6 +694,13 @@ trait LazyProperties
 	 * &nbsp; &#8226; &nbsp; if set to <samp>rw</samp>, all modes are allowed;<br>
 	 * &nbsp; &#8226; &nbsp; if set to <samp>w</samp>, <samp>w-</samp> or <samp>w--</samp>, 
 	 * only <samp>rw</samp>, <samp>w</samp>, <samp>w-</samp> and <samp>w--</samp> are allowed.</p>
+	 * @param callable|null $initializer [default = null]
+	 * <p>The function to be used as an initializer.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (): void</code><br>
+	 * <br>
+	 * Return: <code><b>void</b></code></p>
 	 * @param bool $persisted [default = false]
 	 * <p>Set properties as having already been persisted at least once.</p>
 	 * @param callable|null $remainderer [default = null]
@@ -723,15 +725,21 @@ trait LazyProperties
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final private function initializeProperties(
-		callable $builder, array $properties = [], ?callable $required_names_loader = null, string $mode = 'rw', 
+		callable $builder, array $properties = [], string $mode = 'rw', ?callable $initializer = null, 
 		bool $persisted = false, ?callable $remainderer = null, ?array &$remainder = null
 	): object
 	{
 		//initialize
-		UCall::guard(!isset($this->properties_manager) || !$this->properties_manager->isInitialized(), [
-			'error_message' => "Properties have already been initialized."
-		]);
+		if ($this->properties_manager !== null && $this->properties_manager->isInitialized()) {
+			UCall::halt(['error_message' => "Properties have already been initialized."]);
+		}
 		$this->properties_manager = new Manager($this, true, $mode);
+		
+		//initializer
+		if ($initializer !== null) {
+			UCall::assert('initializer', $initializer, function (): void {});
+			$initializer();
+		}
 		
 		//builder
 		UCall::assert('builder', $builder, function (string $name): ?Property {});
@@ -744,14 +752,8 @@ trait LazyProperties
 			}
 		});
 		
-		//required names loader
-		if (isset($required_names_loader)) {
-			UCall::assert('required_names_loader', $required_names_loader, function (): void {});
-			$required_names_loader();
-		}
-		
 		//remainderer
-		if (isset($remainderer)) {
+		if ($remainderer !== null) {
 			$this->properties_manager->setRemainderer($remainderer);
 		}
 		
@@ -765,18 +767,20 @@ trait LazyProperties
 	/**
 	 * Get properties manager instance.
 	 * 
-	 * This method also guards the current function or method in the stack from being called until the properties 
-	 * manager has been initialized.
+	 * This method also guards the current function or method in the stack so it may only be called during or after the 
+	 * properties initialization.
 	 * 
 	 * @return \Dracodeum\Kit\Traits\LazyProperties\Manager
 	 * <p>The properties manager instance.</p>
 	 */
 	final private function getPropertiesManager(): Manager
 	{
-		UCall::guard(isset($this->properties_manager), [
-			'hint_message' => "This method may only be called after the properties manager initialization.",
-			'stack_offset' => 1
-		]);
+		if ($this->properties_manager === null) {
+			UCall::halt([
+				'hint_message' => "This method may only be called during or after the properties initialization.",
+				'stack_offset' => 1
+			]);
+		}
 		return $this->properties_manager;
 	}
 }
