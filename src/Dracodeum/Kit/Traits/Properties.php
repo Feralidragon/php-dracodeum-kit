@@ -692,7 +692,7 @@ trait Properties
 	 * This method also guards the current function or method in the stack so it may only be called during or after the 
 	 * properties initialization.
 	 * 
-	 * @return \Dracodeum\Kit\Traits\LazyProperties\Manager
+	 * @return \Dracodeum\Kit\Traits\Properties\Manager
 	 * <p>The properties manager instance.</p>
 	 */
 	final private function getPropertiesManager(): Manager
