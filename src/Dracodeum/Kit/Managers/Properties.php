@@ -1155,6 +1155,43 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Reload persisted properties with a given loader function.
+	 * 
+	 * If lazy-loading is enabled, then only the currently loaded properties are reloaded.
+	 * 
+	 * @param callable $loader
+	 * <p>The function to use to load a set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (): array</code><br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The persisted property values, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to set their corresponding properties with their persisted values, 
+	 * with any property keeping its current value if a new one is not returned.<br>
+	 * <br>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function reload(callable $loader): Properties
+	{
+		//check
+		UCall::assert('loader', $loader, function (): array {});
+		if (!$this->isPersisted()) {
+			return $this;
+		}
+		
+		//reload
+		$this->setPersistedPropertyValues($loader());
+		$this->reloadPersistedValues();
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Persist properties with a given inserter function and updater function.
 	 * 
 	 * If lazy-loading is enabled, then only the currently loaded properties are persisted.
@@ -1292,13 +1329,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//set
-		foreach ($values as $name => $value) {
-			$property = $this->properties[$name] ?? null;
-			if ($property !== null && $property->isSettable() && !$property->isVolatile()) {
-				$property->setValue($value);
-			}
-			unset($property);
-		}
+		$this->setPersistedPropertyValues($values);
 		
 		//post-persistence callbacks
 		if (count($this->post_persistent_changes_callbacks)) {
@@ -1716,6 +1747,23 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			return $map;
 		}
 		return array_fill_keys(array_keys(UData::filter($new_values, [null], 0)), true);
+	}
+	
+	/**
+	 * Set persisted property values.
+	 * 
+	 * @param array $values
+	 * <p>The property values to set, as <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final private function setPersistedPropertyValues(array $values): void
+	{
+		foreach ($values as $name => $value) {
+			$property = $this->properties[$name] ?? null;
+			if ($property !== null && $property->isSettable() && !$property->isVolatile()) {
+				$property->setValue($value);
+			}
+		}
 	}
 	
 	/**

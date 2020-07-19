@@ -475,6 +475,33 @@ trait LazyProperties
 	}
 	
 	/**
+	 * Reload persisted properties with a given loader function.
+	 * 
+	 * If lazy-loading is enabled, then only the currently loaded properties are reloaded.
+	 * 
+	 * @param callable $loader
+	 * <p>The function to use to load a set of property values.<br>
+	 * It is expected to be compatible with the following signature:<br>
+	 * <br>
+	 * <code>function (): array</code><br>
+	 * <br>
+	 * Return: <code><b>array</b></code><br>
+	 * The persisted property values, as <samp>name => value</samp> pairs.<br>
+	 * <br>
+	 * All returned property values are used to set their corresponding properties with their persisted values, 
+	 * with any property keeping its current value if a new one is not returned.<br>
+	 * <br>
+	 * Any returned property values which have no corresponding properties are ignored.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function reloadProperties(callable $loader): object
+	{
+		$this->getPropertiesManager()->reload($loader);
+		return $this;
+	}
+	
+	/**
 	 * Persist properties with a given inserter function and updater function.
 	 * 
 	 * Only the currently loaded properties are persisted.

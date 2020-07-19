@@ -436,6 +436,22 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		return $this->composeLogEventTag($strings);
 	}
 	
+	/**
+	 * Reload.
+	 * 
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function reload(): Entity
+	{
+		if ($this->isPersisted()) {
+			$this->reloadProperties(function (): array {
+				return $this->loadPropertyValues($this->getId(), $this->getScopeIds());
+			});
+		}
+		return $this;
+	}
+	
 	
 	
 	//Final public static methods
