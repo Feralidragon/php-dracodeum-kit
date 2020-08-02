@@ -83,7 +83,7 @@ ICloneable
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties);
+		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'loadProperties']), $properties);
 		
 		//read-only
 		$this->addReadonlyCallback(function (bool $recursive): void {

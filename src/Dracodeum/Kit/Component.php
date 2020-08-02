@@ -72,7 +72,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * @see \Dracodeum\Kit\Prototype
  * @see \Dracodeum\Kit\Component\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Component\Traits\PreInitializer
- * @see \Dracodeum\Kit\Component\Traits\RequiredPropertyNamesLoader
+ * @see \Dracodeum\Kit\Component\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Component\Traits\PropertyBuilder
  * @see \Dracodeum\Kit\Component\Traits\Initializer
  * @see \Dracodeum\Kit\Component\Traits\DefaultPrototypeProducer
@@ -88,7 +88,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\PreInitializer;
-	use Traits\RequiredPropertyNamesLoader;
+	use Traits\PropertiesInitializer;
 	use Traits\PropertyBuilder;
 	use Traits\Initializer;
 	use Traits\DefaultPrototypeProducer;
@@ -250,9 +250,9 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		};
 		
 		//properties
-		$this->initializeProperties(
+		$this->initializePropertiesManager(
 			\Closure::fromCallable([$this, 'buildProperty']), $properties, 'rw',
-			\Closure::fromCallable([$this, 'loadRequiredPropertyNames']), false, $remainderer
+			\Closure::fromCallable([$this, 'initializeProperties']), false, $remainderer
 		);
 		$this->setPropertiesFallbackObject($this->prototype);
 		

@@ -136,9 +136,9 @@ class Truncate extends Filter implements ISubtype, IInformation, IStringificatio
 	
 	
 	
-	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\RequiredPropertyNamesLoader)
+	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\PropertiesInitializer)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames(): void
+	protected function initializeProperties(): void
 	{
 		$this->addRequiredPropertyName('length');
 	}

@@ -55,7 +55,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	{
 		//initialize
 		$options = Options\Construct::coerce($options);
-		$this->initializeProperties(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'r+');
+		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'r+');
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();

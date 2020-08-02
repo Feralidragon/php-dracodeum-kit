@@ -81,9 +81,9 @@ class Format extends Filter implements ISubtype, ISchemaData
 	
 	
 	
-	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\RequiredPropertyNamesLoader)
+	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\PropertiesInitializer)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames(): void
+	protected function initializeProperties(): void
 	{
 		$this->addRequiredPropertyName('value');
 	}

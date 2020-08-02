@@ -591,7 +591,7 @@ trait Properties
 	
 	//Final private methods
 	/**
-	 * Initialize properties with a given builder function.
+	 * Initialize properties manager with a given builder function.
 	 * 
 	 * @param callable $builder
 	 * <p>The function to use to build all properties.<br>
@@ -653,7 +653,7 @@ trait Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function initializeProperties(
+	final private function initializePropertiesManager(
 		callable $builder, array $properties = [], string $mode = 'rw', ?callable $initializer = null,
 		bool $persisted = false, ?callable $remainderer = null, ?array &$remainder = null
 	): object

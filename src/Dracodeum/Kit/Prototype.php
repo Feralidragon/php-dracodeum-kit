@@ -31,7 +31,7 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Component
  * @see \Dracodeum\Kit\Prototype\Interfaces\Contract
  * @see \Dracodeum\Kit\Prototype\Interfaces\Subcontracts
- * @see \Dracodeum\Kit\Prototype\Traits\RequiredPropertyNamesLoader
+ * @see \Dracodeum\Kit\Prototype\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Prototype\Traits\PropertyBuilder
  * @see \Dracodeum\Kit\Prototype\Traits\Initializer
  */
@@ -42,7 +42,7 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	use KitTraits\DebugInfo\PropertiesDumpProcessor;
 	use KitTraits\LazyProperties;
 	use KitTraits\Uncloneable;
-	use Traits\RequiredPropertyNamesLoader;
+	use Traits\PropertiesInitializer;
 	use Traits\PropertyBuilder;
 	use Traits\Initializer;
 	
@@ -66,9 +66,9 @@ abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		$this->initializeProperties(
+		$this->initializePropertiesManager(
 			\Closure::fromCallable([$this, 'buildProperty']), $properties, 'rw',
-			\Closure::fromCallable([$this, 'loadRequiredPropertyNames'])
+			\Closure::fromCallable([$this, 'initializeProperties'])
 		);
 		
 		//initialization

@@ -134,7 +134,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	final public function __construct(array $properties = [], bool $persisted = false)
 	{
 		//properties
-		$this->initializeProperties(
+		$this->initializePropertiesManager(
 			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw', null, $persisted
 		);
 		

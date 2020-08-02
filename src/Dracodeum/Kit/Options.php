@@ -77,7 +77,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiabl
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		$this->initializeProperties(\Closure::fromCallable([$this, 'buildProperty']), $properties);
+		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'buildProperty']), $properties);
 		
 		//read-only
 		$this->addReadonlyCallback(function (bool $recursive): void {

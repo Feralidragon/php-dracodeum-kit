@@ -111,9 +111,9 @@ class MaxLength extends Constraint implements ISubtype, IPriority, IInformation,
 	
 	
 	
-	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\RequiredPropertyNamesLoader)
+	//Implemented protected methods (Dracodeum\Kit\Prototype\Traits\PropertiesInitializer)
 	/** {@inheritdoc} */
-	protected function loadRequiredPropertyNames(): void
+	protected function initializeProperties(): void
 	{
 		$this->addRequiredPropertyName('value');
 	}
