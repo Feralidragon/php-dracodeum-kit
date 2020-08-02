@@ -94,6 +94,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/** @var bool[] */
 	private $required_map = [];
 	
+	/** @var string[] */
+	private $aliases = [];
+	
 	/** @var \Closure|null */
 	private $builder = null;
 	
@@ -323,8 +326,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * The property, corresponding to the given name added here, must be given during initialization.<br>
 	 * <br>
-	 * This method may only be called before initialization, with lazy-loading enabled 
-	 * and only if the base mode is not set to strict read-only.
+	 * This method may only be called before initialization and with lazy-loading enabled.
 	 * 
 	 * @param string $name
 	 * <p>The name to add.</p>
@@ -368,6 +370,40 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
+	 * Add property name alias.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param string $name
+	 * <p>The name to add for.</p>
+	 * @param string $alias
+	 * <p>The alias to add.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPropertyNameAlias(string $name, string $alias): Properties
+	{
+		return $this->addPropertyNameAliases([$alias => $name]);
+	}
+	
+	/**
+	 * Add property name aliases.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param string[] $aliases
+	 * <p>The aliases to add, as <samp>alias => name</samp> pairs.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPropertyNameAliases(array $aliases): Properties
+	{
+		$this->guardNonInitializedCall();
+		$this->aliases += $aliases;
+		return $this;
+	}
+	
+	/**
 	 * Check if a given property name is required.
 	 * 
 	 * @param string $name
@@ -377,6 +413,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function isRequiredPropertyName(string $name): bool
 	{
+		$this->processPropertyNameAlias($name);
 		return $this->isLazy() ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
 	}
 	
@@ -603,6 +640,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		//initialize
 		$this->flags |= self::FLAG_INITIALIZING;
 		try {
+			//aliases
+			$this->processPropertyValuesAliases($properties);
+			
 			//required (initialize)
 			$required_map = [];
 			if ($this->isLazy()) {
@@ -835,6 +875,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function loaded(string $name): bool
 	{
+		$this->processPropertyNameAlias($name);
 		return isset($this->properties[$name]);
 	}
 	
@@ -1057,8 +1098,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//unset
-		if ($persisted && array_key_exists($name, $this->persisted_values)) {
-			$property->setValue($this->persisted_values[$name]);
+		$property_name = $property->getName();
+		if ($persisted && array_key_exists($property_name, $this->persisted_values)) {
+			$property->setValue($this->persisted_values[$property_name]);
 		} elseif ($property->isRequired()) {
 			UCall::halt([
 				'error_message' => "Cannot unset value in required property {{name}} in manager with owner {{owner}}.",
@@ -1303,6 +1345,9 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//insert
 			$values = $inserter($new_values);
 			
+			//aliases
+			$this->processPropertyValuesAliases($values);
+			
 			//missing names (process)
 			$missing_names = [];
 			foreach ($this->properties as $name => $property) {
@@ -1486,13 +1531,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function addPrePersistentChangeCallback(string $name, callable $callback): Properties
 	{
 		//guard
+		$property = $this->getProperty($name);
 		if ($this->isReadonly()) {
 			UCall::halt([
 				'error_message' => "Cannot add pre-persistent property change callback for property {{name}} " . 
 					"in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} elseif ($this->getProperty($name)->isVolatile()) {
+		} elseif ($property->isVolatile()) {
 			UCall::halt([
 				'error_message' => "Cannot add pre-persistent property change callback for " . 
 					"volatile property {{name}} in manager with owner {{owner}}.",
@@ -1502,7 +1548,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//add
 		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
-		$this->pre_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
+		$this->pre_persistent_changes_callbacks[$property->getName()][] = \Closure::fromCallable($callback);
 		
 		//return
 		return $this;
@@ -1535,13 +1581,14 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final public function addPostPersistentChangeCallback(string $name, callable $callback): Properties
 	{
 		//guard
+		$property = $this->getProperty($name);
 		if ($this->isReadonly()) {
 			UCall::halt([
 				'error_message' => "Cannot add post-persistent property change callback for property {{name}} " . 
 					"in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} elseif ($this->getProperty($name)->isVolatile()) {
+		} elseif ($property->isVolatile()) {
 			UCall::halt([
 				'error_message' => "Cannot add post-persistent property change callback for " . 
 					"volatile property {{name}} in manager with owner {{owner}}.",
@@ -1551,7 +1598,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//add
 		UCall::assert('callback', $callback, function ($old_value, $new_value): void {});
-		$this->post_persistent_changes_callbacks[$name][] = \Closure::fromCallable($callback);
+		$this->post_persistent_changes_callbacks[$property->getName()][] = \Closure::fromCallable($callback);
 		
 		//return
 		return $this;
@@ -1588,6 +1635,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final protected function getProperty(string $name, bool $no_throw = false): ?Property
 	{
+		$property_name = $name;
+		$this->processPropertyNameAlias($name);
 		if (!isset($this->properties[$name])) {
 			//build
 			$property = null;
@@ -1603,7 +1652,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\PropertyNotFound([$this, $name]);
+				throw new Exceptions\PropertyNotFound([$this, $property_name]);
 			}
 			
 			//guard
@@ -1627,6 +1676,39 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			$this->properties[$name] = $property;
 		}
 		return $this->properties[$name];
+	}
+	
+	/**
+	 * Process alias of a given property name.
+	 * 
+	 * @param string $name [reference]
+	 * <p>The property name to process.</p>
+	 * @return void
+	 */
+	final protected function processPropertyNameAlias(string &$name): void
+	{
+		if (isset($this->aliases[$name])) {
+			$name = $this->aliases[$name];
+		}
+	}
+	
+	/**
+	 * Process aliases of a given set of property values.
+	 * 
+	 * @param array $values [reference]
+	 * <p>The property values to process, as <samp>name => value</samp> pairs.</p>
+	 * @return void
+	 */
+	final protected function processPropertyValuesAliases(array &$values): void
+	{
+		foreach ($this->aliases as $alias => $name) {
+			if (array_key_exists($alias, $values)) {
+				if (!array_key_exists($name, $values)) {
+					$values[$name] = $values[$alias];
+				}
+				unset($values[$alias]);
+			}
+		}
 	}
 	
 	/**
@@ -1759,6 +1841,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	final private function setPersistedPropertyValues(array $values): void
 	{
 		foreach ($values as $name => $value) {
+			$this->processPropertyNameAlias($name);
 			$property = $this->properties[$name] ?? null;
 			if ($property !== null && $property->isSettable() && !$property->isVolatile()) {
 				$property->setValue($value);
