@@ -373,6 +373,40 @@ trait LazyProperties
 	}
 	
 	/**
+	 * Add property alias.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @param string $alias
+	 * <p>The alias to add.</p>
+	 * @param string $name
+	 * <p>The name to add for.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addPropertyAlias(string $alias, string $name): object
+	{
+		$this->getPropertiesManager()->addPropertyAlias($alias, $name);
+		return $this;
+	}
+	
+	/**
+	 * Add property aliases.
+	 * 
+	 * This method may only be called after the properties manager initialization.
+	 * 
+	 * @param string[] $aliases
+	 * <p>The aliases to add, as <samp>alias => name</samp> pairs.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final protected function addPropertyAliases(array $aliases): object
+	{
+		$this->getPropertiesManager()->addPropertyAliases($aliases);
+		return $this;
+	}
+	
+	/**
 	 * Set properties as read-only.
 	 * 
 	 * This method may only be called after the properties manager initialization.

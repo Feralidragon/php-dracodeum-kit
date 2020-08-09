@@ -34,7 +34,7 @@ use Dracodeum\Kit\Utilities\{
 
 /**
  * This manager handles and stores a separate set of properties for an object, which may be lazy-loaded and restricted 
- * to a specific mode of operation (strict read-only, read-only, read-write, write-only, write-once and 
+ * to a specific mode of operation (strict read-only, read-only, read-write, write-only, write-once or 
  * transient write-once).
  * 
  * Each individual property may be set with restrictions, bindings and other characteristics, such as:<br>
@@ -370,40 +370,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	}
 	
 	/**
-	 * Add property name alias.
-	 * 
-	 * This method may only be called before initialization.
-	 * 
-	 * @param string $name
-	 * <p>The name to add for.</p>
-	 * @param string $alias
-	 * <p>The alias to add.</p>
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
-	 */
-	final public function addPropertyNameAlias(string $name, string $alias): Properties
-	{
-		return $this->addPropertyNameAliases([$alias => $name]);
-	}
-	
-	/**
-	 * Add property name aliases.
-	 * 
-	 * This method may only be called before initialization.
-	 * 
-	 * @param string[] $aliases
-	 * <p>The aliases to add, as <samp>alias => name</samp> pairs.</p>
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
-	 */
-	final public function addPropertyNameAliases(array $aliases): Properties
-	{
-		$this->guardNonInitializedCall();
-		$this->aliases += $aliases;
-		return $this;
-	}
-	
-	/**
 	 * Check if a given property name is required.
 	 * 
 	 * @param string $name
@@ -413,8 +379,45 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 */
 	final public function isRequiredPropertyName(string $name): bool
 	{
-		$this->processPropertyNameAlias($name);
-		return $this->isLazy() ? isset($this->required_map[$name]) : $this->getProperty($name)->isRequired();
+		if ($this->isLazy()) {
+			$this->processPropertyNameAlias($name);
+			return isset($this->required_map[$name]);
+		}
+		return $this->getProperty($name)->isRequired();
+	}
+	
+	/**
+	 * Add property alias.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param string $alias
+	 * <p>The alias to add.</p>
+	 * @param string $name
+	 * <p>The name to add for.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPropertyAlias(string $alias, string $name): Properties
+	{
+		return $this->addPropertyAliases([$alias => $name]);
+	}
+	
+	/**
+	 * Add property aliases.
+	 * 
+	 * This method may only be called before initialization.
+	 * 
+	 * @param string[] $aliases
+	 * <p>The aliases to add, as <samp>alias => name</samp> pairs.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addPropertyAliases(array $aliases): Properties
+	{
+		$this->guardNonInitializedCall();
+		$this->aliases += $aliases;
+		return $this;
 	}
 	
 	/**

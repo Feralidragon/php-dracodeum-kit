@@ -44,6 +44,7 @@ use Dracodeum\Kit\Utilities\{
  * It may also be set as read-only to prevent any further changes.
  * 
  * @see \Dracodeum\Kit\Options\Traits\DefaultBuilder
+ * @see \Dracodeum\Kit\Options\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Options\Traits\IntegerPropertiesExtractor
  * @see \Dracodeum\Kit\Options\Traits\FloatPropertiesExtractor
  * @see \Dracodeum\Kit\Options\Traits\StringPropertiesExtractor
@@ -61,6 +62,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiabl
 	use KitTraits\Readonly;
 	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
+	use Traits\PropertiesInitializer;
 	use Traits\IntegerPropertiesExtractor;
 	use Traits\FloatPropertiesExtractor;
 	use Traits\StringPropertiesExtractor;
@@ -77,7 +79,10 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, IArrayInstantiabl
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'buildProperty']), $properties);
+		$this->initializePropertiesManager(
+			\Closure::fromCallable([$this, 'buildProperty']), $properties, 'rw',
+			\Closure::fromCallable([$this, 'initializeProperties'])
+		);
 		
 		//read-only
 		$this->addReadonlyCallback(function (bool $recursive): void {

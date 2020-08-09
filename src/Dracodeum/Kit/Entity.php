@@ -65,6 +65,7 @@ use Dracodeum\Kit\Root\Log;
  * @see https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model
  * @see \Dracodeum\Kit\Entity\Traits\DefaultBuilder
  * @see \Dracodeum\Kit\Entity\Traits\Initializer
+ * @see \Dracodeum\Kit\Entity\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Entity\Traits\IdPropertyName
  * @see \Dracodeum\Kit\Entity\Traits\BaseScope
  * @see \Dracodeum\Kit\Entity\Traits\PreInsertProcessor
@@ -90,6 +91,7 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
+	use Traits\PropertiesInitializer;
 	use Traits\IdPropertyName;
 	use Traits\BaseScope;
 	use Traits\PreInsertProcessor;
@@ -135,7 +137,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	{
 		//properties
 		$this->initializePropertiesManager(
-			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw', null, $persisted
+			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw',
+			\Closure::fromCallable([$this, 'initializeProperties']), $persisted
 		);
 		
 		//read-only

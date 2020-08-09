@@ -45,6 +45,7 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @see https://en.wikipedia.org/wiki/Struct_(C_programming_language)
  * @see \Dracodeum\Kit\Structure\Traits\DefaultBuilder
+ * @see \Dracodeum\Kit\Structure\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Structure\Traits\IntegerPropertiesExtractor
  * @see \Dracodeum\Kit\Structure\Traits\FloatPropertiesExtractor
  * @see \Dracodeum\Kit\Structure\Traits\StringPropertiesExtractor
@@ -65,6 +66,7 @@ ICloneable
 	use KitTraits\Stringifiable;
 	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
+	use Traits\PropertiesInitializer;
 	use Traits\IntegerPropertiesExtractor;
 	use Traits\FloatPropertiesExtractor;
 	use Traits\StringPropertiesExtractor;
@@ -83,7 +85,10 @@ ICloneable
 	final public function __construct(array $properties = [])
 	{
 		//properties
-		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'loadProperties']), $properties);
+		$this->initializePropertiesManager(
+			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'rw',
+			\Closure::fromCallable([$this, 'initializeProperties'])
+		);
 		
 		//read-only
 		$this->addReadonlyCallback(function (bool $recursive): void {

@@ -27,6 +27,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * It also provides the means to define custom read-only properties and a default message.
  * 
  * @see https://php.net/manual/en/class.exception.php
+ * @see \Dracodeum\Kit\Exception\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Exception\Traits\PropertiesLoader
  */
 abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IProperties, IArrayable
@@ -36,6 +37,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	use KitTraits\DebugInfo\PropertiesDumpProcessor;
 	use KitTraits\Properties;
 	use KitTraits\Properties\Arrayable;
+	use Traits\PropertiesInitializer;
 	use Traits\PropertiesLoader;
 	
 	
@@ -55,7 +57,10 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	{
 		//initialize
 		$options = Options\Construct::coerce($options);
-		$this->initializePropertiesManager(\Closure::fromCallable([$this, 'loadProperties']), $properties, 'r+');
+		$this->initializePropertiesManager(
+			\Closure::fromCallable([$this, 'loadProperties']), $properties, 'r+',
+			\Closure::fromCallable([$this, 'initializeProperties'])
+		);
 		
 		//message
 		$message = $options->message ?? $this->getDefaultMessage();
