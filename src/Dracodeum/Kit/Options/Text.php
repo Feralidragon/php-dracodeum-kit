@@ -14,7 +14,7 @@ use Dracodeum\Kit\Factories\Options as Factory;
 use Dracodeum\Kit\Root\Locale;
 
 /**
- * @property int $info_scope [coercive = enumeration value] [default = \Dracodeum\Kit\Enumerations\InfoScope::NONE]
+ * @property int $info_scope [coercive = enumeration value] [default = \Dracodeum\Kit\Enumerations\InfoScope::INTERNAL]
  * <p>The info scope to use, as a value from the <code>Dracodeum\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property bool $translate [coercive] [default = false]
  * <p>Translate the returning text.</p>
@@ -35,7 +35,7 @@ class Text extends Options
 			case 'info_scope':
 				return $this->createProperty()
 					->setAsEnumerationValue(EInfoScope::class)
-					->setDefaultValue(EInfoScope::NONE)
+					->setDefaultValue(EInfoScope::INTERNAL)
 				;
 			case 'translate':
 				return $this->createProperty()->setAsBoolean()->setDefaultValue(false);

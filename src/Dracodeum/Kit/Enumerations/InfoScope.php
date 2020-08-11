@@ -11,17 +11,17 @@ use Dracodeum\Kit\Enumeration;
 
 /**
  * This enumeration represents info scopes, which are used to define which kind of information to return 
- * depending on the targetted scope.
+ * depending on the used scope.
  */
 class InfoScope extends Enumeration
 {
 	//Public constants
-	/** No info scope specified. */
-	public const NONE = 0;
+	/** Internal info scope, for internal application messages and logging. */
+	public const INTERNAL = 0;
 	
-	/** Technical info scope, used to target the developer creating the application. */
+	/** Technical info scope, for the developer using the application. */
 	public const TECHNICAL = 1;
 	
-	/** End-user info scope, used to target the user interacting with the application. */
+	/** End-user info scope, for the user interacting with the application. */
 	public const ENDUSER = 2;
 }
