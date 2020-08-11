@@ -444,6 +444,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 	/**
 	 * Reload.
 	 * 
+	 * This method may only be called after persistence.
+	 * 
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -453,6 +455,8 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 			$this->reloadProperties(function (): array {
 				return $this->loadPropertyValues($this->getId(), $this->getScopeIds());
 			});
+		} else {
+			UCall::halt(['hint_message' => "This method may only be called after persistence."]);
 		}
 		return $this;
 	}
