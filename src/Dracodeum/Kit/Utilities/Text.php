@@ -2188,21 +2188,12 @@ final class Text extends Utility
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Localize::coerce($options);
-		if ($text_options->translate) {
-			return Locale::translate($message, $context, [
-				'parameters' => $options->parameters,
-				'info_scope' => $text_options->info_scope,
-				'string_options' => $options->string_options,
-				'stringifier' => $options->stringifier,
-				'language' => $text_options->language
-			]);
-		} elseif (!empty($options->parameters)) {
-			return self::fill($message, $options->parameters, ['info_scope' => $text_options->info_scope], [
-				'string_options' => $options->string_options,
-				'stringifier' => $options->stringifier
-			]);
-		}
-		return $message;
+		return Locale::translate($message, $context, [
+			'parameters' => $options->parameters,
+			'info_scope' => $text_options->info_scope,
+			'string_options' => $options->string_options,
+			'stringifier' => $options->stringifier
+		]);
 	}
 	
 	/**
@@ -2279,25 +2270,12 @@ final class Text extends Utility
 	{
 		$text_options = TextOptions::coerce($text_options);
 		$options = Options\Plocalize::coerce($options);
-		if ($text_options->translate) {
-			return Locale::ptranslate($message1, $message2, $number, $number_placeholder, $context, [
-				'parameters' => $options->parameters,
-				'info_scope' => $text_options->info_scope,
-				'string_options' => $options->string_options,
-				'stringifier' => $options->stringifier,
-				'language' => $text_options->language
-			]);
-		} elseif (isset($number_placeholder) || !empty($options->parameters)) {
-			return self::pfill(
-				$message1, $message2, $number, $number_placeholder, $options->parameters, [
-					'info_scope' => $text_options->info_scope
-				], [
-					'string_options' => $options->string_options,
-					'stringifier' => $options->stringifier
-				]
-			);
-		}
-		return abs($number) === 1.0 ? $message1 : $message2;
+		return Locale::ptranslate($message1, $message2, $number, $number_placeholder, $context, [
+			'parameters' => $options->parameters,
+			'info_scope' => $text_options->info_scope,
+			'string_options' => $options->string_options,
+			'stringifier' => $options->stringifier
+		]);
 	}
 	
 	/**

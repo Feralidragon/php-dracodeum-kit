@@ -243,14 +243,12 @@ final class Locale implements IUninstantiable
 		
 		//parameters
 		if (!empty($options->parameters)) {
-			$message = UText::fill($message, $options->parameters, [
-				'info_scope' => $options->info_scope,
-				'translate' => true,
-				'language' => $options->language
-			], [
-				'string_options' => $options->string_options,
-				'stringifier' => $options->stringifier
-			]);
+			$message = UText::fill(
+				$message, $options->parameters, ['info_scope' => $options->info_scope], [
+					'string_options' => $options->string_options,
+					'stringifier' => $options->stringifier
+				]
+			);
 		}
 		
 		//return
@@ -337,14 +335,12 @@ final class Locale implements IUninstantiable
 		
 		
 		//parameters
-		$message = UText::fill($message, $parameters, [
-			'info_scope' => $options->info_scope,
-			'translate' => true,
-			'language' => $options->language
-		], [
-			'string_options' => $options->string_options,
-			'stringifier' => $options->stringifier
-		]);
+		$message = UText::fill(
+			$message, $parameters, ['info_scope' => $options->info_scope], [
+				'string_options' => $options->string_options,
+				'stringifier' => $options->stringifier
+			]
+		);
 		
 		//return
 		return $message;
