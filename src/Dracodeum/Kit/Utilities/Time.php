@@ -976,6 +976,7 @@ final class Time extends Utility
 				if ($options->short) {
 					$part = "{$number}{$row['symbol']}";
 				} else {
+					$part = $number === 1.0 ? "{$number} {$row['singular']}" : "{$number} {$row['plural']}";
 					switch ($row['symbol']) {
 						case 'ns':
 							/**
@@ -1086,9 +1087,6 @@ final class Time extends Utility
 								"{{number}} year", "{{number}} years",
 								$number, 'number', self::class, $text_options
 							);
-							break;
-						default:
-							$part = $number === 1.0 ? "{$number} {$row['singular']}" : "{$number} {$row['plural']}";
 							break;
 					}
 				}

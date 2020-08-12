@@ -209,7 +209,8 @@ final class Type extends Utility
 		//callable
 		if (is_callable($value)) {
 			return Call::source(
-				$value, Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPE | Call::SOURCE_CLASSES_LEADING_SLASH
+				$value,
+				Call::SOURCE_CONSTANTS_VALUES | Call::SOURCE_NO_MIXED_TYPE | Call::SOURCE_NAMESPACES_LEADING_SLASH
 			);
 		}
 		
