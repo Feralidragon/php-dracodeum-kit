@@ -15,6 +15,7 @@ use Dracodeum\Kit\Interfaces\{
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
 	Persistable as IPersistable,
+	Unpersistable as IUnpersistable,
 	ArrayInstantiable as IArrayInstantiable,
 	Stringifiable as IStringifiable,
 	Uncloneable as IUncloneable
@@ -78,7 +79,7 @@ use Dracodeum\Kit\Root\Log;
  */
 abstract class Entity
 implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
+IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -268,6 +269,9 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		return $this;
 	}
 	
+	
+	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Unpersistable)
 	/**
 	 * {@inheritdoc}
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -279,34 +283,37 @@ IReadonlyable, IPersistable, IArrayInstantiable, IStringifiable, IUncloneable
 		
 		//unpersist
 		try {
-			//pre-delete
-			$this->processPreDelete();
-			
-			//delete
-			$id = $this->getId();
-			try {
-				$this->getStore()->delete([
-					'id' => $id,
-					'name' => $this->getName(),
-					'base_scope' => $this->getBaseScope(),
-					'scope_ids' => $this->getScopeIds()
+			//persisted
+			if ($this->isPersisted()) {
+				//pre-delete
+				$this->processPreDelete();
+				
+				//delete
+				$id = $this->getId();
+				try {
+					$this->getStore()->delete([
+						'id' => $id,
+						'name' => $this->getName(),
+						'base_scope' => $this->getBaseScope(),
+						'scope_ids' => $this->getScopeIds()
+					]);
+				} catch (StoreException $exception) {
+					throw $this->mutateStoreException($exception);
+				}
+				
+				//log
+				$this->logEvent('INFO', "Entity {{name}} deleted.", [
+					'name' => 'entity.delete',
+					'data' => [
+						'id' => $id,
+						'scope' => $this->getScope()
+					],
+					'parameters' => ['name' => $this->getName()]
 				]);
-			} catch (StoreException $exception) {
-				throw $this->mutateStoreException($exception);
+				
+				//post-delete
+				$this->processPostDelete();
 			}
-			
-			//log
-			$this->logEvent('INFO', "Entity {{name}} deleted.", [
-				'name' => 'entity.delete',
-				'data' => [
-					'id' => $id,
-					'scope' => $this->getScope()
-				],
-				'parameters' => ['name' => $this->getName()]
-			]);
-			
-			//post-delete
-			$this->processPostDelete();
 			
 			//properties
 			$this->unpersistProperties(null, $recursive);

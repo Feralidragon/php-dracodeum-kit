@@ -21,7 +21,8 @@ use Dracodeum\Kit\Interfaces\{
 	Uncloneable as IUncloneable,
 	Readonlyable as IReadonlyable,
 	Keyable as IKeyable,
-	Persistable as IPersistable
+	Persistable as IPersistable,
+	Unpersistable as IUnpersistable
 };
 
 /**
@@ -1947,7 +1948,7 @@ final class Type extends Utility
 	 * <p>The object to persist.</p>
 	 * @param bool $recursive [default = false]
 	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
-	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnpersistableObject
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotPersistableObject
 	 * @return void
 	 */
 	final public static function persist(object $object, bool $recursive = false): void
@@ -1955,7 +1956,7 @@ final class Type extends Utility
 		if ($object instanceof IPersistable) {
 			$object->persist($recursive);
 		} else {
-			throw new Exceptions\UnpersistableObject([$object]);
+			throw new Exceptions\NotPersistableObject([$object]);
 		}
 	}
 	
@@ -1987,31 +1988,44 @@ final class Type extends Utility
 	}
 	
 	/**
+	 * Check if a given object is unpersistable.
+	 * 
+	 * @param object $object
+	 * <p>The object to check.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given object is unpersistable.</p>
+	 */
+	final public static function unpersistable(object $object): bool
+	{
+		return $object instanceof IUnpersistable;
+	}
+	
+	/**
 	 * Unpersist a given object.
 	 * 
 	 * @param object $object
 	 * <p>The object to unpersist.</p>
 	 * @param bool $recursive [default = false]
 	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
-	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnpersistableObject
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotUnpersistableObject
 	 * @return void
 	 */
 	final public static function unpersist(object $object, bool $recursive = false): void
 	{
-		if ($object instanceof IPersistable) {
+		if ($object instanceof IUnpersistable) {
 			$object->unpersist($recursive);
 		} else {
-			throw new Exceptions\UnpersistableObject([$object]);
+			throw new Exceptions\NotUnpersistableObject([$object]);
 		}
 	}
 	
 	/**
 	 * Unpersist a given value.
 	 * 
-	 * If the given value is a persistable object, then it is unpersisted.<br>
+	 * If the given value is an unpersistable object, then it is unpersisted.<br>
 	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
 	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every persistable object found being unpersisted.<br>
+	 * with every unpersistable object found being unpersisted.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
@@ -2023,7 +2037,7 @@ final class Type extends Utility
 	 */
 	final public static function unpersistValue($value, bool $recursive = false): void
 	{
-		if (is_object($value) && $value instanceof IPersistable) {
+		if (is_object($value) && $value instanceof IUnpersistable) {
 			$value->unpersist($recursive);
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
