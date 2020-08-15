@@ -1176,27 +1176,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	/**
 	 * Check if has already been persisted at least once.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if has already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
 	 */
-	final public function isPersisted(bool $recursive = false): bool
+	final public function isPersisted(): bool
 	{
-		if ($this->flags & self::FLAG_PERSISTED) {
-			if ($recursive) {
-				foreach ($this->properties as $property) {
-					if (
-						$property->isGettable() && !$property->hasLazyValue() && 
-						!UType::persistedValue($property->getValue(), true, true)
-					) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		return false;
+		return $this->flags & self::FLAG_PERSISTED;
 	}
 	
 	/**
@@ -1286,33 +1271,16 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param bool $changes_only [default = false]
 	 * <p>Include only changed property values, both old and new, during an update.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function persist(
-		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
-	): Properties
+	final public function persist(callable $inserter, callable $updater, bool $changes_only = false): Properties
 	{
 		//assert
 		UCall::assert('inserter', $inserter, function (array $values): array {});
 		UCall::assert(
 			'updater', $updater, function (array $old_values, array $new_values, array $changed_names): array {}
 		);
-		
-		//recursive
-		if ($recursive) {
-			foreach ($this->properties as $property) {
-				if ($property->isGettable() && !$property->hasLazyValue()) {
-					$value = $property->getValue();
-					if (is_object($value) && UType::persistable($value)) {
-						UType::persist($value, true);
-					}
-					unset($value);
-				}
-			}
-		}
 		
 		//changes map
 		$old_values = $new_values = [];
@@ -1421,80 +1389,61 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unpersist(?callable $deleter = null, bool $recursive = false): Properties
+	final public function unpersist(?callable $deleter = null): Properties
 	{
-		//unpersistables (initialize)
-		$unpersistables = [];
-		if ($recursive) {
-			foreach ($this->properties as $name => $property) {
-				if ($property->isGettable()) {
-					$value = $property->getValue();
-					if (is_object($value) && UType::unpersistable($value)) {
-						$unpersistables[$name] = $value;
-					}
-					unset($value);
-				}
+		//check
+		if (!$this->isPersisted()) {
+			return $this;
+		}
+		
+		//values
+		$values = [];
+		foreach ($this->properties as $name => $property) {
+			if ($property->isGettable() && !$property->isVolatile()) {
+				$value = $property->getValue();
+				$values[$name] = is_object($value) && UType::persistable($value) && $value instanceof IUid
+					? $value->getUid()
+					: $value;
+				unset($value);
 			}
 		}
 		
-		//persisted
-		if ($this->isPersisted()) {
-			//values
-			$values = [];
-			foreach ($this->properties as $name => $property) {
-				if ($property->isGettable() && !$property->isVolatile()) {
-					$value = $property->getValue();
-					$values[$name] = is_object($value) && UType::persistable($value) && $value instanceof IUid
-						? $value->getUid()
-						: $value;
-					unset($value);
+		//pre-persistence callbacks
+		foreach ($this->pre_persistent_changes_callbacks as $name => $callbacks) {
+			if (isset($values[$name])) {
+				$value = $values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($value, null);
 				}
-			}
-			
-			//pre-persistence callbacks
-			foreach ($this->pre_persistent_changes_callbacks as $name => $callbacks) {
-				if (isset($values[$name])) {
-					$value = $values[$name];
-					foreach ($callbacks as $callback) {
-						$callback($value, null);
-					}
-					unset($value);
-				}
-			}
-			
-			//delete
-			if ($deleter !== null) {
-				UCall::assert('deleter', $deleter, function (array $values): void {});
-				$deleter($values);
-			}
-			
-			//automatic
-			foreach ($this->properties as $property) {
-				if ($property->isAutomatic()) {
-					$property->unsetValue();
-				}
-			}
-			
-			//post-persistence callbacks
-			foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
-				if (isset($values[$name])) {
-					$value = $values[$name];
-					foreach ($callbacks as $callback) {
-						$callback($value, null);
-					}
-					unset($value);
-				}
+				unset($value);
 			}
 		}
 		
-		//unpersistables (unpersist)
-		if ($recursive && count($unpersistables)) {
-			UType::unpersistValue($unpersistables, true);
+		//delete
+		if ($deleter !== null) {
+			UCall::assert('deleter', $deleter, function (array $values): void {});
+			$deleter($values);
+		}
+		
+		//automatic
+		foreach ($this->properties as $property) {
+			if ($property->isAutomatic()) {
+				$property->unsetValue();
+			}
+		}
+		
+		//post-persistence callbacks
+		foreach ($this->post_persistent_changes_callbacks as $name => $callbacks) {
+			if (isset($values[$name])) {
+				$value = $values[$name];
+				foreach ($callbacks as $callback) {
+					$callback($value, null);
+				}
+				unset($value);
+			}
 		}
 		
 		//finalize

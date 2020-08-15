@@ -14,10 +14,8 @@ interface Unpersistable
 	/**
 	 * Unpersist.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function unpersist(bool $recursive = false): object;
+	public function unpersist(): object;
 }

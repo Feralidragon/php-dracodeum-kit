@@ -290,14 +290,12 @@ trait Properties
 	/**
 	 * Check if properties have already been persisted at least once.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if properties have already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if properties have already been persisted at least once.</p>
 	 */
-	final public function arePropertiesPersisted(bool $recursive = false): bool
+	final public function arePropertiesPersisted(): bool
 	{
-		return $this->getPropertiesManager()->isPersisted($recursive);
+		return $this->getPropertiesManager()->isPersisted();
 	}
 	
 	
@@ -523,16 +521,14 @@ trait Properties
 	 * Any returned property values which have no corresponding properties are ignored.</p>
 	 * @param bool $changes_only [default = false]
 	 * <p>Include only changed property values, both old and new, during an update.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final protected function persistProperties(
-		callable $inserter, callable $updater, bool $changes_only = false, bool $recursive = false
+		callable $inserter, callable $updater, bool $changes_only = false
 	): object
 	{
-		$this->getPropertiesManager()->persist($inserter, $updater, $changes_only, $recursive);
+		$this->getPropertiesManager()->persist($inserter, $updater, $changes_only);
 		return $this;
 	}
 	
@@ -550,14 +546,12 @@ trait Properties
 	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final protected function unpersistProperties(?callable $deleter = null, bool $recursive = false): object
+	final protected function unpersistProperties(?callable $deleter = null): object
 	{
-		$this->getPropertiesManager()->unpersist($deleter, $recursive);
+		$this->getPropertiesManager()->unpersist($deleter);
 		return $this;
 	}
 	

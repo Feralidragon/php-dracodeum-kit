@@ -239,9 +239,9 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Persistable)
 	/** {@inheritdoc} */
-	final public function isPersisted(bool $recursive = false): bool
+	final public function isPersisted(): bool
 	{
-		return $this->arePropertiesPersisted($recursive);
+		return $this->arePropertiesPersisted();
 	}
 	
 	/**
@@ -250,7 +250,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\Conflict
 	 */
-	final public function persist(bool $recursive = false): object
+	final public function persist(): object
 	{
 		//guard
 		$this->guardNonReadonlyCall();
@@ -258,7 +258,8 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		//persist
 		try {
 			$this->persistProperties(
-				\Closure::fromCallable([$this, 'insert']), \Closure::fromCallable([$this, 'update']), false, $recursive
+				\Closure::fromCallable([$this, 'insert']),
+				\Closure::fromCallable([$this, 'update'])
 			);
 		} catch (\Throwable $throwable) {
 			$this->logThrowableEvent('ERROR', $throwable);
@@ -276,47 +277,49 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * {@inheritdoc}
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 */
-	final public function unpersist(bool $recursive = false): object
+	final public function unpersist(): object
 	{
 		//guard
 		$this->guardNonReadonlyCall();
 		
+		//check
+		if (!$this->isPersisted()) {
+			return $this;
+		}
+		
 		//unpersist
 		try {
-			//persisted
-			if ($this->isPersisted()) {
-				//pre-delete
-				$this->processPreDelete();
-				
-				//delete
-				$id = $this->getId();
-				try {
-					$this->getStore()->delete([
-						'id' => $id,
-						'name' => $this->getName(),
-						'base_scope' => $this->getBaseScope(),
-						'scope_ids' => $this->getScopeIds()
-					]);
-				} catch (StoreException $exception) {
-					throw $this->mutateStoreException($exception);
-				}
-				
-				//log
-				$this->logEvent('INFO', "Entity {{name}} deleted.", [
-					'name' => 'entity.delete',
-					'data' => [
-						'id' => $id,
-						'scope' => $this->getScope()
-					],
-					'parameters' => ['name' => $this->getName()]
+			//pre-delete
+			$this->processPreDelete();
+			
+			//delete
+			$id = $this->getId();
+			try {
+				$this->getStore()->delete([
+					'id' => $id,
+					'name' => $this->getName(),
+					'base_scope' => $this->getBaseScope(),
+					'scope_ids' => $this->getScopeIds()
 				]);
-				
-				//post-delete
-				$this->processPostDelete();
+			} catch (StoreException $exception) {
+				throw $this->mutateStoreException($exception);
 			}
 			
+			//log
+			$this->logEvent('INFO', "Entity {{name}} deleted.", [
+				'name' => 'entity.delete',
+				'data' => [
+					'id' => $id,
+					'scope' => $this->getScope()
+				],
+				'parameters' => ['name' => $this->getName()]
+			]);
+			
+			//post-delete
+			$this->processPostDelete();
+			
 			//properties
-			$this->unpersistProperties(null, $recursive);
+			$this->unpersistProperties();
 			
 		} catch (\Throwable $throwable) {
 			$this->logThrowableEvent('ERROR', $throwable);

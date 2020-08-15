@@ -1897,14 +1897,12 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given object has already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object has already been persisted at least once.</p>
 	 */
-	final public static function persisted(object $object, bool $recursive = false): bool
+	final public static function persisted(object $object): bool
 	{
-		return $object instanceof IPersistable ? $object->isPersisted($recursive) : false;
+		return $object instanceof IPersistable ? $object->isPersisted() : false;
 	}
 	
 	/**
@@ -1929,7 +1927,7 @@ final class Type extends Utility
 	final public static function persistedValue($value, bool $recursive = false, bool $persistables_only = false): bool
 	{
 		if (is_object($value) && $value instanceof IPersistable) {
-			return $value->isPersisted($recursive);
+			return $value->isPersisted();
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				$persistable = is_object($v) && self::persistable($v);
@@ -1947,15 +1945,13 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to persist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotPersistableObject
 	 * @return void
 	 */
-	final public static function persist(object $object, bool $recursive = false): void
+	final public static function persist(object $object): void
 	{
 		if ($object instanceof IPersistable) {
-			$object->persist($recursive);
+			$object->persist();
 		} else {
 			throw new Exceptions\NotPersistableObject([$object]);
 		}
@@ -1980,10 +1976,10 @@ final class Type extends Utility
 	final public static function persistValue($value, bool $recursive = false): void
 	{
 		if (is_object($value) && $value instanceof IPersistable) {
-			$value->persist($recursive);
+			$value->persist();
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
-				self::persistValue($v, $recursive);
+				self::persistValue($v, true);
 			}
 		}
 	}
@@ -2006,15 +2002,13 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to unpersist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotUnpersistableObject
 	 * @return void
 	 */
-	final public static function unpersist(object $object, bool $recursive = false): void
+	final public static function unpersist(object $object): void
 	{
 		if ($object instanceof IUnpersistable) {
-			$object->unpersist($recursive);
+			$object->unpersist();
 		} else {
 			throw new Exceptions\NotUnpersistableObject([$object]);
 		}
@@ -2039,10 +2033,10 @@ final class Type extends Utility
 	final public static function unpersistValue($value, bool $recursive = false): void
 	{
 		if (is_object($value) && $value instanceof IUnpersistable) {
-			$value->unpersist($recursive);
+			$value->unpersist();
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
-				self::unpersistValue($v, $recursive);
+				self::unpersistValue($v, true);
 			}
 		}
 	}

@@ -14,20 +14,16 @@ interface Persistable
 	/**
 	 * Check if has already been persisted at least once.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if has already been recursively persisted at least once.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has already been persisted at least once.</p>
 	 */
-	public function isPersisted(bool $recursive = false): bool;
+	public function isPersisted(): bool;
 	
 	/**
 	 * Persist.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	public function persist(bool $recursive = false): object;
+	public function persist(): object;
 }
