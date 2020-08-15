@@ -40,7 +40,7 @@ use Dracodeum\Kit\Utilities\{
  * by representing an additional set of optional parameters.<br>
  * <br>
  * All properties are lazy-loaded, and validated and sanitized, guaranteeing their type and integrity, 
- * and may be got and set directly just like public object properties.<br>
+ * and may be retrieved and set directly just like public object properties.<br>
  * <br>
  * It may also be set as read-only to prevent any further changes.
  * 
@@ -448,7 +448,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

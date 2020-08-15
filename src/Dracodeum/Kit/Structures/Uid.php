@@ -99,6 +99,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -119,6 +120,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -142,6 +144,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -204,6 +207,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
@@ -227,6 +231,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to coerce with.</p>
 	 * @param mixed $value
@@ -252,6 +257,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to process with.</p>
 	 * @param mixed $value [reference]
@@ -293,6 +299,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param array $values [reference]
 	 * <p>The set of values to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -312,6 +319,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
@@ -333,6 +341,7 @@ class Uid extends Structure
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param array $values [reference]
 	 * <p>The set of values to process (validate and sanitize).</p>
 	 * @param bool $no_throw [default = false]

@@ -356,7 +356,7 @@ final class Data extends Utility
 		}
 		unset($v);
 		
-		//finish
+		//finalize
 		if (!$is_left) {
 			$array += $array2;
 		}
@@ -2261,12 +2261,12 @@ final class Data extends Utility
 				}
 			}
 			
-			//finish
+			//finalize
 			$array = $f_array;
 			unset($f_array);
 		}
 		
-		//finish
+		//finalize
 		$value = $array;
 		return true;
 	}

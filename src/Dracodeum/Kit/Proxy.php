@@ -75,8 +75,8 @@ abstract class Proxy implements IDebugInfo, IDebugInfoProcessor, IUncloneable
 	/**
 	 * Get owner base class.
 	 * 
-	 * Any owner instance given to be used by this proxy must be or 
-	 * extend from the same class as the class returned here.
+	 * Any given owner class or instance to be used by this proxy must be or 
+	 * extend from the same class as the one returned here.
 	 * 
 	 * @return string
 	 * <p>The owner base class.</p>

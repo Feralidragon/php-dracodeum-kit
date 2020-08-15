@@ -18,6 +18,7 @@ use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
  * <p>The UID instance.</p>
  * @property-read string $type [coercive = enumeration value]
  * <p>The type, as a value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
+ * @see \Dracodeum\Kit\Components\Store\Enumerations\Halt\Type
  */
 class Halted extends Exception
 {

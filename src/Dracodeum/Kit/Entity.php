@@ -58,7 +58,7 @@ use Dracodeum\Kit\Root\Log;
  * <br>
  * All persistent operations are optimized to only persist changes, as well prevent changes to protected properties, 
  * with each and every single one of its properties validated and sanitized, guaranteeing its type and integrity, 
- * and which may be got and set directly just like any public object property.<br>
+ * and which may be retrieved and set directly just like any public object property.<br>
  * <br>
  * Additional internal functions may also be called automatically upon the persistence of a property value change.<br>
  * <br>
@@ -648,6 +648,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -698,6 +699,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -751,6 +753,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
@@ -835,7 +838,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -863,6 +866,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -883,6 +887,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -906,6 +911,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -959,6 +965,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
@@ -982,6 +989,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to coerce with.</p>
 	 * @param mixed $value
@@ -1007,6 +1015,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param string $name
 	 * <p>The name to process with.</p>
 	 * @param mixed $value [reference]
@@ -1079,6 +1088,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param array $values [reference]
 	 * <p>The set of values to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -1098,6 +1108,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
 	 * interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed

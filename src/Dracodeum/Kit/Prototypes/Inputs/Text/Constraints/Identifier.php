@@ -31,6 +31,7 @@ use Dracodeum\Kit\Utilities\{
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
  * @property-write int|null $case [coercive = enumeration value] [default = null]
  * <p>The case to use, as a value from the <code>Dracodeum\Kit\Enumerations\TextCase</code> enumeration.</p>
+ * @see \Dracodeum\Kit\Enumerations\TextCase
  */
 class Identifier extends Constraint implements ISubtype, IInformation, ISchemaData
 {

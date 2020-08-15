@@ -15,7 +15,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * 
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use.</p>
  * @property callable|null $stringifier [coercive] [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>

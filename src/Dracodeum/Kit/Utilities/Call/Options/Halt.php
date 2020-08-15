@@ -71,11 +71,11 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * If not set, then the object or class of the current function or method in the stack is used.</p>
  * @property array $parameters [coercive] [default = []]
  * <p>The parameters to replace the error and hint message placeholders with, as <samp>name => value</samp> pairs.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive = options] [default = null]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use for 
- * the hint message.</p>
+ * the error and hint messages.</p>
  * @property callable|null $stringifier [coercive] [default = null]
- * <p>The function to use to stringify a given value for a given hint message placeholder.<br>
+ * <p>The function to use to stringify a given value for a given error or hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
  * <code>function (string $placeholder, $value): ?string</code><br>
@@ -87,8 +87,8 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * &nbsp; &nbsp; &nbsp; The value to stringify.<br>
  * <br>
  * Return: <code><b>string|null</b></code><br>
- * The stringified value for the given hint message placeholder or <code>null</code> if no stringification occurred.</p>
- * @see \Dracodeum\Kit\Utilities\Text
+ * The stringified value for the given error or hint message placeholder or <code>null</code> if no stringification 
+ * occurred.</p>
  */
 class Halt extends Options
 {

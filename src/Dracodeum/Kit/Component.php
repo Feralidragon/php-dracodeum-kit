@@ -266,8 +266,8 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	/**
 	 * Get base prototype class.
 	 * 
-	 * Any prototype class or instance given to be used by this component must be or 
-	 * extend from the same class as the base prototype class returned here.
+	 * Any given prototype class or instance to be used by this component must be or 
+	 * extend from the same class as the one returned here.
 	 * 
 	 * @return string
 	 * <p>The base prototype class.</p>
@@ -717,7 +717,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

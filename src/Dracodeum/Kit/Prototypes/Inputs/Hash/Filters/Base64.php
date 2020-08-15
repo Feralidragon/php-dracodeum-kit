@@ -21,7 +21,7 @@ use Dracodeum\Kit\Utilities\Base64 as UBase64;
  * @property-write bool $url_safe [writeonce] [transient] [coercive] [default = false]
  * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) are replaced 
  * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
- * in order to be safely put in an URL.</p>
+ * in order to be safely put in a URL.</p>
  */
 class Base64 extends Filter implements ISubtype, ISchemaData
 {

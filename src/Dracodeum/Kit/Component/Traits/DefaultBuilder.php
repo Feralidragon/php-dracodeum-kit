@@ -29,7 +29,7 @@ trait DefaultBuilder
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Component</b></code><br>
-	 * The built instance.
+	 * The built instance with the given prototype and set of properties.
 	 * 
 	 * @return callable|null
 	 * <p>The default builder function or <code>null</code> if none is set.</p>

@@ -414,7 +414,7 @@ final class Text extends Utility
 			return $prepend_type ? "(array){$string}" : $string;
 		}
 		
-		//finish
+		//finalize
 		if ($options->no_throw) {
 			return null;
 		}
@@ -862,7 +862,7 @@ final class Text extends Utility
 				$pointer_string = self::stringify($pointer, $text_options, $options->string_options) ?? '';
 			}
 			
-			//finish
+			//finalize
 			$f_string .= $pointer_string;
 			unset($pointer);
 		}
@@ -1294,7 +1294,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Convert as an Unicode string.</p>
+	 * <p>Convert as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string with the first letter converted to lowercase.</p>
 	 */
@@ -1315,7 +1315,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Convert as an Unicode string.</p>
+	 * <p>Convert as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string with the first letter converted to uppercase.</p>
 	 */
@@ -1335,7 +1335,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to calculate from.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Calculate as an Unicode string.</p>
+	 * <p>Calculate as a Unicode string.</p>
 	 * @return int
 	 * <p>The length of the given string.</p>
 	 */
@@ -1350,7 +1350,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Convert as an Unicode string.</p>
+	 * <p>Convert as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string converted to uppercase.</p>
 	 */
@@ -1365,7 +1365,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to convert.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Convert as an Unicode string.</p>
+	 * <p>Convert as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string converted to lowercase.</p>
 	 */
@@ -1389,7 +1389,7 @@ final class Text extends Utility
 	 * If negative, then it is interpreted as the number of characters to remove from the end of the given string.<br>
 	 * If not set, then it is interpreted as being the exact length of the given string.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Get as an Unicode string.</p>
+	 * <p>Get as a Unicode string.</p>
 	 * @return string
 	 * <p>The sub-string from the given string from the given starting index.</p>
 	 */
@@ -1409,7 +1409,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to capitalize.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Capitalize as an Unicode string.</p>
+	 * <p>Capitalize as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string capitalized.</p>
 	 */
@@ -1436,7 +1436,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to uncapitalize.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Uncapitalize as an Unicode string.</p>
+	 * <p>Uncapitalize as a Unicode string.</p>
 	 * @return string
 	 * <p>The given string uncapitalized.</p>
 	 */
@@ -2125,11 +2125,6 @@ final class Text extends Utility
 	/**
 	 * Localize a given message.
 	 * 
-	 * Unlike the <code>translate</code> method from the root locale class <code>Dracodeum\Kit\Root\Locale</code>, 
-	 * the returning message is only actually translated depending on the given text options, in other words, 
-	 * this function is meant to be used with any message which is only meant to be translated 
-	 * if such is explicitly demanded by the callee through text options.<br>
-	 * <br>
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, 
 	 * and they must be exclusively composed by identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
@@ -2162,13 +2157,13 @@ final class Text extends Utility
 	 * </code><br>
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, these descriptions and examples 
-	 * will also be exported and saved into the resulting file with all the messages to translate.<br>
+	 * will also be exported and saved into the resulting file with all the messages to localize.<br>
 	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
-	 * of all existing entries to translate.
+	 * of all existing entries to localize.
 	 * 
 	 * @see \Dracodeum\Kit\Root\Locale
 	 * @param string $message
@@ -2199,11 +2194,6 @@ final class Text extends Utility
 	/**
 	 * Localize a given plural message.
 	 * 
-	 * Unlike the <code>ptranslate</code> method from the root locale class <code>Dracodeum\Kit\Root\Locale</code>, 
-	 * the returning message is only actually translated depending on the given text options, in other words, 
-	 * this function is meant to be used with any message which is only meant to be translated if such is explicitly 
-	 * demanded by the callee through text options.<br>
-	 * <br>
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively 
 	 * composed by identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
@@ -2237,13 +2227,13 @@ final class Text extends Utility
 	 * <br>
 	 * Once the PHP source files are scanned to look for the usage of this call, 
 	 * these descriptions and examples will also be exported and saved into the resulting file with all 
-	 * the messages to translate.<br>
+	 * the messages to localize.<br>
 	 * The usage of newlines is fully respected during the parsing, however any newline not meant to be parsed 
 	 * must be escaped by preceding it with a backslash character (<samp>\</samp>).<br>
 	 * <br>
 	 * As shown above, tags may also be provided, separated by whitespace (space, tab or newline), 
 	 * to optionally be filtered by during the scan, in order to create files with only a specific desired subset 
-	 * of all existing entries to translate.
+	 * of all existing entries to localize.
 	 * 
 	 * @see \Dracodeum\Kit\Root\Locale
 	 * @param string $message1
@@ -2300,7 +2290,7 @@ final class Text extends Utility
 	 * @param string $message
 	 * <p>The message to format.</p>
 	 * @param bool $unicode [default = false]
-	 * <p>Format as an Unicode message.</p>
+	 * <p>Format as a Unicode message.</p>
 	 * @param string $indentation_expression [default = "\t"]
 	 * <p>The expression to indentate with.<br>
 	 * It cannot be empty.</p>

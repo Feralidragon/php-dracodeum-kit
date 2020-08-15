@@ -40,7 +40,7 @@ use Dracodeum\Kit\Utilities\{
  * 
  * A structure is a simple object which represents and stores multiple properties of multiple types.<br>
  * Each and every single one of its properties is validated and sanitized, guaranteeing its type and integrity, 
- * and may be got and set directly just like any public object property.<br>
+ * and may be retrieved and set directly just like any public object property.<br>
  * <br>
  * It may also be set as read-only to prevent any further changes.
  * 
@@ -477,7 +477,7 @@ IArrayInstantiable, ICloneable
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

@@ -663,7 +663,7 @@ trait Evaluators
 	 * Only the following types and formats can be evaluated into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
 	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
-	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @param int|null $bits [default = null]
@@ -699,7 +699,7 @@ trait Evaluators
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -736,7 +736,7 @@ trait Evaluators
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer as a Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -767,7 +767,7 @@ trait Evaluators
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -863,6 +863,7 @@ trait Evaluators
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
+	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param string $class
 	 * <p>The class to use.</p>

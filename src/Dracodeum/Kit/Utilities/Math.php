@@ -109,7 +109,7 @@ final class Math extends Utility
 	/**
 	 * Get a random integer or string value from a given set of weighted values.
 	 * 
-	 * The returning value is got as one of the keys from the <var>$values_weights</var> parameter, 
+	 * The returning value is retrieved as one of the keys from the <var>$values_weights</var> parameter, 
 	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, 
 	 * hence only an integer or string value can be returned.<br>
 	 * <br>
@@ -296,7 +296,7 @@ final class Math extends Utility
 	 * @return int|null
 	 * <p>The machine-readable number from the given human one.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function mnumber(string $number, bool $no_throw = false): ?int
 	{
@@ -431,7 +431,7 @@ final class Math extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

@@ -37,7 +37,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	/**
 	 * Get name.
 	 * 
-	 * The returning name must be a canonical string, which uniquely identifies this input.
+	 * The returning name must be a canonical string which identifies this input.
 	 * 
 	 * @return string
 	 * <p>The name.</p>

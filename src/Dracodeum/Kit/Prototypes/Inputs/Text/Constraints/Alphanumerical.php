@@ -31,6 +31,7 @@ use Dracodeum\Kit\Utilities\{
  * <p>The case to use, as a value from the <code>Dracodeum\Kit\Enumerations\TextCase</code> enumeration.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given text input value as Unicode.</p>
+ * @see \Dracodeum\Kit\Enumerations\TextCase
  */
 class Alphanumerical extends Constraint implements ISubtype, IInformation, ISchemaData
 {

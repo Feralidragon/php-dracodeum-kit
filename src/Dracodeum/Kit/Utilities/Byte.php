@@ -152,7 +152,7 @@ final class Byte extends Utility
 	 * @return int|null
 	 * <p>The machine-readable value in bytes from the given human one.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function mvalue(string $value, bool $no_throw = false): ?int
 	{
@@ -310,7 +310,7 @@ final class Byte extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -443,7 +443,7 @@ final class Byte extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

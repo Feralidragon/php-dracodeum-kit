@@ -99,7 +99,7 @@ abstract class Enumeration implements IUninstantiable
 	 * 
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
@@ -119,7 +119,7 @@ abstract class Enumeration implements IUninstantiable
 	 * 
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
@@ -276,7 +276,7 @@ abstract class Enumeration implements IUninstantiable
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -376,7 +376,7 @@ abstract class Enumeration implements IUninstantiable
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -393,7 +393,7 @@ abstract class Enumeration implements IUninstantiable
 	 * 
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
@@ -463,7 +463,7 @@ abstract class Enumeration implements IUninstantiable
 	 * 
 	 * @param int|float|string $element
 	 * <p>The element to get from, by value or name.<br>
-	 * If any existing value matches an existing name, then the given element is got only by its value.</p>
+	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
 	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]

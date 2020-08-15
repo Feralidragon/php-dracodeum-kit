@@ -16,6 +16,7 @@ interface Contract
 	/**
 	 * Halt the current function or method call in the stack with a given UID instance and type.
 	 * 
+	 * @see \Dracodeum\Kit\Components\Store\Enumerations\Halt\Type
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to halt with.</p>
 	 * @param string $type

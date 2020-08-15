@@ -116,7 +116,7 @@ abstract class Modifier extends Component
 	/**
 	 * Get name.
 	 * 
-	 * The returning name is a canonical string, which uniquely identifies this modifier within an input.
+	 * The returning name is a canonical string which identifies this modifier within an input.
 	 * 
 	 * @return string
 	 * <p>The name.</p>

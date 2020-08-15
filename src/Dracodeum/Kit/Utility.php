@@ -10,7 +10,7 @@ namespace Dracodeum\Kit;
 use Dracodeum\Kit\Interfaces\Uninstantiable as IUninstantiable;
 
 /**
- * This class is the base to be extended from when creating an utility.
+ * This class is the base to be extended from when creating a utility.
  * 
  * All methods of this kind of class must be <code>static</code>.
  * 

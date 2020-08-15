@@ -39,7 +39,7 @@ final class Key implements ICloneable
 	 * @param mixed $value
 	 * <p>The value to instantiate with.</p>
 	 * @param float|null $expiry [default = null]
-	 * <p>The expiry to instantiate with, as an Unix timestamp, with microseconds.</p>
+	 * <p>The expiry to instantiate with, as a Unix timestamp, with microseconds.</p>
 	 */
 	final public function __construct(string $name, $value, ?float $expiry = null)
 	{
@@ -88,7 +88,7 @@ final class Key implements ICloneable
 	 * Get expiry.
 	 * 
 	 * @return float|null
-	 * <p>The expiry, as an Unix timestamp, with microseconds, or <code>null</code> if none is set.</p>
+	 * <p>The expiry, as a Unix timestamp, with microseconds, or <code>null</code> if none is set.</p>
 	 */
 	final public function getExpiry(): ?float
 	{

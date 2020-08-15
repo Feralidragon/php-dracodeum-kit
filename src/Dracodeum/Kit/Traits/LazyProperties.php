@@ -421,7 +421,7 @@ trait LazyProperties
 	/**
 	 * Set properties fallback object.
 	 * 
-	 * By setting a properties fallback object, any property not found in this object is attempted to be got from 
+	 * By setting a properties fallback object, any property not found in this object is attempted to be retrieved from 
 	 * the given fallback object instead.<br>
 	 * <br>
 	 * This method may only be called after the properties manager initialization.

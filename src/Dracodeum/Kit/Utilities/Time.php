@@ -246,7 +246,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -287,7 +287,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -330,7 +330,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -370,7 +370,7 @@ final class Time extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -435,7 +435,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer as a Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -468,7 +468,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer as a Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Time\Exceptions\DateCoercionFailed
@@ -504,7 +504,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer as a Unix timestamp.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -539,7 +539,7 @@ final class Time extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -605,7 +605,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to evaluate into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is evaluated into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is evaluated into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Evaluate the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -646,7 +646,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -689,7 +689,7 @@ final class Time extends Utility
 	 * @param string|null $format [default = null]
 	 * <p>The format to coerce into, as supported by the PHP <code>date</code> function, 
 	 * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
-	 * If not set, then the given value is coerced into an integer or float as an Unix timestamp.</p>
+	 * If not set, then the given value is coerced into an integer or float as a Unix timestamp.</p>
 	 * @param bool $microseconds [default = false]
 	 * <p>Coerce the given value with microseconds.</p>
 	 * @param string|null $timezone [default = null]
@@ -730,7 +730,7 @@ final class Time extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -1160,7 +1160,7 @@ final class Time extends Utility
 	 * @return float|null
 	 * <p>The machine-readable period, in seconds, from the given human one.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function mperiod(string $period, bool $no_throw = false): ?float
 	{
@@ -1294,7 +1294,7 @@ final class Time extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

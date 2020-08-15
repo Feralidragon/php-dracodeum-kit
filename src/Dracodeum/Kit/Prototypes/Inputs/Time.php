@@ -25,10 +25,10 @@ use Dracodeum\Kit\Utilities\{
 };
 
 /**
- * This input prototype represents a time, as an Unix timestamp.
+ * This input prototype represents a time, as a Unix timestamp.
  * 
  * Only the following types of values may be evaluated as a time:<br>
- * &nbsp; &#8226; &nbsp; an Unix timestamp;<br>
+ * &nbsp; &#8226; &nbsp; a Unix timestamp;<br>
  * &nbsp; &#8226; &nbsp; a custom string format as supported by the PHP <code>strtotime</code> function;<br>
  * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.
  * 

@@ -12,7 +12,7 @@ use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
- * This class represents the current application runtime and is used to generate an UUID which uniquely identifies 
+ * This class represents the current application runtime and is used to generate a UUID which uniquely identifies 
  * a single runtime instance of the application, as well statically set and get its origin as the originally used 
  * entry point to execute the application.
  */

@@ -20,7 +20,7 @@ final class Url extends Utility
 	/**
 	 * Generate a string from a given value.
 	 * 
-	 * The returning string represents the given value in order to be used in an URL path or query string.
+	 * The returning string represents the given value in order to be used in a URL path or query string.
 	 * 
 	 * @param mixed $value
 	 * <p>The value to stringify.</p>

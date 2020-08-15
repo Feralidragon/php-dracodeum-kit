@@ -58,7 +58,8 @@ trait Readonly
 	
 	//Final protected methods
 	/**
-	 * Guard the current function or method in the stack from being called if this object is set as read-only.
+	 * Guard the current function or method in the stack so it may only be called if this object is not set as 
+	 * read-only.
 	 * 
 	 * @return void
 	 */

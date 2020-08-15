@@ -308,7 +308,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/**
 	 * Get name.
 	 * 
-	 * The returning name is a canonical string, which uniquely identifies this input.
+	 * The returning name is a canonical string which identifies this input.
 	 * 
 	 * @return string
 	 * <p>The name.</p>
@@ -767,7 +767,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 					]);
 				}
 				
-				//finish
+				//finalize
 				$value = $v;
 				unset($v);
 			}
@@ -1210,7 +1210,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 				return false;
 			}
 			
-			//finish
+			//finalize
 			$value = $v;
 			unset($v);
 		}

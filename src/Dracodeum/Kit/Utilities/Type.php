@@ -214,7 +214,7 @@ final class Type extends Utility
 			);
 		}
 		
-		//finish
+		//finalize
 		if ($options->no_throw) {
 			return null;
 		}
@@ -336,7 +336,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -489,7 +489,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -702,7 +702,7 @@ final class Type extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -833,7 +833,7 @@ final class Type extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -968,7 +968,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -1107,7 +1107,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		$value = $class;
 		return true;
 	}
@@ -1352,7 +1352,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		$value = $object;
 		return true;
 	}
@@ -1568,7 +1568,7 @@ final class Type extends Utility
 			}
 		}
 		
-		//finish
+		//finalize
 		$value = $object_class;
 		return true;
 	}
@@ -1721,6 +1721,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is assumed to not be read-only.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
 	 * @param bool $recursive [default = false]
@@ -1775,6 +1776,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to set as read-only.</p>
 	 * @param bool $recursive [default = false]
@@ -1834,6 +1836,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is forcefully keyfied.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to cast.</p>
 	 * @param bool $recursive [default = false]
@@ -1915,6 +1918,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is assumed to not have been persisted.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
 	 * @param bool $recursive [default = false]
@@ -1967,6 +1971,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to persist.</p>
 	 * @param bool $recursive [default = false]
@@ -2024,6 +2029,7 @@ final class Type extends Utility
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to unpersist.</p>
 	 * @param bool $recursive [default = false]
@@ -2242,7 +2248,7 @@ final class Type extends Utility
 	 * @return string|null
 	 * <p>The class from the given object or class.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function class($object_class, bool $no_throw = false): ?string
 	{

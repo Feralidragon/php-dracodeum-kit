@@ -25,7 +25,7 @@ abstract class Modifier extends Prototype
 	/**
 	 * Get name.
 	 * 
-	 * The returning name must be a canonical string, which uniquely identifies this modifier within an input.
+	 * The returning name must be a canonical string which identifies this modifier within an input.
 	 * 
 	 * @return string
 	 * <p>The name.</p>

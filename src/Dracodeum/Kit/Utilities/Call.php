@@ -165,7 +165,7 @@ final class Call extends Utility
 	 * @return \ReflectionFunction|\ReflectionMethod|null
 	 * <p>A new reflection instance from the given function.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if it could not be got.</p>
+	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
 	final public static function reflection($function, bool $no_throw = false): ?\ReflectionFunctionAbstract
 	{
@@ -285,7 +285,7 @@ final class Call extends Utility
 	 * Get name from a given function.
 	 * 
 	 * If the given function is anonymous, then <code>null</code> is returned.<br>
-	 * If the given function belongs to a class and the <var>$full</var> parameter is passed as 
+	 * If the given function belongs to a class and the <var>$full</var> parameter is given as 
 	 * boolean <code>true</code>, then a string in the format <code>Class::name</code> is returned.<br>
 	 * In every other case only the name itself is returned.
 	 * 
@@ -625,7 +625,7 @@ final class Call extends Utility
 			//body
 			$body = self::body($function);
 			
-			//finish
+			//finalize
 			if ($body !== '') {
 				$body = Text::indentate($body);
 				return "{$header}\n{\n{$body}\n}";
@@ -1202,7 +1202,7 @@ final class Call extends Utility
 	 * Get previous function name from the current stack.
 	 * 
 	 * If the previous function is anonymous, then <code>null</code> is returned.<br>
-	 * If the previous function belongs to a class and the <var>$full</var> parameter is passed as
+	 * If the previous function belongs to a class and the <var>$full</var> parameter is given as
 	 * boolean <code>true</code>, then a string in the format <code>Class::name</code> is returned.<br>
 	 * In every other case only the name itself is returned.
 	 * 
@@ -1293,7 +1293,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called depending on a given assertion.
+	 * Guard the current function or method in the stack so it may only be called depending on a given assertion.
 	 * 
 	 * @param bool $assertion
 	 * <p>The assertion to depend on.<br>
@@ -1359,7 +1359,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from being called depending on a given assertion 
+	 * Guard the current function or method in the stack so it may only be called depending on a given assertion 
 	 * relative to a given parameter name and value.
 	 * 
 	 * @param string $name
@@ -1424,7 +1424,7 @@ final class Call extends Utility
 	}
 	
 	/**
-	 * Guard the current function or method in the stack from continuing its internal execution 
+	 * Guard the current function or method in the stack so it may only continue its internal execution 
 	 * depending on a given assertion.
 	 * 
 	 * @param bool $assertion

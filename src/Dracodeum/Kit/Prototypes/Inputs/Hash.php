@@ -35,7 +35,7 @@ use Dracodeum\Kit\Utilities\{
  * Only the following types of values may be evaluated as a hash:<br>
  * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
  * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
- * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+ * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
  * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]

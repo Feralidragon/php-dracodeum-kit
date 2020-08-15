@@ -27,7 +27,7 @@ final class Base64 extends Utility
 	 * @param bool|null $url_safe [default = null]
 	 * <p>Check URL-safe encoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) are replaced 
 	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
-	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>
+	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in a URL.<br>
 	 * If not set, then the used encoding is automatically detected from the given string.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is encoded.</p>
@@ -56,7 +56,7 @@ final class Base64 extends Utility
 	 * @param bool $url_safe [default = false]
 	 * <p>Use URL-safe encoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) are replaced 
 	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
-	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.</p>
+	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in a URL.</p>
 	 * @return string
 	 * <p>The given string encoded.</p>
 	 */
@@ -73,7 +73,7 @@ final class Base64 extends Utility
 	 * @param bool|null $url_safe [default = null]
 	 * <p>Use URL-safe decoding, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) are replaced 
 	 * by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
-	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>
+	 * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in a URL.<br>
 	 * If not set, then the used encoding is automatically detected from the given string.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

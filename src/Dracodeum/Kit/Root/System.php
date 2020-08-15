@@ -246,7 +246,7 @@ final class System implements IUninstantiable
 			}
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return null;
 		}

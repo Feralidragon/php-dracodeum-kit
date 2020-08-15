@@ -24,7 +24,7 @@ trait DefaultBuilder
 	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
-	 * The built instance.
+	 * The built instance with the given set of properties.
 	 * 
 	 * @return callable|null
 	 * <p>The default builder function or <code>null</code> if none is set.</p>

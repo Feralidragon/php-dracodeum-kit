@@ -38,7 +38,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; a string as a comma separated list of values, such as <samp>value1,value2,value3</samp>;<br>
  * &nbsp; &#8226; &nbsp; a JSON array.
  * 
- * @property-write \Dracodeum\Kit\Components\Input|null $input [writeonce] [transient] [coercive = component] [default = null]
+ * @property-write \Dracodeum\Kit\Components\Input|null $input [writeonce] [transient] [coercive] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Array_data_structure
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
@@ -128,7 +128,7 @@ IErrorUnset
 			}
 		}
 		
-		//finish
+		//finalize
 		$value = $vector;
 		return true;
 	}

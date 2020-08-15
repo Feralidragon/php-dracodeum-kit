@@ -44,7 +44,7 @@ final class Hash extends Utility
 	 * Only the following types and formats can be evaluated into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
 	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
-	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @param mixed $value [reference]
@@ -68,7 +68,7 @@ final class Hash extends Utility
 	 * Only the following types and formats can be coerced into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
 	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
-	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @param mixed $value
@@ -95,7 +95,7 @@ final class Hash extends Utility
 	 * Only the following types and formats can be coerced into a hash:<br>
 	 * &nbsp; &#8226; &nbsp; a hexadecimal notation string;<br>
 	 * &nbsp; &#8226; &nbsp; a colon-hexadecimal notation string, as octets or hextets;<br>
-	 * &nbsp; &#8226; &nbsp; a Base64 or an URL-safe Base64 encoded string;<br>
+	 * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @param mixed $value [reference]
@@ -182,7 +182,7 @@ final class Hash extends Utility
 			return true;
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}
@@ -194,7 +194,7 @@ final class Hash extends Utility
 				"for which only the following types and formats can be coerced into such:\n" . 
 				" - a hexadecimal notation string;\n" . 
 				" - a colon-hexadecimal notation string, as octets or hextets;\n" . 
-				" - a Base64 or an URL-safe Base64 encoded string;\n" . 
+				" - a Base64 or a URL-safe Base64 encoded string;\n" . 
 				" - a raw binary string.",
 				['bits' => $bits]
 			)

@@ -28,7 +28,7 @@ use Dracodeum\Kit\Utilities\{
  * @property-write bool|null $url_safe [writeonce] [transient] [coercive] [default = null]
  * <p>Allow or disallow the URL-safe format only, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) 
  * are replaced by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
- * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in an URL.<br>
+ * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in a URL.<br>
  * If not set, then any format is allowed.</p>
  */
 class Base64 extends Constraint implements ISubtype, IInformation, ISchemaData

@@ -952,7 +952,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

@@ -524,7 +524,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 				throw new Exceptions\InvalidValue([$this, $value, 'has_key' => true, 'key' => $key]);
 			}
 			
-			//finish
+			//finalize
 			$index = $this->getKeyIndex($key);
 			$keys[$index] = $key;
 			$values[$index] = $value;
@@ -750,7 +750,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 			]);
 		}
 		
-		//finish
+		//finalize
 		if ($no_throw) {
 			return false;
 		}

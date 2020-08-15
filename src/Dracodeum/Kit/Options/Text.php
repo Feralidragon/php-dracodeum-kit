@@ -13,7 +13,7 @@ use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
 use Dracodeum\Kit\Factories\Options as Factory;
 
 /**
- * @property int $info_scope [coercive = enumeration value] [default = \Dracodeum\Kit\Enumerations\InfoScope::INTERNAL]
+ * @property int $info_scope [coercive = enumeration value] [default = INTERNAL]
  * <p>The info scope to use, as a value from the <code>Dracodeum\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @see \Dracodeum\Kit\Enumerations\InfoScope
  */
