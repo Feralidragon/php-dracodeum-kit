@@ -35,6 +35,7 @@ use Dracodeum\Kit\Components\Store\{
 };
 use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
+use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
 use Dracodeum\Kit\Components\Logger\Structures\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
@@ -262,7 +263,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 				\Closure::fromCallable([$this, 'update'])
 			);
 		} catch (\Throwable $throwable) {
-			$this->logThrowableEvent('ERROR', $throwable);
+			$this->logThrowableEvent(ELogLevel::ERROR, $throwable);
 			throw $throwable;
 		}
 		
@@ -306,7 +307,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			}
 			
 			//log
-			$this->logEvent('INFO', "Entity {{name}} deleted.", [
+			$this->logEvent(ELogLevel::INFO, "Entity {{name}} deleted.", [
 				'name' => 'entity.delete',
 				'data' => [
 					'id' => $id,
@@ -322,7 +323,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			$this->unpersistProperties();
 			
 		} catch (\Throwable $throwable) {
-			$this->logThrowableEvent('ERROR', $throwable);
+			$this->logThrowableEvent(ELogLevel::ERROR, $throwable);
 			throw $throwable;
 		}
 		
@@ -1447,7 +1448,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			$this->temporary_id = $uid->id;
 			
 			//log
-			$this->logEvent('INFO', "Entity {{name}} inserted.", [
+			$this->logEvent(ELogLevel::INFO, "Entity {{name}} inserted.", [
 				'name' => 'entity.insert',
 				'data' => [
 					'id' => $uid->id,
@@ -1504,7 +1505,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		}
 		
 		//log
-		$this->logEvent('INFO', "Entity {{name}} updated.", [
+		$this->logEvent(ELogLevel::INFO, "Entity {{name}} updated.", [
 			'name' => 'entity.update',
 			'data' => [
 				'id' => $uid->id,
