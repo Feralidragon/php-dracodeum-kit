@@ -40,7 +40,7 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * This implementation is performed through a <b>prototype</b>.<br>
  * <br>
  * Any methods meant to implement a component are publicly declared as abstract in a prototype instead, 
- * which generally shares the same class name as that component, but resides in a different namespace, 
+ * which generally shares the same class name as that component but in a different namespace, 
  * resulting in a component using a prototype to define specific details of its internal behavior.<br>
  * <br>
  * While every method declared in a prototype must be implemented, additional interfaces recognized by the component 
@@ -51,14 +51,14 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
  * Additionally, a component may be extended or recreated to modify or refactor any internal behavior and still be able 
  * to reuse all the existing prototypes in the same way.<br>
  * <br>
- * A prototype may require the implementation of a specific contract, as an interface, by any component which uses it, 
- * so that a prototype may call specific methods from a component safely, without exposing the component itself.<br>
- * Additional subcontracts, as interfaces, may also be implemented so a component may safely override some other 
- * internal method calls from a prototype, but they are not required to be implemented by a component.<br>
+ * A prototype may require the implementation of a specific contract, as an interface, by any component using it, 
+ * so that a prototype may call specific methods from a component without accessing it directly.<br>
+ * Additional subcontracts, as interfaces, may also be optionally implemented so a component may implement or override 
+ * some other internal method calls from a prototype.<br>
  * <br>
  * The implementation of any contracts and subcontracts may be delegated to a proxy, 
- * for cases when it is preferable for the component to not implement the methods from such contracts and subcontracts, 
- * or to implement them with a different access or signature.<br>
+ * in cases where it is preferable for the methods from such contracts and subcontracts to not be implemented by the 
+ * component itself, or to be implemented with a different accessibility or signature.<br>
  * <br>
  * Both components and prototypes may also have a layer of custom lazy-loaded properties, 
  * which may be given during instantiation.<br>

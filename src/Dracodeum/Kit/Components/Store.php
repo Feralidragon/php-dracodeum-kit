@@ -239,7 +239,8 @@ class Store extends Component
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
 	 * @return array|null
-	 * <p>The inserted values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * <p>The full or partial set of inserted values of the resource with the given UID, 
+	 * as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the resource already exists.</p>
 	 */
@@ -289,7 +290,8 @@ class Store extends Component
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
-	 * <p>The updated values of the resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * <p>The full or partial set of updated values of the resource with the given UID, 
+	 * as <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the resource was not found.</p>
 	 */

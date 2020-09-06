@@ -22,8 +22,8 @@ interface Inserter
 	 * @param array $values
 	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
 	 * @return array|null
-	 * <p>The inserted values of the resource with the given UID instance, as <samp>name => value</samp> pairs, 
-	 * or <code>null</code> if the resource already exists.</p>
+	 * <p>The full or partial set of inserted values of the resource with the given UID instance, 
+	 * as <samp>name => value</samp> pairs, or <code>null</code> if the resource already exists.</p>
 	 */
 	public function insert(Uid $uid, array $values): ?array;
 }

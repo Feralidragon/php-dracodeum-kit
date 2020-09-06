@@ -21,8 +21,8 @@ interface Updater
 	 * @param array $values
 	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
 	 * @return array|null
-	 * <p>The updated values of the resource with the given UID instance, as <samp>name => value</samp> pairs, 
-	 * or <code>null</code> if the resource was not found.</p>
+	 * <p>The full or partial set of updated values of the resource with the given UID instance, 
+	 * as <samp>name => value</samp> pairs, or <code>null</code> if the resource was not found.</p>
 	 */
 	public function update(Uid $uid, array $values): ?array;
 }
