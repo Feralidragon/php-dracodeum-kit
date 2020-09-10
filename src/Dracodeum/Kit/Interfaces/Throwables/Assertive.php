@@ -7,5 +7,5 @@
 
 namespace Dracodeum\Kit\Interfaces\Throwables;
 
-/** This interface tags an assertive throwable for catching purposes. */
+/** This interface tags a throwable as assertive for catching purposes. */
 interface Assertive extends \Throwable {}
