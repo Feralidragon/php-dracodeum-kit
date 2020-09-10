@@ -228,7 +228,6 @@ final class Log implements IUninstantiable
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,
-			'tag' => $options->tag,
 			'data' => $options->data,
 			'tags' => $options->tags
 		]);
@@ -313,7 +312,6 @@ final class Log implements IUninstantiable
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,
-			'tag' => $options->tag,
 			'data' => $options->data,
 			'tags' => $options->tags
 		]);
@@ -351,7 +349,6 @@ final class Log implements IUninstantiable
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $throwable instanceof \Exception ? 'exception' : 'error',
-			'tag' => $options->tag,
 			'data' => [
 				'code' => $throwable->getCode(),
 				'file' => $throwable->getFile(),

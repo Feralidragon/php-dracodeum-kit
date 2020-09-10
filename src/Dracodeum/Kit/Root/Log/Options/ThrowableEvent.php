@@ -12,9 +12,6 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Primitives\Vector;
 
 /**
- * @property string|null $tag [coercive] [default = null]
- * <p>The tag to log with.<br>
- * If set, then it cannot be empty.</p>
  * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
  * <p>The tags vector instance to log with, with each value coerced into a string.<br>
  * The values cannot be empty.</p>
@@ -35,8 +32,6 @@ class ThrowableEvent extends Options
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'tag':
-				//no break
 			case 'function_name':
 				return $this->createProperty()->setAsString(true, true)->setDefaultValue(null);
 			case 'tags':

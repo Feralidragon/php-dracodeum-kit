@@ -1677,9 +1677,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	 */
 	final private function postProcessLogEvent(LogEvent $event): void
 	{
-		if ($event->tag === null) {
-			$event->tag = $this->getLogEventTag();
-		}
+		$event->tags->prepend($this->getLogEventTag());
 	}
 	
 	/**

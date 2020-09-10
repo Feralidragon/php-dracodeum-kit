@@ -52,9 +52,6 @@ use Dracodeum\Kit\Root\{
  * @property string|null $name [coercive] [default = null]
  * <p>The name.<br>
  * If set, then it cannot be empty.</p>
- * @property string|null $tag [coercive] [default = null]
- * <p>The tag.<br>
- * If set, then it cannot be empty.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
  * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
@@ -86,7 +83,6 @@ class Event extends Structure
 		$this->addProperty('class')->setMode('r+')->setAsClass(null, true)->setDefaultValue(null);
 		$this->addProperty('function')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
-		$this->addProperty('tag')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('data')->setDefaultValue(null);
 		$this->addProperty('tags')->setAsVector(Vector::build()->setAsString(true))->setDefaultValue([]);
 	}

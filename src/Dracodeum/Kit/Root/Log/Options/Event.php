@@ -16,9 +16,6 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * @property string|null $name [coercive] [default = null]
  * <p>The name to log with.<br>
  * If set, then it cannot be empty.</p>
- * @property string|null $tag [coercive] [default = null]
- * <p>The tag to log with.<br>
- * If set, then it cannot be empty.</p>
  * @property mixed $data [default = null]
  * <p>The data to log with.</p>
  * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
@@ -61,8 +58,6 @@ class Event extends Options
 	{
 		switch ($name) {
 			case 'name':
-				//no break
-			case 'tag':
 				//no break
 			case 'function_name':
 				return $this->createProperty()->setAsString(true, true)->setDefaultValue(null);
