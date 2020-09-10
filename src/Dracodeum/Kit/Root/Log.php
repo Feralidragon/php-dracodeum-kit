@@ -14,7 +14,7 @@ use Dracodeum\Kit\Components\Logger;
 use Dracodeum\Kit\Components\Logger\Structures\Event;
 use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 use Dracodeum\Kit\Utilities\{
-	Base64 as UBase64,
+	Base32 as UBase32,
 	Call as UCall,
 	Text as UText
 };
@@ -113,7 +113,7 @@ final class Log implements IUninstantiable
 	 */
 	final public static function generateEventId(): string
 	{
-		return UBase64::encode(random_bytes(self::EVENT_ID_GENERATION_BYTES), true); //TODO: use Base32
+		return UBase32::encode(random_bytes(self::EVENT_ID_GENERATION_BYTES), true);
 	}
 	
 	/**
