@@ -84,7 +84,7 @@ final class Runtime implements IUninstantiable
 				//TODO: fetch current web URL from another proper method
 				self::$origin = "{$_SERVER['REQUEST_METHOD']} " . ($_SERVER['REQUEST_SCHEME'] ?? 'http') . '://' . 
 					($_SERVER['HTTP_HOST'] ?? 'localhost');
-				if (isset($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], [80, 443], true)) {
+				if (isset($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], [80, 443])) {
 					self::$origin .= ":{$_SERVER['SERVER_PORT']}";
 				}
 				if (isset($_SERVER['REQUEST_URI'])) {

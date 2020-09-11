@@ -11,7 +11,7 @@ use Dracodeum\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Root\Log\Options;
 use Dracodeum\Kit\Components\Logger;
-use Dracodeum\Kit\Components\Logger\Structures\Event;
+use Dracodeum\Kit\Structures\Log\Event;
 use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 use Dracodeum\Kit\Utilities\{
 	Base32 as UBase32,
@@ -68,10 +68,10 @@ final class Log implements IUninstantiable
 	 * <p>The processor function to use to process a given event instance.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (\Dracodeum\Kit\Components\Logger\Structures\Event $event): void</code><br>
+	 * <code>function (\Dracodeum\Kit\Structures\Log\Event $event): void</code><br>
 	 * <br>
 	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Dracodeum\Kit\Components\Logger\Structures\Event $event</b></code><br>
+	 * &nbsp; &#8226; &nbsp; <code><b>\Dracodeum\Kit\Structures\Log\Event $event</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The event instance to process.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
@@ -86,7 +86,7 @@ final class Log implements IUninstantiable
 	/**
 	 * Add event.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Logger\Structures\Event|array $event
+	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
 	 * <p>The event to add, as an instance or <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ final class Log implements IUninstantiable
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\Event|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return \Dracodeum\Kit\Components\Logger\Structures\Event
+	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and message.</p>
 	 */
 	final public static function createEvent($level, string $message, $options = null): Event
@@ -275,7 +275,7 @@ final class Log implements IUninstantiable
 	 * of the message.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\PEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return \Dracodeum\Kit\Components\Logger\Structures\Event
+	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and message in plural form.</p>
 	 */
 	final public static function createPEvent(
@@ -328,7 +328,7 @@ final class Log implements IUninstantiable
 	 * <p>The throwable instance to create with.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\ThrowableEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
-	 * @return \Dracodeum\Kit\Components\Logger\Structures\Event
+	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and throwable instance.</p>
 	 */
 	final public static function createThrowableEvent($level, \Throwable $throwable, $options = null): Event

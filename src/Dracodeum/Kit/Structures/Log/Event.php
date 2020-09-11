@@ -5,11 +5,11 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Components\Logger\Structures;
+namespace Dracodeum\Kit\Structures\Log;
 
 use Dracodeum\Kit\Structure;
 use Dracodeum\Kit\Enumerations\DateTime\Format as EDateTimeFormat;
-use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
+use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 use Dracodeum\Kit\Primitives\Vector;
 use Dracodeum\Kit\Root\{
 	Log,
@@ -18,6 +18,8 @@ use Dracodeum\Kit\Root\{
 };
 
 /**
+ * This structure represents a log event.
+ * 
  * @property-read string $id [coercive] [default = auto]
  * <p>The ID, which uniquely identifies this event.<br>
  * It cannot be empty.</p>
@@ -72,7 +74,7 @@ class Event extends Structure
 			->setAsDateTime(EDateTimeFormat::ISO8601_UTC_MICRO, true)
 			->setDefaultValue('now')
 		;
-		$this->addProperty('level')->setAsEnumerationValue(ELogLevel::class);
+		$this->addProperty('level')->setAsEnumerationValue(ELevel::class);
 		$this->addProperty('message')->setAsString(true);
 		$this->addProperty('host')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
 			return System::getHostname(true) ?? System::getIpAddress(true);

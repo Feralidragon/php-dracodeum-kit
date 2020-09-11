@@ -36,7 +36,7 @@ use Dracodeum\Kit\Components\Store\{
 use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
-use Dracodeum\Kit\Components\Logger\Structures\Event as LogEvent;
+use Dracodeum\Kit\Structures\Log\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -1671,7 +1671,7 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	/**
 	 * Post-process a given log event instance.
 	 * 
-	 * @param \Dracodeum\Kit\Components\Logger\Structures\Event $event
+	 * @param \Dracodeum\Kit\Structures\Log\Event $event
 	 * <p>The log event instance to post-process.</p>
 	 * @return void
 	 */
