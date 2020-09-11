@@ -20,6 +20,7 @@ use Dracodeum\Kit\Interfaces\{
 	Stringifiable as IStringifiable,
 	Uncloneable as IUncloneable
 };
+use Dracodeum\Kit\Interfaces\Log\Event\Tag as ILogEventTag;
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
 use Dracodeum\Kit\Entity\{
 	Traits,
@@ -36,7 +37,6 @@ use Dracodeum\Kit\Components\Store\{
 use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
-use Dracodeum\Kit\Structures\Log\Event as LogEvent;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -80,7 +80,7 @@ use Dracodeum\Kit\Root\Log;
  */
 abstract class Entity
 implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable, IUncloneable
+IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringifiable, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -333,6 +333,31 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 	
 	
 	
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Log\Event\Tag)
+	/** {@inheritdoc} */
+	final public function getLogEventTag(): string
+	{
+		//initialize
+		$strings = ['entity', $this->getName()];
+		
+		//scope
+		$scope = $this->getScope();
+		if ($scope !== null) {
+			$strings[] = $scope;
+		}
+		
+		//id
+		$id = $this->getId();
+		if ($id !== null) {
+			$strings[] = $id;
+		}
+		
+		//return
+		return Log::composeEventTag($strings);
+	}
+	
+	
+	
 	//Implemented public methods (Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor)
 	/** {@inheritdoc} */
 	public function processDebugInfo(DebugInfo $info): void
@@ -423,33 +448,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			$ids[$name] = $this->get($name);
 		}
 		return $ids;
-	}
-	
-	/**
-	 * Get log event tag.
-	 * 
-	 * @return string
-	 * <p>The log event tag.</p>
-	 */
-	final public function getLogEventTag(): string
-	{
-		//initialize
-		$strings = ['entity', $this->getName()];
-		
-		//scope
-		$scope = $this->getScope();
-		if ($scope !== null) {
-			$strings[] = $scope;
-		}
-		
-		//id
-		$id = $this->getId();
-		if ($id !== null) {
-			$strings[] = $id;
-		}
-		
-		//return
-		return $this->composeLogEventTag($strings);
 	}
 	
 	/**
@@ -1218,37 +1216,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		return true;
 	}
 	
-	/**
-	 * Get static log event tag.
-	 * 
-	 * @param int|string|null $id [default = null]
-	 * <p>The ID to get with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
-	 * @return string
-	 * <p>The static log event tag.</p>
-	 */
-	final public static function getStaticLogEventTag($id = null, array $scope_ids = []): string
-	{
-		//initialize
-		$strings = ['entity', static::getName()];
-		
-		//scope
-		$scope = self::getStaticScope($scope_ids);
-		if ($scope !== null) {
-			$strings[] = $scope;
-		}
-		
-		//id
-		$id = self::coerceId($id);
-		if ($id !== null) {
-			$strings[] = $id;
-		}
-		
-		//return
-		return self::composeLogEventTag($strings);
-	}
-	
 	
 	
 	//Final protected methods
@@ -1286,7 +1253,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		//event
 		$event = Log::createEvent($level, $message, $options);
 		$this->processLogEvent($event);
-		$this->postProcessLogEvent($event);
 		
 		//add
 		Log::addEvent($event);
@@ -1344,7 +1310,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		//event
 		$event = Log::createPEvent($level, $message1, $message2, $number, $options);
 		$this->processLogEvent($event);
-		$this->postProcessLogEvent($event);
 		
 		//add
 		Log::addEvent($event);
@@ -1372,7 +1337,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		//event
 		$event = Log::createThrowableEvent($level, $throwable, $options);
 		$this->processLogEvent($event);
-		$this->postProcessLogEvent($event);
 		
 		//add
 		Log::addEvent($event);
@@ -1399,34 +1363,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 			);
 		}
 		return self::$stores[static::class];
-	}
-	
-	/**
-	 * Compose a log event tag with a given set of strings.
-	 * 
-	 * @param string[] $strings
-	 * <p>The set of strings to compose with.<br>
-	 * It cannot be empty.</p>
-	 * @return string
-	 * <p>The composed log event tag with the given set of strings.</p>
-	 */
-	final protected static function composeLogEventTag(array $strings): string
-	{
-		return Log::composeEventTag($strings);
-	}
-	
-	/**
-	 * Decompose a given log event tag into a set of strings.
-	 * 
-	 * @param string $tag
-	 * <p>The tag to decompose.<br>
-	 * It cannot be empty.</p>
-	 * @return string[]
-	 * <p>The given log event tag decomposed into a set of strings.</p>
-	 */
-	final protected static function decomposeLogEventTag(string $tag): array
-	{
-		return Log::decomposeEventTag($tag);
 	}
 	
 	
@@ -1666,18 +1602,6 @@ IReadonlyable, IPersistable, IUnpersistable, IArrayInstantiable, IStringifiable,
 		
 		//scope
 		$values += $uid->scope_ids;
-	}
-	
-	/**
-	 * Post-process a given log event instance.
-	 * 
-	 * @param \Dracodeum\Kit\Structures\Log\Event $event
-	 * <p>The log event instance to post-process.</p>
-	 * @return void
-	 */
-	final private function postProcessLogEvent(LogEvent $event): void
-	{
-		$event->tags->prepend($this->getLogEventTag());
 	}
 	
 	/**

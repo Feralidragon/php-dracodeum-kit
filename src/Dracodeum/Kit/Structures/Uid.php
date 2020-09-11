@@ -8,7 +8,9 @@
 namespace Dracodeum\Kit\Structures;
 
 use Dracodeum\Kit\Structure;
+use Dracodeum\Kit\Interfaces\Log\Event\Data as ILogEventData;
 use Dracodeum\Kit\Structures\Uid\Exceptions;
+use Dracodeum\Kit\Root\Log;
 use Dracodeum\Kit\Utilities\{
 	Text as UText,
 	Type as UType
@@ -35,7 +37,7 @@ use Dracodeum\Kit\Utilities\{
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).</p>
  * @see https://en.wikipedia.org/wiki/Identifier
  */
-class Uid extends Structure
+class Uid extends Structure implements ILogEventData
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
@@ -68,6 +70,37 @@ class Uid extends Structure
 			})
 			->setDefaultValue([])
 		;
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Interfaces\Log\Event\Data)
+	/** {@inheritdoc} */
+	public function getLogEventData()
+	{
+		//initialize
+		$strings = [];
+		
+		//name
+		$name = $this->name;
+		if ($name !== null) {
+			$strings[] = $name;
+		}
+		
+		//scope
+		$scope = $this->scope;
+		if ($scope !== null) {
+			$strings[] = $scope;
+		}
+		
+		//id
+		$id = $this->id;
+		if ($id !== null) {
+			$strings[] = $id;
+		}
+		
+		//return
+		return count($strings) ? 'UID(' . Log::composeEventTag($strings) . ')' : null;
 	}
 	
 	

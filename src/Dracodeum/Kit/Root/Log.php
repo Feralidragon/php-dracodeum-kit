@@ -8,6 +8,10 @@
 namespace Dracodeum\Kit\Root;
 
 use Dracodeum\Kit\Interfaces\Uninstantiable as IUninstantiable;
+use Dracodeum\Kit\Interfaces\Log\Event\{
+	Data as IEventData,
+	Tag as IEventTag
+};
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Root\Log\Options;
 use Dracodeum\Kit\Components\Logger;
@@ -97,8 +101,10 @@ final class Log implements IUninstantiable
 		foreach (self::$event_processors as $processor) {
 			$processor($event);
 		}
+		self::processEvent($event);
 		
 		//add
+		$event->tags->unique();
 		$event->setAsReadonly(true);
 		foreach (self::$loggers as $logger) {
 			$logger->addEvent($event);
@@ -225,6 +231,7 @@ final class Log implements IUninstantiable
 			'host' => System::getHostname(true) ?? System::getIpAddress(true),
 			'origin' => Runtime::getOrigin(),
 			'runtime' => Runtime::getUuid(),
+			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,
@@ -309,6 +316,7 @@ final class Log implements IUninstantiable
 			'host' => System::getHostname(true) ?? System::getIpAddress(true),
 			'origin' => Runtime::getOrigin(),
 			'runtime' => Runtime::getUuid(),
+			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $options->name,
@@ -346,6 +354,7 @@ final class Log implements IUninstantiable
 			'host' => System::getHostname(true) ?? System::getIpAddress(true),
 			'origin' => Runtime::getOrigin(),
 			'runtime' => Runtime::getUuid(),
+			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
 			'name' => $throwable instanceof \Exception ? 'exception' : 'error',
@@ -471,5 +480,72 @@ final class Log implements IUninstantiable
 		
 		//add
 		self::addEvent(self::createThrowableEvent($level, $throwable, $options));
+	}
+	
+	
+	
+	//Private static methods
+	/**
+	 * Get event object from a given object or class.
+	 * 
+	 * @param object|string|null $object_class
+	 * <p>The object or class to get from.</p>
+	 * @param int $stack_offset [default = 0]
+	 * <p>The stack offset to use.</p>
+	 * @return object|null
+	 * <p>The event object from the given object or class, or <code>null</code> if none is set.</p>
+	 */
+	private static function getEventObject($object_class, int $stack_offset = 0): ?object
+	{
+		if (is_object($object_class)) {
+			return $object_class;
+		} elseif ($object_class === null) {
+			return UCall::stackPreviousObject($stack_offset + 1);
+		}
+		return null;
+	}
+	
+	/**
+	 * Process a given event instance.
+	 * 
+	 * @param \Dracodeum\Kit\Structures\Log\Event $event
+	 * <p>The event instance to process.</p>
+	 * @return void
+	 */
+	private static function processEvent(Event $event): void
+	{
+		//tags
+		$object = $event->object;
+		if ($object !== null && $object instanceof IEventTag) {
+			$event->tags->prepend($object->getLogEventTag());
+		}
+		
+		//data
+		$data = $event->data;
+		self::processEventData($data);
+		$event->data = $data;
+	}
+	
+	/**
+	 * Process a given set of event data.
+	 * 
+	 * @param mixed $data [reference]
+	 * <p>The data to process.</p>
+	 * @return void
+	 */
+	private static function processEventData(&$data): void
+	{
+		//object
+		if (is_object($data) && $data instanceof IEventData) {
+			$data = $data->getLogEventData();
+		}
+		
+		//array
+		if (is_array($data)) {
+			foreach ($data as &$d) {
+				self::processEventData($d);
+			}
+			unset($d);
+		}
 	}
 }

@@ -45,6 +45,8 @@ use Dracodeum\Kit\Root\{
  * <p>The runtime UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 
  * a single runtime instance of the application.<br>
  * It cannot be empty.</p>
+ * @property-read object|null $object [strict] [default = null]
+ * <p>The object which generated this event.</p>
  * @property-read string|null $class [coercive = class] [default = null]
  * <p>The class which generated this event.<br>
  * If set, then it cannot be empty.</p>
@@ -82,6 +84,7 @@ class Event extends Structure
 		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getOrigin']);
 		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getUuid']);
+		$this->addProperty('object')->setMode('r+')->setAsStrictObject(null, true)->setDefaultValue(null);
 		$this->addProperty('class')->setMode('r+')->setAsClass(null, true)->setDefaultValue(null);
 		$this->addProperty('function')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('name')->setAsString(true, true)->setDefaultValue(null);
