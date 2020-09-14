@@ -100,7 +100,11 @@ class Uid extends Structure implements ILogEventData
 		}
 		
 		//return
-		return count($strings) ? 'UID(' . Log::composeEventTag($strings) . ')' : null;
+		if (count($strings)) {
+			array_unshift($strings, 'UID');
+			return Log::composeEventTag($strings);
+		}
+		return null;
 	}
 	
 	
