@@ -767,7 +767,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Get index from a given key.
 	 * 
@@ -776,7 +776,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * @return string
 	 * <p>The index from the given key.</p>
 	 */
-	final private function getKeyIndex($key): string
+	private function getKeyIndex($key): string
 	{
 		return UData::keyfy($key);
 	}
@@ -793,7 +793,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function setIndex(string $index, $key, $value): Dictionary
+	private function setIndex(string $index, $key, $value): Dictionary
 	{
 		$this->keys[$index] = $key;
 		$this->values[$index] = $value;
@@ -809,7 +809,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function unsetIndex(string $index): Dictionary
+	private function unsetIndex(string $index): Dictionary
 	{
 		if (isset($this->cursor_map[$index]) && current($this->cursor_map) === $index) {
 			prev($this->cursor_map);
@@ -828,7 +828,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function setKeyValue($key, $value): Dictionary
+	private function setKeyValue($key, $value): Dictionary
 	{
 		$this->setIndex($this->getKeyIndex($key), $key, $value);
 		return $this;

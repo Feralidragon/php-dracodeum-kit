@@ -1570,7 +1570,7 @@ final class Call extends Utility
 	
 	
 	
-	//Final private static methods
+	//Private static methods
 	/**
 	 * Get halt messages from a given options instance.
 	 * 
@@ -1583,7 +1583,7 @@ final class Call extends Utility
 	 * &nbsp; &nbsp; 'hint_message' => &lt;hint_message&gt;<br>
 	 * ]</code></p>
 	 */
-	final private static function getHaltMessages(Options\Halt $options): array
+	private static function getHaltMessages(Options\Halt $options): array
 	{
 		//stringifier
 		$stringifier = $options->stringifier;

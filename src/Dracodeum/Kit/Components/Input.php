@@ -1165,7 +1165,32 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	
 	
-	//Final private methods
+	//Overridden public methods
+	/** {@inheritdoc} */
+	public function processDebugInfo(DebugInfo $info): void
+	{
+		//parent
+		parent::processDebugInfo($info);
+		
+		//modifiers
+		$modifiers = $this->getModifiers();
+		if (!empty($modifiers)) {
+			$info->set('@modifiers', $modifiers);
+		}
+		
+		//hidden properties
+		$info
+			->hideObjectProperty('modifiers_tree', self::class)
+			->hideObjectProperty('value_evaluators_tree', self::class)
+		;
+		if (!isset($this->error)) {
+			$info->hideObjectProperty('error', self::class);
+		}
+	}
+	
+	
+	
+	//Private methods
 	/**
 	 * Evaluate a given value with value evaluators.
 	 * 
@@ -1176,7 +1201,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated.</p>
 	 */
-	final private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false): bool
+	private function evaluateValueWithValueEvaluators(&$value, bool $before_modifiers = false): bool
 	{
 		//check
 		if (empty($this->value_evaluators_tree[$before_modifiers])) {
@@ -1217,30 +1242,5 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//return
 		return true;
-	}
-	
-	
-	
-	//Overridden public methods
-	/** {@inheritdoc} */
-	public function processDebugInfo(DebugInfo $info): void
-	{
-		//parent
-		parent::processDebugInfo($info);
-		
-		//modifiers
-		$modifiers = $this->getModifiers();
-		if (!empty($modifiers)) {
-			$info->set('@modifiers', $modifiers);
-		}
-		
-		//hidden properties
-		$info
-			->hideObjectProperty('modifiers_tree', self::class)
-			->hideObjectProperty('value_evaluators_tree', self::class)
-		;
-		if (!isset($this->error)) {
-			$info->hideObjectProperty('error', self::class);
-		}
 	}
 }

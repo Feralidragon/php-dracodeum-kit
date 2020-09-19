@@ -617,7 +617,7 @@ trait Properties
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Initialize properties manager with a given builder function.
 	 * 
@@ -681,7 +681,7 @@ trait Properties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function initializePropertiesManager(
+	private function initializePropertiesManager(
 		callable $builder, array $properties = [], string $mode = 'rw', ?callable $initializer = null,
 		bool $persisted = false, ?callable $remainderer = null, ?array &$remainder = null
 	): object
@@ -723,7 +723,7 @@ trait Properties
 	 * @return \Dracodeum\Kit\Traits\Properties\Manager
 	 * <p>The properties manager instance.</p>
 	 */
-	final private function getPropertiesManager(): Manager
+	private function getPropertiesManager(): Manager
 	{
 		if ($this->properties_manager === null) {
 			UCall::halt([

@@ -681,7 +681,7 @@ trait LazyProperties
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Initialize properties manager with a given builder function.
 	 * 
@@ -752,7 +752,7 @@ trait LazyProperties
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final private function initializePropertiesManager(
+	private function initializePropertiesManager(
 		callable $builder, array $properties = [], string $mode = 'rw', ?callable $initializer = null, 
 		bool $persisted = false, ?callable $remainderer = null, ?array &$remainder = null
 	): object
@@ -801,7 +801,7 @@ trait LazyProperties
 	 * @return \Dracodeum\Kit\Traits\LazyProperties\Manager
 	 * <p>The properties manager instance.</p>
 	 */
-	final private function getPropertiesManager(): Manager
+	private function getPropertiesManager(): Manager
 	{
 		if ($this->properties_manager === null) {
 			UCall::halt([

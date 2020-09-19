@@ -1697,7 +1697,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Get persistence property changes map.
 	 * 
@@ -1710,7 +1710,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * @return array
 	 * <p>The persistence property changes map, as <samp>name => <code>true</code></samp> pairs.</p>
 	 */
-	final private function getPersistenceChangesMap(
+	private function getPersistenceChangesMap(
 		array &$old_values = [], array &$new_values = [], ?array $names = null
 	): array
 	{
@@ -1788,7 +1788,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <p>The property values to set, as <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
-	final private function setPersistedPropertyValues(array $values): void
+	private function setPersistedPropertyValues(array $values): void
 	{
 		foreach ($values as $name => $value) {
 			$this->processPropertyNameAlias($name);
@@ -1804,7 +1804,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @return void
 	 */
-	final private function reloadPersistedValues(): void
+	private function reloadPersistedValues(): void
 	{
 		$this->clearPersistedValues();
 		foreach ($this->properties as $name => $property) {
@@ -1821,7 +1821,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @return void
 	 */
-	final private function clearPersistedValues(): void
+	private function clearPersistedValues(): void
 	{
 		$this->persisted_values = $this->persisted_keys = [];
 	}

@@ -146,14 +146,14 @@ trait Readonly
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Check if the read-only manager is loaded.
 	 * 
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the read-only manager is loaded.</p>
 	 */
-	final private function isReadonlyManagerLoaded(): bool
+	private function isReadonlyManagerLoaded(): bool
 	{
 		return isset($this->readonly_manager);
 	}
@@ -164,7 +164,7 @@ trait Readonly
 	 * @return \Dracodeum\Kit\Managers\Readonly
 	 * <p>The read-only manager instance.</p>
 	 */
-	final private function getReadonlyManager(): Manager
+	private function getReadonlyManager(): Manager
 	{
 		if (!isset($this->readonly_manager)) {
 			$this->readonly_manager = new Manager($this);

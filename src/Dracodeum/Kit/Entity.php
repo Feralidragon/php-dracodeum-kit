@@ -1382,7 +1382,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	
-	//Final private methods
+	//Private methods
 	/**
 	 * Insert a given set of values.
 	 * 
@@ -1391,7 +1391,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @return array
 	 * <p>The inserted values, as <samp>name => value</samp> pairs.</p>
 	 */
-	final private function insert(array $values): array
+	private function insert(array $values): array
 	{
 		try {
 			//pre-insert
@@ -1446,7 +1446,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @return array
 	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
 	 */
-	final private function update(array $old_values, array $new_values, array $changed_names): array
+	private function update(array $old_values, array $new_values, array $changed_names): array
 	{
 		//pre-persistence
 		$this->processPrePersistence($new_values, $uid, $old_values);
@@ -1501,7 +1501,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The old values to process with, as <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
-	final private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
+	private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
 	{
 		//initialize
 		$uid = null;
@@ -1607,7 +1607,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The UID instance to use.</p>
 	 * @return void
 	 */
-	final private function processPostPersistence(array &$values, Uid $uid): void
+	private function processPostPersistence(array &$values, Uid $uid): void
 	{
 		//id
 		$id_name = $this->getIdPropertyName();
@@ -1627,7 +1627,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @return \Exception
 	 * <p>The mutated exception instance.</p>
 	 */
-	final private function mutateStoreException(StoreException $exception): \Exception
+	private function mutateStoreException(StoreException $exception): \Exception
 	{
 		if ($exception instanceof StoreExceptions\NotFound) {
 			return new Exceptions\NotFound([$this, 'id' => $exception->uid->id, 'scope' => $exception->uid->scope]);
@@ -1641,7 +1641,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	
-	//Final private static methods
+	//Private static methods
 	/**
 	 * Load property values.
 	 * 
@@ -1657,7 +1657,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if none were found.</p>
 	 */
-	final private static function loadPropertyValues($id = null, array $scope_ids = [], bool $no_throw = false): ?array
+	private static function loadPropertyValues($id = null, array $scope_ids = [], bool $no_throw = false): ?array
 	{
 		//initialize
 		$id = self::coerceId($id);

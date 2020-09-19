@@ -295,14 +295,14 @@ final class System implements IUninstantiable
 	
 	
 	
-	//Final private methods
+	//Private static methods
 	/**
 	 * Load environment instance.
 	 * 
 	 * @return \Dracodeum\Kit\Root\System\Components\Environment
 	 * <p>The loaded environment instance.</p>
 	 */
-	final private static function loadEnvironment(): Components\Environment
+	private static function loadEnvironment(): Components\Environment
 	{
 		if (!isset(self::$environment)) {
 			self::setEnvironment('production');
