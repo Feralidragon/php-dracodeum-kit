@@ -337,23 +337,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	/** {@inheritdoc} */
 	final public function getLogEventTag(): string
 	{
-		//initialize
-		$strings = ['entity', $this->getName()];
-		
-		//scope
-		$scope = $this->getScope();
-		if ($scope !== null) {
-			$strings[] = $scope;
-		}
-		
-		//id
-		$id = $this->getId();
-		if ($id !== null) {
-			$strings[] = $id;
-		}
-		
-		//return
-		return Log::composeEventTag($strings);
+		return $this->getStaticLogEventTag($this->getId(), $this->getScopeIds());
 	}
 	
 	
@@ -1214,6 +1198,37 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		
 		//return
 		return true;
+	}
+	
+	/**
+	 * Get static log event tag.
+	 * 
+	 * @param int|string|null $id [default = null]
+	 * <p>The ID to get with.</p>
+	 * @param int[]|string[] $scope_ids [default = []]
+	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * @return string
+	 * <p>The static log event tag.</p>
+	 */
+	final public static function getStaticLogEventTag($id = null, array $scope_ids = []): string
+	{
+		//initialize
+		$strings = ['entity', static::getName()];
+		
+		//scope
+		$scope = self::getStaticScope($scope_ids);
+		if ($scope !== null) {
+			$strings[] = $scope;
+		}
+		
+		//id
+		$id = self::coerceId($id);
+		if ($id !== null) {
+			$strings[] = $id;
+		}
+		
+		//return
+		return Log::composeEventTag($strings);
 	}
 	
 	
