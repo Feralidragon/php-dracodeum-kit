@@ -395,7 +395,7 @@ abstract class Enumeration implements IUninstantiable
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
@@ -416,7 +416,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ValueNotFound
@@ -437,7 +437,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @param string $name
 	 * <p>The name to get from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\NameNotFound
@@ -465,7 +465,7 @@ abstract class Enumeration implements IUninstantiable
 	 * <p>The element to get from, by value or name.<br>
 	 * If any existing value matches an existing name, then the given element is retrieved only by its value.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ElementNotFound
@@ -486,7 +486,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @param int|float|string $value
 	 * <p>The value to get from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\ValueNotFound
@@ -507,7 +507,7 @@ abstract class Enumeration implements IUninstantiable
 	 * @param string $name
 	 * <p>The name to get from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Enumeration\Exceptions\NameNotFound
@@ -555,7 +555,7 @@ abstract class Enumeration implements IUninstantiable
 	 * Get values names.
 	 * 
 	 * @return string[]
-	 * <p>The values names, as <samp>value => name</samp> pairs.</p>
+	 * <p>The values names, as a set of <samp>value => name</samp> pairs.</p>
 	 */
 	final public static function getValuesNames(): array
 	{
@@ -569,7 +569,7 @@ abstract class Enumeration implements IUninstantiable
 	 * Get names values.
 	 * 
 	 * @return int[]|float[]|string[]
-	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The names values, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getNamesValues(): array
 	{

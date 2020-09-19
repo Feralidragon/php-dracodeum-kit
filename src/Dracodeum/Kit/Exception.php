@@ -47,11 +47,11 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	 * Instantiate class.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to instantiate with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param \Dracodeum\Kit\Exception\Options\Construct|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [], $options = null)
 	{

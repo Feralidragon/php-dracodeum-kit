@@ -480,7 +480,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	 * Get names values.
 	 * 
 	 * @return int[]|float[]|string[]
-	 * <p>The names values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The names values, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	protected function getNamesValues(): array
 	{
@@ -518,7 +518,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	 * @param \Dracodeum\Kit\Options\Text $text_options
 	 * <p>The text options instance to use.</p>
 	 * @return string[]
-	 * <p>The names descriptions, as <samp>name => description</samp> pairs.</p>
+	 * <p>The names descriptions, as a set of <samp>name => description</samp> pairs.</p>
 	 */
 	protected function getNamesDescriptions(TextOptions $text_options): array
 	{

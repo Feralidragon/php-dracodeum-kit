@@ -17,7 +17,7 @@ trait FloatPropertiesExtractor
 	 * @param float $float
 	 * <p>The float to extract from.</p>
 	 * @return array|null
-	 * <p>The extracted properties from the given float, as <samp>name => value</samp> pairs, 
+	 * <p>The extracted properties from the given float, as a set of <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none could be extracted.</p>
 	 */
 	protected static function extractFloatProperties(float $float): ?array

@@ -17,7 +17,7 @@ trait CallablePropertiesExtractor
 	 * @param callable $callable
 	 * <p>The callable to extract from.</p>
 	 * @return array|null
-	 * <p>The extracted properties from the given callable, as <samp>name => value</samp> pairs, 
+	 * <p>The extracted properties from the given callable, as a set of <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none could be extracted.</p>
 	 */
 	protected static function extractCallableProperties(callable $callable): ?array

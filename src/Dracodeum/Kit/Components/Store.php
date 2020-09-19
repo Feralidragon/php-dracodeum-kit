@@ -100,7 +100,7 @@ class Store extends Component
 	 * Coerce a given UID into an instance.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to coerce, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to coerce, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool|null $clone_recursive [default = null]
 	 * <p>Clone the given UID recursively.<br>
@@ -138,7 +138,7 @@ class Store extends Component
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param int[]|string[] $scope_ids
-	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The UID scope from the given base scope with the given set of scope IDs.</p>
 	 */
@@ -155,7 +155,7 @@ class Store extends Component
 	 * Check if a resource with a given UID exists.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to check with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to check with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the resource with the given UID exists.</p>
@@ -181,13 +181,13 @@ class Store extends Component
 	 * Select a resource with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to select with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to select with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
-	 * <p>The selected resource with the given UID, as <samp>name => value</samp> pairs.<br>
+	 * <p>The selected resource with the given UID, as a set of <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it was not found.</p>
 	 */
@@ -228,19 +228,19 @@ class Store extends Component
 	 * Insert a resource with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid [reference]
-	 * <p>The UID to insert with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to insert with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.<br>
 	 * It is coerced into an instance, and may be modified during insertion, 
 	 * such as when any of its properties are automatically generated.</p>
 	 * @param array $values
-	 * <p>The values to insert with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to insert with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
 	 * @return array|null
 	 * <p>The full or partial set of inserted values of the resource with the given UID, 
-	 * as <samp>name => value</samp> pairs.<br>
+	 * as a set of <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the resource already exists.</p>
 	 */
@@ -282,16 +282,16 @@ class Store extends Component
 	 * Update a resource with a given UID with a given set of values.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to update with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to update with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param array $values
-	 * <p>The values to update with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to update with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @return array|null
 	 * <p>The full or partial set of updated values of the resource with the given UID, 
-	 * as <samp>name => value</samp> pairs.<br>
+	 * as a set of <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if the resource was not found.</p>
 	 */
@@ -332,7 +332,7 @@ class Store extends Component
 	 * Delete a resource with a given UID.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Uid|array|string|int|null $uid
-	 * <p>The UID to delete with, as an instance, <samp>name => value</samp> pairs, a string, an integer 
+	 * <p>The UID to delete with, as an instance, a set of <samp>name => value</samp> pairs, a string, an integer 
 	 * or <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

@@ -54,7 +54,7 @@ final class Log implements IUninstantiable
 	 * @param \Dracodeum\Kit\Components\Logger|\Dracodeum\Kit\Prototypes\Logger|string $logger
 	 * <p>The logger component instance or name, or prototype instance, class or name, to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with, as <samp>name => value</samp> pairs, 
+	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs, 
 	 * if a component name, or a prototype class or name, is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
@@ -91,7 +91,7 @@ final class Log implements IUninstantiable
 	 * Add event.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
-	 * <p>The event to add, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The event to add, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final public static function addEvent($event): void
@@ -197,7 +197,7 @@ final class Log implements IUninstantiable
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\Event|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and message.</p>
 	 */
@@ -281,7 +281,7 @@ final class Log implements IUninstantiable
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\PEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and message in plural form.</p>
 	 */
@@ -335,7 +335,7 @@ final class Log implements IUninstantiable
 	 * @param \Throwable $throwable
 	 * <p>The throwable instance to create with.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\ThrowableEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and throwable instance.</p>
 	 */
@@ -391,7 +391,7 @@ final class Log implements IUninstantiable
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\Event|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final public static function event($level, string $message, $options = null): void
@@ -444,7 +444,7 @@ final class Log implements IUninstantiable
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\PEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final public static function pevent(
@@ -469,7 +469,7 @@ final class Log implements IUninstantiable
 	 * @param \Throwable $throwable
 	 * <p>The throwable instance to log with.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\ThrowableEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final public static function throwableEvent($level, \Throwable $throwable, $options = null): void

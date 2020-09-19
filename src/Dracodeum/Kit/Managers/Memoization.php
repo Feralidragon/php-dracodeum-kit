@@ -239,7 +239,8 @@ class Memoization extends Manager
 	 * @param bool $persist [default = false]
 	 * <p><i>Not implemented</i> (TODO).</p>
 	 * @param array $key_parameters [default = []]
-	 * <p>Additional parameters to generate the internal memoization key with, as <samp>name => value</samp> pairs.</p>
+	 * <p>Additional parameters to generate the internal memoization key with, 
+	 * as a set of <samp>name => value</samp> pairs.</p>
 	 * @return mixed
 	 * <p>The returned memoized value from the given function with the given name.</p>
 	 */

@@ -15,7 +15,8 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * Text utility <code>extract</code> method options.
  * 
  * @property string[] $patterns [coercive] [default = []]
- * <p>The regular expression patterns to use for each parameter, as <samp>placeholder => pattern</samp> pairs.</p>
+ * <p>The regular expression patterns to use for each parameter, 
+ * as a set of <samp>placeholder => pattern</samp> pairs.</p>
  * @property string $pattern_modifiers [coercive] [default = '']
  * <p>The regular expression pattern modifiers to use.</p>
  * @property string $pattern_delimiter [coercive] [default = '/']

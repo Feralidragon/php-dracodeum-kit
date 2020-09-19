@@ -21,7 +21,7 @@ interface Selecter
 	 * @param bool $readonly
 	 * <p>Perform the query as a read-only operation.</p>
 	 * @return array|null
-	 * <p>The selected resource with the given UID instance, as <samp>name => value</samp> pairs, 
+	 * <p>The selected resource with the given UID instance, as a set of <samp>name => value</samp> pairs, 
 	 * or <code>null</code> if none is set.</p>
 	 */
 	public function select(Uid $uid, bool $readonly): ?array;

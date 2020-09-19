@@ -52,7 +52,8 @@ class Component extends Factory
 	 * @param \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs, 
+	 * if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint
@@ -69,7 +70,8 @@ class Component extends Factory
 	 * @param \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter|string $prototype
 	 * <p>The prototype instance, class or name to build with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs, 
+	 * if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter

@@ -99,13 +99,13 @@ trait KeyEvaluators
 	 * Lock key evaluators.
 	 * 
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null $halt_options [default = null]
-	 * <p>The halt options to set, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * <p>The halt options to set, as an instance, a set of <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * The options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -794,7 +794,7 @@ trait KeyEvaluators
 	 * @param string $class
 	 * <p>The class to use.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs, 
+	 * <p>The properties to evaluate with, as a set of <samp>name => value</samp> pairs, 
 	 * if a component name, or a prototype class or name, or <code>null</code>, is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.<br>
@@ -811,7 +811,7 @@ trait KeyEvaluators
 	 * &nbsp; &nbsp; &nbsp; The prototype instance, class or name to build with.<br>
 	 * &nbsp; &nbsp; &nbsp; If not set, then the default prototype instance or the base prototype class is used.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs, 
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs, 
 	 * if a prototype class or name, or <code>null</code>, is given.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
@@ -828,7 +828,7 @@ trait KeyEvaluators
 	 * &nbsp; &#8226; &nbsp; <code><b>string $name</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The name to build for.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
@@ -855,7 +855,7 @@ trait KeyEvaluators
 	 * Only the following types and formats can be evaluated into an entity instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an integer, float or string, given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
@@ -880,7 +880,7 @@ trait KeyEvaluators
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
@@ -906,7 +906,7 @@ trait KeyEvaluators
 	 * 
 	 * Only the following types and formats can be evaluated into an options instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -925,7 +925,7 @@ trait KeyEvaluators
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -947,7 +947,7 @@ trait KeyEvaluators
 	 * 
 	 * Only the following types and formats can be evaluated into a structure instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -966,7 +966,7 @@ trait KeyEvaluators
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>

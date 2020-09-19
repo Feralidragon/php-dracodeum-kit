@@ -19,7 +19,7 @@ interface ModifierBuilder
 	 * @param string $name
 	 * <p>The name to build for.</p>
 	 * @param array $properties
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Dracodeum\Kit\Components\Input\Components\Modifier|null

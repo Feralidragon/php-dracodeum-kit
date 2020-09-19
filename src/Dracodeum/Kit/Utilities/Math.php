@@ -110,7 +110,7 @@ final class Math extends Utility
 	 * Get a random integer or string value from a given set of weighted values.
 	 * 
 	 * The returning value is retrieved as one of the keys from the <var>$values_weights</var> parameter, 
-	 * which assigns each value to a weight as <samp>value => weight</samp> pairs, 
+	 * which assigns each value to a weight as a set of <samp>value => weight</samp> pairs, 
 	 * hence only an integer or string value can be returned.<br>
 	 * <br>
 	 * The weights represent a bias towards each specific value and should always be numeric, 
@@ -121,7 +121,7 @@ final class Math extends Utility
 	 * 
 	 * @see https://php.net/manual/en/function.mt-rand.php
 	 * @param int[]|float[] $values_weights
-	 * <p>The values weights to get from, as <samp>value => weight</samp> pairs.<br>
+	 * <p>The values weights to get from, as a set of <samp>value => weight</samp> pairs.<br>
 	 * Each weight must be greater than or equal to <code>0</code>.</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
@@ -182,9 +182,9 @@ final class Math extends Utility
 	 * @param int $number
 	 * <p>The machine-readable number to get from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Math\Options\Hnumber|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The human-readable number from the given machine one.</p>
 	 */

@@ -21,7 +21,7 @@ trait DefaultBuilder
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
 	 * The built instance with the given set of properties.

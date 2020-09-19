@@ -17,7 +17,7 @@ trait PrototypeProducer
 	 * @param string $name
 	 * <p>The name to produce for.</p>
 	 * @param array $properties
-	 * <p>The properties to produce with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to produce with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Dracodeum\Kit\Prototype|string|null

@@ -64,9 +64,9 @@ final class Url extends Utility
 	 * into a query string.
 	 * 
 	 * @param array $parameters
-	 * <p>The parameters to querify, as <samp>name => value</samp> pairs.</p>
+	 * <p>The parameters to querify, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Url\Options\Querify|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The querified parameters into a query string or <code>null</code> if an empty set of parameters was given.</p>
 	 */
@@ -116,9 +116,9 @@ final class Url extends Utility
 	 * @param string $string
 	 * <p>The string to unquerify.</p>
 	 * @param \Dracodeum\Kit\Utilities\Url\Options\Unquerify|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return array
-	 * <p>The unquerified array from the given string, as <samp>name => value</samp> pairs.</p>
+	 * <p>The unquerified array from the given string, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function unquerify(string $string, $options = null): array
 	{

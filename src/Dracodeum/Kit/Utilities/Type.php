@@ -85,7 +85,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Dracodeum\Kit\Utilities\Type\Options\Phpfy|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Phpfy\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated PHP code from the given value.<br>

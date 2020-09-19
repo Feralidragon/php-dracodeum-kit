@@ -141,7 +141,7 @@ interface Properties
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
-	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the properties, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	public function getAll(bool $lazy = false): array;
 }

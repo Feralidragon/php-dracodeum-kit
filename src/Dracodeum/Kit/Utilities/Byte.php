@@ -95,7 +95,7 @@ final class Byte extends Utility
 	 * @param int $value
 	 * <p>The machine-readable value to get from, in bytes.</p>
 	 * @param \Dracodeum\Kit\Utilities\Byte\Options\Hvalue|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The human-readable value from the given machine one.</p>
 	 */

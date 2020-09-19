@@ -17,7 +17,7 @@ interface Text
 	 * Build instance with a given set of properties.
 	 * 
 	 * @param array $properties
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Options\Text
 	 * <p>The built instance with the given set of properties.</p>
 	 */

@@ -228,7 +228,7 @@ final class Locale implements IUninstantiable
 	 * @param string|null $context [default = null]
 	 * <p>The context to translate with.</p>
 	 * @param \Dracodeum\Kit\Root\Locale\Options\Translate|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The translation of the given message.</p>
 	 */
@@ -310,7 +310,7 @@ final class Locale implements IUninstantiable
 	 * @param string|null $context [default = null]
 	 * <p>The context to translate with.</p>
 	 * @param \Dracodeum\Kit\Root\Locale\Options\Ptranslate|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The translation of the given plural message.</p>
 	 */

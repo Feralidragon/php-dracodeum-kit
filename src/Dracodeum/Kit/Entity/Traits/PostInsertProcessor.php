@@ -15,7 +15,7 @@ trait PostInsertProcessor
 	 * Perform processing after an insert with a given set of values.
 	 * 
 	 * @param array $values
-	 * <p>The values to perform processing with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	protected function processPostInsert(array $values): void {}

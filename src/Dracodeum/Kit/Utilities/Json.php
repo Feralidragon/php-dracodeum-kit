@@ -42,7 +42,7 @@ final class Json extends Utility
 	 * @param mixed $data
 	 * <p>The data to encode.</p>
 	 * @param \Dracodeum\Kit\Utilities\Json\Options\Encode|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Json\Exceptions\Encode\InvalidData
 	 * @return string|null
 	 * <p>The given data encoded.<br>
@@ -78,7 +78,7 @@ final class Json extends Utility
 	 * @param string $data
 	 * <p>The data to decode.</p>
 	 * @param \Dracodeum\Kit\Utilities\Json\Options\Decode|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Json\Exceptions\Decode\InvalidData
 	 * @return mixed
 	 * <p>The given data decoded.<br>

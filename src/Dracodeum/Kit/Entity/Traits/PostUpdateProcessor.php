@@ -15,9 +15,9 @@ trait PostUpdateProcessor
 	 * Perform processing after an update from a given set of old values to a new given set.
 	 * 
 	 * @param array $old_values
-	 * <p>The old values to perform processing with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The old values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values
-	 * <p>The new values to perform processing with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The new values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	protected function processPostUpdate(array $old_values, array $new_values): void {}

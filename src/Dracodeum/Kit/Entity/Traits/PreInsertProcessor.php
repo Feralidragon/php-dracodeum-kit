@@ -15,7 +15,7 @@ trait PreInsertProcessor
 	 * Perform processing before an insert with a given set of values.
 	 * 
 	 * @param array $values [reference]
-	 * <p>The values to perform processing with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	protected function processPreInsert(array &$values): void {}

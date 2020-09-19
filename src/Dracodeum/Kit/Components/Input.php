@@ -47,17 +47,17 @@ use Dracodeum\Kit\Utilities\{
  * <p>The constraints to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
- * with the properties being given as <samp>name => value</samp> pairs.</p>
+ * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
  * @property-write \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter[]|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter[]|string[] $filters [writeonce] [transient] [coercive] [default = []]
  * <p>The filters to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
- * with the properties being given as <samp>name => value</samp> pairs.</p>
+ * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
  * @property-write \Dracodeum\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [transient] [coercive] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
- * with the properties being given as <samp>name => value</samp> pairs.</p>
+ * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
  * @see \Dracodeum\Kit\Prototypes\Input
  * @see \Dracodeum\Kit\Prototypes\Inputs\Boolean
  * [prototype, name = 'boolean' or 'bool']
@@ -333,7 +333,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get value string.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The value string.</p>
 	 */
@@ -351,9 +351,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get label.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
-	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The info options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The label.</p>
 	 */
@@ -391,7 +391,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get default null label.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The default null label.</p>
 	 */
@@ -415,9 +415,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get description.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
-	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The info options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The description or <code>null</code> if none is set.</p>
 	 */
@@ -459,7 +459,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get default null description.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The default null description or <code>null</code> if none is set.</p>
 	 */
@@ -485,9 +485,9 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Components\Input\Options\Info|array|null $info_options [default = null]
-	 * <p>The info options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The info options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
@@ -529,7 +529,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get default null message.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The default null message or <code>null</code> if none is set.</p>
 	 */
@@ -555,7 +555,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * The returning error message is only set if a previous <code>setValue</code> method call has failed.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */
@@ -601,7 +601,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get default error message.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The default error message.</p>
 	 */
@@ -849,7 +849,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get modifier labels.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string[]
 	 * <p>The modifier labels.</p>
 	 */
@@ -884,7 +884,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * Get modifier messages.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string[]
 	 * <p>The modifier messages.</p>
 	 */
@@ -909,7 +909,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Components\Input\Components\Modifier|string $modifier
 	 * <p>The modifier component instance or name to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with, as <samp>name => value</samp> pairs, if a component name is given.<br>
+	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs, if a component name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return $this
@@ -949,7 +949,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint|string $constraint
 	 * <p>The constraint component instance or name, or prototype instance, class or name, to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with, as <samp>name => value</samp> pairs, 
+	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs, 
 	 * if a component name, or a prototype class or name, is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
@@ -985,7 +985,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter|string $filter
 	 * <p>The filter component instance or name, or prototype instance, class or name, to add.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to add with, as <samp>name => value</samp> pairs, 
+	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs, 
 	 * if a component name, or a prototype class or name, is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
@@ -1097,7 +1097,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to evaluate with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to evaluate with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to evaluate with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return bool
@@ -1116,7 +1116,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to coerce with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @throws \Dracodeum\Kit\Components\Input\Exceptions\ValueCoercionFailed
@@ -1137,7 +1137,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	 * @param \Dracodeum\Kit\Prototypes\Input|string $prototype
 	 * <p>The prototype instance, class or name to coerce with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to coerce with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to coerce with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param bool $no_throw [default = false]

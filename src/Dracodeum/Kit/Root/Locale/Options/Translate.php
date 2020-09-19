@@ -17,7 +17,8 @@ use Dracodeum\Kit\Root\Locale;
  * Root locale <code>translate</code> method options.
  * 
  * @property array $parameters [coercive] [default = []]
- * <p>The parameters to replace the respective message placeholders with, as <samp>name => value</samp> pairs.</p>
+ * <p>The parameters to replace the respective message placeholders with, 
+ * as a set of <samp>name => value</samp> pairs.</p>
  * @property int $info_scope [coercive = enumeration value] [default = INTERNAL]
  * <p>The info scope to use, as a value from the <code>Dracodeum\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @property string|null $language [coercive = language] [default = null]

@@ -1263,7 +1263,7 @@ final class Call extends Utility
 	 * Halt the current function or method call in the stack.
 	 * 
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
 	 * @return void
 	 */
@@ -1300,13 +1300,13 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|callable|null $halt_options [default = null]
-	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br>
+	 * <p>Additional halt options to use, as an instance, a set of <samp>name => value</samp> pairs or 
+	 * a function compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
-	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
 	 * @return void
 	 */
@@ -1331,7 +1331,7 @@ final class Call extends Utility
 	 * @param mixed $value
 	 * <p>The value to use.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
 	 * @return void
 	 */
@@ -1371,13 +1371,13 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the execution of the current function or method in the stack.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|callable|null $halt_options [default = null]
-	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br>
+	 * <p>Additional halt options to use, as an instance, a set of <samp>name => value</samp> pairs or 
+	 * a function compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array</b></code><br>
-	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
 	 * @return void
 	 */
@@ -1398,7 +1398,7 @@ final class Call extends Utility
 	 * Halt the current function or method call in the stack over an internal error.
 	 * 
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
 	 * @return void
 	 */
@@ -1432,13 +1432,13 @@ final class Call extends Utility
 	 * If set to boolean <code>false</code>, then an exception is thrown, 
 	 * preventing the current function or method in the stack from continuing its internal execution.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|callable|null $halt_options [default = null]
-	 * <p>Additional halt options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
-	 * with the following signature:<br>
+	 * <p>Additional halt options to use, as an instance, a set of <samp>name => value</samp> pairs or 
+	 * a function compatible with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array</b></code><br>
-	 * The halt options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
 	 * @return void
 	 */
@@ -1461,7 +1461,7 @@ final class Call extends Utility
 	 * @param callable $function
 	 * <p>The executed function to use.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltExecution|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
 	 * @return void
@@ -1520,13 +1520,13 @@ final class Call extends Utility
 	 * Return: <code><b>bool</b></code><br>
 	 * Boolean <code>true</code> if the given value was successfully validated and sanitized.</p>
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\GuardExecution|array|callable|null $options [default = null]
-	 * <p>Additional options to use, as an instance, <samp>name => value</samp> pairs or a function compatible 
+	 * <p>Additional options to use, as an instance, a set of <samp>name => value</samp> pairs or a function compatible 
 	 * with the following signature:<br>
 	 * <br>
 	 * <code>function ()</code><br>
 	 * <br>
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\GuardExecution|array</b></code><br>
-	 * The options, as an instance or <samp>name => value</samp> pairs.</p>
+	 * The options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
 	 * @return mixed

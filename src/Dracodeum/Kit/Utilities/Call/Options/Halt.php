@@ -70,7 +70,8 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>
  * @property array $parameters [coercive] [default = []]
- * <p>The parameters to replace the error and hint message placeholders with, as <samp>name => value</samp> pairs.</p>
+ * <p>The parameters to replace the error and hint message placeholders with, 
+ * as a set of <samp>name => value</samp> pairs.</p>
  * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use for 
  * the error and hint messages.</p>

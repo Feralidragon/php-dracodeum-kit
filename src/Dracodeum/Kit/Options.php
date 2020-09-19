@@ -77,7 +77,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * Instantiate class.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to instantiate with, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $properties = [])
 	{
@@ -174,7 +174,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * Build instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
@@ -194,7 +194,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @param int $integer
 	 * <p>The integer to get from.</p>
 	 * @return array
-	 * <p>The properties from the given integer, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given integer, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getIntegerProperties(int $integer): array
 	{
@@ -211,7 +211,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @param float $float
 	 * <p>The float to get from.</p>
 	 * @return array
-	 * <p>The properties from the given float, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given float, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getFloatProperties(float $float): array
 	{
@@ -228,7 +228,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @param string $string
 	 * <p>The string to get from.</p>
 	 * @return array
-	 * <p>The properties from the given string, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given string, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getStringProperties(string $string): array
 	{
@@ -245,7 +245,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @param callable $callable
 	 * <p>The callable to get from.</p>
 	 * @return array
-	 * <p>The properties from the given callable, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given callable, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getCallableProperties(callable $callable): array
 	{
@@ -263,7 +263,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -282,7 +282,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -303,7 +303,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -322,7 +322,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
 	 * The built instance with the given set of properties.</p>
@@ -346,7 +346,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -365,7 +365,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>Dracodeum\Kit\Options</b></code><br>
 	 * The built instance with the given set of properties.</p>

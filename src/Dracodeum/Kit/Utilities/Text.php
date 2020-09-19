@@ -162,9 +162,9 @@ final class Text extends Utility
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Stringify|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\Stringify\UnsupportedValueType
 	 * @return string|null
 	 * <p>The generated string from the given value.<br>
@@ -430,7 +430,7 @@ final class Text extends Utility
 	 * @param string[] $strings
 	 * <p>The strings to commify.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param string|null $conjunction [default = null]
 	 * <p>The conjunction to commify with.<br>
 	 * If set, then it must be one of the following values (case-insensitive): 
@@ -556,9 +556,9 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to bulletify.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Bulletify|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The bulletified string from the given one.</p>
 	 */
@@ -594,9 +594,9 @@ final class Text extends Utility
 	 * @param string[] $strings
 	 * <p>The strings to bulletify.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Mbulletify|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string[]|string
 	 * <p>The bulletified strings from the given ones.<br>
 	 * The original index association and sort of the strings array is preserved.<br>
@@ -753,11 +753,11 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to fill.</p>
 	 * @param array $parameters
-	 * <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The parameters to fill the respective placeholders with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Fill|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\InvalidPlaceholder
 	 * @return string
 	 * <p>The given string filled with the given set of parameters.</p>
@@ -896,11 +896,11 @@ final class Text extends Utility
 	 * @param string|null $number_placeholder
 	 * <p>The number placeholder to fill with.</p>
 	 * @param array $parameters [default = []]
-	 * <p>The parameters to fill the respective placeholders with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The parameters to fill the respective placeholders with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Pfill|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The given plural string filled with the given set of parameters.</p>
 	 */
@@ -1086,10 +1086,11 @@ final class Text extends Utility
 	 * @param string $mask
 	 * <p>The mask to use.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Extract|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\Extract\MatchFailed
 	 * @return array|null
-	 * <p>The extracted parameters from the given string using the given mask, as <samp>key => value</samp> pairs.<br>
+	 * <p>The extracted parameters from the given string using the given mask, 
+	 * as a set of <samp>key => value</samp> pairs.<br>
 	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if they could not be extracted.</p>
 	 */
@@ -1167,12 +1168,12 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to parse from.</p>
 	 * @param string[] $fields_patterns
-	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * <p>The fields regular expression patterns to parse with, as a set of <samp>field => pattern</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Parse|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array|null
-	 * <p>The parsed data from the given string, as <samp>field => value</samp> pairs.<br>
+	 * <p>The parsed data from the given string, as a set of <samp>field => value</samp> pairs.<br>
 	 * If <var>$options->no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if no data could be parsed.</p>
 	 */
@@ -1207,12 +1208,12 @@ final class Text extends Utility
 	 * @param string[] $strings
 	 * <p>The strings to parse from.</p>
 	 * @param string[] $fields_patterns
-	 * <p>The fields regular expression patterns to parse with, as <samp>field => pattern</samp> pairs.</p>
+	 * <p>The fields regular expression patterns to parse with, as a set of <samp>field => pattern</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Mparse|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Text\Exceptions\ParseFailed
 	 * @return array
-	 * <p>The parsed data from the given strings as an array of <samp>field => value</samp> pairs per string, 
+	 * <p>The parsed data from the given strings, as a set of <samp>field => value</samp> pairs per string, 
 	 * or <code>null</code> per string if <var>$options->keep_nulls</var> is set to boolean <code>true</code> 
 	 * and no data could be parsed from it.<br>
 	 * The original index association and sort of the strings array is preserved.</p>
@@ -1549,7 +1550,7 @@ final class Text extends Utility
 	 * <p>The length to truncate to.<br>
 	 * It must be greater than or equal to <code>0</code>.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The given string truncated to the given length.</p>
 	 */
@@ -2171,9 +2172,9 @@ final class Text extends Utility
 	 * @param string|null $context [default = null]
 	 * <p>The context to localize with.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Localize|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The localization of the given message.</p>
 	 */
@@ -2247,9 +2248,9 @@ final class Text extends Utility
 	 * @param string|null $context [default = null]
 	 * <p>The context to localize with.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Plocalize|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The localization of the given plural message.</p>
 	 */

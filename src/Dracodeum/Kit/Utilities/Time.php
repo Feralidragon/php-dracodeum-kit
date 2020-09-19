@@ -399,7 +399,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The generated string from the given date and time.</p>
 	 */
@@ -568,7 +568,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The generated string from the given date.</p>
 	 */
@@ -758,7 +758,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The generated string from the given time.</p>
 	 */
@@ -792,7 +792,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an integer or float as the number of seconds since 1970-01-01 00:00:00 UTC;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The calculated period on how long ago it has been, in a human-readable format, since the given timestamp.</p>
 	 */
@@ -928,9 +928,9 @@ final class Time extends Utility
 	 * @param float $period
 	 * <p>The machine-readable period to get from, in seconds.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Utilities\Time\Options\Hperiod|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
 	 * <p>The human-readable period from the given machine one.</p>
 	 */
@@ -1333,9 +1333,10 @@ final class Time extends Utility
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Dracodeum\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return float[]|string[]|\DateTime[]|\DateTimeImmutable[]
-	 * <p>The generated time series from the given start timestamp, as <samp>timestamp => timestamp</samp> pairs.</p>
+	 * <p>The generated time series from the given start timestamp, 
+	 * as a set of <samp>timestamp => timestamp</samp> pairs.</p>
 	 */
 	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null): array
 	{

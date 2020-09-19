@@ -81,7 +81,7 @@ IArrayInstantiable, ICloneable
 	 * Instantiate class.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to instantiate with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 */
@@ -195,7 +195,7 @@ IArrayInstantiable, ICloneable
 	 * Build instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return static
@@ -217,7 +217,7 @@ IArrayInstantiable, ICloneable
 	 * @param int $integer
 	 * <p>The integer to get from.</p>
 	 * @return array
-	 * <p>The properties from the given integer, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given integer, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getIntegerProperties(int $integer): array
 	{
@@ -234,7 +234,7 @@ IArrayInstantiable, ICloneable
 	 * @param float $float
 	 * <p>The float to get from.</p>
 	 * @return array
-	 * <p>The properties from the given float, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given float, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getFloatProperties(float $float): array
 	{
@@ -251,7 +251,7 @@ IArrayInstantiable, ICloneable
 	 * @param string $string
 	 * <p>The string to get from.</p>
 	 * @return array
-	 * <p>The properties from the given string, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given string, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getStringProperties(string $string): array
 	{
@@ -268,7 +268,7 @@ IArrayInstantiable, ICloneable
 	 * @param callable $callable
 	 * <p>The callable to get from.</p>
 	 * @return array
-	 * <p>The properties from the given callable, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties from the given callable, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public static function getCallableProperties(callable $callable): array
 	{
@@ -286,7 +286,7 @@ IArrayInstantiable, ICloneable
 	 * 
 	 * Only the following types and formats can be evaluated into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -305,7 +305,7 @@ IArrayInstantiable, ICloneable
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
@@ -328,7 +328,7 @@ IArrayInstantiable, ICloneable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -347,7 +347,7 @@ IArrayInstantiable, ICloneable
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
@@ -373,7 +373,7 @@ IArrayInstantiable, ICloneable
 	 * 
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code>, an integer, a float, a string, a callable or an instance;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
@@ -392,7 +392,7 @@ IArrayInstantiable, ICloneable
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
@@ -487,7 +487,7 @@ IArrayInstantiable, ICloneable
 			'error_code' => Exceptions\CoercionFailed::ERROR_CODE_INVALID_TYPE,
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
 				" - null, an integer, a float, a string, a callable or an instance;\n" . 
-				" - an array of properties, given as \"name => value\" pairs;\n" . 
+				" - an array of properties, given as a set of \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface."
 		]);
 	}

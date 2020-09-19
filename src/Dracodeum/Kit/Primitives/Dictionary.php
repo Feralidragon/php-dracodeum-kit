@@ -74,7 +74,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Instantiate class.
 	 * 
 	 * @param array $pairs [default = []]
-	 * <p>The pairs to instantiate with, as <samp>key => value</samp>.</p>
+	 * <p>The pairs to instantiate with, as a set of <samp>key => value</samp> pairs.</p>
 	 */
 	final public function __construct(array $pairs = [])
 	{
@@ -467,7 +467,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Only pairs whose keys are integers, floats or strings can be converted to PHP associative array keys.
 	 * 
 	 * @return array
-	 * <p>All the pairs, as <samp>key => value</samp>.</p>
+	 * <p>All the pairs, as a set of <samp>key => value</samp> pairs.</p>
 	 */
 	final public function getAll(): array
 	{
@@ -487,7 +487,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Set all pairs.
 	 * 
 	 * @param array $pairs
-	 * <p>The pairs to set, as <samp>key => value</samp>.</p>
+	 * <p>The pairs to set, as a set of <samp>key => value</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Dictionary\Exceptions\InvalidKey
@@ -582,7 +582,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Build instance.
 	 * 
 	 * @param array $pairs [default = []]
-	 * <p>The pairs to build with, as <samp>key => value</samp>.</p>
+	 * <p>The pairs to build with, as a set of <samp>key => value</samp> pairs.</p>
 	 * @return static
 	 * <p>The built instance.</p>
 	 */

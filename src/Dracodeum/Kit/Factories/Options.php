@@ -41,7 +41,7 @@ class Options extends Factory
 	 * Build text instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Options\Text
 	 * <p>The built text instance.</p>
 	 */

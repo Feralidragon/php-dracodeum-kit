@@ -17,7 +17,7 @@ trait PreInitializer
 	 * @param \Dracodeum\Kit\Prototype|string|null $prototype [reference]
 	 * <p>The prototype instance, class or name to pre-initialize with.</p>
 	 * @param array $properties [reference]
-	 * <p>The properties to pre-initialize with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The properties to pre-initialize with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	protected function preInitialize(&$prototype, array &$properties): void {}

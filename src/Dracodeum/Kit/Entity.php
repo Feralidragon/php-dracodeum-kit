@@ -129,7 +129,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Instantiate class.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to instantiate with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to instantiate with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param bool $persisted [default = false]
@@ -364,7 +364,8 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param \Dracodeum\Kit\Prototypes\Store|string $prototype
 	 * <p>The prototype instance, class or name to create with.</p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to create with, as <samp>name => value</samp> pairs, if a prototype class or name is given.<br>
+	 * <p>The properties to create with, as a set of <samp>name => value</samp> pairs, 
+	 * if a prototype class or name is given.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @return \Dracodeum\Kit\Components\Store
@@ -423,7 +424,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Get scope IDs.
 	 * 
 	 * @return int[]|string[]
-	 * <p>The scope IDs, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs, as a set of <samp>name => id</samp> pairs.</p>
 	 */
 	final public function getScopeIds(): array
 	{
@@ -461,7 +462,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Build instance.
 	 * 
 	 * @param array $properties [default = []]
-	 * <p>The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param bool $persisted [default = false]
@@ -520,7 +521,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Get static scope.
 	 * 
 	 * @param int[]|string[] $ids [default = []]
-	 * <p>The IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The static scope or <code>null</code> if none is set.</p>
 	 */
@@ -537,7 +538,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
 	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to check with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to check with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if an instance exists.</p>
 	 */
@@ -557,7 +558,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
 	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -578,7 +579,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
 	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to delete with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to delete with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
@@ -620,7 +621,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
@@ -645,7 +646,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
@@ -671,7 +672,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
@@ -696,7 +697,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
@@ -725,7 +726,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an instance:<br>
 	 * &nbsp; &#8226; &nbsp; <code>null</code> or an instance;<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string, given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an array of properties, given as <samp>name => value</samp> pairs;<br>
+	 * &nbsp; &#8226; &nbsp; an array of properties, given as a set of <samp>name => value</samp> pairs;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an instance of <code>Dracodeum\Kit\Structures\Uid</code>, 
 	 * to be loaded from;<br>
@@ -750,7 +751,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The properties to build with, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The properties to build with, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>bool $persisted</b></code><br>
@@ -831,7 +832,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 			'error_message' => "Only the following types and formats can be coerced into an instance:\n" . 
 				" - null or an instance;\n" . 
 				" - an integer or string, given as an ID to be loaded from;\n" . 
-				" - an array of properties, given as \"name => value\" pairs;\n" . 
+				" - an array of properties, given as a set of \"name => value\" pairs;\n" . 
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
 				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from;\n" . 
 				" - an object implementing the \"__toString\" method, given as an ID to be loaded from;\n" . 
@@ -1206,7 +1207,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to get with.</p>
 	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to get with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The static log event tag.</p>
 	 */
@@ -1256,7 +1257,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final protected function logEvent($level, string $message, $options = null): void
@@ -1313,7 +1314,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\PlogEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final protected function plogEvent($level, string $message1, string $message2, float $number, $options = null): void
@@ -1340,7 +1341,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param \Throwable $throwable
 	 * <p>The throwable instance to log with.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogThrowableEvent|array|null $options [default = null]
-	 * <p>Additional options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final protected function logThrowableEvent($level, \Throwable $throwable, $options = null): void
@@ -1387,9 +1388,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Insert a given set of values.
 	 * 
 	 * @param array $values
-	 * <p>The values to insert, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to insert, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return array
-	 * <p>The inserted values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The inserted values, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	private function insert(array $values): array
 	{
@@ -1438,13 +1439,13 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Update from a given old set of values to a new given set.
 	 * 
 	 * @param array $old_values
-	 * <p>The old values to update from, as <samp>name => value</samp> pairs.</p>
+	 * <p>The old values to update from, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values
-	 * <p>The new values to update to, as <samp>name => value</samp> pairs.</p>
+	 * <p>The new values to update to, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param string[] $changed_names
 	 * <p>The changed property names to update.</p>
 	 * @return array
-	 * <p>The updated values, as <samp>name => value</samp> pairs.</p>
+	 * <p>The updated values, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	private function update(array $old_values, array $new_values, array $changed_names): array
 	{
@@ -1494,11 +1495,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Process pre-persistence with a given set of new values.
 	 * 
 	 * @param array $new_values [reference]
-	 * <p>The new values to process with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The new values to process with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Structures\Uid|null $uid [reference output]
 	 * <p>The output UID instance to use.</p>
 	 * @param array|null $old_values [reference] [default = null]
-	 * <p>The old values to process with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The old values to process with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
@@ -1602,7 +1603,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Process post-persistence with a given set of values.
 	 * 
 	 * @param array $values [reference]
-	 * <p>The values to process with, as <samp>name => value</samp> pairs.</p>
+	 * <p>The values to process with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to use.</p>
 	 * @return void
@@ -1648,12 +1649,12 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
 	 * @param int[]|string[] $scope_ids [default = []]
-	 * <p>The scope IDs to load with, as <samp>name => id</samp> pairs.</p>
+	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\NotFound
 	 * @return array|null
-	 * <p>The loaded property values, as <samp>name => value</samp> pairs.<br>
+	 * <p>The loaded property values, as a set of <samp>name => value</samp> pairs.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if none were found.</p>
 	 */

@@ -269,7 +269,7 @@ trait Properties
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
-	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the properties, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll(bool $lazy = false): array
 	{
@@ -340,7 +340,7 @@ trait Properties
 	 * This method may only be called after the properties manager initialization.
 	 * 
 	 * @param string[] $aliases
-	 * <p>The aliases to add, as <samp>alias => name</samp> pairs.</p>
+	 * <p>The aliases to add, as a set of <samp>alias => name</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -439,7 +439,7 @@ trait Properties
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
 	 * @return array
-	 * <p>All the initializeable properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the initializeable properties, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final protected function getAllInitializeable(bool $lazy = false): array
 	{
@@ -458,7 +458,7 @@ trait Properties
 	 * <code>function (): array</code><br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
-	 * The persisted property values, as <samp>name => value</samp> pairs.<br>
+	 * The persisted property values, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * All returned property values are used to set their corresponding properties with their persisted values, 
 	 * with any property keeping its current value if a new one is not returned.<br>
@@ -484,13 +484,13 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The property values to insert, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The property values to insert, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Automatic properties may not be included in this set, in which case they are required to be 
 	 * automatically generated during insertion.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
 	 * The inserted property values, including all automatically generated ones not set in <var>$values</var>, 
-	 * as <samp>name => value</samp> pairs.<br>
+	 * as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
 	 * therefore all automatically generated property values must be returned, whereas any other property value may 
@@ -505,14 +505,14 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $old_values</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The old property values to update from, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $new_values</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The new property values to update to, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>string[] $changed_names</b></code><br>
 	 * &nbsp; &nbsp; &nbsp; The changed property names to update.<br>
 	 * <br>
 	 * Return: <code><b>array</b></code><br>
-	 * The updated property values, as <samp>name => value</samp> pairs.<br>
+	 * The updated property values, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * All returned property values are used to set their corresponding properties with their newly persisted values, 
 	 * therefore any property value may be either returned or not, with any property keeping its current value if a new 
@@ -543,7 +543,7 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $values</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The property values to delete, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The property values to delete, as a set of <samp>name => value</samp> pairs.<br>
 	 * <br>
 	 * Return: <code><b>void</b></code></p>
 	 * @return $this
@@ -627,7 +627,7 @@ trait Properties
 	 * <br>
 	 * <code>function (): void</code></p>
 	 * @param array $properties [default = []]
-	 * <p>The properties to initialize with, as <samp>name => value</samp> pairs.<br>
+	 * <p>The properties to initialize with, as a set of <samp>name => value</samp> pairs.<br>
 	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
 	 * in the same order as how these properties were first declared.</p>
 	 * @param string $mode [default = 'rw']
@@ -668,7 +668,7 @@ trait Properties
 	 * <br>
 	 * Parameters:<br>
 	 * &nbsp; &#8226; &nbsp; <code><b>array $properties</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as <samp>name => value</samp> pairs.<br>
+	 * &nbsp; &nbsp; &nbsp; The remaining properties to handle, as a set of <samp>name => value</samp> pairs.<br>
 	 * &nbsp; &nbsp; &nbsp; Required properties may also be given as an array of values 
 	 * (<samp>[value1, value2, ...]</samp>), in the same order as how these properties were first declared.<br>
 	 * <br>
@@ -676,7 +676,7 @@ trait Properties
 	 * @param array|null $remainder [reference output] [default = null]
 	 * <p>The properties remainder.<br>
 	 * If set, then it is filled with all remaining properties which have not been found from the given 
-	 * <var>$properties</var> above, as <samp>name => value</samp> pairs or 
+	 * <var>$properties</var> above, as a set of <samp>name => value</samp> pairs or 
 	 * an array of required property values or both.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>

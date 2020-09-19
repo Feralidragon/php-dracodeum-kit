@@ -43,7 +43,7 @@ class Logger extends Component
 	 * Add event.
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
-	 * <p>The event to add, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The event to add, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

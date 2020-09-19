@@ -144,7 +144,7 @@ abstract class Modifier extends Component
 	 * Get label.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The label or <code>null</code> if none is set.</p>
 	 */
@@ -162,7 +162,7 @@ abstract class Modifier extends Component
 	 * The returning message is assertive relative to the expected value.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The message or <code>null</code> if none is set.</p>
 	 */
@@ -181,7 +181,7 @@ abstract class Modifier extends Component
 	 * If no such properties are set, then <code>null</code> is returned instead.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The string or <code>null</code> if none is set.</p>
 	 */
@@ -199,7 +199,7 @@ abstract class Modifier extends Component
 	 * The returning error message is only set if a previous <code>evaluateValue</code> method call has failed.
 	 * 
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
-	 * <p>The text options to use, as an instance or <samp>name => value</samp> pairs.</p>
+	 * <p>The text options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The error message or <code>null</code> if no error is set.</p>
 	 */

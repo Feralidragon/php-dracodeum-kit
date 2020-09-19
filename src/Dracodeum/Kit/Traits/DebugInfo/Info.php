@@ -79,7 +79,7 @@ final class Info
 	 * Get all properties.
 	 * 
 	 * @return array
-	 * <p>All the properties, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the properties, as a set of <samp>name => value</samp> pairs.</p>
 	 */
 	final public function getAll(): array
 	{
@@ -106,7 +106,7 @@ final class Info
 	 * Set all properties.
 	 * 
 	 * @param array $properties
-	 * <p>All the properties to set, as <samp>name => value</samp> pairs.</p>
+	 * <p>All the properties to set, as a set of <samp>name => value</samp> pairs.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

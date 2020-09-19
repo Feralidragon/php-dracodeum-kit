@@ -15,7 +15,7 @@ interface SchemaData
 	 * Get schema data.
 	 * 
 	 * The returning data is meant to structurally describe this specific modifier in detail, 
-	 * such as returning some of its properties as <samp>name => value</samp> pairs, for example.
+	 * such as returning some of its properties as a set of <samp>name => value</samp> pairs, for example.
 	 * 
 	 * @return mixed
 	 * <p>The schema data.</p>
