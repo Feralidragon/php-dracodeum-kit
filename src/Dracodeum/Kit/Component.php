@@ -136,7 +136,7 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		//remainderer
 		$remainderer = function (array $properties) use ($prototype): void {
 			//prototype base class
-			$prototype_base_class = $this->getBasePrototypeClass();
+			$prototype_base_class = $this->getPrototypeBaseClass();
 			UCall::guardInternal(UType::isA($prototype_base_class, Prototype::class), [
 				'error_message' => "Invalid base prototype class {{base_class}}.",
 				'parameters' => ['base_class' => $prototype_base_class],
@@ -264,15 +264,15 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	
 	//Abstract public static methods
 	/**
-	 * Get base prototype class.
+	 * Get prototype base class.
 	 * 
 	 * Any given prototype class or instance to be used by this component must be or 
 	 * extend from the same class as the one returned here.
 	 * 
 	 * @return string
-	 * <p>The base prototype class.</p>
+	 * <p>The prototype base class.</p>
 	 */
-	abstract public static function getBasePrototypeClass(): string;
+	abstract public static function getPrototypeBaseClass(): string;
 	
 	
 	

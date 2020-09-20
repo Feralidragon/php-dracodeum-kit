@@ -22,7 +22,7 @@ class Logger extends Component
 {
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass(): string
+	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
 	}

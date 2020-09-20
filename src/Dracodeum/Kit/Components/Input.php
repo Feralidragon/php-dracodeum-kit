@@ -112,7 +112,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	
 	//Implemented public static methods
 	/** {@inheritdoc} */
-	public static function getBasePrototypeClass(): string
+	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
 	}

@@ -23,6 +23,6 @@ abstract class Exception extends KitException
 	protected function loadProperties(): void
 	{
 		$this->addProperty('component')->setAsStrictObject(Component::class);
-		$this->addProperty('prototype')->setAsStrictObject(Component::getBasePrototypeClass());
+		$this->addProperty('prototype')->setAsStrictObject(Component::getPrototypeBaseClass());
 	}
 }
