@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
-use Dracodeum\Kit\Enumerations\Time as ETime;
+use Dracodeum\Kit\Enumerations\Time\Period as EPeriod;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\Time\{
 	Options,
@@ -21,7 +21,7 @@ final class Time extends Utility
 	//Private constants
 	/** Multiples table. */
 	private const MULTIPLES_TABLE = [[
-		'time' => ETime::T1_YEAR,
+		'value' => EPeriod::P1Y,
 		'symbol' => 'Y',
 		'singular' => "year",
 		'plural' => "years",
@@ -29,7 +29,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 'M'
 	], [
-		'time' => ETime::T1_MONTH,
+		'value' => EPeriod::P1M,
 		'symbol' => 'M',
 		'singular' => "month",
 		'plural' => "months",
@@ -37,7 +37,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 'W'
 	], [
-		'time' => ETime::T1_WEEK,
+		'value' => EPeriod::P1W,
 		'symbol' => 'W',
 		'singular' => "week",
 		'plural' => "weeks",
@@ -45,7 +45,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 'D'
 	], [
-		'time' => ETime::T1_DAY,
+		'value' => EPeriod::P1D,
 		'symbol' => 'D',
 		'singular' => "day",
 		'plural' => "days",
@@ -53,7 +53,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 'h'
 	], [
-		'time' => ETime::T1_HOUR,
+		'value' => EPeriod::PT1H,
 		'symbol' => 'h',
 		'singular' => "hour",
 		'plural' => "hours",
@@ -61,7 +61,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 'min'
 	], [
-		'time' => ETime::T1_MINUTE,
+		'value' => EPeriod::PT1M,
 		'symbol' => 'min',
 		'singular' => "minute",
 		'plural' => "minutes",
@@ -69,7 +69,7 @@ final class Time extends Utility
 		'limit' => 2,
 		'min_multiple' => 's'
 	], [
-		'time' => 1,
+		'value' => 1,
 		'symbol' => 's',
 		'singular' => "second",
 		'plural' => "seconds",
@@ -77,7 +77,7 @@ final class Time extends Utility
 		'limit' => 1,
 		'min_multiple' => 's'
 	], [
-		'time' => 1e-3,
+		'value' => 1e-3,
 		'symbol' => 'ms',
 		'singular' => "millisecond",
 		'plural' => "milliseconds",
@@ -85,7 +85,7 @@ final class Time extends Utility
 		'limit' => 1,
 		'min_multiple' => 'ms'
 	], [
-		'time' => 1e-6,
+		'value' => 1e-6,
 		'symbol' => 'µs',
 		'singular' => "microsecond",
 		'plural' => "microseconds",
@@ -93,7 +93,7 @@ final class Time extends Utility
 		'limit' => 1,
 		'min_multiple' => 'µs'
 	], [
-		'time' => 1e-9,
+		'value' => 1e-9,
 		'symbol' => 'ns',
 		'singular' => "nanosecond",
 		'plural' => "nanoseconds",
@@ -534,7 +534,7 @@ final class Time extends Utility
 		//timestamp
 		$timestamp = self::timestamp($value, false, true);
 		if (isset($timestamp)) {
-			$timestamp = (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+			$timestamp = (int)(floor($timestamp / EPeriod::P1D) * EPeriod::P1D);
 			$value = isset($format) ? self::format($timestamp, $format, 'UTC') : $timestamp;
 			return true;
 		}
@@ -725,7 +725,7 @@ final class Time extends Utility
 		//timestamp
 		$timestamp = self::timestamp($value, $microseconds, true);
 		if (isset($timestamp)) {
-			$timestamp = $timestamp - (int)(floor($timestamp / ETime::T1_DAY) * ETime::T1_DAY);
+			$timestamp = $timestamp - (int)(floor($timestamp / EPeriod::P1D) * EPeriod::P1D);
 			$value = isset($format) ? self::format($timestamp, $format, $timezone) : $timestamp;
 			return true;
 		}
@@ -804,7 +804,7 @@ final class Time extends Utility
 		$period = max(0, time() - $timestamp);
 		
 		//years
-		if ($period >= ETime::T1_YEAR) {
+		if ($period >= EPeriod::P1Y) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in years.
 			 * @placeholder number The number of years.
@@ -812,12 +812,12 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} year ago", "{{number}} years ago",
-				(int)($period / ETime::T1_YEAR), 'number', self::class, $text_options
+				(int)($period / EPeriod::P1Y), 'number', self::class, $text_options
 			);
 		}
 		
 		//months
-		if ($period >= ETime::T1_MONTH) {
+		if ($period >= EPeriod::P1M) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in months.
 			 * @placeholder number The number of months.
@@ -825,12 +825,12 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} month ago", "{{number}} months ago",
-				(int)($period / ETime::T1_MONTH), 'number', self::class, $text_options
+				(int)($period / EPeriod::P1M), 'number', self::class, $text_options
 			);
 		}
 		
 		//weeks
-		if ($period >= ETime::T1_WEEK) {
+		if ($period >= EPeriod::P1W) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in weeks.
 			 * @placeholder number The number of weeks.
@@ -838,12 +838,12 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} week ago", "{{number}} weeks ago",
-				(int)($period / ETime::T1_WEEK), 'number', self::class, $text_options
+				(int)($period / EPeriod::P1W), 'number', self::class, $text_options
 			);
 		}
 		
 		//days
-		if ($period >= ETime::T1_DAY) {
+		if ($period >= EPeriod::P1D) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in days.
 			 * @placeholder number The number of days.
@@ -851,12 +851,12 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} day ago", "{{number}} days ago",
-				(int)($period / ETime::T1_DAY), 'number', self::class, $text_options
+				(int)($period / EPeriod::P1D), 'number', self::class, $text_options
 			);
 		}
 		
 		//hours
-		if ($period >= ETime::T1_HOUR) {
+		if ($period >= EPeriod::PT1H) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in hours.
 			 * @placeholder number The number of hours.
@@ -864,12 +864,12 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} hour ago", "{{number}} hours ago",
-				(int)($period / ETime::T1_HOUR), 'number', self::class, $text_options
+				(int)($period / EPeriod::PT1H), 'number', self::class, $text_options
 			);
 		}
 		
 		//minutes
-		if ($period >= ETime::T1_MINUTE) {
+		if ($period >= EPeriod::PT1M) {
 			/**
 			 * @description Human-readable time, on how long ago it has been, scaled in minutes.
 			 * @placeholder number The number of minutes.
@@ -877,7 +877,7 @@ final class Time extends Utility
 			 */
 			return Text::plocalize(
 				"{{number}} minute ago", "{{number}} minutes ago",
-				(int)($period / ETime::T1_MINUTE), 'number', self::class, $text_options
+				(int)($period / EPeriod::PT1M), 'number', self::class, $text_options
 			);
 		}
 		
@@ -949,9 +949,9 @@ final class Time extends Utility
 		$parts = [];
 		foreach (self::MULTIPLES_TABLE as $row) {
 			//prepare
-			if (isset($options->max_multiple) && $row['time'] > $options->max_multiple) {
+			if (isset($options->max_multiple) && $row['value'] > $options->max_multiple) {
 				continue;
-			} elseif ($period >= $row['time']) {
+			} elseif ($period >= $row['value']) {
 				if (!isset($precision)) {
 					$precision = $row['precision'];
 				}
@@ -964,14 +964,14 @@ final class Time extends Utility
 			}
 			
 			//last
-			$is_last = (isset($limit) && (count($parts) + 1) >= $limit && $period >= $row['time']) || 
-				(isset($min_multiple) && $row['time'] <= $min_multiple);
-			if (!$is_last && $period < $row['time']) {
+			$is_last = (isset($limit) && (count($parts) + 1) >= $limit && $period >= $row['value']) || 
+				(isset($min_multiple) && $row['value'] <= $min_multiple);
+			if (!$is_last && $period < $row['value']) {
 				continue;
 			}
 			
 			//calculate
-			$number = $is_last ? round($period / $row['time'], $precision) : floor($period / $row['time']);
+			$number = $is_last ? round($period / $row['value'], $precision) : floor($period / $row['value']);
 			if (!empty($number)) {
 				if ($options->short) {
 					$part = "{$number}{$row['symbol']}";
@@ -1097,7 +1097,7 @@ final class Time extends Utility
 			if ($is_last) {
 				break;
 			}
-			$period -= $number * $row['time'];
+			$period -= $number * $row['value'];
 		}
 		
 		//implode
@@ -1269,8 +1269,8 @@ final class Time extends Utility
 		//multiples
 		if (empty(self::$multiples)) {
 			foreach (self::MULTIPLES_TABLE as $row) {
-				foreach (['time', 'symbol', 'singular', 'plural'] as $column) {
-					self::$multiples[(string)$row[$column]] = $row['time'];
+				foreach (['value', 'symbol', 'singular', 'plural'] as $column) {
+					self::$multiples[(string)$row[$column]] = $row['value'];
 				}
 			}
 		}
@@ -1329,7 +1329,7 @@ final class Time extends Utility
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>DateTimeInterface</code> interface.<br>
 	 * <br>
 	 * If not set, then the current system time is used.</p>
-	 * @param int|float $interval [default = \Dracodeum\Kit\Enumerations\Time::T1_DAY]
+	 * @param int|float $interval [default = \Dracodeum\Kit\Enumerations\Time\Period::P1D]
 	 * <p>The interval between values to generate with, in seconds.<br>
 	 * It must be greater than <code>0</code>.</p>
 	 * @param \Dracodeum\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
@@ -1338,7 +1338,7 @@ final class Time extends Utility
 	 * <p>The generated time series from the given start timestamp, 
 	 * as a set of <samp>timestamp => timestamp</samp> pairs.</p>
 	 */
-	final public static function generate($start, $end = null, float $interval = ETime::T1_DAY, $options = null): array
+	final public static function generate($start, $end = null, float $interval = EPeriod::P1D, $options = null): array
 	{
 		//initialize
 		$start_timestamp = $start;
