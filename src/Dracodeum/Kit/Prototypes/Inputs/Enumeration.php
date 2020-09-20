@@ -27,7 +27,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * &nbsp; &#8226; &nbsp; an integer, float or string as the enumeration element value;<br>
  * &nbsp; &#8226; &nbsp; a string as the enumeration element name.
  * 
- * @property-write string $enumeration [writeonce] [transient] [strict = class]
+ * @property-write string $class [writeonce] [transient] [strict = class]
  * <p>The enumeration class to use.</p>
  * @property-write int[]|float[]|string[] $values [writeonce] [transient] [coercive] [default = []]
  * <p>The enumeration element values to restrict a given value to.</p>
@@ -49,7 +49,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 {
 	//Protected properties
 	/** @var string */
-	protected $enumeration;
+	protected $class;
 	
 	/** @var int[]|float[]|string[] */
 	protected $values = [];
@@ -95,12 +95,12 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 			return false;
 		}
 		
-		//enumeration
-		$enumeration = $this->enumeration;
-		if (!$this->values_only && is_string($value) && $enumeration::hasName($value)) {
-			$value = $enumeration::getNameValue($value);
-		} elseif (!$this->names_only && $enumeration::hasValue($value)) {
-			$value = $enumeration::getValue($value);
+		//class
+		$class = $this->class;
+		if (!$this->values_only && is_string($value) && $class::hasName($value)) {
+			$value = $class::getNameValue($value);
+		} elseif (!$this->names_only && $class::hasValue($value)) {
+			$value = $class::getValue($value);
 		} else {
 			return false;
 		}
@@ -114,7 +114,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		
 		//namify
 		if ($this->namify) {
-			$value = $enumeration::getValueName($value);
+			$value = $class::getValueName($value);
 		}
 		
 		//return
@@ -129,7 +129,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	{
 		//initialize
 		$labels = [];
-		$enumeration = $this->enumeration;
+		$class = $this->class;
 		$show_names = $this->canShowNames();
 		$show_values = $this->canShowValues();
 		
@@ -146,7 +146,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					"{{label}}: {{name_value}}",
 					self::class, $text_options, [
 						'parameters' => [
-							'label' => $enumeration::getNameLabel($name, $text_options),
+							'label' => $class::getNameLabel($name, $text_options),
 							'name_value' => UText::commify(
 								$show_names && $show_values && $name !== $value
 									? [$name, $value]
@@ -157,7 +157,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					]
 				);
 			} else {
-				$labels[] = $enumeration::getNameLabel($name, $text_options);
+				$labels[] = $class::getNameLabel($name, $text_options);
 			}
 		}
 		
@@ -379,8 +379,8 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/** {@inheritdoc} */
 	public function stringifyValue($value, TextOptions $text_options): string
 	{
-		$enumeration = $this->enumeration;
-		return UText::stringify($enumeration::getName($value), $text_options, ['quote_strings' => true]);
+		$class = $this->class;
+		return UText::stringify($class::getName($value), $text_options, ['quote_strings' => true]);
 	}
 	
 	
@@ -411,7 +411,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	/** {@inheritdoc} */
 	protected function initializeProperties(): void
 	{
-		$this->addRequiredPropertyName('enumeration');
+		$this->addRequiredPropertyName('class');
 	}
 	
 	
@@ -421,7 +421,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	protected function buildProperty(string $name): ?Property
 	{
 		switch ($name) {
-			case 'enumeration':
+			case 'class':
 				return $this->createProperty()
 					->setMode('w--')
 					->setAsStrictClass(KitEnumeration::class)
@@ -485,14 +485,14 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	protected function getNamesValues(): array
 	{
 		//initialize
-		$enumeration = $this->enumeration;
-		$names_values = $enumeration::getNamesValues();
+		$class = $this->class;
+		$names_values = $class::getNamesValues();
 		
 		//values
 		if (!empty($this->values)) {
 			$names_map = [];
 			foreach ($this->values as $value) {
-				$names_map[$enumeration::getValueName($value)] = true;
+				$names_map[$class::getValueName($value)] = true;
 			}
 			$names_values = array_intersect_key($names_values, $names_map);
 			unset($names_map);
@@ -502,7 +502,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 		if (!empty($this->non_values)) {
 			$non_names_map = [];
 			foreach ($this->non_values as $non_value) {
-				$non_names_map[$enumeration::getValueName($non_value)] = true;
+				$non_names_map[$class::getValueName($non_value)] = true;
 			}
 			$names_values = array_diff_key($names_values, $non_names_map);
 			unset($non_names_map);
@@ -524,13 +524,13 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 	{
 		//initialize
 		$descriptions = [];
-		$enumeration = $this->enumeration;
+		$class = $this->class;
 		$show_names = $this->canShowNames();
 		$show_values = $this->canShowValues();
 		
 		//descriptions
 		foreach ($this->getNamesValues() as $name => $value) {
-			$description = $enumeration::getNameDescription($name, $text_options);
+			$description = $class::getNameDescription($name, $text_options);
 			if (isset($description)) {
 				$description = UText::formatMessage($description, true);
 				if ($show_names || $show_values) {
@@ -546,7 +546,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 						"{{label}} (given as {{name_value}}): {{description}}", 
 						self::class, $text_options, [
 							'parameters' => [
-								'label' => $enumeration::getNameLabel($name, $text_options),
+								'label' => $class::getNameLabel($name, $text_options),
 								'name_value' => UText::commify(
 									$show_names && $show_values && $name !== $value
 										? [$name, $value]
@@ -568,7 +568,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 						"{{label}}: {{description}}", 
 						self::class, $text_options, [
 							'parameters' => [
-								'label' => $enumeration::getNameLabel($name, $text_options),
+								'label' => $class::getNameLabel($name, $text_options),
 								'description' => $description
 							]
 						]
@@ -585,7 +585,7 @@ class Enumeration extends Input implements IInformation, IValueStringifier, ISch
 					"{{label}}: given as {{name_value}}.", 
 					self::class, $text_options, [
 						'parameters' => [
-							'label' => $enumeration::getNameLabel($name, $text_options),
+							'label' => $class::getNameLabel($name, $text_options),
 							'name_value' => UText::commify(
 								$show_names && $show_values && $name !== $value
 									? [$name, $value]
