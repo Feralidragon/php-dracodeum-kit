@@ -77,6 +77,7 @@ use Dracodeum\Kit\Root\Log;
  * @see \Dracodeum\Kit\Entity\Traits\PreDeleteProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PostDeleteProcessor
  * @see \Dracodeum\Kit\Entity\Traits\LogEventProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\LogEventDataPropertiesProcessor
  */
 abstract class Entity
 implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
@@ -103,6 +104,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	use Traits\PreDeleteProcessor;
 	use Traits\PostDeleteProcessor;
 	use Traits\LogEventProcessor;
+	use Traits\LogEventDataPropertiesProcessor;
 	
 	
 	
@@ -1411,15 +1413,18 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 			$this->temporary_id = $uid->id;
 			
 			//log
+			$log_values = $values;
+			$this->processLogEventDataProperties($log_values);
 			$this->logEvent(ELogLevel::INFO, "Entity {{name}} inserted.", [
 				'name' => 'entity.insert',
 				'data' => [
 					'id' => $uid->id,
 					'scope' => $uid->scope,
-					'properties' => $values
+					'properties' => $log_values
 				],
 				'parameters' => ['name' => $this->getName()]
 			]);
+			unset($log_values);
 			
 			//post-persistence
 			$this->processPostPersistence($values, $uid);
@@ -1468,18 +1473,23 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		}
 		
 		//log
+		$log_old_values = $old_values;
+		$log_new_values = $new_values;
+		$this->processLogEventDataProperties($log_old_values);
+		$this->processLogEventDataProperties($log_new_values);
 		$this->logEvent(ELogLevel::INFO, "Entity {{name}} updated.", [
 			'name' => 'entity.update',
 			'data' => [
 				'id' => $uid->id,
 				'scope' => $uid->scope,
 				'properties' => [
-					'old' => $old_values,
-					'new' => $new_values
+					'old' => $log_old_values,
+					'new' => $log_new_values
 				]
 			],
 			'parameters' => ['name' => $this->getName()]
 		]);
+		unset($log_old_values, $log_new_values);
 		
 		//post-update
 		$this->processPostUpdate($old_values, $new_values);
