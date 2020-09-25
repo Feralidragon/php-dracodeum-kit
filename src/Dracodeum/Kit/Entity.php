@@ -1225,7 +1225,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		}
 		
 		//id
-		$id = self::coerceId($id);
+		$id = self::coerceId($id, true);
 		if ($id !== null) {
 			$strings[] = $id;
 		}
