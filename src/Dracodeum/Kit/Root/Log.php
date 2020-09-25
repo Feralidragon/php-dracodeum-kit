@@ -104,8 +104,8 @@ final class Log implements IUninstantiable
 		self::processEvent($event);
 		
 		//add
-		$event->tags->unique();
-		$event->setAsReadonly(true);
+		$event->setAsReadonly();
+		$event->tags->unique()->setAsReadonly();
 		foreach (self::$loggers as $logger) {
 			$logger->addEvent($event);
 		}
