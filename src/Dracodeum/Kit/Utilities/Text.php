@@ -893,7 +893,7 @@ final class Text extends Utility
 	 * <p>The string plural form to fill.</p>
 	 * @param float $number
 	 * <p>The number to use.</p>
-	 * @param string|null $number_placeholder
+	 * @param string|null $number_placeholder [default = null]
 	 * <p>The number placeholder to fill with.</p>
 	 * @param array $parameters [default = []]
 	 * <p>The parameters to fill the respective placeholders with, as a set of <samp>name => value</samp> pairs.</p>
@@ -905,7 +905,7 @@ final class Text extends Utility
 	 * <p>The given plural string filled with the given set of parameters.</p>
 	 */
 	final public static function pfill(
-		string $string1, string $string2, float $number, ?string $number_placeholder, array $parameters = [],
+		string $string1, string $string2, float $number, ?string $number_placeholder = null, array $parameters = [],
 		$text_options = null, $options = null
 	): string
 	{
@@ -2243,7 +2243,7 @@ final class Text extends Utility
 	 * <p>The message plural form to localize.</p>
 	 * @param float $number
 	 * <p>The number to use.</p>
-	 * @param string|null $number_placeholder
+	 * @param string|null $number_placeholder [default = null]
 	 * <p>The number placeholder to localize with.</p>
 	 * @param string|null $context [default = null]
 	 * <p>The context to localize with.</p>
@@ -2255,7 +2255,7 @@ final class Text extends Utility
 	 * <p>The localization of the given plural message.</p>
 	 */
 	final public static function plocalize(
-		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
+		string $message1, string $message2, float $number, ?string $number_placeholder = null, ?string $context = null,
 		$text_options = null, $options = null
 	): string
 	{

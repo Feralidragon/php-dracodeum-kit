@@ -305,7 +305,7 @@ final class Locale implements IUninstantiable
 	 * <p>The message plural form to translate.</p>
 	 * @param float $number
 	 * <p>The number to use.</p>
-	 * @param string|null $number_placeholder
+	 * @param string|null $number_placeholder [default = null]
 	 * <p>The number placeholder to translate with.</p>
 	 * @param string|null $context [default = null]
 	 * <p>The context to translate with.</p>
@@ -315,7 +315,7 @@ final class Locale implements IUninstantiable
 	 * <p>The translation of the given plural message.</p>
 	 */
 	final public static function ptranslate(
-		string $message1, string $message2, float $number, ?string $number_placeholder, ?string $context = null,
+		string $message1, string $message2, float $number, ?string $number_placeholder = null, ?string $context = null,
 		$options = null
 	): string
 	{
