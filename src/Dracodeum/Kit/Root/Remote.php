@@ -10,7 +10,10 @@ namespace Dracodeum\Kit\Root;
 use Dracodeum\Kit\Interfaces\Uninstantiable as IUninstantiable;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Root\Remote\Exceptions;
-use Dracodeum\Kit\Utilities\Call as UCall;
+use Dracodeum\Kit\Utilities\{
+	Call as UCall,
+	Text as UText
+};
 
 /**
  * This class represents the remote user client and is used to get remote information such as the IP address and agent.
@@ -48,13 +51,13 @@ final class Remote implements IUninstantiable
 		//getters
 		foreach (self::$ip_address_getters as $getter) {
 			$ip_address = $getter();
-			if ($ip_address !== null) {
+			if (!UText::empty($ip_address)) {
 				return $ip_address;
 			}
 		}
 		
 		//remote
-		if (isset($_SERVER['REMOTE_ADDR'])) {
+		if (!UText::empty($_SERVER['REMOTE_ADDR'] ?? null)) {
 			return $_SERVER['REMOTE_ADDR'];
 		}
 		
@@ -100,13 +103,13 @@ final class Remote implements IUninstantiable
 		//getters
 		foreach (self::$agent_getters as $getter) {
 			$agent = $getter();
-			if ($agent !== null) {
+			if (!UText::empty($agent)) {
 				return $agent;
 			}
 		}
 		
 		//remote
-		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+		if (!UText::empty($_SERVER['HTTP_USER_AGENT'] ?? null)) {
 			return $_SERVER['HTTP_USER_AGENT'];
 		}
 		

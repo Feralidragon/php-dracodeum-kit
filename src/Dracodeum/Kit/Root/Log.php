@@ -224,13 +224,9 @@ final class Log implements IUninstantiable
 		
 		//return
 		return Event::build([
-			'id' => self::generateEventId(),
 			'timestamp' => 'now',
 			'level' => $level,
 			'message' => $message,
-			'host' => System::getHostname(true) ?? System::getIpAddress(true),
-			'origin' => Runtime::getOrigin(),
-			'runtime' => Runtime::getUuid(),
 			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
@@ -309,13 +305,9 @@ final class Log implements IUninstantiable
 		
 		//return
 		return Event::build([
-			'id' => self::generateEventId(),
 			'timestamp' => 'now',
 			'level' => $level,
 			'message' => $message,
-			'host' => System::getHostname(true) ?? System::getIpAddress(true),
-			'origin' => Runtime::getOrigin(),
-			'runtime' => Runtime::getUuid(),
 			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),
@@ -347,13 +339,9 @@ final class Log implements IUninstantiable
 		
 		//return
 		return Event::build([
-			'id' => self::generateEventId(),
 			'timestamp' => 'now',
 			'level' => $level,
 			'message' => $throwable->getMessage(),
-			'host' => System::getHostname(true) ?? System::getIpAddress(true),
-			'origin' => Runtime::getOrigin(),
-			'runtime' => Runtime::getUuid(),
 			'object' => self::getEventObject($options->object_class, $options->stack_offset),
 			'class' => $options->object_class ?? UCall::stackPreviousObjectClass($options->stack_offset),
 			'function' => $options->function_name ?? UCall::stackPreviousName(false, false, $options->stack_offset),

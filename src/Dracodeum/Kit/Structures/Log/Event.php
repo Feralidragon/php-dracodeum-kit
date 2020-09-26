@@ -13,6 +13,7 @@ use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 use Dracodeum\Kit\Primitives\Vector;
 use Dracodeum\Kit\Root\{
 	Log,
+	Remote,
 	Runtime,
 	System
 };
@@ -30,16 +31,25 @@ use Dracodeum\Kit\Root\{
  * @property string $message [coercive]
  * <p>The message.<br>
  * It cannot be empty.</p>
- * @property-read string|null $host [coercive] [default = auto]
- * <p>The host, as the hostname or IP address where this event was generated from.<br>
+ * @property-read string|null $ip_address [coercive] [default = auto]
+ * <p>The remote IP address from which this event was generated.<br>
+ * If set, then it cannot be empty.</p>
+ * @property-read string|null $agent [coercive] [default = auto]
+ * <p>The remote agent from which this event was generated.<br>
  * If set, then it cannot be empty.</p>
  * @property-read string $origin [coercive] [default = auto]
  * <p>The origin, as the originally used entry point to execute the application which generated this event, 
  * such as <samp>POST http://myservice.com/myresource</samp> when the origin was an HTTP request for example.<br>
  * It cannot be empty.</p>
+ * @property-read string|null $user [coercive] [default = null]
+ * <p>The user from which this event was generated.<br>
+ * If set, then it cannot be empty.</p>
  * @property-read string|null $session [coercive] [default = null]
  * <p>The session UUID (Universally Unique Identifier), as a string which uniquely identifies a single session instance 
  * of the application, representing a group of one or more runtimes.<br>
+ * If set, then it cannot be empty.</p>
+ * @property-read string|null $host [coercive] [default = auto]
+ * <p>The host, as the hostname or IP address where this event was generated from.<br>
  * If set, then it cannot be empty.</p>
  * @property-read string $runtime [coercive] [default = auto]
  * <p>The runtime UUID (Universally Unique Identifier), as a randomly generated string which uniquely identifies 
@@ -78,11 +88,18 @@ class Event extends Structure
 		;
 		$this->addProperty('level')->setAsEnumerationValue(ELevel::class);
 		$this->addProperty('message')->setAsString(true);
+		$this->addProperty('ip_address')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
+			return Remote::getIpAddress(true);
+		});
+		$this->addProperty('agent')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
+			return Remote::getAgent(true);
+		});
+		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getOrigin']);
+		$this->addProperty('user')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
+		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('host')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
 			return System::getHostname(true) ?? System::getIpAddress(true);
 		});
-		$this->addProperty('origin')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getOrigin']);
-		$this->addProperty('session')->setMode('r+')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getUuid']);
 		$this->addProperty('object')->setMode('r+')->setAsStrictObject(null, true)->setDefaultValue(null);
 		$this->addProperty('class')->setMode('r+')->setAsClass(null, true)->setDefaultValue(null);
