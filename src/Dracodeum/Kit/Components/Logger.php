@@ -24,6 +24,7 @@ use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
  * <p>The maximum allowed level to add a given event with, 
  * as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
  * @see \Dracodeum\Kit\Prototypes\Logger
+ * @see \Dracodeum\Kit\Enumerations\Log\Level
  */
 class Logger extends Component
 {
