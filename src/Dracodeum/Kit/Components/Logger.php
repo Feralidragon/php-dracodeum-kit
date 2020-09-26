@@ -11,7 +11,6 @@ use Dracodeum\Kit\Component;
 use Dracodeum\Kit\Structures\Log\Event;
 use Dracodeum\Kit\Factories\Component as Factory;
 use Dracodeum\Kit\Prototypes\Logger as Prototype;
-use Dracodeum\Kit\Prototypes\Logger\Interfaces as PrototypeInterfaces;
 
 /**
  * This component represents a logger which processes and persists log events.
@@ -49,15 +48,12 @@ class Logger extends Component
 	 */
 	final public function addEvent($event): Logger
 	{
-		$prototype = $this->getPrototype();
-		if ($prototype instanceof PrototypeInterfaces\EventAdder) {
-			$event = Event::coerce($event);
-			if (!$event->isReadonly()) {
-				$event = $event->clone(true)->setAsReadonly();
-				$event->tags->setAsReadonly();
-			}
-			$prototype->addEvent($event);
+		$event = Event::coerce($event);
+		if (!$event->isReadonly()) {
+			$event = $event->clone(true)->setAsReadonly();
+			$event->tags->setAsReadonly();
 		}
+		$this->getPrototype()->addEvent($event);
 		return $this;
 	}
 }
