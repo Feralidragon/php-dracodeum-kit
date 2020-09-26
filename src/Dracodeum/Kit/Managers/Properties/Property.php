@@ -501,7 +501,11 @@ class Property implements IUncloneable
 			}
 			return $value;
 		}
-		return $this->getDefaultValue();
+		
+		//default
+		$value = $this->getDefaultValue();
+		$this->setValue($value, true);
+		return $value;
 	}
 	
 	/**
