@@ -8,11 +8,11 @@
 namespace Dracodeum\Kit\Root;
 
 use Dracodeum\Kit\Interfaces\Uninstantiable as IUninstantiable;
+use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Interfaces\Log\Event\{
 	Data as IEventData,
 	Tag as IEventTag
 };
-use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Root\Log\Options;
 use Dracodeum\Kit\Components\Logger;
 use Dracodeum\Kit\Structures\Log\Event;
