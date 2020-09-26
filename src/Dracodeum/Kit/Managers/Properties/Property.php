@@ -504,7 +504,7 @@ class Property implements IUncloneable
 		
 		//default
 		$value = $this->getDefaultValue();
-		$this->setValue($value, true);
+		$this->setValue($value, true, true);
 		return $value;
 	}
 	
@@ -531,6 +531,8 @@ class Property implements IUncloneable
 	 * <p>The value to set.</p>
 	 * @param bool $force [default = false]
 	 * <p>Force the given value to be fully evaluated and set, even if this property is set as lazy.</p>
+	 * @param bool $skip_evaluation [default = false]
+	 * <p>Skip the evaluation of the given value, and set it as is.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Managers\Properties\Property\Exceptions\InvalidValue
@@ -540,7 +542,7 @@ class Property implements IUncloneable
 	 * then boolean <code>true</code> is returned if the value was successfully set, 
 	 * or boolean <code>false</code> if otherwise.</p>
 	 */
-	final public function setValue($value, bool $force = false, bool $no_throw = false)
+	final public function setValue($value, bool $force = false, bool $skip_evaluation = false, bool $no_throw = false)
 	{
 		//guard
 		if (!$this->manager->isInitialized() && !$this->manager->isInitializing()) {
@@ -564,7 +566,7 @@ class Property implements IUncloneable
 			$this->flags &= ~self::FLAG_VALUE;
 		} else {
 			//evaluate
-			if (!$this->evaluateValue($value)) {
+			if (!$skip_evaluation && !$this->evaluateValue($value)) {
 				if ($no_throw) {
 					return false;
 				}

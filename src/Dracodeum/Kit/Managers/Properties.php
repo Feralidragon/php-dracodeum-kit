@@ -738,7 +738,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				}
 				
 				//set
-				if (!$property->setValue($value, false, true)) {
+				if (!$property->setValue($value, false, false, true)) {
 					UCall::haltParameter('properties', $properties, [
 						'error_message' => "Invalid value {{value}} for property {{name}} in manager " . 
 							"with owner {{owner}}.",
@@ -1027,7 +1027,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//set
-		if (!$property->setValue($value, $force, true)) {
+		if (!$property->setValue($value, $force, false, true)) {
 			UCall::haltParameter('value', $value, [
 				'error_message' => "Invalid value for property {{name}} in manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
