@@ -42,7 +42,7 @@ use Dracodeum\Kit\Root\{
  * such as <samp>POST http://myservice.com/myresource</samp> when the origin was an HTTP request for example.<br>
  * It cannot be empty.</p>
  * @property-read string|null $user [coercive] [default = null]
- * <p>The user from which this event was generated.<br>
+ * <p>The user from whom this event was generated.<br>
  * If set, then it cannot be empty.</p>
  * @property-read string|null $session [coercive] [default = null]
  * <p>The session UUID (Universally Unique Identifier), as a string which uniquely identifies a single session instance 
