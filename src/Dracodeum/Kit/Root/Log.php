@@ -276,13 +276,15 @@ final class Log implements IUninstantiable
 	 * @param float $number
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
+	 * @param string|null $number_placeholder [default = null]
+	 * <p>The placeholder to fill with the given number in the final message.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\PEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return \Dracodeum\Kit\Structures\Log\Event
 	 * <p>The created event instance with the given level and message in plural form.</p>
 	 */
 	final public static function createPEvent(
-		$level, string $message1, string $message2, float $number, $options = null
+		$level, string $message1, string $message2, float $number, ?string $number_placeholder = null, $options = null
 	): Event
 	{
 		//initialize
@@ -297,7 +299,7 @@ final class Log implements IUninstantiable
 		
 		//message
 		$message = UText::pfill(
-			$message1, $message2, $number, $options->number_placeholder, $options->parameters, null, [
+			$message1, $message2, $number, $number_placeholder, $options->parameters, null, [
 				'string_options' => $string_options,
 				'stringifier' => $options->stringifier
 			]
@@ -431,12 +433,14 @@ final class Log implements IUninstantiable
 	 * @param float $number
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
+	 * @param string|null $number_placeholder [default = null]
+	 * <p>The placeholder to fill with the given number in the final message.</p>
 	 * @param \Dracodeum\Kit\Root\Log\Options\PEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
 	final public static function pevent(
-		$level, string $message1, string $message2, float $number, $options = null
+		$level, string $message1, string $message2, float $number, ?string $number_placeholder = null, $options = null
 	): void
 	{
 		//initialize
@@ -444,7 +448,7 @@ final class Log implements IUninstantiable
 		$options->stack_offset++;
 		
 		//add
-		self::addEvent(self::createPEvent($level, $message1, $message2, $number, $options));
+		self::addEvent(self::createPEvent($level, $message1, $message2, $number, $number_placeholder, $options));
 	}
 	
 	/**

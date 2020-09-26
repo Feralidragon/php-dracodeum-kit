@@ -1315,18 +1315,22 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param float $number
 	 * <p>The number to use to select either the singular (<var>$message1</var>) or plural (<var>$message2</var>) form 
 	 * of the message.</p>
+	 * @param string|null $number_placeholder [default = null]
+	 * <p>The placeholder to fill with the given number in the final message.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\PlogEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return void
 	 */
-	final protected function plogEvent($level, string $message1, string $message2, float $number, $options = null): void
+	final protected function plogEvent(
+		$level, string $message1, string $message2, float $number, ?string $number_placeholder = null, $options = null
+	): void
 	{
 		//initialize
 		$options = Options\PlogEvent::coerce($options, false);
 		$options->stack_offset++;
 		
 		//event
-		$event = Log::createPEvent($level, $message1, $message2, $number, $options);
+		$event = Log::createPEvent($level, $message1, $message2, $number, $number_placeholder, $options);
 		$this->processLogEvent($event);
 		
 		//add
