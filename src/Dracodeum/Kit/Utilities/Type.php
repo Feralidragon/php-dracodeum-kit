@@ -13,11 +13,14 @@ use Dracodeum\Kit\Utilities\Type\{
 	Exceptions
 };
 use Dracodeum\Kit\Interfaces\{
-	ArrayInstantiable as IArrayInstantiable,
 	Integerable as IIntegerable,
 	Floatable as IFloatable,
 	Stringifiable as IStringifiable,
+	IntegerInstantiable as IIntegerInstantiable,
+	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
+	ArrayInstantiable as IArrayInstantiable,
+	CallableInstantiable as ICallableInstantiable,
 	Uninstantiable as IUninstantiable,
 	Cloneable as ICloneable,
 	Uncloneable as IUncloneable,
@@ -1170,13 +1173,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1201,13 +1213,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1235,13 +1256,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1275,12 +1305,12 @@ final class Type extends Utility
 			]);
 		}
 		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
+		//integer
+		if (is_int($value) && isset($object_class_interface)) {
 			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+			if (isset($class) && self::implements($class, IIntegerInstantiable::class)) {
 				try {
-					$value = $class::fromArray($value);
+					$value = $class::fromInteger($value);
 					return true;
 				} catch (\Exception $exception) {
 					if ($no_throw) {
@@ -1290,7 +1320,34 @@ final class Type extends Utility
 						'value' => $value,
 						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
 						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+							"An exception {{exception}} was thrown while instantiating class {{class}} " . 
+								"from integer, with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//float
+		if (is_float($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IFloatInstantiable::class)) {
+				try {
+					$value = $class::fromFloat($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from float, " . 
 								"with the following message: {{message}}", [
 								'class' => Text::stringify($class, null, ['quote_strings' => true]),
 								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
@@ -1329,6 +1386,60 @@ final class Type extends Utility
 			}
 		}
 		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//callable
+		if (is_callable($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, ICallableInstantiable::class)) {
+				try {
+					$value = $class::fromCallable($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} " . 
+								"from callable, with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
 		//object
 		$object = $value;
 		if (!is_object($object)) {
@@ -1343,10 +1454,16 @@ final class Type extends Utility
 					'error_code' => Exceptions\ObjectCoercionFailed::ERROR_CODE_INVALID,
 					'error_message' => "Only the following types and formats can be coerced into an object:\n" . 
 						" - a class string or object;\n" . 
+						" - an integer with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\IntegerInstantiable\" interface;\n" . 
+						" - a float with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\FloatInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\StringInstantiable\" interface;\n" . 
 						" - an array with an <\$object_class_interface> implementing " . 
 						"the \"Dracodeum\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Dracodeum\\Kit\\Interfaces\\StringInstantiable\" interface."
+						" - a callable with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\CallableInstantiable\" interface."
 				]);
 			}
 			
@@ -1415,13 +1532,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be evaluated into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1444,13 +1570,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1474,13 +1609,22 @@ final class Type extends Utility
 	 * 
 	 * Only the following types and formats can be coerced into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param object|string|null $object_class_interface [default = null]
@@ -1512,12 +1656,12 @@ final class Type extends Utility
 			]);
 		}
 		
-		//array
-		if (is_array($value) && isset($object_class_interface)) {
+		//integer
+		if (is_int($value) && isset($object_class_interface)) {
 			$class = self::class($object_class_interface, true);
-			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+			if (isset($class) && self::implements($class, IIntegerInstantiable::class)) {
 				try {
-					$value = $class::fromArray($value);
+					$value = $class::fromInteger($value);
 					return true;
 				} catch (\Exception $exception) {
 					if ($no_throw) {
@@ -1527,7 +1671,34 @@ final class Type extends Utility
 						'value' => $value,
 						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
 						'error_message' => Text::fill(
-							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+							"An exception {{exception}} was thrown while instantiating class {{class}} " . 
+								"from integer, with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//float
+		if (is_float($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IFloatInstantiable::class)) {
+				try {
+					$value = $class::fromFloat($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from float, " . 
 								"with the following message: {{message}}", [
 								'class' => Text::stringify($class, null, ['quote_strings' => true]),
 								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
@@ -1566,6 +1737,60 @@ final class Type extends Utility
 			}
 		}
 		
+		//array
+		if (is_array($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, IArrayInstantiable::class)) {
+				try {
+					$value = $class::fromArray($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} from array, " . 
+								"with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
+		//callable
+		if (is_callable($value) && isset($object_class_interface)) {
+			$class = self::class($object_class_interface, true);
+			if (isset($class) && self::implements($class, ICallableInstantiable::class)) {
+				try {
+					$value = $class::fromCallable($value);
+					return true;
+				} catch (\Exception $exception) {
+					if ($no_throw) {
+						return false;
+					}
+					throw new Exceptions\ObjectClassCoercionFailed([
+						'value' => $value,
+						'error_code' => Exceptions\ObjectClassCoercionFailed::ERROR_CODE_INSTANCE_EXCEPTION,
+						'error_message' => Text::fill(
+							"An exception {{exception}} was thrown while instantiating class {{class}} " . 
+								"from callable, with the following message: {{message}}", [
+								'class' => Text::stringify($class, null, ['quote_strings' => true]),
+								'exception' => Text::stringify(get_class($exception), null, ['quote_strings' => true]),
+								'message' => Text::uncapitalize($exception->getMessage(), true)
+							]
+						)
+					]);
+				}
+			}
+		}
+		
 		//object or class
 		$object_class = $value;
 		if (!is_object($object_class)) {
@@ -1580,10 +1805,16 @@ final class Type extends Utility
 					'error_message' => "Only the following types and formats can be coerced " . 
 						"into an object or class:\n" . 
 						" - a class string or object;\n" . 
+						" - an integer with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\IntegerInstantiable\" interface;\n" . 
+						" - a float with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\FloatInstantiable\" interface;\n" . 
+						" - a string with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\StringInstantiable\" interface;\n" . 
 						" - an array with an <\$object_class_interface> implementing " . 
 						"the \"Dracodeum\\Kit\\Interfaces\\ArrayInstantiable\" interface;\n" . 
-						" - a string with an <\$object_class_interface> implementing " . 
-						"the \"Dracodeum\\Kit\\Interfaces\\StringInstantiable\" interface."
+						" - a callable with an <\$object_class_interface> implementing " . 
+						"the \"Dracodeum\\Kit\\Interfaces\\CallableInstantiable\" interface."
 				]);
 			}
 		}

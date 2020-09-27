@@ -633,13 +633,22 @@ class Evaluators extends Manager
 	 * 
 	 * Only the following types and formats can be evaluated into an object:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param array $arguments [default = []]
@@ -688,13 +697,22 @@ class Evaluators extends Manager
 	 * 
 	 * Only the following types and formats can be evaluated into an object or class:<br>
 	 * &nbsp; &#8226; &nbsp; a class string or object;<br>
+	 * &nbsp; &#8226; &nbsp; an integer with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\IntegerInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a float with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\FloatInstantiable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface;<br>
 	 * &nbsp; &#8226; &nbsp; an array with an <var>$object_class_interface</var> implementing 
 	 * the <code>Dracodeum\Kit\Interfaces\ArrayInstantiable</code> interface;<br>
-	 * &nbsp; &#8226; &nbsp; a string with an <var>$object_class_interface</var> implementing 
-	 * the <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; a callable with an <var>$object_class_interface</var> implementing 
+	 * the <code>Dracodeum\Kit\Interfaces\CallableInstantiable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\IntegerInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\FloatInstantiable
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\ArrayInstantiable
+	 * @see \Dracodeum\Kit\Interfaces\CallableInstantiable
 	 * @param object|string|null $object_class_interface [default = null]
 	 * <p>The object or class which a value must be or extend from or the interface which a value must implement.</p>
 	 * @param bool $nullable [default = false]
