@@ -25,9 +25,13 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a numeric string in exponential notation, 
  * such as <code>"1e3"</code> or <code>"1E3"</code>;<br>
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
- * such as <code>"1 thousand"</code> or <code>"1k"</code>.
+ * such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface.
  * 
  * @see https://en.wikipedia.org/wiki/IEEE_floating_point
+ * @see \Dracodeum\Kit\Interfaces\Floatable
+ * @see \Dracodeum\Kit\Interfaces\Integerable
  */
 class Float64 extends Number
 {

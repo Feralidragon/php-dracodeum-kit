@@ -208,8 +208,12 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -238,8 +242,12 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -271,8 +279,12 @@ final class Byte extends Utility
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -325,7 +337,9 @@ final class Byte extends Utility
 				" - a numeric string in octal notation, such as: \"0360170\" for 123000;\n" . 
 				" - a numeric string in hexadecimal notation, such as: \"0x1e078\" or \"0x1E078\" for 123000;\n" . 
 				" - a human-readable numeric string, such as: \"123k\" or \"123 thousand\" for 123000;\n" . 
-				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000."
+				" - a human-readable numeric string in bytes, such as: \"123kB\" or \"123 kilobytes\" for 123000;\n" . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Integerable\" interface;\n" . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Floatable\" interface."
 		]);
 	}
 	

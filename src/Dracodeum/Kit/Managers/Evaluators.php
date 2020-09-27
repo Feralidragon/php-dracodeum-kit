@@ -332,8 +332,12 @@ class Evaluators extends Manager
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -381,8 +385,12 @@ class Evaluators extends Manager
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>.
+	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param bool $unsigned [default = false]
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
@@ -453,8 +461,12 @@ class Evaluators extends Manager
 	 * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
 	 * such as: <code>"0x1e078"</code> or <code>"0x1E078"</code> for <code>123000.0</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
-	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>.
+	 * such as: <code>"123.45k"</code> or <code>"123.45 thousand"</code> for <code>123450.0</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
@@ -504,8 +516,12 @@ class Evaluators extends Manager
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string, 
 	 * such as: <code>"123k"</code> or <code>"123 thousand"</code> for <code>123000</code>;<br>
 	 * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
-	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>.
+	 * such as: <code>"123kB"</code> or <code>"123 kilobytes"</code> for <code>123000</code>;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
 	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Integerable
+	 * @see \Dracodeum\Kit\Interfaces\Floatable
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this

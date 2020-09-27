@@ -32,7 +32,9 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a numeric string in hexadecimal notation, 
  * such as <code>"0x03e8"</code> or <code>"0x03E8"</code>;<br>
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
- * such as <code>"1 thousand"</code> or <code>"1k"</code>.
+ * such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
  * 
  * @property-write bool $unsigned [writeonce] [transient] [coercive] [default = false]
  * <p>Set as an unsigned integer.</p>
@@ -44,6 +46,8 @@ use Dracodeum\Kit\Utilities\{
  * while for unsigned integers this number is <code>63</code>.<br>
  * If not set, then the number of bits to use becomes system dependent.</p>
  * @see https://en.wikipedia.org/wiki/Integer_(computer_science)
+ * @see \Dracodeum\Kit\Interfaces\Integerable
+ * @see \Dracodeum\Kit\Interfaces\Floatable
  */
 class Integer extends Number implements ISchemaData
 {

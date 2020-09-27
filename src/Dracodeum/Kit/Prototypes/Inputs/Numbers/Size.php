@@ -32,10 +32,14 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in English, 
  * such as <code>"1 thousand"</code> or <code>"1k"</code>;<br>
  * &nbsp; &#8226; &nbsp; a human-readable numeric string in bytes, 
- * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>.
+ * such as <code>"1 kilobyte"</code> or <code>"1 kB"</code>;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
+ * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
  * 
  * @see https://en.wikipedia.org/wiki/Byte
  * @see https://en.wikipedia.org/wiki/File_size
+ * @see \Dracodeum\Kit\Interfaces\Integerable
+ * @see \Dracodeum\Kit\Interfaces\Floatable
  * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Values
  * [constraint, name = 'values' or 'non_values']
  * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Minimum
