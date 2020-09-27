@@ -471,15 +471,6 @@ final class Type extends Utility
 			]);
 		}
 		
-		//object
-		if (is_object($value)) {
-			if ($value instanceof IIntegerable) {
-				$value = $value->toInteger();
-			} elseif ($value instanceof IFloatable) {
-				$value = $value->toFloat();
-			}
-		}
-		
 		//coerce
 		if (is_int($value)) {
 			return true;
@@ -510,6 +501,15 @@ final class Type extends Utility
 				$value = $number;
 				return true;
 			}
+		} elseif (is_object($value) && $value instanceof IIntegerable) {
+			$value = $value->toInteger();
+			return true;
+		} elseif (is_object($value) && $value instanceof IFloatable) {
+			$value = $value->toFloat();
+			if ($value === floor($value)) {
+				$value = (int)$value;
+			}
+			return true;
 		}
 		
 		//finalize
