@@ -22,7 +22,7 @@ class ScopeNotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->get('scope') !== null
+		return $this->scope !== null
 			? "Entity {{entity}} scope {{scope}} not found."
 			: "Entity {{entity}} scope not found.";
 	}

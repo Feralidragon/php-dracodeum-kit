@@ -24,7 +24,7 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Invalid value {{value}} for input {{component}} (with prototype {{prototype}}), " . 
 				"with the following error: {{error_message}}"
 			: "Invalid value {{value}} for input {{component}} (with prototype {{prototype}}).";

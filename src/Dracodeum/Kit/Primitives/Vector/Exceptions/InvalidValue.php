@@ -27,13 +27,13 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		if ($this->isset('error_message')) {
-			return $this->isset('index')
+		if ($this->error_message !== null) {
+			return $this->index !== null
 				? "Invalid value {{value}} for vector {{vector}} at index {{index}}, " . 
 					"with the following error: {{error_message}}"
 				: "Invalid value {{value}} for vector {{vector}}, with the following error: {{error_message}}";
 		}
-		return $this->isset('index')
+		return $this->index !== null
 			? "Invalid value {{value}} for vector {{vector}} at index {{index}}."
 			: "Invalid value {{value}} for vector {{vector}}.";
 	}

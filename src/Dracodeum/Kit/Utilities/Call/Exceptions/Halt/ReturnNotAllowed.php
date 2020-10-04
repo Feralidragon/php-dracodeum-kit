@@ -19,14 +19,14 @@ class ReturnNotAllowed extends ReturnError
 	{
 		//message
 		$message = '';
-		if ($this->isset('exec_function_full_name')) {
-			$message = $this->isset('object_class')
+		if ($this->exec_function_full_name !== null) {
+			$message = $this->object_class !== null
 				? "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
 					"in method call {{function_name}} in {{object_class}}."
 				: "Return value {{value}} not allowed from function {{exec_function_full_name}} " . 
 					"in function call {{function_name}}.";
 		} else {
-			$message = $this->isset('object_class')
+			$message = $this->object_class !== null
 				? "Return value {{value}} not allowed from anonymous function " . 
 					"in method call {{function_name}} in {{object_class}}."
 				: "Return value {{value}} not allowed from anonymous function " . 
@@ -34,12 +34,12 @@ class ReturnNotAllowed extends ReturnError
 		}
 		
 		//error message
-		if ($this->isset('error_message')) {
+		if ($this->error_message !== null) {
 			$message .= "\nERROR: {{error_message}}";
 		}
 		
 		//hint message
-		if ($this->isset('hint_message')) {
+		if ($this->hint_message !== null) {
 			$message .= "\nHINT: {{hint_message}}";
 		}
 		

@@ -37,7 +37,7 @@ class UnsupportedValueType extends Exception
 		$this->addProperty('type')
 			->setAsString(true)
 			->setDefaultGetter(function () {
-				return gettype($this->get('value'));
+				return gettype($this->value);
 			})
 		;
 	}

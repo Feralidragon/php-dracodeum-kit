@@ -26,7 +26,7 @@ class InvalidIndex extends Exception
 	public function getDefaultMessage(): string
 	{
 		$message = "Invalid index {{index}} for vector {{vector}}.";
-		if ($this->isset('max_index')) {
+		if ($this->max_index !== null) {
 			$message .= "\nHINT: Only up to {{max_index}} is allowed.";
 		}
 		return $message;

@@ -24,7 +24,7 @@ class InvalidString extends Exception
 	public function getDefaultMessage(): string
 	{
 		//hint message
-		$hint_message = $this->is('url_safe')
+		$hint_message = $this->url_safe
 			? "Only ASCII alphanumeric (0-9, a-z and A-Z), hyphen (-) and underscore (_) characters, " . 
 				"as groups of 2 to 4 characters, are allowed."
 			: "Only ASCII alphanumeric (0-9, a-z and A-Z), plus sign (+) and slash (/) characters, " . 

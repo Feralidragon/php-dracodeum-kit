@@ -35,7 +35,7 @@ class MultipleCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Multiple coercion failed with value {{value}}, with the following error: {{error_message}}"
 			: "Multiple coercion failed with value {{value}}.";
 	}

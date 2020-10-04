@@ -40,19 +40,19 @@ class AssertionFailed extends Exception implements IAssertive
 	{
 		//message
 		$message = "Assertion {{name}} failed with function signature {{function_signature}}.";
-		if ($this->isset('source_object_class') && $this->isset('source_function_name')) {
-			$message = is_object($this->get('source_object_class'))
+		if ($this->source_object_class !== null && $this->source_function_name !== null) {
+			$message = is_object($this->source_object_class)
 				? "Assertion {{name}} failed in method call {{source_function_name}} " . 
 					"in object {{source_object_class}} with function signature {{function_signature}}."
 				: "Assertion {{name}} failed in method call {{source_function_name}} " . 
 					"in class {{source_object_class}} with function signature {{function_signature}}.";
-		} elseif ($this->isset('source_object_class')) {
-			$message = is_object($this->get('source_object_class'))
+		} elseif ($this->source_object_class !== null) {
+			$message = is_object($this->source_object_class)
 				? "Assertion {{name}} failed in object {{source_object_class}} " . 
 					"with function signature {{function_signature}}."
 				: "Assertion {{name}} failed in class {{source_object_class}} " . 
 					"with function signature {{function_signature}}.";
-		} elseif ($this->isset('source_function_name')) {
+		} elseif ($this->source_function_name !== null) {
 			$message = "Assertion {{name}} failed in function call {{source_function_name}} " . 
 				"with function signature {{function_signature}}.";
 		}
@@ -81,13 +81,13 @@ class AssertionFailed extends Exception implements IAssertive
 		$this->addProperty('function_signature')
 			->setMode('r')
 			->setGetter(function () {
-				return UCall::signature($this->get('function'));
+				return UCall::signature($this->function);
 			})
 		;
 		$this->addProperty('template_signature')
 			->setMode('r')
 			->setGetter(function () {
-				return UCall::signature($this->get('template'));
+				return UCall::signature($this->template);
 			})
 		;
 		$this->addProperty('source_object_class')->setAsObjectClass(null, true)->setDefaultValue(null);

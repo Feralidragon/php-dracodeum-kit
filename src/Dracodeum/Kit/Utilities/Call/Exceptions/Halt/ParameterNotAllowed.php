@@ -25,19 +25,19 @@ class ParameterNotAllowed extends Exception
 	public function getDefaultMessage(): string
 	{
 		//message
-		$message = $this->isset('object_class')
+		$message = $this->object_class !== null
 			? "Parameter {{name}} not allowed to be given as {{value}} " . 
 				"in method call {{function_name}} in {{object_class}}."
 			: "Parameter {{name}} not allowed to be given as {{value}} " . 
 				"in function call {{function_name}}.";
 		
 		//error message
-		if ($this->isset('error_message')) {
+		if ($this->error_message !== null) {
 			$message .= "\nERROR: {{error_message}}";
 		}
 		
 		//hint message
-		if ($this->isset('hint_message')) {
+		if ($this->hint_message !== null) {
 			$message .= "\nHINT: {{hint_message}}";
 		}
 		

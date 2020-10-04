@@ -25,7 +25,7 @@ class ScopeIdCoercionFailed extends IdCoercionFailed
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Scope ID coercion failed for {{name}} with value {{value}} using entity {{entity}}, " . 
 				"with the following error: {{error_message}}"
 			: "Scope ID coercion failed for {{name}} with value {{value}} using entity {{entity}}.";

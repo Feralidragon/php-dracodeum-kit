@@ -35,7 +35,7 @@ class NameCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Name coercion failed with value {{value}} in enumeration {{enumeration}}, " . 
 				"with the following error: {{error_message}}"
 			: "Name coercion failed with value {{value}} in enumeration {{enumeration}}.";

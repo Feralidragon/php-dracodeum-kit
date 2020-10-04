@@ -26,7 +26,7 @@ class ParseFailed extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('key')
+		return $this->key !== null
 			? "Parse failed for key {{key}} with string {{string}} against fields patterns {{fields_patterns}}."
 			: "Parse failed with string {{string}} against fields patterns {{fields_patterns}}.";
 	}

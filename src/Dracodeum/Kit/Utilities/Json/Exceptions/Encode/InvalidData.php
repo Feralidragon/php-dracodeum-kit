@@ -26,7 +26,7 @@ class InvalidData extends Exception
 	public function getDefaultMessage(): string
 	{
 		$message = "Invalid data {{data}}.";
-		if ($this->isset('error_message')) {
+		if ($this->error_message !== null) {
 			$message .= "\nERROR: {{error_message}}";
 		}
 		return $message;

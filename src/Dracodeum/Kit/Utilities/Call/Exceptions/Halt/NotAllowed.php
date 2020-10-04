@@ -20,17 +20,17 @@ class NotAllowed extends Exception
 	public function getDefaultMessage(): string
 	{
 		//message
-		$message = $this->isset('object_class')
+		$message = $this->object_class !== null
 			? "Method call {{function_name}} not allowed in {{object_class}}."
 			: "Function call {{function_name}} not allowed.";
 		
 		//error message
-		if ($this->isset('error_message')) {
+		if ($this->error_message !== null) {
 			$message .= "\nERROR: {{error_message}}";
 		}
 		
 		//hint message
-		if ($this->isset('hint_message')) {
+		if ($this->hint_message !== null) {
 			$message .= "\nHINT: {{hint_message}}";
 		}
 		

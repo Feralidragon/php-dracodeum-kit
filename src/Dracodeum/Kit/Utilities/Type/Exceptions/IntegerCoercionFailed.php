@@ -46,7 +46,7 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Integer coercion failed with value {{value}}, with the following error: {{error_message}}"
 			: "Integer coercion failed with value {{value}}.";
 	}
@@ -57,19 +57,19 @@ class IntegerCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getValue()
 	{
-		return $this->get('value');
+		return $this->value;
 	}
 	
 	/** {@inheritdoc} */
 	public function getErrorCode(): ?string
 	{
-		return $this->get('error_code');
+		return $this->error_code;
 	}
 	
 	/** {@inheritdoc} */
 	public function getErrorMessage(): ?string
 	{
-		return $this->get('error_message');
+		return $this->error_message;
 	}
 	
 	

@@ -26,14 +26,14 @@ class ReturnError extends Exception
 	{
 		//message
 		$message = '';
-		if ($this->isset('exec_function_full_name')) {
-			$message = $this->isset('object_class')
+		if ($this->exec_function_full_name !== null) {
+			$message = $this->object_class !== null
 				? "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
 					"in method call {{function_name}} in {{object_class}}."
 				: "Return error occurred with value {{value}} from function {{exec_function_full_name}} " . 
 					"in function call {{function_name}}.";
 		} else {
-			$message = $this->isset('object_class')
+			$message = $this->object_class !== null
 				? "Return error occurred with value {{value}} from anonymous function " . 
 					"in method call {{function_name}} in {{object_class}}."
 				: "Return error occurred with value {{value}} from anonymous function " . 
@@ -41,12 +41,12 @@ class ReturnError extends Exception
 		}
 		
 		//error message
-		if ($this->isset('error_message')) {
+		if ($this->error_message !== null) {
 			$message .= "\nERROR: {{error_message}}";
 		}
 		
 		//hint message
-		if ($this->isset('hint_message')) {
+		if ($this->hint_message !== null) {
 			$message .= "\nHINT: {{hint_message}}";
 		}
 		

@@ -52,7 +52,7 @@ final class Os extends Structure
 	 */
 	final public function isLinux(): bool
 	{
-		return $this->get('name') === 'Linux';
+		return $this->name === 'Linux';
 	}
 	
 	/**
@@ -63,7 +63,7 @@ final class Os extends Structure
 	 */
 	final public function isWindows(): bool
 	{
-		return strtoupper(substr($this->get('name'), 0, 3)) === 'WIN';
+		return strtoupper(substr($this->name, 0, 3)) === 'WIN';
 	}
 	
 	/**

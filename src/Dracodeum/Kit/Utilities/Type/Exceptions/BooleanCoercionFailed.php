@@ -32,7 +32,7 @@ class BooleanCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->isset('error_message')
+		return $this->error_message !== null
 			? "Boolean coercion failed with value {{value}}, with the following error: {{error_message}}"
 			: "Boolean coercion failed with value {{value}}.";
 	}

@@ -26,7 +26,7 @@ class UnsupportedValueType extends Exception
 	public function getDefaultMessage(): string
 	{
 		$message = "Unsupported value type {{type}} given as {{value}}.";
-		if ($this->isset('hint_message')) {
+		if ($this->hint_message !== null) {
 			$message .= "\nHINT: {{hint_message}}";
 		}
 		return $message;
@@ -42,7 +42,7 @@ class UnsupportedValueType extends Exception
 		$this->addProperty('type')
 			->setAsString(true)
 			->setDefaultGetter(function () {
-				return gettype($this->get('value'));
+				return gettype($this->value);
 			})
 		;
 		$this->addProperty('hint_message')->setAsString(false, true)->setDefaultValue(null);

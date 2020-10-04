@@ -35,7 +35,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getValue()
 	{
-		return $this->get('value');
+		return $this->value;
 	}
 	
 	/** {@inheritdoc} */
@@ -47,7 +47,7 @@ class ValueCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getErrorMessage(): ?string
 	{
-		return $this->get('error_message');
+		return $this->error_message;
 	}
 	
 	

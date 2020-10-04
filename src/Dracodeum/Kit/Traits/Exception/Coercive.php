@@ -41,19 +41,19 @@ trait Coercive
 	/** {@inheritdoc} */
 	public function getValue()
 	{
-		return $this->get('value');
+		return $this->value;
 	}
 	
 	/** {@inheritdoc} */
 	public function getErrorCode(): ?string
 	{
-		return $this->get('error_code');
+		return $this->error_code;
 	}
 	
 	/** {@inheritdoc} */
 	public function getErrorMessage(): ?string
 	{
-		return $this->get('error_message');
+		return $this->error_message;
 	}
 	
 	
