@@ -9,13 +9,13 @@ namespace Dracodeum\Kit\Root\System\Exceptions;
 
 use Dracodeum\Kit\Root\System\Exception;
 
-/** This exception is thrown from the system whenever no hostname is set. */
-class HostnameNotSet extends Exception
+/** This exception is thrown from the system whenever no host is set. */
+class HostNotSet extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "No hostname set.";
+		return "No host set.";
 	}
 }

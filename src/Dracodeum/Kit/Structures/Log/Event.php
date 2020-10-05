@@ -98,7 +98,7 @@ class Event extends Structure
 		$this->addProperty('user')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('session')->setAsString(true, true)->setDefaultValue(null);
 		$this->addProperty('host')->setMode('r+')->setAsString(true, true)->setDefaultGetter(function () {
-			return System::getHostname(true) ?? System::getIpAddress(true);
+			return System::getHost(true);
 		});
 		$this->addProperty('runtime')->setMode('r+')->setAsString(true)->setDefaultGetter([Runtime::class, 'getUuid']);
 		$this->addProperty('object')->setMode('r+')->setAsStrictObject(null, true)->setDefaultValue(null);

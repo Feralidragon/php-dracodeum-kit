@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Root\System\Exceptions;
 
 use Dracodeum\Kit\Root\System\Exception;
 
-/** This exception is thrown from the system whenever an IP address is not set. */
+/** This exception is thrown from the system whenever no IP address is set. */
 class IpAddressNotSet extends Exception
 {
 	//Implemented public methods

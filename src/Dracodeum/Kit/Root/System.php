@@ -254,6 +254,29 @@ final class System implements IUninstantiable
 	}
 	
 	/**
+	 * Get host.
+	 * 
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Root\System\Exceptions\HostNotSet
+	 * @return string|null
+	 * <p>The host.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if none is set.</p>
+	 */
+	final public static function getHost(bool $no_throw = false): ?string
+	{
+		$host = self::getHostname(true) ?? self::getIpAddress(true);
+		if ($host === null) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\HostNotSet();
+		}
+		return $host;
+	}
+	
+	/**
 	 * Get OS (Operating System) instance.
 	 * 
 	 * @return \Dracodeum\Kit\Root\System\Structures\Os
