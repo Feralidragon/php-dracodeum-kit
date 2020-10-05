@@ -14,7 +14,7 @@ use Dracodeum\Kit\Prototypes\Input\Interfaces\{
 	SchemaData as ISchemaData,
 	ConstraintProducer as IConstraintProducer,
 	FilterProducer as IFilterProducer,
-	ErrorUnset as IErrorUnset
+	ErrorUnsetter as IErrorUnsetter
 };
 use Dracodeum\Kit\Primitives\Vector as Primitive;
 use Dracodeum\Kit\Components\Input as Component;
@@ -61,8 +61,8 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Filters\Unique
  * [filter, name = 'unique']
  */
-class Vector extends Input implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IFilterProducer,
-IErrorUnset
+class Vector extends Input
+implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IFilterProducer, IErrorUnsetter
 {
 	//Protected properties
 	/** @var \Dracodeum\Kit\Components\Input|null */

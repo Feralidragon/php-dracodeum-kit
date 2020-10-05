@@ -15,7 +15,7 @@ use Dracodeum\Kit\Prototype;
  * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\Priority
  * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\Information
  * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\Stringification
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\ErrorUnset
+ * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\ErrorUnsetter
  * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\ErrorMessage
  * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces\SchemaData
  */

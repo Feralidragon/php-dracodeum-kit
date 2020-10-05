@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Components\Input\Prototypes\Modifier\Interfaces;
 
 /** This interface defines a method to unset the error from an input modifier prototype. */
-interface ErrorUnset
+interface ErrorUnsetter
 {
 	//Public methods
 	/**

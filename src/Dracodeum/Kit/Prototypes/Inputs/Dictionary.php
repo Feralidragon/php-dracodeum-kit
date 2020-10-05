@@ -13,7 +13,7 @@ use Dracodeum\Kit\Prototypes\Input\Interfaces\{
 	ErrorMessage as IErrorMessage,
 	SchemaData as ISchemaData,
 	ConstraintProducer as IConstraintProducer,
-	ErrorUnset as IErrorUnset
+	ErrorUnsetter as IErrorUnsetter
 };
 use Dracodeum\Kit\Primitives\Dictionary as Primitive;
 use Dracodeum\Kit\Components\Input as Component;
@@ -55,7 +55,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\Unique
  * [constraint, name = 'unique']
  */
-class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IErrorUnset
+class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IErrorUnsetter
 {
 	//Protected properties
 	/** @var \Dracodeum\Kit\Components\Input|null */
