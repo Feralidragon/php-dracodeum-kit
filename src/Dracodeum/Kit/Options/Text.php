@@ -10,7 +10,6 @@ namespace Dracodeum\Kit\Options;
 use Dracodeum\Kit\Options;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
-use Dracodeum\Kit\Factories\Options as Factory;
 
 /**
  * @property int $info_scope [coercive = enumeration value] [default = INTERNAL]
@@ -31,14 +30,5 @@ class Text extends Options
 				;
 		}
 		return null;
-	}
-	
-	
-	
-	//Implemented protected static methods (Dracodeum\Kit\Options\Traits\DefaultBuilder)
-	/** {@inheritdoc} */
-	protected static function getDefaultBuilder(): ?callable
-	{
-		return [Factory::class, 'text'];
 	}
 }
