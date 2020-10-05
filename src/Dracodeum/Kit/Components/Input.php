@@ -627,7 +627,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		
 		//prototype
 		$prototype = $this->getPrototype();
-		if ($prototype instanceof PrototypeInterfaces\ErrorUnset) {
+		if ($prototype instanceof PrototypeInterfaces\ErrorUnsetter) {
 			$prototype->unsetError();
 		}
 		

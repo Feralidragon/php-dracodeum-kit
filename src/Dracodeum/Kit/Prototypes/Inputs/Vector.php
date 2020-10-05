@@ -645,7 +645,7 @@ implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IFilte
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorUnset)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorUnsetter)
 	/** {@inheritdoc} */
 	public function unsetError(): void
 	{

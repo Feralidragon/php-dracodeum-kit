@@ -777,7 +777,7 @@ class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaDa
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorUnset)
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorUnsetter)
 	/** {@inheritdoc} */
 	public function unsetError(): void
 	{
