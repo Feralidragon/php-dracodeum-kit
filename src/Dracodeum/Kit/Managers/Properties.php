@@ -710,8 +710,8 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				//property
 				$property = $this->getProperty($name);
 				
-				//guard
-				if ($property->getMode() === 'r') {
+				//guard (read-only)
+				if ($property->getMode() === 'r' && (!$persisted || $property->isVolatile())) {
 					UCall::haltParameter('properties', $properties, [
 						'error_message' => "Cannot set read-only property {{name}} in manager with owner {{owner}}.",
 						'parameters' => ['name' => $name, 'owner' => $this->owner]
