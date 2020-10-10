@@ -25,8 +25,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a given vector input value to a maximum length.
  * 
  * @property-write int $value [writeonce] [transient] [coercive]
- * <p>The maximum length value to restrict a given vector input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The maximum length value to restrict a given vector input value to.</p>
  */
 class MaxLength extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {

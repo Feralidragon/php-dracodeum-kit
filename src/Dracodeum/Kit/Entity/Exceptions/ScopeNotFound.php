@@ -13,8 +13,7 @@ use Dracodeum\Kit\Entity\Exception;
  * This exception is thrown from an entity whenever a given scope is not found.
  * 
  * @property-read string|null $scope [coercive]
- * <p>The scope.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The scope.</p>
  */
 class ScopeNotFound extends Exception
 {

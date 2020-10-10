@@ -105,8 +105,7 @@ final class Runtime implements IUninstantiable
 	 * Set origin.
 	 * 
 	 * @param string $origin
-	 * <p>The origin to set.<br>
-	 * It cannot be empty.</p>
+	 * <p>The origin to set.</p>
 	 * @return void
 	 */
 	final public static function setOrigin(string $origin): void

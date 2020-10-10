@@ -16,20 +16,16 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * @property string|null $format [coercive] [default = null]
  * <p>The values format to use, as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.<br>
- * If not set, then no format is used for the values, therefore only values in seconds will be returned.<br>
- * If set, then it cannot be empty.</p>
+ * If not set, then no format is used for the values, therefore only values in seconds will be returned.</p>
  * @property string|null $timezone [coercive] [default = null]
  * <p>The values timezone to use, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
- * If not set, then the currently set default timezone is used for the values.<br>
- * If set, then it cannot be empty.</p>
+ * If not set, then the currently set default timezone is used for the values.</p>
  * @property string|null $keys_format [coercive] [default = null]
  * <p>The keys format to use, as supported by the PHP <code>date</code> function.<br>
- * If not set, then no format is used for the keys, therefore only keys in seconds will be returned.<br>
- * If set, then it cannot be empty.</p>
+ * If not set, then no format is used for the keys, therefore only keys in seconds will be returned.</p>
  * @property string|null $keys_timezone [coercive] [default = null]
  * <p>The keys timezone to use, as supported by the PHP <code>date_default_timezone_set</code> function.<br>
- * If not set, then the currently set default timezone is used for the keys.<br>
- * If set, then it cannot be empty.</p>
+ * If not set, then the currently set default timezone is used for the keys.</p>
  * @see https://php.net/manual/en/function.date.php
  * @see https://php.net/manual/en/function.date-default-timezone-set.php
  * @see https://php.net/manual/en/class.datetime.php

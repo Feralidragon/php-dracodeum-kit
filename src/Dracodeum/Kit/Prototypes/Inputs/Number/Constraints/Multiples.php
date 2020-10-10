@@ -25,11 +25,10 @@ use Dracodeum\Kit\Utilities\{
  * This constraint prototype restricts a given number input value to a set of allowed multiples.
  * 
  * @property-write int[]|float[] $values [writeonce] [transient] [coercive]
- * <p>The allowed multiple values to restrict a given number input value to.<br>
- * They must all be different from <code>0</code>.</p>
+ * <p>The allowed multiple values to restrict a given number input value to.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction condition, 
- * so the given allowed multiple values behave as disallowed multiple values instead.</p>
+ * <p>Negate the restriction condition, so the given allowed multiple values behave as disallowed multiple values 
+ * instead.</p>
  */
 class Multiples extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData
 {

@@ -224,7 +224,6 @@ trait KeyEvaluators
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to use.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
@@ -247,7 +246,6 @@ trait KeyEvaluators
 	 * <p>Set as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to use.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
@@ -701,8 +699,7 @@ trait KeyEvaluators
 	 * &nbsp; &#8226; &nbsp; a raw binary string.
 	 * 
 	 * @param int|null $bits [default = null]
-	 * <p>The number of bits to evaluate with.<br>
-	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * <p>The number of bits to evaluate with.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a key to evaluate as <code>null</code>.</p>
 	 * @return $this

@@ -50,8 +50,7 @@ final class Hash extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]
-	 * <p>The number of bits to evaluate with.<br>
-	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * <p>The number of bits to evaluate with.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -74,8 +73,7 @@ final class Hash extends Utility
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]
-	 * <p>The number of bits to coerce with.<br>
-	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * <p>The number of bits to coerce with.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Hash\Exceptions\CoercionFailed
@@ -101,8 +99,7 @@ final class Hash extends Utility
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param int|null $bits [default = null]
-	 * <p>The number of bits to coerce with.<br>
-	 * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+	 * <p>The number of bits to coerce with.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]

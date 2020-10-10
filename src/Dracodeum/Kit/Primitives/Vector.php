@@ -284,8 +284,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Check if has value at a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to check.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to check.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has value at the given index.</p>
 	 */
@@ -301,8 +300,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Get value from a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to get from.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\ValueNotSet
@@ -332,8 +330,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Check if value is set at a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to check.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to check.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if value is set at the given index.</p>
 	 */
@@ -346,8 +343,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Set value at a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to set at.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to set at.</p>
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param bool $no_throw [default = false]
@@ -532,8 +528,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Unset value from a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to unset from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to unset from.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -726,8 +721,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Truncate values to a given length.
 	 * 
 	 * @param int $length
-	 * <p>The length to truncate to.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The length to truncate to.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -751,12 +745,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	 * Slice values from a given index.
 	 * 
 	 * @param int $index
-	 * <p>The index to slice from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The index to slice from.</p>
 	 * @param int|null $length [default = null]
 	 * <p>The length to slice.<br>
-	 * If not set, then the current vector length is used, 
-	 * otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then the current vector length is used.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

@@ -44,7 +44,7 @@ final class Store implements ICloneable
 	 * 
 	 * @param int|null $limit [default = null]
 	 * <p>The limit on the number of keys to instantiate with.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 */
 	final public function __construct(?int $limit = null)
 	{
@@ -143,7 +143,7 @@ final class Store implements ICloneable
 	 * <p>The value to set with.</p>
 	 * @param float|null $ttl [default = null]
 	 * <p>The TTL (Time to Live) to set with, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no TTL is applied.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */

@@ -24,8 +24,7 @@ use Dracodeum\Kit\Utilities\{
  * This filter prototype truncates a given input value to a specific length.
  * 
  * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to truncate a given input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The length to truncate a given input value to.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Handle a given input value as Unicode.</p>
  * @property-write bool $ellipsis [writeonce] [transient] [coercive] [default = false]

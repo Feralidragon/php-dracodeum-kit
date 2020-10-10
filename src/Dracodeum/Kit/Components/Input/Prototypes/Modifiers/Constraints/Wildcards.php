@@ -29,8 +29,8 @@ use Dracodeum\Kit\Utilities\{
  * @property-write bool $insensitive [writeonce] [transient] [coercive] [default = false]
  * <p>Match the given wildcard match values in a case-insensitive manner.</p>
  * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
- * <p>Negate the restriction condition, 
- * so the given allowed wildcard match values behave as disallowed wildcard match values instead.</p>
+ * <p>Negate the restriction condition, so the given allowed wildcard match values behave as disallowed wildcard match 
+ * values instead.</p>
  */
 class Wildcards extends Constraint implements IInformation, IStringification, ISchemaData
 {

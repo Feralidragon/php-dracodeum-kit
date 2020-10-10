@@ -126,8 +126,7 @@ final class Log implements IUninstantiable
 	 * Compose an event tag with a given set of strings.
 	 * 
 	 * @param string[] $strings
-	 * <p>The set of strings to compose with.<br>
-	 * It cannot be empty.</p>
+	 * <p>The set of strings to compose with.</p>
 	 * @return string
 	 * <p>The composed event tag with the given set of strings.</p>
 	 */
@@ -152,8 +151,7 @@ final class Log implements IUninstantiable
 	 * Decompose a given event tag into a set of strings.
 	 * 
 	 * @param string $tag
-	 * <p>The tag to decompose.<br>
-	 * It cannot be empty.</p>
+	 * <p>The tag to decompose.</p>
 	 * @return string[]
 	 * <p>The given event tag decomposed into a set of strings.</p>
 	 */

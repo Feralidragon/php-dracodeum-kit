@@ -39,11 +39,9 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
  * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]
- * <p>The number of bits to use.<br>
- * If set, then it must be a multiple of <code>8</code> and be greater than <code>0</code>.</p>
+ * <p>The number of bits to use.</p>
  * @property-write string|null $label [writeonce] [transient] [coercive] [default = null]
- * <p>The label to use.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The label to use.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Constraints\Values
  * [constraint, name = 'values' or 'non_values']

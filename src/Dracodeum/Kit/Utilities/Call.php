@@ -1048,8 +1048,7 @@ final class Call extends Utility
 	 * Get previous class from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @return string|null
 	 * <p>The previous class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from a class.</p>
@@ -1067,11 +1066,10 @@ final class Call extends Utility
 	 * Get previous classes from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of classes to get.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @return string[]|null[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
@@ -1099,8 +1097,7 @@ final class Call extends Utility
 	 * Get previous object from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @return object|null
 	 * <p>The previous object from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object.</p>
@@ -1118,11 +1115,10 @@ final class Call extends Utility
 	 * Get previous objects from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects to get.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @return object[]|null[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
@@ -1150,8 +1146,7 @@ final class Call extends Utility
 	 * Get previous object or class from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @return object|string|null
 	 * <p>The previous object or class from the current stack 
 	 * or <code>null</code> if the previous call in the stack was not called from an object nor a class.</p>
@@ -1170,11 +1165,10 @@ final class Call extends Utility
 	 * Get previous objects and classes from the current stack.
 	 * 
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects and classes to get.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @return object[]|string[]|null[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
@@ -1211,8 +1205,7 @@ final class Call extends Utility
 	 * @param bool $short [default = false]
 	 * <p>Return the short form of the class name instead of the full namespaced one.</p>
 	 * @param int $offset [default = 0]
-	 * <p>The offset to get from.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The offset to get from.</p>
 	 * @return string|null
 	 * <p>The previous function name from the current stack
 	 * or <code>null</code> if there is no previous call in the stack or if it has no name (anonymous).</p>

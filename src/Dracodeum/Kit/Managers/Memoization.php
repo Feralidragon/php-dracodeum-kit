@@ -35,13 +35,13 @@ class Memoization extends Manager
 	
 	/**
 	 * The TTL (Time to Live) of each key, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.
+	 * If not set, then no TTL is applied.
 	 */
 	private const CONFIG_TTL = null;
 	
 	/**
 	 * The limit on the number of keys.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than <code>0</code>.
+	 * If not set, then no limit is applied.
 	 */
 	private const CONFIG_LIMIT = null;
 	
@@ -179,7 +179,7 @@ class Memoization extends Manager
 	 * <p>The value to set.</p>
 	 * @param float|null $ttl [default = null]
 	 * <p>The TTL (Time to Live) to set with, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no TTL is applied.</p>
 	 * @param bool $persist [default = false]
 	 * <p><i>Not implemented</i> (TODO).</p>
 	 * @return $this
@@ -235,7 +235,7 @@ class Memoization extends Manager
 	 * <p>The arguments to memoize the given function with (call and cache).</p>
 	 * @param float|null $ttl [default = null]
 	 * <p>The TTL (Time to Live) to memoize with, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no TTL is applied.</p>
 	 * @param bool $persist [default = false]
 	 * <p><i>Not implemented</i> (TODO).</p>
 	 * @param array $key_parameters [default = []]

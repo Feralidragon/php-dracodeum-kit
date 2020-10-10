@@ -16,8 +16,7 @@ use Dracodeum\Kit\Structures\Uid;
  * @property-read int|string|null $id [default = null]
  * <p>The ID.</p>
  * @property-read string|null $scope [coercive] [default = null]
- * <p>The scope.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The scope.</p>
  */
 class Conflict extends Exception
 {

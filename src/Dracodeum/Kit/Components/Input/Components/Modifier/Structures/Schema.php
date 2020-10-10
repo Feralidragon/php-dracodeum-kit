@@ -11,14 +11,11 @@ use Dracodeum\Kit\Structure;
 
 /**
  * @property string $name [coercive]
- * <p>The name.<br>
- * It cannot be empty.</p>
+ * <p>The name.</p>
  * @property string $type [coercive]
- * <p>The type.<br>
- * It cannot be empty.</p>
+ * <p>The type.</p>
  * @property string|null $subtype [coercive] [default = null]
- * <p>The subtype.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The subtype.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
  */

@@ -14,19 +14,16 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
 
 /**
  * @property string|null $name [coercive] [default = null]
- * <p>The name to log with.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The name to log with.</p>
  * @property mixed $data [default = null]
  * <p>The data to log with.</p>
  * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
- * <p>The tags vector instance to log with, with each value coerced into a string.<br>
- * The values cannot be empty.</p>
+ * <p>The tags vector instance to log with, with each value coerced into a string.</p>
  * @property string|null $function_name [coercive] [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
  * @property int $stack_offset [coercive] [default = 0]
- * <p>The stack offset to use.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The stack offset to use.</p>
  * @property object|string|null $object_class [coercive] [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>

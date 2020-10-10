@@ -24,8 +24,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This filter prototype truncates a given vector input value to a specific length.
  * 
  * @property-write int $length [writeonce] [transient] [coercive]
- * <p>The length to truncate a given vector input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The length to truncate a given vector input value to.</p>
  */
 class Truncate extends Filter implements ISubtype, IInformation, IStringification, ISchemaData
 {

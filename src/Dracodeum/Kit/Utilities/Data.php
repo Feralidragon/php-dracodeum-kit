@@ -265,7 +265,7 @@ final class Data extends Utility
 	 * <p>The second array, to merge with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the merging at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -385,7 +385,7 @@ final class Data extends Utility
 	 * <p>The array to remove from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the removal at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -486,7 +486,7 @@ final class Data extends Utility
 	 * <p>The array to sort.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the sorting at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -555,7 +555,7 @@ final class Data extends Utility
 	 * <p>The array to sort.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the sorting at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -639,7 +639,7 @@ final class Data extends Utility
 	 * The difference between the given first key-value pair and the second one.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the sorting at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -717,7 +717,7 @@ final class Data extends Utility
 	 * <p>The values to filter from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the filtering at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -797,7 +797,7 @@ final class Data extends Utility
 	 * <p>The keys to filter from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the filtering at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -885,7 +885,7 @@ final class Data extends Utility
 	 * <p>The values to trim from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the trimming at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -988,7 +988,7 @@ final class Data extends Utility
 	 * <p>The keys to trim from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the trimming at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1100,7 +1100,7 @@ final class Data extends Utility
 	 * <p>The second array, to intersect with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the intersection at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1194,7 +1194,7 @@ final class Data extends Utility
 	 * <p>The second array, to intersect with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the intersection at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1266,7 +1266,7 @@ final class Data extends Utility
 	 * <p>The second array, to differentiate with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1360,7 +1360,7 @@ final class Data extends Utility
 	 * <p>The second array, to differentiate with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the differentiation at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1425,7 +1425,7 @@ final class Data extends Utility
 	 * <p>The array to shuffle.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the shuffling at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1484,7 +1484,7 @@ final class Data extends Utility
 	 * <p>The keys to align with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the alignment at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1546,8 +1546,7 @@ final class Data extends Utility
 	 * @param string $path
 	 * <p>The path to check for.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given array has the given path.</p>
 	 */
@@ -1582,8 +1581,7 @@ final class Data extends Utility
 	 * @param string $path
 	 * <p>The path to get from.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathNotFound
@@ -1628,8 +1626,7 @@ final class Data extends Utility
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathKeySetIntoNonArray
@@ -1679,8 +1676,7 @@ final class Data extends Utility
 	 * @param string $path
 	 * <p>The path to delete.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\PathKeyDeleteFromNonArray
@@ -1886,11 +1882,10 @@ final class Data extends Utility
 	 * @param array $array
 	 * <p>The array to collapse.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the collapse at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @param int $flags [default = 0x00]
 	 * <p>The flags to use, which can be any combination of the following:<br>
 	 * <br>
@@ -1968,11 +1963,10 @@ final class Data extends Utility
 	 * @param array $array
 	 * <p>The array to expand.</p>
 	 * @param string $delimiter [default = '.']
-	 * <p>The path delimiter character to use.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The path delimiter character to use.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the expansion at.<br>
-	 * If not set, then no limit is applied, otherwise it must be greater than or equal to <code>0</code>.</p>
+	 * If not set, then no limit is applied.</p>
 	 * @return array
 	 * <p>The expanded array.</p>
 	 */

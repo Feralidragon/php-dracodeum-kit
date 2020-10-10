@@ -18,8 +18,7 @@ use Dracodeum\Kit\Utilities\Byte as UByte;
  * <p>Return the long form of the human-readable value.</p>
  * @property int|null $precision [coercive] [default = null]
  * <p>The rounding precision to use, in other words, the maximum number of decimal places to keep.<br>
- * If not set, then a specific precision is automatically chosen and used, 
- * otherwise it must always be greater than or equal to <code>0</code>.</p>
+ * If not set, then a specific precision is automatically chosen and used.</p>
  * @property int|null $min_multiple [coercive = byte multiple] [default = null]
  * <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of bytes, 

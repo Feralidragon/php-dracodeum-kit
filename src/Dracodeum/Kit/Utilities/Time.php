@@ -1330,8 +1330,7 @@ final class Time extends Utility
 	 * <br>
 	 * If not set, then the current system time is used.</p>
 	 * @param int|float $interval [default = \Dracodeum\Kit\Enumerations\Time\Period::P1D]
-	 * <p>The interval between values to generate with, in seconds.<br>
-	 * It must be greater than <code>0</code>.</p>
+	 * <p>The interval between values to generate with, in seconds.</p>
 	 * @param \Dracodeum\Kit\Utilities\Time\Options\Generate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return float[]|string[]|\DateTime[]|\DateTimeImmutable[]

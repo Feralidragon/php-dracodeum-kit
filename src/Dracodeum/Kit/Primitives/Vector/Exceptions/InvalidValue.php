@@ -16,8 +16,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read int|null $index [strict] [default = null]
- * <p>The index.<br>
- * If set, then it must be greater than or equal to <code>0</code>.</p>
+ * <p>The index.</p>
  * @property-read string|null $error_message [coercive] [default = null]
  * <p>The error message.</p>
  */

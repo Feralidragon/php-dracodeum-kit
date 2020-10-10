@@ -16,8 +16,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @property-read string $string [coercive]
  * <p>The string.</p>
  * @property-read string $alphabet [coercive]
- * <p>The alphabet.<br>
- * It must be exactly 32 characters long.</p>
+ * <p>The alphabet.</p>
  */
 class InvalidString extends Exception
 {

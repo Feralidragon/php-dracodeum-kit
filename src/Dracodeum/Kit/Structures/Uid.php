@@ -22,16 +22,14 @@ use Dracodeum\Kit\Utilities\{
  * @property int|string|null $id [coercive] [default = null]
  * <p>The ID.</p>
  * @property string|null $name [coercive] [default = null]
- * <p>The name.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The name.</p>
  * @property string|null $scope [default = auto]
- * <p>The scope.<br>
- * If set, then it cannot be empty.</p>
+ * <p>The scope.</p>
  * @property string|null $base_scope [coercive] [default = null]
  * <p>The base scope, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
  * corresponding directly to given scope IDs.<br>
  * <br>
- * If set, then it cannot be empty, and placeholders must be exclusively composed by identifiers, 
+ * If set, then placeholders must be exclusively composed by identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).</p>

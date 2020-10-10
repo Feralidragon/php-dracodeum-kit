@@ -561,7 +561,6 @@ final class Type extends Utility
 	 * <p>Evaluate as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to evaluate with.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
@@ -604,7 +603,6 @@ final class Type extends Utility
 	 * <p>Coerce as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to coerce with.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>
@@ -650,7 +648,6 @@ final class Type extends Utility
 	 * <p>Coerce as an unsigned integer.</p>
 	 * @param int|null $bits [default = null]
 	 * <p>The number of bits to coerce with.<br>
-	 * If set, then it must be greater than <code>0</code>.<br>
 	 * <br>
 	 * For signed integers, the maximum allowed number is <code>64</code>, 
 	 * while for unsigned integers this number is <code>63</code>.<br>

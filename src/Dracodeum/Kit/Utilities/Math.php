@@ -121,8 +121,7 @@ final class Math extends Utility
 	 * 
 	 * @see https://php.net/manual/en/function.mt-rand.php
 	 * @param int[]|float[] $values_weights
-	 * <p>The values weights to get from, as a set of <samp>value => weight</samp> pairs.<br>
-	 * Each weight must be greater than or equal to <code>0</code>.</p>
+	 * <p>The values weights to get from, as a set of <samp>value => weight</samp> pairs.</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>
 	 * If not set, then an internally generated seed is used.</p>

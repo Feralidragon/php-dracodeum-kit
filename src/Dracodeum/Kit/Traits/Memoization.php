@@ -102,7 +102,7 @@ trait Memoization
 	 * It is expected to be compatible with the signature from the previous caller method in the stack.</p>
 	 * @param float|null $ttl [default = null]
 	 * <p>The TTL (Time to Live) to memoize with, in seconds.<br>
-	 * If not set, then no TTL is applied, otherwise it must be greater than <code>0</code>.</p>
+	 * If not set, then no TTL is applied.</p>
 	 * @param bool $persist [default = false]
 	 * <p><i>Not implemented</i> (TODO).</p>
 	 * @param array $key_parameters [default = []]

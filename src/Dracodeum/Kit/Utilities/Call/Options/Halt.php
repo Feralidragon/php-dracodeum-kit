@@ -64,8 +64,7 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
  * @property int $stack_offset [coercive] [default = 0]
- * <p>The stack offset to use.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The stack offset to use.</p>
  * @property object|string|null $object_class [coercive] [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>

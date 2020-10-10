@@ -24,8 +24,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This constraint prototype restricts a given dictionary input value to a minimum length.
  * 
  * @property-write int $value [writeonce] [transient] [coercive]
- * <p>The minimum length value to restrict a given dictionary input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The minimum length value to restrict a given dictionary input value to.</p>
  */
 class MinLength extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData
 {

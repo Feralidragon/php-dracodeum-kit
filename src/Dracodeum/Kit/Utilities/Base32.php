@@ -26,8 +26,7 @@ final class Base32 extends Utility
 	 * @param string $string
 	 * <p>The string to check.</p>
 	 * @param string $alphabet [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
-	 * <p>The alphabet to check with.<br>
-	 * It must be exactly 32 characters long.</p>
+	 * <p>The alphabet to check with.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is encoded.</p>
 	 */
@@ -62,8 +61,7 @@ final class Base32 extends Utility
 	 * <p>Use URL-safe encoding, with the padding equal signs (<samp>=</samp>) removed, 
 	 * in order to be safely put in a URL.</p>
 	 * @param string $alphabet [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
-	 * <p>The alphabet to encode with.<br>
-	 * It must be exactly 32 characters long.</p>
+	 * <p>The alphabet to encode with.</p>
 	 * @return string
 	 * <p>The given string encoded.</p>
 	 */
@@ -141,8 +139,7 @@ final class Base32 extends Utility
 	 * @param string $string
 	 * <p>The string to decode.</p>
 	 * @param string $alphabet [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
-	 * <p>The alphabet to decode with.<br>
-	 * It must be exactly 32 characters long.</p>
+	 * <p>The alphabet to decode with.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Base32\Exceptions\Decode\InvalidString
@@ -200,11 +197,9 @@ final class Base32 extends Utility
 	 * @param string $string
 	 * <p>The string to normalize.</p>
 	 * @param string $alphabet_from [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
-	 * <p>The alphabet to normalize from.<br>
-	 * It must be exactly 32 characters long.</p>
+	 * <p>The alphabet to normalize from.</p>
 	 * @param string $alphabet_to [default = \Dracodeum\Kit\Enumerations\Base32\Alphabet::RFC4648]
-	 * <p>The alphabet to normalize to.<br>
-	 * It must be exactly 32 characters long.</p>
+	 * <p>The alphabet to normalize to.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Base32\Exceptions\Normalize\InvalidString

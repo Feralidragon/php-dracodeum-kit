@@ -14,8 +14,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * URL utility <code>querify</code> method options.
  * 
  * @property string $delimiter [coercive] [default = '&']
- * <p>The delimiter to use between key-value pairs.<br>
- * It must be a single character.</p>
+ * <p>The delimiter to use between key-value pairs.</p>
  * @property bool $allow_arrays [coercive] [default = false]
  * <p>Allow array values to be querified.</p>
  * @property bool $no_encode [coercive] [default = false]

@@ -13,8 +13,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
 
 /**
  * @property string $name [coercive]
- * <p>The name.<br>
- * It cannot be empty.</p>
+ * <p>The name.</p>
  * @property bool $nullable [coercive] [default = false]
  * <p>Allow null values.</p>
  * @property mixed $data [default = null]

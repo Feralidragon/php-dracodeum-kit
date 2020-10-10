@@ -25,11 +25,9 @@ use Dracodeum\Kit\Utilities\{
  * This constraint prototype restricts a given input value to a range of lengths.
  * 
  * @property-write int $min_value [writeonce] [transient] [coercive]
- * <p>The minimum length value to restrict a given input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The minimum length value to restrict a given input value to.</p>
  * @property-write int $max_value [writeonce] [transient] [coercive]
- * <p>The maximum length value to restrict a given input value to.<br>
- * It must be greater than or equal to <code>0</code>.</p>
+ * <p>The maximum length value to restrict a given input value to.</p>
  * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
  * <p>Check a given input value as Unicode.</p>
  */

@@ -18,12 +18,10 @@ use Dracodeum\Kit\Utilities\Time as UTime;
  * <p>Return the short form of the human-readable period.</p>
  * @property int|null $precision [coercive] [default = null]
  * <p>The rounding precision to use, in other words, the maximum number of decimal places to keep.<br>
- * If not set, then a specific precision is automatically chosen and used, 
- * otherwise it must always be greater than or equal to <code>0</code>.</p>
+ * If not set, then a specific precision is automatically chosen and used.</p>
  * @property int|null $limit [coercive] [default = null]
  * <p>The limit to use on the number of multiples returned.<br>
- * If not set, then a specific limit is automatically chosen and used, 
- * otherwise it must always be greater than <code>0</code>.</p>
+ * If not set, then a specific limit is automatically chosen and used.</p>
  * @property int|float|null $min_multiple [coercive = time multiple] [default = null]
  * <p>The minimum multiple to use, which can be defined by:<br>
  * &nbsp; &#8226; &nbsp; a number of seconds, such as: <code>1</code>, <code>60</code>, <code>3600</code>, ...<br>

@@ -497,8 +497,7 @@ final class Text extends Utility
 	 * @param bool $keep_case [default = false]
 	 * <p>Keep the original string case.</p>
 	 * @param string $delimiter [default = '-']
-	 * <p>The delimiter character to use between words.<br>
-	 * It must be a single ASCII character.</p>
+	 * <p>The delimiter character to use between words.</p>
 	 * @return string
 	 * <p>The slugified string from the given one.</p>
 	 */
@@ -1547,8 +1546,7 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to truncate.</p>
 	 * @param int $length
-	 * <p>The length to truncate to.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The length to truncate to.</p>
 	 * @param \Dracodeum\Kit\Utilities\Text\Options\Truncate|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @return string
@@ -1632,11 +1630,9 @@ final class Text extends Utility
 	 * @param string $string
 	 * <p>The string to indentate.</p>
 	 * @param int $level [default = 1]
-	 * <p>The level to indentate with.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The level to indentate with.</p>
 	 * @param string $expression [default = "\t"]
-	 * <p>The expression to indentate with.<br>
-	 * It cannot be empty.</p>
+	 * <p>The expression to indentate with.</p>
 	 * @return string
 	 * <p>The given string indentated.</p>
 	 */
@@ -2293,8 +2289,7 @@ final class Text extends Utility
 	 * @param bool $unicode [default = false]
 	 * <p>Format as a Unicode message.</p>
 	 * @param string $indentation_expression [default = "\t"]
-	 * <p>The expression to indentate with.<br>
-	 * It cannot be empty.</p>
+	 * <p>The expression to indentate with.</p>
 	 * @return string
 	 * <p>The given message formatted.</p>
 	 */

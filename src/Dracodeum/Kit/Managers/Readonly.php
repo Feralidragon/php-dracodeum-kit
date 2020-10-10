@@ -161,8 +161,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * Guard the current function or method in the stack so it may only be called if this instance is not enabled.
 	 * 
 	 * @param int $stack_offset [default = 0]
-	 * <p>The stack offset to use.<br>
-	 * It must be greater than or equal to <code>0</code>.</p>
+	 * <p>The stack offset to use.</p>
 	 * @return void
 	 */
 	final public function guardCall(int $stack_offset = 0): void
