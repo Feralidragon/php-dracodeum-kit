@@ -1055,11 +1055,7 @@ final class Call extends Utility
 	 */
 	final public static function stackPreviousClass(int $offset = 0): ?string
 	{
-		self::guardParameter('offset', $offset, $offset >= 0, [
-			'hint_message' => "Only a value greater than or equal to 0 is allowed."
-		]);
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['class'] ?? null;
+		return self::stackPreviousClasses($offset + 1, 1)[0] ?? null;
 	}
 	
 	/**
@@ -1104,11 +1100,7 @@ final class Call extends Utility
 	 */
 	final public static function stackPreviousObject(int $offset = 0): ?object
 	{
-		self::guardParameter('offset', $offset, $offset >= 0, [
-			'hint_message' => "Only a value greater than or equal to 0 is allowed."
-		]);
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		return debug_backtrace($debug_flags, $offset + 3)[$offset + 2]['object'] ?? null;
+		return self::stackPreviousObjects($offset + 1, 1)[0] ?? null;
 	}
 	
 	/**
@@ -1153,12 +1145,7 @@ final class Call extends Utility
 	 */
 	final public static function stackPreviousObjectClass(int $offset = 0)
 	{
-		self::guardParameter('offset', $offset, $offset >= 0, [
-			'hint_message' => "Only a value greater than or equal to 0 is allowed."
-		]);
-		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		$backtrace = debug_backtrace($debug_flags, $offset + 3)[$offset + 2] ?? null;
-		return isset($backtrace) ? ($backtrace['object'] ?? $backtrace['class'] ?? null) : null;
+		return self::stackPreviousObjectsClasses($offset + 1, 1)[0] ?? null;
 	}
 	
 	/**
