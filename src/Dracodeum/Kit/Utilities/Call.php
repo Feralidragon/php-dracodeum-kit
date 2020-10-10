@@ -1199,44 +1199,78 @@ final class Call extends Utility
 	 */
 	final public static function stackPreviousName(bool $full = false, bool $short = false, int $offset = 0): ?string
 	{
+		return self::stackPreviousNames($full, $short, $offset + 1, 1)[0] ?? null;
+	}
+	
+	/**
+	 * Get previous function names from the current stack.
+	 * 
+	 * If a previous function is anonymous, then <code>null</code> is returned.<br>
+	 * If a previous function belongs to a class and the <var>$full</var> parameter is given as 
+	 * boolean <code>true</code>, then a string in the format <code>Class::name</code> is returned.<br>
+	 * In every other case only the name itself is returned.
+	 * 
+	 * @param bool $full [default = false]
+	 * <p>Return the full names, including the classes they're declared in.</p>
+	 * @param bool $short [default = false]
+	 * <p>Return the short form of the class names instead of the full namespaced ones.</p>
+	 * @param int $offset [default = 0]
+	 * <p>The offset to get from.</p>
+	 * @param int|null $limit [default = null]
+	 * <p>The limit to use on the number of names to get.<br>
+	 * If not set, then no limit is applied.</p>
+	 * @return string[]|null[]
+	 * <p>The previous function names from the current stack.</p>
+	 */
+	final public static function stackPreviousNames(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
 		//guard
 		if ($offset < 0) {
 			self::haltParameter('offset', $offset, [
 				'hint_message' => "Only a value greater than or equal to 0 is allowed."
 			]);
+		} elseif ($limit !== null && $limit <= 0) {
+			self::haltParameter('limit', $limit, [
+				'hint_message' => "Only null or a value greater than 0 is allowed."
+			]);
 		}
 		
-		//backtrace
+		//names
+		$names = [];
+		$limit = $limit !== null ? $limit + $offset + 2 : 0;
 		$debug_flags = DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT;
-		$backtrace = debug_backtrace($debug_flags, $offset + 3)[$offset + 2] ?? null;
-		if ($backtrace === null) {
-			return null;
-		}
-		
-		//name
-		$name = $backtrace['function'];
-		if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
-			return null;
-		} elseif (!$full) {
-			return $name;
-		}
-		
-		//class
-		$class = null;
-		if (isset($backtrace['object'])) {
-			$class = get_class($backtrace['object']);
-		} elseif (isset($backtrace['class'])) {
-			$class = $backtrace['class'];
-		}
-		
-		//finalize
-		if ($class !== null) {
-			if ($short) {
-				$class = self::class("{$class}::{$name}", true);
+		foreach (array_slice(debug_backtrace($debug_flags, $limit), $offset + 2) as $backtrace) {
+			//name
+			$name = $backtrace['function'];
+			if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
+				$name = null;
 			}
-			return "{$class}::{$name}";
+			
+			//full name
+			if ($full && $name !== null) {
+				//class
+				$class = null;
+				if (isset($backtrace['object'])) {
+					$class = get_class($backtrace['object']);
+				} elseif (isset($backtrace['class'])) {
+					$class = $backtrace['class'];
+				}
+				
+				//name
+				if ($class !== null) {
+					if ($short) {
+						$class = Type::shortname($class);
+					}
+					$name = "{$class}::{$name}";
+				}
+			}
+			
+			//finalize
+			$names[] = $name;
 		}
-		return $name;
+		return $names;
 	}
 	
 	/**

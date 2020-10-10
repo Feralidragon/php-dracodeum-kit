@@ -3521,6 +3521,507 @@ class CallTest extends TestCase
 	}
 	
 	/**
+	 * Test <code>stackPreviousNames</code> method.
+	 *
+	 * @testdox Call::stackPreviousNames()
+	 *
+	 * @return void
+	 */
+	public function testStackPreviousNamesMethod(): void
+	{
+		//initialize
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
+		
+		//assert
+		$this->assertGreaterThan(1, count($a->getStackPreviousNamesA()));
+		$this->assertSame(['testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(), 0, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(true), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(true, true), 0, 1)
+		);
+		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesA()));
+		$this->assertSame(['testStackPreviousNamesMethod'], array_slice($a->getStaticStackPreviousNamesA(), 0, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesA(true), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesA(true, true), 0, 1)
+		);
+		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesA()));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(true), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(true, true), 0, 1)
+		);
+		$this->assertGreaterThan(2, count($a->getStackPreviousNamesBA()));
+		$this->assertSame(
+			['getStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesBA(), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStackPreviousNamesBA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStackPreviousNamesBA(true), 0, 2)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesBA(true, true), 0, 2)
+		);
+		$this->assertGreaterThan(2, count($a->getStaticStackPreviousNamesBA()));
+		$this->assertSame(
+			['getStaticStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesBA(), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStaticStackPreviousNamesBA(true), 0, 2)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesBA(true, true), 0, 2)
+		);
+		$this->assertGreaterThan(2, count(CallTest_StackClassA::getStaticStackPreviousNamesBA()));
+		$this->assertSame(
+			['getStaticStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true), 0, 2)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, true), 0, 2)
+		);
+		$this->assertGreaterThan(3, count($a->getStackPreviousNamesCA()));
+		$this->assertSame(
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesCA(), 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStackPreviousNamesCA(true), 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStackPreviousNamesCB',
+				'CallTest_StackClassA::getStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice($a->getStackPreviousNamesCA(true, true), 0, 3)
+		);
+		$this->assertGreaterThan(3, count($a->getStaticStackPreviousNamesCA()));
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesCA(), 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStaticStackPreviousNamesCA(true), 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice($a->getStaticStackPreviousNamesCA(true, true), 0, 3)
+		);
+		$this->assertGreaterThan(3, count(CallTest_StackClassA::getStaticStackPreviousNamesCA()));
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(), 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true), 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true), 0, 3)
+		);
+		$this->assertGreaterThan(0, count($a->getStackPreviousNamesA(false, false, 1)));
+		$this->assertGreaterThan(0, count($a->getStaticStackPreviousNamesA(false, false, 1)));
+		$this->assertGreaterThan(0, count(CallTest_StackClassA::getStaticStackPreviousNamesA(false, false, 1)));
+		$this->assertGreaterThan(1, count($a->getStackPreviousNamesBA(false, false, 1)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesBA(false, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesBA(true, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesBA(true, true, 1), 0, 1)
+		);
+		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesBA(false, false, 1)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesBA(false, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesBA(true, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesBA(true, true, 1), 0, 1)
+		);
+		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesBA(false, false, 1)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(false, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, false, 1), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, true, 1), 0, 1)
+		);
+		$this->assertGreaterThan(2, count($a->getStackPreviousNamesCA(false, false, 1)));
+		$this->assertSame(
+			['getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesCA(false, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStackPreviousNamesCA(true, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice($a->getStackPreviousNamesCA(true, true, 1), 0, 2)
+		);
+		$this->assertGreaterThan(2, count($a->getStaticStackPreviousNamesCA(false, false, 1)));
+		$this->assertSame(
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesCA(false, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice($a->getStaticStackPreviousNamesCA(true, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice($a->getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
+		);
+		$this->assertGreaterThan(2, count(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1)));
+		$this->assertSame(
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 1), 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
+		);
+		$this->assertGreaterThan(1, count($a->getStackPreviousNamesCA(false, false, 2)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesCA(false, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice($a->getStackPreviousNamesCA(true, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesCA(true, true, 2), 0, 1)
+		);
+		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesCA(false, false, 2)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'], array_slice($a->getStaticStackPreviousNamesCA(false, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesCA(true, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice($a->getStaticStackPreviousNamesCA(true, true, 2), 0, 1)
+		);
+		
+		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2)));
+		$this->assertSame(
+			['testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 2), 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 2), 0, 1)
+		);
+		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(false, false, 0, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(true, false, 0, 1)
+		);
+		$this->assertSame(['CallTest::testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(true, true, 0, 1));
+		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(false, false, 0, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(true, true, 0, 1)
+		);
+		$this->assertSame(
+			['testStackPreviousNamesMethod'], CallTest_StackClassA::getStaticStackPreviousNamesA(false, false, 0, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesA(true, true, 0, 1)
+		);
+		$this->assertSame(['getStackPreviousNamesBA'], $a->getStackPreviousNamesBA(false, false, 0, 1));
+		$this->assertSame(
+			[CallTest_StackClassA::class . '::getStackPreviousNamesBA'], $a->getStackPreviousNamesBA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStackPreviousNamesBA'], $a->getStackPreviousNamesBA(true, true, 0, 1)
+		);
+		$this->assertSame(['getStaticStackPreviousNamesBA'], $a->getStaticStackPreviousNamesBA(false, false, 0, 1));
+		$this->assertSame(
+			[CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA'],
+			$a->getStaticStackPreviousNamesBA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA'], $a->getStaticStackPreviousNamesBA(true, true, 0, 1)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesBA'], CallTest_StackClassA::getStaticStackPreviousNamesBA(false, false, 0, 1)
+		);
+		$this->assertSame(
+			[CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA'],
+			CallTest_StackClassA::getStaticStackPreviousNamesBA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA'],
+			CallTest_StackClassA::getStaticStackPreviousNamesBA(true, true, 0, 1)
+		);
+		$this->assertSame(['getStackPreviousNamesCB'], $a->getStackPreviousNamesCA(false, false, 0, 1));
+		$this->assertSame(
+			[CallTest_StackClassB::class . '::getStackPreviousNamesCB'], $a->getStackPreviousNamesCA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassB::getStackPreviousNamesCB'], $a->getStackPreviousNamesCA(true, true, 0, 1)
+		);
+		$this->assertSame(['getStaticStackPreviousNamesCB'], $a->getStaticStackPreviousNamesCA(false, false, 0, 1));
+		$this->assertSame(
+			[CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB'],
+			$a->getStaticStackPreviousNamesCA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassB::getStaticStackPreviousNamesCB'], $a->getStaticStackPreviousNamesCA(true, true, 0, 1)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB'], CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 0, 1)
+		);
+		$this->assertSame(
+			[CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 0, 1)
+		);
+		$this->assertSame(
+			['CallTest_StackClassB::getStaticStackPreviousNamesCB'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 1)
+		);
+		$this->assertSame(
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA'],
+			$a->getStackPreviousNamesCA(false, false, 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStackPreviousNamesCA'
+			], $a->getStackPreviousNamesCA(true, false, 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStackPreviousNamesCB',
+				'CallTest_StackClassA::getStackPreviousNamesCA'
+			], $a->getStackPreviousNamesCA(true, true, 0, 2)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA'],
+			$a->getStaticStackPreviousNamesCA(false, false, 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA'
+			], $a->getStaticStackPreviousNamesCA(true, false, 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA'
+			], $a->getStaticStackPreviousNamesCA(true, true, 0, 2)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 0, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 0, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 2)
+		);
+		$this->assertSame(
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			$a->getStackPreviousNamesCA(false, false, 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], $a->getStackPreviousNamesCA(true, false, 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStackPreviousNamesCB',
+				'CallTest_StackClassA::getStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], $a->getStackPreviousNamesCA(true, true, 0, 3)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			$a->getStaticStackPreviousNamesCA(false, false, 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], $a->getStaticStackPreviousNamesCA(true, false, 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], $a->getStaticStackPreviousNamesCA(true, true, 0, 3)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 0, 3)
+		);
+		$this->assertSame([
+				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 0, 3)
+		);
+		$this->assertSame([
+				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 3)
+		);
+		$this->assertSame(
+			['getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			$a->getStackPreviousNamesCA(false, false, 1, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], $a->getStackPreviousNamesCA(true, false, 1, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], $a->getStackPreviousNamesCA(true, true, 1, 2)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			$a->getStaticStackPreviousNamesCA(false, false, 1, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], $a->getStaticStackPreviousNamesCA(true, false, 1, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], $a->getStaticStackPreviousNamesCA(true, true, 1, 2)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1, 2)
+		);
+		$this->assertSame([
+				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
+				static::class . '::testStackPreviousNamesMethod'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 1, 2)
+		);
+		$this->assertSame([
+				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
+				'CallTest::testStackPreviousNamesMethod'
+			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1, 2)
+		);
+		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(false, false, 2, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(true, false, 2, 1)
+		);
+		$this->assertSame(['CallTest::testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(true, true, 2, 1));
+		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(false, false, 2, 1));
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(true, false, 2, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(true, true, 2, 1)
+		);
+		$this->assertSame(
+			['testStackPreviousNamesMethod'], CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2, 1)
+		);
+		$this->assertSame(
+			[static::class . '::testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 2, 1)
+		);
+		$this->assertSame(
+			['CallTest::testStackPreviousNamesMethod'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 2, 1)
+		);
+		$this->assertSame([], $a->getStackPreviousNamesCA(false, false, 10000));
+		$this->assertSame([], $a->getStackPreviousNamesCA(true, false, 10000));
+		$this->assertSame([], $a->getStackPreviousNamesCA(true, true, 10000));
+		$this->assertSame([], $a->getStaticStackPreviousNamesCA(false, false, 10000));
+		$this->assertSame([], $a->getStaticStackPreviousNamesCA(true, false, 10000));
+		$this->assertSame([], $a->getStaticStackPreviousNamesCA(true, true, 10000));
+		$this->assertSame([], CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 10000));
+		$this->assertSame([], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 10000));
+		$this->assertSame([], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 10000));
+	}
+	
+	/**
 	 * Test <code>halt</code> method.
 	 * 
 	 * @testdox Call::halt(...)
@@ -4795,6 +5296,27 @@ class CallTest_StackClassA
 		return $this->b->getStackPreviousNameCB($full, $short, $offset);
 	}
 	
+	public function getStackPreviousNamesA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
+	}
+	
+	public function getStackPreviousNamesBA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return $this->b->getStackPreviousNamesB($full, $short, $offset, $limit);
+	}
+	
+	public function getStackPreviousNamesCA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return $this->b->getStackPreviousNamesCB($full, $short, $offset, $limit);
+	}
+	
 	public static function getStaticStackPreviousClassA(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -4905,6 +5427,27 @@ class CallTest_StackClassA
 	{
 		return CallTest_StackClassB::getStaticStackPreviousNameCB($full, $short, $offset);
 	}
+	
+	public static function getStaticStackPreviousNamesA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
+	}
+	
+	public static function getStaticStackPreviousNamesBA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return CallTest_StackClassB::getStaticStackPreviousNamesB($full, $short, $offset, $limit);
+	}
+	
+	public static function getStaticStackPreviousNamesCA(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return CallTest_StackClassB::getStaticStackPreviousNamesCB($full, $short, $offset, $limit);
+	}
 }
 
 
@@ -4990,6 +5533,20 @@ class CallTest_StackClassB
 		return $this->c->getStackPreviousNameC($full, $short, $offset);
 	}
 	
+	public function getStackPreviousNamesB(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
+	}
+	
+	public function getStackPreviousNamesCB(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return $this->c->getStackPreviousNamesC($full, $short, $offset, $limit);
+	}
+	
 	public static function getStaticStackPreviousClassB(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -5063,6 +5620,20 @@ class CallTest_StackClassB
 	{
 		return CallTest_StackClassC::getStaticStackPreviousNameC($full, $short, $offset);
 	}
+	
+	public static function getStaticStackPreviousNamesB(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
+	}
+	
+	public static function getStaticStackPreviousNamesCB(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return CallTest_StackClassC::getStaticStackPreviousNamesC($full, $short, $offset, $limit);
+	}
 }
 
 
@@ -5105,6 +5676,13 @@ class CallTest_StackClassC
 		return UCall::stackPreviousName($full, $short, $offset);
 	}
 	
+	public function getStackPreviousNamesC(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
+	}
+	
 	public static function getStaticStackPreviousClassC(int $offset = 0): ?string
 	{
 		return UCall::stackPreviousClass($offset);
@@ -5140,6 +5718,13 @@ class CallTest_StackClassC
 	): ?string
 	{
 		return UCall::stackPreviousName($full, $short, $offset);
+	}
+	
+	public static function getStaticStackPreviousNamesC(
+		bool $full = false, bool $short = false, int $offset = 0, ?int $limit = null
+	): array
+	{
+		return UCall::stackPreviousNames($full, $short, $offset, $limit);
 	}
 }
 
