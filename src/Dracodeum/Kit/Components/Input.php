@@ -8,10 +8,6 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
-use Dracodeum\Kit\Prototypes\Input\Subcontracts\{
-	ConstraintCreator as IPrototypeConstraintCreator,
-	FilterCreator as IPrototypeFilterCreator
-};
 use Dracodeum\Kit\Components\Input\{
 	Components,
 	Exceptions,
@@ -86,7 +82,7 @@ use Dracodeum\Kit\Utilities\{
  * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary
  * [prototype, name = 'dictionary' or 'dict']
  */
-class Input extends Component implements IPrototypeConstraintCreator, IPrototypeFilterCreator
+class Input extends Component
 {
 	//Private properties
 	/** @var bool */
@@ -114,24 +110,6 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
-	}
-	
-	
-	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Subcontracts\ConstraintCreator)
-	/** {@inheritdoc} */
-	public function createConstraint($prototype, array $properties = []): Components\Modifiers\Constraint
-	{
-		return Components\Modifiers\Constraint::build($prototype, $properties);
-	}
-	
-	
-	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Input\Subcontracts\FilterCreator)
-	/** {@inheritdoc} */
-	public function createFilter($prototype, array $properties = []): Components\Modifiers\Filter
-	{
-		return Components\Modifiers\Filter::build($prototype, $properties);
 	}
 	
 	
@@ -967,8 +945,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$this->addModifier(
 			Components\Modifiers\Constraint::produce(
 				$constraint, $properties,
-				$prototype instanceof PrototypeInterfaces\ConstraintProducer ? [$prototype, 'produceConstraint'] : null,
-				[$this, 'createConstraint']
+				$prototype instanceof PrototypeInterfaces\ConstraintProducer ? [$prototype, 'produceConstraint'] : null
 			)
 		);
 		
@@ -1003,8 +980,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 		$this->addModifier(
 			Components\Modifiers\Filter::produce(
 				$filter, $properties,
-				$prototype instanceof PrototypeInterfaces\FilterProducer ? [$prototype, 'produceFilter'] : null,
-				[$this, 'createFilter']
+				$prototype instanceof PrototypeInterfaces\FilterProducer ? [$prototype, 'produceFilter'] : null
 			)
 		);
 		

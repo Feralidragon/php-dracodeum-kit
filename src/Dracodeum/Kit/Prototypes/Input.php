@@ -8,8 +8,6 @@
 namespace Dracodeum\Kit\Prototypes;
 
 use Dracodeum\Kit\Prototype;
-use Dracodeum\Kit\Prototype\Interfaces\Subcontracts as ISubcontracts;
-use Dracodeum\Kit\Prototypes\Input\Subcontracts;
 use Dracodeum\Kit\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -17,10 +15,6 @@ use Dracodeum\Kit\Components\Input\Components\Modifiers\{
 
 /**
  * @see \Dracodeum\Kit\Components\Input
- * @see \Dracodeum\Kit\Prototypes\Input\Subcontracts\ConstraintCreator
- * [subcontract, name = 'ConstraintCreator']
- * @see \Dracodeum\Kit\Prototypes\Input\Subcontracts\FilterCreator
- * [subcontract, name = 'FilterCreator']
  * @see \Dracodeum\Kit\Prototypes\Input\Interfaces\Information
  * @see \Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorUnsetter
  * @see \Dracodeum\Kit\Prototypes\Input\Interfaces\ErrorMessage
@@ -30,7 +24,7 @@ use Dracodeum\Kit\Components\Input\Components\Modifiers\{
  * @see \Dracodeum\Kit\Prototypes\Input\Interfaces\FilterProducer
  * @see \Dracodeum\Kit\Prototypes\Input\Interfaces\ModifierBuilder
  */
-abstract class Input extends Prototype implements ISubcontracts
+abstract class Input extends Prototype
 {
 	//Abstract public methods
 	/**
@@ -63,21 +57,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	
 	
 	
-	//Implemented public static methods (Dracodeum\Kit\Prototype\Interfaces\Subcontracts)
-	/** {@inheritdoc} */
-	public static function getSubcontract(string $name): ?string
-	{
-		switch ($name) {
-			case 'ConstraintCreator':
-				return Subcontracts\ConstraintCreator::class;
-			case 'FilterCreator':
-				return Subcontracts\FilterCreator::class;
-		}
-		return null;
-	}
-	
-	
-	
 	//Protected methods
 	/**
 	 * Create a constraint instance with a given prototype.
@@ -94,9 +73,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	 */
 	protected function createConstraint($prototype, array $properties = []): Constraint
 	{
-		return $this->subcontractCall(
-			'ConstraintCreator', 'createConstraint', [Constraint::class, 'build'], $prototype, $properties
-		);
+		return Constraint::build($prototype, $properties);
 	}
 	
 	/**
@@ -114,8 +91,6 @@ abstract class Input extends Prototype implements ISubcontracts
 	 */
 	protected function createFilter($prototype, array $properties = []): Filter
 	{
-		return $this->subcontractCall(
-			'FilterCreator', 'createFilter', [Filter::class, 'build'], $prototype, $properties
-		);
+		return Filter::build($prototype, $properties);
 	}
 }
