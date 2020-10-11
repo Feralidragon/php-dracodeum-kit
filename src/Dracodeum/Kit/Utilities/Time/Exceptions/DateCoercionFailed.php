@@ -32,8 +32,7 @@ class DateCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Date coercion failed with value {{value}}, with the following error: {{error_message}}"
-			: "Date coercion failed with value {{value}}.";
+		return "Date coercion failed with value {{value}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

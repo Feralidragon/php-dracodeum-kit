@@ -32,9 +32,7 @@ class IdCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "ID coercion failed with value {{value}} using UID {{uid}}, " . 
-				"with the following error: {{error_message}}"
-			: "ID coercion failed with value {{value}} using UID {{uid}}.";
+		return "ID coercion failed with value {{value}} using UID {{uid}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

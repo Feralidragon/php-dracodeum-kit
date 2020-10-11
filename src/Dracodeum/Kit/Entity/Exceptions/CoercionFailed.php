@@ -32,9 +32,7 @@ class CoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Coercion failed with value {{value}} using entity {{entity}}, " . 
-				"with the following error: {{error_message}}"
-			: "Coercion failed with value {{value}} using entity {{entity}}.";
+		return "Coercion failed with value {{value}} using entity {{entity}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

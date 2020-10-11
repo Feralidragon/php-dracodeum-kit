@@ -35,9 +35,7 @@ class CoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Coercion failed with value {{value}} using vector {{vector}}, " . 
-				"with the following error: {{error_message}}"
-			: "Coercion failed with value {{value}} using vector {{vector}}.";
+		return "Coercion failed with value {{value}} using vector {{vector}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

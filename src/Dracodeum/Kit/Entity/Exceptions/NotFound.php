@@ -24,16 +24,25 @@ class NotFound extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
+		//initialize
 		$id = $this->id;
 		$scope = $this->scope;
+		$message = "Entity {{entity}}";
+		
+		//id and scope
 		if ($id !== null && $scope !== null) {
-			return "Entity {{entity}} with ID {{id}} and scope {{scope}} not found.";
+			$message .= " with ID {{id}} and scope {{scope}}";
 		} elseif ($scope !== null) {
-			return "Entity {{entity}} with scope {{scope}} not found.";
+			$message .= " with scope {{scope}}";
 		} elseif ($id !== null) {
-			return "Entity {{entity}} with ID {{id}} not found.";
+			$message .= " with ID {{id}}";
 		}
-		return "Entity {{entity}} not found.";
+		
+		//finalize
+		$message .= " not found.";
+		
+		//return
+		return $message;
 	}
 	
 	

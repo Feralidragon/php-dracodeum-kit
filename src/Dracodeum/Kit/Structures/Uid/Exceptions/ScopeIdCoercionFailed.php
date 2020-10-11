@@ -19,10 +19,8 @@ class ScopeIdCoercionFailed extends IdCoercionFailed
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Scope ID coercion failed for {{name}} with value {{value}} using UID {{uid}}, " . 
-				"with the following error: {{error_message}}"
-			: "Scope ID coercion failed for {{name}} with value {{value}} using UID {{uid}}.";
+		return "Scope ID coercion failed for {{name}} with value {{value}} using UID {{uid}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 	
 	

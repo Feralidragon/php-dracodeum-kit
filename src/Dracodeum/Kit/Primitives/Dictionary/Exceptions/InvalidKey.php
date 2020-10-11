@@ -24,9 +24,8 @@ class InvalidKey extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Invalid key {{key}} for dictionary {{dictionary}}, with the following error: {{error_message}}"
-			: "Invalid key {{key}} for dictionary {{dictionary}}.";
+		return "Invalid key {{key}} for dictionary {{dictionary}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 	
 	

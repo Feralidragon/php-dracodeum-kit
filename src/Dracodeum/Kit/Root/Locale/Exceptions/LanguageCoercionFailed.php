@@ -35,8 +35,7 @@ class LanguageCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Language coercion failed with value {{value}}, with the following error: {{error_message}}"
-			: "Language coercion failed with value {{value}}.";
+		return "Language coercion failed with value {{value}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

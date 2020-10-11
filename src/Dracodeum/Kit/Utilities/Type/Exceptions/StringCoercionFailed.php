@@ -35,8 +35,7 @@ class StringCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "String coercion failed with value {{value}}, with the following error: {{error_message}}"
-			: "String coercion failed with value {{value}}.";
+		return "String coercion failed with value {{value}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

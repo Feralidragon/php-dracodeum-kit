@@ -26,15 +26,8 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		if ($this->error_message !== null) {
-			return $this->index !== null
-				? "Invalid value {{value}} for vector {{vector}} at index {{index}}, " . 
-					"with the following error: {{error_message}}"
-				: "Invalid value {{value}} for vector {{vector}}, with the following error: {{error_message}}";
-		}
-		return $this->index !== null
-			? "Invalid value {{value}} for vector {{vector}} at index {{index}}."
-			: "Invalid value {{value}} for vector {{vector}}.";
+		return "Invalid value {{value}} for vector {{vector}}" . ($this->index !== null ? " at index {{index}}" : "") . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 	
 	

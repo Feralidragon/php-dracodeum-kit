@@ -32,8 +32,7 @@ class FloatCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Float coercion failed with value {{value}}, with the following error: {{error_message}}"
-			: "Float coercion failed with value {{value}}.";
+		return "Float coercion failed with value {{value}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

@@ -32,8 +32,7 @@ class SizeCoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null
-			? "Size coercion failed with value {{value}}, with the following error: {{error_message}}"
-			: "Size coercion failed with value {{value}}.";
+		return "Size coercion failed with value {{value}}" . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 }

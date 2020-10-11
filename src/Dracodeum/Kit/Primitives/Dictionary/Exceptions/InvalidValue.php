@@ -28,15 +28,8 @@ class InvalidValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		if ($this->error_message !== null) {
-			return $this->has_key
-				? "Invalid value {{value}} for dictionary {{dictionary}} at key {{key}}, " . 
-					"with the following error: {{error_message}}"
-				: "Invalid value {{value}} for dictionary {{dictionary}}, with the following error: {{error_message}}";
-		}
-		return $this->has_key
-			? "Invalid value {{value}} for dictionary {{dictionary}} at key {{key}}."
-			: "Invalid value {{value}} for dictionary {{dictionary}}.";
+		return "Invalid value {{value}} for dictionary {{dictionary}}" . ($this->has_key ? " at key {{key}}" : "") . 
+			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 	
 	

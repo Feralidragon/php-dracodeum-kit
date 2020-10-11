@@ -24,16 +24,25 @@ class Conflict extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
+		//initialize
 		$id = $this->id;
 		$scope = $this->scope;
+		$message = "Entity {{entity}}";
+		
+		//id and scope
 		if ($id !== null && $scope !== null) {
-			return "Entity {{entity}} with ID {{id}} and scope {{scope}} conflicts with an existing one.";
+			$message .= " with ID {{id}} and scope {{scope}}";
 		} elseif ($scope !== null) {
-			return "Entity {{entity}} with scope {{scope}} conflicts with an existing one.";
+			$message .= " with scope {{scope}}";
 		} elseif ($id !== null) {
-			return "Entity {{entity}} with ID {{id}} conflicts with an existing one.";
+			$message .= " with ID {{id}}";
 		}
-		return "Entity {{entity}} conflicts with an existing one.";
+		
+		//finalize
+		$message .= " conflicts with an existing one.";
+		
+		//return
+		return $message;
 	}
 	
 	

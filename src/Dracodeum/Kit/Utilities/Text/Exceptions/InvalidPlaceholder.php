@@ -23,9 +23,7 @@ class InvalidPlaceholder extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->string !== null
-			? "Invalid placeholder {{placeholder}} in string {{string}}."
-			: "Invalid placeholder {{placeholder}}.";
+		return "Invalid placeholder {{placeholder}}" . ($this->string !== null ? " in string {{string}}." : ".");
 	}
 	
 	
