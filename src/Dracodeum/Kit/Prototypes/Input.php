@@ -10,7 +10,6 @@ namespace Dracodeum\Kit\Prototypes;
 use Dracodeum\Kit\Prototype;
 use Dracodeum\Kit\Prototype\Interfaces\Subcontracts as ISubcontracts;
 use Dracodeum\Kit\Prototypes\Input\Subcontracts;
-use Dracodeum\Kit\Components\Input\Factories\Component as FComponent;
 use Dracodeum\Kit\Components\Input\Components\Modifiers\{
 	Constraint,
 	Filter
@@ -96,7 +95,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createConstraint($prototype, array $properties = []): Constraint
 	{
 		return $this->subcontractCall(
-			'ConstraintCreator', 'createConstraint', [FComponent::class, 'constraint'], $prototype, $properties
+			'ConstraintCreator', 'createConstraint', [Constraint::class, 'build'], $prototype, $properties
 		);
 	}
 	
@@ -116,7 +115,7 @@ abstract class Input extends Prototype implements ISubcontracts
 	protected function createFilter($prototype, array $properties = []): Filter
 	{
 		return $this->subcontractCall(
-			'FilterCreator', 'createFilter', [FComponent::class, 'filter'], $prototype, $properties
+			'FilterCreator', 'createFilter', [Filter::class, 'build'], $prototype, $properties
 		);
 	}
 }

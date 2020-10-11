@@ -15,7 +15,6 @@ use Dracodeum\Kit\Root\System\{
 	Exceptions
 };
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
-use Dracodeum\Kit\Root\System\Factories\Component as FComponent;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
@@ -70,7 +69,7 @@ final class System implements IUninstantiable
 	{
 		try {
 			self::$setting_environment = true;
-			$environment = Components\Environment::coerce($environment, [], [FComponent::class, 'environment']);
+			$environment = Components\Environment::coerce($environment);
 			$environment->apply();
 			self::$environment = $environment;
 		} catch (\Throwable $throwable) {

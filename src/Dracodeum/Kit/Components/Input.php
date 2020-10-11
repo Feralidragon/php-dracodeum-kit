@@ -20,7 +20,6 @@ use Dracodeum\Kit\Components\Input\{
 	Structures
 };
 use Dracodeum\Kit\Factories\Component as Factory;
-use Dracodeum\Kit\Components\Input\Factories\Component as FComponent;
 use Dracodeum\Kit\Prototypes\{
 	Input as Prototype,
 	Inputs as Prototypes
@@ -123,7 +122,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/** {@inheritdoc} */
 	public function createConstraint($prototype, array $properties = []): Components\Modifiers\Constraint
 	{
-		return FComponent::constraint($prototype, $properties);
+		return Components\Modifiers\Constraint::build($prototype, $properties);
 	}
 	
 	
@@ -132,7 +131,7 @@ class Input extends Component implements IPrototypeConstraintCreator, IPrototype
 	/** {@inheritdoc} */
 	public function createFilter($prototype, array $properties = []): Components\Modifiers\Filter
 	{
-		return FComponent::filter($prototype, $properties);
+		return Components\Modifiers\Filter::build($prototype, $properties);
 	}
 	
 	

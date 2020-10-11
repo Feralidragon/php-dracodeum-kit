@@ -13,6 +13,7 @@ use Dracodeum\Kit\Root\System\Prototypes\{
 	Environments as Prototypes
 };
 use Dracodeum\Kit\Root\System;
+use Dracodeum\Kit\Root\System\Factories\Component as Factory;
 use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
@@ -37,6 +38,15 @@ class Environment extends Component
 	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
+	}
+	
+	
+	
+	//Implemented protected static methods (Dracodeum\Kit\Component\Traits\DefaultBuilder)
+	/** {@inheritdoc} */
+	protected static function getDefaultBuilder(): ?callable
+	{
+		return [Factory::class, 'environment'];
 	}
 	
 	
