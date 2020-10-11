@@ -437,29 +437,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	}
 	
 	/**
-	 * Unshift value.
-	 * 
-	 * The process of unshifting a value consists in prepending it to a vector.<br>
-	 * <br>
-	 * This method is an alias of the <code>prepend</code> method.
-	 * 
-	 * @param mixed $value
-	 * <p>The value to unshift.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
-	 * @return $this|bool
-	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the value was successfully unshifted, 
-	 * or boolean <code>false</code> if otherwise.</p>
-	 */
-	final public function unshift($value, bool $no_throw = false)
-	{
-		return $this->prepend($value, $no_throw);
-	}
-	
-	/**
 	 * Append value.
 	 * 
 	 * @param mixed $value
@@ -499,29 +476,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 		
 		//return
 		return $no_throw ? true : $this;
-	}
-	
-	/**
-	 * Push value.
-	 * 
-	 * The process of pushing a value consists in appending it to a vector.<br>
-	 * <br>
-	 * This method is an alias of the <code>append</code> method.
-	 * 
-	 * @param mixed $value
-	 * <p>The value to push.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
-	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\InvalidValue
-	 * @return $this|bool
-	 * <p>This instance, for chaining purposes.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the value was successfully pushed, 
-	 * or boolean <code>false</code> if otherwise.</p>
-	 */
-	final public function push($value, bool $no_throw = false)
-	{
-		return $this->append($value, $no_throw);
 	}
 	
 	/**
