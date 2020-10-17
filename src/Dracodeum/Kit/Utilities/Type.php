@@ -2668,4 +2668,93 @@ final class Type extends Utility
 		$filename = self::filename($object_class);
 		return isset($filename) ? basename($filename) : null;
 	}
+	
+	/**
+	 * Normalize a given type.
+	 * 
+	 * @param string $type
+	 * <p>The type to normalize.</p>
+	 * @return string
+	 * <p>The given type normalized.</p>
+	 */
+	final public static function normalize(string $type): string
+	{
+		//process
+		$nullable = false;
+		$types = explode('|', $type);
+		foreach ($types as &$t) {
+			//initialize
+			$t = trim($t);
+			if ($t === '') {
+				$t = 'mixed';
+			}
+			
+			//nullable
+			if ($t[0] === '?') {
+				$nullable = true;
+				$t = trim(substr($t, 1));
+			}
+		}
+		unset($t);
+		
+		//nullable
+		if ($nullable) {
+			$types[] = 'null';
+		}
+		
+		//return
+		return implode('|', array_unique($types, SORT_STRING));
+	}
+	
+	/**
+	 * Check if a given type is covariant in relation to a given base type.
+	 * 
+	 * @param string $type
+	 * <p>The type to check.</p>
+	 * @param string $base_type
+	 * <p>The base type to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given type is covariant in relation to the given base type.</p>
+	 */
+	final public static function covariant(string $type, string $base_type): bool
+	{
+		$types = explode('|', self::normalize($type));
+		$base_types = explode('|', self::normalize($base_type));
+		foreach ($types as $t) {
+			//process
+			$covariant = false;
+			foreach ($base_types as $bt) {
+				//covariant
+				$covariant = $bt === 'mixed' || $t === $bt || 
+					(self::exists($t) && self::exists($bt) && is_a($t, $bt, true)) || 
+					($bt === 'object' && self::exists($t));
+				
+				//check
+				if ($covariant) {
+					break;
+				}
+			}
+			
+			//finalize
+			if (!$covariant) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Check if a given type is contravariant in relation to a given base type.
+	 * 
+	 * @param string $type
+	 * <p>The type to check.</p>
+	 * @param string $base_type
+	 * <p>The base type to check against.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if the given type is contravariant in relation to the given base type.</p>
+	 */
+	final public static function contravariant(string $type, string $base_type): bool
+	{
+		return self::covariant($base_type, $type);
+	}
 }

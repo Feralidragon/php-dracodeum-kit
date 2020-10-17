@@ -1033,13 +1033,6 @@ class CallTest extends TestCase
 				'final protected static function getFinalProtectedStaticInteger(): int'],
 			[[$class, 'setFinalProtectedStaticInteger'], 0x00,
 				'final protected static function setFinalProtectedStaticInteger(int $integer): void'],
-			[[$class, 'getFinalPrivateBoolean'], 0x00, 'final private function getFinalPrivateBoolean(): bool'],
-			[[$class, 'setFinalPrivateBoolean'], 0x00,
-				'final private function setFinalPrivateBoolean(bool $boolean): void'],
-			[[$class, 'getFinalPrivateStaticBoolean'], 0x00,
-				'final private static function getFinalPrivateStaticBoolean(): bool'],
-			[[$class, 'setFinalPrivateStaticBoolean'], 0x00,
-				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void'],
 			[[$class_abstract, 'getString'], 0x00, 'abstract public function getString(): string'],
 			[[$class_abstract, 'setString'], 0x00, 'abstract public function setString(string $string): void'],
 			[[$class_abstract, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string'],
@@ -1066,14 +1059,6 @@ class CallTest extends TestCase
 				'final protected static function getFinalProtectedStaticInteger(): int'],
 			[[$class_abstract, 'setFinalProtectedStaticInteger'], 0x00,
 				'final protected static function setFinalProtectedStaticInteger(int $integer): void'],
-			[[$class_abstract, 'getFinalPrivateBoolean'], 0x00,
-				'final private function getFinalPrivateBoolean(): bool'],
-			[[$class_abstract, 'setFinalPrivateBoolean'], 0x00,
-				'final private function setFinalPrivateBoolean(bool $boolean): void'],
-			[[$class_abstract, 'getFinalPrivateStaticBoolean'], 0x00,
-				'final private static function getFinalPrivateStaticBoolean(): bool'],
-			[[$class_abstract, 'setFinalPrivateStaticBoolean'], 0x00,
-				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void'],
 			[[$interface, 'getString'], 0x00, 'abstract public function getString(): string'],
 			[[$interface, 'setString'], 0x00, 'abstract public function setString(string $string): void'],
 			[[$interface, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string'],
@@ -1516,14 +1501,6 @@ class CallTest extends TestCase
 				'final protected static function getFinalProtectedStaticInteger(): int' . $integer_body],
 			[[$class, 'setFinalProtectedStaticInteger'], 0x00,
 				'final protected static function setFinalProtectedStaticInteger(int $integer): void {}'],
-			[[$class, 'getFinalPrivateBoolean'], 0x00,
-				'final private function getFinalPrivateBoolean(): bool' . $boolean_body],
-			[[$class, 'setFinalPrivateBoolean'], 0x00,
-				'final private function setFinalPrivateBoolean(bool $boolean): void {}'],
-			[[$class, 'getFinalPrivateStaticBoolean'], 0x00,
-				'final private static function getFinalPrivateStaticBoolean(): bool' . $boolean_body],
-			[[$class, 'setFinalPrivateStaticBoolean'], 0x00,
-				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}'],
 			[[$class_abstract, 'getString'], 0x00, 'abstract public function getString(): string;'],
 			[[$class_abstract, 'setString'], 0x00, 'abstract public function setString(string $string): void;'],
 			[[$class_abstract, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string;'],
@@ -1550,14 +1527,6 @@ class CallTest extends TestCase
 				'final protected static function getFinalProtectedStaticInteger(): int' . $integer_body],
 			[[$class_abstract, 'setFinalProtectedStaticInteger'], 0x00,
 				'final protected static function setFinalProtectedStaticInteger(int $integer): void {}'],
-			[[$class_abstract, 'getFinalPrivateBoolean'], 0x00,
-				'final private function getFinalPrivateBoolean(): bool' . $boolean_body],
-			[[$class_abstract, 'setFinalPrivateBoolean'], 0x00,
-				'final private function setFinalPrivateBoolean(bool $boolean): void {}'],
-			[[$class_abstract, 'getFinalPrivateStaticBoolean'], 0x00,
-				'final private static function getFinalPrivateStaticBoolean(): bool' . $boolean_body],
-			[[$class_abstract, 'setFinalPrivateStaticBoolean'], 0x00,
-				'final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}'],
 			[[$interface, 'getString'], 0x00, 'abstract public function getString(): string;'],
 			[[$interface, 'setString'], 0x00, 'abstract public function setString(string $string): void;'],
 			[[$interface, 'getStaticString'], 0x00, 'abstract public static function getStaticString(): string;'],
@@ -1801,14 +1770,14 @@ class CallTest extends TestCase
 			['strlen', 'strlen', true],
 			['strlen', 'str_repeat', false],
 			['str_repeat', 'strlen', false],
-			['strlen', function ($string) {}, true],
+			['strlen', function ($string) {}, false],
 			['strlen', function (string $string) {}, true],
 			['strlen', function ($string): int {}, false],
-			['strlen', function (string $string): int {}, false],
-			[function ($string) {}, 'strlen', true],
+			['strlen', function (string $string): int {}, true],
+			[function ($string) {}, 'strlen', false],
 			[function (string $string) {}, 'strlen', false],
 			[function ($string): int {}, 'strlen', true],
-			[function (string $string): int {}, 'strlen', false],
+			[function (string $string): int {}, 'strlen', true],
 			[function () {}, function () {}, true],
 			[function () {}, function (): void {}, true],
 			[function () {}, function (): bool {}, false],
@@ -5078,20 +5047,6 @@ class CallTest_Class
 	}
 	
 	final protected static function setFinalProtectedStaticInteger(int $integer): void {}
-	
-	final private function getFinalPrivateBoolean(): bool
-	{
-		return false;
-	}
-	
-	final private function setFinalPrivateBoolean(bool $boolean): void {}
-	
-	final private static function getFinalPrivateStaticBoolean(): bool
-	{
-		return false;
-	}
-	
-	final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}
 }
 
 
@@ -5140,20 +5095,6 @@ abstract class CallTest_AbstractClass
 	}
 	
 	final protected static function setFinalProtectedStaticInteger(int $integer): void {}
-	
-	final private function getFinalPrivateBoolean(): bool
-	{
-		return false;
-	}
-	
-	final private function setFinalPrivateBoolean(bool $boolean): void {}
-	
-	final private static function getFinalPrivateStaticBoolean(): bool
-	{
-		return false;
-	}
-	
-	final private static function setFinalPrivateStaticBoolean(bool $boolean): void {}
 }
 
 

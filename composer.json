@@ -5,12 +5,12 @@
 	"license" : "MIT",
 	"description" : "Dracodeum Kit",
 	"keywords" : [
+		"kit",
+		"library",
 		"framework"
 	],
 	"require" : {
-		"php" : "~7.2.0",
-		"ext-hash" : "*",
-		"ext-json" : "*",
+		"php" : "~8.0",
 		"ext-mbstring" : "*"
 	},
 	"authors" : [{
@@ -24,7 +24,7 @@
 		]
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : "^8.4",
+		"phpunit/phpunit" : "^9.0",
 		"vimeo/psalm" : "^3.0"
 	}
 }

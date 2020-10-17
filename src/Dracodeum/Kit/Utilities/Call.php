@@ -760,45 +760,23 @@ final class Call extends Utility
 					return false;
 				}
 				
-				//parameter type
+				//type
 				$f_type_reflection = $f_parameter->getType();
 				$t_type_reflection = $t_parameter->getType();
-				$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
-				$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
-				if ($f_type !== 'mixed') {
-					$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
-					$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
-					if (
-						(!$f_type_allows_null && $t_type_allows_null) || (
-							$f_type !== $t_type && 
-							(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($t_type, $f_type, true)) && 
-							($f_type !== 'object' || !Type::exists($t_type))
-						)
-					) {
-						return false;
-					}
+				$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
+				$t_type = $t_type_reflection !== null ? (string)$t_type_reflection : 'mixed';
+				if (!Type::contravariant($f_type, $t_type)) {
+					return false;
 				}
 			}
 			
 			//return type covariance
 			$f_type_reflection = $f_reflection->getReturnType();
 			$t_type_reflection = $t_reflection->getReturnType();
-			$f_type = isset($f_type_reflection) ? (string)$f_type_reflection : 'mixed';
-			$t_type = isset($t_type_reflection) ? (string)$t_type_reflection : 'mixed';
-			if ($f_type === 'void' && $t_type !== 'void') {
+			$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
+			$t_type = $t_type_reflection !== null ? (string)$t_type_reflection : 'mixed';
+			if ($t_type !== 'void' && !Type::covariant($f_type, $t_type)) {
 				return false;
-			} elseif ($t_type !== 'void' && $t_type !== 'mixed') {
-				$f_type_allows_null = isset($f_type_reflection) ? $f_type_reflection->allowsNull() : true;
-				$t_type_allows_null = isset($t_type_reflection) ? $t_type_reflection->allowsNull() : true;
-				if (
-					($f_type_allows_null && !$t_type_allows_null) || (
-						$f_type !== $t_type && 
-						(!Type::exists($f_type) || !Type::exists($t_type) || !is_a($f_type, $t_type, true)) && 
-						(!Type::exists($f_type) || $t_type !== 'object')
-					)
-				) {
-					return false;
-				}
 			}
 			
 			//return
