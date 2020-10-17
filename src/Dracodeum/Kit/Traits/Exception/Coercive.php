@@ -16,9 +16,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string|null $error_code [coercive] [default = null]
+ * @property-read string|null $error_code [default = null]
  * <p>The error code.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  * @see \Dracodeum\Kit\Exception
  * @see \Dracodeum\Kit\Interfaces\Throwables\Coercive

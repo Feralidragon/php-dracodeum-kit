@@ -13,13 +13,13 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>parse</code> method options.
  * 
- * @property string $delimiter_pattern [coercive] [default = '\s+']
+ * @property string $delimiter_pattern [default = '\s+']
  * <p>The delimiter regular expression pattern to use to separate the fields patterns.</p>
- * @property string $pattern_modifiers [coercive] [default = '']
+ * @property string $pattern_modifiers [default = '']
  * <p>The regular expression pattern modifiers to use.</p>
- * @property string $pattern_delimiter [coercive] [default = '/']
+ * @property string $pattern_delimiter [default = '/']
  * <p>The regular expression delimiter character to use.</p>
- * @property bool $no_throw [coercive] [default = false]
+ * @property bool $no_throw [default = false]
  * <p>Do not throw an exception.</p>
  */
 class Parse extends Options

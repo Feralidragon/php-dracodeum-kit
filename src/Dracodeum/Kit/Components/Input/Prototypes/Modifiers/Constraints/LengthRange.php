@@ -24,11 +24,11 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given input value to a range of lengths.
  * 
- * @property-write int $min_value [writeonce] [transient] [coercive]
+ * @property-write int $min_value [writeonce] [transient]
  * <p>The minimum length value to restrict a given input value to.</p>
- * @property-write int $max_value [writeonce] [transient] [coercive]
+ * @property-write int $max_value [writeonce] [transient]
  * <p>The maximum length value to restrict a given input value to.</p>
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given input value as Unicode.</p>
  */
 class LengthRange extends Constraint implements IPriority, IInformation, IStringification, ISchemaData

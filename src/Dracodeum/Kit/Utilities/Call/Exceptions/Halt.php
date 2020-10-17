@@ -12,13 +12,13 @@ use Dracodeum\Kit\Utilities\Call\Exception;
 /**
  * Call utility <code>halt</code> methods exception.
  * 
- * @property-read string $function_name [coercive]
+ * @property-read string $function_name
  * <p>The function or method name.</p>
- * @property-read object|string|null $object_class [coercive = object or class] [default = null]
+ * @property-read object|string|null $object_class [default = null]
  * <p>The object or class.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
- * @property-read string|null $hint_message [coercive] [default = null]
+ * @property-read string|null $hint_message [default = null]
  * <p>The hint message.</p>
  */
 abstract class Halt extends Exception

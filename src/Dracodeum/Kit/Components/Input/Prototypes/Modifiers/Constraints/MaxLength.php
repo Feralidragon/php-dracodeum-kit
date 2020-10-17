@@ -24,9 +24,9 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given input value to a maximum length.
  * 
- * @property-write int $value [writeonce] [transient] [coercive]
+ * @property-write int $value [writeonce] [transient]
  * <p>The maximum length value to restrict a given input value to.</p>
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given input value as Unicode.</p>
  */
 class MaxLength extends Constraint implements IPriority, IInformation, IStringification, ISchemaData

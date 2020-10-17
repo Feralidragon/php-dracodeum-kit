@@ -29,19 +29,19 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-write string $class [writeonce] [transient] [strict = class]
  * <p>The enumeration class to use.</p>
- * @property-write int[]|float[]|string[] $values [writeonce] [transient] [coercive] [default = []]
+ * @property-write int[]|float[]|string[] $values [writeonce] [transient] [default = []]
  * <p>The enumeration element values to restrict a given value to.</p>
- * @property-write int[]|float[]|string[] $non_values [writeonce] [transient] [coercive] [default = []]
+ * @property-write int[]|float[]|string[] $non_values [writeonce] [transient] [default = []]
  * <p>The enumeration element values to restrict a given value from.</p>
- * @property-write bool $names_only [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $names_only [writeonce] [transient] [default = false]
  * <p>Only allow enumeration element names to be set.</p>
- * @property-write bool $values_only [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $values_only [writeonce] [transient] [default = false]
  * <p>Only allow enumeration element values to be set.</p>
- * @property-write bool $hide_names [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $hide_names [writeonce] [transient] [default = false]
  * <p>Hide enumeration element names in labels, descriptions and messages.</p>
- * @property-write bool $hide_values [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $hide_values [writeonce] [transient] [default = false]
  * <p>Hide enumeration element values in labels, descriptions and messages.</p>
- * @property-write bool $namify [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $namify [writeonce] [transient] [default = false]
  * <p>Set as an enumeration element name.</p>
  * @see \Dracodeum\Kit\Enumeration
  */

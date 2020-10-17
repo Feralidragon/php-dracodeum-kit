@@ -13,7 +13,7 @@ use Dracodeum\Kit\Structures\Uid;
 /**
  * This exception is thrown from a store whenever a given resource scope is not found.
  * 
- * @property-read \Dracodeum\Kit\Structures\Uid $uid [coercive]
+ * @property-read \Dracodeum\Kit\Structures\Uid $uid
  * <p>The UID instance.</p>
  */
 class ScopeNotFound extends Exception

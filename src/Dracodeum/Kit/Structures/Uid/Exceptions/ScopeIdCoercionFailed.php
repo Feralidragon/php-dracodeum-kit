@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Structures\Uid\Exceptions;
 /**
  * This exception is thrown from a UID whenever the coercion into a scope ID fails with a given value.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The scope name.</p>
  */
 class ScopeIdCoercionFailed extends IdCoercionFailed

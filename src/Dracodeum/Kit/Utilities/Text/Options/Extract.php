@@ -14,14 +14,14 @@ use Dracodeum\Kit\Utilities\Type as UType;
 /**
  * Text utility <code>extract</code> method options.
  * 
- * @property string[] $patterns [coercive] [default = []]
+ * @property string[] $patterns [default = []]
  * <p>The regular expression patterns to use for each parameter, 
  * as a set of <samp>placeholder => pattern</samp> pairs.</p>
- * @property string $pattern_modifiers [coercive] [default = '']
+ * @property string $pattern_modifiers [default = '']
  * <p>The regular expression pattern modifiers to use.</p>
- * @property string $pattern_delimiter [coercive] [default = '/']
+ * @property string $pattern_delimiter [default = '/']
  * <p>The regular expression delimiter character to use.</p>
- * @property bool $no_throw [coercive] [default = false]
+ * @property bool $no_throw [default = false]
  * <p>Do not throw an exception.</p>
  */
 class Extract extends Options

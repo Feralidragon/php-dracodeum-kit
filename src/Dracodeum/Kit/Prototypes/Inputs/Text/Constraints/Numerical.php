@@ -23,7 +23,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given text input value to numerical characters.
  * 
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given text input value as Unicode.</p>
  */
 class Numerical extends Constraint implements ISubtype, IInformation, ISchemaData

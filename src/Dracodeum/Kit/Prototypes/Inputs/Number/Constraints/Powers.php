@@ -24,9 +24,9 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given number input value to a set of allowed powers.
  * 
- * @property-write int[]|float[] $values [writeonce] [transient] [coercive]
+ * @property-write int[]|float[] $values [writeonce] [transient]
  * <p>The allowed power values to restrict a given number input value to.</p>
- * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $negate [writeonce] [transient] [default = false]
  * <p>Negate the restriction condition, so the given allowed power values behave as disallowed power values instead.</p>
  */
 class Powers extends Constraint implements ISubtype, IInformation, IStringification, ISchemaData

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-read mixed $key
  * <p>The key.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  */
 class InvalidKey extends Exception

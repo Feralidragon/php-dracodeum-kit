@@ -16,13 +16,13 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read bool $unsigned [coercive] [default = false]
+ * @property-read bool $unsigned [default = false]
  * <p>Set as unsigned.</p>
- * @property-read int|null $bits [coercive] [default = null]
+ * @property-read int|null $bits [default = null]
  * <p>The number of bits.</p>
- * @property-read string|null $error_code [coercive] [default = null]
+ * @property-read string|null $error_code [default = null]
  * <p>The error code.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  */
 class IntegerCoercionFailed extends Exception implements ICoercive

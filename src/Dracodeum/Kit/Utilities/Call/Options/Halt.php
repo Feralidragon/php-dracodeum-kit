@@ -14,7 +14,7 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
 /**
  * Call utility <code>halt</code> method options.
  * 
- * @property string|null $error_message [coercive] [default = null]
+ * @property string|null $error_message [default = null]
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * <br>
@@ -29,15 +29,15 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property string|null $error_message_plural [coercive] [default = null]
+ * @property string|null $error_message_plural [default = null]
  * <p>The plural version of the <var>$error_message</var> above to use in the thrown exception.</p>
- * @property float|null $error_message_number [coercive] [default = null]
+ * @property float|null $error_message_number [default = null]
  * <p>The number to use to select either the singular (<var>$error_message</var>) 
  * or plural (<var>$error_message_plural</var>) version of the error message to use in the thrown exception.</p>
- * @property string|null $error_message_number_placeholder [coercive] [default = null]
+ * @property string|null $error_message_number_placeholder [default = null]
  * <p>The placeholder to fill with the given <var>$error_message_number</var> above in the error message 
  * (<var>$error_message</var> and <var>$error_message_plural</var>).</p>
- * @property string|null $hint_message [coercive] [default = null]
+ * @property string|null $hint_message [default = null]
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * <br>
@@ -52,29 +52,29 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property string|null $hint_message_plural [coercive] [default = null]
+ * @property string|null $hint_message_plural [default = null]
  * <p>The plural version of the <var>$hint_message</var> above to use in the thrown exception.</p>
- * @property float|null $hint_message_number [coercive] [default = null]
+ * @property float|null $hint_message_number [default = null]
  * <p>The number to use to select either the singular (<var>$hint_message</var>) 
  * or plural (<var>$hint_message_plural</var>) version of the hint message to use in the thrown exception.</p>
- * @property string|null $hint_message_number_placeholder [coercive] [default = null]
+ * @property string|null $hint_message_number_placeholder [default = null]
  * <p>The placeholder to fill with the given <var>$hint_message_number</var> above in the hint message 
  * (<var>$hint_message</var> and <var>$hint_message_plural</var>).</p>
- * @property string|null $function_name [coercive] [default = null]
+ * @property string|null $function_name [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
- * @property int $stack_offset [coercive] [default = 0]
+ * @property int $stack_offset [default = 0]
  * <p>The stack offset to use.</p>
- * @property object|string|null $object_class [coercive] [default = null]
+ * @property object|string|null $object_class [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>
- * @property array $parameters [coercive] [default = []]
+ * @property array $parameters [default = []]
  * <p>The parameters to replace the error and hint message placeholders with, 
  * as a set of <samp>name => value</samp> pairs.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use for 
  * the error and hint messages.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given error or hint message placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

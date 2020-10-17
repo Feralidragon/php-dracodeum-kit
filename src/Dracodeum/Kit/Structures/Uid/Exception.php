@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Structures\Uid;
 
 /**
- * @property-read \Dracodeum\Kit\Structures\Uid|string $uid [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Structures\Uid|string $uid
  * <p>The UID instance or class.</p>
  */
 abstract class Exception extends KitException

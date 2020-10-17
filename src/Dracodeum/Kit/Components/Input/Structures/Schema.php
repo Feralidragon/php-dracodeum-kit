@@ -12,13 +12,13 @@ use Dracodeum\Kit\Components\Input\Components\Modifier\Structures\Schema as Modi
 use Dracodeum\Kit\Utilities\Type as UType;
 
 /**
- * @property string $name [coercive]
+ * @property string $name
  * <p>The name.</p>
- * @property bool $nullable [coercive] [default = false]
+ * @property bool $nullable [default = false]
  * <p>Allow null values.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>
- * @property \Dracodeum\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [coercive] [default = []]
+ * @property \Dracodeum\Kit\Components\Input\Components\Modifier\Structures\Schema[] $modifiers [default = []]
  * <p>The modifier schema instances.</p>
  */
 class Schema extends Structure

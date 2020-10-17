@@ -12,15 +12,15 @@ use Dracodeum\Kit\Structure;
 /**
  * Root system OS (Operating System) structure.
  * 
- * @property string $name [coercive]
+ * @property string $name
  * <p>The name.</p>
- * @property string $hostname [coercive]
+ * @property string $hostname
  * <p>The hostname.</p>
- * @property string $release [coercive]
+ * @property string $release
  * <p>The release.</p>
- * @property string $information [coercive]
+ * @property string $information
  * <p>The information.</p>
- * @property string $architecture [coercive]
+ * @property string $architecture
  * <p>The architecture.</p>
  */
 final class Os extends Structure

@@ -12,7 +12,7 @@ use Dracodeum\Kit\Managers\Properties\Exception;
 /**
  * This exception is thrown from a properties manager whenever a given property is not found.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  */
 class PropertyNotFound extends Exception

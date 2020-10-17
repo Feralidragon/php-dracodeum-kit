@@ -12,7 +12,7 @@ use Dracodeum\Kit\Traits\DebugInfo\Info\Exception;
 /**
  * This exception is thrown from a debug info instance whenever a given property is not found.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  */
 class PropertyNotFound extends Exception

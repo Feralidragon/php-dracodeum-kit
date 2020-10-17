@@ -24,7 +24,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype prevents a given text input value from being empty.
  * 
- * @property-write bool $ignore_whitespace [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $ignore_whitespace [writeonce] [transient] [default = false]
  * <p>Ignore whitespace characters from a given text input value.</p>
  */
 class NonEmpty extends Constraint implements ISubtype, IInformation, ISchemaData

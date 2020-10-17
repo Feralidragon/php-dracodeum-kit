@@ -27,13 +27,13 @@ use Dracodeum\Kit\Utilities\{
  * <p>The minimum allowed value to restrict a given input value to (inclusive).</p>
  * @property-write mixed $max_value [writeonce] [transient]
  * <p>The maximum allowed value to restrict a given input value to (inclusive).</p>
- * @property-write bool $min_exclusive [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $min_exclusive [writeonce] [transient] [default = false]
  * <p>Set the minimum allowed value as exclusive, 
  * restricting a given input value to always be greater than the minimum allowed value, but never equal.</p>
- * @property-write bool $max_exclusive [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $max_exclusive [writeonce] [transient] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given input value to always be less than the maximum allowed value, but never equal.</p>
- * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $negate [writeonce] [transient] [default = false]
  * <p>Negate the restriction condition, so the given allowed range of values behaves as a disallowed range of values 
  * instead.</p>
  */

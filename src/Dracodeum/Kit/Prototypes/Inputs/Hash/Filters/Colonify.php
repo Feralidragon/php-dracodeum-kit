@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\Hash as UHash;
 /**
  * This filter prototype converts a given hash input value into a colon-hexadecimal string.
  * 
- * @property-write bool $hextets [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $hextets [writeonce] [transient] [default = false]
  * <p>Colonify a given hash input value into hextets.</p>
  */
 class Colonify extends Filter implements ISubtype, ISchemaData

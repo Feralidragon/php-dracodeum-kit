@@ -13,15 +13,15 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>truncate</code> method options.
  * 
- * @property bool $unicode [coercive] [default = false]
+ * @property bool $unicode [default = false]
  * <p>Handle the string as Unicode.</p>
- * @property bool $ellipsis [coercive] [default = false]
+ * @property bool $ellipsis [default = false]
  * <p>Add an ellipsis at the end of the truncated string.</p>
- * @property bool $keep_words [coercive] [default = false]
+ * @property bool $keep_words [default = false]
  * <p>Try to keep words preserved in the truncated string.</p>
- * @property bool $keep_sentences [coercive] [default = false]
+ * @property bool $keep_sentences [default = false]
  * <p>Try to keep sentences preserved in the truncated string.</p>
- * @property string|null $ellipsis_string [coercive] [default = null]
+ * @property string|null $ellipsis_string [default = null]
  * <p>The ellipsis string to use.<br>
  * If not set, then the internal default ellipsis string is used.</p>
  */

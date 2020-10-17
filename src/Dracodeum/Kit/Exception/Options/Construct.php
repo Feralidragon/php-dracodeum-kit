@@ -13,7 +13,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Exception <code>construct</code> method options.
  * 
- * @property string|null $message [coercive] [default = null]
+ * @property string|null $message [default = null]
  * <p>The message, optionally set with placeholders as <samp>{{placeholder}}</samp>, corresponding directly to given 
  * properties.<br>
  * <br>
@@ -28,7 +28,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * <br>
  * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
  * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
@@ -42,9 +42,9 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * <br>
  * Return: <code><b>string|null</b></code><br>
  * The stringified value for the given placeholder or <code>null</code> if no stringification occurred.</p>
- * @property int|null $code [strict] [default = null]
+ * @property int|null $code [default = null]
  * <p>The numeric code.</p>
- * @property \Throwable|null $previous [strict] [default = null]
+ * @property \Throwable|null $previous [default = null]
  * <p>The previous throwable instance.</p>
  */
 class Construct extends Options

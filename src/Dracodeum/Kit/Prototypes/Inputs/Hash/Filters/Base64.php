@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\Base64 as UBase64;
 /**
  * This filter prototype converts a given hash input value in hexadecimal notation into a Base64 encoded string.
  * 
- * @property-write bool $url_safe [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $url_safe [writeonce] [transient] [default = false]
  * <p>Use URL-safe encoding, in which the plus signs (+) and slashes (/) are replaced 
  * by hyphens (-) and underscores (_) respectively, with the padding equal signs (=) removed, 
  * in order to be safely put in a URL.</p>

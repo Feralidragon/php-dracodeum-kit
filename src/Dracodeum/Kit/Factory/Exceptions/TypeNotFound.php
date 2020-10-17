@@ -12,7 +12,7 @@ use Dracodeum\Kit\Factory\Exception;
 /**
  * This exception is thrown from a factory whenever a given type is not found.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  */
 class TypeNotFound extends Exception

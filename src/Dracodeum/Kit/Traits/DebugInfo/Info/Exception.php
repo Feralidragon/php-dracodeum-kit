@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Traits\DebugInfo\Info;
 
 /**
- * @property-read \Dracodeum\Kit\Traits\DebugInfo\Info $info [strict]
+ * @property-read \Dracodeum\Kit\Traits\DebugInfo\Info $info
  * <p>The info instance.</p>
  */
 abstract class Exception extends KitException

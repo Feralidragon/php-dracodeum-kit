@@ -35,9 +35,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * such as <samp>key1:value1,key2:value2,key3:value3</samp>;<br>
  * &nbsp; &#8226; &nbsp; a JSON array or object.
  * 
- * @property-write \Dracodeum\Kit\Components\Input|null $key_input [writeonce] [transient] [coercive] [default = null]
+ * @property-write \Dracodeum\Kit\Components\Input|null $key_input [writeonce] [transient] [default = null]
  * <p>The input instance to evaluate keys with.</p>
- * @property-write \Dracodeum\Kit\Components\Input|null $input [writeonce] [transient] [coercive] [default = null]
+ * @property-write \Dracodeum\Kit\Components\Input|null $input [writeonce] [transient] [default = null]
  * <p>The input instance to evaluate values with.</p>
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Dracodeum\Kit\Primitives\Dictionary

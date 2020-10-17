@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string|null $exec_function_full_name [coercive] [default = null]
+ * @property-read string|null $exec_function_full_name [default = null]
  * <p>The executed function full name.</p>
  */
 class ReturnError extends Exception

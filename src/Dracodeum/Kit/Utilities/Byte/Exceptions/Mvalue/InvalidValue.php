@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Byte\Exceptions\Mvalue as Exception;
 /**
  * This exception is thrown from the byte utility <code>mvalue</code> method whenever a given value is invalid.
  * 
- * @property-read string $value [coercive]
+ * @property-read string $value
  * <p>The value.</p>
  */
 class InvalidValue extends Exception

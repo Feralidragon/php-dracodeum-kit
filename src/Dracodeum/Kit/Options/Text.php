@@ -12,7 +12,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
 
 /**
- * @property int $info_scope [coercive = enumeration value] [default = INTERNAL]
+ * @property int $info_scope [default = INTERNAL]
  * <p>The info scope to use, as a value from the <code>Dracodeum\Kit\Enumerations\InfoScope</code> enumeration.</p>
  * @see \Dracodeum\Kit\Enumerations\InfoScope
  */

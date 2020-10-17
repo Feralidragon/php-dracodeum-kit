@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Text\Exceptions\Stringify as Exception;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $type [coercive] [default = auto]
+ * @property-read string $type [default = auto]
  * <p>The type.</p>
  */
 class UnsupportedValueType extends Exception

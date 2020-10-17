@@ -13,11 +13,11 @@ use Dracodeum\Kit\Utilities\Type as UType;
 /**
  * This exception is thrown from the text utility whenever a given string failed to be parsed.
  * 
- * @property-read string $string [coercive]
+ * @property-read string $string
  * <p>The string.</p>
- * @property-read string[] $fields_patterns [coercive]
+ * @property-read string[] $fields_patterns
  * <p>The fields patterns.</p>
- * @property-read string|null $key [coercive] [default = null]
+ * @property-read string|null $key [default = null]
  * <p>The key.</p>
  */
 class ParseFailed extends Exception

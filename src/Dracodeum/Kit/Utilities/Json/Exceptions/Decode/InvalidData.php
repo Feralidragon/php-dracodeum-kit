@@ -12,11 +12,11 @@ use Dracodeum\Kit\Utilities\Json\Exceptions\Decode as Exception;
 /**
  * This exception is thrown from the JSON utility <code>decode</code> method whenever given data is invalid.
  * 
- * @property-read string $data [strict]
+ * @property-read string $data
  * <p>The data.</p>
- * @property-read int|null $error_code [strict] [default = null]
+ * @property-read int|null $error_code [default = null]
  * <p>The error code.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  */
 class InvalidData extends Exception

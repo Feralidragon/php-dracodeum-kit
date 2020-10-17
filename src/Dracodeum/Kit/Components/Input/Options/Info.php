@@ -11,9 +11,9 @@ use Dracodeum\Kit\Options;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 
 /**
- * @property bool $exclude_null [coercive] [default = false]
+ * @property bool $exclude_null [default = false]
  * <p>Exclude null information.</p>
- * @property bool $exclude_modifiers [coercive] [default = false]
+ * @property bool $exclude_modifiers [default = false]
  * <p>Exclude modifiers information.</p>
  */
 class Info extends Options

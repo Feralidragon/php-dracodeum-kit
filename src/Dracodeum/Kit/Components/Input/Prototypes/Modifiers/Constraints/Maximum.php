@@ -25,7 +25,7 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @property-write mixed $value [writeonce] [transient]
  * <p>The maximum allowed value to restrict a given input value to (inclusive).</p>
- * @property-write bool $exclusive [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $exclusive [writeonce] [transient] [default = false]
  * <p>Set the maximum allowed value as exclusive, 
  * restricting a given input value to always be less than the maximum allowed value, but never equal.</p>
  */

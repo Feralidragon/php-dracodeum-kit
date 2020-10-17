@@ -18,11 +18,11 @@ use Dracodeum\Kit\Utilities\Time as UTime;
 /**
  * This filter prototype converts a given input timestamp value into a string or object using a specific format.
  * 
- * @property-write string $value [writeonce] [transient] [coercive]
+ * @property-write string $value [writeonce] [transient]
  * <p>The format value to convert a given input timestamp value into, 
  * as supported by the PHP <code>date</code> function, 
  * or as a <code>DateTime</code> or <code>DateTimeImmutable</code> class to instantiate.</p>
- * @property-write string|null $timezone [writeonce] [transient] [coercive] [default = null]
+ * @property-write string|null $timezone [writeonce] [transient] [default = null]
  * <p>The timezone to convert a given input timestamp value into, 
  * as supported by the PHP <code>date_default_timezone_set</code> function.<br>
  * If not set, then the currently set default timezone is used.</p>

@@ -19,13 +19,13 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This structure represents the UID (unique identifier) of a resource.
  * 
- * @property int|string|null $id [coercive] [default = null]
+ * @property int|string|null $id [default = null]
  * <p>The ID.</p>
- * @property string|null $name [coercive] [default = null]
+ * @property string|null $name [default = null]
  * <p>The name.</p>
  * @property string|null $scope [default = auto]
  * <p>The scope.</p>
- * @property string|null $base_scope [coercive] [default = null]
+ * @property string|null $base_scope [default = null]
  * <p>The base scope, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
  * corresponding directly to given scope IDs.<br>
  * <br>

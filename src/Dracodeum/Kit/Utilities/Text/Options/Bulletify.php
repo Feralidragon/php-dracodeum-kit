@@ -14,7 +14,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * Text utility <code>bulletify</code> method options.
  * 
- * @property string $bullet [coercive] [default = "\u{2022}"]
+ * @property string $bullet [default = "\u{2022}"]
  * <p>The bullet character to use.</p>
  */
 class Bulletify extends Options

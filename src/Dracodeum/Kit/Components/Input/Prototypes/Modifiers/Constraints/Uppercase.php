@@ -22,7 +22,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given input value to uppercase.
  * 
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given input value as Unicode.</p>
  */
 class Uppercase extends Constraint implements IInformation, ISchemaData

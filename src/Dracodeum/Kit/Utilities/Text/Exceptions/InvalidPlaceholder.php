@@ -12,9 +12,9 @@ use Dracodeum\Kit\Utilities\Text\Exception;
 /**
  * This exception is thrown from the text utility whenever a given placeholder is invalid.
  * 
- * @property-read string $placeholder [coercive]
+ * @property-read string $placeholder
  * <p>The placeholder.</p>
- * @property-read string|null $string [coercive] [default = null]
+ * @property-read string|null $string [default = null]
  * <p>The string.</p>
  */
 class InvalidPlaceholder extends Exception

@@ -27,9 +27,9 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given text input value to alphanumerical characters.
  * 
- * @property-write int|null $case [coercive = enumeration value] [default = null]
+ * @property-write int|null $case [default = null]
  * <p>The case to use, as a value from the <code>Dracodeum\Kit\Enumerations\TextCase</code> enumeration.</p>
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given text input value as Unicode.</p>
  * @see \Dracodeum\Kit\Enumerations\TextCase
  */

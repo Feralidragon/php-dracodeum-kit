@@ -12,14 +12,14 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Primitives\Vector;
 
 /**
- * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
+ * @property \Dracodeum\Kit\Primitives\Vector $tags [default = \Dracodeum\Kit\Primitives\Vector::build()]
  * <p>The tags vector instance to log with.</p>
- * @property string|null $function_name [coercive] [default = null]
+ * @property string|null $function_name [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
- * @property int $stack_offset [coercive] [default = 0]
+ * @property int $stack_offset [default = 0]
  * <p>The stack offset to use.</p>
- * @property object|string|null $object_class [coercive] [default = null]
+ * @property object|string|null $object_class [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>
  */

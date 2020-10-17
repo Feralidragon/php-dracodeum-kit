@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Managers\Memoization\Store;
 
 /**
- * @property-read \Dracodeum\Kit\Managers\Memoization\Store $store [strict]
+ * @property-read \Dracodeum\Kit\Managers\Memoization\Store $store
  * <p>The store instance.</p>
  */
 abstract class Exception extends KitException

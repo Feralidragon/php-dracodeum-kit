@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Structure;
 
 /**
- * @property-read \Dracodeum\Kit\Structure|string $structure [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Structure|string $structure
  * <p>The structure instance or class.</p>
  */
 abstract class Exception extends KitException

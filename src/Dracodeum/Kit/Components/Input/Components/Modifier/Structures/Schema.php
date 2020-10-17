@@ -10,11 +10,11 @@ namespace Dracodeum\Kit\Components\Input\Components\Modifier\Structures;
 use Dracodeum\Kit\Structure;
 
 /**
- * @property string $name [coercive]
+ * @property string $name
  * <p>The name.</p>
- * @property string $type [coercive]
+ * @property string $type
  * <p>The type.</p>
- * @property string|null $subtype [coercive] [default = null]
+ * @property string|null $subtype [default = null]
  * <p>The subtype.</p>
  * @property mixed $data [default = null]
  * <p>The data.</p>

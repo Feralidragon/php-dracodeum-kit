@@ -36,9 +36,9 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Integerable</code> interface;<br>
  * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Floatable</code> interface.
  * 
- * @property-write bool $unsigned [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unsigned [writeonce] [transient] [default = false]
  * <p>Set as an unsigned integer.</p>
- * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]
+ * @property-write int|null $bits [writeonce] [transient] [default = null]
  * <p>The number of bits to use.<br>
  * <br>
  * For signed integers, the maximum allowed number is <code>64</code>, 

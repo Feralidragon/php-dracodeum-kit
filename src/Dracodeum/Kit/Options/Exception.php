@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Options;
 
 /**
- * @property-read \Dracodeum\Kit\Options|string $options [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Options|string $options
  * <p>The options instance or class.</p>
  */
 abstract class Exception extends KitException

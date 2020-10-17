@@ -16,7 +16,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $error_message [coercive]
+ * @property-read string $error_message
  * <p>The error message.</p>
  */
 class ValueCoercionFailed extends Exception implements ICoercive

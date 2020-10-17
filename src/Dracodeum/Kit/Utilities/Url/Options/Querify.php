@@ -13,11 +13,11 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * URL utility <code>querify</code> method options.
  * 
- * @property string $delimiter [coercive] [default = '&']
+ * @property string $delimiter [default = '&']
  * <p>The delimiter to use between key-value pairs.</p>
- * @property bool $allow_arrays [coercive] [default = false]
+ * @property bool $allow_arrays [default = false]
  * <p>Allow array values to be querified.</p>
- * @property bool $no_encode [coercive] [default = false]
+ * @property bool $no_encode [default = false]
  * <p>Do not encode the keys nor the values.</p>
  */
 class Querify extends Options

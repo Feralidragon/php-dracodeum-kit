@@ -16,17 +16,17 @@ use Dracodeum\Kit\Root\Locale;
 /**
  * Root locale <code>translate</code> method options.
  * 
- * @property array $parameters [coercive] [default = []]
+ * @property array $parameters [default = []]
  * <p>The parameters to replace the respective message placeholders with, 
  * as a set of <samp>name => value</samp> pairs.</p>
- * @property int $info_scope [coercive = enumeration value] [default = INTERNAL]
+ * @property int $info_scope [default = INTERNAL]
  * <p>The info scope to use, as a value from the <code>Dracodeum\Kit\Enumerations\InfoScope</code> enumeration.</p>
- * @property string|null $language [coercive = language] [default = null]
+ * @property string|null $language [default = null]
  * <p>The language ISO 639 code to translate the message to.<br>
  * If not set, then the currently set locale language is used.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = auto]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [default = auto]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

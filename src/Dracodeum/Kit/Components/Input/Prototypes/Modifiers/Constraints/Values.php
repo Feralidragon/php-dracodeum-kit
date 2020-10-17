@@ -20,9 +20,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a given input value to a set of allowed values.
  * 
- * @property-write array $values [writeonce] [transient] [coercive]
+ * @property-write array $values [writeonce] [transient]
  * <p>The allowed values to restrict a given input value to.</p>
- * @property-write bool $negate [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $negate [writeonce] [transient] [default = false]
  * <p>Negate the restriction condition, so the given allowed values behave as disallowed values instead.</p>
  */
 class Values extends Constraint implements IInformation, IStringification, ISchemaData

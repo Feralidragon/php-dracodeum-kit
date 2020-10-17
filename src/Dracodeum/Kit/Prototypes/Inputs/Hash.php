@@ -38,9 +38,9 @@ use Dracodeum\Kit\Utilities\{
  * &nbsp; &#8226; &nbsp; a Base64 or a URL-safe Base64 encoded string;<br>
  * &nbsp; &#8226; &nbsp; a raw binary string.
  * 
- * @property-write int|null $bits [writeonce] [transient] [coercive] [default = null]
+ * @property-write int|null $bits [writeonce] [transient] [default = null]
  * <p>The number of bits to use.</p>
- * @property-write string|null $label [writeonce] [transient] [coercive] [default = null]
+ * @property-write string|null $label [writeonce] [transient] [default = null]
  * <p>The label to use.</p>
  * @see https://en.wikipedia.org/wiki/Hash_function
  * @see \Dracodeum\Kit\Prototypes\Inputs\Hash\Constraints\Values

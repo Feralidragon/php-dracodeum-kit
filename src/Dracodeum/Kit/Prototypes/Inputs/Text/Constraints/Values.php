@@ -18,9 +18,9 @@ use Dracodeum\Kit\Utilities\{
 };
 
 /**
- * @property-write bool $insensitive [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $insensitive [writeonce] [transient] [default = false]
  * <p>Restrict a given text input value to the given allowed values in a case-insensitive manner.</p>
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Check a given text input value as Unicode.</p>
  */
 class Values extends Constraints\Values implements ISubtype

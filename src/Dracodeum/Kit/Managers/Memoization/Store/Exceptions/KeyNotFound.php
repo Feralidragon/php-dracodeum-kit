@@ -12,7 +12,7 @@ use Dracodeum\Kit\Managers\Memoization\Store\Exception;
 /**
  * This exception is thrown from a store whenever a given key is not found.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  */
 class KeyNotFound extends Exception

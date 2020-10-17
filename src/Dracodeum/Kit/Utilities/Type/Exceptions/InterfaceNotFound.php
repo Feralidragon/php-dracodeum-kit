@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Type\Exception;
 /**
  * This exception is thrown from the type utility whenever a given interface is not found.
  * 
- * @property-read string $interface [coercive]
+ * @property-read string $interface
  * <p>The interface.</p>
  */
 class InterfaceNotFound extends Exception

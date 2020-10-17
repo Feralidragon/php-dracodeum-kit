@@ -23,9 +23,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a given dictionary input value to a range of lengths.
  * 
- * @property-write int $min_value [writeonce] [transient] [coercive]
+ * @property-write int $min_value [writeonce] [transient]
  * <p>The minimum length value to restrict a given dictionary input value to.</p>
- * @property-write int $max_value [writeonce] [transient] [coercive]
+ * @property-write int $max_value [writeonce] [transient]
  * <p>The maximum length value to restrict a given dictionary input value to.</p>
  */
 class LengthRange extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData

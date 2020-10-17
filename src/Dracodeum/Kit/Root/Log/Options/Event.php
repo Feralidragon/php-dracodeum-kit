@@ -13,26 +13,26 @@ use Dracodeum\Kit\Primitives\Vector;
 use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
 
 /**
- * @property string|null $name [coercive] [default = null]
+ * @property string|null $name [default = null]
  * <p>The name to log with.</p>
  * @property mixed $data [default = null]
  * <p>The data to log with.</p>
- * @property \Dracodeum\Kit\Primitives\Vector $tags [coercive] [default = \Dracodeum\Kit\Primitives\Vector::build()]
+ * @property \Dracodeum\Kit\Primitives\Vector $tags [default = \Dracodeum\Kit\Primitives\Vector::build()]
  * <p>The tags vector instance to log with, with each value coerced into a string.</p>
- * @property string|null $function_name [coercive] [default = null]
+ * @property string|null $function_name [default = null]
  * <p>The function or method name to use.<br>
  * If not set, then the name of the current function or method in the stack is used.</p>
- * @property int $stack_offset [coercive] [default = 0]
+ * @property int $stack_offset [default = 0]
  * <p>The stack offset to use.</p>
- * @property object|string|null $object_class [coercive] [default = null]
+ * @property object|string|null $object_class [default = null]
  * <p>The object or class to use.<br>
  * If not set, then the object or class of the current function or method in the stack is used.</p>
- * @property array $parameters [coercive] [default = []]
+ * @property array $parameters [default = []]
  * <p>The parameters to replace the given message placeholders with, as a set of <samp>name => value</samp> pairs.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use for 
  * the given message.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given message placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

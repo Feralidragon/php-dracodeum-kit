@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Primitives\Vector;
 
 /**
- * @property-read \Dracodeum\Kit\Primitives\Vector|string $vector [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Primitives\Vector|string $vector
  * <p>The vector instance or class.</p>
  */
 abstract class Exception extends KitException

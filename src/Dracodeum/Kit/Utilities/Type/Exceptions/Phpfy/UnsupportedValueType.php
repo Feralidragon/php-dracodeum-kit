@@ -14,9 +14,9 @@ use Dracodeum\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
  * 
  * @property-read mixed $value
  * <p>The value.</p>
- * @property-read string $type [coercive] [default = auto]
+ * @property-read string $type [default = auto]
  * <p>The type.</p>
- * @property-read string|null $hint_message [coercive] [default = null]
+ * @property-read string|null $hint_message [default = null]
  * <p>The hint message.</p>
  */
 class UnsupportedValueType extends Exception

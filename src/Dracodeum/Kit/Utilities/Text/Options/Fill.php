@@ -13,7 +13,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>fill</code> method options.
  * 
- * @property callable|null $evaluator [coercive] [default = null]
+ * @property callable|null $evaluator [default = null]
  * <p>The function to use to evaluate a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>
@@ -27,9 +27,9 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * <br>
  * Return: <code><b>bool</b></code><br>
  * Boolean <code>true</code> if the given value was successfully evaluated for the given placeholder.</p>
- * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [coercive] [default = null]
+ * @property \Dracodeum\Kit\Utilities\Text\Options\Stringify $string_options [default = null]
  * <p>The text utility <code>Dracodeum\Kit\Utilities\Text</code> stringification method options to use.</p>
- * @property callable|null $stringifier [coercive] [default = null]
+ * @property callable|null $stringifier [default = null]
  * <p>The function to use to stringify a given value for a given placeholder.<br>
  * It is expected to be compatible with the following signature:<br>
  * <br>

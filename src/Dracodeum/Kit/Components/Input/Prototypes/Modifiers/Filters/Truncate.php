@@ -23,18 +23,18 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This filter prototype truncates a given input value to a specific length.
  * 
- * @property-write int $length [writeonce] [transient] [coercive]
+ * @property-write int $length [writeonce] [transient]
  * <p>The length to truncate a given input value to.</p>
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Handle a given input value as Unicode.</p>
- * @property-write bool $ellipsis [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $ellipsis [writeonce] [transient] [default = false]
  * <p>Add an ellipsis at the end of the truncated input value.</p>
- * @property-write string|null $ellipsis_string [writeonce] [coercive] [default = null]
+ * @property-write string|null $ellipsis_string [writeonce] [default = null]
  * <p>The ellipsis string to use.<br>
  * If not set, then the internal default ellipsis string is used.</p>
- * @property-write bool $keep_words [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $keep_words [writeonce] [transient] [default = false]
  * <p>Try to keep words preserved in the truncated input value.</p>
- * @property-write bool $keep_sentences [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $keep_sentences [writeonce] [transient] [default = false]
  * <p>Try to keep sentences preserved in the truncated input value.</p>
  */
 class Truncate extends Filter implements IInformation, IStringification, ISchemaData

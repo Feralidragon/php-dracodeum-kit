@@ -13,9 +13,9 @@ use Dracodeum\Kit\Utilities\Text\Exceptions\Extract as Exception;
  * This exception is thrown from the text utility <code>extract</code> method whenever a given string fails 
  * to match against a given mask.
  * 
- * @property-read string $string [coercive]
+ * @property-read string $string
  * <p>The string.</p>
- * @property-read string $mask [coercive]
+ * @property-read string $mask
  * <p>The mask.</p>
  */
 class MatchFailed extends Exception

@@ -13,7 +13,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * URL utility <code>unquerify</code> method options.
  * 
- * @property bool $allow_arrays [coercive] [default = false]
+ * @property bool $allow_arrays [default = false]
  * <p>Allow the given string to be unquerified into array values.</p>
  */
 class Unquerify extends Options

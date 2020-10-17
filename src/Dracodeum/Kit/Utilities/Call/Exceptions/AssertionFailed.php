@@ -15,11 +15,11 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * This exception is thrown from the call utility whenever an assertion on the compatibility of a given function 
  * towards a given template fails.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
- * @property-read callable|array|string $function [strict]
+ * @property-read callable|array|string $function
  * <p>The function.</p>
- * @property-read callable|array|string $template [strict]
+ * @property-read callable|array|string $template
  * <p>The template.</p>
  * @property-read string $function_signature [readonly] [default = auto]
  * <p>The function signature.<br>
@@ -27,9 +27,9 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * @property-read string $template_signature [readonly] [default = auto]
  * <p>The template signature.<br>
  * It is automatically retrieved from the given <var>$template</var> property above.</p>
- * @property-read object|string|null $source_object_class [coercive = object or class] [default = null]
+ * @property-read object|string|null $source_object_class [default = null]
  * <p>The source object or class.</p>
- * @property-read string|null $source_function_name [coercive] [default = null]
+ * @property-read string|null $source_function_name [default = null]
  * <p>The source function or method name.</p>
  */
 class AssertionFailed extends Exception implements IAssertive

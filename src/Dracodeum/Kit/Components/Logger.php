@@ -17,10 +17,10 @@ use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 /**
  * This component represents a logger which processes and persists log events.
  * 
- * @property-write int|null $min_level [writeonce] [transient] [coercive = enumeration value] [default = null]
+ * @property-write int|null $min_level [writeonce] [transient] [default = null]
  * <p>The minimum allowed level to add a given event with, 
  * as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
- * @property-write int|null $max_level [writeonce] [transient] [coercive = enumeration value] [default = null]
+ * @property-write int|null $max_level [writeonce] [transient] [default = null]
  * <p>The maximum allowed level to add a given event with, 
  * as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
  * @see \Dracodeum\Kit\Prototypes\Logger

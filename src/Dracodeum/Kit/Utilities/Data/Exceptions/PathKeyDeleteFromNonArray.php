@@ -13,11 +13,11 @@ use Dracodeum\Kit\Utilities\Data\Exception;
  * This exception is thrown from the data utility whenever there is an attempt to delete a given path key 
  * from a non-array value.
  * 
- * @property-read array $array [coercive]
+ * @property-read array $array
  * <p>The array.</p>
- * @property-read string $path [coercive]
+ * @property-read string $path
  * <p>The path.</p>
- * @property-read string $key [coercive]
+ * @property-read string $key
  * <p>The key.</p>
  * @property-read mixed $value
  * <p>The value.</p>

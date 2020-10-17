@@ -27,9 +27,9 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given text input value to an identifier format.
  * 
- * @property-write bool $extended [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $extended [writeonce] [transient] [default = false]
  * <p>Allow an extended format, where dots may be used as delimiters between words to represent pointers.</p>
- * @property-write int|null $case [coercive = enumeration value] [default = null]
+ * @property-write int|null $case [default = null]
  * <p>The case to use, as a value from the <code>Dracodeum\Kit\Enumerations\TextCase</code> enumeration.</p>
  * @see \Dracodeum\Kit\Enumerations\TextCase
  */

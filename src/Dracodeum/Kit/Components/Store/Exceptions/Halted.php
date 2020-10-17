@@ -14,9 +14,9 @@ use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
 /**
  * This exception is thrown from a store whenever execution is halted for a given resource.
  * 
- * @property-read \Dracodeum\Kit\Structures\Uid $uid [coercive]
+ * @property-read \Dracodeum\Kit\Structures\Uid $uid
  * <p>The UID instance.</p>
- * @property-read string $type [coercive = enumeration value]
+ * @property-read string $type
  * <p>The type, as a value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
  * @see \Dracodeum\Kit\Components\Store\Enumerations\Halt\Type
  */

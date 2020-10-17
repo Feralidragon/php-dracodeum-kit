@@ -12,7 +12,7 @@ use Dracodeum\Kit\Primitives\Vector\Exception;
 /**
  * This exception is thrown from a vector whenever no value is set at a given index.
  * 
- * @property-read int $index [strict]
+ * @property-read int $index
  * <p>The index.</p>
  */
 class ValueNotSet extends Exception

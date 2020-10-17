@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Math\Exceptions\Mnumber as Exception;
 /**
  * This exception is thrown from the math utility <code>mnumber</code> method whenever a given number is invalid.
  * 
- * @property-read string $number [coercive]
+ * @property-read string $number
  * <p>The number.</p>
  */
 class InvalidNumber extends Exception

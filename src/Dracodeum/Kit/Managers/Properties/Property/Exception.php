@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Managers\Properties\Property;
 
 /**
- * @property-read \Dracodeum\Kit\Managers\Properties\Property $property [strict]
+ * @property-read \Dracodeum\Kit\Managers\Properties\Property $property
  * <p>The property instance.</p>
  */
 abstract class Exception extends KitException

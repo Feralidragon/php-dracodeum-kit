@@ -14,9 +14,9 @@ use Dracodeum\Kit\Utilities\Json\Exceptions\Encode as Exception;
  * 
  * @property-read mixed $data
  * <p>The data.</p>
- * @property-read int|null $error_code [strict] [default = null]
+ * @property-read int|null $error_code [default = null]
  * <p>The error code.</p>
- * @property-read string|null $error_message [coercive] [default = null]
+ * @property-read string|null $error_message [default = null]
  * <p>The error message.</p>
  */
 class InvalidData extends Exception

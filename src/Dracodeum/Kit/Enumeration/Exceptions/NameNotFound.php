@@ -12,7 +12,7 @@ use Dracodeum\Kit\Enumeration\Exception;
 /**
  * This exception is thrown from an enumeration whenever a given name is not found.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  */
 class NameNotFound extends Exception

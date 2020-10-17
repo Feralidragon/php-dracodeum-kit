@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This filter prototype converts a given input value to lowercase.
  * 
- * @property-write bool $unicode [writeonce] [transient] [coercive] [default = false]
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Convert a given input value as Unicode.</p>
  */
 class Lowercase extends Filter implements ISchemaData

@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Primitives\Dictionary;
 
 /**
- * @property-read \Dracodeum\Kit\Primitives\Dictionary|string $dictionary [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Primitives\Dictionary|string $dictionary
  * <p>The dictionary instance or class.</p>
  */
 abstract class Exception extends KitException

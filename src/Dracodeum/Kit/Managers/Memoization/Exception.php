@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Managers\Memoization as Manager;
 
 /**
- * @property-read \Dracodeum\Kit\Managers\Memoization $manager [strict]
+ * @property-read \Dracodeum\Kit\Managers\Memoization $manager
  * <p>The manager instance.</p>
  */
 abstract class Exception extends KitException

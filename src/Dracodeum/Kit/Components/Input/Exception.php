@@ -11,9 +11,9 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Components\Input as Component;
 
 /**
- * @property-read \Dracodeum\Kit\Components\Input $component [strict]
+ * @property-read \Dracodeum\Kit\Components\Input $component
  * <p>The component instance.</p>
- * @property-read \Dracodeum\Kit\Prototypes\Input $prototype [strict]
+ * @property-read \Dracodeum\Kit\Prototypes\Input $prototype
  * <p>The prototype instance.</p>
  */
 abstract class Exception extends KitException

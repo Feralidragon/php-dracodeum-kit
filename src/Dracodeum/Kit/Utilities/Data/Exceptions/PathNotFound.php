@@ -12,9 +12,9 @@ use Dracodeum\Kit\Utilities\Data\Exception;
 /**
  * This exception is thrown from the data utility whenever a given path is not found.
  * 
- * @property-read array $array [coercive]
+ * @property-read array $array
  * <p>The array.</p>
- * @property-read string $path [coercive]
+ * @property-read string $path
  * <p>The path.</p>
  */
 class PathNotFound extends Exception

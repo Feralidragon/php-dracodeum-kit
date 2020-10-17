@@ -12,9 +12,9 @@ use Dracodeum\Kit\Utilities\Base64\Exceptions\Decode as Exception;
 /**
  * This exception is thrown from the Base64 utility <code>decode</code> method whenever a given string is invalid.
  * 
- * @property-read string $string [coercive]
+ * @property-read string $string
  * <p>The string.</p>
- * @property-read bool $url_safe [coercive] [default = false]
+ * @property-read bool $url_safe [default = false]
  * <p>URL-safe decoding.</p>
  */
 class InvalidString extends Exception

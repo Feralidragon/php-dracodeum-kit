@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Base64\Exceptions\Normalize as Exception;
 /**
  * This exception is thrown from the Base64 utility <code>normalize</code> method whenever a given string is invalid.
  * 
- * @property-read string $string [coercive]
+ * @property-read string $string
  * <p>The string.</p>
  */
 class InvalidString extends Exception

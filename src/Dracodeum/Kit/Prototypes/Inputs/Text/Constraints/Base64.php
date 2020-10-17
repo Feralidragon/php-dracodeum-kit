@@ -25,7 +25,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This constraint prototype restricts a given text input value to a Base64 format.
  * 
- * @property-write bool|null $url_safe [writeonce] [transient] [coercive] [default = null]
+ * @property-write bool|null $url_safe [writeonce] [transient] [default = null]
  * <p>Allow or disallow the URL-safe format only, in which the plus signs (<samp>+</samp>) and slashes (<samp>/</samp>) 
  * are replaced by hyphens (<samp>-</samp>) and underscores (<samp>_</samp>) respectively, 
  * with the padding equal signs (<samp>=</samp>) removed, in order to be safely put in a URL.<br>

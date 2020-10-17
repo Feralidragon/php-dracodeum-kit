@@ -13,11 +13,11 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Type utility <code>phpfy</code> method options.
  * 
- * @property bool $pretty [coercive] [default = false]
+ * @property bool $pretty [default = false]
  * <p>Return human-readable and visually appealing PHP code.</p>
- * @property bool $no_throw [coercive] [default = false]
+ * @property bool $no_throw [default = false]
  * <p>Do not throw an exception.</p>
- * @property int|null $spaces [coercive] [default = null]
+ * @property int|null $spaces [default = null]
  * <p>The number of space characters to use for indentation.<br>
  * If not set, then a tab character is used.</p>
  */

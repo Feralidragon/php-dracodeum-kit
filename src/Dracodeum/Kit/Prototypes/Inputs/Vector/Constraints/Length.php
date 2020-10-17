@@ -24,7 +24,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This constraint prototype restricts a given vector input value to an exact length.
  * 
- * @property-write int $value [writeonce] [transient] [coercive]
+ * @property-write int $value [writeonce] [transient]
  * <p>The length value to restrict a given vector input value to.</p>
  */
 class Length extends Constraint implements ISubtype, IPriority, IInformation, IStringification, ISchemaData

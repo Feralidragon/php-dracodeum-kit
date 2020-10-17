@@ -12,7 +12,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
 /**
  * Text utility <code>mparse</code> method options.
  * 
- * @property bool $keep_nulls [coercive] [default = false]
+ * @property bool $keep_nulls [default = false]
  * <p>Keep the <code>null</code> values in the returned array.</p>
  */
 class Mparse extends Parse

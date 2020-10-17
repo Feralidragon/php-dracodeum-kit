@@ -11,7 +11,7 @@ use Dracodeum\Kit\Exception as KitException;
 use Dracodeum\Kit\Component;
 
 /**
- * @property-read \Dracodeum\Kit\Component|string $component [coercive = object or class]
+ * @property-read \Dracodeum\Kit\Component|string $component
  * <p>The component instance or class.</p>
  */
 abstract class Exception extends KitException

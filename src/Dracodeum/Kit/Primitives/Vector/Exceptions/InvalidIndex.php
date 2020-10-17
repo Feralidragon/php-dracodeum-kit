@@ -12,9 +12,9 @@ use Dracodeum\Kit\Primitives\Vector\Exception;
 /**
  * This exception is thrown from a vector whenever a given index is invalid.
  * 
- * @property-read int $index [strict]
+ * @property-read int $index
  * <p>The index.</p>
- * @property-read int|null $max_index [strict] [default = null]
+ * @property-read int|null $max_index [default = null]
  * <p>The maximum allowed index.</p>
  */
 class InvalidIndex extends Exception

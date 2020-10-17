@@ -12,7 +12,7 @@ use Dracodeum\Kit\Root\System\Exception;
 /**
  * Root system <code>setIniOption</code> method exception.
  * 
- * @property-read string $name [coercive]
+ * @property-read string $name
  * <p>The name.</p>
  * @property-read mixed $value
  * <p>The value.</p>

@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Type\Exception;
 /**
  * This exception is thrown from the type utility whenever a given object is not persistable.
  * 
- * @property-read object $object [strict]
+ * @property-read object $object
  * <p>The object.</p>
  */
 class NotPersistableObject extends Exception

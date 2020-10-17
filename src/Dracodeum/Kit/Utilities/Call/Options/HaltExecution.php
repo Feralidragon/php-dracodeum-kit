@@ -14,7 +14,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * 
  * @property mixed $value [default = null]
  * <p>The value, returned by the given executed function, to use.</p>
- * @property \Exception|null $exception [strict] [default = null]
+ * @property \Exception|null $exception [default = null]
  * <p>The exception instance, thrown from the given executed function, to use.</p>
  */
 class HaltExecution extends Halt
