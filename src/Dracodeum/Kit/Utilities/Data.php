@@ -1085,7 +1085,7 @@ final class Data extends Utility
 	/**
 	 * Intersect two given arrays strictly and recursively.
 	 * 
-	 * The intersection is performed in such a way that the returning array is only composed by the values from 
+	 * The intersection is performed in such a way that the returning array is only composed of the values from 
 	 * the first array which also strictly exist in the second one as well, as not only the values are considered, 
 	 * but also their types as well.<br>
 	 * <br>
@@ -1251,7 +1251,7 @@ final class Data extends Utility
 	/**
 	 * Differentiate two given arrays strictly and recursively.
 	 * 
-	 * The differentiation is performed in such a way that the returning array is only composed by the values 
+	 * The differentiation is performed in such a way that the returning array is only composed of the values 
 	 * from the first array which strictly do not exist in the second one, as not only the values are considered, 
 	 * but also their types as well.<br>
 	 * <br>

@@ -93,7 +93,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	 * Get default message.
 	 * 
 	 * Placeholders may optionally be set as <samp>{{placeholder}}</samp>, 
-	 * corresponding directly to properties in this exception, and must be exclusively composed by identifiers.<br>
+	 * corresponding directly to properties in this exception, and must be exclusively composed of identifiers.<br>
 	 * <br>
 	 * Identifiers are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 

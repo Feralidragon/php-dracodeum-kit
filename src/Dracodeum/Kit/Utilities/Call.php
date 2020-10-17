@@ -87,7 +87,7 @@ final class Call extends Utility
 	 * &nbsp; &#8226; &nbsp; a callable;<br>
 	 * &nbsp; &#8226; &nbsp; an array with exactly 2 elements, with the first element being an interface name, 
 	 * class name or instance, and the second element being a method name, such as <code>['Class', 'method']</code>;<br>
-	 * &nbsp; &#8226; &nbsp; a string as a function or method name, with a method being composed by an interface or 
+	 * &nbsp; &#8226; &nbsp; a string as a function or method name, with a method being composed of an interface or 
 	 * class name and method name, delimited by <samp>::</samp> or <samp>-&gt;</samp>, 
 	 * such as <samp>Class::method</samp>.<br>
 	 * <br>

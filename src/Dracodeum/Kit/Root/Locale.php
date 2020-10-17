@@ -183,7 +183,7 @@ final class Locale implements IUninstantiable
 	 * Translate a given message.
 	 * 
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively 
-	 * composed by identifiers, which are defined as words which must start with a letter 
+	 * composed of identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
@@ -259,7 +259,7 @@ final class Locale implements IUninstantiable
 	 * Translate a given plural message.
 	 * 
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively 
-	 * composed by identifiers, which are defined as words which must start with a letter 
+	 * composed of identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>

@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <p>The error message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * <br>
- * If set, then placeholders must be exclusively composed by identifiers, 
+ * If set, then placeholders must be exclusively composed of identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -41,7 +41,7 @@ use Dracodeum\Kit\Utilities\Text\Options\Stringify as StringOptions;
  * <p>The hint message to use in the thrown exception, 
  * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
  * <br>
- * If set, then placeholders must be exclusively composed by identifiers, 
+ * If set, then placeholders must be exclusively composed of identifiers, 
  * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
  * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
  * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>

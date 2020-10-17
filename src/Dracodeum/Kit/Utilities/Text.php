@@ -664,7 +664,7 @@ final class Text extends Utility
 	 * 
 	 * A given string is only considered to be an identifier as a word which starts with 
 	 * an ASCII letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and is exclusively composed by ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
+	 * and is exclusively composed of ASCII letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * 
 	 * @param string $string
@@ -737,7 +737,7 @@ final class Text extends Utility
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
 	 * with each parameter being stringified.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed of 
 	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -874,7 +874,7 @@ final class Text extends Utility
 	 * The process of filling a given string consists in replacing its placeholders by the given parameters, 
 	 * with each parameter being stringified.<br>
 	 * <br>
-	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * Placeholders must be set in the string as <samp>{{placeholder}}</samp>, and they must be exclusively composed of 
 	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -922,7 +922,7 @@ final class Text extends Utility
 	/**
 	 * Check if a given string is a placeholder.
 	 * 
-	 * A given string is only considered to be a placeholder if its is exclusively composed by identifiers, 
+	 * A given string is only considered to be a placeholder if its is exclusively composed of identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -1017,7 +1017,7 @@ final class Text extends Utility
 	 * Get placeholders from a given string.
 	 * 
 	 * Placeholders must be present in the given string as <samp>{{placeholder}}</samp>, 
-	 * and they must be exclusively composed by identifiers, which are defined as words which must start with 
+	 * and they must be exclusively composed of identifiers, which are defined as words which must start with 
 	 * a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain 
 	 * letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
@@ -1061,7 +1061,7 @@ final class Text extends Utility
 	/**
 	 * Extract parameters from a given string using a given mask.
 	 * 
-	 * The extraction of parameters from a given string uses a given mask composed by placeholders.<br>
+	 * The extraction of parameters from a given string uses a given mask composed of placeholders.<br>
 	 * These placeholders are used as the matching wildcards and the corresponding parameter keys to extract the 
 	 * corresponding values from the given string.<br>
 	 * <br>
@@ -1071,7 +1071,7 @@ final class Text extends Utility
 	 * returns:<br>
 	 * <code>['user' => 'foo', 'path' => 'bar']</code><br>
 	 * <br>
-	 * Placeholders must be set in the mask as <samp>{{placeholder}}</samp>, and they must be exclusively composed by 
+	 * Placeholders must be set in the mask as <samp>{{placeholder}}</samp>, and they must be exclusively composed of 
 	 * identifiers, which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -1664,7 +1664,7 @@ final class Text extends Utility
 	 * Check if a given string is in camel case notation.
 	 * 
 	 * A given string is only considered to be in camel case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by ASCII alphanumeric characters 
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed of ASCII alphanumeric characters 
 	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
 	 * The strings <samp>foo</samp> and <samp>fooBar</samp> are two examples of camel case notation.
@@ -1685,7 +1685,7 @@ final class Text extends Utility
 	 * Check if a given string is in pascal case notation.
 	 * 
 	 * A given string is only considered to be in pascal case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by ASCII alphanumeric characters 
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed of ASCII alphanumeric characters 
 	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>).<br>
 	 * <br>
 	 * The strings <samp>Foo</samp> and <samp>FooBar</samp> are two examples of pascal case notation.
@@ -1706,7 +1706,7 @@ final class Text extends Utility
 	 * Check if a given string is in snake case notation.
 	 * 
 	 * A given string is only considered to be in snake case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters 
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed of lowercase ASCII alphanumeric characters 
 	 * (<samp>0-9</samp> and <samp>a-z</samp>), with words delimited by 
 	 * a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
@@ -1728,7 +1728,7 @@ final class Text extends Utility
 	 * Check if a given string is in kebab case notation.
 	 * 
 	 * A given string is only considered to be in kebab case notation if it starts with a lowercase character 
-	 * from <samp>a</samp> to <samp>z</samp> and is only composed by lowercase ASCII alphanumeric characters 
+	 * from <samp>a</samp> to <samp>z</samp> and is only composed of lowercase ASCII alphanumeric characters 
 	 * (<samp>0-9</samp> and <samp>a-z</samp>), with words delimited by 
 	 * a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
@@ -1749,7 +1749,7 @@ final class Text extends Utility
 	 * Check if a given string is in macro case notation.
 	 * 
 	 * A given string is only considered to be in macro case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters 
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed of uppercase ASCII alphanumeric characters 
 	 * (<samp>0-9</samp> and <samp>A-Z</samp>), with words delimited by 
 	 * a single underscore (<samp>_</samp>) between them.<br>
 	 * <br>
@@ -1770,7 +1770,7 @@ final class Text extends Utility
 	 * Check if a given string is in cobol case notation.
 	 * 
 	 * A given string is only considered to be in cobol case notation if it starts with an uppercase character 
-	 * from <samp>A</samp> to <samp>Z</samp> and is only composed by uppercase ASCII alphanumeric characters 
+	 * from <samp>A</samp> to <samp>Z</samp> and is only composed of uppercase ASCII alphanumeric characters 
 	 * (<samp>0-9</samp> and <samp>A-Z</samp>), with words delimited by 
 	 * a single hyphen (<samp>-</samp>) between them.<br>
 	 * <br>
@@ -1791,7 +1791,7 @@ final class Text extends Utility
 	 * Get case notation from a given string.
 	 * 
 	 * The returning case notation from the given string is recognized by checking mostly the case of each character, 
-	 * and only strings exclusively composed by ASCII alphanumeric characters 
+	 * and only strings exclusively composed of ASCII alphanumeric characters 
 	 * (<samp>0-9</samp>, <samp>a-z</samp> and <samp>A-Z</samp>), optionally with underscore (<samp>_</samp>) 
 	 * or hyphen (<samp>-</samp>) as delimiters, are considered.<br>
 	 * <br>
@@ -2123,7 +2123,7 @@ final class Text extends Utility
 	 * Localize a given message.
 	 * 
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, 
-	 * and they must be exclusively composed by identifiers, which are defined as words which must start with a letter 
+	 * and they must be exclusively composed of identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>
@@ -2192,7 +2192,7 @@ final class Text extends Utility
 	 * Localize a given plural message.
 	 * 
 	 * Placeholders may optionally be set in the message as <samp>{{placeholder}}</samp>, and they must be exclusively 
-	 * composed by identifiers, which are defined as words which must start with a letter 
+	 * composed of identifiers, which are defined as words which must start with a letter 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), and may only contain letters 
 	 * (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
 	 * <br>

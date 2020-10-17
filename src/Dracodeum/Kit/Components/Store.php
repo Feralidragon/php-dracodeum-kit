@@ -126,7 +126,7 @@ class Store extends Component
 	 * <p>The base scope to get from, optionally set with placeholders as <samp>{{placeholder}}</samp>, 
 	 * corresponding directly to given scope IDs.<br>
 	 * <br>
-	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * If set, then placeholders must be exclusively composed of identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>

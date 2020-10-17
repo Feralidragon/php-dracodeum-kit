@@ -1247,7 +1247,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param string $message
 	 * <p>The message to log with, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
 	 * <br>
-	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * If set, then placeholders must be exclusively composed of identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -1287,7 +1287,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The message in singular form to log with, 
 	 * optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
 	 * <br>
-	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * If set, then placeholders must be exclusively composed of identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
@@ -1301,7 +1301,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param string $message2
 	 * <p>The message in plural form to log with, optionally set with placeholders as <samp>{{placeholder}}</samp>.<br>
 	 * <br>
-	 * If set, then placeholders must be exclusively composed by identifiers, 
+	 * If set, then placeholders must be exclusively composed of identifiers, 
 	 * which are defined as words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) 
 	 * or underscore (<samp>_</samp>), and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), 
 	 * digits (<samp>0-9</samp>) and underscores (<samp>_</samp>).<br>
