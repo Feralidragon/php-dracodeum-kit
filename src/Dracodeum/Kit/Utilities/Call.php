@@ -351,21 +351,34 @@ final class Call extends Utility
 				//type
 				$type = ($flags & self::PARAMETERS_NO_MIXED_TYPE) ? '' : 'mixed';
 				$ptype = $parameter->getType();
-				if (isset($ptype)) {
-					$type = (string)$ptype;
-					if ($flags & (self::PARAMETERS_TYPES_SHORT_NAMES | self::PARAMETERS_NAMESPACES_LEADING_SLASH)) {
-						$ptype_class = $parameter->getClass();
-						if (isset($ptype_class)) {
+				if ($ptype !== null) {
+					//initialize
+					$types_map = array_flip(Type::mnormalize((string)$ptype));
+					unset($types_map['null']);
+					
+					//types
+					$types = [];
+					foreach ($types_map as $t => $i) {
+						if (Type::exists($t)) {
 							if ($flags & self::PARAMETERS_TYPES_SHORT_NAMES) {
-								$type = $ptype_class->getShortName();
+								$t = Type::shortname($t);
 							} elseif ($flags & self::PARAMETERS_NAMESPACES_LEADING_SLASH) {
-								$type = "\\{$type}";
+								$t = "\\{$t}";
 							}
 						}
+						$types[] = $t;
 					}
+					
+					//type
+					$type = implode('|', $types);
+					
+					//null
 					if ($ptype->allowsNull()) {
-						$type = "?{$type}";
+						$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
 					}
+					
+					//finalize
+					unset($types_map, $types);
 				}
 				
 				//name
@@ -446,22 +459,30 @@ final class Call extends Utility
 	{
 		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
-		if (isset($rtype)) {
-			//type
-			$type = (string)$rtype;
+		if ($rtype !== null) {
+			//initialize
+			$types_map = array_flip(Type::mnormalize((string)$rtype));
+			unset($types_map['null']);
 			
-			//flags
-			if (Type::exists($type)) {
-				if ($flags & self::TYPE_SHORT_NAME) {
-					$type = Type::shortname($type);
-				} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
-					$type = "\\{$type}";
+			//types
+			$types = [];
+			foreach ($types_map as $t => $i) {
+				if (Type::exists($t)) {
+					if ($flags & self::TYPE_SHORT_NAME) {
+						$t = Type::shortname($t);
+					} elseif ($flags & self::TYPE_NAMESPACE_LEADING_SLASH) {
+						$t = "\\{$t}";
+					}
 				}
+				$types[] = $t;
 			}
+			
+			//type
+			$type = implode('|', $types);
 			
 			//null
 			if ($rtype->allowsNull()) {
-				$type = "?{$type}";
+				$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
 			}
 		}
 		return $type;
@@ -661,11 +682,15 @@ final class Call extends Utility
 				//type
 				$parameter_type = 'mixed';
 				$ptype = $parameter->getType();
-				if (isset($ptype)) {
-					$parameter_type = (string)$ptype;
+				if ($ptype !== null) {
+					$types_map = array_flip(Type::mnormalize((string)$ptype));
+					unset($types_map['null']);
+					$types = array_keys($types_map);
+					$parameter_type = implode('|', $types);
 					if ($ptype->allowsNull()) {
-						$parameter_type = "?{$parameter_type}";
+						$parameter_type = count($types) > 1 ? "{$parameter_type}|null" : "?{$parameter_type}";
 					}
+					unset($types_map, $types);
 				}
 				if ($parameter->isVariadic()) {
 					$parameter_type = "...{$parameter_type}";
@@ -691,11 +716,15 @@ final class Call extends Utility
 			//return type
 			$return_type = 'mixed';
 			$rtype = $reflection->getReturnType();
-			if (isset($rtype)) {
-				$return_type = (string)$rtype;
+			if ($rtype !== null) {
+				$types_map = array_flip(Type::mnormalize((string)$rtype));
+				unset($types_map['null']);
+				$types = array_keys($types_map);
+				$return_type = implode('|', $types);
 				if ($rtype->allowsNull()) {
-					$return_type = "?{$return_type}";
+					$return_type = count($types) > 1 ? "{$return_type}|null" : "?{$return_type}";
 				}
+				unset($types_map, $types);
 			}
 			$signature .= ": {$return_type}";
 			
@@ -735,14 +764,16 @@ final class Call extends Utility
 			$f_reflection = self::reflection($function);
 			$t_reflection = self::reflection($template);
 			
-			//parameters contravariance
+			//parameters (check)
 			$f_parameters = $f_reflection->getParameters();
 			$t_parameters = $t_reflection->getParameters();
 			if (count($f_parameters) < count($t_parameters)) {
 				return false;
 			}
+			
+			//parameters (contravariance)
 			foreach ($f_parameters as $i => $f_parameter) {
-				//additional function parameter
+				//additional parameter
 				if (!isset($t_parameters[$i])) {
 					if (!$f_parameter->isOptional()) {
 						return false;
@@ -760,7 +791,7 @@ final class Call extends Utility
 					return false;
 				}
 				
-				//type
+				//contravariance
 				$f_type_reflection = $f_parameter->getType();
 				$t_type_reflection = $t_parameter->getType();
 				$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
@@ -770,12 +801,12 @@ final class Call extends Utility
 				}
 			}
 			
-			//return type covariance
+			//return type (covariance)
 			$f_type_reflection = $f_reflection->getReturnType();
 			$t_type_reflection = $t_reflection->getReturnType();
 			$f_type = $f_type_reflection !== null ? (string)$f_type_reflection : 'mixed';
 			$t_type = $t_type_reflection !== null ? (string)$t_type_reflection : 'mixed';
-			if ($t_type !== 'void' && !Type::covariant($f_type, $t_type)) {
+			if (!Type::covariant($f_type, $t_type)) {
 				return false;
 			}
 			

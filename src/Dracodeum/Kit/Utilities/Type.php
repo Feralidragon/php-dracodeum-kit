@@ -2679,6 +2679,19 @@ final class Type extends Utility
 	 */
 	final public static function normalize(string $type): string
 	{
+		return implode('|', self::mnormalize($type));
+	}
+	
+	/**
+	 * Normalize a given type into multiple ones.
+	 * 
+	 * @param string $type
+	 * <p>The type to normalize.</p>
+	 * @return string[]
+	 * <p>The given type normalized into multiple ones.</p>
+	 */
+	final public static function mnormalize(string $type): array
+	{
 		//process
 		$nullable = false;
 		$types = explode('|', $type);
@@ -2694,6 +2707,11 @@ final class Type extends Utility
 				$nullable = true;
 				$t = trim(substr($t, 1));
 			}
+			
+			//normalize
+			if (!self::exists($t)) {
+				$t = strtolower($t);
+			}
 		}
 		unset($t);
 		
@@ -2703,7 +2721,7 @@ final class Type extends Utility
 		}
 		
 		//return
-		return implode('|', array_unique($types, SORT_STRING));
+		return array_unique($types, SORT_STRING);
 	}
 	
 	/**
@@ -2718,14 +2736,14 @@ final class Type extends Utility
 	 */
 	final public static function covariant(string $type, string $base_type): bool
 	{
-		$types = explode('|', self::normalize($type));
-		$base_types = explode('|', self::normalize($base_type));
+		$types = self::mnormalize($type);
+		$base_types = self::mnormalize($base_type);
 		foreach ($types as $t) {
 			//process
 			$covariant = false;
 			foreach ($base_types as $bt) {
 				//covariant
-				$covariant = $bt === 'mixed' || $t === $bt || 
+				$covariant = $t === $bt || $bt === 'void' || ($bt === 'mixed' && $t !== 'void') || 
 					(self::exists($t) && self::exists($bt) && is_a($t, $bt, true)) || 
 					($bt === 'object' && self::exists($t));
 				

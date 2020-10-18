@@ -385,8 +385,6 @@ class CallTest extends TestCase
 			[[$class, 'getFinalStaticString'], ['final', 'public', 'static']],
 			[[$class, 'getFinalProtectedInteger'], ['final', 'protected']],
 			[[$class, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
-			[[$class, 'getFinalPrivateBoolean'], ['final', 'private']],
-			[[$class, 'getFinalPrivateStaticBoolean'], ['final', 'private', 'static']],
 			[[$class_abstract, 'getString'], ['abstract', 'public']],
 			[[$class_abstract, 'getStaticString'], ['abstract', 'public', 'static']],
 			[[$class_abstract, 'getProtectedInteger'], ['abstract', 'protected']],
@@ -395,8 +393,6 @@ class CallTest extends TestCase
 			[[$class_abstract, 'getFinalStaticString'], ['final', 'public', 'static']],
 			[[$class_abstract, 'getFinalProtectedInteger'], ['final', 'protected']],
 			[[$class_abstract, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
-			[[$class_abstract, 'getFinalPrivateBoolean'], ['final', 'private']],
-			[[$class_abstract, 'getFinalPrivateStaticBoolean'], ['final', 'private', 'static']],
 			[[$interface, 'getString'], ['abstract', 'public']],
 			[[$interface, 'getStaticString'], ['abstract', 'public', 'static']]
 		];
@@ -538,8 +534,7 @@ class CallTest extends TestCase
 		
 		//return
 		return [
-			['strlen', 0x00, ['mixed $str']],
-			['strlen', UCall::PARAMETERS_NO_MIXED_TYPE, ['$str']],
+			['strlen', 0x00, ['string $string']],
 			[function () {}, 0x00, []],
 			[function (CallTest_Class $a, \stdClass $b, bool $e = false, $k = null) {}, 0x00,
 				[$class . ' $a' , 'stdClass $b', 'bool $e = false', 'mixed $k = null']],
@@ -745,8 +740,7 @@ class CallTest extends TestCase
 		
 		//return
 		return [
-			['strlen', 0x00, 'mixed'],
-			['strlen', UCall::TYPE_NO_MIXED, ''],
+			['strlen', 0x00, 'int'],
 			[function () {}, 0x00, 'mixed'],
 			[function () {}, UCall::TYPE_NO_MIXED, ''],
 			[function (): void {}, 0x00, 'void'],
@@ -875,8 +869,7 @@ class CallTest extends TestCase
 		
 		//return
 		return [
-			['strlen', 0x00, 'function strlen(mixed $str): mixed'],
-			['strlen', UCall::HEADER_NO_MIXED_TYPE, 'function strlen($str)'],
+			['strlen', 0x00, 'function strlen(string $string): int'],
 			[function () {}, 0x00, 'function (): mixed'],
 			[function () {}, UCall::HEADER_NO_MIXED_TYPE, 'function ()'],
 			[function (): void {}, 0x00, 'function (): void'],
@@ -1304,8 +1297,7 @@ class CallTest extends TestCase
 		
 		//return
 		return [
-			['strlen', 0x00, 'function strlen(mixed $str): mixed {}'],
-			['strlen', UCall::SOURCE_NO_MIXED_TYPE, 'function strlen($str) {}'],
+			['strlen', 0x00, 'function strlen(string $string): int {}'],
 			[function () {}, 0x00, 'function (): mixed {}'],
 			[function () {}, UCall::SOURCE_NO_MIXED_TYPE, 'function () {}'],
 			[function () {return 'foo2bar';}, 0x00, "function (): mixed\n{\n\treturn 'foo2bar';\n}"],
@@ -1664,7 +1656,7 @@ class CallTest extends TestCase
 		
 		//return
 		return [
-			['strlen', '( mixed ): mixed'],
+			['strlen', '( string ): int'],
 			[function () {}, '(): mixed'],
 			[function (): void {}, '(): void'],
 			[function (): bool {}, '(): bool'],
@@ -2424,13 +2416,11 @@ class CallTest extends TestCase
 			['strlen', 'Core'],
 			['mb_strlen', 'mbstring'],
 			['json_encode', 'json'],
-			['ReflectionClass::export', 'Reflection'],
 			[['ReflectionFunction', 'getName'], 'Reflection'],
 			[[UCall::reflection('strlen'), 'getName'], 'Reflection'],
 			[\Closure::fromCallable('strlen'), 'Core'],
 			[\Closure::fromCallable('mb_strlen'), 'mbstring'],
 			[\Closure::fromCallable('json_encode'), 'json'],
-			[\Closure::fromCallable('ReflectionClass::export'), 'Reflection'],
 			[\Closure::fromCallable([UCall::reflection('strlen'), 'getName']), 'Reflection'],
 			[function () {}, null],
 			[new CallTest_InvokeableClass(), null],
@@ -2529,7 +2519,7 @@ class CallTest extends TestCase
 		return [
 			['strlen', null],
 			['strlen', 'strlen'],
-			['strlen', function ($str) {}],
+			['strlen', function (string $str): int {}],
 			[function () {}, null],
 			[function () {}, function () {}],
 			[function (int $i) {}, function (int $ii) {}],
@@ -2967,9 +2957,7 @@ class CallTest extends TestCase
 	public function provideCoercionMethodData_Assertive(): array
 	{
 		$data = $this->provideCoercionMethodData_CoercionFailedException();
-		return array_filter($data, function (array $datum): bool {
-			return $datum[1] !== null;
-		});
+		return array_filter($data, fn (array $datum): bool => $datum[1] !== null);
 	}
 	
 	/**
