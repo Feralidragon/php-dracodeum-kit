@@ -1,30 +1,31 @@
 {
-	"name" : "dracodeum/kit",
-	"version" : "1.0.0",
-	"type" : "library",
-	"license" : "MIT",
-	"description" : "Dracodeum Kit",
-	"keywords" : [
+	"name": "dracodeum/kit",
+	"version": "1.0.0",
+	"type": "library",
+	"license": "MIT",
+	"description": "Dracodeum Kit",
+	"keywords": [
 		"kit",
 		"library",
 		"framework"
 	],
-	"require" : {
-		"php" : "~8.0",
-		"ext-mbstring" : "*"
+	"require": {
+		"php": "~8.0",
+		"ext-mbstring": "*"
 	},
-	"authors" : [{
-			"name" : "Cláudio \"Feralidragon\" Luís",
-			"email" : "claudio.luis@aptoide.com"
+	"authors": [
+		{
+			"name": "Cláudio \"Feralidragon\" Luís",
+			"email": "claudio.luis@aptoide.com"
 		}
 	],
-	"autoload" : {
-		"files" : [
+	"autoload": {
+		"files": [
 			"autoload.php"
 		]
 	},
-	"require-dev" : {
-		"phpunit/phpunit" : "^9.0",
-		"vimeo/psalm" : "^3.0"
+	"require-dev": {
+		"phpunit/phpunit": "^9.0",
+		"vimeo/psalm": "^3.0"
 	}
 }
