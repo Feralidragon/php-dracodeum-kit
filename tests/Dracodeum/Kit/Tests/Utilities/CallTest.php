@@ -769,6 +769,8 @@ class CallTest extends TestCase
 			['strlen', 0x00, 'int'],
 			[function () {}, 0x00, 'mixed'],
 			[function () {}, UCall::TYPE_NO_MIXED, ''],
+			[function (): mixed {}, 0x00, 'mixed'],
+			[function (): mixed {}, UCall::TYPE_NO_MIXED, ''],
 			[function (): void {}, 0x00, 'void'],
 			[function (): bool {}, 0x00, 'bool'],
 			[function (): ?bool {}, 0x00, '?bool'],
@@ -857,7 +859,24 @@ class CallTest extends TestCase
 			[[$class, 'doStuff'], UCall::TYPE_SHORT_NAME, '?CallTest_Interface'],
 			[[$class, 'doStuff'], UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$interface}"],
 			[[$class, 'doStuff'], UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
-				'?CallTest_Interface']
+				'?CallTest_Interface'],
+			[function (): CallTest_Class|string {}, 0x00, "{$class}|string"],
+			[function (): CallTest_Class|string {}, UCall::TYPE_SHORT_NAME, 'CallTest_Class|string'],
+			[function (): CallTest_Class|string {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "\\{$class}|string"],
+			[function (): CallTest_Class|string {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+				'CallTest_Class|string'],
+			[function (): int|\stdClass|null {}, 0x00, 'stdClass|int|null'],
+			[function (): int|\stdClass|null {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, '\\stdClass|int|null'],
+			[function (): bool|float|object|array {}, 0x00, 'object|array|float|bool'],
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, 0x00, 
+				"{$class_abstract}|{$interface}|null"],
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::TYPE_SHORT_NAME, 
+				'CallTest_AbstractClass|CallTest_Interface|null'],
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, 
+				"\\{$class_abstract}|\\{$interface}|null"],
+			[function (): CallTest_Class|null {}, 0x00, "?{$class}"],
+			[function (): CallTest_Class|null {}, UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
+			[function (): CallTest_Class|null {}, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"]
 		];
 	}
 	
