@@ -795,10 +795,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * <p>The name to get with.</p>
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set value without evaluating it, if currently set as such.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return mixed
 	 * <p>The value from the property with the given name.</p>
 	 */
-	final public function get(string $name, bool $lazy = false)
+	final public function get(string $name, bool $lazy = false, ?object $accessor = null)
 	{
 		//fallback
 		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
@@ -807,7 +809,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		
 		//property
 		$property = $this->getProperty($name);
-		if ($property->getMode()[0] !== 'r') {
+		if ($accessor !== $this->owner && $property->getMode()[0] !== 'r') {
 			UCall::halt([
 				'error_message' => "Cannot get write-only property {{name}} from manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
@@ -826,10 +828,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param string $name
 	 * <p>The name to get with.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return bool
 	 * <p>The boolean value from the property with the given name.</p>
 	 */
-	final public function is(string $name): bool
+	final public function is(string $name, ?object $accessor = null): bool
 	{
 		//fallback
 		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
@@ -837,7 +841,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 		
 		//value
-		$value = $this->get($name);
+		$value = $this->get($name, false, $accessor);
 		if (!is_bool($value)) {
 			UCall::halt([
 				'error_message' => "Invalid value {{value}} in property {{name}} in manager with owner {{owner}}.",
@@ -855,13 +859,15 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param string $name
 	 * <p>The name to check with.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the property with the given name is set.</p>
 	 */
-	final public function isset(string $name): bool
+	final public function isset(string $name, ?object $accessor = null): bool
 	{
 		if ($this->hasProperty($name)) {
-			return $this->get($name) !== null;
+			return $this->get($name, false, $accessor) !== null;
 		} elseif ($this->fallback_object !== null) {
 			return $this->fallback_object->isset($name);
 		}
@@ -970,10 +976,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * @param bool $force [default = false]
 	 * <p>Force the given value to be fully evaluated and set, 
 	 * even if the property with the given name is set as lazy.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function set(string $name, $value, bool $force = false): Properties
+	final public function set(string $name, $value, bool $force = false, ?object $accessor = null): Properties
 	{
 		//fallback
 		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
@@ -991,16 +999,20 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				'error_message' => "Cannot set value in property {{name}} in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} elseif ($property_mode === 'r' || $property_mode === 'r+') {
-			UCall::halt([
-				'error_message' => "Cannot set value in read-only property {{name}} in manager with owner {{owner}}.",
-				'parameters' => ['name' => $name, 'owner' => $this->owner]
-			]);
-		} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
-			UCall::halt([
-				'error_message' => "Cannot set value in write-once property {{name}} in manager with owner {{owner}}.",
-				'parameters' => ['name' => $name, 'owner' => $this->owner]
-			]);
+		} elseif ($accessor !== $this->owner) {
+			if ($property_mode === 'r' || $property_mode === 'r+') {
+				UCall::halt([
+					'error_message' => "Cannot set value in read-only property {{name}} " . 
+						"in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
+			} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
+				UCall::halt([
+					'error_message' => "Cannot set value in write-once property {{name}} " . 
+						"in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
+			}
 		}
 		
 		//guard (persistence)
@@ -1043,10 +1055,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function unset(string $name): Properties
+	final public function unset(string $name, ?object $accessor = null): Properties
 	{
 		//fallback
 		if ($this->fallback_object !== null && !$this->hasProperty($name)) {
@@ -1064,17 +1078,20 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				'error_message' => "Cannot unset value in property {{name}} in read-only manager with owner {{owner}}.",
 				'parameters' => ['name' => $name, 'owner' => $this->owner]
 			]);
-		} elseif ($property_mode === 'r' || $property_mode === 'r+') {
-			UCall::halt([
-				'error_message' => "Cannot unset value in read-only property {{name}} in manager with owner {{owner}}.",
-				'parameters' => ['name' => $name, 'owner' => $this->owner]
-			]);
-		} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
-			UCall::halt([
-				'error_message' => "Cannot unset value in write-once property {{name}} in manager " . 
-					"with owner {{owner}}.",
-				'parameters' => ['name' => $name, 'owner' => $this->owner]
-			]);
+		} elseif ($accessor !== $this->owner) {
+			if ($property_mode === 'r' || $property_mode === 'r+') {
+				UCall::halt([
+					'error_message' => "Cannot unset value in read-only property {{name}} " . 
+						"in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
+			} elseif ($property_mode === 'w-' || $property_mode === 'w--') {
+				UCall::halt([
+					'error_message' => "Cannot unset value in write-once property {{name}} " . 
+						"in manager with owner {{owner}}.",
+					'parameters' => ['name' => $name, 'owner' => $this->owner]
+				]);
+			}
 		}
 		
 		//guard (persistence)
@@ -1125,15 +1142,17 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param bool $lazy [default = false]
 	 * <p>Get the lazily set values without evaluating them, if currently set as such.</p>
+	 * @param object|null $accessor [default = null]
+	 * <p>The object performing the access.</p>
 	 * @return array
 	 * <p>All the properties, as a set of <samp>name => value</samp> pairs.</p>
 	 */
-	final public function getAll(bool $lazy = false): array
+	final public function getAll(bool $lazy = false, ?object $accessor = null): array
 	{
 		//properties
 		$properties = [];
 		foreach ($this->properties as $name => $property) {
-			if ($property->isGettable() && $property->getMode()[0] === 'r') {
+			if ($property->isGettable() && ($accessor === $this->owner || $property->getMode()[0] === 'r')) {
 				$properties[$name] = $property->getValue($lazy);
 			}
 		}

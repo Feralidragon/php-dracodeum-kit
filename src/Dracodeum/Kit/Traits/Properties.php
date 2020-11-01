@@ -44,7 +44,7 @@ trait Properties
 	 */
 	final public function __get(string $name)
 	{
-		return $this->get($name);
+		return $this->getPropertiesManager()->get($name, false, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -57,7 +57,7 @@ trait Properties
 	 */
 	final public function __isset(string $name): bool
 	{
-		return $this->isset($name);
+		return $this->getPropertiesManager()->isset($name, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -71,7 +71,7 @@ trait Properties
 	 */
 	final public function __set(string $name, $value): void
 	{
-		$this->set($name, $value);
+		$this->getPropertiesManager()->set($name, $value, false, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -83,7 +83,7 @@ trait Properties
 	 */
 	final public function __unset(string $name): void
 	{
-		$this->unset($name);
+		$this->getPropertiesManager()->unset($name, UCall::stackPreviousObject());
 	}
 	
 	
@@ -118,7 +118,7 @@ trait Properties
 	 */
 	final public function get(string $name, bool $lazy = false)
 	{
-		return $this->getPropertiesManager()->get($name, $lazy);
+		return $this->getPropertiesManager()->get($name, $lazy, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -136,7 +136,7 @@ trait Properties
 	 */
 	final public function is(string $name): bool
 	{
-		return $this->getPropertiesManager()->is($name);
+		return $this->getPropertiesManager()->is($name, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -151,7 +151,7 @@ trait Properties
 	 */
 	final public function isset(string $name): bool
 	{
-		return $this->getPropertiesManager()->isset($name);
+		return $this->getPropertiesManager()->isset($name, UCall::stackPreviousObject());
 	}
 	
 	/**
@@ -239,7 +239,7 @@ trait Properties
 	 */
 	final public function set(string $name, $value, bool $force = false): object
 	{
-		$this->getPropertiesManager()->set($name, $value, $force);
+		$this->getPropertiesManager()->set($name, $value, $force, UCall::stackPreviousObject());
 		return $this;
 	}
 	
@@ -255,7 +255,7 @@ trait Properties
 	 */
 	final public function unset(string $name): object
 	{
-		$this->getPropertiesManager()->unset($name);
+		$this->getPropertiesManager()->unset($name, UCall::stackPreviousObject());
 		return $this;
 	}
 	
@@ -273,7 +273,7 @@ trait Properties
 	 */
 	final public function getAll(bool $lazy = false): array
 	{
-		return $this->getPropertiesManager()->getAll($lazy);
+		return $this->getPropertiesManager()->getAll($lazy, UCall::stackPreviousObject());
 	}
 	
 	/**
