@@ -349,7 +349,7 @@ final class Call extends Utility
 			$parameters = [];
 			foreach ($reflection->getParameters() as $parameter) {
 				//type
-				$type = ($flags & self::PARAMETERS_NO_MIXED_TYPE) ? '' : 'mixed';
+				$type = 'mixed';
 				$ptype = $parameter->getType();
 				if ($ptype !== null) {
 					//initialize
@@ -373,12 +373,17 @@ final class Call extends Utility
 					$type = implode('|', $types);
 					
 					//null
-					if ($ptype->allowsNull()) {
+					if ($ptype->allowsNull() && $type !== 'mixed') {
 						$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
 					}
 					
 					//finalize
 					unset($types_map, $types);
+				}
+				
+				//mixed
+				if ($type === 'mixed' && ($flags & self::PARAMETERS_NO_MIXED_TYPE)) {
+					$type = '';
 				}
 				
 				//name
@@ -457,8 +462,11 @@ final class Call extends Utility
 	 */
 	final public static function type($function, int $flags = 0x00): string
 	{
-		$type = ($flags & self::TYPE_NO_MIXED) ? '' : 'mixed';
+		//initialize
+		$type = 'mixed';
 		$rtype = self::reflection($function)->getReturnType();
+		
+		//process
 		if ($rtype !== null) {
 			//initialize
 			$types_map = array_flip(Type::mnormalize((string)$rtype));
@@ -481,10 +489,17 @@ final class Call extends Utility
 			$type = implode('|', $types);
 			
 			//null
-			if ($rtype->allowsNull()) {
+			if ($rtype->allowsNull() && $type !== 'mixed') {
 				$type = count($types) > 1 ? "{$type}|null" : "?{$type}";
 			}
 		}
+		
+		//mixed
+		if ($type === 'mixed' && ($flags & self::TYPE_NO_MIXED)) {
+			$type = '';
+		}
+		
+		//return
 		return $type;
 	}
 	
@@ -687,7 +702,7 @@ final class Call extends Utility
 					unset($types_map['null']);
 					$types = array_keys($types_map);
 					$parameter_type = implode('|', $types);
-					if ($ptype->allowsNull()) {
+					if ($ptype->allowsNull() && $parameter_type !== 'mixed') {
 						$parameter_type = count($types) > 1 ? "{$parameter_type}|null" : "?{$parameter_type}";
 					}
 					unset($types_map, $types);
@@ -721,7 +736,7 @@ final class Call extends Utility
 				unset($types_map['null']);
 				$types = array_keys($types_map);
 				$return_type = implode('|', $types);
-				if ($rtype->allowsNull()) {
+				if ($rtype->allowsNull() && $return_type !== 'mixed') {
 					$return_type = count($types) > 1 ? "{$return_type}|null" : "?{$return_type}";
 				}
 				unset($types_map, $types);
