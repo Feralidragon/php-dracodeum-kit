@@ -1233,8 +1233,8 @@ class CallTest extends TestCase
 				'void'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
 				0x00, 
-				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . 
-				' &$c, mixed $m = 123): mixed'],
+				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . ' &$c, ' . 
+				'mixed $m = 123): mixed'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
 				UCall::HEADER_TYPES_SHORT_NAMES,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
@@ -1759,8 +1759,8 @@ class CallTest extends TestCase
 				'void {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
 				0x00, 
-				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . 
-				' &$c, mixed $m = 123): mixed {}'],
+				'function (' . $class_abstract . '|' . $interface . '|null $aci, ?' . $class . ' &$c, ' . 
+				'mixed $m = 123): mixed {}'],
 			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
 				UCall::SOURCE_TYPES_SHORT_NAMES,
 				'function (CallTest_AbstractClass|CallTest_Interface|null $aci, ?CallTest_Class &$c, ' . 
@@ -1816,6 +1816,7 @@ class CallTest extends TestCase
 		return [
 			['strlen', '( string ): int'],
 			[function () {}, '(): mixed'],
+			[function (): mixed {}, '(): mixed'],
 			[function (): void {}, '(): void'],
 			[function (): bool {}, '(): bool'],
 			[function (): ?bool {}, '(): ?bool'],
@@ -1879,7 +1880,16 @@ class CallTest extends TestCase
 			[[$interface, 'setStaticString'], '( string ): void'],
 			[[$class, 'doStuff'],
 				'( ?float , ' . $class_abstract . ' , &?' . $class . ' , mixed , callable [, string [, array [, int ' . 
-				'[, &bool [, ?stdClass [, mixed [, ...mixed ]]]]]]]): ?' . $interface]
+				'[, &bool [, ?stdClass [, mixed [, ...mixed ]]]]]]]): ?' . $interface],
+			[function (): CallTest_Class|string {}, "(): {$class}|string"],
+			[function (): int|\stdClass|null {}, '(): stdClass|int|null'],
+			[function (): bool|float|object|array {}, '(): object|array|float|bool'],
+			[function (): CallTest_AbstractClass|null|CallTest_Interface {}, "(): {$class_abstract}|{$interface}|null"],
+			[function (): CallTest_Class|null {}, "(): ?{$class}"],
+			[function (CallTest_Class|string $a, int|\stdClass|null $b, bool|float|object|array $e = false): void {}, 
+				'( ' . $class . '|string , stdClass|int|null [, object|array|float|bool ]): void'],
+			[function (CallTest_AbstractClass|null|CallTest_Interface $aci, CallTest_Class|null &$c, mixed $m = 123) {},
+				'( ' . $class_abstract . '|' . $interface . '|null , &?' . $class . ' [, mixed ]): mixed']
 		];
 	}
 	
