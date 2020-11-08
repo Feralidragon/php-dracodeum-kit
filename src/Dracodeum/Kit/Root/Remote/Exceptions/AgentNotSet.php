@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Root\Remote\Exceptions;
 
 use Dracodeum\Kit\Root\Remote\Exception;
 
-/** This exception is thrown from the remote class whenever an agent is not set. */
 class AgentNotSet extends Exception
 {
 	//Implemented public methods

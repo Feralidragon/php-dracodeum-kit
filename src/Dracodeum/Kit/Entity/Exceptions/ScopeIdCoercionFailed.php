@@ -8,8 +8,6 @@
 namespace Dracodeum\Kit\Entity\Exceptions;
 
 /**
- * This exception is thrown from an entity whenever the coercion into a scope ID fails with a given value.
- * 
  * @property-read string $name
  * <p>The scope name.</p>
  */

@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Managers\Properties\Property\Exceptions;
 use Dracodeum\Kit\Managers\Properties\Property\Exception;
 
 /**
- * This exception is thrown from a property whenever a given value is invalid.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  */

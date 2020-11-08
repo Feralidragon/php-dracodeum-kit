@@ -12,8 +12,6 @@ use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from the type utility whenever the coercion into an integer fails with a given value.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read bool $unsigned [default = false]

@@ -11,8 +11,6 @@ use Dracodeum\Kit\Entity\Exception;
 use Dracodeum\Kit\Structures\Uid;
 
 /**
- * This exception is thrown from an entity whenever it conflicts with an existing one.
- * 
  * @property-read int|string|null $id [default = null]
  * <p>The ID.</p>
  * @property-read string|null $scope [default = null]

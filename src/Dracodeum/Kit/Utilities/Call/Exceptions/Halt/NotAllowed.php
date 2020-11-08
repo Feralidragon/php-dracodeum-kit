@@ -9,10 +9,6 @@ namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
-/**
- * This exception is thrown from the call utility <code>halt</code> method whenever a given function or method call 
- * is not allowed.
- */
 class NotAllowed extends Exception
 {
 	//Implemented public methods

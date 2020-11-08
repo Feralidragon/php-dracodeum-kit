@@ -11,7 +11,6 @@ use Dracodeum\Kit\Utilities\Data\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/** This exception is thrown from the data utility whenever the coercion fails with a given value. */
 class CoercionFailed extends Exception implements ICoercive
 {
 	//Traits

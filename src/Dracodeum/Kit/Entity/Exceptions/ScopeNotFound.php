@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Entity\Exceptions;
 use Dracodeum\Kit\Entity\Exception;
 
 /**
- * This exception is thrown from an entity whenever a given scope is not found.
- * 
  * @property-read string|null $scope
  * <p>The scope.</p>
  */

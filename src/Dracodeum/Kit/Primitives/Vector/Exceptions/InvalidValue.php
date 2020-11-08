@@ -11,8 +11,6 @@ use Dracodeum\Kit\Primitives\Vector\Exception;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from a vector whenever a given value is invalid.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read int|null $index [default = null]

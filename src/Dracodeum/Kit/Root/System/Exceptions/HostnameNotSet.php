@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Root\System\Exceptions;
 
 use Dracodeum\Kit\Root\System\Exception;
 
-/** This exception is thrown from the system whenever no hostname is set. */
 class HostnameNotSet extends Exception
 {
 	//Implemented public methods

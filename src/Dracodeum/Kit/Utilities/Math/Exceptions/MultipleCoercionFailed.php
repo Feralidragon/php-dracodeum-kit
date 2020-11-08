@@ -11,7 +11,6 @@ use Dracodeum\Kit\Utilities\Math\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/** This exception is thrown from the math utility whenever the coercion into a multiple fails with a given value. */
 class MultipleCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

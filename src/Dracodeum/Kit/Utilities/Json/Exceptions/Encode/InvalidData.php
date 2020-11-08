@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Json\Exceptions\Encode;
 use Dracodeum\Kit\Utilities\Json\Exceptions\Encode as Exception;
 
 /**
- * This exception is thrown from the JSON utility <code>encode</code> method whenever given data is invalid.
- * 
  * @property-read mixed $data
  * <p>The data.</p>
  * @property-read int|null $error_code [default = null]

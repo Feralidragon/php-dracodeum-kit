@@ -12,9 +12,6 @@ use Dracodeum\Kit\Interfaces\Throwables\Assertive as IAssertive;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
- * This exception is thrown from the call utility whenever an assertion on the compatibility of a given function 
- * towards a given template fails.
- * 
  * @property-read string $name
  * <p>The name.</p>
  * @property-read callable|array|string $function

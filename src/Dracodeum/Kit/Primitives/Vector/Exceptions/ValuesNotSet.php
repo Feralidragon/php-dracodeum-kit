@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Primitives\Vector\Exceptions;
 
 use Dracodeum\Kit\Primitives\Vector\Exception;
 
-/** This exception is thrown from a vector whenever no values are set. */
 class ValuesNotSet extends Exception
 {
 	//Implemented public methods

@@ -10,9 +10,6 @@ namespace Dracodeum\Kit\Utilities\Text\Exceptions\Stringify;
 use Dracodeum\Kit\Utilities\Text\Exceptions\Stringify as Exception;
 
 /**
- * This exception is thrown from the text utility <code>stringify</code> method whenever a given value type 
- * is unsupported.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [default = auto]

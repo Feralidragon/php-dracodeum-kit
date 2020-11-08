@@ -11,8 +11,6 @@ use Dracodeum\Kit\Utilities\Text\Exception;
 use Dracodeum\Kit\Utilities\Type as UType;
 
 /**
- * This exception is thrown from the text utility whenever a given string failed to be parsed.
- * 
  * @property-read string $string
  * <p>The string.</p>
  * @property-read string[] $fields_patterns

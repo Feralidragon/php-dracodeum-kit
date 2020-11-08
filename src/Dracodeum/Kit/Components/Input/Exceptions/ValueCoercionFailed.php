@@ -12,8 +12,6 @@ use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from an input whenever a value coercion fails with a given value and prototype.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $error_message

@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Component\Exceptions;
 
 use Dracodeum\Kit\Component\Exception;
 
-/** This exception is thrown from a component whenever no proxy is set. */
 class ProxyNotSet extends Exception
 {
 	//Implemented public methods

@@ -10,9 +10,6 @@ namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>haltParameter</code> method whenever a given parameter 
- * from a given function or method call is not allowed.
- * 
  * @property-read string $name
  * <p>The name.</p>
  * @property-read mixed $value

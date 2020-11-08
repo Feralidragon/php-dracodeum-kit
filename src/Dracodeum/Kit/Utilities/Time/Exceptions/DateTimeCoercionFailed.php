@@ -11,9 +11,6 @@ use Dracodeum\Kit\Utilities\Time\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from the time utility whenever the coercion into a date and time fails with a given value.
- */
 class DateTimeCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

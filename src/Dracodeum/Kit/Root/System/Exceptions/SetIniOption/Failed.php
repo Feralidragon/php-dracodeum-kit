@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Root\System\Exceptions\SetIniOption;
 
 use Dracodeum\Kit\Root\System\Exceptions\SetIniOption as Exception;
 
-/** This exception is thrown from the system <code>setIniOption</code> method whenever it fails. */
 class Failed extends Exception
 {
 	//Implemented public methods

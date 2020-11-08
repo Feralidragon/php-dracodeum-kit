@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Managers\Memoization\Exceptions;
 use Dracodeum\Kit\Managers\Memoization\Exception;
 
 /**
- * This exception is thrown from a memoization manager whenever no value is set at a given key.
- * 
  * @property-read string $key
  * <p>The key.</p>
  */

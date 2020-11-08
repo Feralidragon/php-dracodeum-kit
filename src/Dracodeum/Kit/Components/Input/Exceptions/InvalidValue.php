@@ -11,8 +11,6 @@ use Dracodeum\Kit\Components\Input\Exception;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from an input whenever a given value is invalid.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string|null $error_message [default = null]

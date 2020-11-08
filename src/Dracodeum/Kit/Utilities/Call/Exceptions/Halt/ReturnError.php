@@ -10,9 +10,6 @@ namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as Exception;
 
 /**
- * This exception is thrown from the call utility <code>haltExecution</code> method whenever a return error occurs 
- * with a given value from a given executed function in a given function or method call.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string|null $exec_function_full_name [default = null]

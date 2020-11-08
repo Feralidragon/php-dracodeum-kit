@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Type\Exceptions;
 use Dracodeum\Kit\Utilities\Type\Exception;
 
 /**
- * This exception is thrown from the type utility whenever a given class is not found.
- * 
  * @property-read string $class
  * <p>The class.</p>
  */

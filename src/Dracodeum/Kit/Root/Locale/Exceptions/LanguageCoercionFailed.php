@@ -11,7 +11,6 @@ use Dracodeum\Kit\Root\Locale\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/** This exception is thrown from the locale whenever the coercion into a language fails with a given value. */
 class LanguageCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

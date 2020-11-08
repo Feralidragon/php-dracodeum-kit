@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Managers\Memoization\Store\Exceptions;
 use Dracodeum\Kit\Managers\Memoization\Store\Exception;
 
 /**
- * This exception is thrown from a store whenever a given key is not found.
- * 
  * @property-read string $name
  * <p>The name.</p>
  */

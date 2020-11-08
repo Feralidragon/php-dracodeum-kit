@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Time\Exceptions\Mperiod;
 use Dracodeum\Kit\Utilities\Time\Exceptions\Mperiod as Exception;
 
 /**
- * This exception is thrown from the time utility <code>mperiod</code> method whenever a given period is invalid.
- * 
  * @property-read string $period
  * <p>The period.</p>
  */
