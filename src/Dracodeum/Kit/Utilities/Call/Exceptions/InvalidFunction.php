@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Call\Exceptions;
 use Dracodeum\Kit\Utilities\Call\Exception;
 
 /**
- * This exception is thrown from the call utility whenever a given function is invalid.
- * 
  * @property-read mixed $function
  * <p>The function.</p>
  */

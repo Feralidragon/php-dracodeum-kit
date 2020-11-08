@@ -7,10 +7,6 @@
 
 namespace Dracodeum\Kit\Entity\Exceptions;
 
-/** 
- * This exception is thrown from an entity whenever the coercion into a set of scope IDs fails with a given set of 
- * values.
- */
 class ScopeIdsCoercionFailed extends IdCoercionFailed
 {
 	//Public constants

@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Enumeration\Exceptions;
 use Dracodeum\Kit\Enumeration\Exception;
 
 /**
- * This exception is thrown from an enumeration whenever a given element is not found.
- * 
  * @property-read int|float|string $element
  * <p>The element.</p>
  */

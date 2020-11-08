@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Traits\DebugInfo\Info\Exceptions;
 use Dracodeum\Kit\Traits\DebugInfo\Info\Exception;
 
 /**
- * This exception is thrown from a debug info instance whenever a given property is not found.
- * 
  * @property-read string $name
  * <p>The name.</p>
  */

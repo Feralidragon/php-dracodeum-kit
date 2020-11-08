@@ -11,7 +11,6 @@ use Dracodeum\Kit\Entity\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/** This exception is thrown from an entity whenever the coercion into an ID fails with a given value. */
 class IdCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

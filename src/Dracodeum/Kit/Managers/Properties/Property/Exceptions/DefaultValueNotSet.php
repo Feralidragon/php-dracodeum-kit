@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Managers\Properties\Property\Exceptions;
 
 use Dracodeum\Kit\Managers\Properties\Property\Exception;
 
-/** This exception is thrown from a property whenever no default value is set. */
 class DefaultValueNotSet extends Exception
 {
 	//Implemented public methods

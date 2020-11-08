@@ -11,8 +11,6 @@ use Dracodeum\Kit\Utilities\Base32\Exceptions\Decode as Exception;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from the Base32 utility <code>decode</code> method whenever a given string is invalid.
- * 
  * @property-read string $string
  * <p>The string.</p>
  * @property-read string $alphabet

@@ -11,8 +11,6 @@ use Dracodeum\Kit\Primitives\Dictionary\Exception;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
- * This exception is thrown from a dictionary whenever a given value is invalid.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read bool $has_key [default = false]

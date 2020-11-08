@@ -10,9 +10,6 @@ namespace Dracodeum\Kit\Utilities\Data\Exceptions;
 use Dracodeum\Kit\Utilities\Data\Exception;
 
 /**
- * This exception is thrown from the data utility whenever there is an attempt to set a given path key 
- * into a non-array value.
- * 
  * @property-read array $array
  * <p>The array.</p>
  * @property-read string $path

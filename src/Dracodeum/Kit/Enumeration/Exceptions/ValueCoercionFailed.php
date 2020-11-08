@@ -11,9 +11,6 @@ use Dracodeum\Kit\Enumeration\Exception;
 use Dracodeum\Kit\Interfaces\Throwables\Coercive as ICoercive;
 use Dracodeum\Kit\Traits\Exception as Traits;
 
-/**
- * This exception is thrown from an enumeration whenever the coercion into an element value fails with a given value.
- */
 class ValueCoercionFailed extends Exception implements ICoercive
 {
 	//Traits

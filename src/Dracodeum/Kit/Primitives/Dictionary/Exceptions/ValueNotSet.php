@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Primitives\Dictionary\Exceptions;
 use Dracodeum\Kit\Primitives\Dictionary\Exception;
 
 /**
- * This exception is thrown from a dictionary whenever no value is set at a given key.
- * 
  * @property-read mixed $key
  * <p>The key.</p>
  */

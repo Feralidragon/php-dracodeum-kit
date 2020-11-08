@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Time\Exceptions;
 use Dracodeum\Kit\Utilities\Time\Exception;
 
 /**
- * This exception is thrown from the time utility whenever a given timestamp is invalid.
- * 
  * @property-read mixed $timestamp
  * <p>The timestamp.</p>
  */

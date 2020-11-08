@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Primitives\Vector\Exceptions;
 use Dracodeum\Kit\Primitives\Vector\Exception;
 
 /**
- * This exception is thrown from a vector whenever a given set of values is invalid.
- * 
  * @property-read array $values
  * <p>The values.</p>
  */

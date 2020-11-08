@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Type\Exceptions\Phpfy;
 use Dracodeum\Kit\Utilities\Type\Exceptions\Phpfy as Exception;
 
 /**
- * This exception is thrown from the type utility <code>phpfy</code> method whenever a given value type is unsupported.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [default = auto]

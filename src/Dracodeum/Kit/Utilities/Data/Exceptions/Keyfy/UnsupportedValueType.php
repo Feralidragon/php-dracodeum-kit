@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Data\Exceptions\Keyfy;
 use Dracodeum\Kit\Utilities\Data\Exceptions\Keyfy as Exception;
 
 /**
- * This exception is thrown from the data utility <code>keyfy</code> method whenever a given value type is unsupported.
- * 
  * @property-read mixed $value
  * <p>The value.</p>
  * @property-read string $type [default = auto]

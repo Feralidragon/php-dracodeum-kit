@@ -7,10 +7,6 @@
 
 namespace Dracodeum\Kit\Utilities\Call\Exceptions\Halt;
 
-/**
- * This exception is thrown from the call utility <code>haltExecution</code> method whenever a given returned value 
- * from a given executed function in a given function or method call is not allowed.
- */
 class ReturnNotAllowed extends ReturnError
 {
 	//Overridden public methods

@@ -9,7 +9,6 @@ namespace Dracodeum\Kit\Root\Remote\Exceptions;
 
 use Dracodeum\Kit\Root\Remote\Exception;
 
-/** This exception is thrown from the remote class whenever an IP address is not set. */
 class IpAddressNotSet extends Exception
 {
 	//Implemented public methods

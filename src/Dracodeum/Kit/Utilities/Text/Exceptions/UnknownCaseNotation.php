@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Utilities\Text\Exceptions;
 use Dracodeum\Kit\Utilities\Text\Exception;
 
 /**
- * This exception is thrown from the text utility whenever the case notation of a given string is unknown.
- * 
  * @property-read string $string
  * <p>The string.</p>
  */

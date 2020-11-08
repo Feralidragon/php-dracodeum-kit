@@ -10,8 +10,6 @@ namespace Dracodeum\Kit\Primitives\Vector\Exceptions;
 use Dracodeum\Kit\Primitives\Vector\Exception;
 
 /**
- * This exception is thrown from a vector whenever a given index is invalid.
- * 
  * @property-read int $index
  * <p>The index.</p>
  * @property-read int|null $max_index [default = null]

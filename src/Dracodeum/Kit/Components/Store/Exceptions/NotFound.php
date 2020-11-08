@@ -11,8 +11,6 @@ use Dracodeum\Kit\Components\Store\Exception;
 use Dracodeum\Kit\Structures\Uid;
 
 /**
- * This exception is thrown from a store whenever a given resource is not found.
- * 
  * @property-read \Dracodeum\Kit\Structures\Uid $uid
  * <p>The UID instance.</p>
  */
