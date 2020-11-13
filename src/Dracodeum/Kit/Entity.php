@@ -70,6 +70,8 @@ use Dracodeum\Kit\Root\Log;
  * @see \Dracodeum\Kit\Entity\Traits\PropertiesInitializer
  * @see \Dracodeum\Kit\Entity\Traits\IdPropertyName
  * @see \Dracodeum\Kit\Entity\Traits\BaseScope
+ * @see \Dracodeum\Kit\Entity\Traits\PreLoadProcessor
+ * @see \Dracodeum\Kit\Entity\Traits\PostLoadProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PreInsertProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PostInsertProcessor
  * @see \Dracodeum\Kit\Entity\Traits\PreUpdateProcessor
@@ -97,6 +99,8 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	use Traits\PropertiesInitializer;
 	use Traits\IdPropertyName;
 	use Traits\BaseScope;
+	use Traits\PreLoadProcessor;
+	use Traits\PostLoadProcessor;
 	use Traits\PreInsertProcessor;
 	use Traits\PostInsertProcessor;
 	use Traits\PreUpdateProcessor;
@@ -572,7 +576,12 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	final public static function load($id = null, array $scope_ids = [], bool $no_throw = false): ?Entity
 	{
 		$properties = self::loadPropertyValues($id, $scope_ids, $no_throw);
-		return $properties !== null ? self::build($properties, true) : null;
+		if ($properties !== null) {
+			$instance = self::build($properties, true);
+			$instance->processPostLoad();
+			return $instance;
+		}
+		return null;
 	}
 	
 	/**
@@ -1687,6 +1696,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 			'base_scope' => $base_scope,
 			'scope_ids' => $scope_ids
 		], true);
+		
+		//pre-load
+		if ($values !== null) {
+			static::processPreLoad($values);
+		}
 		
 		//check
 		if ($values === null) {
