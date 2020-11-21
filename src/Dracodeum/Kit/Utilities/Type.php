@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Type\{
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	IntegerInstantiable as IIntegerInstantiable,
 	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
@@ -910,10 +910,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be evaluated into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -934,10 +934,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -961,10 +961,10 @@ final class Type extends Utility
 	 * Only the following types and formats can be coerced into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $non_empty [default = false]
@@ -1012,7 +1012,7 @@ final class Type extends Utility
 			$value = (string)$value;
 			return true;
 		} elseif (is_object($value)) {
-			if ($value instanceof IStringifiable) {
+			if ($value instanceof IStringable) {
 				$value = $value->toString();
 				return true;
 			} elseif (method_exists($value, '__toString')) {
@@ -1031,7 +1031,7 @@ final class Type extends Utility
 			'error_message' => "Only the following types and formats can be coerced into a string:\n" . 
 				" - a string, integer or float;\n" . 
 				" - an object implementing the \"__toString\" method;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface."
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface."
 		]);
 	}
 	

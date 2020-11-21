@@ -153,12 +153,12 @@ final class Text extends Utility
 	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, 
 	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.<br>
 	 * <br>
-	 * Objects implementing either the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface or 
+	 * Objects implementing either the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface or 
 	 * the <code>__toString</code> method are stringified through one of them, whichever one is implemented first, 
 	 * with the former preferred over the latter.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to generate from.</p>
 	 * @param \Dracodeum\Kit\Options\Text|array|null $text_options [default = null]
@@ -238,8 +238,8 @@ final class Text extends Utility
 			$id = spl_object_id($value);
 			$class = get_class($value);
 			
-			//stringifiable
-			if (!$options->non_stringifiable) {
+			//stringable
+			if (!$options->non_stringable) {
 				if ($prepend_type && Data::evaluate($value)) {
 					//initialize
 					$k_options = $options->clone();

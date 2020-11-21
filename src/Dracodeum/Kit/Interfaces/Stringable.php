@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Interfaces;
 use Dracodeum\Kit\Options\Text as TextOptions;
 
 /** This interface defines a method to cast an object to a string. */
-interface Stringifiable
+interface Stringable
 {
 	//Public methods
 	/**

@@ -14,7 +14,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	ArrayInstantiable as IArrayInstantiable,
 	Keyable as IKeyable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	Cloneable as ICloneable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
@@ -42,12 +42,12 @@ use Dracodeum\Kit\Utilities\{
  */
 final class Vector extends Primitive
 implements IDebugInfo, IDebugInfoProcessor, \ArrayAccess, \Countable, \Iterator, \JsonSerializable, IReadonlyable,
-IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
+IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
 	use Traits\Readonly;
-	use Traits\Stringifiable;
+	use Traits\Stringable;
 	use Traits\Evaluators;
 	use Traits\CloneableOnly;
 	
@@ -242,7 +242,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringifiable, ICloneable
 	
 	
 	
-	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
 	final public function toString(?TextOptions $text_options = null): string
 	{

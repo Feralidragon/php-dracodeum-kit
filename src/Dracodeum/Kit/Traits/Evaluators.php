@@ -348,10 +348,10 @@ trait Evaluators
 	 * Only the following types and formats can be evaluated into a string:<br>
 	 * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
 	 * @see https://php.net/manual/en/language.oop5.magic.php#object.tostring
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty string value.</p>
 	 * @param bool $nullable [default = false]
@@ -890,11 +890,11 @@ trait Evaluators
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param string $class
 	 * <p>The class to use.</p>

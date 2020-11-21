@@ -1634,8 +1634,8 @@ final class Call extends Utility
 				if (!$string_options->loaded('prepend_type')) {
 					$string_options->prepend_type = is_bool($value);
 				}
-				if (!$string_options->loaded('non_stringifiable')) {
-					$string_options->non_stringifiable = true;
+				if (!$string_options->loaded('non_stringable')) {
+					$string_options->non_stringable = true;
 				}
 				return Text::stringify($value, null, $string_options);
 			};

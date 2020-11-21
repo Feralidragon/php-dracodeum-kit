@@ -17,7 +17,7 @@ use Dracodeum\Kit\Interfaces\{
 	Persistable as IPersistable,
 	Unpersistable as IUnpersistable,
 	ArrayInstantiable as IArrayInstantiable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	Uncloneable as IUncloneable
 };
 use Dracodeum\Kit\Interfaces\Log\Event\Tag as ILogEventTag;
@@ -83,7 +83,7 @@ use Dracodeum\Kit\Root\Log;
  */
 abstract class Entity
 implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringifiable, IUncloneable
+IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringable, IUncloneable
 {
 	//Traits
 	use KitTraits\DebugInfo;
@@ -92,7 +92,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	use KitTraits\Properties\ArrayAccess;
 	use KitTraits\Properties\Keyable;
 	use KitTraits\Readonly;
-	use KitTraits\Stringifiable;
+	use KitTraits\Stringable;
 	use KitTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
@@ -235,7 +235,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
 	public function toString(?TextOptions $text_options = null): string
 	{
@@ -638,11 +638,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
@@ -689,11 +689,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
@@ -743,11 +743,11 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * to be loaded from;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method, 
 	 * given as an ID to be loaded from;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface, 
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface, 
 	 * given as an ID to be loaded from.
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @see \Dracodeum\Kit\Structures\Uid
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
@@ -847,7 +847,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Arrayable\" interface;\n" . 
 				" - an instance of \"Dracodeum\\Kit\\Components\\Store\\Structures\\Uid\", to be loaded from;\n" . 
 				" - an object implementing the \"__toString\" method, given as an ID to be loaded from;\n" . 
-				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface, " . 
+				" - an object implementing the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface, " . 
 				"given as an ID to be loaded from."
 		]);
 	}
@@ -858,9 +858,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -879,9 +879,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -903,9 +903,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into an ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param bool $nullable [default = false]
@@ -957,9 +957,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to evaluate with.</p>
 	 * @param mixed $value [reference]
@@ -981,9 +981,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to coerce with.</p>
 	 * @param mixed $value
@@ -1007,9 +1007,9 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into a scope ID:<br>
 	 * &nbsp; &#8226; &nbsp; an integer or string;<br>
 	 * &nbsp; &#8226; &nbsp; an object implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+	 * &nbsp; &#8226; &nbsp; an object implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param string $name
 	 * <p>The name to process with.</p>
 	 * @param mixed $value [reference]
@@ -1079,10 +1079,10 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be evaluated into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values [reference]
 	 * <p>The set of values to evaluate (validate and sanitize).</p>
 	 * @return bool
@@ -1099,10 +1099,10 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Stringifiable
+	 * @see \Dracodeum\Kit\Interfaces\Stringable
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
@@ -1121,7 +1121,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * Only the following types and formats can be coerced into scope IDs:<br>
 	 * &nbsp; &#8226; &nbsp; an array of integers or strings;<br>
 	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>__toString</code> method;<br>
-	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> 
+	 * &nbsp; &#8226; &nbsp; an array of objects implementing the <code>Dracodeum\Kit\Interfaces\Stringable</code> 
 	 * interface.
 	 * 
 	 * @param array $values [reference]

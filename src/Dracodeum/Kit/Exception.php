@@ -127,7 +127,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{
 		return UText::stringify($value, null, [
-			'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringifiable' => true
+			'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringable' => true
 		]);
 	}
 }

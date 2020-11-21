@@ -7,32 +7,32 @@
 
 namespace Dracodeum\Kit\Traits;
 
-use Dracodeum\Kit\Interfaces\Stringifiable as IStringifiable;
+use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
  * This trait adds the ability for an object to be cast to a string, 
- * by using the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface.
+ * by using the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
  * 
- * @see \Dracodeum\Kit\Interfaces\Stringifiable
+ * @see \Dracodeum\Kit\Interfaces\Stringable
  */
-trait Stringifiable
+trait Stringable
 {
 	//Final public magic methods
 	/**
 	 * Cast this object to a string.
 	 * 
 	 * This method requires this object to have 
-	 * the <code>Dracodeum\Kit\Interfaces\Stringifiable</code> interface implemented.
+	 * the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface implemented.
 	 * 
 	 * @return string
 	 * <p>This object cast to a string.</p>
 	 */
 	final public function __toString(): string
 	{
-		UCall::guard($this instanceof IStringifiable, [
+		UCall::guard($this instanceof IStringable, [
 			'hint_message' => "This method requires this object to have " . 
-				"the \"Dracodeum\\Kit\\Interfaces\\Stringifiable\" interface implemented."
+				"the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface implemented."
 		]);
 		return $this->toString();
 	}

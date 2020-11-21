@@ -13,7 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable,
 	Keyable as IKeyable,
 	Readonlyable as IReadonlyable,
-	Stringifiable as IStringifiable,
+	Stringable as IStringable,
 	IntegerInstantiable as IIntegerInstantiable,
 	FloatInstantiable as IFloatInstantiable,
 	StringInstantiable as IStringInstantiable,
@@ -54,7 +54,7 @@ use Dracodeum\Kit\Utilities\{
  */
 abstract class Structure
 implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IArrayable, IKeyable, \JsonSerializable,
-IReadonlyable, IStringifiable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstantiable,
+IReadonlyable, IStringable, IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstantiable,
 IArrayInstantiable, ICloneable
 {
 	//Traits
@@ -65,7 +65,7 @@ IArrayInstantiable, ICloneable
 	use KitTraits\Properties\ArrayAccess;
 	use KitTraits\Properties\Keyable;
 	use KitTraits\Readonly;
-	use KitTraits\Stringifiable;
+	use KitTraits\Stringable;
 	use KitTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\PropertiesInitializer;
@@ -126,7 +126,7 @@ IArrayInstantiable, ICloneable
 	
 	
 	
-	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringifiable)
+	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
 	public function toString(?TextOptions $text_options = null): string
 	{
