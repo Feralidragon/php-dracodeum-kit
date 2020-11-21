@@ -35,6 +35,9 @@ final class System implements IUninstantiable
 	
 	
 	//Private static properties
+	/** @var bool */
+	private static $framework = false;
+	
 	/** @var \Dracodeum\Kit\Root\System\Components\Environment|null */
 	private static $environment = null;
 	
@@ -47,6 +50,30 @@ final class System implements IUninstantiable
 	
 	
 	//Final public static methods
+	/**
+	 * Set as framework.
+	 * 
+	 * When set as a framework, this package will act as the main framework for the entire application, 
+	 * thus global PHP settings (such as ones set through <code>ini_set</code> calls) will be affected and modified.
+	 * 
+	 * @return void
+	 */
+	final public static function setAsFramework(): void
+	{
+		self::$framework = true;
+	}
+	
+	/**
+	 * Check if is set as a framework.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is set as a framework.</p>
+	 */
+	final public static function isFramework(): bool
+	{
+		return self::$framework;
+	}
+	
 	/**
 	 * Get environment instance.
 	 * 
@@ -148,7 +175,7 @@ final class System implements IUninstantiable
 		]);
 		
 		//check
-		if (Vendor::isLibrary()) {
+		if (!self::isFramework()) {
 			if ($no_throw) {
 				return false;
 			}
@@ -190,7 +217,7 @@ final class System implements IUninstantiable
 	 */
 	final public static function setErrorReportingFlags(int $flags): void
 	{
-		if (!Vendor::isLibrary()) {
+		if (self::isFramework()) {
 			error_reporting($flags);
 		}
 	}

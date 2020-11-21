@@ -5,7 +5,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
 
+System::setAsFramework();
 System::setEnvironment('development');
+
 
 
 class Foo extends Dracodeum\Kit\Entity
