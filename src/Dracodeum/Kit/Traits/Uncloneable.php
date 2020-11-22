@@ -17,8 +17,12 @@ use Dracodeum\Kit\Utilities\Call as UCall;
 trait Uncloneable
 {
 	//Final public magic methods
-	/** Prevent class instance from being cloned. */
-	final public function __clone()
+	/**
+	 * Prevent class instance from being cloned.
+	 * 
+	 * @return void
+	 */
+	final public function __clone(): void
 	{
 		UCall::halt(['error_message' => "Instances of this class cannot be cloned."]);
 	}

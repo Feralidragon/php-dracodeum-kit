@@ -35,10 +35,10 @@ trait DebugInfo
 	/**
 	 * Get debug info.
 	 * 
-	 * @return array
-	 * <p>The debug info.</p>
+	 * @return array|null
+	 * <p>The debug info or <code>null</code> if none is set.</p>
 	 */
-	final public function __debugInfo(): array
+	final public function __debugInfo(): ?array
 	{
 		return $this->getDebugInfo();
 	}

@@ -45,7 +45,7 @@ trait LazyProperties
 	 * @return mixed
 	 * <p>The value from the property with the given name.</p>
 	 */
-	final public function __get(string $name)
+	final public function __get(string $name): mixed
 	{
 		return $this->getPropertiesManager()->get($name, false, UCall::stackPreviousObject());
 	}
@@ -72,7 +72,7 @@ trait LazyProperties
 	 * <p>The value to set.</p>
 	 * @return void
 	 */
-	final public function __set(string $name, $value): void
+	final public function __set(string $name, mixed $value): void
 	{
 		$this->getPropertiesManager()->set($name, $value, false, UCall::stackPreviousObject());
 	}

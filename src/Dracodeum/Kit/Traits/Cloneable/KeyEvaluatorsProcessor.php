@@ -16,8 +16,12 @@ namespace Dracodeum\Kit\Traits\Cloneable;
 trait KeyEvaluatorsProcessor
 {
 	//Public magic methods
-	/** Process instance clone. */
-	public function __clone()
+	/**
+	 * Process instance clone.
+	 * 
+	 * @return void
+	 */
+	public function __clone(): void
 	{
 		$this->processKeyEvaluatorsCloning();
 	}
