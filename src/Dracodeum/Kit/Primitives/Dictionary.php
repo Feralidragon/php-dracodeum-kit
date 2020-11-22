@@ -298,7 +298,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
+	final public function clone(): object
 	{
 		//clone
 		$clone = new static();
@@ -316,12 +316,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 		$clone->values = $this->values;
 		$clone->cursor_map = $this->cursor_map;
 		reset($clone->cursor_map);
-		
-		//recursive
-		if ($recursive) {
-			$clone->keys = UType::cloneValue($clone->keys, $recursive);
-			$clone->values = UType::cloneValue($clone->values, $recursive);
-		}
 		
 		//return
 		return $clone;
@@ -714,7 +708,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 					$value = $instance;
 					
 				} elseif ($clone_recursive !== null) {
-					$value = $value->clone($clone_recursive);
+					$value = $value->clone();
 				}
 				return true;
 			}

@@ -21,7 +21,7 @@ trait Cloneable
 {
 	//Implemented public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	public function clone(bool $recursive = false): object
+	public function clone(): object
 	{
 		return clone $this;
 	}

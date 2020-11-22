@@ -182,10 +182,9 @@ IArrayInstantiable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
+	final public function clone(): object
 	{
-		$properties = $this->getAllInitializeable(true);
-		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
+		return new static($this->getAllInitializeable(true));
 	}
 	
 	
@@ -453,7 +452,7 @@ IArrayInstantiable, ICloneable
 						}
 						$value = UType::coerceObject($builder($properties), static::class);
 					} elseif ($clone_recursive !== null) {
-						$value = $value->clone($clone_recursive);
+						$value = $value->clone();
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {

@@ -161,10 +161,9 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Cloneable)
 	/** {@inheritdoc} */
-	final public function clone(bool $recursive = false): object
+	final public function clone(): object
 	{
-		$properties = $this->getAllInitializeable(true);
-		return new static($recursive ? UType::cloneValue($properties, $recursive) : $properties);
+		return new static($this->getAllInitializeable(true));
 	}
 	
 	
@@ -424,7 +423,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 						}
 						$value = UType::coerceObject($builder($properties), static::class);
 					} elseif ($clone_recursive !== null) {
-						$value = $instance->clone($clone_recursive);
+						$value = $instance->clone();
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {

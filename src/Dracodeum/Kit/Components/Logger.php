@@ -96,8 +96,7 @@ class Logger extends Component
 		//event
 		$event = Event::coerce($event);
 		if (!$event->isReadonly()) {
-			$event = $event->clone(true)->setAsReadonly();
-			$event->tags->setAsReadonly();
+			$event = $event->clone()->setAsReadonly();
 		}
 		
 		//add

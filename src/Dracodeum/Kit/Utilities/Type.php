@@ -1919,18 +1919,16 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to clone.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UncloneableObject
 	 * @return object
 	 * <p>The cloned object from the given one.</p>
 	 */
-	final public static function clone(object $object, bool $recursive = false): object
+	final public static function clone(object $object): object
 	{
 		if (!self::cloneable($object)) {
 			throw new Exceptions\UncloneableObject([$object]);
 		} elseif ($object instanceof ICloneable) {
-			return $object->clone($recursive);
+			return $object->clone();
 		}
 		return clone $object;
 	}
@@ -1954,7 +1952,7 @@ final class Type extends Utility
 	final public static function cloneValue($value, bool $recursive = false)
 	{
 		if (is_object($value) && self::cloneable($value)) {
-			return self::clone($value, $recursive);
+			return self::clone($value);
 		} elseif ($recursive && is_array($value)) {
 			foreach ($value as &$v) {
 				$v = self::cloneValue($v, $recursive);
