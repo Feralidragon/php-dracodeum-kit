@@ -208,18 +208,9 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Arrayable)
 	/** {@inheritdoc} */
-	final public function toArray(bool $recursive = false): array
+	final public function toArray(): array
 	{
-		$array = $this->getAll();
-		if ($recursive) {
-			foreach ($array as &$value) {
-				if (is_object($value)) {
-					UData::evaluate($value, null, false, false, true);
-				}
-			}
-			unset($value);
-		}
-		return $array;
+		return $this->getAll();
 	}
 	
 	

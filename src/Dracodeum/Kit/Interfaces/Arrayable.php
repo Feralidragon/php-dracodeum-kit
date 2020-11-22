@@ -14,10 +14,8 @@ interface Arrayable
 	/**
 	 * Cast this object to an array.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Cast all the possible referenced subobjects to arrays recursively (if applicable).</p>
 	 * @return array
 	 * <p>This object cast to an array.</p>
 	 */
-	public function toArray(bool $recursive = false): array;
+	public function toArray(): array;
 }

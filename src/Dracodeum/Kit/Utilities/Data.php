@@ -2191,7 +2191,7 @@ final class Data extends Utility
 		//array
 		$array = $value;
 		if (is_object($array) && $array instanceof IArrayable) {
-			$array = $array->toArray($recursive);
+			$array = $array->toArray();
 		} elseif ($recursive && is_array($array)) {
 			foreach ($array as &$v) {
 				self::processCoercion($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
