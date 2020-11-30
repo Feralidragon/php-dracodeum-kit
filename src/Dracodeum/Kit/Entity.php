@@ -150,14 +150,8 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		);
 		
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//properties
+		$this->addReadonlyCallback(function (): void {
 			$this->setPropertiesAsReadonly();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(true), $recursive);
-			}
 		});
 		
 		//initialize
@@ -210,7 +204,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 				'name' => $this->getName(),
 				'base_scope' => $this->getBaseScope(),
 				'scope_ids' => $this->getScopeIds()
-			])->setAsReadonly(true);
+			])->setAsReadonly();
 		}
 		return $this->uid;
 	}

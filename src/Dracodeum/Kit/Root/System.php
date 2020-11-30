@@ -317,7 +317,7 @@ final class System implements IUninstantiable
 				'release' => php_uname('r'),
 				'information' => php_uname('v'),
 				'architecture' => php_uname('m')
-			])->setAsReadonly(true);
+			])->setAsReadonly();
 		}
 		return self::$os;
 	}

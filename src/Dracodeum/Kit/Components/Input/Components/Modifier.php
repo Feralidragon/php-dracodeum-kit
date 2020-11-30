@@ -260,7 +260,7 @@ abstract class Modifier extends Component
 			'type' => $this->getType(),
 			'subtype' => $this->getSubtype(),
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null
-		])->setAsReadonly(true);
+		])->setAsReadonly();
 	}
 	
 	

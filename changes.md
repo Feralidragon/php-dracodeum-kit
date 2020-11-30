@@ -10,6 +10,12 @@
     * `toArray(bool $recursive = false)` &#8594; `toArray()`
   * `Cloneable`
     * `clone(bool $recursive = false)` &#8594; `clone()`
-      * `Type::clone(object $object, bool $recursive = false)` &#8594; `Type::clone(object $object)`
+      * `UType::clone(object $object, bool $recursive = false)` &#8594; `UType::clone(object $object)`
   * `DebugInfo`
     * `getDebugInfo(bool $recursive = false)` &#8594; `getDebugInfo()`
+  * `Readonlyable`
+    * `isReadonly(bool $recursive = false)` &#8594; `isReadonly()`
+      * `UType::readonly(object $object, bool $recursive = false)` &#8594; `UType::readonly(object $object)`
+      * `UType::setAsReadonly(object $object, bool $recursive = false)` &#8594; `UType::setAsReadonly(object $object)`
+    * `setAsReadonly(bool $recursive = false)` &#8594; `setAsReadonly()`
+    * `addReadonlyCallback(callable $callback)`

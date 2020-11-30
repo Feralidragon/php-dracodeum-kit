@@ -1980,14 +1980,12 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given object has been recursively set as read-only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object is read-only.</p>
 	 */
-	final public static function readonly(object $object, bool $recursive = false): bool
+	final public static function readonly(object $object): bool
 	{
-		return $object instanceof IReadonlyable ? $object->isReadonly($recursive) : false;
+		return $object instanceof IReadonlyable ? $object->isReadonly() : false;
 	}
 	
 	/**
@@ -2013,7 +2011,7 @@ final class Type extends Utility
 	final public static function readonlyValue($value, bool $recursive = false, bool $readonlyables_only = false): bool
 	{
 		if (is_object($value) && $value instanceof IReadonlyable) {
-			return $value->isReadonly($recursive);
+			return $value->isReadonly();
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				$readonlyable = is_object($v) && self::readonlyable($v);
@@ -2031,15 +2029,13 @@ final class Type extends Utility
 	 * 
 	 * @param object $object
 	 * <p>The object to set as read-only.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnreadonlyableObject
 	 * @return void
 	 */
-	final public static function setAsReadonly(object $object, bool $recursive = false): void
+	final public static function setAsReadonly(object $object): void
 	{
 		if ($object instanceof IReadonlyable) {
-			$object->setAsReadonly($recursive);
+			$object->setAsReadonly();
 			return;
 		}
 		throw new Exceptions\UnreadonlyableObject([$object]);
@@ -2065,7 +2061,7 @@ final class Type extends Utility
 	final public static function setValueAsReadonly($value, bool $recursive = false): void
 	{
 		if (is_object($value) && $value instanceof IReadonlyable) {
-			$value->setAsReadonly($recursive);
+			$value->setAsReadonly();
 		} elseif ($recursive && Data::evaluate($value)) {
 			foreach ($value as $v) {
 				self::setValueAsReadonly($v, $recursive);

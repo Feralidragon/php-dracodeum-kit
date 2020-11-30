@@ -31,9 +31,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** @var bool */
 	private $enabled = false;
 	
-	/** @var bool */
-	private $recursive = false;
-	
 	/** @var \Closure[] */
 	private $callbacks = [];
 	
@@ -57,7 +54,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/** {@inheritdoc} */
 	public function processDebugInfo(DebugInfo $info): void
 	{
-		$info->set('enabled', $this->enabled)->set('recursive', $this->recursive);
+		$info->set('enabled', $this->enabled);
 	}
 	
 	
@@ -95,34 +92,27 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	/**
 	 * Check if is enabled.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if it has been recursively enabled.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is enabled.</p>
 	 */
-	final public function isEnabled(bool $recursive = false): bool
+	final public function isEnabled(): bool
 	{
-		return $this->enabled && (!$recursive || $this->recursive);
+		return $this->enabled;
 	}
 	
 	/**
 	 * Enable.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Enable recursively.<br>
-	 * <br>
-	 * Any potential recursion may only be implemented in the callback functions.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function enable(bool $recursive = false): Readonly
+	final public function enable(): Readonly
 	{
-		if (!$this->isEnabled($recursive)) {
+		if (!$this->enabled) {
 			foreach ($this->callbacks as $callback) {
-				$callback($recursive);
+				$callback();
 			}
 			$this->enabled = true;
-			$this->recursive = $recursive;
 		}
 		return $this;
 	}
@@ -138,13 +128,8 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (bool $recursive): void</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $recursive</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Enable recursively.</p>
-	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * <code>function (): void</code>
+	 * </p>
 	 */
 	final public function addCallback(callable $callback): Readonly
 	{
@@ -152,7 +137,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 			'hint_message' => "This method may only be called before enablement, in manager with owner {{owner}}.",
 			'parameters' => ['owner' => $this->owner]
 		]);
-		UCall::assert('callback', $callback, function (bool $recursive): void {});
+		UCall::assert('callback', $callback, function (): void {});
 		$this->callbacks[] = \Closure::fromCallable($callback);
 		return $this;
 	}

@@ -79,15 +79,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	final public function __construct(array $pairs = [])
 	{
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//evaluators
+		$this->addReadonlyCallback(function (): void {
 			$this->lockKeyEvaluators()->lockEvaluators();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->keys, $recursive);
-				UType::setValueAsReadonly($this->values, $recursive);
-			}
 		});
 		
 		//key evaluator callback

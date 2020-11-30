@@ -631,7 +631,7 @@ class Input extends Component
 			'nullable' => $this->nullable,
 			'data' => $prototype instanceof PrototypeInterfaces\SchemaData ? $prototype->getSchemaData() : null,
 			'modifiers' => $this->getModifierSchemas()
-		])->setAsReadonly(true);
+		])->setAsReadonly();
 	}
 	
 	

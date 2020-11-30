@@ -9,8 +9,6 @@ namespace Dracodeum\Kit\Traits;
 
 use Dracodeum\Kit\Managers\Readonly as Manager;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
-use Dracodeum\Kit\Root\System;
-use Dracodeum\Kit\Root\System\Enumerations\DumpVerbosityLevel as EDumpVerbosityLevel;
 
 /**
  * This trait enables read-only support for a class 
@@ -30,27 +28,23 @@ trait Readonly
 	/**
 	 * Check if is read-only.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Check if it has been recursively set as read-only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is read-only.</p>
 	 */
-	final public function isReadonly(bool $recursive = false): bool
+	final public function isReadonly(): bool
 	{
-		return $this->isReadonlyManagerLoaded() ? $this->getReadonlyManager()->isEnabled($recursive) : false;
+		return $this->isReadonlyManagerLoaded() ? $this->getReadonlyManager()->isEnabled() : false;
 	}
 	
 	/**
 	 * Set as read-only.
 	 * 
-	 * @param bool $recursive [default = false]
-	 * <p>Set all possible referenced subobjects as read-only recursively (if applicable).</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsReadonly(bool $recursive = false): object
+	final public function setAsReadonly(): object
 	{
-		$this->getReadonlyManager()->enable($recursive);
+		$this->getReadonlyManager()->enable();
 		return $this;
 	}
 	
@@ -81,11 +75,8 @@ trait Readonly
 	 * <p>The callback function to add.<br>
 	 * It is expected to be compatible with the following signature:<br>
 	 * <br>
-	 * <code>function (bool $recursive): void</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>bool $recursive</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; Enable recursively.</p>
+	 * <code>function (): void</code><br>
+	 * </p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
@@ -117,16 +108,7 @@ trait Readonly
 	 */
 	final protected function processReadonlyDebugInfo(DebugInfo $info): object
 	{
-		$readonly = $this->isReadonly();
-		$info
-			->set(
-				'@readonly',
-				System::getDumpVerbosityLevel() <= EDumpVerbosityLevel::LOW || $readonly === $this->isReadonly(true)
-					? $readonly
-					: $this->getReadonlyDebugInfo()
-			)
-			->hideObjectProperty('readonly_manager', self::class)
-		;
+		$info->set('@readonly', $this->isReadonly())->hideObjectProperty('readonly_manager', self::class);
 		return $this;
 	}
 	

@@ -94,14 +94,8 @@ IArrayInstantiable, ICloneable
 		);
 		
 		//read-only
-		$this->addReadonlyCallback(function (bool $recursive): void {
-			//properties
+		$this->addReadonlyCallback(function (): void {
 			$this->setPropertiesAsReadonly();
-			
-			//recursive
-			if ($recursive) {
-				UType::setValueAsReadonly($this->getAll(true), $recursive);
-			}
 		});
 	}
 	
