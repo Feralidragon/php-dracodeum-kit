@@ -130,6 +130,8 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * <br>
 	 * <code>function (): void</code>
 	 * </p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function addCallback(callable $callback): Readonly
 	{
