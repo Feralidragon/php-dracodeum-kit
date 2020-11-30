@@ -860,7 +860,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 			$array = $value;
 			if (UData::evaluate($array, null, true)) {
 				if ($clone_recursive === true) {
-					$array = UType::cloneValue($array, true);
+					$array = UType::cloneValue($array);
 				}
 				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
 				return true;

@@ -400,7 +400,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 				} elseif (is_array($value)) {
 					$properties = $value;
 					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties, true);
+						$properties = UType::cloneValue($properties);
 					}
 				} elseif (is_callable($value)) {
 					$properties = static::getCallableProperties($value);
@@ -413,7 +413,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 					if (!UType::isA($instance, static::class)) {
 						$properties = $instance->getAll(true);
 						if ($clone_recursive === true) {
-							$properties = UType::cloneValue($properties, true);
+							$properties = UType::cloneValue($properties);
 						}
 						$value = UType::coerceObject($builder($properties), static::class);
 					} elseif ($clone_recursive !== null) {
@@ -423,7 +423,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 				} elseif (UData::evaluate($instance)) {
 					$properties = $instance;
 					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties, true);
+						$properties = UType::cloneValue($properties);
 					}
 					$value = UType::coerceObject($builder($properties), static::class);
 					return true;

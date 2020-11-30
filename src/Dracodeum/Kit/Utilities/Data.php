@@ -2070,8 +2070,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Evaluate all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
@@ -2079,10 +2077,10 @@ final class Data extends Utility
 	 */
 	final public static function evaluate(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false
+		bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
+		return self::processCoercion($value, $evaluator, $non_associative, $non_empty, $nullable, true);
 	}
 	
 	/**
@@ -2113,8 +2111,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Coerce all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Data\Exceptions\CoercionFailed
@@ -2124,10 +2120,10 @@ final class Data extends Utility
 	 */
 	final public static function coerce(
 		$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false
+		bool $nullable = false
 	): ?array
 	{
-		self::processCoercion($value, $evaluator, $non_associative, $non_empty, $recursive, $nullable);
+		self::processCoercion($value, $evaluator, $non_associative, $non_empty, $nullable);
 		return $value;
 	}
 	
@@ -2159,8 +2155,6 @@ final class Data extends Utility
 	 * <p>Do not allow an associative array.</p>
 	 * @param bool $non_empty [default = false]
 	 * <p>Do not allow an empty array.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Coerce all possible referenced subobjects into arrays recursively.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -2171,7 +2165,7 @@ final class Data extends Utility
 	 */
 	final public static function processCoercion(
 		&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false,
-		bool $recursive = false, bool $nullable = false, bool $no_throw = false
+		bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -2192,11 +2186,6 @@ final class Data extends Utility
 		$array = $value;
 		if (is_object($array) && $array instanceof IArrayable) {
 			$array = $array->toArray();
-		} elseif ($recursive && is_array($array)) {
-			foreach ($array as &$v) {
-				self::processCoercion($v, $evaluator, $non_associative, $non_empty, $recursive, $nullable, true);
-			}
-			unset($v);
 		}
 		
 		//coerce

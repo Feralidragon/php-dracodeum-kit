@@ -6,16 +6,26 @@
 * Renamed `Stringifiable` interface and trait to `Stringable`
   * `non_stringifiable` &#8594; `non_stringable` (property)
 * Removed `$recursive` parameter from most methods
-  * `Arrayable`
+  * `Arrayable` interface
     * `toArray(bool $recursive = false)` &#8594; `toArray()`
-  * `Cloneable`
+  * `Cloneable` interface
     * `clone(bool $recursive = false)` &#8594; `clone()`
-      * `UType::clone(object $object, bool $recursive = false)` &#8594; `UType::clone(object $object)`
-  * `DebugInfo`
+  * `DebugInfo` interface
     * `getDebugInfo(bool $recursive = false)` &#8594; `getDebugInfo()`
-  * `Readonlyable`
+  * `Readonlyable` interface
     * `isReadonly(bool $recursive = false)` &#8594; `isReadonly()`
-      * `UType::readonly(object $object, bool $recursive = false)` &#8594; `UType::readonly(object $object)`
-      * `UType::setAsReadonly(object $object, bool $recursive = false)` &#8594; `UType::setAsReadonly(object $object)`
     * `setAsReadonly(bool $recursive = false)` &#8594; `setAsReadonly()`
     * `addReadonlyCallback(callable $callback)`
+  * `Data` utility
+    * `evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)
+    * `coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`
+    * `processCoercion(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false, bool $no_throw = false)` &#8594; `processCoercion(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false, bool $no_throw = false)`
+  * `Type` utility
+    * `clone(object $object, bool $recursive = false)` &#8594; `clone(object $object)`
+    * `cloneValue($value, bool $recursive = false)` &#8594; `cloneValue($value)`
+    * `readonly(object $object, bool $recursive = false)` &#8594; `readonly(object $object)`
+    * `setAsReadonly(object $object, bool $recursive = false)` &#8594; `setAsReadonly(object $object)`
+  * `Evaluators` manager and trait
+    * `setAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `setAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`
+  * `KeyEvaluators` trait
+    * `setKeyAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `setKeyAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`

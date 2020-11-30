@@ -1937,25 +1937,23 @@ final class Type extends Utility
 	 * Clone a given value.
 	 * 
 	 * If the given value is a cloneable object, then a clone of it is returned.<br>
-	 * If the given value is an array and <var>$recursive</var> is set to boolean <code>true</code>, 
-	 * then it is transversed recursively, with every cloneable object found being cloned and returned.<br>
+	 * If the given value is an array, then it is transversed recursively with every cloneable object found being 
+	 * cloned and returned.<br>
 	 * <br>
 	 * For any other case, the given value is returned as is.
 	 * 
 	 * @param mixed $value
 	 * <p>The value to clone.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Clone all the possible referenced subobjects into new instances recursively (if applicable).</p>
 	 * @return mixed
 	 * <p>The cloned value from the given one if applicable, or the given value if otherwise.</p>
 	 */
-	final public static function cloneValue($value, bool $recursive = false)
+	final public static function cloneValue($value)
 	{
 		if (is_object($value) && self::cloneable($value)) {
 			return self::clone($value);
-		} elseif ($recursive && is_array($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as &$v) {
-				$v = self::cloneValue($v, $recursive);
+				$v = self::cloneValue($v);
 			}
 			unset($v);
 		}
@@ -2055,7 +2053,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to set as read-only.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Set all the possible referenced subobjects as read-only recursively (if applicable).</p>
+	 * <p>Set all the possible referenced subobjects as read-only recursively.</p>
 	 * @return void
 	 */
 	final public static function setValueAsReadonly($value, bool $recursive = false): void
@@ -2088,7 +2086,7 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to cast.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Cast the given object to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * <p>Cast the given object to a recursive key with all the possible referenced subobjects.</p>
 	 * @param bool|null $safe [reference output] [default = null]
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
@@ -2115,7 +2113,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to cast.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Cast the given value to a recursive key with all the possible referenced subobjects (if applicable).</p>
+	 * <p>Cast the given value to a recursive key with all the possible referenced subobjects.</p>
 	 * @param bool $keyables_only [default = false]
 	 * <p>Cast key-able values only.</p>
 	 * @param bool|null $safe [reference output] [default = null]
@@ -2250,7 +2248,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to persist.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively (if applicable).</p>
+	 * <p>Persist all the possible referenced subobjects recursively.</p>
 	 * @return void
 	 */
 	final public static function persistValue($value, bool $recursive = false): void
@@ -2308,7 +2306,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * <p>The value to unpersist.</p>
 	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively (if applicable).</p>
+	 * <p>Unpersist all the possible referenced subobjects recursively.</p>
 	 * @return void
 	 */
 	final public static function unpersistValue($value, bool $recursive = false): void
