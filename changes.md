@@ -9,3 +9,4 @@
   * `Arrayable::toArray(bool $recursive = false)` &#8594; `Arrayable::toArray()`
   * `Cloneable::clone(bool $recursive = false)` &#8594; `Cloneable::clone()`
     * `Type::clone(object $object, bool $recursive = false)` &#8594; `Type::clone(object $object)`
+  * `DebugInfo::getDebugInfo(bool $recursive = false)` &#8594; `DebugInfo::getDebugInfo()`

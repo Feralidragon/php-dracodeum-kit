@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Traits;
 
-use Dracodeum\Kit\Interfaces\DebugInfo as IDebugInfo;
 use Dracodeum\Kit\Traits\DebugInfo\{
 	Info,
 	Interfaces
@@ -47,9 +46,8 @@ trait DebugInfo
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\DebugInfo)
 	/** {@inheritdoc} */
-	final public function getDebugInfo(bool $recursive = false): array
+	final public function getDebugInfo(): array
 	{
-		//process
 		$debug_info = [];
 		if (System::getDumpVerbosityLevel() < EDumpVerbosityLevel::HIGH) {
 			//info
@@ -78,21 +76,10 @@ trait DebugInfo
 					}
 				}
 			}
+			
 		} else {
 			$debug_info = (array)$this;
 		}
-		
-		//recursive
-		if ($recursive) {
-			foreach ($debug_info as &$value) {
-				if (is_object($value) && $value instanceof IDebugInfo) {
-					$value = $value->getDebugInfo($recursive);
-				}
-			}
-			unset($value);
-		}
-		
-		//return
 		return $debug_info;
 	}
 }
