@@ -6,7 +6,10 @@
 * Renamed `Stringifiable` interface and trait to `Stringable`
   * `non_stringifiable` &#8594; `non_stringable` (property)
 * Removed `$recursive` parameter from most methods
-  * `Arrayable::toArray(bool $recursive = false)` &#8594; `Arrayable::toArray()`
-  * `Cloneable::clone(bool $recursive = false)` &#8594; `Cloneable::clone()`
-    * `Type::clone(object $object, bool $recursive = false)` &#8594; `Type::clone(object $object)`
-  * `DebugInfo::getDebugInfo(bool $recursive = false)` &#8594; `DebugInfo::getDebugInfo()`
+  * `Arrayable`
+    * `toArray(bool $recursive = false)` &#8594; `toArray()`
+  * `Cloneable`
+    * `clone(bool $recursive = false)` &#8594; `clone()`
+      * `Type::clone(object $object, bool $recursive = false)` &#8594; `Type::clone(object $object)`
+  * `DebugInfo`
+    * `getDebugInfo(bool $recursive = false)` &#8594; `getDebugInfo()`
