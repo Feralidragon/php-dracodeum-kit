@@ -1990,30 +1990,26 @@ final class Type extends Utility
 	 * Check if a given value is read-only.
 	 * 
 	 * If the given value is a read-only-able object, then it is checked.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every read-only-able object found being checked.<br>
+	 * If the given value is an array, then it is transversed recursively with every read-only-able object found being 
+	 * checked.<br>
 	 * <br>
 	 * For any other case, the given value is assumed to not be read-only.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given value has been recursively set as read-only.</p>
 	 * @param bool $readonlyables_only [default = false]
 	 * <p>Check read-only-able values only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value is read-only.</p>
 	 */
-	final public static function readonlyValue($value, bool $recursive = false, bool $readonlyables_only = false): bool
+	final public static function readonlyValue($value, bool $readonlyables_only = false): bool
 	{
 		if (is_object($value) && $value instanceof IReadonlyable) {
 			return $value->isReadonly();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
 				$readonlyable = is_object($v) && self::readonlyable($v);
-				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, true, $readonlyables_only)) {
+				if ((!$readonlyables_only || $readonlyable) && !self::readonlyValue($v, $readonlyables_only)) {
 					return false;
 				}
 			}
@@ -2043,26 +2039,22 @@ final class Type extends Utility
 	 * Set a given value as read-only.
 	 * 
 	 * If the given value is a read-only-able object, then it is set as read-only.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every read-only-able object found being set as read-only.<br>
+	 * If the given value is an array, then it is transversed recursively with every read-only-able object found being 
+	 * set as read-only.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to set as read-only.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Set all the possible referenced subobjects as read-only recursively.</p>
 	 * @return void
 	 */
-	final public static function setValueAsReadonly($value, bool $recursive = false): void
+	final public static function setValueAsReadonly($value): void
 	{
 		if (is_object($value) && $value instanceof IReadonlyable) {
 			$value->setAsReadonly();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::setValueAsReadonly($v, $recursive);
+				self::setValueAsReadonly($v);
 			}
 		}
 	}
@@ -2185,30 +2177,26 @@ final class Type extends Utility
 	 * Check if a given value has already been persisted at least once.
 	 * 
 	 * If the given value is a persistable object, then it is checked.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every persistable object found being checked.<br>
+	 * If the given value is an array, then it is transversed recursively with every persistable object found being 
+	 * checked.<br>
 	 * <br>
 	 * For any other case, the given value is assumed to not have been persisted.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to check.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Check if the given value has already been recursively persisted at least once.</p>
 	 * @param bool $persistables_only [default = false]
 	 * <p>Check persistable values only.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value has already been persisted at least once.</p>
 	 */
-	final public static function persistedValue($value, bool $recursive = false, bool $persistables_only = false): bool
+	final public static function persistedValue($value, bool $persistables_only = false): bool
 	{
 		if (is_object($value) && $value instanceof IPersistable) {
 			return $value->isPersisted();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
 				$persistable = is_object($v) && self::persistable($v);
-				if ((!$persistables_only || $persistable) && !self::persistedValue($v, true, $persistables_only)) {
+				if ((!$persistables_only || $persistable) && !self::persistedValue($v, $persistables_only)) {
 					return false;
 				}
 			}
@@ -2238,26 +2226,22 @@ final class Type extends Utility
 	 * Persist a given value.
 	 * 
 	 * If the given value is a persistable object, then it is persisted.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every persistable object found being persisted.<br>
+	 * If the given value is an array, then it is transversed recursively with every persistable object found being 
+	 * persisted.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to persist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Persist all the possible referenced subobjects recursively.</p>
 	 * @return void
 	 */
-	final public static function persistValue($value, bool $recursive = false): void
+	final public static function persistValue($value): void
 	{
 		if (is_object($value) && $value instanceof IPersistable) {
 			$value->persist();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::persistValue($v, true);
+				self::persistValue($v);
 			}
 		}
 	}
@@ -2296,26 +2280,22 @@ final class Type extends Utility
 	 * Unpersist a given value.
 	 * 
 	 * If the given value is an unpersistable object, then it is unpersisted.<br>
-	 * If the given value is an array or an object implementing the <code>Dracodeum\Kit\Interfaces\Arrayable</code> 
-	 * interface, and <var>$recursive</var> is set to boolean <code>true</code>, then it is transversed recursively, 
-	 * with every unpersistable object found being unpersisted.<br>
+	 * If the given value is an array, then it is transversed recursively with every unpersistable object found being 
+	 * unpersisted.<br>
 	 * <br>
 	 * For any other case, the given value is left as is.
 	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to unpersist.</p>
-	 * @param bool $recursive [default = false]
-	 * <p>Unpersist all the possible referenced subobjects recursively.</p>
 	 * @return void
 	 */
-	final public static function unpersistValue($value, bool $recursive = false): void
+	final public static function unpersistValue($value): void
 	{
 		if (is_object($value) && $value instanceof IUnpersistable) {
 			$value->unpersist();
-		} elseif ($recursive && Data::evaluate($value)) {
+		} elseif (is_array($value)) {
 			foreach ($value as $v) {
-				self::unpersistValue($v, true);
+				self::unpersistValue($v);
 			}
 		}
 	}

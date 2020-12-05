@@ -24,7 +24,12 @@
     * `clone(object $object, bool $recursive = false)` &#8594; `clone(object $object)`
     * `cloneValue($value, bool $recursive = false)` &#8594; `cloneValue($value)`
     * `readonly(object $object, bool $recursive = false)` &#8594; `readonly(object $object)`
+    * `readonlyValue($value, bool $recursive = false, bool $readonlyables_only = false)` &#8594; `readonlyValue($value, bool $readonlyables_only = false)`
+    * `setValueAsReadonly($value, bool $recursive = false)` &#8594; `setValueAsReadonly($value)`
     * `setAsReadonly(object $object, bool $recursive = false)` &#8594; `setAsReadonly(object $object)`
+    * `persistedValue($value, bool $recursive = false, bool $persistables_only = false)` &#8594; `persistedValue($value, bool $persistables_only = false)`
+    * `persistValue($value, bool $recursive = false)` &#8594; `persistValue($value)`
+    * `unpersistValue($value, bool $recursive = false)` &#8594; `unpersistValue($value)`
   * `Evaluators` manager and trait
     * `setAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `setAsArray(?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`
   * `KeyEvaluators` trait
