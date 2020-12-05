@@ -50,7 +50,7 @@ class LengthRange extends Constraint implements ISubtype, IPriority, IInformatio
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$length = $value->count();
 			return $length >= $this->min_value && $length <= $this->max_value;
 		}

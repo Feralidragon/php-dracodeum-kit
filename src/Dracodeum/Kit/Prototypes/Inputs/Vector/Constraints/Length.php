@@ -45,7 +45,7 @@ class Length extends Constraint implements ISubtype, IPriority, IInformation, IS
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return is_object($value) && $value instanceof Primitive ? $value->count() === $this->value : false;
+		return $value instanceof Primitive ? $value->count() === $this->value : false;
 	}
 	
 	

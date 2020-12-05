@@ -526,7 +526,7 @@ final class Log implements IUninstantiable
 	private static function processEventData(&$data): void
 	{
 		//object
-		if (is_object($data) && $data instanceof IEventData) {
+		if ($data instanceof IEventData) {
 			$data = $data->getLogEventData();
 		}
 		

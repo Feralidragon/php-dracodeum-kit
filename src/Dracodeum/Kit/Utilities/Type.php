@@ -504,10 +504,10 @@ final class Type extends Utility
 				$value = $number;
 				return true;
 			}
-		} elseif (is_object($value) && $value instanceof IIntegerable) {
+		} elseif ($value instanceof IIntegerable) {
 			$value = $value->toInteger();
 			return true;
-		} elseif (is_object($value) && $value instanceof IFloatable) {
+		} elseif ($value instanceof IFloatable) {
 			$value = $value->toFloat();
 			if ($value === floor($value)) {
 				$value = (int)$value;
@@ -2004,7 +2004,7 @@ final class Type extends Utility
 	 */
 	final public static function readonlyValue($value, bool $readonlyables_only = false): bool
 	{
-		if (is_object($value) && $value instanceof IReadonlyable) {
+		if ($value instanceof IReadonlyable) {
 			return $value->isReadonly();
 		} elseif (is_array($value)) {
 			foreach ($value as $v) {
@@ -2050,7 +2050,7 @@ final class Type extends Utility
 	 */
 	final public static function setValueAsReadonly($value): void
 	{
-		if (is_object($value) && $value instanceof IReadonlyable) {
+		if ($value instanceof IReadonlyable) {
 			$value->setAsReadonly();
 		} elseif (is_array($value)) {
 			foreach ($value as $v) {
@@ -2121,7 +2121,7 @@ final class Type extends Utility
 	): ?string
 	{
 		$safe = null;
-		if (is_object($value) && $value instanceof IKeyable) {
+		if ($value instanceof IKeyable) {
 			return $value->toKey($recursive, $safe);
 		} elseif ($recursive && Data::evaluate($value)) {
 			//array
@@ -2191,7 +2191,7 @@ final class Type extends Utility
 	 */
 	final public static function persistedValue($value, bool $persistables_only = false): bool
 	{
-		if (is_object($value) && $value instanceof IPersistable) {
+		if ($value instanceof IPersistable) {
 			return $value->isPersisted();
 		} elseif (is_array($value)) {
 			foreach ($value as $v) {
@@ -2237,7 +2237,7 @@ final class Type extends Utility
 	 */
 	final public static function persistValue($value): void
 	{
-		if (is_object($value) && $value instanceof IPersistable) {
+		if ($value instanceof IPersistable) {
 			$value->persist();
 		} elseif (is_array($value)) {
 			foreach ($value as $v) {
@@ -2291,7 +2291,7 @@ final class Type extends Utility
 	 */
 	final public static function unpersistValue($value): void
 	{
-		if (is_object($value) && $value instanceof IUnpersistable) {
+		if ($value instanceof IUnpersistable) {
 			$value->unpersist();
 		} elseif (is_array($value)) {
 			foreach ($value as $v) {

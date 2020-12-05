@@ -30,7 +30,7 @@ class Unique extends Filter implements ISubtype, IInformation
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$value->unique();
 			return true;
 		}

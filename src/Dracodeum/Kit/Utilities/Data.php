@@ -2184,7 +2184,7 @@ final class Data extends Utility
 		
 		//array
 		$array = $value;
-		if (is_object($array) && $array instanceof IArrayable) {
+		if ($array instanceof IArrayable) {
 			$array = $array->toArray();
 		}
 		

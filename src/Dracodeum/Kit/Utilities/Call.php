@@ -912,7 +912,7 @@ final class Call extends Utility
 				return get_class($object);
 			}
 			$reflection_class = new \ReflectionClass($object);
-		} elseif (is_object($function) && $function instanceof \Closure) {
+		} elseif ($function instanceof \Closure) {
 			$reflection_class = self::reflection($function)->getClosureScopeClass();
 		} elseif (is_array($function) && is_string($function[0])) {
 			$reflection_class = new \ReflectionClass($function[0]);

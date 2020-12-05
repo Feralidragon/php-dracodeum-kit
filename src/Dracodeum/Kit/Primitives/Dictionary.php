@@ -671,7 +671,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 		//coerce
 		try {
 			//object
-			if (is_object($value) && $value instanceof Dictionary) {
+			if ($value instanceof Dictionary) {
 				if (isset($template)) {
 					$instance = $template->clone()->clear();
 					foreach ($value->keys as $index => $key) {

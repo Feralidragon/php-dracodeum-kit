@@ -840,7 +840,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 		//coerce
 		try {
 			//object
-			if (!isset($template) && is_object($value) && $value instanceof Vector) {
+			if (!isset($template) && $value instanceof Vector) {
 				if ($clone) {
 					$value = $value->clone();
 				}

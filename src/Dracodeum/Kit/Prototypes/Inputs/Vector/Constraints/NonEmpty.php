@@ -30,7 +30,7 @@ class NonEmpty extends Constraint implements ISubtype, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		return is_object($value) && $value instanceof Primitive ? !$value->isEmpty() : false;
+		return $value instanceof Primitive ? !$value->isEmpty() : false;
 	}
 	
 	

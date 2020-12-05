@@ -32,7 +32,7 @@ class Unique extends Constraint implements ISubtype, IInformation
 	/** {@inheritdoc} */
 	public function checkValue($value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$map = [];
 			foreach ($value as $v) {
 				$key = UData::keyfy($v);

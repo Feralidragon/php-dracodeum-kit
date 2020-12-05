@@ -44,7 +44,7 @@ class Truncate extends Filter implements ISubtype, IInformation, IStringificatio
 	/** {@inheritdoc} */
 	public function processValue(&$value): bool
 	{
-		if (is_object($value) && $value instanceof Primitive) {
+		if ($value instanceof Primitive) {
 			$value->truncate($this->length);
 			return true;
 		}

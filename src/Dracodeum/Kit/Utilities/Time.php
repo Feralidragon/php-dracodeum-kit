@@ -149,7 +149,7 @@ final class Time extends Utility
 				}
 				return $t;
 			}
-		} elseif (is_object($timestamp) && $timestamp instanceof \DateTimeInterface) {
+		} elseif ($timestamp instanceof \DateTimeInterface) {
 			$t = $timestamp->getTimestamp();
 			if ($microseconds) {
 				$t += (float)$timestamp->format('u') / 1e6;

@@ -1423,9 +1423,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		foreach ($this->properties as $name => $property) {
 			if ($property->isGettable() && !$property->isVolatile()) {
 				$value = $property->getValue();
-				$values[$name] = is_object($value) && UType::persistable($value) && $value instanceof IUid
-					? $value->getUid()
-					: $value;
+				$values[$name] = $value instanceof IUid && UType::persistable($value) ? $value->getUid() : $value;
 				unset($value);
 			}
 		}
