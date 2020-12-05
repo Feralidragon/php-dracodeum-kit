@@ -208,7 +208,7 @@ final class Log implements IUninstantiable
 		//message
 		if (!empty($options->parameters)) {
 			//string options
-			$string_options = StringOptions::coerce($options->string_options, false);
+			$string_options = StringOptions::coerce($options->string_options, true);
 			if (!$string_options->loaded('quote_strings')) {
 				$string_options->quote_strings = true;
 			}
@@ -290,7 +290,7 @@ final class Log implements IUninstantiable
 		$options = Options\PEvent::coerce($options);
 		
 		//string options
-		$string_options = StringOptions::coerce($options->string_options, false);
+		$string_options = StringOptions::coerce($options->string_options, true);
 		if (!$string_options->loaded('quote_strings')) {
 			$string_options->quote_strings = true;
 		}
@@ -385,7 +385,7 @@ final class Log implements IUninstantiable
 	final public static function event($level, string $message, $options = null): void
 	{
 		//initialize
-		$options = Options\Event::coerce($options, false);
+		$options = Options\Event::coerce($options, true);
 		$options->stack_offset++;
 		
 		//add
@@ -442,7 +442,7 @@ final class Log implements IUninstantiable
 	): void
 	{
 		//initialize
-		$options = Options\PEvent::coerce($options, false);
+		$options = Options\PEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//add
@@ -465,7 +465,7 @@ final class Log implements IUninstantiable
 	final public static function throwableEvent($level, \Throwable $throwable, $options = null): void
 	{
 		//initialize
-		$options = Options\ThrowableEvent::coerce($options, false);
+		$options = Options\ThrowableEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//add

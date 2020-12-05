@@ -1234,11 +1234,8 @@ class Evaluators extends Manager
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -1257,13 +1254,13 @@ class Evaluators extends Manager
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsOptions(
-		string $class, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Options::class);
 		$this->set(
-			function (&$value) use ($class, $clone_recursive, $builder, $nullable): bool {
-				return $class::evaluate($value, $clone_recursive, $builder, $nullable);
+			function (&$value) use ($class, $clone, $builder, $nullable): bool {
+				return $class::evaluate($value, $clone, $builder, $nullable);
 			}
 		);
 		return $this;
@@ -1280,11 +1277,8 @@ class Evaluators extends Manager
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param string $class
 	 * <p>The class to use.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -1305,13 +1299,13 @@ class Evaluators extends Manager
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsStructure(
-		string $class, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		string $class, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): Evaluators
 	{
 		$class = UType::coerceClass($class, Structure::class);
 		$this->set(
-			function (&$value) use ($class, $clone_recursive, $builder, $nullable): bool {
-				return $class::evaluate($value, $clone_recursive, $builder, $nullable);
+			function (&$value) use ($class, $clone, $builder, $nullable): bool {
+				return $class::evaluate($value, $clone, $builder, $nullable);
 			}
 		);
 		return $this;
@@ -1328,23 +1322,20 @@ class Evaluators extends Manager
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param \Dracodeum\Kit\Primitives\Dictionary|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same pairs 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same pairs and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsDictionary(
-		?Dictionary $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		?Dictionary $template = null, bool $clone = false, bool $nullable = false
 	): Evaluators
 	{
 		$this->set(
-			function (&$value) use ($template, $clone_recursive, $nullable): bool {
-				return Dictionary::evaluate($value, $template, $clone_recursive, $nullable);
+			function (&$value) use ($template, $clone, $nullable): bool {
+				return Dictionary::evaluate($value, $template, $clone, $nullable);
 			}
 		);
 		return $this;
@@ -1361,23 +1352,20 @@ class Evaluators extends Manager
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param \Dracodeum\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same values 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow a value to evaluate as <code>null</code>.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
 	final public function setAsVector(
-		?Vector $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		?Vector $template = null, bool $clone = false, bool $nullable = false
 	): Evaluators
 	{
 		$this->set(
-			function (&$value) use ($template, $clone_recursive, $nullable): bool {
-				return Vector::evaluate($value, $template, $clone_recursive, $nullable);
+			function (&$value) use ($template, $clone, $nullable): bool {
+				return Vector::evaluate($value, $template, $clone, $nullable);
 			}
 		);
 		return $this;

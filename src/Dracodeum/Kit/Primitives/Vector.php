@@ -751,21 +751,18 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	 * <p>The value to evaluate (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and evaluate into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same values 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to evaluate as <code>null</code>.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?Vector $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $template, $clone_recursive, $nullable, true);
+		return self::processCoercion($value, $template, $clone, $nullable, true);
 	}
 	
 	/**
@@ -781,11 +778,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	 * <p>The value to coerce (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same values 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Vector\Exceptions\CoercionFailed
@@ -794,10 +788,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?Vector $template = null, ?bool $clone_recursive = null, bool $nullable = false
+		$value, ?Vector $template = null, bool $clone = false, bool $nullable = false
 	): ?Vector
 	{
-		self::processCoercion($value, $template, $clone_recursive, $nullable);
+		self::processCoercion($value, $template, $clone, $nullable);
 		return $value;
 	}
 	
@@ -814,11 +808,8 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	 * <p>The value to process (validate and sanitize).</p>
 	 * @param \Dracodeum\Kit\Primitives\Vector|null $template [default = null]
 	 * <p>The template instance to clone from and coerce into.</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same values 
-	 * and evaluator functions, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same values and evaluator functions.</p>
 	 * @param bool $nullable [default = false]
 	 * <p>Allow the given value to coerce as <code>null</code>.</p>
 	 * @param bool $no_throw [default = false]
@@ -828,7 +819,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, ?Vector $template = null, ?bool $clone_recursive = null, bool $nullable = false, bool $no_throw = false
+		&$value, ?Vector $template = null, bool $clone = false, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//nullable
@@ -850,7 +841,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 		try {
 			//object
 			if (!isset($template) && is_object($value) && $value instanceof Vector) {
-				if ($clone_recursive !== null) {
+				if ($clone) {
 					$value = $value->clone();
 				}
 				return true;
@@ -859,9 +850,6 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 			//array
 			$array = $value;
 			if (UData::evaluate($array, null, true)) {
-				if ($clone_recursive === true) {
-					$array = UType::cloneValue($array);
-				}
 				$value = isset($template) ? $template->clone()->setAll($array) : static::build($array);
 				return true;
 			}

@@ -262,11 +262,8 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to evaluate (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -285,10 +282,10 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * <p>Boolean <code>true</code> if the given value was successfully evaluated into an instance.</p>
 	 */
 	final public static function evaluate(
-		&$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): bool
 	{
-		return self::processCoercion($value, $clone_recursive, $builder, $nullable, true);
+		return self::processCoercion($value, $clone, $builder, $nullable, true);
 	}
 	
 	/**
@@ -302,11 +299,8 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value
 	 * <p>The value to coerce (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -327,10 +321,10 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * If nullable, then <code>null</code> may also be returned.</p>
 	 */
 	final public static function coerce(
-		$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false
+		$value, bool $clone = false, ?callable $builder = null, bool $nullable = false
 	): ?Options
 	{
-		self::processCoercion($value, $clone_recursive, $builder, $nullable);
+		self::processCoercion($value, $clone, $builder, $nullable);
 		return $value;
 	}
 	
@@ -345,11 +339,8 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * @see \Dracodeum\Kit\Interfaces\Arrayable
 	 * @param mixed $value [reference]
 	 * <p>The value to process (validate and sanitize).</p>
-	 * @param bool|null $clone_recursive [default = null]
-	 * <p>Clone the given value recursively.<br>
-	 * If set to boolean <code>false</code> and an instance is given, then clone it into a new one with the same 
-	 * properties, but not recursively.<br>
-	 * If not set, then the given value is not cloned.</p>
+	 * @param bool $clone [default = false]
+	 * <p>If an instance is given, then clone it into a new one with the same properties.</p>
 	 * @param callable|null $builder [default = null]
 	 * <p>The function to use to build an instance with a given set of properties.<br>
 	 * It is expected to be compatible with the following signature:<br>
@@ -371,8 +362,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	 * <p>Boolean <code>true</code> if the given value was successfully coerced into an instance.</p>
 	 */
 	final public static function processCoercion(
-		&$value, ?bool $clone_recursive = null, ?callable $builder = null, bool $nullable = false,
-		bool $no_throw = false
+		&$value, bool $clone = false, ?callable $builder = null, bool $nullable = false, bool $no_throw = false
 	): bool
 	{
 		//builder
@@ -399,9 +389,6 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 					$properties = static::getStringProperties($value);
 				} elseif (is_array($value)) {
 					$properties = $value;
-					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties);
-					}
 				} elseif (is_callable($value)) {
 					$properties = static::getCallableProperties($value);
 				}
@@ -411,21 +398,13 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 				$instance = $value;
 				if ($instance instanceof Options) {
 					if (!UType::isA($instance, static::class)) {
-						$properties = $instance->getAll(true);
-						if ($clone_recursive === true) {
-							$properties = UType::cloneValue($properties);
-						}
-						$value = UType::coerceObject($builder($properties), static::class);
-					} elseif ($clone_recursive !== null) {
+						$value = UType::coerceObject($builder($instance->getAll(true)), static::class);
+					} elseif ($clone) {
 						$value = $instance->clone();
 					}
 					return true;
 				} elseif (UData::evaluate($instance)) {
-					$properties = $instance;
-					if ($clone_recursive === true) {
-						$properties = UType::cloneValue($properties);
-					}
-					$value = UType::coerceObject($builder($properties), static::class);
+					$value = UType::coerceObject($builder($instance), static::class);
 					return true;
 				}
 			}

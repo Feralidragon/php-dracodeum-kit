@@ -1268,7 +1268,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	final protected function logEvent($level, string $message, $options = null): void
 	{
 		//initialize
-		$options = Options\LogEvent::coerce($options, false);
+		$options = Options\LogEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
@@ -1329,7 +1329,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	): void
 	{
 		//initialize
-		$options = Options\PlogEvent::coerce($options, false);
+		$options = Options\PlogEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
@@ -1356,7 +1356,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	final protected function logThrowableEvent($level, \Throwable $throwable, $options = null): void
 	{
 		//initialize
-		$options = Options\LogThrowableEvent::coerce($options, false);
+		$options = Options\LogThrowableEvent::coerce($options, true);
 		$options->stack_offset++;
 		
 		//event
