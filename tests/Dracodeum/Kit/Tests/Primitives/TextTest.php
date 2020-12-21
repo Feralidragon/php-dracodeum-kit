@@ -213,13 +213,13 @@ class TextTest extends TestCase
 		
 		//assert (singular)
 		foreach ([1, -1] as $number) {
-			$this->assertInstanceOf(Text::class, $text->setPluralNumber($number));
+			$this->assertSame($text, $text->setPluralNumber($number));
 			$this->assertSame($string, $text->toString());
 		}
 		
 		//assert (plural)
 		foreach ([0, 2, -2, 1.5, -1.5] as $number) {
-			$this->assertInstanceOf(Text::class, $text->setPluralNumber($number));
+			$this->assertSame($text, $text->setPluralNumber($number));
 			$this->assertSame($string_plural, $text->toString());
 		}
 	}
@@ -243,13 +243,13 @@ class TextTest extends TestCase
 		
 		//assert (singular)
 		foreach ([1, -1] as $number) {
-			$this->assertInstanceOf(Text::class, $text->setPluralNumber($number));
+			$this->assertSame($text, $text->setPluralNumber($number));
 			$this->assertSame(str_replace('{{fox_count}}', $number, $string), $text->toString());
 		}
 		
 		//assert (plural)
 		foreach ([0, 2, -2, 1.5, -1.5] as $number) {
-			$this->assertInstanceOf(Text::class, $text->setPluralNumber($number));
+			$this->assertSame($text, $text->setPluralNumber($number));
 			$this->assertSame(str_replace('{{fox_count}}', $number, $string_plural), $text->toString());
 		}
 	}
@@ -498,5 +498,22 @@ class TextTest extends TestCase
 			[function (mixed $value, TextOptions $text_options) {}],
 			[function (string $value, TextOptions $text_options): string {}]
 		];
+	}
+	
+	/**
+	 * Test localized.
+	 * 
+	 * @return void
+	 */
+	public function testLocalized(): void
+	{
+		//initialize
+		$string = "The quick brown fox jumps over the lazy dog.";
+		
+		//build
+		$text = Text::build($string);
+		
+		//assert
+		$this->assertSame($text, $text->setAsLocalized());
 	}
 }
