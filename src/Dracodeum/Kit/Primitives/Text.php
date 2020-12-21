@@ -15,11 +15,13 @@ use Dracodeum\Kit\Interfaces\{
 };
 use JsonSerializable as IJsonSerializable;
 use Dracodeum\Kit\Traits;
+use Dracodeum\Kit\Primitives\Text\Exceptions;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
-	Text as UText
+	Text as UText,
+	Type as UType
 };
 
 /**
@@ -305,6 +307,21 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 		return $this;
 	}
 	
+	/**
+	 * Set as localized.
+	 * 
+	 * @param enum(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * <p>The info level to set with.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function setAsLocalized($info_level = EInfoLevel::ENDUSER)
+	{
+		//TODO
+		
+		return $this;
+	}
+	
 	
 	
 	//Final public static methods
@@ -334,5 +351,43 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	final public static function build(string $string, $info_level = EInfoLevel::ENDUSER)
 	{
 		return new static($string, $info_level);
+	}
+	
+	/**
+	 * Coerce a given value into an instance.
+	 * 
+	 * //TODO: add @see towards Type prototype
+	 * 
+	 * @param mixed $value [reference]
+	 * <p>The value to coerce.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to coerce with, as a set of <samp>name => value</samp> pairs.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Primitives\Text\Exceptions\CoercionFailed
+	 * @return void|bool
+	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then boolean <code>true</code> is returned if the given value was successfully coerced into an instance, 
+	 * or boolean <code>false</code> if otherwise.</p>
+	 */
+	final public static function coerce(mixed &$value, array $properties = [], bool $no_throw = false)
+	{
+		//TODO: move this code to a Type prototype
+		
+		//coerce
+		if (!($value instanceof self)) {
+			if (UType::evaluateString($value)) {
+				$value = self::build($value);
+			} elseif ($no_throw) {
+				return false;
+			} else {
+				throw new Exceptions\CoercionFailed([$value]);
+			}
+		}
+		
+		//finalize
+		if ($no_throw) {
+			return true;
+		}
 	}
 }
