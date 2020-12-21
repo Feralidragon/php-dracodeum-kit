@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
 final class Info
 {
 	//Traits
-	use Traits\NoConstructor;
+	use Traits\EmptyConstructor;
 	
 	
 	

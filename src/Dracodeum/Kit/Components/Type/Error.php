@@ -13,7 +13,7 @@ use Dracodeum\Kit\Primitives\Text;
 final class Error
 {
 	//Traits
-	use Traits\NoConstructor;
+	use Traits\EmptyConstructor;
 	
 	
 	

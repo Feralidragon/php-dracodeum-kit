@@ -19,7 +19,7 @@ use Dracodeum\Kit\Traits;
 abstract class PrototypeProducer implements IUncloneable
 {
 	//Traits
-	use Traits\NoConstructor;
+	use Traits\EmptyConstructor;
 	use Traits\Uncloneable;
 	
 	

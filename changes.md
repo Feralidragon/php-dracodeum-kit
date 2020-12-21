@@ -5,6 +5,7 @@
   * `Vendor::isLibrary()` &#8594; `System::isFramework()`
 * Renamed `Stringifiable` interface and trait to `Stringable`
   * `non_stringifiable` &#8594; `non_stringable` (property)
+* Renamed `NoConstructor` trait to `EmptyConstructor`
 * Removed `$recursive` parameter from most methods
   * `Arrayable` interface
     * `toArray(bool $recursive = false)` &#8594; `toArray()`

@@ -7,10 +7,10 @@
 
 namespace Dracodeum\Kit\Traits;
 
-/** This trait removes the ability to implement a custom constructor for a class. */
-trait NoConstructor
+/** This trait implements an empty constructor in a class. */
+trait EmptyConstructor
 {
 	//Final public magic methods
-	/** Prevent class from implementing its own constructor. */
+	/** Instantiate class. */
 	final public function __construct() {}
 }
