@@ -23,7 +23,7 @@ class CoercionFailed extends Exception implements ICoercive
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Coercion failed with value {{value}}" . 
+		return "Coercion failed with value {{value}} in class {{primitive}}" . 
 			($this->error_message !== null ? ", with the following error: {{error_message}}" : ".");
 	}
 	
@@ -44,17 +44,18 @@ class CoercionFailed extends Exception implements ICoercive
 	
 	
 	
-	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
+	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function loadProperties(): void
 	{
+		//parent
+		parent::loadProperties();
+		
+		//properties
 		$this->addProperty('value');
 		$this->addProperty('error_message')->setAsString(true, true)->setDefaultValue(null);
 	}
 	
-	
-	
-	//Overridden protected methods
 	/** {@inheritdoc} */
 	protected function getPlaceholderValueString(string $placeholder, $value): string
 	{

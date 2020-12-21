@@ -381,7 +381,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 			} elseif ($no_throw) {
 				return false;
 			} else {
-				throw new Exceptions\CoercionFailed([$value]);
+				throw new Exceptions\CoercionFailed([self::class, $value]);
 			}
 		}
 		
