@@ -45,7 +45,7 @@ class TextTest extends TestCase
 	public function testCloneableInterface(): void
 	{
 		//build
-		$text = Text::build('')
+		$text = Text::build()
 			->setString("The {{fox_count}} quick brown fox named {{fox_name}} jumps over the lazy dog.")
 			->setPluralString(
 				"The {{fox_count}} quick brown foxes named {{fox_name}} jump over the lazy dog."
@@ -511,7 +511,7 @@ class TextTest extends TestCase
 	{
 		$this->expectException(CallAssertionFailedException::class);
 		try {
-			Text::build('')->setPlaceholderStringifier('_', $stringifier);
+			Text::build()->setPlaceholderStringifier('_', $stringifier);
 		} catch (CallAssertionFailedException $exception) {
 			$this->assertSame('stringifier', $exception->name);
 			$this->assertSame($stringifier, $exception->function);

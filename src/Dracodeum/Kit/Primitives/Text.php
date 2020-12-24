@@ -65,7 +65,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Instantiate class.
 	 * 
-	 * @param string $string
+	 * @param string $string [default = '']
 	 * <p>The string to instantiate with.<br>
 	 * <br>
 	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
@@ -83,7 +83,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * @param coercible:enum(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
 	 * <p>The info level to instantiate with.</p>
 	 */
-	final public function __construct(string $string, $info_level = EInfoLevel::ENDUSER)
+	final public function __construct(string $string = '', $info_level = EInfoLevel::ENDUSER)
 	{
 		$this->setString($string, $info_level);
 	}
@@ -328,7 +328,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Build instance.
 	 * 
-	 * @param string $string
+	 * @param string $string [default = '']
 	 * <p>The string to build with.<br>
 	 * <br>
 	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
@@ -348,7 +348,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(string $string, $info_level = EInfoLevel::ENDUSER)
+	final public static function build(string $string = '', $info_level = EInfoLevel::ENDUSER)
 	{
 		return new static($string, $info_level);
 	}
