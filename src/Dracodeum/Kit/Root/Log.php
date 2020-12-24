@@ -34,7 +34,7 @@ final class Log implements IUninstantiable
 	
 	//Private constants
 	/** Number of bytes to use to generate an event ID. */
-	private const EVENT_ID_GENERATION_BYTES = 12;
+	private const EVENT_ID_GENERATION_BYTES = 10;
 	
 	
 	
