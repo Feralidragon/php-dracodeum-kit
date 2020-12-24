@@ -48,7 +48,7 @@ final class Error
 	/**
 	 * Set text.
 	 * 
-	 * @param text $text
+	 * @param coercible:text $text
 	 * <p>The text to set.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
