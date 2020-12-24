@@ -22,15 +22,14 @@ use Dracodeum\Kit\Primitives\Error;
  * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
  * then that character is stripped from the given name and the type is set as nullable.
  * 
- * @property-write bool $nullable [writeonce] [transient] [default = false]
+ * @property-read bool $nullable [default = false]
  * <p>Allow a <code>null</code> value.</p>
  * @see \Dracodeum\Kit\Prototypes\Type
  */
 class Type extends Component
 {
 	//Private properties
-	/** @var bool */
-	private $nullable = false;
+	private bool $nullable = false;
 	
 	
 	
@@ -60,7 +59,7 @@ class Type extends Component
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'nullable' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
+			'nullable' => $this->createProperty()->setMode('r')->setAsBoolean()->bind(self::class),
 			default => null
 		};
 	}
@@ -111,7 +110,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * <p>The value to set.</p>
 	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
-	 * <p>The context to process for.</p>
+	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */

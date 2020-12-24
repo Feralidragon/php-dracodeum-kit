@@ -36,7 +36,7 @@ abstract class Type extends Prototype
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
 	 * @param enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
-	 * <p>The context to process for.</p>
+	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
