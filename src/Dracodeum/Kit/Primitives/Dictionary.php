@@ -32,7 +32,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This primitive represents a dictionary.
  * 
- * A dictionary is a simple object which represents and stores an associative array.<br>
+ * This is a simple object which represents and stores an associative array.<br>
  * <br>
  * Unlike PHP associative arrays, this dictionary supports any type of key, and keys are strictly mapped by type.<br>
  * In other words, keys may also be arrays, objects and even resources themselves, and they retain their type and 

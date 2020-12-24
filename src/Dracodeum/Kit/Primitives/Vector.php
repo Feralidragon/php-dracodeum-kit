@@ -32,7 +32,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This primitive represents a vector.
  * 
- * A vector is a simple object which represents and stores a contiguous array.<br>
+ * This is a simple object which represents and stores a contiguous array.<br>
  * <br>
  * It may also be restricted to specific value types through evaluator functions, 
  * and set as read-only to prevent any further changes.

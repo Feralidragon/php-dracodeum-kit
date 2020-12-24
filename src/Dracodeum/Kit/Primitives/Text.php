@@ -27,7 +27,7 @@ use Dracodeum\Kit\Utilities\{
 /**
  * This primitive represents a text.
  * 
- * A text is a simple object which represents and stores a string or set of strings, each to be shown to an end-user or 
+ * This is a simple object which represents and stores a string or set of strings, each to be shown to an end-user or 
  * developer, or to be logged internally, depending on the requested and assigned info level of each string.<br>
  * <br>
  * Each string may also be dynamic and parameterized, such as:<br>

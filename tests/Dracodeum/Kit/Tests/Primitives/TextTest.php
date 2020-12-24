@@ -37,6 +37,40 @@ class TextTest extends TestCase
 	}
 	
 	/**
+	 * Test <code>Dracodeum\Kit\Interfaces\Cloneable</code> interface.
+	 * 
+	 * @see \Dracodeum\Kit\Interfaces\Cloneable
+	 * @return void
+	 */
+	public function testCloneableInterface(): void
+	{
+		//build
+		$text = Text::build('')
+			->setString("The {{fox_count}} quick brown fox named {{fox_name}} jumps over the lazy dog.")
+			->setPluralString(
+				"The {{fox_count}} quick brown foxes named {{fox_name}} jump over the lazy dog."
+			)
+			->setString(
+				"The {{fox_count}} high-speed brown vulpes named {{fox_name}} jumps over the laziest canis.",
+				EInfoLevel::TECHNICAL
+			)
+			->setPluralString(
+				"The {{fox_count}} high-speed brown vulpes named {{fox_name}} jump over the laziest canis.",
+				EInfoLevel::TECHNICAL
+			)
+			->setPluralNumberPlaceholder('fox_count')
+			->setPluralNumber(12)
+			->setParameters(['fox_name' => "Cooper"])
+		;
+		
+		//clone
+		$clone = $text->clone();
+		
+		//assert
+		$this->assertEquals($text, $clone);
+	}
+	
+	/**
 	 * Test <code>JsonSerializable</code> interface.
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
