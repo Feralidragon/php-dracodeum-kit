@@ -11,13 +11,16 @@ use Dracodeum\Kit\Component;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
-	Types as Prototypes
+	//Types as Prototypes
 };
 use Dracodeum\Kit\Traits\LazyProperties\Property;
-use Dracodeum\Kit\Primitives\Error;
+use Dracodeum\Kit\Primitives\{
+	Text,
+	Error
+};
 
 /**
- * This component represents a type which checks and normalizes a value.
+ * This component represents a type which validates and normalizes values.
  * 
  * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
  * then that character is stripped from the given name and the type is set as nullable.
@@ -59,7 +62,7 @@ class Type extends Component
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'nullable' => $this->createProperty()->setMode('r')->setAsBoolean()->bind(self::class),
+			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
 			default => null
 		};
 	}
@@ -71,21 +74,21 @@ class Type extends Component
 	protected function producePrototype(string $name, array $properties)
 	{
 		return match ($name) {
-			'boolean', 'bool' => Prototypes\Boolean::class,
+			//'boolean', 'bool' => Prototypes\Boolean::class,
 			default => null
 		};
 	}
 	
 	
 	
-	//Public methods
+	//Final public methods
 	/**
 	 * Get name.
 	 * 
 	 * @return string
 	 * <p>The name.</p>
 	 */
-	public function getName(): string
+	final public function getName(): string
 	{
 		return $this->getPrototype()->getName();
 	}
@@ -96,31 +99,46 @@ class Type extends Component
 	 * @return bool
 	 * <p>Boolean <code>true</code> if is scalar.</p>
 	 */
-	public function isScalar(): bool
+	final public function isScalar(): bool
 	{
 		return $this->getPrototype()->isScalar();
 	}
 	
-	
-	
-	//Final public methods
 	/**
 	 * Process a given value.
 	 * 
-	 * @param mixed $value
-	 * <p>The value to set.</p>
-	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
+	 * @param mixed $value [reference]
+	 * <p>The value to process.</p>
+	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
 	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
-	final public function processValue(mixed &$value, $context): ?Error
+	final public function processValue(mixed &$value, $context = EContext::INTERNAL): ?Error
 	{
 		//initialize
+		$v = $value;
 		$context = EContext::coerceValue($context);
+		$prototype = $this->getPrototype();
 		
+		//nullable
+		if ($v === null && $this->nullable) {
+			return null;
+		}
 		
-		//TODO
+		//process
+		$error = $prototype->processValue($v, $context);
+		if ($error !== null) {
+			if (!$error->hasText()) {
+				$error->setText(Text::build("The given value is invalid.")->setAsLocalized(self::class));
+			}
+			return $error;
+		}
 		
+		//finalize
+		$value = $v;
+		
+		//return
+		return null;
 	}
 }

@@ -310,12 +310,12 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Set as localized.
 	 * 
-	 * @param coercible:enum(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
-	 * <p>The info level to set with.</p>
+	 * @param string|null $context [default = null]
+	 * <p>The context to set with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function setAsLocalized($info_level = EInfoLevel::ENDUSER)
+	final public function setAsLocalized(?string $context = null)
 	{
 		//TODO
 		
