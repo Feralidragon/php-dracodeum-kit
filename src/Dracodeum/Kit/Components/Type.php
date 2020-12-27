@@ -83,28 +83,6 @@ class Type extends Component
 	
 	//Final public methods
 	/**
-	 * Get name.
-	 * 
-	 * @return string
-	 * <p>The name.</p>
-	 */
-	final public function getName(): string
-	{
-		return $this->getPrototype()->getName();
-	}
-	
-	/**
-	 * Check if is scalar.
-	 * 
-	 * @return bool
-	 * <p>Boolean <code>true</code> if is scalar.</p>
-	 */
-	final public function isScalar(): bool
-	{
-		return $this->getPrototype()->isScalar();
-	}
-	
-	/**
 	 * Process a given value.
 	 * 
 	 * @param mixed $value [reference]

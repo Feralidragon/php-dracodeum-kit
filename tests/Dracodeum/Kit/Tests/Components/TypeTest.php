@@ -19,38 +19,6 @@ class TypeTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test name.
-	 * 
-	 * @return void
-	 */
-	public function testName(): void
-	{
-		//build
-		$component1 = Component::build(TypeTest_Prototype1::class);
-		$component2 = Component::build(TypeTest_Prototype2::class);
-		
-		//assert
-		$this->assertSame('test_1', $component1->getName());
-		$this->assertSame('test_2', $component2->getName());
-	}
-	
-	/**
-	 * Test scalar.
-	 * 
-	 * @return void
-	 */
-	public function testScalar(): void
-	{
-		//build
-		$component1 = Component::build(TypeTest_Prototype1::class);
-		$component2 = Component::build(TypeTest_Prototype2::class);
-		
-		//assert
-		$this->assertTrue($component1->isScalar());
-		$this->assertFalse($component2->isScalar());
-	}
-	
-	/**
 	 * Test process value.
 	 * 
 	 * @return void
@@ -168,16 +136,6 @@ class TypeTest_Prototype1 extends Prototype
 	
 	
 	
-	public function getName(): string
-	{
-		return 'test_1';
-	}
-	
-	public function isScalar(): bool
-	{
-		return true;
-	}
-	
 	public function processValue(mixed &$value, $context): ?Error
 	{
 		//context
@@ -203,16 +161,6 @@ class TypeTest_Prototype1 extends Prototype
 /** Test case dummy prototype 2 class. */
 class TypeTest_Prototype2 extends Prototype
 {
-	public function getName(): string
-	{
-		return 'test_2';
-	}
-	
-	public function isScalar(): bool
-	{
-		return false;
-	}
-	
 	public function processValue(mixed &$value, $context): ?Error
 	{
 		if ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {

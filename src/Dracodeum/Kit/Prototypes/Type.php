@@ -15,22 +15,6 @@ abstract class Type extends Prototype
 {
 	//Abstract public methods
 	/**
-	 * Get name.
-	 * 
-	 * @return string
-	 * <p>The name.</p>
-	 */
-	abstract public function getName(): string;
-	
-	/**
-	 * Check if is scalar.
-	 * 
-	 * @return bool
-	 * <p>Boolean <code>true</code> if is scalar.</p>
-	 */
-	abstract public function isScalar(): bool;
-	
-	/**
 	 * Process a given value.
 	 * 
 	 * @param mixed $value [reference]
