@@ -92,7 +92,7 @@ class Type extends Component
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
-	final public function processValue(mixed &$value, $context = EContext::INTERNAL): ?Error
+	final public function process(mixed &$value, $context = EContext::INTERNAL): ?Error
 	{
 		//initialize
 		$v = $value;
@@ -105,7 +105,7 @@ class Type extends Component
 		}
 		
 		//process
-		$error = $prototype->processValue($v, $context);
+		$error = $prototype->process($v, $context);
 		if ($error !== null) {
 			if (!$error->hasText()) {
 				$error->setText(Text::build("The given value is invalid.")->setAsLocalized(self::class));

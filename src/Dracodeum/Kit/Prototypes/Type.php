@@ -24,5 +24,5 @@ abstract class Type extends Prototype
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
-	abstract public function processValue(mixed &$value, $context): ?Error;
+	abstract public function process(mixed &$value, $context): ?Error;
 }
