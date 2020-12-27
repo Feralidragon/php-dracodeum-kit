@@ -8,6 +8,7 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
+use Dracodeum\Kit\Prototypes\Type\Contract as IPrototypeContract;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
@@ -27,12 +28,17 @@ use Dracodeum\Kit\Primitives\{
  * 
  * @property-read bool $nullable [default = false]
  * <p>Allow a <code>null</code> value.</p>
+ * @property enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+ * <p>The context to use.</p>
  * @see \Dracodeum\Kit\Prototypes\Type
  */
-class Type extends Component
+class Type extends Component implements IPrototypeContract
 {
 	//Private properties
 	private bool $nullable = false;
+	
+	/** @var enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) */
+	private $context = EContext::INTERNAL;
 	
 	
 	
@@ -41,6 +47,15 @@ class Type extends Component
 	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
+	}
+	
+	
+	
+	//Implemented final public methods (Dracodeum\Kit\Prototypes\Type\Contract)
+	/** {@inheritdoc} */
+	final public function getContext()
+	{
+		return $this->context;
 	}
 	
 	
@@ -63,6 +78,7 @@ class Type extends Component
 	{
 		return match ($name) {
 			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
+			'context' => $this->createProperty()->setAsEnumerationValue(EContext::class)->bind(self::class),
 			default => null
 		};
 	}
@@ -87,16 +103,13 @@ class Type extends Component
 	 * 
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
-	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
-	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
-	final public function process(mixed &$value, $context = EContext::INTERNAL): ?Error
+	final public function process(mixed &$value): ?Error
 	{
 		//initialize
 		$v = $value;
-		$context = EContext::coerceValue($context);
 		$prototype = $this->getPrototype();
 		
 		//nullable
@@ -105,7 +118,7 @@ class Type extends Component
 		}
 		
 		//process
-		$error = $prototype->process($v, $context);
+		$error = $prototype->process($v);
 		if ($error !== null) {
 			if (!$error->hasText()) {
 				$error->setText(Text::build("The given value is invalid.")->setAsLocalized(self::class));

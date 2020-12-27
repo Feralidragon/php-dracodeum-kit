@@ -72,9 +72,11 @@ class TypeTest extends TestCase
 		
 		//value1 (success 2)
 		$value1 = '50';
-		$error1 = $component1->process($value1, EContext::INTERFACE);
+		$component1->context = EContext::INTERFACE;
+		$error1 = $component1->process($value1);
 		$this->assertSame(50, $value1);
 		$this->assertNull($error1);
+		$component1->context = EContext::INTERNAL;
 		
 		//value2 (error 1)
 		$value2 = $v2 = 'foo';
@@ -85,10 +87,12 @@ class TypeTest extends TestCase
 		
 		//value2 (error 2)
 		$value2 = $v2 = stdClass::class;
-		$error2 = $component2->process($value2, EContext::INTERFACE);
+		$component2->context = EContext::INTERFACE;
+		$error2 = $component2->process($value2);
 		$this->assertSame($v2, $value2);
 		$this->assertInstanceOf(Error::class, $error2);
 		$this->assertTrue($error2->hasText());
+		$component2->context = EContext::INTERNAL;
 		
 		//value2 (success 1)
 		$value2 = $v2 = new stdClass();
@@ -136,10 +140,10 @@ class TypeTest_Prototype1 extends Prototype
 	
 	
 	
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value): ?Error
 	{
 		//context
-		if ($context !== EContext::INTERNAL && is_string($value) && is_numeric($value)) {
+		if ($this->getContext() !== EContext::INTERNAL && is_string($value) && is_numeric($value)) {
 			$value = (float)$value;
 		}
 		
@@ -161,9 +165,9 @@ class TypeTest_Prototype1 extends Prototype
 /** Test case dummy prototype 2 class. */
 class TypeTest_Prototype2 extends Prototype
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value): ?Error
 	{
-		if ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
+		if ($this->getContext() === EContext::INTERNAL && is_string($value) && class_exists($value)) {
 			$value = new $value();
 		}
 		return is_object($value) ? null : Error::build();
