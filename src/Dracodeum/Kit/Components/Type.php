@@ -12,7 +12,7 @@ use Dracodeum\Kit\Prototypes\Type\Contract as IPrototypeContract;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
-	//Types as Prototypes
+	Types as Prototypes
 };
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Primitives\{
@@ -31,6 +31,8 @@ use Dracodeum\Kit\Primitives\{
  * @property enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
  * <p>The context to use.</p>
  * @see \Dracodeum\Kit\Prototypes\Type
+ * @see \Dracodeum\Kit\Prototypes\Types\Boolean
+ * [prototype, name = 'boolean' or 'bool']
  */
 class Type extends Component implements IPrototypeContract
 {
@@ -90,7 +92,7 @@ class Type extends Component implements IPrototypeContract
 	protected function producePrototype(string $name, array $properties)
 	{
 		return match ($name) {
-			//'boolean', 'bool' => Prototypes\Boolean::class,
+			'boolean', 'bool' => Prototypes\Boolean::class,
 			default => null
 		};
 	}
