@@ -13,11 +13,13 @@ use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
 	Types as Prototypes
 };
+use Dracodeum\Kit\Prototypes\Type\Interfaces as PrototypeInterfaces;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Primitives\{
 	Text,
 	Error
 };
+use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
  * This component represents a type which validates and normalizes values.
@@ -92,7 +94,7 @@ class Type extends Component
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
 	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
-	 * <p>The context to process with.</p>
+	 * <p>The context to process for.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
@@ -122,5 +124,45 @@ class Type extends Component
 		
 		//return
 		return null;
+	}
+	
+	/**
+	 * Get label.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * <p>The context to get for.</p>
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * <p>The label, as a text instance, or <code>null</code> if none is set.</p>
+	 */
+	final public function getLabel($context = EContext::INTERNAL): ?Text
+	{
+		//initialize
+		$context = EContext::coerceValue($context);
+		$prototype = $this->getPrototype();
+		
+		//return
+		return $prototype instanceof PrototypeInterfaces\InformationProducer
+			? UCall::guardExecution([$prototype, 'produceLabel'], [$context], [Text::class, 'coerce'])
+			: null;
+	}
+	
+	/**
+	 * Get description.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * <p>The context to get for.</p>
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * <p>The description, as a text instance, or <code>null</code> if none is set.</p>
+	 */
+	final public function getDescription($context = EContext::INTERNAL): ?Text
+	{
+		//initialize
+		$context = EContext::coerceValue($context);
+		$prototype = $this->getPrototype();
+		
+		//return
+		return $prototype instanceof PrototypeInterfaces\InformationProducer
+			? UCall::guardExecution([$prototype, 'produceDescription'], [$context], [Text::class, 'coerce'])
+			: null;
 	}
 }

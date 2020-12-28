@@ -365,12 +365,12 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Primitives\Text\Exceptions\CoercionFailed
-	 * @return void|bool
-	 * <p>If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then boolean <code>true</code> is returned if the given value was successfully coerced into an instance, 
-	 * or boolean <code>false</code> if otherwise.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> is always returned if the given value was successfully coerced into an instance, 
+	 * otherwise an exception is thrown, unless <var>$no_throw</var> is set to boolean <code>true</code>, in which case 
+	 * boolean <code>false</code> is returned instead.</p>
 	 */
-	final public static function coerce(mixed &$value, array $properties = [], bool $no_throw = false)
+	final public static function coerce(mixed &$value, array $properties = [], bool $no_throw = false): bool
 	{
 		//TODO: move this code to a Type prototype
 		
@@ -384,10 +384,6 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 				throw new Exceptions\CoercionFailed([self::class, $value]);
 			}
 		}
-		
-		//finalize
-		if ($no_throw) {
-			return true;
-		}
+		return true;
 	}
 }
