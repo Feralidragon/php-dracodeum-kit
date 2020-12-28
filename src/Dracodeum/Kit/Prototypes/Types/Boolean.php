@@ -42,12 +42,12 @@ class Boolean extends Prototype
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value, $context): ?Error
 	{
 		//process
 		if (is_bool($value)) {
 			return null;
-		} elseif ($this->getContext() === EContext::INTERNAL) {
+		} elseif ($context === EContext::INTERNAL) {
 			$value = (bool)$value;
 			return null;
 		} elseif ($value === 0) {

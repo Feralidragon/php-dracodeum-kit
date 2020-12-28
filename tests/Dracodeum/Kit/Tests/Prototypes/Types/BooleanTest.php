@@ -94,8 +94,7 @@ class BooleanTest extends TestCase
 		$component = Component::build(Prototype::class);
 		foreach (EContext::getValues() as $context) {
 			if ($context !== EContext::INTERNAL) {
-				$component->context = $context;
-				$this->assertNull($component->process($value));
+				$this->assertNull($component->process($value, $context));
 				$this->assertSame($expected, $value);
 			}
 		}
@@ -143,8 +142,7 @@ class BooleanTest extends TestCase
 		foreach (EContext::getValues() as $context) {
 			if ($context !== EContext::INTERNAL) {
 				$v = $value;
-				$component->context = $context;
-				$this->assertInstanceOf(Error::class, $component->process($v));
+				$this->assertInstanceOf(Error::class, $component->process($v, $context));
 				$this->assertSame($value, $v);
 			}
 		}

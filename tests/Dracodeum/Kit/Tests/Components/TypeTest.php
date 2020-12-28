@@ -66,17 +66,17 @@ class TypeTest extends TestCase
 		
 		//value1 (success 1)
 		$value1 = 75.5;
-		$error1 = $component1->process($value1);
+		$this->assertNull($component1->process($value1));
 		$this->assertSame(75, $value1);
-		$this->assertNull($error1);
 		
 		//value1 (success 2)
-		$value1 = '50';
-		$component1->context = EContext::INTERFACE;
-		$error1 = $component1->process($value1);
-		$this->assertSame(50, $value1);
-		$this->assertNull($error1);
-		$component1->context = EContext::INTERNAL;
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$value1 = '50';
+				$this->assertNull($component1->process($value1, $context));
+				$this->assertSame(50, $value1);
+			}
+		}
 		
 		//value2 (error 1)
 		$value2 = $v2 = 'foo';
@@ -86,25 +86,25 @@ class TypeTest extends TestCase
 		$this->assertTrue($error2->hasText());
 		
 		//value2 (error 2)
-		$value2 = $v2 = stdClass::class;
-		$component2->context = EContext::INTERFACE;
-		$error2 = $component2->process($value2);
-		$this->assertSame($v2, $value2);
-		$this->assertInstanceOf(Error::class, $error2);
-		$this->assertTrue($error2->hasText());
-		$component2->context = EContext::INTERNAL;
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$value2 = $v2 = stdClass::class;
+				$error2 = $component2->process($value2, $context);
+				$this->assertSame($v2, $value2);
+				$this->assertInstanceOf(Error::class, $error2);
+				$this->assertTrue($error2->hasText());
+			}
+		}
 		
 		//value2 (success 1)
 		$value2 = $v2 = new stdClass();
-		$error2 = $component2->process($value2);
+		$this->assertNull($component2->process($value2));
 		$this->assertSame($v2, $value2);
-		$this->assertNull($error2);
 		
 		//value2 (success 2)
 		$value2 = stdClass::class;
-		$error2 = $component2->process($value2);
+		$this->assertNull($component2->process($value2));
 		$this->assertInstanceOf(stdClass::class, $value2);
-		$this->assertNull($error2);
 	}
 	
 	/**
@@ -140,10 +140,10 @@ class TypeTest_Prototype1 extends Prototype
 	
 	
 	
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value, $context): ?Error
 	{
 		//context
-		if ($this->getContext() !== EContext::INTERNAL && is_string($value) && is_numeric($value)) {
+		if ($context !== EContext::INTERNAL && is_string($value) && is_numeric($value)) {
 			$value = (float)$value;
 		}
 		
@@ -165,9 +165,9 @@ class TypeTest_Prototype1 extends Prototype
 /** Test case dummy prototype 2 class. */
 class TypeTest_Prototype2 extends Prototype
 {
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value, $context): ?Error
 	{
-		if ($this->getContext() === EContext::INTERNAL && is_string($value) && class_exists($value)) {
+		if ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
 			$value = new $value();
 		}
 		return is_object($value) ? null : Error::build();

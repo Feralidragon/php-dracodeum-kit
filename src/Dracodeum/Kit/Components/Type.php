@@ -8,7 +8,6 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
-use Dracodeum\Kit\Prototypes\Type\Contract as IPrototypeContract;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
@@ -34,13 +33,10 @@ use Dracodeum\Kit\Primitives\{
  * @see \Dracodeum\Kit\Prototypes\Types\Boolean
  * [prototype, name = 'boolean' or 'bool']
  */
-class Type extends Component implements IPrototypeContract
+class Type extends Component
 {
 	//Private properties
 	private bool $nullable = false;
-	
-	/** @var enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) */
-	private $context = EContext::INTERNAL;
 	
 	
 	
@@ -49,15 +45,6 @@ class Type extends Component implements IPrototypeContract
 	public static function getPrototypeBaseClass(): string
 	{
 		return Prototype::class;
-	}
-	
-	
-	
-	//Implemented final public methods (Dracodeum\Kit\Prototypes\Type\Contract)
-	/** {@inheritdoc} */
-	final public function getContext()
-	{
-		return $this->context;
 	}
 	
 	
@@ -80,7 +67,6 @@ class Type extends Component implements IPrototypeContract
 	{
 		return match ($name) {
 			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
-			'context' => $this->createProperty()->setAsEnumerationValue(EContext::class)->bind(self::class),
 			default => null
 		};
 	}
@@ -105,13 +91,16 @@ class Type extends Component implements IPrototypeContract
 	 * 
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
+	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
 	 */
-	final public function process(mixed &$value): ?Error
+	final public function process(mixed &$value, $context = EContext::INTERNAL): ?Error
 	{
 		//initialize
 		$v = $value;
+		$context = EContext::coerceValue($context);
 		$prototype = $this->getPrototype();
 		
 		//nullable
@@ -120,7 +109,7 @@ class Type extends Component implements IPrototypeContract
 		}
 		
 		//process
-		$error = $prototype->process($v);
+		$error = $prototype->process($v, $context);
 		if ($error !== null) {
 			if (!$error->hasText()) {
 				$error->setText(Text::build("The given value is invalid.")->setAsLocalized(self::class));
