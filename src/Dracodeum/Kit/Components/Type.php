@@ -91,7 +91,7 @@ class Type extends Component
 	 * 
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
-	 * @param coercible:enum(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
 	 * <p>The context to process with.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
