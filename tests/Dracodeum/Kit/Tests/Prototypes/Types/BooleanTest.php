@@ -11,7 +11,10 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\Boolean as Prototype;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
-use Dracodeum\Kit\Primitives\Error;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text
+};
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\Boolean */
@@ -173,5 +176,18 @@ class BooleanTest extends TestCase
 			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
+	}
+	
+	/**
+	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer</code> interface.
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
+	 * @return void
+	 */
+	public function testInformationProducerInterface(): void
+	{
+		$component = Component::build(Prototype::class);
+		$this->assertInstanceOf(Text::class, $component->getLabel());
+		$this->assertInstanceOf(Text::class, $component->getDescription());
 	}
 }
