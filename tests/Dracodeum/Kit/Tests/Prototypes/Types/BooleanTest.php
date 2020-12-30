@@ -27,7 +27,7 @@ class BooleanTest extends TestCase
 	 * Test process.
 	 * 
 	 * @dataProvider provideProcessData
-	 * @testdox Type->process(&{$value}) => value = $expected
+	 * @testdox Process
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -86,7 +86,7 @@ class BooleanTest extends TestCase
 	 * Test process (non-internal).
 	 * 
 	 * @dataProvider provideProcessData_NonInternal
-	 * @testdox Type->process(&{$value}) => value = $expected [non-internal]
+	 * @testdox Process (non-internal)
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -135,7 +135,7 @@ class BooleanTest extends TestCase
 	 * Test process (non-internal error).
 	 * 
 	 * @dataProvider provideProcessData_NonInternal_Error
-	 * @testdox Type->process(&{$value}) => error [non-internal]
+	 * @testdox Process (non-internal error)
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -183,6 +183,8 @@ class BooleanTest extends TestCase
 	/**
 	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer</code> interface.
 	 * 
+	 * @testdox InformationProducer interface
+	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
 	 * @return void
 	 */
@@ -195,6 +197,8 @@ class BooleanTest extends TestCase
 	
 	/**
 	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier</code> interface.
+	 * 
+	 * @testdox Textifier interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
 	 * @return void

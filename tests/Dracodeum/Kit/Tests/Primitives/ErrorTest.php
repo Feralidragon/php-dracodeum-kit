@@ -21,6 +21,8 @@ class ErrorTest extends TestCase
 	/**
 	 * Test <code>Dracodeum\Kit\Interfaces\Cloneable</code> interface.
 	 * 
+	 * @testdox Cloneable interface
+	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
 	 * @return void
 	 */
@@ -43,6 +45,8 @@ class ErrorTest extends TestCase
 	
 	/**
 	 * Test <code>JsonSerializable</code> interface.
+	 * 
+	 * @testdox JsonSerializable interface
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
 	 * @return void
@@ -70,6 +74,8 @@ class ErrorTest extends TestCase
 	/**
 	 * Test name.
 	 * 
+	 * @testdox Name
+	 * 
 	 * @return void
 	 */
 	public function testName(): void
@@ -90,11 +96,13 @@ class ErrorTest extends TestCase
 	}
 	
 	/**
-	 * Test name build.
+	 * Test name (build).
+	 * 
+	 * @testdox Name (build)
 	 * 
 	 * @return void
 	 */
-	public function testNameBuild(): void
+	public function testName_Build(): void
 	{
 		//initialize
 		$name = 'InvalidValue';
@@ -110,6 +118,8 @@ class ErrorTest extends TestCase
 	
 	/**
 	 * Test text.
+	 * 
+	 * @testdox Text
 	 * 
 	 * @return void
 	 */
@@ -135,11 +145,13 @@ class ErrorTest extends TestCase
 	}
 	
 	/**
-	 * Test text build.
+	 * Test text (build).
+	 * 
+	 * @testdox Text (build)
 	 * 
 	 * @return void
 	 */
-	public function testTextBuild(): void
+	public function testText_Build(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumped over the lazy dog.";
@@ -161,6 +173,8 @@ class ErrorTest extends TestCase
 	/**
 	 * Test data.
 	 * 
+	 * @testdox Data
+	 * 
 	 * @return void
 	 */
 	public function testData(): void
@@ -181,11 +195,13 @@ class ErrorTest extends TestCase
 	}
 	
 	/**
-	 * Test data build.
+	 * Test data (build).
+	 * 
+	 * @testdox Data (build)
 	 * 
 	 * @return void
 	 */
-	public function testDataBuild(): void
+	public function testData_Build(): void
 	{
 		//initialize
 		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass()];

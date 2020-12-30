@@ -20,6 +20,8 @@ class TextTest extends TestCase
 	/**
 	 * Test <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
 	 * 
+	 * @testdox StringInstantiable interface
+	 * 
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
 	 * @return void
 	 */
@@ -38,6 +40,8 @@ class TextTest extends TestCase
 	
 	/**
 	 * Test <code>Dracodeum\Kit\Interfaces\Cloneable</code> interface.
+	 * 
+	 * @testdox Cloneable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
 	 * @return void
@@ -73,6 +77,8 @@ class TextTest extends TestCase
 	/**
 	 * Test <code>JsonSerializable</code> interface.
 	 * 
+	 * @testdox JsonSerializable interface
+	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
 	 * @return void
 	 */
@@ -91,6 +97,8 @@ class TextTest extends TestCase
 	
 	/**
 	 * Test string.
+	 * 
+	 * @testdox String
 	 * 
 	 * @return void
 	 */
@@ -112,11 +120,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test technical string.
+	 * Test string (technical).
+	 * 
+	 * @testdox String (technical)
 	 * 
 	 * @return void
 	 */
-	public function testTechnicalString(): void
+	public function testString_Technical(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumps over the lazy dog.";
@@ -134,11 +144,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test internal string.
+	 * Test string (internal).
+	 * 
+	 * @testdox String (internal)
 	 * 
 	 * @return void
 	 */
-	public function testInternalString(): void
+	public function testString_Internal(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumps over the lazy dog.";
@@ -156,11 +168,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test end-user and technical strings.
+	 * Test strings (end-user and technical).
+	 * 
+	 * @testdox String (end-user and technical)
 	 * 
 	 * @return void
 	 */
-	public function testEnduserTechnicalStrings(): void
+	public function testStrings_Enduser_Technical(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumps over the lazy dog.";
@@ -179,11 +193,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test end-user, technical and internal strings.
+	 * Test strings (end-user, technical and internal).
+	 * 
+	 * @testdox String (end-user, technical and internal)
 	 * 
 	 * @return void
 	 */
-	public function testEnduserTechnicalInternalStrings(): void
+	public function testStrings_Enduser_Technical_Internal(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumps over the lazy dog.";
@@ -206,11 +222,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test technical and internal strings.
+	 * Test strings (technical and internal).
+	 * 
+	 * @testdox Strings (technical and internal)
 	 * 
 	 * @return void
 	 */
-	public function testTechnicalInternalStrings(): void
+	public function testStrings_Technical_Internal(): void
 	{
 		//initialize
 		$string_tech = "The high-speed brown vulpes jumps over the laziest canis.";
@@ -229,11 +247,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test plural.
+	 * Test plural string.
+	 * 
+	 * @testdox Plural string
 	 * 
 	 * @return void
 	 */
-	public function testPlural(): void
+	public function testPluralString(): void
 	{
 		//initialize
 		$string = "The quick brown fox jumps over the lazy dog.";
@@ -259,11 +279,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test plural placeholder.
+	 * Test plural string (placeholder).
+	 * 
+	 * @testdox Plural string (placeholder)
 	 * 
 	 * @return void
 	 */
-	public function testPluralPlaceholder(): void
+	public function testPluralString_Placeholder(): void
 	{
 		//initialize
 		$string = "The {{fox_count}} quick brown fox jumps over the lazy dog.";
@@ -291,6 +313,8 @@ class TextTest extends TestCase
 	/**
 	 * Test parameter.
 	 * 
+	 * @testdox Parameter
+	 * 
 	 * @return void
 	 */
 	public function testParameter(): void
@@ -310,6 +334,8 @@ class TextTest extends TestCase
 	
 	/**
 	 * Test parameters.
+	 * 
+	 * @testdox Parameters
 	 * 
 	 * @return void
 	 */
@@ -333,11 +359,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test end-user and technical strings parameter.
+	 * Test strings (end-user and technical, with parameter).
+	 * 
+	 * @testdox Strings (end-user and technical, with parameter)
 	 * 
 	 * @return void
 	 */
-	public function testEnduserTechnicalStringsParameter(): void
+	public function testStrings_Enduser_Technical_Parameter(): void
 	{
 		//initialize
 		$fox_name = "Cooper";
@@ -365,11 +393,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test end-user and technical strings parameters.
+	 * Test strings (end-user and technical, with parameters).
+	 * 
+	 * @testdox Strings (end-user and technical, with parameters)
 	 * 
 	 * @return void
 	 */
-	public function testEnduserTechnicalStringsParameters(): void
+	public function testStrings_Enduser_Technical_Parameters(): void
 	{
 		//initialize
 		$fox_name = "Cooper";
@@ -401,11 +431,13 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test end-user and technical strings parameters plural.
+	 * Test plural strings (end-user and technical, with parameters).
+	 * 
+	 * @testdox Plural strings (end-user and technical, with parameters)
 	 * 
 	 * @return void
 	 */
-	public function testEnduserTechnicalStringsParametersPlural(): void
+	public function testPluralStrings_Enduser_Technical_Parameters(): void
 	{
 		//initialize
 		$fox_name = "Cooper";
@@ -471,6 +503,8 @@ class TextTest extends TestCase
 	/**
 	 * Test placeholder stringifier.
 	 * 
+	 * @testdox Placeholder stringifier
+	 * 
 	 * @return void
 	 */
 	public function testPlaceholderStringifier(): void
@@ -502,6 +536,7 @@ class TextTest extends TestCase
 	 * Test placeholder stringifier expecting an <code>AssertionFailed</code> exception to be thrown.
 	 * 
 	 * @dataProvider providePlaceholderStringifierData_AssertionFailedException
+	 * @testdox Placeholder stringifier AssertionFailed exception
 	 * 
 	 * @param callable $stringifier
 	 * <p>The <var>$stringifier</var> parameter to test with.</p>
@@ -536,6 +571,8 @@ class TextTest extends TestCase
 	
 	/**
 	 * Test localized.
+	 * 
+	 * @testdox Localized
 	 * 
 	 * @return void
 	 */

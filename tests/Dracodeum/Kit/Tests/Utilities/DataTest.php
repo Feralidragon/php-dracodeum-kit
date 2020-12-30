@@ -17,7 +17,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>associative</code> method.
 	 * 
-	 * @dataProvider provideAssociativeMethodData
+	 * @dataProvider provideAssociativeData
 	 * @testdox Data::associative($array) === $expected
 	 * 
 	 * @param array $array
@@ -26,7 +26,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testAssociativeMethod(array $array, bool $expected): void
+	public function testAssociative(array $array, bool $expected): void
 	{
 		$this->assertSame($expected, UData::associative($array));
 	}
@@ -37,7 +37,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>associative</code> method data.</p>
 	 */
-	public function provideAssociativeMethodData(): array
+	public function provideAssociativeData(): array
 	{
 		return [
 			[[], false],
@@ -57,7 +57,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>keyfy</code> method.
 	 * 
-	 * @dataProvider provideKeyfyMethodData
+	 * @dataProvider provideKeyfyData
 	 * @testdox Data::keyfy({$value}) === '$expected' (safe = $expected_safe)
 	 * 
 	 * @param mixed $value
@@ -68,7 +68,7 @@ class DataTest extends TestCase
 	 * <p>The expected <var>$safe</var> reference parameter output value.</p>
 	 * @return void
 	 */
-	public function testKeyfyMethod($value, string $expected, bool $expected_safe): void
+	public function testKeyfy($value, string $expected, bool $expected_safe): void
 	{
 		foreach ([false, true] as $no_throw) {
 			$this->assertSame($expected, UData::keyfy($value, $safe, $no_throw));
@@ -82,7 +82,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>keyfy</code> method data.</p>
 	 */
-	public function provideKeyfyMethodData(): array
+	public function provideKeyfyData(): array
 	{
 		//initialize
 		$object = new \stdClass();
@@ -116,7 +116,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>merge</code> method.
 	 * 
-	 * @dataProvider provideMergeMethodData
+	 * @dataProvider provideMergeData
 	 * @testdox Data::merge($array1, $array2, $depth, $flags) === $expected
 	 * 
 	 * @param array $array1
@@ -131,7 +131,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testMergeMethod(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
+	public function testMerge(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::merge($array1, $array2, $depth, $flags));
 	}
@@ -142,7 +142,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>merge</code> method data.</p>
 	 */
-	public function provideMergeMethodData(): array
+	public function provideMergeData(): array
 	{
 		//initialize
 		$array1 = [
@@ -1972,7 +1972,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>unique</code> method.
 	 * 
-	 * @dataProvider provideUniqueMethodData
+	 * @dataProvider provideUniqueData
 	 * @testdox Data::unique($array, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -1985,7 +1985,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testUniqueMethod(array $array, ?int $depth, int $flags, array $expected): void
+	public function testUnique(array $array, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::unique($array, $depth, $flags));
 	}
@@ -1996,7 +1996,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>unique</code> method data.</p>
 	 */
-	public function provideUniqueMethodData(): array
+	public function provideUniqueData(): array
 	{
 		//initialize
 		$array = [
@@ -3054,7 +3054,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>sort</code> method.
 	 * 
-	 * @dataProvider provideSortMethodData
+	 * @dataProvider provideSortData
 	 * @testdox Data::sort($array, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -3067,7 +3067,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testSortMethod(array $array, ?int $depth, int $flags, array $expected): void
+	public function testSort(array $array, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::sort($array, $depth, $flags));
 	}
@@ -3078,7 +3078,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>sort</code> method data.</p>
 	 */
-	public function provideSortMethodData(): array
+	public function provideSortData(): array
 	{
 		//initialize
 		$array = [
@@ -3559,7 +3559,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>ksort</code> method.
 	 * 
-	 * @dataProvider provideKsortMethodData
+	 * @dataProvider provideKsortData
 	 * @testdox Data::ksort($array, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -3572,7 +3572,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testKsortMethod(array $array, ?int $depth, int $flags, array $expected): void
+	public function testKsort(array $array, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::ksort($array, $depth, $flags));
 	}
@@ -3583,7 +3583,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>ksort</code> method data.</p>
 	 */
-	public function provideKsortMethodData(): array
+	public function provideKsortData(): array
 	{
 		//initialize
 		$array = [
@@ -4036,7 +4036,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>fsort</code> method.
 	 * 
-	 * @dataProvider provideFsortMethodData
+	 * @dataProvider provideFsortData
 	 * @testdox Data::fsort($array, $comparer, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -4051,7 +4051,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testFsortMethod(array $array, callable $comparer, ?int $depth, int $flags, array $expected): void
+	public function testFsort(array $array, callable $comparer, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::fsort($array, $comparer, $depth, $flags));
 	}
@@ -4062,7 +4062,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>fsort</code> method data.</p>
 	 */
-	public function provideFsortMethodData(): array
+	public function provideFsortData(): array
 	{
 		//initialize
 		$array = [
@@ -4555,7 +4555,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>filter</code> method.
 	 * 
-	 * @dataProvider provideFilterMethodData
+	 * @dataProvider provideFilterData
 	 * @testdox Data::filter($array, $values, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -4570,7 +4570,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testFilterMethod(array $array, array $values, ?int $depth, int $flags, array $expected): void
+	public function testFilter(array $array, array $values, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::filter($array, $values, $depth, $flags));
 	}
@@ -4581,7 +4581,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>filter</code> method data.</p>
 	 */
-	public function provideFilterMethodData(): array
+	public function provideFilterData(): array
 	{
 		//initialize
 		$array = [
@@ -5331,7 +5331,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>kfilter</code> method.
 	 * 
-	 * @dataProvider provideKfilterMethodData
+	 * @dataProvider provideKfilterData
 	 * @testdox Data::kfilter($array, $keys, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -5346,7 +5346,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testKfilterMethod(array $array, array $keys, ?int $depth, int $flags, array $expected): void
+	public function testKfilter(array $array, array $keys, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::kfilter($array, $keys, $depth, $flags));
 	}
@@ -5357,7 +5357,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>kfilter</code> method data.</p>
 	 */
-	public function provideKfilterMethodData(): array
+	public function provideKfilterData(): array
 	{
 		//initialize
 		$array = [
@@ -6040,7 +6040,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>trim</code> method.
 	 * 
-	 * @dataProvider provideTrimMethodData
+	 * @dataProvider provideTrimData
 	 * @testdox Data::trim($array, $values, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -6055,7 +6055,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testTrimMethod(array $array, array $values, ?int $depth, int $flags, array $expected): void
+	public function testTrim(array $array, array $values, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::trim($array, $values, $depth, $flags));
 	}
@@ -6066,7 +6066,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>trim</code> method data.</p>
 	 */
-	public function provideTrimMethodData(): array
+	public function provideTrimData(): array
 	{
 		//initialize
 		$array = [
@@ -7439,7 +7439,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>ktrim</code> method.
 	 * 
-	 * @dataProvider provideKtrimMethodData
+	 * @dataProvider provideKtrimData
 	 * @testdox Data::ktrim($array, $keys, $depth, $flags) === $expected
 	 * 
 	 * @param array $array
@@ -7454,7 +7454,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testKtrimMethod(array $array, array $keys, ?int $depth, int $flags, array $expected): void
+	public function testKtrim(array $array, array $keys, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::ktrim($array, $keys, $depth, $flags));
 	}
@@ -7465,7 +7465,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>ktrim</code> method data.</p>
 	 */
-	public function provideKtrimMethodData(): array
+	public function provideKtrimData(): array
 	{
 		//initialize
 		$array = [
@@ -8941,7 +8941,7 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>intersect</code> method.
 	 * 
-	 * @dataProvider provideIntersectMethodData
+	 * @dataProvider provideIntersectData
 	 * @testdox Data::intersect($array1, $array2, $depth, $flags) === $expected
 	 * 
 	 * @param array $array1
@@ -8956,7 +8956,7 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testIntersectMethod(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
+	public function testIntersect(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UData::intersect($array1, $array2, $depth, $flags));
 	}
@@ -8967,7 +8967,7 @@ class DataTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>intersect</code> method data.</p>
 	 */
-	public function provideIntersectMethodData(): array
+	public function provideIntersectData(): array
 	{
 		//initialize
 		$array1 = [

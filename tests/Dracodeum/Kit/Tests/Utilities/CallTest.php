@@ -19,14 +19,14 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>validate</code> method.
 	 * 
-	 * @dataProvider provideValidateMethodData
+	 * @dataProvider provideValidateData
 	 * @testdox Call::validate({$function}) === void
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testValidateMethod($function): void
+	public function testValidate($function): void
 	{
 		$this->assertNull(UCall::validate($function));
 		$this->assertTrue(UCall::validate($function, true));
@@ -38,7 +38,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>validate</code> method data.</p>
 	 */
-	public function provideValidateMethodData(): array
+	public function provideValidateData(): array
 	{
 		return [
 			['strlen'],
@@ -86,14 +86,14 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>validate</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateMethodData_InvalidFunctionException
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::validate({$function}) --> InvalidFunction exception
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testValidateMethod_InvalidFunctionException($function): void
+	public function testValidate_Exception_InvalidFunction($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
 		try {
@@ -108,14 +108,14 @@ class CallTest extends TestCase
 	 * Test <code>validate</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateMethodData_InvalidFunctionException
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::validate({$function}, true) === false
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testValidateMethod_NoThrowFalse($function): void
+	public function testValidate_NoThrow_False($function): void
 	{
 		$this->assertFalse(UCall::validate($function, true));
 	}
@@ -126,7 +126,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>validate</code> method data for an <code>InvalidFunction</code> exception to be thrown.</p>
 	 */
-	public function provideValidateMethodData_InvalidFunctionException(): array
+	public function provideValidateData_Exception_InvalidFunction(): array
 	{
 		return [
 			[null],
@@ -168,7 +168,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method.
 	 * 
-	 * @dataProvider provideReflectionMethodData
+	 * @dataProvider provideReflectionData
 	 * @testdox Call::reflection({$function}) === $expected_class
 	 * 
 	 * @param callable|array|string $function
@@ -177,7 +177,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return instance class.</p>
 	 * @return void
 	 */
-	public function testReflectionMethod($function, string $expected_class): void
+	public function testReflection($function, string $expected_class): void
 	{
 		foreach ([false, true] as $no_throw) {
 			$this->assertInstanceOf($expected_class, UCall::reflection($function, $no_throw));
@@ -190,7 +190,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>reflection</code> method data.</p>
 	 */
-	public function provideReflectionMethodData(): array
+	public function provideReflectionData(): array
 	{
 		return [
 			['strlen', \ReflectionFunction::class],
@@ -238,14 +238,14 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateMethodData_InvalidFunctionException
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::reflection({$function}) --> InvalidFunction exception
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testReflectionMethod_InvalidFunctionException($function): void
+	public function testReflection_Exception_InvalidFunction($function): void
 	{
 		$this->expectException(Exceptions\InvalidFunction::class);
 		try {
@@ -260,14 +260,14 @@ class CallTest extends TestCase
 	 * Test <code>reflection</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateMethodData_InvalidFunctionException
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::reflection({$function}, true) === false
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testReflectionMethod_NoThrowNull($function): void
+	public function testReflection_NoThrow_Null($function): void
 	{
 		$this->assertNull(UCall::reflection($function, true));
 	}
@@ -275,7 +275,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>hash</code> method.
 	 * 
-	 * @dataProvider provideHashMethodData
+	 * @dataProvider provideHashData
 	 * @testdox Call::hash({$function}, '$algorithm') === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -286,7 +286,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testHashMethod($function, string $algorithm, string $expected): void
+	public function testHash($function, string $algorithm, string $expected): void
 	{
 		$this->assertSame($expected, UCall::hash($function, $algorithm));
 		$this->assertSame(hex2bin($expected), UCall::hash($function, $algorithm, true));
@@ -298,7 +298,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>hash</code> method data.</p>
 	 */
-	public function provideHashMethodData(): array
+	public function provideHashData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -343,7 +343,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>modifiers</code> method.
 	 * 
-	 * @dataProvider provideModifiersMethodData
+	 * @dataProvider provideModifiersData
 	 * @testdox Call::modifiers({$function}) === $expected
 	 * 
 	 * @param callable|array|string $function
@@ -352,7 +352,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testModifiersMethod($function, array $expected): void
+	public function testModifiers($function, array $expected): void
 	{
 		$this->assertSame($expected, UCall::modifiers($function));
 	}
@@ -363,7 +363,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>modifiers</code> method data.</p>
 	 */
-	public function provideModifiersMethodData(): array
+	public function provideModifiersData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -401,7 +401,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>name</code> method.
 	 * 
-	 * @dataProvider provideNameMethodData
+	 * @dataProvider provideNameData
 	 * @testdox Call::name({$function}, $full, $short) === {$expected}
 	 * 
 	 * @param callable|array|string $function
@@ -414,7 +414,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testNameMethod($function, bool $full, bool $short, ?string $expected): void
+	public function testName($function, bool $full, bool $short, ?string $expected): void
 	{
 		$this->assertSame($expected, UCall::name($function, $full, $short));
 	}
@@ -425,7 +425,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>name</code> method data.</p>
 	 */
-	public function provideNameMethodData(): array
+	public function provideNameData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -503,7 +503,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>parameters</code> method.
 	 * 
-	 * @dataProvider provideParametersMethodData
+	 * @dataProvider provideParametersData
 	 * @testdox Call::parameters({$function}, $flags) === $expected
 	 * 
 	 * @param callable|array|string $function
@@ -514,7 +514,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testParametersMethod($function, int $flags, array $expected): void
+	public function testParameters($function, int $flags, array $expected): void
 	{
 		$this->assertSame($expected, UCall::parameters($function, $flags));
 	}
@@ -525,7 +525,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>parameters</code> method data.</p>
 	 */
-	public function provideParametersMethodData(): array
+	public function provideParametersData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -735,7 +735,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>type</code> method.
 	 * 
-	 * @dataProvider provideTypeMethodData
+	 * @dataProvider provideTypeData
 	 * @testdox Call::type({$function}, $flags) === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -746,7 +746,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testTypeMethod($function, int $flags, string $expected): void
+	public function testType($function, int $flags, string $expected): void
 	{
 		$this->assertSame($expected, UCall::type($function, $flags));
 	}
@@ -757,7 +757,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>type</code> method data.</p>
 	 */
-	public function provideTypeMethodData(): array
+	public function provideTypeData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -883,7 +883,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>header</code> method.
 	 * 
-	 * @dataProvider provideHeaderMethodData
+	 * @dataProvider provideHeaderData
 	 * @testdox Call::header({$function}, $flags) === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -894,7 +894,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testHeaderMethod($function, int $flags, string $expected): void
+	public function testHeader($function, int $flags, string $expected): void
 	{
 		$this->assertSame($expected, UCall::header($function, $flags));
 	}
@@ -905,7 +905,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>header</code> method data.</p>
 	 */
-	public function provideHeaderMethodData(): array
+	public function provideHeaderData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -1259,7 +1259,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>body</code> method.
 	 * 
-	 * @dataProvider provideBodyMethodData
+	 * @dataProvider provideBodyData
 	 * @testdox Call::body({$function}) === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -1268,7 +1268,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testBodyMethod($function, string $expected): void
+	public function testBody($function, string $expected): void
 	{
 		$this->assertSame($expected, UCall::body($function));
 	}
@@ -1279,7 +1279,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>body</code> method data.</p>
 	 */
-	public function provideBodyMethodData(): array
+	public function provideBodyData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -1349,7 +1349,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>source</code> method.
 	 * 
-	 * @dataProvider provideSourceMethodData
+	 * @dataProvider provideSourceData
 	 * @testdox Call::source({$function}, $flags) === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -1360,7 +1360,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testSourceMethod($function, int $flags, string $expected): void
+	public function testSource($function, int $flags, string $expected): void
 	{
 		$this->assertSame($expected, UCall::source($function, $flags));
 	}
@@ -1371,7 +1371,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>source</code> method data.</p>
 	 */
-	public function provideSourceMethodData(): array
+	public function provideSourceData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -1785,7 +1785,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>signature</code> method.
 	 * 
-	 * @dataProvider provideSignatureMethodData
+	 * @dataProvider provideSignatureData
 	 * @testdox Call::signature({$function}) === '$expected'
 	 * 
 	 * @param callable|array|string $function
@@ -1794,7 +1794,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testSignatureMethod($function, string $expected): void
+	public function testSignature($function, string $expected): void
 	{
 		$this->assertSame($expected, UCall::signature($function));
 	}
@@ -1805,7 +1805,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>signature</code> method data.</p>
 	 */
-	public function provideSignatureMethodData(): array
+	public function provideSignatureData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -1896,7 +1896,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>compatible</code> method.
 	 * 
-	 * @dataProvider provideCompatibleMethodData
+	 * @dataProvider provideCompatibleData
 	 * @testdox Call::compatible({$function}, {$template}) === $expected
 	 * 
 	 * @param callable|array|string $function
@@ -1907,7 +1907,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testCompatibleMethod($function, $template, bool $expected): void
+	public function testCompatible($function, $template, bool $expected): void
 	{
 		$this->assertSame($expected, UCall::compatible($function, $template));
 	}
@@ -1918,7 +1918,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>compatible</code> method data.</p>
 	 */
-	public function provideCompatibleMethodData(): array
+	public function provideCompatibleData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -2316,7 +2316,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method.
 	 * 
-	 * @dataProvider provideAssertMethodData
+	 * @dataProvider provideAssertData
 	 * @testdox Call::assert('foobar', {$function}, {$template}) === void
 	 * 
 	 * @param callable|array|string $function
@@ -2325,7 +2325,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethod($function, $template): void
+	public function testAssert($function, $template): void
 	{
 		$this->assertNull(UCall::assert('foobar', $function, $template));
 		$this->assertTrue(UCall::assert('foobar', $function, $template, true));
@@ -2337,10 +2337,10 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>assert</code> method data.</p>
 	 */
-	public function provideAssertMethodData(): array
+	public function provideAssertData(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
+		foreach ($this->provideCompatibleData() as $i => $datum) {
 			if ($datum[2]) {
 				$data[$i] = [$datum[0], $datum[1]];
 			}
@@ -2351,7 +2351,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method expecting an <code>AssertionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideAssertMethodData_AssertionFailedException
+	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * @testdox Call::assert('foobar', {$function}, {$template}) --> AssertionFailed exception
 	 * 
 	 * @param callable|array|string $function
@@ -2360,7 +2360,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethod_AssertionFailedException($function, $template): void
+	public function testAssert_Exception_AssertionFailed($function, $template): void
 	{
 		$this->expectException(Exceptions\AssertionFailed::class);
 		try {
@@ -2370,7 +2370,7 @@ class CallTest extends TestCase
 			$this->assertSame($function, $exception->function);
 			$this->assertSame($template, $exception->template);
 			$this->assertSame($this, $exception->source_object_class);
-			$this->assertSame('testAssertMethod_AssertionFailedException', $exception->source_function_name);
+			$this->assertSame('testAssert_Exception_AssertionFailed', $exception->source_function_name);
 			throw $exception;
 		}
 	}
@@ -2379,7 +2379,7 @@ class CallTest extends TestCase
 	 * Test <code>assert</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideAssertMethodData_AssertionFailedException
+	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * @testdox Call::assert('foobar', {$function}, {$template}, true) === false
 	 * 
 	 * @param callable|array|string $function
@@ -2388,7 +2388,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethod_NoThrowFalse($function, $template): void
+	public function testAssert_NoThrow_False($function, $template): void
 	{
 		$this->assertFalse(UCall::assert('foobar', $function, $template, true));
 	}
@@ -2399,10 +2399,10 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>assert</code> method data for an <code>AssertionFailed</code> exception to be thrown.</p>
 	 */
-	public function provideAssertMethodData_AssertionFailedException(): array
+	public function provideAssertData_Exception_AssertionFailed(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
+		foreach ($this->provideCompatibleData() as $i => $datum) {
 			if (!$datum[2]) {
 				$data[$i] = [$datum[0], $datum[1]];
 			}
@@ -2413,7 +2413,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method in a production environment.
 	 * 
-	 * @dataProvider provideAssertMethodData_ProductionEnvironment
+	 * @dataProvider provideAssertData_Environment_Production
 	 * @testdox Call::assert('foobar', {$function}, {$template}) === void [production]
 	 * 
 	 * @param callable|array|string $function
@@ -2422,7 +2422,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testAssertMethod_ProductionEnvironment($function, $template): void
+	public function testAssert_Environment_Production($function, $template): void
 	{
 		$environment = System::getEnvironment();
 		try {
@@ -2440,10 +2440,10 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>assert</code> method data for a production environment.</p>
 	 */
-	public function provideAssertMethodData_ProductionEnvironment(): array
+	public function provideAssertData_Environment_Production(): array
 	{
 		$data = [];
-		foreach ($this->provideCompatibleMethodData() as $i => $datum) {
+		foreach ($this->provideCompatibleData() as $i => $datum) {
 			$data[$i] = [$datum[0], $datum[1]];
 		}
 		return $data;
@@ -2452,7 +2452,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>object</code> method.
 	 * 
-	 * @dataProvider provideObjectMethodData
+	 * @dataProvider provideObjectData
 	 * @testdox Call::object({$function}) === $expected
 	 * 
 	 * @param callable|array|string $function
@@ -2461,7 +2461,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testObjectMethod($function, ?object $expected): void
+	public function testObject($function, ?object $expected): void
 	{
 		$this->assertSame($expected, UCall::object($function));
 	}
@@ -2472,7 +2472,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>object</code> method data.</p>
 	 */
-	public function provideObjectMethodData(): array
+	public function provideObjectData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -2515,7 +2515,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>class</code> method.
 	 * 
-	 * @dataProvider provideClassMethodData
+	 * @dataProvider provideClassData
 	 * @testdox Call::class({$function}, $short) === {$expected}
 	 * 
 	 * @param callable|array|string $function
@@ -2526,7 +2526,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testClassMethod($function, bool $short, ?string $expected): void
+	public function testClass($function, bool $short, ?string $expected): void
 	{
 		$this->assertSame($expected, UCall::class($function, $short));
 	}
@@ -2537,7 +2537,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>class</code> method data.</p>
 	 */
-	public function provideClassMethodData(): array
+	public function provideClassData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -2605,7 +2605,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>extension</code> method.
 	 * 
-	 * @dataProvider provideExtensionMethodData
+	 * @dataProvider provideExtensionData
 	 * @testdox Call::extension({$function}) === {$expected}
 	 * 
 	 * @param callable|array|string $function
@@ -2614,7 +2614,7 @@ class CallTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testExtensionMethod($function, ?string $expected): void
+	public function testExtension($function, ?string $expected): void
 	{
 		$this->assertSame($expected, UCall::extension($function));
 	}
@@ -2625,7 +2625,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided <code>extension</code> method data.</p>
 	 */
-	public function provideExtensionMethodData(): array
+	public function provideExtensionData(): array
 	{
 		//initialize
 		$class = CallTest_Class::class;
@@ -2663,7 +2663,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method.
 	 * 
-	 * @dataProvider provideCoercionMethodData
+	 * @dataProvider provideCoercionData
 	 * @testdox Call::evaluate(&{$value}, {$template}) === true
 	 * 
 	 * @param mixed $value
@@ -2672,7 +2672,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testEvaluateMethod($value, $template): void
+	public function testEvaluate($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			foreach ([false, true] as $assertive) {
@@ -2686,7 +2686,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method.
 	 * 
-	 * @dataProvider provideCoercionMethodData
+	 * @dataProvider provideCoercionData
 	 * @testdox Call::coerce({$value}, {$template}) === Closure
 	 * 
 	 * @param mixed $value
@@ -2695,7 +2695,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testCoerceMethod($value, $template): void
+	public function testCoerce($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			foreach ([false, true] as $assertive) {
@@ -2707,7 +2707,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method.
 	 * 
-	 * @dataProvider provideCoercionMethodData
+	 * @dataProvider provideCoercionData
 	 * @testdox Call::processCoercion(&{$value}, {$template}) === true
 	 * 
 	 * @param mixed $value
@@ -2716,7 +2716,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethod($value, $template): void
+	public function testProcessCoercion($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			foreach ([false, true] as $assertive) {
@@ -2735,7 +2735,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided coercion method data.</p>
 	 */
-	public function provideCoercionMethodData(): array
+	public function provideCoercionData(): array
 	{
 		return [
 			['strlen', null],
@@ -2801,11 +2801,11 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method with a <code>null</code> value.
 	 * 
-	 * @testdox Call::evaluate(&{NULL} --> &{NULL}, null, true) === true
+	 * @testdox Call::evaluate(&{null} --> &{null}, null, true) === true
 	 * 
 	 * @return void
 	 */
-	public function testEvaluateMethod_NullValue(): void
+	public function testEvaluate_Null(): void
 	{
 		foreach ([false, true] as $assertive) {
 			$value = null;
@@ -2817,11 +2817,11 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method with a <code>null</code> value.
 	 * 
-	 * @testdox Call::coerce({NULL}, null, true) === NULL
+	 * @testdox Call::coerce({null}, null, true) === null
 	 * 
 	 * @return void
 	 */
-	public function testCoerceMethod_NullValue(): void
+	public function testCoerce_Null(): void
 	{
 		foreach ([false, true] as $assertive) {
 			$this->assertNull(UCall::coerce(null, null, true, $assertive));
@@ -2831,11 +2831,11 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method with a <code>null</code> value.
 	 * 
-	 * @testdox Call::processCoercion(&{NULL} --> &{NULL}, null, true) === true
+	 * @testdox Call::processCoercion(&{null} --> &{null}, null, true) === true
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_NullValue(): void
+	public function testProcessCoercion_Null(): void
 	{
 		foreach ([false, true] as $assertive) {
 			foreach ([false, true] as $no_throw) {
@@ -2849,7 +2849,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionMethodData_CoercionFailedException
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::evaluate(&{$value}, {$template}) === false
 	 * 
 	 * @param mixed $value
@@ -2858,7 +2858,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testEvaluateMethod_False($value, $template): void
+	public function testEvaluate_False($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			$v = $value;
@@ -2870,7 +2870,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionMethodData_CoercionFailedException
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::coerce({$value}, {$template}) --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2879,7 +2879,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testCoerceMethod_CoercionFailedException($value, $template): void
+	public function testCoerce_Exception_CoercionFailed($value, $template): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
 		try {
@@ -2893,7 +2893,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionMethodData_CoercionFailedException
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::processCoercion(&{$value}, {$template}) --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -2902,7 +2902,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_CoercionFailedException($value, $template): void
+	public function testProcessCoercion_Exception_CoercionFailed($value, $template): void
 	{
 		$v = $value;
 		$this->expectException(Exceptions\CoercionFailed::class);
@@ -2919,7 +2919,7 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionMethodData_CoercionFailedException
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, false, true) === false
 	 * 
 	 * @param mixed $value
@@ -2928,7 +2928,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_NoThrowFalse($value, $template): void
+	public function testProcessCoercion_NoThrow_False($value, $template): void
 	{
 		foreach ([false, true] as $nullable) {
 			$v = $value;
@@ -2943,7 +2943,7 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided coercion method data for a <code>CoercionFailed</code> exception to be thrown.</p>
 	 */
-	public function provideCoercionMethodData_CoercionFailedException(): array
+	public function provideCoercionData_Exception_CoercionFailed(): array
 	{
 		return [
 			[false, null],
@@ -3033,11 +3033,11 @@ class CallTest extends TestCase
 	 * Test <code>evaluate</code> method with a <code>null</code> value, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @testdox Call::evaluate(&{NULL} --> &{NULL}) === false
+	 * @testdox Call::evaluate(&{null} --> &{null}) === false
 	 * 
 	 * @return void
 	 */
-	public function testEvaluateMethod_NullValue_False(): void
+	public function testEvaluate_Null_False(): void
 	{
 		$value = null;
 		$this->assertFalse(UCall::evaluate($value));
@@ -3048,11 +3048,11 @@ class CallTest extends TestCase
 	 * Test <code>coerce</code> method with a <code>null</code> value, 
 	 * expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @testdox Call::coerce({NULL}) --> CoercionFailed exception
+	 * @testdox Call::coerce({null}) --> CoercionFailed exception
 	 * 
 	 * @return void
 	 */
-	public function testCoerceMethod_NullValue_CoercionFailedException(): void
+	public function testCoerce_Null_Exception_CoercionFailed(): void
 	{
 		$this->expectException(Exceptions\CoercionFailed::class);
 		try {
@@ -3067,11 +3067,11 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with a <code>null</code> value, 
 	 * expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @testdox Call::processCoercion(&{NULL}) --> CoercionFailed exception
+	 * @testdox Call::processCoercion(&{null}) --> CoercionFailed exception
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_NullValue_CoercionFailedException(): void
+	public function testProcessCoercion_Null_Exception_CoercionFailed(): void
 	{
 		$value = null;
 		$this->expectException(Exceptions\CoercionFailed::class);
@@ -3088,11 +3088,11 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with a <code>null</code> value, 
 	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @testdox Call::processCoercion(&{NULL}, null, false, false, true) === false
+	 * @testdox Call::processCoercion(&{null}, null, false, false, true) === false
 	 * 
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_NullValue_NoThrowFalse(): void
+	public function testProcessCoercion_Null_NoThrow_False(): void
 	{
 		$value = null;
 		$this->assertFalse(UCall::processCoercion($value, null, false, false, true));
@@ -3102,7 +3102,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodData_Assertive
+	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::evaluate(&{$value}, {$template}, false|true, true) === false|true
 	 * 
 	 * @param mixed $value
@@ -3111,7 +3111,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testEvaluateMethod_Assertive($value, $template): void
+	public function testEvaluate_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -3137,7 +3137,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodData_Assertive
+	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::coerce({$value}, {$template}, false|true, true) === Closure or --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -3146,7 +3146,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testCoerceMethod_Assertive($value, $template): void
+	public function testCoerce_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -3172,7 +3172,7 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionMethodData_Assertive
+	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, true, false|true) === false|true or --> CoercionFailed exception
 	 * 
 	 * @param mixed $value
@@ -3181,7 +3181,7 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessCoercionMethod_Assertive($value, $template): void
+	public function testProcessCoercion_Assertive($value, $template): void
 	{
 		//production
 		$environment = System::getEnvironment();
@@ -3223,9 +3223,9 @@ class CallTest extends TestCase
 	 * @return array
 	 * <p>The provided coercion method data with <var>$assertive</var> set to boolean <code>true</code>.</p>
 	 */
-	public function provideCoercionMethodData_Assertive(): array
+	public function provideCoercionData_Assertive(): array
 	{
-		$data = $this->provideCoercionMethodData_CoercionFailedException();
+		$data = $this->provideCoercionData_Exception_CoercionFailed();
 		return array_filter($data, fn (array $datum): bool => $datum[1] !== null);
 	}
 	
@@ -3236,7 +3236,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousClassMethod(): void
+	public function testStackPreviousClass(): void
 	{
 		//initialize
 		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
@@ -3272,7 +3272,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousClassesMethod(): void
+	public function testStackPreviousClasses(): void
 	{
 		//initialize
 		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
@@ -3361,7 +3361,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousObjectMethod(): void
+	public function testStackPreviousObject(): void
 	{
 		//initialize
 		$b = new CallTest_StackClassB(new CallTest_StackClassC());
@@ -3398,7 +3398,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousObjectsMethod(): void
+	public function testStackPreviousObjects(): void
 	{
 		//initialize
 		$b = new CallTest_StackClassB(new CallTest_StackClassC());
@@ -3479,7 +3479,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousObjectClassMethod(): void
+	public function testStackPreviousObjectClass(): void
 	{
 		//initialize
 		$b = new CallTest_StackClassB(new CallTest_StackClassC());
@@ -3516,7 +3516,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testStackPreviousObjectsClassesMethod(): void
+	public function testStackPreviousObjectsClasses(): void
 	{
 		//initialize
 		$b = new CallTest_StackClassB(new CallTest_StackClassC());
@@ -3606,24 +3606,24 @@ class CallTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testStackPreviousNameMethod(): void
+	public function testStackPreviousName(): void
 	{
 		//initialize
 		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
 		
 		//assert
-		$this->assertSame('testStackPreviousNameMethod', $a->getStackPreviousNameA());
-		$this->assertSame(static::class . '::testStackPreviousNameMethod', $a->getStackPreviousNameA(true));
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStackPreviousNameA(true, true));
-		$this->assertSame('testStackPreviousNameMethod', $a->getStaticStackPreviousNameA());
-		$this->assertSame(static::class . '::testStackPreviousNameMethod', $a->getStaticStackPreviousNameA(true));
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStaticStackPreviousNameA(true, true));
-		$this->assertSame('testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameA());
+		$this->assertSame('testStackPreviousName', $a->getStackPreviousNameA());
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStackPreviousNameA(true));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStackPreviousNameA(true, true));
+		$this->assertSame('testStackPreviousName', $a->getStaticStackPreviousNameA());
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStaticStackPreviousNameA(true));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStaticStackPreviousNameA(true, true));
+		$this->assertSame('testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameA());
 		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameA(true)
+			static::class . '::testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameA(true)
 		);
 		$this->assertSame(
-			'CallTest::testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameA(true, true)
+			'CallTest::testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameA(true, true)
 		);
 		$this->assertSame('getStackPreviousNameBA', $a->getStackPreviousNameBA());
 		$this->assertSame(CallTest_StackClassA::class . '::getStackPreviousNameBA', $a->getStackPreviousNameBA(true));
@@ -3687,45 +3687,33 @@ class CallTest extends TestCase
 			'CallTest_StackClassA::getStaticStackPreviousNameCA',
 			CallTest_StackClassA::getStaticStackPreviousNameCA(true, true, 1)
 		);
-		$this->assertSame('testStackPreviousNameMethod', $a->getStackPreviousNameCA(false, false, 2));
+		$this->assertSame('testStackPreviousName', $a->getStackPreviousNameCA(false, false, 2));
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStackPreviousNameCA(true, false, 2));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStackPreviousNameCA(true, true, 2));
+		$this->assertSame('testStackPreviousName', $a->getStaticStackPreviousNameCA(false, false, 2));
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStaticStackPreviousNameCA(true, false, 2));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStaticStackPreviousNameCA(true, true, 2));
+		$this->assertSame('testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameCA(false, false, 2));
 		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod', $a->getStackPreviousNameCA(true, false, 2)
-		);
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStackPreviousNameCA(true, true, 2));
-		$this->assertSame('testStackPreviousNameMethod', $a->getStaticStackPreviousNameCA(false, false, 2));
-		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod', $a->getStaticStackPreviousNameCA(true, false, 2)
-		);
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStaticStackPreviousNameCA(true, true, 2));
-		$this->assertSame(
-			'testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameCA(false, false, 2)
-		);
-		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod',
+			static::class . '::testStackPreviousName',
 			CallTest_StackClassA::getStaticStackPreviousNameCA(true, false, 2)
 		);
 		$this->assertSame(
-			'CallTest::testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameCA(true, true, 2)
+			'CallTest::testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameCA(true, true, 2)
 		);
-		$this->assertSame('testStackPreviousNameMethod', $a->getStackPreviousNameBA(false, false, 1));
+		$this->assertSame('testStackPreviousName', $a->getStackPreviousNameBA(false, false, 1));
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStackPreviousNameBA(true, false, 1));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStackPreviousNameBA(true, true, 1));
+		$this->assertSame('testStackPreviousName', $a->getStaticStackPreviousNameBA(false, false, 1));
+		$this->assertSame(static::class . '::testStackPreviousName', $a->getStaticStackPreviousNameBA(true, false, 1));
+		$this->assertSame('CallTest::testStackPreviousName', $a->getStaticStackPreviousNameBA(true, true, 1));
+		$this->assertSame('testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameBA(false, false, 1));
 		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod', $a->getStackPreviousNameBA(true, false, 1)
-		);
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStackPreviousNameBA(true, true, 1));
-		$this->assertSame('testStackPreviousNameMethod', $a->getStaticStackPreviousNameBA(false, false, 1));
-		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod', $a->getStaticStackPreviousNameBA(true, false, 1)
-		);
-		$this->assertSame('CallTest::testStackPreviousNameMethod', $a->getStaticStackPreviousNameBA(true, true, 1));
-		$this->assertSame(
-			'testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameBA(false, false, 1)
-		);
-		$this->assertSame(
-			static::class . '::testStackPreviousNameMethod',
+			static::class . '::testStackPreviousName',
 			CallTest_StackClassA::getStaticStackPreviousNameBA(true, false, 1)
 		);
 		$this->assertSame(
-			'CallTest::testStackPreviousNameMethod', CallTest_StackClassA::getStaticStackPreviousNameBA(true, true, 1)
+			'CallTest::testStackPreviousName', CallTest_StackClassA::getStaticStackPreviousNameBA(true, true, 1)
 		);
 		$this->assertNull($a->getStackPreviousNameCA(false, false, 10000));
 		$this->assertNull($a->getStaticStackPreviousNameCA(false, false, 10000));
@@ -3753,281 +3741,257 @@ class CallTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testStackPreviousNamesMethod(): void
+	public function testStackPreviousNames(): void
 	{
 		//initialize
 		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
 		
 		//assert
 		$this->assertGreaterThan(1, count($a->getStackPreviousNamesA()));
-		$this->assertSame(['testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(), 0, 1));
+		$this->assertSame(['testStackPreviousNames'], array_slice($a->getStackPreviousNamesA(), 0, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(true), 0, 1)
+			[static::class . '::testStackPreviousNames'], array_slice($a->getStackPreviousNamesA(true), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesA(true, true), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStackPreviousNamesA(true, true), 0, 1)
 		);
 		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesA()));
-		$this->assertSame(['testStackPreviousNamesMethod'], array_slice($a->getStaticStackPreviousNamesA(), 0, 1));
+		$this->assertSame(['testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesA(), 0, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
-			array_slice($a->getStaticStackPreviousNamesA(true), 0, 1)
+			[static::class . '::testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesA(true), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			array_slice($a->getStaticStackPreviousNamesA(true, true), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesA(true, true), 0, 1)
 		);
 		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesA()));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(), 0, 1)
+			['testStackPreviousNames'], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(true), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
+			['CallTest::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesA(true, true), 0, 1)
 		);
 		$this->assertGreaterThan(2, count($a->getStackPreviousNamesBA()));
 		$this->assertSame(
-			['getStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
-			array_slice($a->getStackPreviousNamesBA(), 0, 2)
-		);
-		$this->assertSame([
-				CallTest_StackClassA::class . '::getStackPreviousNamesBA',
-				static::class . '::testStackPreviousNamesMethod'
-			], array_slice($a->getStackPreviousNamesBA(true), 0, 2)
+			['getStackPreviousNamesBA', 'testStackPreviousNames'], array_slice($a->getStackPreviousNamesBA(), 0, 2)
 		);
 		$this->assertSame(
-			['CallTest_StackClassA::getStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			[CallTest_StackClassA::class . '::getStackPreviousNamesBA', static::class . '::testStackPreviousNames'],
+			array_slice($a->getStackPreviousNamesBA(true), 0, 2)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStackPreviousNamesBA', 'CallTest::testStackPreviousNames'],
 			array_slice($a->getStackPreviousNamesBA(true, true), 0, 2)
 		);
 		$this->assertGreaterThan(2, count($a->getStaticStackPreviousNamesBA()));
 		$this->assertSame(
-			['getStaticStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesBA', 'testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesBA(), 0, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice($a->getStaticStackPreviousNamesBA(true), 0, 2)
 		);
 		$this->assertSame(
-			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesBA(true, true), 0, 2)
 		);
 		$this->assertGreaterThan(2, count(CallTest_StackClassA::getStaticStackPreviousNamesBA()));
 		$this->assertSame(
-			['getStaticStackPreviousNamesBA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesBA', 'testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(), 0, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesBA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true), 0, 2)
 		);
 		$this->assertSame(
-			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNamesMethod'],
+			['CallTest_StackClassA::getStaticStackPreviousNamesBA', 'CallTest::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, true), 0, 2)
 		);
 		$this->assertGreaterThan(3, count($a->getStackPreviousNamesCA()));
 		$this->assertSame(
-			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice($a->getStackPreviousNamesCA(), 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice($a->getStackPreviousNamesCA(true), 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStackPreviousNamesCB',
 				'CallTest_StackClassA::getStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], array_slice($a->getStackPreviousNamesCA(true, true), 0, 3)
 		);
 		$this->assertGreaterThan(3, count($a->getStaticStackPreviousNamesCA()));
 		$this->assertSame(
-			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesCA(), 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice($a->getStaticStackPreviousNamesCA(true), 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
 				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], array_slice($a->getStaticStackPreviousNamesCA(true, true), 0, 3)
 		);
 		$this->assertGreaterThan(3, count(CallTest_StackClassA::getStaticStackPreviousNamesCA()));
 		$this->assertSame(
-			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(), 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true), 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
 				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true), 0, 3)
 		);
 		$this->assertGreaterThan(0, count($a->getStackPreviousNamesA(false, false, 1)));
 		$this->assertGreaterThan(0, count($a->getStaticStackPreviousNamesA(false, false, 1)));
 		$this->assertGreaterThan(0, count(CallTest_StackClassA::getStaticStackPreviousNamesA(false, false, 1)));
 		$this->assertGreaterThan(1, count($a->getStackPreviousNamesBA(false, false, 1)));
+		$this->assertSame(['testStackPreviousNames'], array_slice($a->getStackPreviousNamesBA(false, false, 1), 0, 1));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'],
-			array_slice($a->getStackPreviousNamesBA(false, false, 1), 0, 1)
+			[static::class . '::testStackPreviousNames'], array_slice($a->getStackPreviousNamesBA(true, false, 1), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
-			array_slice($a->getStackPreviousNamesBA(true, false, 1), 0, 1)
-		);
-		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			array_slice($a->getStackPreviousNamesBA(true, true, 1), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStackPreviousNamesBA(true, true, 1), 0, 1)
 		);
 		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesBA(false, false, 1)));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'],
-			array_slice($a->getStaticStackPreviousNamesBA(false, false, 1), 0, 1)
+			['testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesBA(false, false, 1), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesBA(true, false, 1), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			array_slice($a->getStaticStackPreviousNamesBA(true, true, 1), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesBA(true, true, 1), 0, 1)
 		);
 		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesBA(false, false, 1)));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'],
+			['testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(false, false, 1), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, false, 1), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
+			['CallTest::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesBA(true, true, 1), 0, 1)
 		);
 		$this->assertGreaterThan(2, count($a->getStackPreviousNamesCA(false, false, 1)));
 		$this->assertSame(
-			['getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice($a->getStackPreviousNamesCA(false, false, 1), 0, 2)
 		);
-		$this->assertSame([
-				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
-			], array_slice($a->getStackPreviousNamesCA(true, false, 1), 0, 2)
+		$this->assertSame(
+			[CallTest_StackClassA::class . '::getStackPreviousNamesCA', static::class . '::testStackPreviousNames'],
+			array_slice($a->getStackPreviousNamesCA(true, false, 1), 0, 2)
 		);
-		$this->assertSame([
-				'CallTest_StackClassA::getStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
-			], array_slice($a->getStackPreviousNamesCA(true, true, 1), 0, 2)
+		$this->assertSame(
+			['CallTest_StackClassA::getStackPreviousNamesCA', 'CallTest::testStackPreviousNames'],
+			array_slice($a->getStackPreviousNamesCA(true, true, 1), 0, 2)
 		);
 		$this->assertGreaterThan(2, count($a->getStaticStackPreviousNamesCA(false, false, 1)));
 		$this->assertSame(
-			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesCA(false, false, 1), 0, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice($a->getStaticStackPreviousNamesCA(true, false, 1), 0, 2)
 		);
-		$this->assertSame([
-				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
-			], array_slice($a->getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesCA', 'CallTest::testStackPreviousNames'],
+			array_slice($a->getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
 		);
 		$this->assertGreaterThan(2, count(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1)));
 		$this->assertSame(
-			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1), 0, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 1), 0, 2)
 		);
-		$this->assertSame([
-				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
-			], array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
+		$this->assertSame(
+			['CallTest_StackClassA::getStaticStackPreviousNamesCA', 'CallTest::testStackPreviousNames'],
+			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1), 0, 2)
 		);
 		$this->assertGreaterThan(1, count($a->getStackPreviousNamesCA(false, false, 2)));
+		$this->assertSame(['testStackPreviousNames'], array_slice($a->getStackPreviousNamesCA(false, false, 2), 0, 1));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesCA(false, false, 2), 0, 1)
+			[static::class . '::testStackPreviousNames'], array_slice($a->getStackPreviousNamesCA(true, false, 2), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
-			array_slice($a->getStackPreviousNamesCA(true, false, 2), 0, 1)
-		);
-		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'], array_slice($a->getStackPreviousNamesCA(true, true, 2), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStackPreviousNamesCA(true, true, 2), 0, 1)
 		);
 		$this->assertGreaterThan(1, count($a->getStaticStackPreviousNamesCA(false, false, 2)));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'], array_slice($a->getStaticStackPreviousNamesCA(false, false, 2), 0, 1)
+			['testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesCA(false, false, 2), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			array_slice($a->getStaticStackPreviousNamesCA(true, false, 2), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			array_slice($a->getStaticStackPreviousNamesCA(true, true, 2), 0, 1)
+			['CallTest::testStackPreviousNames'], array_slice($a->getStaticStackPreviousNamesCA(true, true, 2), 0, 1)
 		);
 		
 		$this->assertGreaterThan(1, count(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2)));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'],
+			['testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2), 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 2), 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
+			['CallTest::testStackPreviousNames'],
 			array_slice(CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 2), 0, 1)
 		);
-		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(false, false, 0, 1));
+		$this->assertSame(['testStackPreviousNames'], $a->getStackPreviousNamesA(false, false, 0, 1));
+		$this->assertSame([static::class . '::testStackPreviousNames'], $a->getStackPreviousNamesA(true, false, 0, 1));
+		$this->assertSame(['CallTest::testStackPreviousNames'], $a->getStackPreviousNamesA(true, true, 0, 1));
+		$this->assertSame(['testStackPreviousNames'], $a->getStaticStackPreviousNamesA(false, false, 0, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(true, false, 0, 1)
+			[static::class . '::testStackPreviousNames'], $a->getStaticStackPreviousNamesA(true, false, 0, 1)
 		);
-		$this->assertSame(['CallTest::testStackPreviousNamesMethod'], $a->getStackPreviousNamesA(true, true, 0, 1));
-		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(false, false, 0, 1));
+		$this->assertSame(['CallTest::testStackPreviousNames'], $a->getStaticStackPreviousNamesA(true, true, 0, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(true, false, 0, 1)
-		);
-		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesA(true, true, 0, 1)
-		);
-		$this->assertSame(
-			['testStackPreviousNamesMethod'], CallTest_StackClassA::getStaticStackPreviousNamesA(false, false, 0, 1)
+			['testStackPreviousNames'], CallTest_StackClassA::getStaticStackPreviousNamesA(false, false, 0, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			CallTest_StackClassA::getStaticStackPreviousNamesA(true, false, 0, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			CallTest_StackClassA::getStaticStackPreviousNamesA(true, true, 0, 1)
+			['CallTest::testStackPreviousNames'], CallTest_StackClassA::getStaticStackPreviousNamesA(true, true, 0, 1)
 		);
 		$this->assertSame(['getStackPreviousNamesBA'], $a->getStackPreviousNamesBA(false, false, 0, 1));
 		$this->assertSame(
@@ -4082,18 +4046,16 @@ class CallTest extends TestCase
 			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 1)
 		);
 		$this->assertSame(
-			['getStackPreviousNamesCB', 'getStackPreviousNamesCA'],
-			$a->getStackPreviousNamesCA(false, false, 0, 2)
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA'], $a->getStackPreviousNamesCA(false, false, 0, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStackPreviousNamesCA'
 			], $a->getStackPreviousNamesCA(true, false, 0, 2)
 		);
-		$this->assertSame([
-				'CallTest_StackClassB::getStackPreviousNamesCB',
-				'CallTest_StackClassA::getStackPreviousNamesCA'
-			], $a->getStackPreviousNamesCA(true, true, 0, 2)
+		$this->assertSame(
+			['CallTest_StackClassB::getStackPreviousNamesCB', 'CallTest_StackClassA::getStackPreviousNamesCA'],
+			$a->getStackPreviousNamesCA(true, true, 0, 2)
 		);
 		$this->assertSame(
 			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA'],
@@ -4124,117 +4086,110 @@ class CallTest extends TestCase
 			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 2)
 		);
 		$this->assertSame(
-			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStackPreviousNamesCB', 'getStackPreviousNamesCA', 'testStackPreviousNames'],
 			$a->getStackPreviousNamesCA(false, false, 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], $a->getStackPreviousNamesCA(true, false, 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStackPreviousNamesCB',
 				'CallTest_StackClassA::getStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], $a->getStackPreviousNamesCA(true, true, 0, 3)
 		);
 		$this->assertSame(
-			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			$a->getStaticStackPreviousNamesCA(false, false, 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], $a->getStaticStackPreviousNamesCA(true, false, 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
 				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], $a->getStaticStackPreviousNamesCA(true, true, 0, 3)
 		);
 		$this->assertSame(
-			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCB', 'getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 0, 3)
 		);
 		$this->assertSame([
 				CallTest_StackClassB::class . '::getStaticStackPreviousNamesCB',
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 0, 3)
 		);
 		$this->assertSame([
 				'CallTest_StackClassB::getStaticStackPreviousNamesCB',
 				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 0, 3)
 		);
 		$this->assertSame(
-			['getStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
-			$a->getStackPreviousNamesCA(false, false, 1, 2)
-		);
-		$this->assertSame([
-				CallTest_StackClassA::class . '::getStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
-			], $a->getStackPreviousNamesCA(true, false, 1, 2)
-		);
-		$this->assertSame([
-				'CallTest_StackClassA::getStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
-			], $a->getStackPreviousNamesCA(true, true, 1, 2)
+			['getStackPreviousNamesCA', 'testStackPreviousNames'], $a->getStackPreviousNamesCA(false, false, 1, 2)
 		);
 		$this->assertSame(
-			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			[CallTest_StackClassA::class . '::getStackPreviousNamesCA', static::class . '::testStackPreviousNames'],
+			$a->getStackPreviousNamesCA(true, false, 1, 2)
+		);
+		$this->assertSame(
+			['CallTest_StackClassA::getStackPreviousNamesCA', 'CallTest::testStackPreviousNames'],
+			$a->getStackPreviousNamesCA(true, true, 1, 2)
+		);
+		$this->assertSame(
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			$a->getStaticStackPreviousNamesCA(false, false, 1, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], $a->getStaticStackPreviousNamesCA(true, false, 1, 2)
 		);
 		$this->assertSame([
 				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
+				'CallTest::testStackPreviousNames'
 			], $a->getStaticStackPreviousNamesCA(true, true, 1, 2)
 		);
 		$this->assertSame(
-			['getStaticStackPreviousNamesCA', 'testStackPreviousNamesMethod'],
+			['getStaticStackPreviousNamesCA', 'testStackPreviousNames'],
 			CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 1, 2)
 		);
 		$this->assertSame([
 				CallTest_StackClassA::class . '::getStaticStackPreviousNamesCA',
-				static::class . '::testStackPreviousNamesMethod'
+				static::class . '::testStackPreviousNames'
 			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 1, 2)
 		);
-		$this->assertSame([
-				'CallTest_StackClassA::getStaticStackPreviousNamesCA',
-				'CallTest::testStackPreviousNamesMethod'
-			], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1, 2)
-		);
-		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(false, false, 2, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(true, false, 2, 1)
+			['CallTest_StackClassA::getStaticStackPreviousNamesCA', 'CallTest::testStackPreviousNames'],
+			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 1, 2)
 		);
-		$this->assertSame(['CallTest::testStackPreviousNamesMethod'], $a->getStackPreviousNamesCA(true, true, 2, 1));
-		$this->assertSame(['testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(false, false, 2, 1));
+		$this->assertSame(['testStackPreviousNames'], $a->getStackPreviousNamesCA(false, false, 2, 1));
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(true, false, 2, 1)
+			[static::class . '::testStackPreviousNames'], $a->getStackPreviousNamesCA(true, false, 2, 1)
 		);
+		$this->assertSame(['CallTest::testStackPreviousNames'], $a->getStackPreviousNamesCA(true, true, 2, 1));
+		$this->assertSame(['testStackPreviousNames'], $a->getStaticStackPreviousNamesCA(false, false, 2, 1));
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'], $a->getStaticStackPreviousNamesCA(true, true, 2, 1)
+			[static::class . '::testStackPreviousNames'], $a->getStaticStackPreviousNamesCA(true, false, 2, 1)
 		);
+		$this->assertSame(['CallTest::testStackPreviousNames'], $a->getStaticStackPreviousNamesCA(true, true, 2, 1));
 		$this->assertSame(
-			['testStackPreviousNamesMethod'], CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2, 1)
+			['testStackPreviousNames'], CallTest_StackClassA::getStaticStackPreviousNamesCA(false, false, 2, 1)
 		);
 		$this->assertSame(
-			[static::class . '::testStackPreviousNamesMethod'],
+			[static::class . '::testStackPreviousNames'],
 			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, false, 2, 1)
 		);
 		$this->assertSame(
-			['CallTest::testStackPreviousNamesMethod'],
-			CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 2, 1)
+			['CallTest::testStackPreviousNames'], CallTest_StackClassA::getStaticStackPreviousNamesCA(true, true, 2, 1)
 		);
 		$this->assertSame([], $a->getStackPreviousNamesCA(false, false, 10000));
 		$this->assertSame([], $a->getStackPreviousNamesCA(true, false, 10000));
@@ -4254,14 +4209,14 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testHaltMethod(): void
+	public function testHalt(): void
 	{
 		//exception 1
 		try {
 			UCall::halt();
 			$this->fail("Expected NotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\NotAllowed $exception) {
-			$this->assertSame('testHaltMethod', $exception->function_name);
+			$this->assertSame('testHalt', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4334,7 +4289,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testGuardMethod(): void
+	public function testGuard(): void
 	{
 		//void
 		$this->assertNull(UCall::guard(true));
@@ -4344,7 +4299,7 @@ class CallTest extends TestCase
 			UCall::guard(false);
 			$this->fail("Expected NotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\NotAllowed $exception) {
-			$this->assertSame('testGuardMethod', $exception->function_name);
+			$this->assertSame('testGuard', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4429,7 +4384,7 @@ class CallTest extends TestCase
 			});
 			$this->fail("Expected NotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\NotAllowed $exception) {
-			$this->assertSame('testGuardMethod', $exception->function_name);
+			$this->assertSame('testGuard', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
@@ -4443,14 +4398,14 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testHaltParameterMethod(): void
+	public function testHaltParameter(): void
 	{
 		//exception 1
 		try {
 			UCall::haltParameter('foobar', null);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
-			$this->assertSame('testHaltParameterMethod', $exception->function_name);
+			$this->assertSame('testHaltParameter', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4523,7 +4478,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testGuardParameterMethod(): void
+	public function testGuardParameter(): void
 	{
 		//void
 		$this->assertNull(UCall::guardParameter('foobar', null, true));
@@ -4533,7 +4488,7 @@ class CallTest extends TestCase
 			UCall::guardParameter('foobar', null, false);
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
-			$this->assertSame('testGuardParameterMethod', $exception->function_name);
+			$this->assertSame('testGuardParameter', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4618,7 +4573,7 @@ class CallTest extends TestCase
 			});
 			$this->fail("Expected ParameterNotAllowed exception not thrown.");
 		} catch (Exceptions\Halt\ParameterNotAllowed $exception) {
-			$this->assertSame('testGuardParameterMethod', $exception->function_name);
+			$this->assertSame('testGuardParameter', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
@@ -4632,14 +4587,14 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testHaltInternalMethod(): void
+	public function testHaltInternal(): void
 	{
 		//exception 1
 		try {
 			UCall::haltInternal();
 			$this->fail("Expected InternalError exception not thrown.");
 		} catch (Exceptions\Halt\InternalError $exception) {
-			$this->assertSame('testHaltInternalMethod', $exception->function_name);
+			$this->assertSame('testHaltInternal', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4712,7 +4667,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testGuardInternalMethod(): void
+	public function testGuardInternal(): void
 	{
 		//void
 		$this->assertNull(UCall::guardInternal(true));
@@ -4722,7 +4677,7 @@ class CallTest extends TestCase
 			UCall::guardInternal(false);
 			$this->fail("Expected InternalError exception not thrown.");
 		} catch (Exceptions\Halt\InternalError $exception) {
-			$this->assertSame('testGuardInternalMethod', $exception->function_name);
+			$this->assertSame('testGuardInternal', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertNull($exception->error_message);
 			$this->assertNull($exception->hint_message);
@@ -4807,7 +4762,7 @@ class CallTest extends TestCase
 			});
 			$this->fail("Expected InternalError exception not thrown.");
 		} catch (Exceptions\Halt\InternalError $exception) {
-			$this->assertSame('testGuardInternalMethod', $exception->function_name);
+			$this->assertSame('testGuardInternal', $exception->function_name);
 			$this->assertSame($this, $exception->object_class);
 			$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 			$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);
@@ -4821,7 +4776,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testHaltExecutionMethod(): void
+	public function testHaltExecution(): void
 	{
 		//initialize
 		$functions = [
@@ -4847,7 +4802,7 @@ class CallTest extends TestCase
 						$this->assertSame("Something went very wrong!", $exception->error_message);
 						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
-					$this->assertSame('testHaltExecutionMethod', $exception->function_name);
+					$this->assertSame('testHaltExecution', $exception->function_name);
 					$this->assertSame($this, $exception->object_class);
 					$this->assertNull($exception->hint_message);
 					$this->assertSame($e_options['value'] ?? null, $exception->value);
@@ -4968,7 +4923,7 @@ class CallTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testGuardExecutionMethod(): void
+	public function testGuardExecution(): void
 	{
 		//initialize
 		$functions = [
@@ -5008,7 +4963,7 @@ class CallTest extends TestCase
 					UCall::guardExecution($function, $parameters, $callback);
 					$this->fail("Expected ReturnError exception not thrown.");
 				} catch (Exceptions\Halt\ReturnError $exception) {
-					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
+					$this->assertSame('testGuardExecution', $exception->function_name);
 					$this->assertSame($this, $exception->object_class);
 					if ($callback === $callback_false) {
 						$this->assertInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
@@ -5155,7 +5110,7 @@ class CallTest extends TestCase
 					} else {
 						$this->assertNotInstanceOf(Exceptions\Halt\ReturnNotAllowed::class, $exception);
 					}
-					$this->assertSame('testGuardExecutionMethod', $exception->function_name);
+					$this->assertSame('testGuardExecution', $exception->function_name);
 					$this->assertSame($this, $exception->object_class);
 					$this->assertSame("There is only (integer)1 (string)\"banana\".", $exception->error_message);
 					$this->assertSame("Try this (integer)1 (string)\"peach\".", $exception->hint_message);

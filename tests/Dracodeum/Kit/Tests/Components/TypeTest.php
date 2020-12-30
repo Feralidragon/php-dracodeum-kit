@@ -31,6 +31,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test process.
 	 * 
+	 * @testdox Process
+	 * 
 	 * @return void
 	 */
 	public function testProcess(): void
@@ -120,6 +122,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test process (nullable).
 	 * 
+	 * @testdox Process (nullable)
+	 * 
 	 * @return void
 	 */
 	public function testProcess_Nullable(): void
@@ -142,6 +146,8 @@ class TypeTest extends TestCase
 	
 	/**
 	 * Test textify.
+	 * 
+	 * @testdox Textify
 	 * 
 	 * @return void
 	 */
@@ -200,7 +206,7 @@ class TypeTest extends TestCase
 	 * Test textify expecting a <code>TextificationFailed</code> exception to be thrown.
 	 * 
 	 * @dataProvider provideTextifyData_Exception_TextificationFailed
-	 * @testdox Type->textify({$value}, $context) --> TextificationFailed exception
+	 * @testdox Textify TextificationFailed exception
 	 * 
 	 * @param string $prototype
 	 * <p>The prototype parameter to test with.</p>
@@ -240,7 +246,7 @@ class TypeTest extends TestCase
 	 * expecting <code>null</code> to be returned.
 	 * 
 	 * @dataProvider provideTextifyData_Exception_TextificationFailed
-	 * @testdox Type->textify({$value}, $context, true) === false
+	 * @testdox Textify (no throw ==> null)
 	 * 
 	 * @param string $prototype
 	 * <p>The prototype parameter to test with.</p>
@@ -277,6 +283,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test label.
 	 * 
+	 * @testdox Label
+	 * 
 	 * @return void
 	 */
 	public function testLabel(): void
@@ -300,6 +308,8 @@ class TypeTest extends TestCase
 	
 	/**
 	 * Test description.
+	 * 
+	 * @testdox Description
 	 * 
 	 * @return void
 	 */

@@ -19,7 +19,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>encoded</code> method.
 	 * 
-	 * @dataProvider provideEncodedMethodData
+	 * @dataProvider provideEncodedData
 	 * @testdox Base32::encoded('$string', '$alphabet') === $expected
 	 * 
 	 * @param string $string
@@ -30,7 +30,7 @@ class Base32Test extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testEncodedMethod(string $string, string $alphabet, bool $expected): void
+	public function testEncoded(string $string, string $alphabet, bool $expected): void
 	{
 		$this->assertSame($expected, UBase32::encoded($string, $alphabet));
 	}
@@ -41,7 +41,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>encoded</code> method data.</p>
 	 */
-	public function provideEncodedMethodData(): array
+	public function provideEncodedData(): array
 	{
 		return [
 			['', EAlphabet::RFC4648, false],
@@ -97,7 +97,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>encode</code> method.
 	 * 
-	 * @dataProvider provideEncodeMethodData
+	 * @dataProvider provideEncodeData
 	 * @testdox Base32::encode('$string', $url_safe, '$alphabet') === '$expected'
 	 * 
 	 * @param string $string
@@ -110,7 +110,7 @@ class Base32Test extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testEncodeMethod(string $string, bool $url_safe, string $alphabet, string $expected): void
+	public function testEncode(string $string, bool $url_safe, string $alphabet, string $expected): void
 	{
 		$this->assertSame($expected, UBase32::encode($string, $url_safe, $alphabet));
 	}
@@ -121,7 +121,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>encode</code> method data.</p>
 	 */
-	public function provideEncodeMethodData(): array
+	public function provideEncodeData(): array
 	{
 		return [
 			['', false, EAlphabet::RFC4648, ''],
@@ -176,7 +176,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>decode</code> method.
 	 * 
-	 * @dataProvider provideDecodeMethodData
+	 * @dataProvider provideDecodeData
 	 * @testdox Base32::decode('$string', $alphabet, false|true) === '$expected'
 	 * 
 	 * @param string $string
@@ -187,7 +187,7 @@ class Base32Test extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testDecodeMethod(string $string, string $alphabet, string $expected): void
+	public function testDecode(string $string, string $alphabet, string $expected): void
 	{
 		foreach ([false, true] as $no_throw) {
 			$this->assertSame($expected, UBase32::decode($string, $alphabet, $no_throw));
@@ -200,7 +200,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>decode</code> method data.</p>
 	 */
-	public function provideDecodeMethodData(): array
+	public function provideDecodeData(): array
 	{
 		return [
 			['ME======', EAlphabet::RFC4648, 'a'],
@@ -250,7 +250,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideDecodeMethodData_InvalidStringException
+	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * @testdox Base32::decode('$string', '$alphabet') --> InvalidString exception
 	 * 
 	 * @param string $string
@@ -259,7 +259,7 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testDecodeMethod_InvalidStringException(string $string, string $alphabet): void
+	public function testDecode_Exception_InvalidString(string $string, string $alphabet): void
 	{
 		$this->expectException(Exceptions\Decode\InvalidString::class);
 		try {
@@ -275,8 +275,8 @@ class Base32Test extends TestCase
 	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideDecodeMethodData_InvalidStringException
-	 * @testdox Base32::decode('$string', '$alphabet', true) === NULL
+	 * @dataProvider provideDecodeData_Exception_InvalidString
+	 * @testdox Base32::decode('$string', '$alphabet', true) === null
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -284,7 +284,7 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testDecodeMethod_NoThrowNull(string $string, string $alphabet): void
+	public function testDecode_NoThrow_Null(string $string, string $alphabet): void
 	{
 		$this->assertNull(UBase32::decode($string, $alphabet, true));
 	}
@@ -295,7 +295,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>decode</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideDecodeMethodData_InvalidStringException(): array
+	public function provideDecodeData_Exception_InvalidString(): array
 	{
 		return [
 			['', EAlphabet::RFC4648],
@@ -325,7 +325,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method.
 	 * 
-	 * @dataProvider provideNormalizeMethodData
+	 * @dataProvider provideNormalizeData
 	 * @testdox Base32::normalize('$string', '$alphabet_from', '$alphabet_to') === '$expected'
 	 * 
 	 * @param string $string
@@ -338,7 +338,7 @@ class Base32Test extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @return void
 	 */
-	public function testNormalizeMethod(
+	public function testNormalize(
 		string $string, string $alphabet_from, string $alphabet_to, string $expected
 	): void
 	{
@@ -353,7 +353,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>normalize</code> method data.</p>
 	 */
-	public function provideNormalizeMethodData(): array
+	public function provideNormalizeData(): array
 	{
 		return [
 			['ME======', EAlphabet::RFC4648, EAlphabet::RFC4648, 'ME======'],
@@ -391,7 +391,7 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideNormalizeMethodData_InvalidStringException
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * @testdox Base32::normalize('$string', '$alphabet_from') --> InvalidString exception
 	 * 
 	 * @param string $string
@@ -400,7 +400,7 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet_from</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testNormalizeMethod_InvalidStringException(string $string, string $alphabet_from): void
+	public function testNormalize_Exception_InvalidString(string $string, string $alphabet_from): void
 	{
 		$this->expectException(Exceptions\Normalize\InvalidString::class);
 		try {
@@ -416,8 +416,8 @@ class Base32Test extends TestCase
 	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideNormalizeMethodData_InvalidStringException
-	 * @testdox Base32::normalize('$string', '$alphabet_from', EAlphabet::RFC4648, true) === NULL
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
+	 * @testdox Base32::normalize('$string', '$alphabet_from', EAlphabet::RFC4648, true) === null
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -425,7 +425,7 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet_from</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testNormalizeMethod_NoThrowNull(string $string, string $alphabet_from): void
+	public function testNormalize_NoThrow_Null(string $string, string $alphabet_from): void
 	{
 		$this->assertNull(UBase32::normalize($string, $alphabet_from, EAlphabet::RFC4648, true));
 	}
@@ -436,7 +436,7 @@ class Base32Test extends TestCase
 	 * @return array
 	 * <p>The provided <code>normalize</code> method data for an <code>InvalidString</code> exception to be thrown.</p>
 	 */
-	public function provideNormalizeMethodData_InvalidStringException(): array
+	public function provideNormalizeData_Exception_InvalidString(): array
 	{
 		return [
 			['', EAlphabet::RFC4648],
