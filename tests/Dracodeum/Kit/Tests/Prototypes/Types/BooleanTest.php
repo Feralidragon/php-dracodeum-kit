@@ -15,6 +15,8 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Options\Text as TextOptions;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\Boolean */
@@ -75,15 +77,15 @@ class BooleanTest extends TestCase
 			['yes', true],
 			[[], false],
 			[[''], true],
-			[new stdClass, true],
+			[new stdClass(), true],
 			[fopen(__FILE__, 'r'), true]
 		];
 	}
 	
 	/**
-	 * Test process non-internal.
+	 * Test process (non-internal).
 	 * 
-	 * @dataProvider provideProcessNonInternalData
+	 * @dataProvider provideProcessData_NonInternal
 	 * @testdox Type->process(&{$value}) => value = $expected [non-internal]
 	 * 
 	 * @param mixed $value
@@ -92,7 +94,7 @@ class BooleanTest extends TestCase
 	 * <p>The expected processed value.</p>
 	 * @return void
 	 */
-	public function testProcessNonInternal(mixed $value, bool $expected): void
+	public function testProcess_NonInternal(mixed $value, bool $expected): void
 	{
 		$component = Component::build(Prototype::class);
 		foreach (EContext::getValues() as $context) {
@@ -104,12 +106,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Provide process non-internal data.
+	 * Provide process data (non-internal).
 	 * 
 	 * @return array
-	 * <p>The provided process non-internal data.</p>
+	 * <p>The provided process data (non-internal).</p>
 	 */
-	public function provideProcessNonInternalData(): array
+	public function provideProcessData_NonInternal(): array
 	{
 		return [
 			[false, false],
@@ -130,16 +132,16 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process non-internal error.
+	 * Test process (non-internal error).
 	 * 
-	 * @dataProvider provideProcessNonInternalErrorData
+	 * @dataProvider provideProcessData_NonInternal_Error
 	 * @testdox Type->process(&{$value}) => error [non-internal]
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcessNonInternalError(mixed $value): void
+	public function testProcess_NonInternal_Error(mixed $value): void
 	{
 		$component = Component::build(Prototype::class);
 		foreach (EContext::getValues() as $context) {
@@ -152,12 +154,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Provide process non-internal error data.
+	 * Provide process data (non-internal error).
 	 * 
 	 * @return array
-	 * <p>The provided process non-internal error data.</p>
+	 * <p>The provided process data (non-internal error).</p>
 	 */
-	public function provideProcessNonInternalErrorData(): array
+	public function provideProcessData_NonInternal_Error(): array
 	{
 		return [
 			[null],
@@ -173,7 +175,7 @@ class BooleanTest extends TestCase
 			[' '],
 			[[]],
 			[['']],
-			[new stdClass],
+			[new stdClass()],
 			[fopen(__FILE__, 'r')]
 		];
 	}
@@ -189,5 +191,31 @@ class BooleanTest extends TestCase
 		$component = Component::build(Prototype::class);
 		$this->assertInstanceOf(Text::class, $component->getLabel());
 		$this->assertInstanceOf(Text::class, $component->getDescription());
+	}
+	
+	/**
+	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier</code> interface.
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * @return void
+	 */
+	public function testTextifierInterface(): void
+	{
+		//initialize
+		$component = Component::build(Prototype::class);
+		$text_options_enduser = TextOptions::build(['info_level' => EInfoLevel::ENDUSER]);
+		$text_options_tech = TextOptions::build(['info_level' => EInfoLevel::TECHNICAL]);
+		
+		//false
+		$text_false = $component->textify(false);
+		$this->assertInstanceOf(Text::class, $text_false);
+		$this->assertSame('no', $text_false->toString($text_options_enduser));
+		$this->assertSame('false', $text_false->toString($text_options_tech));
+		
+		//true
+		$text_true = $component->textify(true);
+		$this->assertInstanceOf(Text::class, $text_true);
+		$this->assertSame('yes', $text_true->toString($text_options_enduser));
+		$this->assertSame('true', $text_true->toString($text_options_tech));
 	}
 }

@@ -8,6 +8,7 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
+use Dracodeum\Kit\Components\Type\Exceptions;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
@@ -19,6 +20,8 @@ use Dracodeum\Kit\Primitives\{
 	Text,
 	Error
 };
+use Dracodeum\Kit\Interfaces\Stringable as IStringable;
+use Stringable as IPhpStringable;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
@@ -124,6 +127,66 @@ class Type extends Component
 		
 		//return
 		return null;
+	}
+	
+	/**
+	 * Textify a given value.
+	 * 
+	 * @param mixed $value
+	 * <p>The value to textify.</p>
+	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * <p>The context to textify for.</p>
+	 * @param bool $no_throw [default = false]
+	 * <p>Do not throw an exception.</p>
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\TextificationFailed
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * <p>The given value textified, as a text instance.<br>
+	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
+	 * then <code>null</code> is returned if the given value failed to be textified.</p>
+	 */
+	final public function textify(mixed $value, $context = EContext::INTERNAL, bool $no_throw = false): ?Text
+	{
+		//initialize
+		$v = $value;
+		$prototype = $this->getPrototype();
+		$has_textifier = $prototype instanceof PrototypeInterfaces\Textifier;
+		
+		//process
+		$error = $this->process($v, $context);
+		if ($error !== null) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\TextificationFailed([
+				'component' => $this,
+				'prototype' => $prototype,
+				'value' => $value,
+				'context' => $context,
+				'error' => $error
+			]);
+		}
+		
+		//null
+		if ($v === null && ($this->nullable || !$has_textifier)) {
+			return Text::build("null")->setAsLocalized(self::class);
+		}
+		
+		//textify
+		if ($has_textifier) {
+			return UCall::guardExecution([$prototype, 'textify'], [$v], [Text::class, 'coerce']);
+		} elseif ($v instanceof IStringable) {
+			return Text::build($v->toString());
+		} elseif (is_scalar($v) || $v instanceof IPhpStringable) {
+			return Text::build((string)$v);
+		} elseif ($no_throw) {
+			return null;
+		}
+		throw new Exceptions\TextificationFailed([
+			'component' => $this,
+			'prototype' => $prototype,
+			'value' => $value,
+			'context' => $context
+		]);
 	}
 	
 	/**

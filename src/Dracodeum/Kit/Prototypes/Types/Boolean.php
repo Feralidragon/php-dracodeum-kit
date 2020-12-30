@@ -8,13 +8,17 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer as IInformationProducer;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\{
+	Textifier as ITextifier,
+	InformationProducer as IInformationProducer
+};
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
 use Dracodeum\Kit\Options\Text as TextOptions;
+use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
@@ -30,7 +34,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
  * <code>"on"</code> or <code>"yes"</code> as boolean <code>true</code>.
  */
-class Boolean extends Prototype implements IInformationProducer
+class Boolean extends Prototype implements ITextifier, IInformationProducer
 {
 	//Private constants
 	/** Strings recognized as <code>true</code>. */
@@ -81,6 +85,18 @@ class Boolean extends Prototype implements IInformationProducer
 			->setAsLocalized(self::class)
 		;
 		return Error::build(text: $text);
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier)
+	/** {@inheritdoc} */
+	public function textify(mixed $value)
+	{
+		return match ($value) {
+			false => Text::build("no")->setString("false", EInfoLevel::TECHNICAL)->setAsLocalized(self::class),
+			true => Text::build("yes")->setString("true", EInfoLevel::TECHNICAL)->setAsLocalized(self::class)
+		};
 	}
 	
 	

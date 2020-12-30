@@ -10,12 +10,18 @@ namespace Dracodeum\Kit\Tests\Components;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer as IInformationProducer;
+use Dracodeum\Kit\Components\Type\Exceptions;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\{
+	Textifier as ITextifier,
+	InformationProducer as IInformationProducer
+};
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Interfaces\Stringable as IStringable;
+use Dracodeum\Kit\Options\Text as TextOptions;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type */
@@ -112,11 +118,11 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Test process nullable.
+	 * Test process (nullable).
 	 * 
 	 * @return void
 	 */
-	public function testProcessNullable(): void
+	public function testProcess_Nullable(): void
 	{
 		//build
 		$component1 = Component::build(TypeTest_Prototype1::class, ['nullable' => true]);
@@ -132,6 +138,140 @@ class TypeTest extends TestCase
 		$this->assertNull($value2);
 		$this->assertNull($error1);
 		$this->assertNull($error2);
+	}
+	
+	/**
+	 * Test textify.
+	 * 
+	 * @return void
+	 */
+	public function testTextify(): void
+	{
+		//build
+		$component1 = Component::build(TypeTest_Prototype1::class, ['nullable' => true]);
+		$component2 = Component::build(TypeTest_Prototype2::class);
+		$component3 = Component::build(TypeTest_Prototype3::class);
+		
+		//assert
+		foreach ([false, true] as $no_throw) {
+			//text1 (1)
+			$text1 = $component1->textify(108.5, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text1);
+			$this->assertSame('1 0 8', (string)$text1);
+			
+			//text1 (2)
+			$text1 = $component1->textify('-79102.75', EContext::INTERFACE, $no_throw);
+			$this->assertInstanceOf(Text::class, $text1);
+			$this->assertSame('- 7 9 1 0 2', (string)$text1);
+			
+			//text1 (3)
+			$text1 = $component1->textify(null, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text1);
+			$this->assertSame('null', (string)$text1);
+			
+			//text2 (1)
+			$text2 = $component2->textify(new TypeTest_Class1(), no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text2);
+			$this->assertSame('Class1', (string)$text2);
+			
+			//text2 (2)
+			$text2 = $component2->textify(new TypeTest_Class2(), no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text2);
+			$this->assertSame('__Class2', (string)$text2);
+			
+			//text2 (3)
+			$text2 = $component2->textify(TypeTest_Class2::class, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text2);
+			$this->assertSame('__Class2', (string)$text2);
+			
+			//text3 (1)
+			$text3 = $component3->textify(1.75, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text3);
+			$this->assertSame('1.75', (string)$text3);
+			
+			//text3 (2)
+			$text3 = $component3->textify(null, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text3);
+			$this->assertSame('null', (string)$text3);
+		}
+	}
+	
+	/**
+	 * Test textify expecting a <code>TextificationFailed</code> exception to be thrown.
+	 * 
+	 * @dataProvider provideTextifyData_Exception_TextificationFailed
+	 * @testdox Type->textify({$value}, $context) --> TextificationFailed exception
+	 * 
+	 * @param string $prototype
+	 * <p>The prototype parameter to test with.</p>
+	 * @param mixed $value
+	 * <p>The value parameter to test with.</p>
+	 * @param enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
+	 * <p>The context parameter to test with.</p>
+	 * @param bool $null_error
+	 * <p>Expect the exception error property to be <code>null</code>.</p>
+	 * @return void
+	 */
+	public function testTextify_Exception_TextificationFailed(
+		string $prototype, mixed $value, $context, bool $null_error
+	): void
+	{
+		$component = null;
+		$this->expectException(Exceptions\TextificationFailed::class);
+		try {
+			$component = Component::build($prototype);
+			$component->textify($value, $context);
+		} catch (Exceptions\TextificationFailed $exception) {
+			$this->assertSame($component, $exception->component);
+			$this->assertInstanceOf($prototype, $exception->prototype);
+			$this->assertSame($value, $exception->value);
+			$this->assertSame($context, $exception->context);
+			if ($null_error) {
+				$this->assertNull($exception->error);
+			} else {
+				$this->assertNotNull($exception->error);
+			}
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test textify with <var>$no_throw</var> set to boolean <code>true</code>, 
+	 * expecting <code>null</code> to be returned.
+	 * 
+	 * @dataProvider provideTextifyData_Exception_TextificationFailed
+	 * @testdox Type->textify({$value}, $context, true) === false
+	 * 
+	 * @param string $prototype
+	 * <p>The prototype parameter to test with.</p>
+	 * @param mixed $value
+	 * <p>The value parameter to test with.</p>
+	 * @param enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
+	 * <p>The context parameter to test with.</p>
+	 * @return void
+	 */
+	public function testTextify_NoThrow_Null(string $prototype, mixed $value, $context): void
+	{
+		$this->assertNull(Component::build($prototype)->textify($value, $context, true));
+	}
+	
+	/**
+	 * Provide textify data for a <code>TextificationFailed</code> exception to be thrown.
+	 * 
+	 * @return array
+	 * <p>The provided textify data for a <code>TextificationFailed</code> exception to be thrown.</p>
+	 */
+	public function provideTextifyData_Exception_TextificationFailed(): array
+	{
+		return [
+			[TypeTest_Prototype1::class, '-79102.75', EContext::INTERNAL, false],
+			[TypeTest_Prototype1::class, null, EContext::INTERNAL, false],
+			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERFACE, false],
+			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, [], EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, new stdClass(), EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, fopen(__FILE__, 'r'), EContext::INTERNAL, true]
+		];
 	}
 	
 	/**
@@ -185,8 +325,8 @@ class TypeTest extends TestCase
 
 
 
-/** Test case dummy prototype 1 class. */
-class TypeTest_Prototype1 extends Prototype implements IInformationProducer
+/** Test case dummy prototype class 1. */
+class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationProducer
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
 	public const LABEL_STRING = "Test 1";
@@ -208,11 +348,16 @@ class TypeTest_Prototype1 extends Prototype implements IInformationProducer
 			return Error::build();
 		} else {
 			$value = (int)$value;
-			if ($value > 100) {
+			if ($value > 110) {
 				return Error::build(text: self::ERROR_STRING);
 			}
 		}
 		return null;
+	}
+	
+	public function textify(mixed $value)
+	{
+		return implode(' ', str_split($value));
 	}
 	
 	public function produceLabel($context)
@@ -228,7 +373,7 @@ class TypeTest_Prototype1 extends Prototype implements IInformationProducer
 
 
 
-/** Test case dummy prototype 2 class. */
+/** Test case dummy prototype class 2. */
 class TypeTest_Prototype2 extends Prototype
 {
 	public function process(mixed &$value, $context): ?Error
@@ -237,5 +382,43 @@ class TypeTest_Prototype2 extends Prototype
 			$value = new $value();
 		}
 		return is_object($value) ? null : Error::build();
+	}
+}
+
+
+
+/** Test case dummy prototype class 3. */
+class TypeTest_Prototype3 extends Prototype
+{
+	public function process(mixed &$value, $context): ?Error
+	{
+		return null;
+	}
+}
+
+
+
+/** Test case dummy class 1. */
+class TypeTest_Class1 implements IStringable
+{
+	public function toString(?TextOptions $text_options = null): string
+	{
+		return "Class1";
+	}
+	
+	public function __toString(): string
+	{
+		return "__Class1";
+	}
+}
+
+
+
+/** Test case dummy class 2. */
+class TypeTest_Class2
+{
+	public function __toString(): string
+	{
+		return "__Class2";
 	}
 }
