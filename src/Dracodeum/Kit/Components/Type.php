@@ -157,13 +157,7 @@ class Type extends Component
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\TextificationFailed([
-				'component' => $this,
-				'prototype' => $prototype,
-				'value' => $value,
-				'context' => $context,
-				'error' => $error
-			]);
+			throw new Exceptions\TextificationFailed([$this, $prototype, $value, $context, 'error' => $error]);
 		}
 		
 		//null
@@ -181,12 +175,7 @@ class Type extends Component
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\TextificationFailed([
-			'component' => $this,
-			'prototype' => $prototype,
-			'value' => $value,
-			'context' => $context
-		]);
+		throw new Exceptions\TextificationFailed([$this, $prototype, $value, $context]);
 	}
 	
 	/**
