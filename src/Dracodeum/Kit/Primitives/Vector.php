@@ -21,7 +21,6 @@ use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoPr
 use Dracodeum\Kit\Primitives\Vector\Exceptions;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
-use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -229,7 +228,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	final public function toString(?TextOptions $text_options = null): string
+	final public function toString($text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}

@@ -21,7 +21,6 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
-use Dracodeum\Kit\Options\Text as TextOptions;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type */
@@ -411,7 +410,7 @@ class TypeTest_Prototype3 extends Prototype
 /** Test case dummy class 1. */
 class TypeTest_Class1 implements IStringable
 {
-	public function toString(?TextOptions $text_options = null): string
+	public function toString($text_options = null): string
 	{
 		return "Class1";
 	}

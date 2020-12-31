@@ -37,7 +37,6 @@ use Dracodeum\Kit\Components\Store\{
 use Dracodeum\Kit\Structures\Uid;
 use Dracodeum\Kit\Structures\Uid\Exceptions as UidExceptions;
 use Dracodeum\Kit\Enumerations\Log\Level as ELogLevel;
-use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -231,7 +230,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null): string
+	public function toString($text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}

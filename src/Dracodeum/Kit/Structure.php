@@ -27,7 +27,6 @@ use Dracodeum\Kit\Structure\{
 	Exceptions
 };
 use Dracodeum\Kit\Traits as KitTraits;
-use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -122,7 +121,7 @@ IArrayInstantiable, ICloneable
 	
 	//Implemented public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	public function toString(?TextOptions $text_options = null): string
+	public function toString($text_options = null): string
 	{
 		return UText::stringify($this->getAll(), $text_options);
 	}

@@ -92,9 +92,10 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	final public function toString(?TextOptions $text_options = null): string
+	final public function toString($text_options = null): string
 	{
 		//initialize
+		$text_options = TextOptions::coerce($text_options, nullable: true);
 		$info_levels = $text_options !== null
 			? array_reverse(range(EInfoLevel::ENDUSER, $text_options->info_level))
 			: EInfoLevel::getValues();

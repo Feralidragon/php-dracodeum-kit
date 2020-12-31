@@ -52,9 +52,7 @@ class TextificationFailed extends Exception
 	{
 		return match ($placeholder) {
 			'context' => EContext::getName($value),
-			'error' => UText::formatMessage($value->getText()->toString(
-					TextOptions::build(['info_level' => EInfoLevel::INTERNAL])
-				), true),
+			'error' => UText::formatMessage($value->getText()->toString(['info_level' => EInfoLevel::INTERNAL]), true),
 			default => parent::getPlaceholderValueString($placeholder, $value)
 		};
 	}

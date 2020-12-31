@@ -278,9 +278,10 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	
 	//Implemented final public methods (Dracodeum\Kit\Interfaces\Stringable)
 	/** {@inheritdoc} */
-	final public function toString(?TextOptions $text_options = null): string
+	final public function toString($text_options = null): string
 	{
 		$pairs = [];
+		$text_options = TextOptions::coerce($text_options, nullable: true);
 		foreach ($this->keys as $index => $key) {
 			$pairs[UText::stringify($key, $text_options)] = $this->values[$index];
 		}
