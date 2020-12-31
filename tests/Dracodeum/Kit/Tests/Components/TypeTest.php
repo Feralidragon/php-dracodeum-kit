@@ -20,6 +20,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use stdClass;
 
@@ -57,7 +58,8 @@ class TypeTest extends TestCase
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);
 		$this->assertTrue($error1->hasText());
-		$this->assertNotSame((string)$error1->getText(), TypeTest_Prototype1::ERROR_STRING);
+		$this->assertNotSame('', (string)$error1->getText());
+		$this->assertNotSame(TypeTest_Prototype1::ERROR_STRING, (string)$error1->getText());
 		
 		//value1 (error 2)
 		$value1 = $v1 = '50';
@@ -65,7 +67,8 @@ class TypeTest extends TestCase
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);
 		$this->assertTrue($error1->hasText());
-		$this->assertNotSame((string)$error1->getText(), TypeTest_Prototype1::ERROR_STRING);
+		$this->assertNotSame('', (string)$error1->getText());
+		$this->assertNotSame(TypeTest_Prototype1::ERROR_STRING, (string)$error1->getText());
 		
 		//value1 (error 3)
 		$value1 = $v1 = 120.5;
@@ -73,7 +76,27 @@ class TypeTest extends TestCase
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);
 		$this->assertTrue($error1->hasText());
-		$this->assertSame((string)$error1->getText(), TypeTest_Prototype1::ERROR_STRING);
+		$this->assertSame(TypeTest_Prototype1::ERROR_STRING, (string)$error1->getText());
+		
+		//value1 (error 4)
+		$value1 = $v1 = new stdClass();
+		$error1 = $component1->process($value1);
+		$this->assertSame($v1, $value1);
+		$this->assertInstanceOf(Error::class, $error1);
+		$this->assertTrue($error1->hasText());
+		$this->assertNotSame('', $error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER]));
+		$this->assertNotSame(
+			TypeTest_Prototype1::ERROR_STRING_TECHNICAL,
+			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER])
+		);
+		$this->assertSame(
+			TypeTest_Prototype1::ERROR_STRING_TECHNICAL,
+			$error1->getText()->toString(['info_level' => EInfoLevel::TECHNICAL])
+		);
+		$this->assertSame(
+			TypeTest_Prototype1::ERROR_STRING_TECHNICAL,
+			$error1->getText()->toString(['info_level' => EInfoLevel::INTERNAL])
+		);
 		
 		//value1 (success 1)
 		$value1 = 75.5;
@@ -338,6 +361,7 @@ class TypeTest extends TestCase
 class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationProducer
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
+	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
 	public const LABEL_STRING = "Test 1";
 	public const LABEL_STRING_INTERNAL = "test1";
 	public const DESCRIPTION_STRING = "This is a testing type.";
@@ -353,7 +377,9 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationP
 		}
 		
 		//process
-		if (!is_int($value) && !is_float($value)) {
+		if (is_object($value)) {
+			return Error::build(text: Text::build(self::ERROR_STRING_TECHNICAL, EInfoLevel::TECHNICAL));
+		} elseif (!is_int($value) && !is_float($value)) {
 			return Error::build();
 		} else {
 			$value = (int)$value;

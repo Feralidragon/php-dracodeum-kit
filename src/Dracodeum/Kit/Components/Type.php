@@ -116,8 +116,9 @@ class Type extends Component
 		//process
 		$error = $prototype->process($v, $context);
 		if ($error !== null) {
-			if (!$error->hasText()) {
-				$error->setText(Text::build("The given value is invalid.")->setAsLocalized(self::class));
+			$error_text = $error->getText() ?? Text::build();
+			if (!$error_text->hasString()) {
+				$error->setText($error_text->setString("The given value is invalid.")->setAsLocalized(self::class));
 			}
 			return $error;
 		}
