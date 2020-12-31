@@ -112,6 +112,8 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
 		foreach (EInfoLevel::getValues() as $info_level) {
@@ -136,6 +138,10 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertFalse($text->hasString());
+		$this->assertNull($text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string, $text->getString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
 		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
@@ -160,6 +166,12 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertFalse($text->hasString());
+		$this->assertNull($text->getString());
+		$this->assertFalse($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertNull($text->getString(EInfoLevel::TECHNICAL));
+		$this->assertTrue($text->hasString(EInfoLevel::INTERNAL));
+		$this->assertSame($string, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
 		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
@@ -185,6 +197,12 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+		$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
+		$this->assertNull($text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
 		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
@@ -214,6 +232,12 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+		$this->assertTrue($text->hasString(EInfoLevel::INTERNAL));
+		$this->assertSame($string_intern, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
 		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
@@ -239,6 +263,12 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertFalse($text->hasString());
+		$this->assertNull($text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+		$this->assertTrue($text->hasString(EInfoLevel::INTERNAL));
+		$this->assertSame($string_intern, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string_tech, (string)$text);
 		$this->assertSame($string_tech, $text->toString());
 		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
@@ -264,16 +294,25 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasPluralString());
+		$this->assertSame($string_plural, $text->getPluralString());
+		$this->assertSame(1.0, $text->getPluralNumber());
+		$this->assertFalse($text->hasPluralNumberPlaceholder());
+		$this->assertNull($text->getPluralNumberPlaceholder());
 		
 		//assert (singular)
 		foreach ([1, -1] as $number) {
 			$this->assertSame($text, $text->setPluralNumber($number));
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame($string, $text->toString());
 		}
 		
 		//assert (plural)
 		foreach ([0, 2, -2, 1.5, -1.5] as $number) {
 			$this->assertSame($text, $text->setPluralNumber($number));
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame($string_plural, $text->toString());
 		}
 	}
@@ -296,16 +335,25 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasPluralString());
+		$this->assertSame($string_plural, $text->getPluralString());
+		$this->assertSame(1.0, $text->getPluralNumber());
+		$this->assertTrue($text->hasPluralNumberPlaceholder());
+		$this->assertSame('fox_count', $text->getPluralNumberPlaceholder());
 		
 		//assert (singular)
 		foreach ([1, -1] as $number) {
 			$this->assertSame($text, $text->setPluralNumber($number));
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame(str_replace('{{fox_count}}', $number, $string), $text->toString());
 		}
 		
 		//assert (plural)
 		foreach ([0, 2, -2, 1.5, -1.5] as $number) {
 			$this->assertSame($text, $text->setPluralNumber($number));
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame(str_replace('{{fox_count}}', $number, $string_plural), $text->toString());
 		}
 	}
@@ -329,6 +377,8 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
 		$this->assertSame($string_param, $text->toString());
 	}
 	
@@ -355,6 +405,8 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
 		$this->assertSame($string_param, $text->toString());
 	}
 	
@@ -382,6 +434,10 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string_param, $text->toString());
 		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
 		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
@@ -416,6 +472,10 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string_param, $text->toString());
 		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
 		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
@@ -462,6 +522,21 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+		$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
+		$this->assertNull($text->getString(EInfoLevel::INTERNAL));
+		$this->assertTrue($text->hasPluralString());
+		$this->assertSame($string_plural, $text->getPluralString());
+		$this->assertTrue($text->hasPluralString(EInfoLevel::TECHNICAL));
+		$this->assertSame($string_plural_tech, $text->getPluralString(EInfoLevel::TECHNICAL));
+		$this->assertFalse($text->hasPluralString(EInfoLevel::INTERNAL));
+		$this->assertNull($text->getPluralString(EInfoLevel::INTERNAL));
+		$this->assertSame(1.0, $text->getPluralNumber());
+		$this->assertTrue($text->hasPluralNumberPlaceholder());
+		$this->assertSame('fox_count', $text->getPluralNumberPlaceholder());
 		
 		//assert (singular)
 		foreach ([1, -1] as $number) {
@@ -471,6 +546,7 @@ class TextTest extends TestCase
 			$text->setPluralNumber($number);
 			
 			//assert
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame($s, $text->toString());
 			$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
 			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
@@ -485,6 +561,7 @@ class TextTest extends TestCase
 			$text->setPluralNumber($number);
 			
 			//assert
+			$this->assertSame((float)$number, $text->getPluralNumber());
 			$this->assertSame($s, $text->toString());
 			$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
 			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
@@ -577,6 +654,8 @@ class TextTest extends TestCase
 		$text = Text::build($string);
 		
 		//assert
+		$this->assertFalse($text->isLocalized());
 		$this->assertSame($text, $text->setAsLocalized());
+		$this->assertTrue($text->isLocalized());
 	}
 }

@@ -59,13 +59,15 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/** @var callable[] */
 	private array $placeholders_stringifiers = [];
 	
+	private bool $localized = false;
+	
 	
 	
 	//Final public magic methods
 	/**
 	 * Instantiate class.
 	 * 
-	 * @param string $string [default = '']
+	 * @param string|null $string [default = null]
 	 * <p>The string to instantiate with.<br>
 	 * <br>
 	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
@@ -83,9 +85,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
 	 * <p>The info level to instantiate with.</p>
 	 */
-	final public function __construct(string $string = '', $info_level = EInfoLevel::ENDUSER)
+	final public function __construct(?string $string = null, $info_level = EInfoLevel::ENDUSER)
 	{
-		$this->setString($string, $info_level);
+		if ($string !== null) {
+			$this->setString($string, $info_level);
+		}
 	}
 	
 	
@@ -162,6 +166,32 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	//Final public methods
 	/**
+	 * Check if has string.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * <p>The info level to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has string.</p>
+	 */
+	final public function hasString($info_level = EInfoLevel::ENDUSER): bool
+	{
+		return $this->getString($info_level) !== null;
+	}
+	
+	/**
+	 * Get string.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * <p>The info level to get with.</p>
+	 * @return string|null
+	 * <p>The string or <code>null</code> if none is set.</p>
+	 */
+	final public function getString($info_level = EInfoLevel::ENDUSER): ?string
+	{
+		return $this->strings[EInfoLevel::coerceValue($info_level)] ?? null;
+	}
+	
+	/**
 	 * Set string.
 	 * 
 	 * @param string $string
@@ -188,6 +218,32 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	{
 		$this->strings[EInfoLevel::coerceValue($info_level)] = $string;
 		return $this;
+	}
+	
+	/**
+	 * Check if has plural string.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * <p>The info level to check with.</p>
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has plural string.</p>
+	 */
+	final public function hasPluralString($info_level = EInfoLevel::ENDUSER): bool
+	{
+		return $this->getPluralString($info_level) !== null;
+	}
+	
+	/**
+	 * Get plural string.
+	 * 
+	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * <p>The info level to get with.</p>
+	 * @return string|null
+	 * <p>The plural string or <code>null</code> if none is set.</p>
+	 */
+	final public function getPluralString($info_level = EInfoLevel::ENDUSER): ?string
+	{
+		return $this->plural_strings[EInfoLevel::coerceValue($info_level)] ?? null;
 	}
 	
 	/**
@@ -220,6 +276,17 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	}
 	
 	/**
+	 * Get plural number.
+	 * 
+	 * @return float
+	 * <p>The plural number.</p>
+	 */
+	final public function getPluralNumber(): float
+	{
+		return $this->plural_number;
+	}
+	
+	/**
 	 * Set plural number.
 	 * 
 	 * @param float $number
@@ -231,6 +298,28 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	{
 		$this->plural_number = $number;
 		return $this;
+	}
+	
+	/**
+	 * Check if has plural number placeholder.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if has plural number placeholder.</p>
+	 */
+	final public function hasPluralNumberPlaceholder(): bool
+	{
+		return $this->plural_number_placeholder !== null;
+	}
+	
+	/**
+	 * Get plural number placeholder.
+	 * 
+	 * @return string|null
+	 * <p>The plural number placeholder or <code>null</code> if none is set.</p>
+	 */
+	final public function getPluralNumberPlaceholder(): ?string
+	{
+		return $this->plural_number_placeholder;
 	}
 	
 	/**
@@ -309,6 +398,17 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	}
 	
 	/**
+	 * Check if is localized.
+	 * 
+	 * @return bool
+	 * <p>Boolean <code>true</code> if is localized.</p>
+	 */
+	final public function isLocalized(): bool
+	{
+		return $this->localized;
+	}
+	
+	/**
 	 * Set as localized.
 	 * 
 	 * @param string|null $context [default = null]
@@ -318,6 +418,8 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 */
 	final public function setAsLocalized(?string $context = null)
 	{
+		$this->localized = true;
+		
 		//TODO
 		
 		return $this;
@@ -329,7 +431,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Build instance.
 	 * 
-	 * @param string $string [default = '']
+	 * @param string|null $string [default = null]
 	 * <p>The string to build with.<br>
 	 * <br>
 	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
@@ -349,7 +451,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * @return static
 	 * <p>The built instance.</p>
 	 */
-	final public static function build(string $string = '', $info_level = EInfoLevel::ENDUSER)
+	final public static function build(?string $string = null, $info_level = EInfoLevel::ENDUSER)
 	{
 		return new static($string, $info_level);
 	}
