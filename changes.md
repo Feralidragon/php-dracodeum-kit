@@ -18,7 +18,7 @@
     * `setAsReadonly(bool $recursive = false)` &#8594; `setAsReadonly()`
     * `addReadonlyCallback(callable $callback)`
   * `Stringable` interface
-    * `toString(?TextOptions $text_options = null)` &#8594; `toString(coercible:options(TextOptions)|null $text_options = null)`
+    * `toString(?TextOptions $text_options = null)` &#8594; `toString(?coercible:options(TextOptions) $text_options = null)`
   * `Data` utility
     * `evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `evaluate(&$value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`
     * `coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $recursive = false, bool $nullable = false)` &#8594; `coerce($value, ?callable $evaluator = null, bool $non_associative = false, bool $non_empty = false, bool $nullable = false)`
