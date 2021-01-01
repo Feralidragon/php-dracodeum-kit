@@ -37,6 +37,8 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * @see \Dracodeum\Kit\Prototypes\Type
  * @see \Dracodeum\Kit\Prototypes\Types\Boolean
  * [prototype, name = 'boolean' or 'bool']
+ * @see \Dracodeum\Kit\Prototypes\Types\TString
+ * [prototype, name = 'string' or 'ustring']
  */
 class Type extends Component
 {
@@ -84,6 +86,8 @@ class Type extends Component
 	{
 		return match ($name) {
 			'boolean', 'bool' => Prototypes\Boolean::class,
+			'string' => Prototypes\TString::class,
+			'ustring' => new Prototypes\TString(['unicode' => true] + $properties),
 			default => null
 		};
 	}
