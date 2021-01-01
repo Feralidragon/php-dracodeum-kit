@@ -26,7 +26,9 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * All types of values are directly cast to a boolean when the internal context is used.<br>
  * <br>
- * Otherwise, when any other context is used, only the following types of values may be converted to a boolean:<br>
+ * Otherwise, when any other context is used, 
+ * only the following types of values are allowed and coerced into a boolean:<br>
+ * &nbsp; &#8226; &nbsp; a boolean;<br>
  * &nbsp; &#8226; &nbsp; an integer, with <code>0</code> as boolean <code>false</code>, 
  * and <code>1</code> as boolean <code>true</code>;<br>
  * &nbsp; &#8226; &nbsp; a string, with <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
