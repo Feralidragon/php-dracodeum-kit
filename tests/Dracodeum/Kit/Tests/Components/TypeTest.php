@@ -29,6 +29,37 @@ class TypeTest extends TestCase
 {
 	//Public methods
 	/**
+	 * Test prototype name.
+	 * 
+	 * @dataProvider providePrototypeNameData
+	 * @testdox Prototype name ("$name")
+	 * 
+	 * @param string $name
+	 * <p>The name parameter to test with.</p>
+	 * @return void
+	 */
+	public function testPrototypeName(string $name): void
+	{
+		$this->assertInstanceOf(Component::class, Component::build($name));
+	}
+	
+	/**
+	 * Provide prototype name data.
+	 * 
+	 * @return array
+	 * <p>The provided prototype name data.</p>
+	 */
+	public function providePrototypeNameData(): array
+	{
+		return [
+			['boolean'],
+			['bool'],
+			['string'],
+			['ustring']
+		];
+	}
+	
+	/**
 	 * Test process.
 	 * 
 	 * @testdox Process
