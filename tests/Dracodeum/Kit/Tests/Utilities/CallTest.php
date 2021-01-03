@@ -5336,8 +5336,7 @@ class CallTest_InterfaceClass implements CallTest_Interface
 /** Test case dummy stack class A. */
 class CallTest_StackClassA
 {
-	/** @var \Dracodeum\Kit\Tests\Utilities\CallTest_StackClassB */
-	private $b;
+	private CallTest_StackClassB $b;
 	
 	public function __construct(CallTest_StackClassB $b)
 	{
@@ -5608,8 +5607,7 @@ class CallTest_StackClassA
 /** Test case dummy stack class B. */
 class CallTest_StackClassB
 {
-	/** @var \Dracodeum\Kit\Tests\Utilities\CallTest_StackClassC */
-	private $c;
+	private CallTest_StackClassC $c;
 	
 	public function __construct(CallTest_StackClassC $c)
 	{
