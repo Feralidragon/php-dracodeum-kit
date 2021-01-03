@@ -8,7 +8,10 @@
 namespace Dracodeum\Kit\Components;
 
 use Dracodeum\Kit\Component;
-use Dracodeum\Kit\Components\Type\Exceptions;
+use Dracodeum\Kit\Components\Type\{
+	Components,
+	Exceptions
+};
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
@@ -32,8 +35,11 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * 
  * @property-read bool $nullable [default = false]
  * <p>Allow a <code>null</code> value.</p>
- * @property enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
- * <p>The context to use.</p>
+ * @property-write coercible:component(Dracodeum\Kit\Components\Type\Components\Mutator)[] $mutators [writeonce] [transient] [default = []]
+ * <p>The mutators to add, as any combination of the following:<br>
+ * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
+ * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs.</p>
+ * 
  * @see \Dracodeum\Kit\Prototypes\Type
  * @see \Dracodeum\Kit\Prototypes\Types\Boolean
  * [prototype, name = 'boolean' or 'bool']
@@ -44,6 +50,9 @@ class Type extends Component
 {
 	//Private properties
 	private bool $nullable = false;
+	
+	/** @var \Dracodeum\Kit\Components\Type\Components\Mutator[] */
+	private array $mutators = [];
 	
 	
 	
@@ -74,6 +83,18 @@ class Type extends Component
 	{
 		return match ($name) {
 			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
+			'mutators' => $this->createProperty()
+				->setMode('w--')
+				->setAsArray(function (&$key, &$value): bool {
+					if (is_string($key) && is_array($value)) {
+						$this->addMutator($key, $value);
+						return true;
+					} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+						$this->addMutator($value);
+						return true;
+					}
+					return false;
+				}),
 			default => null
 		};
 	}
@@ -125,6 +146,14 @@ class Type extends Component
 				$error->setText($error_text->setString("The given value is invalid.")->setAsLocalized(self::class));
 			}
 			return $error;
+		}
+		
+		//mutators
+		foreach ($this->mutators as $mutator) {
+			$error = $mutator->process($v);
+			if ($error !== null) {
+				return $error;
+			}
 		}
 		
 		//finalize
@@ -221,5 +250,23 @@ class Type extends Component
 		return $prototype instanceof PrototypeInterfaces\InformationProducer
 			? UCall::guardExecution([$prototype, 'produceDescription'], [$context], [Text::class, 'coerce'])
 			: null;
+	}
+	
+	/**
+	 * Add mutator.
+	 * 
+	 * @param coercible:component(Dracodeum\Kit\Components\Type\Components\Mutator) $mutator
+	 * <p>The mutator to add.</p>
+	 * @param array $properties [default = []]
+	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs.<br>
+	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
+	 * in the same order as how these properties were first declared.</p>
+	 * @return $this
+	 * <p>This instance, for chaining purposes.</p>
+	 */
+	final public function addMutator($mutator, array $properties = [])
+	{
+		$this->mutators[] = Components\Mutator::coerce($mutator, $properties);
+		return $this;
 	}
 }

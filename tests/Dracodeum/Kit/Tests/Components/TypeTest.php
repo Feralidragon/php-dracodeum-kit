@@ -15,6 +15,8 @@ use Dracodeum\Kit\Prototypes\Type\Interfaces\{
 	Textifier as ITextifier,
 	InformationProducer as IInformationProducer
 };
+use Dracodeum\Kit\Components\Type\Components\Mutator as MutatorComponent;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutator as MutatorPrototype;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -22,6 +24,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
+use Dracodeum\Kit\Traits\LazyProperties\Property;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type */
@@ -117,6 +120,10 @@ class TypeTest extends TestCase
 		$this->assertTrue($error1->hasText());
 		$this->assertNotSame('', $error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER]));
 		$this->assertNotSame(
+			TypeTest_Prototype1::ERROR_STRING,
+			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER])
+		);
+		$this->assertNotSame(
 			TypeTest_Prototype1::ERROR_STRING_TECHNICAL,
 			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER])
 		);
@@ -149,6 +156,7 @@ class TypeTest extends TestCase
 		$this->assertSame($v2, $value2);
 		$this->assertInstanceOf(Error::class, $error2);
 		$this->assertTrue($error2->hasText());
+		$this->assertNotSame('', (string)$error2->getText());
 		
 		//value2 (error 2)
 		foreach (EContext::getValues() as $context) {
@@ -384,6 +392,118 @@ class TypeTest extends TestCase
 		$this->assertSame(TypeTest_Prototype1::DESCRIPTION_STRING, (string)$description1_interface);
 		$this->assertNull($description2);
 	}
+	
+	/**
+	 * Test mutators.
+	 * 
+	 * @dataProvider provideMutatorsData
+	 * @testdox Mutators
+	 * 
+	 * @param \Dracodeum\Kit\Components\Type $component
+	 * <p>The component parameter to test with.</p>
+	 * @param mixed $value
+	 * <p>The value parameter to test with.</p>
+	 * @param mixed $expected
+	 * <p>The expected processed value.</p>
+	 * @return void
+	 */
+	public function testMutators(Component $component, mixed $value, mixed $expected): void
+	{
+		$this->assertNull($component->process($value));
+		$this->assertSame($expected, $value);
+	}
+	
+	/**
+	 * Provide mutators data.
+	 * 
+	 * @return array
+	 * <p>The provided mutators data.</p>
+	 */
+	public function provideMutatorsData(): array
+	{
+		return [[
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(TypeTest_MutatorPrototype1::class)
+				->addMutator(TypeTest_MutatorPrototype2::class, [1000])
+			, '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
+				->addMutator(TypeTest_MutatorPrototype2::class, ['amount' => 37])
+			, '48', 935.5
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class))
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, [1000]))
+			, '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]))
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37]))
+			, '48', 935.5
+		], [
+			Component::build(TypeTest_Prototype3::class, [
+				'mutators' => [
+					TypeTest_MutatorPrototype1::class,
+					TypeTest_MutatorPrototype2::class => [1000]
+				]
+			]), '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class, [
+				'mutators' => [
+					TypeTest_MutatorPrototype1::class => ['amount' => 850.5],
+					TypeTest_MutatorPrototype2::class => ['amount' => 37]
+				]
+			]), '48', 935.5
+		], [
+			Component::build(TypeTest_Prototype3::class, [
+				'mutators' => [
+					MutatorComponent::build(TypeTest_MutatorPrototype1::class),
+					MutatorComponent::build(TypeTest_MutatorPrototype2::class, [1000])
+				]
+			]), '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class, [
+				'mutators' => [
+					MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]),
+					MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37])
+				]
+			]), '48', 935.5
+		]];
+	}
+	
+	/**
+	 * Test mutators (error).
+	 * 
+	 * @testdox Mutators (error)
+	 * 
+	 * @return void
+	 */
+	public function testMutators_Error(): void
+	{
+		//build
+		$component = Component::build(TypeTest_Prototype3::class)
+			->addMutator(TypeTest_MutatorPrototype1::class)
+			->addMutator(TypeTest_MutatorPrototype2::class, [1000])
+		;
+		
+		//error 1
+		$value = $v = '65';
+		$error = $component->process($value);
+		$this->assertSame($v, $value);
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertTrue($error->hasText());
+		$this->assertSame(TypeTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
+		
+		//error 2
+		$value = $v = '15';
+		$error = $component->process($value);
+		$this->assertSame($v, $value);
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertTrue($error->hasText());
+		$this->assertNotSame('', (string)$error->getText());
+		$this->assertNotSame(TypeTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
+	}
 }
 
 
@@ -397,8 +517,6 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationP
 	public const LABEL_STRING_INTERNAL = "test1";
 	public const DESCRIPTION_STRING = "This is a testing type.";
 	public const DESCRIPTION_STRING_INTERNAL = "Testing type.";
-	
-	
 	
 	public function process(mixed &$value, $context): ?Error
 	{
@@ -486,5 +604,64 @@ class TypeTest_Class2
 	public function __toString(): string
 	{
 		return "__Class2";
+	}
+}
+
+
+
+/** Test case dummy mutator prototype class 1. */
+class TypeTest_MutatorPrototype1 extends MutatorPrototype
+{
+	public const ERROR_STRING = "Must be less than 50.";
+	
+	private float $amount = 700.0;
+	
+	public function process(mixed &$value): ?Error
+	{
+		$value = (float)$value;
+		if ($value < 50.0) {
+			$value += $this->amount;
+			return null;
+		}
+		return Error::build(text: self::ERROR_STRING);
+	}
+	
+	protected function buildProperty(string $name): ?Property
+	{
+		return match ($name) {
+			'amount' => $this->createProperty()->setAsFloat()->bind(self::class),
+			default => null
+		};
+	}
+}
+
+
+
+/** Test case dummy mutator prototype class 2. */
+class TypeTest_MutatorPrototype2 extends MutatorPrototype
+{
+	private float $amount;
+	
+	public function process(mixed &$value): ?Error
+	{
+		$value = (float)$value;
+		if ($value > 725.0) {
+			$value += $this->amount;
+			return null;
+		}
+		return Error::build();
+	}
+	
+	protected function initializeProperties(): void
+	{
+		$this->addRequiredPropertyName('amount');
+	}
+	
+	protected function buildProperty(string $name): ?Property
+	{
+		return match ($name) {
+			'amount' => $this->createProperty()->setAsFloat()->bind(self::class),
+			default => null
+		};
 	}
 }
