@@ -269,8 +269,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 				\Closure::fromCallable([$this, 'update'])
 			);
 		} catch (\Throwable $throwable) {
-			$this->logThrowableEvent(ELogLevel::ERROR, $throwable);
-			throw $throwable;
+			$this->throw($throwable);
 		}
 		
 		//return
@@ -329,8 +328,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 			$this->unpersistProperties();
 			
 		} catch (\Throwable $throwable) {
-			$this->logThrowableEvent(ELogLevel::ERROR, $throwable);
-			throw $throwable;
+			$this->throw($throwable);
 		}
 		
 		//return
@@ -1371,6 +1369,19 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 		
 		//add
 		Log::addEvent($event);
+	}
+	
+	/**
+	 * Throw a given throwable instance.
+	 * 
+	 * @param \Throwable $throwable
+	 * <p>The throwable instance to throw.</p>
+	 * @return void
+	 */
+	final protected function throw(\Throwable $throwable): void
+	{
+		$this->logThrowableEvent(ELogLevel::ERROR, $throwable);
+		throw $throwable;
 	}
 	
 	
