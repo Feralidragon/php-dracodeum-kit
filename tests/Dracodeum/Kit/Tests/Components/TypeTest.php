@@ -9,7 +9,10 @@ namespace Dracodeum\Kit\Tests\Components;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
-use Dracodeum\Kit\Prototypes\Type as Prototype;
+use Dracodeum\Kit\Prototypes\{
+	Type as Prototype,
+	Types as Prototypes
+};
 use Dracodeum\Kit\Components\Type\Exceptions;
 use Dracodeum\Kit\Prototypes\Type\Interfaces\{
 	Textifier as ITextifier,
@@ -25,6 +28,8 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
+use Dracodeum\Kit\Component as KitComponent;
+use ReflectionProperty;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type */
@@ -39,11 +44,22 @@ class TypeTest extends TestCase
 	 * 
 	 * @param string $name
 	 * <p>The name parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected prototype class.</p>
 	 * @return void
 	 */
-	public function testPrototypeName(string $name): void
+	public function testPrototypeName(string $name, string $expected): void
 	{
-		$this->assertInstanceOf(Component::class, Component::build($name));
+		//build
+		$component = Component::build($name);
+		
+		//reflection
+		$reflection = new ReflectionProperty(KitComponent::class, 'prototype');
+		$reflection->setAccessible(true);
+		
+		//assert
+		$this->assertInstanceOf(Component::class, $component);
+		$this->assertInstanceOf($expected, $reflection->getValue($component));
 	}
 	
 	/**
@@ -55,10 +71,10 @@ class TypeTest extends TestCase
 	public function providePrototypeNameData(): array
 	{
 		return [
-			['boolean'],
-			['bool'],
-			['string'],
-			['ustring']
+			['boolean', Prototypes\Boolean::class],
+			['bool', Prototypes\Boolean::class],
+			['string', Prototypes\TString::class],
+			['ustring', Prototypes\TString::class]
 		];
 	}
 	
