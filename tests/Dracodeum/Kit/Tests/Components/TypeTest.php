@@ -497,6 +497,16 @@ class TypeTest extends TestCase
 				->addMutator('proto2', ['amount' => 37])
 			, 48, 935.5
 		], [
+			Component::build(TypeTest_Prototype1::class)
+				->addMutator(TypeTest_MutatorPrototype1::class)
+				->addMutator('proto2', [1000])
+			, 35, 1735.0
+		], [
+			Component::build(TypeTest_Prototype1::class)
+				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
+				->addMutator('proto2', ['amount' => 37])
+			, 48, 935.5
+		], [
 			Component::build(TypeTest_Prototype1::class, [
 				'mutators' => [
 					'proto1',
@@ -507,6 +517,20 @@ class TypeTest extends TestCase
 			Component::build(TypeTest_Prototype1::class, [
 				'mutators' => [
 					'proto1' => ['amount' => 850.5],
+					'proto2' => ['amount' => 37]
+				]
+			]), 48, 935.5
+		], [
+			Component::build(TypeTest_Prototype1::class, [
+				'mutators' => [
+					TypeTest_MutatorPrototype1::class,
+					'proto2' => [1000]
+				]
+			]), 35, 1735.0
+		], [
+			Component::build(TypeTest_Prototype1::class, [
+				'mutators' => [
+					TypeTest_MutatorPrototype1::class => ['amount' => 850.5],
 					'proto2' => ['amount' => 37]
 				]
 			]), 48, 935.5
