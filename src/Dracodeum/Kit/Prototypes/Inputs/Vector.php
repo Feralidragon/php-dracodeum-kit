@@ -44,22 +44,6 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)#Vector
  * @see \Dracodeum\Kit\Primitives\Vector
  * @see \Dracodeum\Kit\Interfaces\Arrayable
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\Length
- * [constraint, name = 'length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\MinLength
- * [constraint, name = 'min_length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\MaxLength
- * [constraint, name = 'max_length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\LengthRange
- * [constraint, name = 'length_range']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\NonEmpty
- * [constraint, name = 'non_empty']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Constraints\Unique
- * [constraint, name = 'unique']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Filters\Truncate
- * [filter, name = 'truncate']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Vector\Filters\Unique
- * [filter, name = 'unique']
  */
 class Vector extends Input
 implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IFilterProducer, IErrorUnsetter

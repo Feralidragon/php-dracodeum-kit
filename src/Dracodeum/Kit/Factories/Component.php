@@ -17,22 +17,6 @@ use Dracodeum\Kit\Components\{
 	Store
 };
 
-/**
- * This factory is used to build component instances.
- * 
- * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Input
- * [builder interface, type = 'input']
- * @see \Dracodeum\Kit\Factories\Component\Builders\Input
- * [builder, type = 'input']
- * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Logger
- * [builder interface, type = 'logger']
- * @see \Dracodeum\Kit\Factories\Component\Builders\Logger
- * [builder, type = 'logger']
- * @see \Dracodeum\Kit\Factories\Component\Builder\Interfaces\Store
- * [builder interface, type = 'store']
- * @see \Dracodeum\Kit\Factories\Component\Builders\Store
- * [builder, type = 'store']
- */
 class Component extends Factory
 {
 	//Implemented protected static methods

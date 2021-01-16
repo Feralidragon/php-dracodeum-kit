@@ -39,18 +39,6 @@ use Dracodeum\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/Number
  * @see \Dracodeum\Kit\Interfaces\Integerable
  * @see \Dracodeum\Kit\Interfaces\Floatable
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Values
- * [constraint, name = 'values' or 'non_values']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Minimum
- * [constraint, name = 'minimum' or 'positive']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Maximum
- * [constraint, name = 'maximum' or 'negative']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Range
- * [constraint, name = 'range' or 'non_range']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Multiples
- * [constraint, name = 'multiples' or 'non_multiples' or 'even' or 'odd']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Number\Constraints\Powers
- * [constraint, name = 'powers' or 'non_powers']
  */
 class Number extends Input implements IInformation, IConstraintProducer
 {

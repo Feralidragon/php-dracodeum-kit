@@ -16,18 +16,6 @@ use Dracodeum\Kit\Components\Input\Components\Modifiers\{
 	Filter
 };
 
-/**
- * This factory is used to build component instances.
- * 
- * @see \Dracodeum\Kit\Components\Input\Factories\Component\Builder\Interfaces\Constraint
- * [builder interface, type = 'constraint']
- * @see \Dracodeum\Kit\Components\Input\Factories\Component\Builder\Interfaces\Filter
- * [builder interface, type = 'filter']
- * @see \Dracodeum\Kit\Components\Input\Factories\Component\Builders\Constraint
- * [builder, type = 'constraint']
- * @see \Dracodeum\Kit\Components\Input\Factories\Component\Builders\Filter
- * [builder, type = 'filter']
- */
 class Component extends Factory
 {
 	//Implemented protected static methods

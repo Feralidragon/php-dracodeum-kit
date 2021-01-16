@@ -27,8 +27,6 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * read (exists and select), update and delete.
  * 
  * @see \Dracodeum\Kit\Prototypes\Store
- * @see \Dracodeum\Kit\Prototypes\Stores\Memory
- * [prototype, name = 'memory' or 'mem']
  */
 class Store extends Component
 {

@@ -41,10 +41,6 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs.</p>
  * 
  * @see \Dracodeum\Kit\Prototypes\Type
- * @see \Dracodeum\Kit\Prototypes\Types\Boolean
- * [prototype, name = 'boolean' or 'bool']
- * @see \Dracodeum\Kit\Prototypes\Types\TString
- * [prototype, name = 'string' or 'ustring']
  */
 class Type extends Component
 {

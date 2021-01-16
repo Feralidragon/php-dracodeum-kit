@@ -42,18 +42,6 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @see https://en.wikipedia.org/wiki/Associative_array
  * @see \Dracodeum\Kit\Primitives\Dictionary
  * @see \Dracodeum\Kit\Interfaces\Arrayable
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\Length
- * [constraint, name = 'length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\MinLength
- * [constraint, name = 'min_length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\MaxLength
- * [constraint, name = 'max_length']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\LengthRange
- * [constraint, name = 'length_range']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\NonEmpty
- * [constraint, name = 'non_empty']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Dictionary\Constraints\Unique
- * [constraint, name = 'unique']
  */
 class Dictionary extends Input implements IInformation, IErrorMessage, ISchemaData, IConstraintProducer, IErrorUnsetter
 {

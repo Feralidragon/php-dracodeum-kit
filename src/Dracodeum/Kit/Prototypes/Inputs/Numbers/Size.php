@@ -40,14 +40,6 @@ use Dracodeum\Kit\Utilities\{
  * @see https://en.wikipedia.org/wiki/File_size
  * @see \Dracodeum\Kit\Interfaces\Integerable
  * @see \Dracodeum\Kit\Interfaces\Floatable
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Values
- * [constraint, name = 'values' or 'non_values']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Minimum
- * [constraint, name = 'minimum' or 'positive']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Maximum
- * [constraint, name = 'maximum' or 'negative']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Numbers\Size\Constraints\Range
- * [constraint, name = 'range' or 'non_range']
  */
 class Size extends Number implements IValueStringifier
 {

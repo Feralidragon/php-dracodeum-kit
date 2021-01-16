@@ -22,14 +22,6 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * and how the code should run (debugging or production).
  * 
  * @see \Dracodeum\Kit\Root\System\Prototypes\Environment
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Debug
- * [prototype, name = 'debug']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Development
- * [prototype, name = 'development']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Staging
- * [prototype, name = 'staging']
- * @see \Dracodeum\Kit\Root\System\Prototypes\Environments\Production
- * [prototype, name = 'production']
  */
 class Environment extends Component
 {

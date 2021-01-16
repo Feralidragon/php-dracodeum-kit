@@ -11,12 +11,6 @@ use Dracodeum\Kit\Factory\Builder;
 use Dracodeum\Kit\Factories\Component\Builder\Interfaces\Logger as IBuilder;
 use Dracodeum\Kit\Components\Logger as Component;
 
-/**
- * This builder is used to build logger instances.
- * 
- * @see \Dracodeum\Kit\Components\Logger
- * [object]
- */
 class Logger extends Builder implements IBuilder
 {
 	//Implemented public methods (Dracodeum\Kit\Factories\Component\Builder\Interfaces\Logger)

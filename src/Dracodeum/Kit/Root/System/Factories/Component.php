@@ -13,14 +13,6 @@ use Dracodeum\Kit\Root\System\Factories\Component\Builders;
 use Dracodeum\Kit\Root\System\Factories\Component\Builder\Interfaces as BuilderInterfaces;
 use Dracodeum\Kit\Root\System\Components\Environment;
 
-/**
- * This factory is used to build component instances.
- * 
- * @see \Dracodeum\Kit\Root\System\Factories\Component\Builder\Interfaces\Environment
- * [builder interface, type = 'environment']
- * @see \Dracodeum\Kit\Root\System\Factories\Component\Builders\Environment
- * [builder, type = 'environment']
- */
 class Component extends Factory
 {
 	//Implemented protected static methods

@@ -46,44 +46,6 @@ use Dracodeum\Kit\Utilities\{
  * <p>Trim the given text or string from whitespace.</p>
  * @see https://en.wikipedia.org/wiki/Plain_text
  * @see https://en.wikipedia.org/wiki/String_(computer_science)
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Values
- * [constraint, name = 'values' or 'non_values']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\Wildcards
- * [constraint, name = 'wildcards' or 'non_wildcards']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\NonEmpty
- * [constraint, name = 'non_empty']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\Length
- * [constraint, name = 'length']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\MinLength
- * [constraint, name = 'min_length']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\MaxLength
- * [constraint, name = 'max_length']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\LengthRange
- * [constraint, name = 'length_range']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\Lowercase
- * [constraint, name = 'lowercase']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraints\Uppercase
- * [constraint, name = 'uppercase']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Alphabetical
- * [constraint, name = 'alphabetical' or 'alphabetic' or 'lower_alphabetical' or 'lower_alphabetic' 
- * or 'upper_alphabetical' or 'upper_alphabetic']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Numerical
- * [constraint, name = 'numerical' or 'numeric']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Alphanumerical
- * [constraint, name = 'alphanumerical' or 'alphanumeric' or 'lower_alphanumerical' or 'lower_alphanumeric'
- * or 'upper_alphanumerical' or 'upper_alphanumeric']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Identifier
- * [constraint, name = 'identifier' or 'lower_identifier' or 'upper_identifier']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Hexadecimal
- * [constraint, name = 'hexadecimal']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Constraints\Base64
- * [constraint, name = 'base64']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filters\Lowercase
- * [filter, name = 'lowercase']
- * @see \Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filters\Uppercase
- * [filter, name = 'uppercase']
- * @see \Dracodeum\Kit\Prototypes\Inputs\Text\Filters\Truncate
- * [filter, name = 'truncate']
  */
 class Text extends Input implements IInformation, ISchemaData, IConstraintProducer, IFilterProducer
 {
