@@ -262,7 +262,16 @@ class Type extends Component
 	 */
 	final public function addMutator($mutator, array $properties = [])
 	{
-		$this->mutators[] = Components\Mutator::coerce($mutator, $properties);
+		//initialize
+		$prototype = $this->getPrototype();
+		
+		//add
+		$this->mutators[] = Components\Mutator::produce(
+			$mutator, $properties,
+			$prototype instanceof PrototypeInterfaces\MutatorProducer ? [$prototype, 'produceMutator'] : null
+		);
+		
+		//return
 		return $this;
 	}
 }

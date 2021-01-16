@@ -237,12 +237,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 			//prototype instantiation
 			if (is_string($prototype)) {
 				$prototype = UType::instantiate($prototype, $properties);
-			} else {
-				UCall::guardParameter('properties', $properties, empty($properties), [
-					'hint_message' => "Prototype specific properties are only allowed to be given whenever " . 
-						"the prototype is given as a class, a name or not given at all.",
-					'function_name' => '__construct'
-				]);
 			}
 			$prototype->setComponent($this);
 			$this->initializePrototype($prototype);
