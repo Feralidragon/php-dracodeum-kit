@@ -10,7 +10,10 @@ namespace Dracodeum\Kit\Components\Type\Prototypes;
 use Dracodeum\Kit\Prototype;
 use Dracodeum\Kit\Primitives\Error;
 
-/** @see \Dracodeum\Kit\Components\Type\Components\Mutator */
+/**
+ * @see \Dracodeum\Kit\Components\Type\Components\Mutator
+ * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+ */
 abstract class Mutator extends Prototype
 {
 	//Abstract public methods

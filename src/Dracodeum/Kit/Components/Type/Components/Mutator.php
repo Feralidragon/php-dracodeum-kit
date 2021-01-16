@@ -13,6 +13,8 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces as PrototypeInterfaces;
+use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
  * This component represents a type mutator which processes and modifies values.
@@ -47,11 +49,11 @@ class Mutator extends Component
 		//process
 		$error = $this->getPrototype()->process($v);
 		if ($error !== null) {
-			$error_text = $error->getText() ?? Text::build();
+			$error_text = $error->getText() ?? $this->getExplanation() ?? Text::build();
 			if (!$error_text->hasString()) {
 				$error_text->setString("The given value failed to be processed.")->setAsLocalized(self::class);
-				$error->setText($error_text);
 			}
+			$error->setText($error_text);
 			return $error;
 		}
 		
@@ -60,5 +62,22 @@ class Mutator extends Component
 		
 		//return
 		return null;
+	}
+	
+	/**
+	 * Get explanation.
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * <p>The explanation, as a text instance, or <code>null</code> if none is set.</p>
+	 */
+	final public function getExplanation(): ?Text
+	{
+		//initialize
+		$prototype = $this->getPrototype();
+		
+		//return
+		return $prototype instanceof PrototypeInterfaces\ExplanationProducer
+			? UCall::guardExecution([$prototype, 'produceExplanation'], [], [Text::class, 'coerce'])
+			: null;
 	}
 }
