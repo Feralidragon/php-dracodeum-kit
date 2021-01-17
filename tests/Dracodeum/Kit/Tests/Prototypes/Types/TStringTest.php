@@ -15,6 +15,8 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as StringableMutators;
+use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\TString */
@@ -154,6 +156,40 @@ class TStringTest extends TestCase
 		$component = Component::build(Prototype::class);
 		$this->assertInstanceOf(Text::class, $component->getLabel());
 		$this->assertInstanceOf(Text::class, $component->getDescription());
+	}
+	
+	/**
+	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface.
+	 * 
+	 * @dataProvider provideMutatorProducerData
+	 * @testdox MutatorProducer interface ("$name")
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
+	 * @param string $name
+	 * <p>The name parameter to test with.</p>
+	 * @param string $expected
+	 * <p>The expected produced class.</p>
+	 * @return void
+	 */
+	public function testMutatorProducerInterface(string $name, string $expected): void
+	{
+		$mutator = (new Prototype())->produceMutator($name, []);
+		$this->assertNotNull($mutator);
+		$this->assertTrue(UType::isA($mutator, $expected));
+	}
+	
+	/**
+	 * Provide <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface data.
+	 * 
+	 * @return array
+	 * <p>The provided <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface data.</p>
+	 */
+	public function provideMutatorProducerData(): array
+	{
+		return [
+			['non_empty', StringableMutators\NonEmpty::class],
+			['non_empty_iws', StringableMutators\NonEmpty::class]
+		];
 	}
 }
 

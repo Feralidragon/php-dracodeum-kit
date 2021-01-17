@@ -8,13 +8,17 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer as IInformationProducer;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\{
+	InformationProducer as IInformationProducer,
+	MutatorProducer as IMutatorProducer
+};
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Stringable as IPhpStringable;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as StringableMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Root\Locale;
@@ -30,7 +34,7 @@ use Dracodeum\Kit\Root\Locale;
  * @property-write bool $unicode [writeonce] [transient] [default = false]
  * <p>Set as a Unicode string.</p>
  */
-class TString extends Prototype implements IInformationProducer
+class TString extends Prototype implements IInformationProducer, IMutatorProducer
 {
 	//Protected properties
 	protected bool $unicode = false;
@@ -103,6 +107,19 @@ class TString extends Prototype implements IInformationProducer
 	public function produceDescription($context)
 	{
 		return Text::build("A string of characters.")->setAsLocalized(self::class);
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer)
+	/** {@inheritdoc} */
+	public function produceMutator(string $name, array $properties)
+	{
+		return match ($name) {
+			'non_empty' => StringableMutators\NonEmpty::class,
+			'non_empty_iws' => new StringableMutators\NonEmpty(['ignore_whitespace' => true] + $properties),
+			default => null
+		};
 	}
 	
 	
