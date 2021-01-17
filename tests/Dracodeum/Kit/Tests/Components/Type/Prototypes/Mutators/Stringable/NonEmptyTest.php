@@ -54,23 +54,32 @@ class NonEmptyTest extends TestCase
 	/**
 	 * Test process (error).
 	 * 
+	 * @dataProvider provideProcessData_Error
 	 * @testdox Process (error)
 	 * 
+	 * @param mixed $value
+	 * <p>The process value parameter to test with.</p>
+	 * @param array $properties [default = []]
+	 * <p>The process properties parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcess_Error(): void
+	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
-		//empty
-		$value = $v = '';
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
-		$this->assertSame($v, $value);
-		
-		//whitespace
-		$value = $v = ' ';
-		$this->assertInstanceOf(
-			Error::class, Component::build(Prototype::class, ['ignore_whitespace' => true])->process($value)
-		);
-		$this->assertSame($v, $value);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * <p>The provided process data (error).</p>
+	 */
+	public function provideProcessData_Error(): array
+	{
+		return [
+			[''],
+			[' ', ['ignore_whitespace' => true]]
+		];
 	}
 	
 	/**
