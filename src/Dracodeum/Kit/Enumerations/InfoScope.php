@@ -16,12 +16,12 @@ use Dracodeum\Kit\Enumeration;
 class InfoScope extends Enumeration
 {
 	//Public constants
-	/** Internal info scope, for internal application messages and logging. */
+	/** For internal application messages and logging. */
 	public const INTERNAL = 0;
 	
-	/** Technical info scope, for the developer using the application. */
+	/** For the developer using the application. */
 	public const TECHNICAL = 1;
 	
-	/** End-user info scope, for the user interacting with the application. */
+	/** For the user interacting with the application. */
 	public const ENDUSER = 2;
 }

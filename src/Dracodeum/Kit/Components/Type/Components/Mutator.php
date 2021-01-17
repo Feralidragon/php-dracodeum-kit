@@ -17,7 +17,7 @@ use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces as PrototypeInte
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
- * This component represents a type mutator which processes and modifies values.
+ * This component represents a mutator which processes and modifies values from a type component.
  * 
  * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator
  */

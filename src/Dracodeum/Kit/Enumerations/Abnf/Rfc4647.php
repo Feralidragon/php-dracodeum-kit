@@ -18,14 +18,14 @@ use Dracodeum\Kit\Enumeration;
 class Rfc4647 extends Enumeration
 {
 	//Public constants
-	/** <samp>alphanum</samp> ABNF regular expression. */
+	/** <samp>alphanum</samp> */
 	public const ALPHANUM = '(?:' . Rfc5234::ALPHA . '|' . Rfc5234::DIGIT . ')';
 	
-	/** <samp>extended-language-range</samp> ABNF regular expression. */
+	/** <samp>extended-language-range</samp> */
 	public const EXTENDED_LANGUAGE_RANGE = '(?:' . 
 		'(?:' . Rfc5234::ALPHA . '{1,8}|\*)(?:\-(?:' . self::ALPHANUM . '{1,8}|\*))*' . 
 		')';
 	
-	/** <samp>language-range</samp> ABNF regular expression. */
+	/** <samp>language-range</samp> */
 	public const LANGUAGE_RANGE = '(?:(?:' . Rfc5234::ALPHA . '{1,8}(?:\-' . self::ALPHANUM . '{1,8})*)|\*)';
 }

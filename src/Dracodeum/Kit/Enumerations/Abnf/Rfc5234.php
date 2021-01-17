@@ -17,51 +17,51 @@ use Dracodeum\Kit\Enumeration;
 class Rfc5234 extends Enumeration
 {
 	//Public constants
-	/** <samp>ALPHA</samp> ABNF regular expression. */
+	/** <samp>ALPHA</samp> */
 	public const ALPHA = '[A-Za-z]';
 	
-	/** <samp>BIT</samp> ABNF regular expression. */
+	/** <samp>BIT</samp> */
 	public const BIT = '[01]';
 	
-	/** <samp>CHAR</samp> ABNF regular expression. */
+	/** <samp>CHAR</samp> */
 	public const CHAR = '[\x01-\x7f]';
 	
-	/** <samp>CR</samp> ABNF regular expression. */
+	/** <samp>CR</samp> */
 	public const CR = '\r';
 	
-	/** <samp>CRLF</samp> ABNF regular expression. */
+	/** <samp>CRLF</samp> */
 	public const CRLF = '(?:' . self::CR . self::LF . ')';
 	
-	/** <samp>CTL</samp> ABNF regular expression. */
+	/** <samp>CTL</samp> */
 	public const CTL = '[\x00-\x1f\x7f]';
 	
-	/** <samp>DIGIT</samp> ABNF regular expression. */
+	/** <samp>DIGIT</samp> */
 	public const DIGIT = '[0-9]';
 	
-	/** <samp>DQUOTE</samp> ABNF regular expression. */
+	/** <samp>DQUOTE</samp> */
 	public const DQUOTE = '\"';
 	
-	/** <samp>HEXDIG</samp> ABNF regular expression. */
+	/** <samp>HEXDIG</samp> */
 	public const HEXDIG = '(?:' . self::DIGIT . '|[A-F])';
 	
-	/** <samp>HTAB</samp> ABNF regular expression. */
+	/** <samp>HTAB</samp> */
 	public const HTAB = '\t';
 	
-	/** <samp>LF</samp> ABNF regular expression. */
+	/** <samp>LF</samp> */
 	public const LF = '\n';
 	
-	/** <samp>LWSP</samp> ABNF regular expression. */
+	/** <samp>LWSP</samp> */
 	public const LWSP = '(?:' . self::CRLF . '?' . self::WSP . ')*';
 	
-	/** <samp>OCTET</samp> ABNF regular expression. */
+	/** <samp>OCTET</samp> */
 	public const OCTET = '[\x00-\xff]';
 	
-	/** <samp>SP</samp> ABNF regular expression. */
+	/** <samp>SP</samp> */
 	public const SP = '\ ';
 	
-	/** <samp>VCHAR</samp> ABNF regular expression. */
+	/** <samp>VCHAR</samp> */
 	public const VCHAR = '[\x21-\x7e]';
 	
-	/** <samp>WSP</samp> ABNF regular expression. */
+	/** <samp>WSP</samp> */
 	public const WSP = '(?:' . self::SP . '|' . self::HTAB . ')';
 }
