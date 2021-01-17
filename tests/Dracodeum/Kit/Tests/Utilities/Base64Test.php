@@ -18,8 +18,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>encoded</code> method.
 	 * 
-	 * @dataProvider provideEncodedData
 	 * @testdox Base64::encoded('$string', $url_safe) === $expected
+	 * @dataProvider provideEncodedData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -100,8 +100,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>encode</code> method.
 	 * 
-	 * @dataProvider provideEncodeData
 	 * @testdox Base64::encode('$string', $url_safe) === '$expected'
+	 * @dataProvider provideEncodeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -145,8 +145,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>decode</code> method.
 	 * 
-	 * @dataProvider provideDecodeData
 	 * @testdox Base64::decode('$string', $url_safe, false|true) === '$expected'
+	 * @dataProvider provideDecodeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -201,8 +201,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * @testdox Base64::decode('$string', $url_safe) --> InvalidString exception
+	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -226,8 +226,8 @@ class Base64Test extends TestCase
 	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * @testdox Base64::decode('$string', $url_safe, true) === null
+	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -283,8 +283,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method.
 	 * 
-	 * @dataProvider provideNormalizeData
 	 * @testdox Base64::normalize('$string', false|true) === '$expected'
+	 * @dataProvider provideNormalizeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -325,8 +325,8 @@ class Base64Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * @testdox Base64::normalize('$string') --> InvalidString exception
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -347,8 +347,8 @@ class Base64Test extends TestCase
 	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * @testdox Base64::normalize('$string', true) === null
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>

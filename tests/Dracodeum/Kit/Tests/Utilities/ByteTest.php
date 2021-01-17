@@ -18,8 +18,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>hvalue</code> method.
 	 * 
-	 * @dataProvider provideHvalueData
 	 * @testdox Byte::hvalue($value, $options) === '$expected'
+	 * @dataProvider provideHvalueData
 	 * 
 	 * @param int $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -99,8 +99,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>mvalue</code> method.
 	 * 
-	 * @dataProvider provideMvalueData
 	 * @testdox Byte::mvalue('$value') === $expected
+	 * @dataProvider provideMvalueData
 	 * 
 	 * @param string $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -190,8 +190,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>mvalue</code> method expecting an <code>InvalidValue</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideMvalueData_Exception_InvalidValue
 	 * @testdox Byte::mvalue('$value') --> InvalidValue exception
+	 * @dataProvider provideMvalueData_Exception_InvalidValue
 	 * 
 	 * @param string $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -212,8 +212,8 @@ class ByteTest extends TestCase
 	 * Test <code>mvalue</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideMvalueData_Exception_InvalidValue
 	 * @testdox Byte::mvalue('$value', true) === null
+	 * @dataProvider provideMvalueData_Exception_InvalidValue
 	 * 
 	 * @param string $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -251,8 +251,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>evaluateSize</code> method.
 	 * 
-	 * @dataProvider provideSizeCoercionData
 	 * @testdox Byte::evaluateSize(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideSizeCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -272,8 +272,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>coerceSize</code> method.
 	 * 
-	 * @dataProvider provideSizeCoercionData
 	 * @testdox Byte::coerceSize({$value}) === $expected
+	 * @dataProvider provideSizeCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -291,8 +291,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>processSizeCoercion</code> method.
 	 * 
-	 * @dataProvider provideSizeCoercionData
 	 * @testdox Byte::processSizeCoercion(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideSizeCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -400,8 +400,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>evaluateSize</code> method expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * @testdox Byte::evaluateSize(&{$value}) === false
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -419,8 +419,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>coerceSize</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * @testdox Byte::coerceSize({$value}) --> SizeCoercionFailed exception
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -440,8 +440,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>processSizeCoercion</code> method expecting a <code>SizeCoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * @testdox Byte::processSizeCoercion(&{$value}) --> SizeCoercionFailed exception
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -464,8 +464,8 @@ class ByteTest extends TestCase
 	 * Test <code>processSizeCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * @testdox Byte::processSizeCoercion(&{$value}, false|true, true) === false
+	 * @dataProvider provideSizeCoercionData_Exception_SizeCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -583,8 +583,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>evaluateMultiple</code> method.
 	 * 
-	 * @dataProvider provideMultipleCoercionData
 	 * @testdox Byte::evaluateMultiple(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideMultipleCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -604,8 +604,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>coerceMultiple</code> method.
 	 * 
-	 * @dataProvider provideMultipleCoercionData
 	 * @testdox Byte::coerceMultiple({$value}) === $expected
+	 * @dataProvider provideMultipleCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -623,8 +623,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>processMultipleCoercion</code> method.
 	 * 
-	 * @dataProvider provideMultipleCoercionData
 	 * @testdox Byte::processMultipleCoercion(&{$value} --> &{$expected_value}) === true
+	 * @dataProvider provideMultipleCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -742,8 +742,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>evaluateMultiple</code> method expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * @testdox Byte::evaluateMultiple(&{$value}) === false
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -761,8 +761,8 @@ class ByteTest extends TestCase
 	/**
 	 * Test <code>coerceMultiple</code> method expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * @testdox Byte::coerceMultiple({$value}) --> MultipleCoercionFailed exception
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -783,8 +783,8 @@ class ByteTest extends TestCase
 	 * Test <code>processMultipleCoercion</code> method expecting a <code>MultipleCoercionFailed</code> exception to be 
 	 * thrown.
 	 * 
-	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * @testdox Byte::processMultipleCoercion(&{$value}) --> MultipleCoercionFailed exception
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -807,8 +807,8 @@ class ByteTest extends TestCase
 	 * Test <code>processMultipleCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * @testdox Byte::processMultipleCoercion(&{$value}, false|true, true) === false
+	 * @dataProvider provideMultipleCoercionData_Exception_MultipleCoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>

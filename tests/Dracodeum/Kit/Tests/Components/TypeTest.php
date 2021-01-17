@@ -40,8 +40,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test prototype name.
 	 * 
-	 * @dataProvider providePrototypeNameData
 	 * @testdox Prototype name ("$name")
+	 * @dataProvider providePrototypeNameData
 	 * 
 	 * @param string $name
 	 * <p>The name parameter to test with.</p>
@@ -283,8 +283,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test textify expecting a <code>TextificationFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * @testdox Textify TextificationFailed exception
+	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * 
 	 * @param string $prototype
 	 * <p>The prototype parameter to test with.</p>
@@ -323,8 +323,8 @@ class TypeTest extends TestCase
 	 * Test textify with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * @testdox Textify (no throw ==> null)
+	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * 
 	 * @param string $prototype
 	 * <p>The prototype parameter to test with.</p>
@@ -413,8 +413,8 @@ class TypeTest extends TestCase
 	/**
 	 * Test mutators.
 	 * 
-	 * @dataProvider provideMutatorsData
 	 * @testdox Mutators
+	 * @dataProvider provideMutatorsData
 	 * 
 	 * @param \Dracodeum\Kit\Components\Type $component
 	 * <p>The component parameter to test with.</p>

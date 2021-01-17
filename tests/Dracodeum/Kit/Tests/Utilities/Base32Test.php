@@ -19,8 +19,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>encoded</code> method.
 	 * 
-	 * @dataProvider provideEncodedData
 	 * @testdox Base32::encoded('$string', '$alphabet') === $expected
+	 * @dataProvider provideEncodedData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -97,8 +97,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>encode</code> method.
 	 * 
-	 * @dataProvider provideEncodeData
 	 * @testdox Base32::encode('$string', $url_safe, '$alphabet') === '$expected'
+	 * @dataProvider provideEncodeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -176,8 +176,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>decode</code> method.
 	 * 
-	 * @dataProvider provideDecodeData
 	 * @testdox Base32::decode('$string', $alphabet, false|true) === '$expected'
+	 * @dataProvider provideDecodeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -250,8 +250,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>decode</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * @testdox Base32::decode('$string', '$alphabet') --> InvalidString exception
+	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -275,8 +275,8 @@ class Base32Test extends TestCase
 	 * Test <code>decode</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * @testdox Base32::decode('$string', '$alphabet', true) === null
+	 * @dataProvider provideDecodeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -325,8 +325,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method.
 	 * 
-	 * @dataProvider provideNormalizeData
 	 * @testdox Base32::normalize('$string', '$alphabet_from', '$alphabet_to') === '$expected'
+	 * @dataProvider provideNormalizeData
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -391,8 +391,8 @@ class Base32Test extends TestCase
 	/**
 	 * Test <code>normalize</code> method expecting an <code>InvalidString</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * @testdox Base32::normalize('$string', '$alphabet_from') --> InvalidString exception
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
@@ -416,8 +416,8 @@ class Base32Test extends TestCase
 	 * Test <code>normalize</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * @testdox Base32::normalize('$string', '$alphabet_from', EAlphabet::RFC4648, true) === null
+	 * @dataProvider provideNormalizeData_Exception_InvalidString
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>

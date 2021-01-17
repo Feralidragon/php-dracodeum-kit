@@ -17,8 +17,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>associative</code> method.
 	 * 
-	 * @dataProvider provideAssociativeData
 	 * @testdox Data::associative($array) === $expected
+	 * @dataProvider provideAssociativeData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -57,8 +57,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>keyfy</code> method.
 	 * 
-	 * @dataProvider provideKeyfyData
 	 * @testdox Data::keyfy({$value}) === '$expected' (safe = $expected_safe)
+	 * @dataProvider provideKeyfyData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -116,8 +116,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>merge</code> method.
 	 * 
-	 * @dataProvider provideMergeData
 	 * @testdox Data::merge($array1, $array2, $depth, $flags) === $expected
+	 * @dataProvider provideMergeData
 	 * 
 	 * @param array $array1
 	 * <p>The method <var>$array1</var> parameter to test with.</p>
@@ -1972,8 +1972,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>unique</code> method.
 	 * 
-	 * @dataProvider provideUniqueData
 	 * @testdox Data::unique($array, $depth, $flags) === $expected
+	 * @dataProvider provideUniqueData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -3054,8 +3054,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>sort</code> method.
 	 * 
-	 * @dataProvider provideSortData
 	 * @testdox Data::sort($array, $depth, $flags) === $expected
+	 * @dataProvider provideSortData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -3559,8 +3559,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>ksort</code> method.
 	 * 
-	 * @dataProvider provideKsortData
 	 * @testdox Data::ksort($array, $depth, $flags) === $expected
+	 * @dataProvider provideKsortData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -4036,8 +4036,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>fsort</code> method.
 	 * 
-	 * @dataProvider provideFsortData
 	 * @testdox Data::fsort($array, $comparer, $depth, $flags) === $expected
+	 * @dataProvider provideFsortData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -4555,8 +4555,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>filter</code> method.
 	 * 
-	 * @dataProvider provideFilterData
 	 * @testdox Data::filter($array, $values, $depth, $flags) === $expected
+	 * @dataProvider provideFilterData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -5331,8 +5331,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>kfilter</code> method.
 	 * 
-	 * @dataProvider provideKfilterData
 	 * @testdox Data::kfilter($array, $keys, $depth, $flags) === $expected
+	 * @dataProvider provideKfilterData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -6040,8 +6040,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>trim</code> method.
 	 * 
-	 * @dataProvider provideTrimData
 	 * @testdox Data::trim($array, $values, $depth, $flags) === $expected
+	 * @dataProvider provideTrimData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -7439,8 +7439,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>ktrim</code> method.
 	 * 
-	 * @dataProvider provideKtrimData
 	 * @testdox Data::ktrim($array, $keys, $depth, $flags) === $expected
+	 * @dataProvider provideKtrimData
 	 * 
 	 * @param array $array
 	 * <p>The method <var>$array</var> parameter to test with.</p>
@@ -8941,8 +8941,8 @@ class DataTest extends TestCase
 	/**
 	 * Test <code>intersect</code> method.
 	 * 
-	 * @dataProvider provideIntersectData
 	 * @testdox Data::intersect($array1, $array2, $depth, $flags) === $expected
+	 * @dataProvider provideIntersectData
 	 * 
 	 * @param array $array1
 	 * <p>The method <var>$array1</var> parameter to test with.</p>

@@ -604,8 +604,8 @@ class TextTest extends TestCase
 	/**
 	 * Test placeholder stringifier expecting an <code>AssertionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider providePlaceholderStringifierData_AssertionFailedException
 	 * @testdox Placeholder stringifier AssertionFailed exception
+	 * @dataProvider providePlaceholderStringifierData_AssertionFailedException
 	 * 
 	 * @param callable $stringifier
 	 * <p>The <var>$stringifier</var> parameter to test with.</p>

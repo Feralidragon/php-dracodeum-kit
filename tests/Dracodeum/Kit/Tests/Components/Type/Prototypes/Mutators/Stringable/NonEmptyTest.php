@@ -22,8 +22,8 @@ class NonEmptyTest extends TestCase
 	/**
 	 * Test process.
 	 * 
-	 * @dataProvider provideProcessData
 	 * @testdox Process
+	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -54,8 +54,8 @@ class NonEmptyTest extends TestCase
 	/**
 	 * Test process (error).
 	 * 
-	 * @dataProvider provideProcessData_Error
 	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>

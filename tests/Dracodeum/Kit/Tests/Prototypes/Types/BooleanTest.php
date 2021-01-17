@@ -25,8 +25,8 @@ class BooleanTest extends TestCase
 	/**
 	 * Test process.
 	 * 
-	 * @dataProvider provideProcessData
 	 * @testdox Process
+	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -84,8 +84,8 @@ class BooleanTest extends TestCase
 	/**
 	 * Test process (non-internal).
 	 * 
-	 * @dataProvider provideProcessData_NonInternal
 	 * @testdox Process (non-internal)
+	 * @dataProvider provideProcessData_NonInternal
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -133,8 +133,8 @@ class BooleanTest extends TestCase
 	/**
 	 * Test process (non-internal error).
 	 * 
-	 * @dataProvider provideProcessData_NonInternal_Error
 	 * @testdox Process (non-internal error)
+	 * @dataProvider provideProcessData_NonInternal_Error
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>

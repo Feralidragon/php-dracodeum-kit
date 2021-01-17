@@ -26,8 +26,8 @@ class TStringTest extends TestCase
 	/**
 	 * Test process.
 	 * 
-	 * @dataProvider provideProcessData
 	 * @testdox Process
+	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -71,8 +71,8 @@ class TStringTest extends TestCase
 	/**
 	 * Test process (error).
 	 * 
-	 * @dataProvider provideProcessData_Error
 	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -106,8 +106,8 @@ class TStringTest extends TestCase
 	/**
 	 * Test process (unicode).
 	 * 
-	 * @dataProvider provideProcessData_Unicode
 	 * @testdox Process (Unicode)
+	 * @dataProvider provideProcessData_Unicode
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
@@ -161,8 +161,8 @@ class TStringTest extends TestCase
 	/**
 	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface.
 	 * 
-	 * @dataProvider provideMutatorProducerData
 	 * @testdox MutatorProducer interface ("$name")
+	 * @dataProvider provideMutatorProducerData
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
 	 * @param string $name

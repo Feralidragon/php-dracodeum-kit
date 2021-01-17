@@ -19,8 +19,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>validate</code> method.
 	 * 
-	 * @dataProvider provideValidateData
 	 * @testdox Call::validate({$function}) === void
+	 * @dataProvider provideValidateData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -86,8 +86,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>validate</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::validate({$function}) --> InvalidFunction exception
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -108,8 +108,8 @@ class CallTest extends TestCase
 	 * Test <code>validate</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::validate({$function}, true) === false
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -168,8 +168,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method.
 	 * 
-	 * @dataProvider provideReflectionData
 	 * @testdox Call::reflection({$function}) === $expected_class
+	 * @dataProvider provideReflectionData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -238,8 +238,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method expecting an <code>InvalidFunction</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::reflection({$function}) --> InvalidFunction exception
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -260,8 +260,8 @@ class CallTest extends TestCase
 	 * Test <code>reflection</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * @testdox Call::reflection({$function}, true) === false
+	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -275,8 +275,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>hash</code> method.
 	 * 
-	 * @dataProvider provideHashData
 	 * @testdox Call::hash({$function}, '$algorithm') === '$expected'
+	 * @dataProvider provideHashData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -343,8 +343,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>modifiers</code> method.
 	 * 
-	 * @dataProvider provideModifiersData
 	 * @testdox Call::modifiers({$function}) === $expected
+	 * @dataProvider provideModifiersData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -401,8 +401,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>name</code> method.
 	 * 
-	 * @dataProvider provideNameData
 	 * @testdox Call::name({$function}, $full, $short) === {$expected}
+	 * @dataProvider provideNameData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -503,8 +503,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>parameters</code> method.
 	 * 
-	 * @dataProvider provideParametersData
 	 * @testdox Call::parameters({$function}, $flags) === $expected
+	 * @dataProvider provideParametersData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -735,8 +735,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>type</code> method.
 	 * 
-	 * @dataProvider provideTypeData
 	 * @testdox Call::type({$function}, $flags) === '$expected'
+	 * @dataProvider provideTypeData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -883,8 +883,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>header</code> method.
 	 * 
-	 * @dataProvider provideHeaderData
 	 * @testdox Call::header({$function}, $flags) === '$expected'
+	 * @dataProvider provideHeaderData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -1259,8 +1259,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>body</code> method.
 	 * 
-	 * @dataProvider provideBodyData
 	 * @testdox Call::body({$function}) === '$expected'
+	 * @dataProvider provideBodyData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -1349,8 +1349,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>source</code> method.
 	 * 
-	 * @dataProvider provideSourceData
 	 * @testdox Call::source({$function}, $flags) === '$expected'
+	 * @dataProvider provideSourceData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -1785,8 +1785,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>signature</code> method.
 	 * 
-	 * @dataProvider provideSignatureData
 	 * @testdox Call::signature({$function}) === '$expected'
+	 * @dataProvider provideSignatureData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -1896,8 +1896,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>compatible</code> method.
 	 * 
-	 * @dataProvider provideCompatibleData
 	 * @testdox Call::compatible({$function}, {$template}) === $expected
+	 * @dataProvider provideCompatibleData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2316,8 +2316,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method.
 	 * 
-	 * @dataProvider provideAssertData
 	 * @testdox Call::assert('foobar', {$function}, {$template}) === void
+	 * @dataProvider provideAssertData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2351,8 +2351,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method expecting an <code>AssertionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * @testdox Call::assert('foobar', {$function}, {$template}) --> AssertionFailed exception
+	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2379,8 +2379,8 @@ class CallTest extends TestCase
 	 * Test <code>assert</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * @testdox Call::assert('foobar', {$function}, {$template}, true) === false
+	 * @dataProvider provideAssertData_Exception_AssertionFailed
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2413,8 +2413,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>assert</code> method in a production environment.
 	 * 
-	 * @dataProvider provideAssertData_Environment_Production
 	 * @testdox Call::assert('foobar', {$function}, {$template}) === void [production]
+	 * @dataProvider provideAssertData_Environment_Production
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2452,8 +2452,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>object</code> method.
 	 * 
-	 * @dataProvider provideObjectData
 	 * @testdox Call::object({$function}) === $expected
+	 * @dataProvider provideObjectData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2515,8 +2515,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>class</code> method.
 	 * 
-	 * @dataProvider provideClassData
 	 * @testdox Call::class({$function}, $short) === {$expected}
+	 * @dataProvider provideClassData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2605,8 +2605,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>extension</code> method.
 	 * 
-	 * @dataProvider provideExtensionData
 	 * @testdox Call::extension({$function}) === {$expected}
+	 * @dataProvider provideExtensionData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
@@ -2663,8 +2663,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method.
 	 * 
-	 * @dataProvider provideCoercionData
 	 * @testdox Call::evaluate(&{$value}, {$template}) === true
+	 * @dataProvider provideCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2686,8 +2686,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method.
 	 * 
-	 * @dataProvider provideCoercionData
 	 * @testdox Call::coerce({$value}, {$template}) === Closure
+	 * @dataProvider provideCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2707,8 +2707,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method.
 	 * 
-	 * @dataProvider provideCoercionData
 	 * @testdox Call::processCoercion(&{$value}, {$template}) === true
+	 * @dataProvider provideCoercionData
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2849,8 +2849,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::evaluate(&{$value}, {$template}) === false
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2870,8 +2870,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::coerce({$value}, {$template}) --> CoercionFailed exception
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2893,8 +2893,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
-	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::processCoercion(&{$value}, {$template}) --> CoercionFailed exception
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -2919,8 +2919,8 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
-	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, false, true) === false
+	 * @dataProvider provideCoercionData_Exception_CoercionFailed
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -3102,8 +3102,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>evaluate</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::evaluate(&{$value}, {$template}, false|true, true) === false|true
+	 * @dataProvider provideCoercionData_Assertive
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -3137,8 +3137,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>coerce</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::coerce({$value}, {$template}, false|true, true) === Closure or --> CoercionFailed exception
+	 * @dataProvider provideCoercionData_Assertive
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
@@ -3172,8 +3172,8 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>processCoercion</code> method with <var>$assertive</var> set to boolean <code>true</code>.
 	 * 
-	 * @dataProvider provideCoercionData_Assertive
 	 * @testdox Call::processCoercion(&{$value}, {$template}, false|true, true, false|true) === false|true or --> CoercionFailed exception
+	 * @dataProvider provideCoercionData_Assertive
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
