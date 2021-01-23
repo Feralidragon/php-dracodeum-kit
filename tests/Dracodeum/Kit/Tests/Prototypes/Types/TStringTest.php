@@ -167,13 +167,15 @@ class TStringTest extends TestCase
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
 	 * @param string $name
 	 * <p>The name parameter to test with.</p>
+	 * @param array $properties
+	 * <p>The properties parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected produced class.</p>
 	 * @return void
 	 */
-	public function testMutatorProducerInterface(string $name, string $expected): void
+	public function testMutatorProducerInterface(string $name, array $properties, string $expected): void
 	{
-		$mutator = (new Prototype())->produceMutator($name, []);
+		$mutator = (new Prototype())->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
 		$this->assertTrue(UType::isA($mutator, $expected));
 	}
@@ -187,8 +189,9 @@ class TStringTest extends TestCase
 	public function provideMutatorProducerData(): array
 	{
 		return [
-			['non_empty', StringableMutators\NonEmpty::class],
-			['non_empty_iws', StringableMutators\NonEmpty::class]
+			['length', [10], StringableMutators\Length::class],
+			['non_empty', [], StringableMutators\NonEmpty::class],
+			['non_empty_iws', [], StringableMutators\NonEmpty::class]
 		];
 	}
 }
