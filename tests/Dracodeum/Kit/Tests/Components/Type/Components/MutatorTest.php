@@ -75,10 +75,15 @@ class MutatorTest extends TestCase
 			$error1->getText()->toString(['info_level' => EInfoLevel::INTERNAL])
 		);
 		
-		//value1 (success)
+		//value1 (success 1)
 		$value1 = 'foo';
 		$this->assertNull($component1->process($value1));
 		$this->assertSame('FOO', $value1);
+		
+		//value1 (success 2)
+		$value1 = 'bar';
+		$this->assertNull($component1->process($value1));
+		$this->assertSame('Bar', $value1);
 		
 		//value2 (error)
 		$value2 = $v2 = 123;
@@ -127,11 +132,14 @@ class MutatorTest_Prototype1 extends Prototype implements IExplanationProducer
 	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
 	public const EXPLANATION_STRING = "Only a string equal to \"foo\" is allowed.";
 	
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value)
 	{
 		if ($value === 'foo') {
 			$value = 'FOO';
 			return null;
+		} elseif ($value === 'bar') {
+			$value = 'Bar';
+			return;
 		} elseif (is_int($value)) {
 			return Error::build();
 		} elseif (is_object($value)) {
@@ -151,13 +159,13 @@ class MutatorTest_Prototype1 extends Prototype implements IExplanationProducer
 /** Test case dummy prototype class 2. */
 class MutatorTest_Prototype2 extends Prototype
 {
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value)
 	{
 		$value = (string)$value;
 		if ($value === 'bar') {
 			$value = '__bar__';
-			return null;
+			return true;
 		}
-		return Error::build();
+		return false;
 	}
 }

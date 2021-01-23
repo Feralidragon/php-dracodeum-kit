@@ -45,9 +45,20 @@ class Mutator extends Component
 	{
 		//initialize
 		$v = $value;
+		$prototype = $this->getPrototype();
 		
 		//process
-		$error = $this->getPrototype()->process($v);
+		$error = $prototype->process($v);
+		if (is_bool($error)) {
+			$error = $error ? null : Error::build();
+		} elseif ($error !== null && !($error instanceof Error)) {
+			UCall::haltInternal([
+				'error_message' => "Invalid return value {{value}} from prototype {{prototype}}.",
+				'parameters' => ['value' => $error, 'prototype' => $prototype]
+			]);
+		}
+		
+		//error
 		if ($error !== null) {
 			$error_text = $error->getText() ?? $this->getExplanation() ?? Text::build();
 			if (!$error_text->hasString()) {

@@ -9,10 +9,7 @@ namespace Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable;
 
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator as Prototype;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer as IExplanationProducer;
-use Dracodeum\Kit\Primitives\{
-	Error,
-	Text
-};
+use Dracodeum\Kit\Primitives\Text;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Utilities\Text as UText;
 
@@ -35,9 +32,9 @@ class NonEmpty extends Prototype implements IExplanationProducer
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value): ?Error
+	public function process(mixed &$value)
 	{
-		return UText::empty($value, $this->ignore_whitespace, $this->unicode) ? Error::build() : null;
+		return !UText::empty($value, $this->ignore_whitespace, $this->unicode);
 	}
 	
 	

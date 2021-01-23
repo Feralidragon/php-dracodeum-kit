@@ -8,7 +8,6 @@
 namespace Dracodeum\Kit\Components\Type\Prototypes;
 
 use Dracodeum\Kit\Prototype;
-use Dracodeum\Kit\Primitives\Error;
 
 /**
  * @see \Dracodeum\Kit\Components\Type\Components\Mutator
@@ -22,8 +21,9 @@ abstract class Mutator extends Prototype
 	 * 
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
-	 * @return \Dracodeum\Kit\Primitives\Error|null
-	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
+	 * @return \Dracodeum\Kit\Primitives\Error|bool|null|void
+	 * <p>An error instance or boolean <code>false</code> if the given value failed to be processed, 
+	 * or <code>null</code>, boolean <code>true</code> or <code>void</code> if otherwise.</p>
 	 */
-	abstract public function process(mixed &$value): ?Error;
+	abstract public function process(mixed &$value);
 }
