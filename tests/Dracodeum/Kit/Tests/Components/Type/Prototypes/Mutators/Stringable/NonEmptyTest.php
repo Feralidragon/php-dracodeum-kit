@@ -51,7 +51,7 @@ class NonEmptyTest extends TestCase
 			['foo'],
 			[' '],
 			[" \n "],
-			[" \n0\n "],
+			[" \n0\n ", ['ignore_whitespace' => true]],
 			["\u{2003}", ['ignore_whitespace' => true]],
 			["\u{2002} \n0\n \u{2003}", ['ignore_whitespace' => true, 'unicode' => true]]
 		];
