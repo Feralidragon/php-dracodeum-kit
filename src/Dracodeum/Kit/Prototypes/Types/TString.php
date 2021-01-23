@@ -116,8 +116,10 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 	public function produceMutator(string $name, array $properties)
 	{
 		return match ($name) {
-			'non_empty' => StringableMutators\NonEmpty::class,
-			'non_empty_iws' => new StringableMutators\NonEmpty(['ignore_whitespace' => true] + $properties),
+			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
+			'non_empty_iws' => new StringableMutators\NonEmpty(
+				['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
+			),
 			default => null
 		};
 	}

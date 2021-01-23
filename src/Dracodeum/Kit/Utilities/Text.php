@@ -91,15 +91,17 @@ final class Text extends Utility
 	 * &nbsp; &#8226; &nbsp; carriage return (<code>"\r"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; NUL-byte (<code>"\0"</code>);<br>
 	 * &nbsp; &#8226; &nbsp; vertical tab (<code>"\x0B"</code>).</p>
+	 * @param bool $unicode [default = false]
+	 * <p>Check as a Unicode string.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given string is empty.</p>
 	 */
-	final public static function empty(?string $string, bool $ignore_whitespace = false): bool
+	final public static function empty(?string $string, bool $ignore_whitespace = false, bool $unicode = false): bool
 	{
-		if (!isset($string)) {
+		if ($string === null) {
 			return true;
 		} elseif ($ignore_whitespace) {
-			$string = trim($string);
+			return preg_match('/^\s*$/s' . ($unicode ? 'u' : ''), $string);
 		}
 		return $string === '';
 	}

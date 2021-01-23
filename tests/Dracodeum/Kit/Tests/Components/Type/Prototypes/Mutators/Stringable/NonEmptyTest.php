@@ -27,12 +27,14 @@ class NonEmptyTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The process value parameter to test with.</p>
+	 * @param array $properties [default = []]
+	 * <p>The process properties parameter to test with.</p>
 	 * @return void
 	 */
-	public function testProcess(mixed $value): void
+	public function testProcess(mixed $value, array $properties = []): void
 	{
 		$v = $value;
-		$this->assertNull(Component::build(Prototype::class)->process($value));
+		$this->assertNull(Component::build(Prototype::class, $properties)->process($value));
 		$this->assertSame($v, $value);
 	}
 	
@@ -47,7 +49,11 @@ class NonEmptyTest extends TestCase
 		return [
 			['0'],
 			['foo'],
-			[' ']
+			[' '],
+			[" \n "],
+			[" \n0\n "],
+			["\u{2003}", ['ignore_whitespace' => true]],
+			["\u{2002} \n0\n \u{2003}", ['ignore_whitespace' => true, 'unicode' => true]]
 		];
 	}
 	
@@ -78,7 +84,12 @@ class NonEmptyTest extends TestCase
 	{
 		return [
 			[''],
-			[' ', ['ignore_whitespace' => true]]
+			[' ', ['ignore_whitespace' => true]],
+			[" \n ", ['ignore_whitespace' => true]],
+			[" \n\n ", ['ignore_whitespace' => true]],
+			["\u{2003}", ['ignore_whitespace' => true, 'unicode' => true]],
+			["\u{2002} \n\n \u{2003}", ['ignore_whitespace' => true, 'unicode' => true]],
+			["\u{2002} \n\u{2003}\n \u{2002}", ['ignore_whitespace' => true, 'unicode' => true]]
 		];
 	}
 	

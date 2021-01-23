@@ -21,11 +21,15 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * @property-write bool $ignore_whitespace [writeonce] [transient] [default = false]
  * <p>Ignore whitespace characters from the given value.</p>
+ * @property-write bool $unicode [writeonce] [transient] [default = false]
+ * <p>Check the given value as Unicode.</p>
  */
 class NonEmpty extends Prototype implements IExplanationProducer
 {
 	//Protected properties
 	protected bool $ignore_whitespace = false;
+	
+	protected bool $unicode = false;
 	
 	
 	
@@ -33,7 +37,7 @@ class NonEmpty extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function process(mixed &$value): ?Error
 	{
-		return UText::empty($value, $this->ignore_whitespace) ? Error::build() : null;
+		return UText::empty($value, $this->ignore_whitespace, $this->unicode) ? Error::build() : null;
 	}
 	
 	
@@ -52,7 +56,8 @@ class NonEmpty extends Prototype implements IExplanationProducer
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'ignore_whitespace' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
+			'ignore_whitespace', 'unicode'
+				=> $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
 			default => null
 		};
 	}
