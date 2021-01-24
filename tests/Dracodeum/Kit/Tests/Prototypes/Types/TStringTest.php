@@ -191,8 +191,9 @@ class TStringTest extends TestCase
 		return [
 			['length', [10], StringableMutators\Length::class],
 			['length_range', [5, 10], StringableMutators\LengthRange::class],
-			['max_length', [10], StringableMutators\MaxLength::class],
 			['min_length', [10], StringableMutators\MinLength::class],
+			['max_length', [10], StringableMutators\MaxLength::class],
+			['lowercase', [], StringableMutators\Lowercase::class],
 			['non_empty', [], StringableMutators\NonEmpty::class],
 			['non_empty_iws', [], StringableMutators\NonEmpty::class]
 		];
