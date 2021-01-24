@@ -8,6 +8,16 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 System::setAsFramework();
 System::setEnvironment('development');
 
+$t = Dracodeum\Kit\Components\Type::build('string', [
+	'mutators' => [
+		'max_length' => [12]
+	]
+]);
+$v = 'foo bar aaaaaaaa';
+$e = $t->process($v);
+
+var_dump($v, (string)$e?->getText());
+die();
 
 
 class Foo extends Dracodeum\Kit\Entity
