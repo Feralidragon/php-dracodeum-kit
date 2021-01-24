@@ -43,10 +43,10 @@ class Length extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		/** @example Only exactly 10 characters are allowed. */
+		/** @example Exactly 10 characters are required. */
 		return Text::build()
-			->setString("Only exactly {{number}} character is allowed.")
-			->setPluralString("Only exactly {{number}} characters are allowed.")
+			->setString("Exactly {{number}} character is required.")
+			->setPluralString("Exactly {{number}} characters are required.")
 			->setPluralNumberPlaceholder('number')
 			->setPluralNumber($this->length)
 			->setAsLocalized(self::class)

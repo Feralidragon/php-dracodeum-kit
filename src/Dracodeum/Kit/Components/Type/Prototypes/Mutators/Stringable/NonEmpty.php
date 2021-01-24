@@ -43,7 +43,7 @@ class NonEmpty extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		return Text::build("An empty value is not allowed.")->setAsLocalized(self::class);
+		return Text::build("Cannot be empty.")->setAsLocalized(self::class);
 	}
 	
 	
