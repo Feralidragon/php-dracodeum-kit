@@ -9,14 +9,14 @@ namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators\Stringable;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Lowercase as Prototype;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Uppercase as Prototype;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Lowercase */
-class LowercaseTest extends TestCase
+/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Uppercase */
+class UppercaseTest extends TestCase
 {
 	//Public methods
 	/**
@@ -47,14 +47,14 @@ class LowercaseTest extends TestCase
 	public function provideProcessData(): array
 	{
 		return [
-			['a'],
-			['foo'],
+			['A'],
+			['FOO'],
 			['123'],
-			['foo bar123'],
-			["\u{03b3}"],
+			['FOO BAR123'],
 			["\u{0393}"],
-			["f\u{03a9}\u{03a9} \u{0393}\u{0394} \u{039e}123"],
-			["f\u{03c9}\u{03c9} \u{03b3}\u{03b4} \u{03be}123", ['unicode' => true]]
+			["\u{03b3}"],
+			["F\u{03c9}\u{03c9} \u{03b3}\u{03b4} \u{03be}123"],
+			["F\u{03a9}\u{03a9} \u{0393}\u{0394} \u{039e}123", ['unicode' => true]]
 		];
 	}
 	
@@ -84,14 +84,14 @@ class LowercaseTest extends TestCase
 	public function provideProcessData_Error(): array
 	{
 		return [
-			['A'],
+			['a'],
 			['Foo'],
-			['FOO'],
-			['Foo BAR123'],
-			["F\u{03a9}\u{03a9} \u{0393}\u{0394} \u{039e}123"],
-			["F\u{03c9}\u{03c9} \u{03b3}\u{03b4} \u{03be}123"],
-			["f\u{03a9}\u{03a9} \u{0393}\u{0394} \u{039e}123", ['unicode' => true]],
-			["f\u{03c9}\u{03c9} \u{0393}\u{0394} \u{039e}123", ['unicode' => true]]
+			['foo'],
+			['FOO Bar123'],
+			["f\u{03c9}\u{03c9} \u{03b3}\u{03b4} \u{03be}123"],
+			["f\u{03a9}\u{03a9} \u{0393}\u{0394} \u{039e}123"],
+			["F\u{03c9}\u{03c9} \u{03b3}\u{03b4} \u{03be}123", ['unicode' => true]],
+			["F\u{03a9}\u{03a9} \u{03b3}\u{03b4} \u{03be}123", ['unicode' => true]]
 		];
 	}
 	

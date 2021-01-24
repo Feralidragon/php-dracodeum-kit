@@ -118,13 +118,14 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 		return match ($name) {
 			'length' => new StringableMutators\Length($properties + ['unicode' => $this->unicode]),
 			'length_range' => new StringableMutators\LengthRange($properties + ['unicode' => $this->unicode]),
-			'min_length' => new StringableMutators\MinLength($properties + ['unicode' => $this->unicode]),
 			'max_length' => new StringableMutators\MaxLength($properties + ['unicode' => $this->unicode]),
+			'min_length' => new StringableMutators\MinLength($properties + ['unicode' => $this->unicode]),
 			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
 			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
 			'non_empty_iws' => new StringableMutators\NonEmpty(
 				['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
 			),
+			'uppercase' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
 			default => null
 		};
 	}
