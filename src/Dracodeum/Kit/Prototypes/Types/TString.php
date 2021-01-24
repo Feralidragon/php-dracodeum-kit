@@ -117,6 +117,7 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 	{
 		return match ($name) {
 			'length' => new StringableMutators\Length($properties + ['unicode' => $this->unicode]),
+			'length_range' => new StringableMutators\LengthRange($properties + ['unicode' => $this->unicode]),
 			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
 			'non_empty_iws' => new StringableMutators\NonEmpty(
 				['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
