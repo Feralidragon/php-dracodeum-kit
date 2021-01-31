@@ -1090,7 +1090,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of classes to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return string[]|null[]
+	 * @return (string|null)[]
 	 * <p>The previous classes from the current stack.</p>
 	 */
 	final public static function stackPreviousClasses(int $offset = 0, ?int $limit = null): array
@@ -1135,7 +1135,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return object[]|null[]
+	 * @return (object|null)[]
 	 * <p>The previous objects from the current stack.</p>
 	 */
 	final public static function stackPreviousObjects(int $offset = 0, ?int $limit = null): array
@@ -1180,7 +1180,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of objects and classes to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return object[]|string[]|null[]
+	 * @return (object|string|null)[]
 	 * <p>The previous objects and classes from the current stack.</p>
 	 */
 	final public static function stackPreviousObjectsClasses(int $offset = 0, ?int $limit = null): array
@@ -1243,7 +1243,7 @@ final class Call extends Utility
 	 * @param int|null $limit [default = null]
 	 * <p>The limit to use on the number of names to get.<br>
 	 * If not set, then no limit is applied.</p>
-	 * @return string[]|null[]
+	 * @return (string|null)[]
 	 * <p>The previous function names from the current stack.</p>
 	 */
 	final public static function stackPreviousNames(

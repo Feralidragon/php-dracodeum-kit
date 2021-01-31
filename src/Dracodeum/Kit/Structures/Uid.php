@@ -358,7 +358,7 @@ class Uid extends Structure implements ILogEventData
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Structures\Uid\Exceptions\ScopeIdCoercionFailed
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array

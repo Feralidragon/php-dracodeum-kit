@@ -420,7 +420,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	/**
 	 * Get scope IDs.
 	 * 
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The scope IDs, as a set of <samp>name => id</samp> pairs.</p>
 	 */
 	final public function getScopeIds(): array
@@ -517,7 +517,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	/**
 	 * Get static scope.
 	 * 
-	 * @param int[]|string[] $ids [default = []]
+	 * @param (int|string)[] $ids [default = []]
 	 * <p>The IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string|null
 	 * <p>The static scope or <code>null</code> if none is set.</p>
@@ -534,7 +534,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to check with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to check with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if an instance exists.</p>
@@ -554,7 +554,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -580,7 +580,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to delete with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to delete with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -1097,7 +1097,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * @param array $values
 	 * <p>The set of values to coerce (validate and sanitize).</p>
 	 * @throws \Dracodeum\Kit\Entity\Exceptions\ScopeIdsCoercionFailed
-	 * @return int[]|string[]
+	 * @return (int|string)[]
 	 * <p>The given set of values coerced into a set of scope IDs.</p>
 	 */
 	final public static function coerceScopeIds(array $values): array
@@ -1208,7 +1208,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to get with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The static log event tag.</p>
@@ -1675,7 +1675,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param int|string|null $id [default = null]
 	 * <p>The ID to load with.</p>
-	 * @param int[]|string[] $scope_ids [default = []]
+	 * @param (int|string)[] $scope_ids [default = []]
 	 * <p>The scope IDs to load with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>

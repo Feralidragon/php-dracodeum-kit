@@ -38,17 +38,17 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @property-write bool $nullable [writeonce] [transient] [default = false]
  * <p>Allow a <code>null</code> value to be set.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint[]|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint[]|string[] $constraints [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifiers\Constraint|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Constraint|string)[] $constraints [writeonce] [transient] [default = []]
  * <p>The constraints to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
  * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifiers\Filter[]|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter[]|string[] $filters [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifiers\Filter|\Dracodeum\Kit\Components\Input\Prototypes\Modifiers\Filter|string)[] $filters [writeonce] [transient] [default = []]
  * <p>The filters to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 
  * with the properties being given as a set of <samp>name => value</samp> pairs.</p>
- * @property-write \Dracodeum\Kit\Components\Input\Components\Modifier[]|string[] $modifiers [writeonce] [transient] [default = []]
+ * @property-write (\Dracodeum\Kit\Components\Input\Components\Modifier|string)[] $modifiers [writeonce] [transient] [default = []]
  * <p>The modifiers to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs, 

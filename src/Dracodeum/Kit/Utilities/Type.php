@@ -2322,7 +2322,7 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as a given base object or class.
 	 * 
-	 * @param object[]|string[] $objects_classes
+	 * @param (object|string)[] $objects_classes
 	 * <p>The objects or classes to check.</p>
 	 * @param object|string $base_object_class
 	 * <p>The base object or class to check against.</p>
@@ -2346,7 +2346,7 @@ final class Type extends Utility
 	 * 
 	 * @param object|string $object_class
 	 * <p>The object or class to check.</p>
-	 * @param object[]|string[] $base_objects_classes
+	 * @param (object|string)[] $base_objects_classes
 	 * <p>The base objects or classes to check against.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given object or class extends from or
@@ -2368,9 +2368,9 @@ final class Type extends Utility
 	/**
 	 * Check if all given objects or classes extend from or are of the same class as any given base objects or classes.
 	 * 
-	 * @param object[]|string[] $objects_classes
+	 * @param (object|string)[] $objects_classes
 	 * <p>The objects or classes to check.</p>
-	 * @param object[]|string[] $base_objects_classes
+	 * @param (object|string)[] $base_objects_classes
 	 * <p>The base objects or classes to check against.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if the given objects or classes extend from or

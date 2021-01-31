@@ -132,7 +132,7 @@ class Store extends Component
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param int[]|string[] $scope_ids
+	 * @param (int|string)[] $scope_ids
 	 * <p>The scope IDs to get with, as a set of <samp>name => id</samp> pairs.</p>
 	 * @return string
 	 * <p>The UID scope from the given base scope with the given set of scope IDs.</p>

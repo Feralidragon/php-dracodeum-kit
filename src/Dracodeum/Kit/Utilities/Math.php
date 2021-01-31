@@ -120,7 +120,7 @@ final class Math extends Utility
 	 * The randomization uses the PHP <code>mt_rand</code> function, which uses the Mersenne Twister algorithm.
 	 * 
 	 * @see https://php.net/manual/en/function.mt-rand.php
-	 * @param int[]|float[] $values_weights
+	 * @param (int|float)[] $values_weights
 	 * <p>The values weights to get from, as a set of <samp>value => weight</samp> pairs.</p>
 	 * @param int|null $seed [default = null]
 	 * <p>The seed value to generate with.<br>

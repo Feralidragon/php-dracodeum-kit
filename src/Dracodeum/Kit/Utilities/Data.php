@@ -793,7 +793,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to filter.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to filter from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the filtering at.<br>
@@ -984,7 +984,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to trim.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to trim from.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the trimming at.<br>
@@ -1480,7 +1480,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to align.</p>
-	 * @param int[]|string[] $keys
+	 * @param (int|string)[] $keys
 	 * <p>The keys to align with.</p>
 	 * @param int|null $depth [default = null]
 	 * <p>The recursive depth limit to stop the alignment at.<br>
@@ -2020,7 +2020,7 @@ final class Data extends Utility
 	 * 
 	 * @param array $array
 	 * <p>The array to coalesce from.</p>
-	 * @param int[]|string[] $keys [default = []]
+	 * @param (int|string)[] $keys [default = []]
 	 * <p>The keys to coalesce by.<br>
 	 * If empty, then all the values from the given array are used to coalesce by, 
 	 * otherwise only the values in the matching keys are used.<br>

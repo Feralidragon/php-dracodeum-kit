@@ -112,9 +112,9 @@ final class Text extends Utility
 	 * The returning string is the first one from the given set of strings which is not empty 
 	 * (not <code>null</code> nor <code>''</code>).
 	 * 
-	 * @param string[]|null[] $strings
+	 * @param (string|null)[] $strings
 	 * <p>The strings to coalesce from.</p>
-	 * @param int[]|string[] $keys [default = []]
+	 * @param (int|string)[] $keys [default = []]
 	 * <p>The keys to coalesce by.<br>
 	 * If empty, then all strings from the given set are used to coalesce by, 
 	 * otherwise only the strings in the matching keys are used.<br>
