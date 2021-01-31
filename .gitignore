@@ -2,6 +2,7 @@
 /.project
 /.settings
 /.idea
+/.vscode
 /vendor
 /composer.phar
 /composer.lock
