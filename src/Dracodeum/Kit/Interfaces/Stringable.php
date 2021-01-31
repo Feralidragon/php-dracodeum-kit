@@ -14,7 +14,7 @@ interface Stringable
 	/**
 	 * Cast this object to a string.
 	 * 
-	 * @param coercible:options(Dracodeum\Kit\Options\Text)|null $text_options [default = null]
+	 * @param coercible:options<Dracodeum\Kit\Options\Text>|null $text_options [default = null]
 	 * <p>The text options to use.</p>
 	 * @return string
 	 * <p>This object cast to a string.</p>

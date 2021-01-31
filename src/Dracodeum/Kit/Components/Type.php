@@ -35,7 +35,7 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * 
  * @property-read bool $nullable [default = false]
  * <p>Allow a <code>null</code> value.</p>
- * @property-write coercible:component(Dracodeum\Kit\Components\Type\Components\Mutator)[] $mutators [writeonce] [transient] [default = []]
+ * @property-write coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]
  * <p>The mutators to add, as any combination of the following:<br>
  * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
  * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs.</p>
@@ -117,7 +117,7 @@ class Type extends Component
 	 * 
 	 * @param mixed $value [reference]
 	 * <p>The value to process.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
 	 * <p>The context to process for.</p>
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
@@ -164,7 +164,7 @@ class Type extends Component
 	 * 
 	 * @param mixed $value
 	 * <p>The value to textify.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
 	 * <p>The context to textify for.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
@@ -211,7 +211,7 @@ class Type extends Component
 	/**
 	 * Get label.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
 	 * <p>The context to get for.</p>
 	 * @return \Dracodeum\Kit\Primitives\Text|null
 	 * <p>The label, as a text instance, or <code>null</code> if none is set.</p>
@@ -231,7 +231,7 @@ class Type extends Component
 	/**
 	 * Get description.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context [default = INTERNAL]
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
 	 * <p>The context to get for.</p>
 	 * @return \Dracodeum\Kit\Primitives\Text|null
 	 * <p>The description, as a text instance, or <code>null</code> if none is set.</p>
@@ -251,7 +251,7 @@ class Type extends Component
 	/**
 	 * Add mutator.
 	 * 
-	 * @param coercible:component(Dracodeum\Kit\Components\Type\Components\Mutator) $mutator
+	 * @param coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
 	 * <p>The mutator to add.</p>
 	 * @param array $properties [default = []]
 	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs.<br>

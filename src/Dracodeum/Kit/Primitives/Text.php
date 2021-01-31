@@ -82,7 +82,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to instantiate with.</p>
 	 */
 	final public function __construct(?string $string = null, $info_level = EInfoLevel::ENDUSER)
@@ -168,7 +168,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has string.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to check with.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has string.</p>
@@ -181,7 +181,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get string.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to get with.</p>
 	 * @return string|null
 	 * <p>The string or <code>null</code> if none is set.</p>
@@ -209,7 +209,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to set with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -223,7 +223,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has plural string.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to check with.</p>
 	 * @return bool
 	 * <p>Boolean <code>true</code> if has plural string.</p>
@@ -236,7 +236,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get plural string.
 	 * 
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to get with.</p>
 	 * @return string|null
 	 * <p>The plural string or <code>null</code> if none is set.</p>
@@ -264,7 +264,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to set with.</p>
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
@@ -446,7 +446,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * <br>
 	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
 	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum:value(Dracodeum\Kit\Enumerations\InfoLevel) $info_level [default = ENDUSER]
+	 * @param coercible:enum<Dracodeum\Kit\Enumerations\InfoLevel>:value $info_level [default = ENDUSER]
 	 * <p>The info level to build with.</p>
 	 * @return static
 	 * <p>The built instance.</p>

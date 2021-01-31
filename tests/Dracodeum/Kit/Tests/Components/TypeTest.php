@@ -330,7 +330,7 @@ class TypeTest extends TestCase
 	 * <p>The prototype parameter to test with.</p>
 	 * @param mixed $value
 	 * <p>The value parameter to test with.</p>
-	 * @param enum:value(Dracodeum\Kit\Components\Type\Enumerations\Context) $context
+	 * @param enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
 	 * <p>The context parameter to test with.</p>
 	 * @return void
 	 */
