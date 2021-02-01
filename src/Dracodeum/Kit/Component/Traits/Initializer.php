@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Component\Traits;
 
-/** This trait defines a method to initialize a component. */
 trait Initializer
 {
 	//Protected methods

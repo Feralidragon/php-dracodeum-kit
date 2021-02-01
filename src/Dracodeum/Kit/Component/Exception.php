@@ -12,7 +12,7 @@ use Dracodeum\Kit\Component;
 
 /**
  * @property-read \Dracodeum\Kit\Component|string $component
- * <p>The component instance or class.</p>
+ * The component instance or class.
  */
 abstract class Exception extends KitException
 {

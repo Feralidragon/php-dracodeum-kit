@@ -9,15 +9,15 @@ namespace Dracodeum\Kit\Component\Traits;
 
 use Dracodeum\Kit\Prototype;
 
-/** This trait defines a method to initialize a prototype instance in a component. */
 trait PrototypeInitializer
 {
 	//Protected methods
 	/**
-	 * Initialize prototype instance.
+	 * Initialize prototype.
 	 * 
 	 * @param \Dracodeum\Kit\Prototype $prototype
-	 * <p>The prototype instance to initialize.</p>
+	 * The prototype instance to initialize.
+	 * 
 	 * @return void
 	 */
 	protected function initializePrototype(Prototype $prototype): void {}

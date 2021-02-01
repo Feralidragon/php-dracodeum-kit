@@ -7,17 +7,18 @@
 
 namespace Dracodeum\Kit\Component\Traits;
 
-/** This trait defines a method to pre-initialize a component. */
 trait PreInitializer
 {
 	//Protected methods
 	/**
 	 * Pre-initialize.
 	 * 
-	 * @param \Dracodeum\Kit\Prototype|string|null $prototype [reference]
-	 * <p>The prototype instance, class or name to pre-initialize with.</p>
-	 * @param array $properties [reference]
-	 * <p>The properties to pre-initialize with, as a set of <samp>name => value</samp> pairs.</p>
+	 * @param \Dracodeum\Kit\Prototype|string|null $prototype
+	 * The prototype instance, class or name to pre-initialize with.
+	 * 
+	 * @param array $properties
+	 * The properties to pre-initialize with, as a set of `name => value` pairs.
+	 * 
 	 * @return void
 	 */
 	protected function preInitialize(&$prototype, array &$properties): void {}
