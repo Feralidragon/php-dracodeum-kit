@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * @property-read mixed $value
  * The value.
  * 
- * @property-read enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+ * @property-read enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
  * The context.
  * 
  * @property-read \Dracodeum\Kit\Primitives\Error|null $error [default = null]  

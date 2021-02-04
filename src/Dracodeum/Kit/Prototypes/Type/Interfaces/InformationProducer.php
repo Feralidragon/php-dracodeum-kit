@@ -14,7 +14,7 @@ interface InformationProducer
 	/**
 	 * Produce label.
 	 * 
-	 * @param enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * <p>The context to produce for.</p>
 	 * @return coercible:text
 	 * <p>The produced label.</p>
@@ -24,7 +24,7 @@ interface InformationProducer
 	/**
 	 * Produce description.
 	 * 
-	 * @param enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * <p>The context to produce for.</p>
 	 * @return coercible:text
 	 * <p>The produced description.</p>

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Components\Store\Enumerations\Halt\Type as EHaltType;
  * @property-read \Dracodeum\Kit\Structures\Uid $uid
  * The UID instance.
  * 
- * @property-read enum<Dracodeum\Kit\Components\Store\Enumerations\Halt\Type>:value $type
+ * @property-read enum<\Dracodeum\Kit\Components\Store\Enumerations\Halt\Type> $type
  * The type.
  */
 class Halted extends Exception

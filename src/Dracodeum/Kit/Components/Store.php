@@ -101,7 +101,7 @@ class Store extends Component
 	/**
 	 * Coerce a given UID into an instance.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to coerce.
 	 * 
 	 * @param bool $clone
@@ -155,7 +155,7 @@ class Store extends Component
 	/**
 	 * Check if a resource exists.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to check with.
 	 * 
 	 * @return bool
@@ -181,7 +181,7 @@ class Store extends Component
 	/**
 	 * Select a resource.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to select with.
 	 * 
 	 * @param bool $no_throw
@@ -229,7 +229,7 @@ class Store extends Component
 	/**
 	 * Insert a resource.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to insert with.  
 	 * It is coerced into an instance, and may be modified during insertion, such as when any of its properties are 
 	 * automatically generated.
@@ -284,7 +284,7 @@ class Store extends Component
 	/**
 	 * Update a resource.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to update with.
 	 * 
 	 * @param array $values
@@ -335,7 +335,7 @@ class Store extends Component
 	/**
 	 * Delete a resource.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Uid> $uid
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Uid> $uid
 	 * The UID to delete with.
 	 * 
 	 * @param bool $no_throw
@@ -388,7 +388,7 @@ class Store extends Component
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * The UID instance to halt with.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Store\Enumerations\Halt\Type>:value $type
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Store\Enumerations\Halt\Type> $type
 	 * The type to halt with.
 	 * 
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Halted

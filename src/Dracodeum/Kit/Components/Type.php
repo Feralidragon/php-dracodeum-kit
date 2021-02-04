@@ -36,7 +36,7 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * @property-read bool $nullable [default = false]  
  * Allow a `null` value.
  * 
- * @property-write coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]  
+ * @property-write coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]  
  * The mutators to add, as any combination of the following:
  * - instances, classes or names;
  * - `class => properties` or `name => properties` pairs.
@@ -121,7 +121,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to process.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to process for.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
@@ -170,7 +170,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to textify.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to textify for.
 	 * 
 	 * @param bool $no_throw
@@ -219,7 +219,7 @@ class Type extends Component
 	/**
 	 * Get label.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to get for.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
@@ -240,7 +240,7 @@ class Type extends Component
 	/**
 	 * Get description.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to get for.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
@@ -261,7 +261,7 @@ class Type extends Component
 	/**
 	 * Add mutator.
 	 * 
-	 * @param coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
+	 * @param coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
 	 * The mutator to add.
 	 * 
 	 * @param array $properties

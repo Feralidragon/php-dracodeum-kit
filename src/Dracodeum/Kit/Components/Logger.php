@@ -17,10 +17,10 @@ use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 /**
  * This component represents a logger which processes and persists log events.
  * 
- * @property-write enum<Dracodeum\Kit\Enumerations\Log\Level>:value|null $min_level [writeonce] [transient] [default = null]  
+ * @property-write enum<\Dracodeum\Kit\Enumerations\Log\Level>|null $min_level [writeonce] [transient] [default = null]  
  * The minimum allowed level to add a given event with.
  * 
- * @property-write enum<Dracodeum\Kit\Enumerations\Log\Level>:value|null $max_level [writeonce] [transient] [default = null]  
+ * @property-write enum<\Dracodeum\Kit\Enumerations\Log\Level>|null $max_level [writeonce] [transient] [default = null]  
  * The maximum allowed level to add a given event with.
  * 
  * @method \Dracodeum\Kit\Prototypes\Logger getPrototype() [protected]
@@ -79,7 +79,7 @@ class Logger extends Component
 	/**
 	 * Add event.
 	 * 
-	 * @param coercible:struct<Dracodeum\Kit\Structures\Log\Event> $event
+	 * @param coercible:struct<\Dracodeum\Kit\Structures\Log\Event> $event
 	 * The event to add.
 	 * 
 	 * @return $this
