@@ -20,7 +20,7 @@ use Dracodeum\Kit\Enumeration;
 class Format extends Enumeration
 {
 	//Public constants
-	/** ISO 8601 */
+	/** ISO 8601. */
 	public const ISO8601 = self::ISO8601_DATE . '\T' . self::ISO8601_TIME;
 	
 	/** ISO 8601 with microseconds. */
@@ -56,9 +56,9 @@ class Format extends Enumeration
 	/** ISO 8601 time in UTC with microseconds. */
 	public const ISO8601_TIME_UTC_MICRO = 'H:i:s.u\Z';
 	
-	/** RFC 7231 <samp>HTTP-date</samp> */
+	/** RFC 7231 <samp>HTTP-date</samp>. */
 	public const RFC7231_HTTP_DATE = 'D, d M Y H:i:s \G\M\T';
 	
-	/** Unix */
+	/** Unix. */
 	public const UNIX = 'U';
 }

@@ -12,9 +12,9 @@ use Dracodeum\Kit\Enumeration;
 class TextCase extends Enumeration
 {
 	//Public constants
-	/** Lowercase */
+	/** Lowercase. */
 	public const LOWER = CASE_LOWER;
 	
-	/** Uppercase */
+	/** Uppercase. */
 	public const UPPER = CASE_UPPER;
 }

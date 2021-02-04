@@ -16,12 +16,12 @@ use Dracodeum\Kit\Enumeration;
 class InfoLevel extends Enumeration
 {
 	//Public constants
-	/** For the user interacting with the application. */
+	/** Non-technical messages and information for end-users. */
 	public const ENDUSER = 0;
 	
-	/** For the developer integrating the application. */
+	/** Technical messages and information for external developers. */
 	public const TECHNICAL = 1;
 	
-	/** For internal application messages and logging. */
+	/** Internal messages and logging. */
 	public const INTERNAL = 2;
 }
