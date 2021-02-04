@@ -17,14 +17,15 @@ use Dracodeum\Kit\Enumerations\Log\Level as ELevel;
 /**
  * This component represents a logger which processes and persists log events.
  * 
- * @property-write int|null $min_level [writeonce] [transient] [default = null]
- * <p>The minimum allowed level to add a given event with, 
- * as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
- * @property-write int|null $max_level [writeonce] [transient] [default = null]
- * <p>The maximum allowed level to add a given event with, 
- * as a value from the <code>Dracodeum\Kit\Enumerations\Log\Level</code> enumeration.</p>
+ * @property-write enum<Dracodeum\Kit\Enumerations\Log\Level>:value|null $min_level [writeonce] [transient] [default = null]  
+ * The minimum allowed level to add a given event with.
+ * 
+ * @property-write enum<Dracodeum\Kit\Enumerations\Log\Level>:value|null $max_level [writeonce] [transient] [default = null]  
+ * The maximum allowed level to add a given event with.
+ * 
+ * @method \Dracodeum\Kit\Prototypes\Logger getPrototype() [protected]
+ * 
  * @see \Dracodeum\Kit\Prototypes\Logger
- * @see \Dracodeum\Kit\Enumerations\Log\Level
  */
 class Logger extends Component
 {
@@ -78,10 +79,11 @@ class Logger extends Component
 	/**
 	 * Add event.
 	 * 
-	 * @param \Dracodeum\Kit\Structures\Log\Event|array $event
-	 * <p>The event to add, as an instance or a set of <samp>name => value</samp> pairs.</p>
+	 * @param coercible:struct<Dracodeum\Kit\Structures\Log\Event> $event
+	 * The event to add.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function addEvent($event): Logger
 	{

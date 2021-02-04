@@ -16,11 +16,13 @@ use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
  * @property-read mixed $value
- * <p>The value.</p>
+ * The value.
+ * 
  * @property-read enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
- * <p>The context.</p>
- * @property-read \Dracodeum\Kit\Primitives\Error|null $error [default = null]
- * <p>The error instance.</p>
+ * The context.
+ * 
+ * @property-read \Dracodeum\Kit\Primitives\Error|null $error [default = null]  
+ * The error instance.
  */
 class TextificationFailed extends Exception
 {

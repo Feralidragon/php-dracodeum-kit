@@ -16,10 +16,11 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This prototype prevents a given stringable value from being empty.
  * 
- * @property-write bool $ignore_whitespace [writeonce] [transient] [default = false]
- * <p>Ignore whitespace characters from the given value.</p>
- * @property-write bool $unicode [writeonce] [transient] [default = false]
- * <p>Check the given value as Unicode.</p>
+ * @property-write bool $ignore_whitespace [writeonce] [transient] [default = false]  
+ * Ignore whitespace characters from the given value.
+ * 
+ * @property-write bool $unicode [writeonce] [transient] [default = false]  
+ * Check the given value as Unicode.
  */
 class NonEmpty extends Prototype implements IExplanationProducer
 {

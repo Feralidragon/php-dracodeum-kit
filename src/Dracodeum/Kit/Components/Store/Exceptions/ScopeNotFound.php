@@ -12,7 +12,7 @@ use Dracodeum\Kit\Structures\Uid;
 
 /**
  * @property-read \Dracodeum\Kit\Structures\Uid $uid
- * <p>The UID instance.</p>
+ * The UID instance.
  */
 class ScopeNotFound extends Exception
 {

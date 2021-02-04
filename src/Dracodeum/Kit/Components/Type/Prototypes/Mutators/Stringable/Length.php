@@ -16,10 +16,11 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This prototype restricts a given stringable value to an exact length.
  * 
- * @property-write int $length [writeonce] [transient]
- * <p>The length to restrict the given value to.</p>
- * @property-write bool $unicode [writeonce] [transient] [default = false]
- * <p>Check the given value as Unicode.</p>
+ * @property-write int $length [writeonce] [transient]  
+ * The length to restrict the given value to.
+ * 
+ * @property-write bool $unicode [writeonce] [transient] [default = false]  
+ * Check the given value as Unicode.
  */
 class Length extends Prototype implements IExplanationProducer
 {

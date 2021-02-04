@@ -19,6 +19,8 @@ use Dracodeum\Kit\Utilities\Call as UCall;
 /**
  * This component represents a mutator which processes and modifies values from a type component.
  * 
+ * @method \Dracodeum\Kit\Components\Type\Prototypes\Mutator getPrototype() [protected]
+ * 
  * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator
  */
 class Mutator extends Component
@@ -36,10 +38,11 @@ class Mutator extends Component
 	/**
 	 * Process a given value.
 	 * 
-	 * @param mixed $value [reference]
-	 * <p>The value to process.</p>
+	 * @param mixed $value
+	 * The value to process.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
-	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
+	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
 	final public function process(mixed &$value): ?Error
 	{
@@ -79,7 +82,7 @@ class Mutator extends Component
 	 * Get explanation.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * <p>The explanation, as a text instance, or <code>null</code> if none is set.</p>
+	 * The explanation, as a text instance, or `null` if none is set.
 	 */
 	final public function getExplanation(): ?Text
 	{

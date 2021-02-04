@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces;
 
-/** This interface defines a method to produce an explanation. */
 interface ExplanationProducer
 {
 	//Public methods
@@ -15,7 +14,7 @@ interface ExplanationProducer
 	 * Produce explanation.
 	 * 
 	 * @return coercible:text
-	 * <p>The produced explanation.</p>
+	 * The produced explanation.
 	 */
 	public function produceExplanation();
 }

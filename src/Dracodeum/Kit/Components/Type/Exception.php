@@ -12,9 +12,10 @@ use Dracodeum\Kit\Components\Type as Component;
 
 /**
  * @property-read \Dracodeum\Kit\Components\Type $component
- * <p>The component instance.</p>
+ * The component instance.
+ * 
  * @property-read \Dracodeum\Kit\Prototypes\Type $prototype
- * <p>The prototype instance.</p>
+ * The prototype instance.
  */
 abstract class Exception extends KitException
 {

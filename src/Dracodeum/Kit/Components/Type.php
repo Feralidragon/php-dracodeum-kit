@@ -30,15 +30,18 @@ use Dracodeum\Kit\Utilities\Call as UCall;
 /**
  * This component represents a type which validates and normalizes values.
  * 
- * If a prototype is given as a name prefixed with a question mark character (<samp>?</samp>), 
- * then that character is stripped from the given name and the type is set as nullable.
+ * If a prototype is given as a name prefixed with a question mark character (`?`), then that character is stripped 
+ * from the given name and the type is set as nullable.
  * 
- * @property-read bool $nullable [default = false]
- * <p>Allow a <code>null</code> value.</p>
- * @property-write coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]
- * <p>The mutators to add, as any combination of the following:<br>
- * &nbsp; &#8226; &nbsp; instances, classes or names;<br>
- * &nbsp; &#8226; &nbsp; <samp>class => properties</samp> or <samp>name => properties</samp> pairs.</p>
+ * @property-read bool $nullable [default = false]  
+ * Allow a `null` value.
+ * 
+ * @property-write coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]  
+ * The mutators to add, as any combination of the following:
+ * - instances, classes or names;
+ * - `class => properties` or `name => properties` pairs.
+ * 
+ * @method \Dracodeum\Kit\Prototypes\Type getPrototype() [protected]
  * 
  * @see \Dracodeum\Kit\Prototypes\Type
  */
@@ -115,12 +118,14 @@ class Type extends Component
 	/**
 	 * Process a given value.
 	 * 
-	 * @param mixed $value [reference]
-	 * <p>The value to process.</p>
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
-	 * <p>The context to process for.</p>
+	 * @param mixed $value
+	 * The value to process.
+	 * 
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * The context to process for.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
-	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
+	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
 	final public function process(mixed &$value, $context = EContext::INTERNAL): ?Error
 	{
@@ -163,16 +168,19 @@ class Type extends Component
 	 * Textify a given value.
 	 * 
 	 * @param mixed $value
-	 * <p>The value to textify.</p>
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
-	 * <p>The context to textify for.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * The value to textify.
+	 * 
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * The context to textify for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\TextificationFailed
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * <p>The given value textified, as a text instance.<br>
-	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
-	 * then <code>null</code> is returned if the given value failed to be textified.</p>
+	 * The given value textified, as a text instance.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be textified.
 	 */
 	final public function textify(mixed $value, $context = EContext::INTERNAL, bool $no_throw = false): ?Text
 	{
@@ -211,10 +219,11 @@ class Type extends Component
 	/**
 	 * Get label.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
-	 * <p>The context to get for.</p>
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * The context to get for.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * <p>The label, as a text instance, or <code>null</code> if none is set.</p>
+	 * The label, as a text instance, or `null` if none is set.
 	 */
 	final public function getLabel($context = EContext::INTERNAL): ?Text
 	{
@@ -231,10 +240,11 @@ class Type extends Component
 	/**
 	 * Get description.
 	 * 
-	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context [default = INTERNAL]
-	 * <p>The context to get for.</p>
+	 * @param coercible:enum<Dracodeum\Kit\Components\Type\Enumerations\Context>:value $context
+	 * The context to get for.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * <p>The description, as a text instance, or <code>null</code> if none is set.</p>
+	 * The description, as a text instance, or `null` if none is set.
 	 */
 	final public function getDescription($context = EContext::INTERNAL): ?Text
 	{
@@ -252,13 +262,13 @@ class Type extends Component
 	 * Add mutator.
 	 * 
 	 * @param coercible:component<Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
-	 * <p>The mutator to add.</p>
-	 * @param array $properties [default = []]
-	 * <p>The properties to add with, as a set of <samp>name => value</samp> pairs.<br>
-	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
-	 * in the same order as how these properties were first declared.</p>
+	 * The mutator to add.
+	 * 
+	 * @param array $properties
+	 * The properties to add with.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function addMutator($mutator, array $properties = [])
 	{

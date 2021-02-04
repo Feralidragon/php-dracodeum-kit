@@ -13,12 +13,12 @@ use Dracodeum\Kit\Enumeration;
 class Context extends Enumeration
 {
 	//Public constants
-	/** The context of the internal application. */
+	/** Internal application. */
 	public const INTERNAL = 'INTERNAL';
 	
-	/** The context of a configuration file or environment variable. */
+	/** Configuration file or environment variable. */
 	public const CONFIGURATION = 'CONFIGURATION';
 	
-	/** The context of an API, CLI or similar interface. */
+	/** API, CLI or similar interface. */
 	public const INTERFACE = 'INTERFACE';
 }
