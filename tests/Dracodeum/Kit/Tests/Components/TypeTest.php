@@ -44,9 +44,11 @@ class TypeTest extends TestCase
 	 * @dataProvider providePrototypeNameData
 	 * 
 	 * @param string $name
-	 * <p>The name parameter to test with.</p>
+	 * The name to test with.
+	 * 
 	 * @param string $expected
-	 * <p>The expected prototype class.</p>
+	 * The expected prototype class.
+	 * 
 	 * @return void
 	 */
 	public function testPrototypeName(string $name, string $expected): void
@@ -67,7 +69,7 @@ class TypeTest extends TestCase
 	 * Provide prototype name data.
 	 * 
 	 * @return array
-	 * <p>The provided prototype name data.</p>
+	 * The data.
 	 */
 	public function providePrototypeNameData(): array
 	{
@@ -281,19 +283,23 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Test textify expecting a <code>TextificationFailed</code> exception to be thrown.
+	 * Test textify expecting a `TextificationFailed` exception to be thrown.
 	 * 
 	 * @testdox Textify TextificationFailed exception
 	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * 
 	 * @param string $prototype
-	 * <p>The prototype parameter to test with.</p>
+	 * The prototype to test with.
+	 * 
 	 * @param mixed $value
-	 * <p>The value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * <p>The context parameter to test with.</p>
+	 * The context to test with.
+	 * 
 	 * @param bool $null_error
-	 * <p>Expect the exception error property to be <code>null</code>.</p>
+	 * Expect the exception error property to be `null`.
+	 * 
 	 * @return void
 	 */
 	public function testTextify_Exception_TextificationFailed(
@@ -320,18 +326,20 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Test textify with <var>$no_throw</var> set to boolean <code>true</code>, 
-	 * expecting <code>null</code> to be returned.
+	 * Test textify with `$no_throw` set to boolean `true`, expecting `null` to be returned.
 	 * 
 	 * @testdox Textify (no throw ==> null)
 	 * @dataProvider provideTextifyData_Exception_TextificationFailed
 	 * 
 	 * @param string $prototype
-	 * <p>The prototype parameter to test with.</p>
+	 * The prototype to test with.
+	 * 
 	 * @param mixed $value
-	 * <p>The value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * <p>The context parameter to test with.</p>
+	 * The context to test with.
+	 * 
 	 * @return void
 	 */
 	public function testTextify_NoThrow_Null(string $prototype, mixed $value, $context): void
@@ -340,10 +348,10 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Provide textify data for a <code>TextificationFailed</code> exception to be thrown.
+	 * Provide textify data for a `TextificationFailed` exception to be thrown.
 	 * 
 	 * @return array
-	 * <p>The provided textify data for a <code>TextificationFailed</code> exception to be thrown.</p>
+	 * The data.
 	 */
 	public function provideTextifyData_Exception_TextificationFailed(): array
 	{
@@ -417,11 +425,14 @@ class TypeTest extends TestCase
 	 * @dataProvider provideMutatorsData
 	 * 
 	 * @param \Dracodeum\Kit\Components\Type $component
-	 * <p>The component parameter to test with.</p>
+	 * The component to test with.
+	 * 
 	 * @param mixed $value
-	 * <p>The value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param mixed $expected
-	 * <p>The expected processed value.</p>
+	 * The expected processed value.
+	 * 
 	 * @return void
 	 */
 	public function testMutators(Component $component, mixed $value, mixed $expected): void
@@ -434,7 +445,7 @@ class TypeTest extends TestCase
 	 * Provide mutators data.
 	 * 
 	 * @return array
-	 * <p>The provided mutators data.</p>
+	 * The data.
 	 */
 	public function provideMutatorsData(): array
 	{

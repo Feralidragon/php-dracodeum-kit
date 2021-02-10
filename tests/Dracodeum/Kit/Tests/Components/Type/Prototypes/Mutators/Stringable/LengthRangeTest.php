@@ -26,9 +26,11 @@ class LengthRangeTest extends TestCase
 	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param array $properties
-	 * <p>The process properties parameter to test with.</p>
+	 * The properties to test with.
+	 * 
 	 * @return void
 	 */
 	public function testProcess(mixed $value, array $properties): void
@@ -42,7 +44,7 @@ class LengthRangeTest extends TestCase
 	 * Provide process data.
 	 * 
 	 * @return array
-	 * <p>The provided process data.</p>
+	 * The data.
 	 */
 	public function provideProcessData(): array
 	{
@@ -63,9 +65,11 @@ class LengthRangeTest extends TestCase
 	 * @dataProvider provideProcessData_Error
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param array $properties
-	 * <p>The process properties parameter to test with.</p>
+	 * The properties to test with.
+	 * 
 	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties): void
@@ -77,7 +81,7 @@ class LengthRangeTest extends TestCase
 	 * Provide process data (error).
 	 * 
 	 * @return array
-	 * <p>The provided process data (error).</p>
+	 * The data.
 	 */
 	public function provideProcessData_Error(): array
 	{
@@ -96,11 +100,12 @@ class LengthRangeTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer</code> interface.
+	 * Test `ExplanationProducer` interface.
 	 * 
 	 * @testdox ExplanationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 * 
 	 * @return void
 	 */
 	public function testExplanationProducerInterface(): void
