@@ -19,11 +19,12 @@ class ErrorTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test <code>Dracodeum\Kit\Interfaces\Cloneable</code> interface.
+	 * Test `Cloneable` interface.
 	 * 
 	 * @testdox Cloneable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
+	 * 
 	 * @return void
 	 */
 	public function testCloneableInterface(): void
@@ -39,16 +40,18 @@ class ErrorTest extends TestCase
 		$clone = $error->clone();
 		
 		//assert
-		$this->assertInstanceOf(Error::class, $error);
+		$this->assertInstanceOf(Error::class, $clone);
 		$this->assertEquals($error, $clone);
+		$this->assertNotSame($error, $clone);
 	}
 	
 	/**
-	 * Test <code>JsonSerializable</code> interface.
+	 * Test `JsonSerializable` interface.
 	 * 
 	 * @testdox JsonSerializable interface
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
+	 * 
 	 * @return void
 	 */
 	public function testJsonSerializableInterface(): void

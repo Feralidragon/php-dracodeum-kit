@@ -127,8 +127,8 @@ class Store extends Component
 	 * 
 	 * Placeholders may optionally be set in the given base scope as `{{placeholder}}` to be replaced by a 
 	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
-	 * words which must start with a letter (`a-z` and `A-Z`) or underscore (`_`), and may only contain letters (`a-z` 
-	 * and `A-Z`), digits (`0-9`) and underscores (`_`).
+	 * words which must start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` 
+	 * or `A-Z`), digits (`0-9`) and underscores (`_`).
 	 * 
 	 * They may also contain pointers to specific object properties or associative array values from the given set of 
 	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 

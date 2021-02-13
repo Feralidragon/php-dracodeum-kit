@@ -18,11 +18,12 @@ class TextTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test <code>Dracodeum\Kit\Interfaces\StringInstantiable</code> interface.
+	 * Test `StringInstantiable` interface.
 	 * 
 	 * @testdox StringInstantiable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
+	 * 
 	 * @return void
 	 */
 	public function testStringInstantiableInterface(): void
@@ -39,11 +40,12 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Interfaces\Cloneable</code> interface.
+	 * Test `Cloneable` interface.
 	 * 
 	 * @testdox Cloneable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
+	 * 
 	 * @return void
 	 */
 	public function testCloneableInterface(): void
@@ -71,15 +73,18 @@ class TextTest extends TestCase
 		$clone = $text->clone();
 		
 		//assert
+		$this->assertInstanceOf(Text::class, $clone);
 		$this->assertEquals($text, $clone);
+		$this->assertNotSame($text, $clone);
 	}
 	
 	/**
-	 * Test <code>JsonSerializable</code> interface.
+	 * Test `JsonSerializable` interface.
 	 * 
 	 * @testdox JsonSerializable interface
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
+	 * 
 	 * @return void
 	 */
 	public function testJsonSerializableInterface(): void
@@ -602,13 +607,14 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test placeholder stringifier expecting an <code>AssertionFailed</code> exception to be thrown.
+	 * Test placeholder stringifier expecting an `AssertionFailed` exception to be thrown.
 	 * 
 	 * @testdox Placeholder stringifier AssertionFailed exception
 	 * @dataProvider providePlaceholderStringifierData_AssertionFailedException
 	 * 
 	 * @param callable $stringifier
-	 * <p>The <var>$stringifier</var> parameter to test with.</p>
+	 * The stringifier to test with.
+	 * 
 	 * @return void
 	 */
 	public function testPlaceholderStringifier_AssertionFailedException(callable $stringifier): void
@@ -624,10 +630,10 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Provide placeholder stringifier data for an <code>AssertionFailed</code> exception to be thrown.
+	 * Provide placeholder stringifier data for an `AssertionFailed` exception to be thrown.
 	 * 
 	 * @return array
-	 * <p>The placeholder stringifier data for an <code>AssertionFailed</code> exception to be thrown.</p>
+	 * The data.
 	 */
 	public function providePlaceholderStringifierData_AssertionFailedException(): array
 	{

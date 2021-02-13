@@ -16,11 +16,11 @@ trait DefaultBuilder
 	 * The returning function is used to build an instance during a coercion or evaluation if none is given.  
 	 * It must be compatible with the following signature:  
 	 * ```
-	 * function ($prototype, array $properties): Dracodeum\Kit\Component
+	 * function ($prototype, array $properties): \Dracodeum\Kit\Component
 	 * ```
 	 * 
 	 * **Parameters:**
-	 * - `Dracodeum\Kit\Prototype|string|null $prototype`  
+	 * - `\Dracodeum\Kit\Prototype|string|null $prototype`  
 	 *   The prototype instance, class or name to build with.  
 	 *   If not set, then the default prototype instance or the base prototype class is used.  
 	 *   &nbsp;
@@ -30,7 +30,7 @@ trait DefaultBuilder
 	 *   in the same order as how these properties were first declared.  
 	 *   &nbsp;
 	 * 
-	 * **Return:** `Dracodeum\Kit\Component`  
+	 * **Return:** `\Dracodeum\Kit\Component`  
 	 * The built instance.
 	 * 
 	 * @return callable|null

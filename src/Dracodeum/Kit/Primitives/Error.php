@@ -17,8 +17,8 @@ use Dracodeum\Kit\Traits;
  * 
  * This is a simple object which represents and stores error information, such as a name to identify the error, 
  * text as an error message to the user, as well as data as additional structural information, with a structure 
- * definition usually bound to the given name.<br>
- * <br>
+ * definition usually bound to the given name.
+ * 
  * Unlike an exception, this object cannot be thrown and therefore does not break out from the current stack, 
  * and is meant to be used to represent an error which can be directly returned to any user, including the end-user, 
  * therefore it must be assumed that both the given name and data may be returned and become publicly visible, 
@@ -45,12 +45,14 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	/**
 	 * Instantiate class.
 	 * 
-	 * @param string|null $name [default = null]
-	 * <p>The name to instantiate with.</p>
-	 * @param coercible:text|null $text [default = null]
-	 * <p>The text to instantiate with.</p>
-	 * @param mixed $data [default = null]
-	 * <p>The data to instantiate with.</p>
+	 * @param string|null $name
+	 * The name to instantiate with.
+	 * 
+	 * @param coercible:text|null $text
+	 * The text to instantiate with.
+	 * 
+	 * @param mixed $data
+	 * The data to instantiate with.
 	 */
 	final public function __construct(?string $name = null, $text = null, mixed $data = null)
 	{
@@ -90,7 +92,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Check if has name.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has name.</p>
+	 * Boolean `true` if has name.
 	 */
 	final public function hasName(): bool
 	{
@@ -101,7 +103,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Get name.
 	 * 
 	 * @return string|null
-	 * <p>The name or <code>null</code> if none is set.</p>
+	 * The name, or `null` if none is set.
 	 */
 	final public function getName(): ?string
 	{
@@ -112,9 +114,10 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Set name.
 	 * 
 	 * @param string $name
-	 * <p>The name to set.</p>
+	 * The name to set.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setName(string $name)
 	{
@@ -126,7 +129,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Check if has text.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has text.</p>
+	 * Boolean `true` if has text.
 	 */
 	final public function hasText(): bool
 	{
@@ -137,7 +140,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Get text instance.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * <p>The text instance or <code>null</code> if none is set.</p>
+	 * The text instance, or `null` if none is set.
 	 */
 	final public function getText(): ?Text
 	{
@@ -148,9 +151,10 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Set text.
 	 * 
 	 * @param coercible:text $text
-	 * <p>The text to set.</p>
+	 * The text to set.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setText($text)
 	{
@@ -163,7 +167,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Check if has data.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has data.</p>
+	 * Boolean `true` if has data.
 	 */
 	final public function hasData(): bool
 	{
@@ -174,7 +178,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Get data.
 	 * 
 	 * @return mixed
-	 * <p>The data.</p>
+	 * The data.
 	 */
 	final public function getData(): mixed
 	{
@@ -185,9 +189,10 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * Set data.
 	 * 
 	 * @param mixed $data
-	 * <p>The data to set.</p>
+	 * The data to set.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setData(mixed $data)
 	{
@@ -201,14 +206,17 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	/**
 	 * Build instance.
 	 * 
-	 * @param string|null $name [default = null]
-	 * <p>The name to build with.</p>
-	 * @param coercible:text|null $text [default = null]
-	 * <p>The text to build with.</p>
-	 * @param mixed $data [default = null]
-	 * <p>The data to build with.</p>
+	 * @param string|null $name
+	 * The name to build with.
+	 * 
+	 * @param coercible:text|null $text
+	 * The text to build with.
+	 * 
+	 * @param mixed $data
+	 * The data to build with.
+	 * 
 	 * @return static
-	 * <p>The built instance.</p>
+	 * The built instance.
 	 */
 	final public static function build(?string $name = null, $text = null, mixed $data = null)
 	{

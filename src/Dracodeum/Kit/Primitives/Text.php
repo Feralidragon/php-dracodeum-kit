@@ -28,12 +28,12 @@ use Dracodeum\Kit\Utilities\{
  * This primitive represents a text.
  * 
  * This is a simple object which represents and stores a string or set of strings, each to be shown to an end-user or 
- * developer, or to be logged internally, depending on the requested and assigned info level of each string.<br>
- * <br>
- * Each string may also be dynamic and parameterized, such as:<br>
- * &nbsp; &#8226; &nbsp; having placeholders to be replaced with parameters;<br>
- * &nbsp; &#8226; &nbsp; having a plural form;<br>
- * &nbsp; &#8226; &nbsp; supporting localization, to be translated to different languages.
+ * developer, or to be logged internally, depending on the requested and assigned info level of each string.
+ * 
+ * Each string may also be dynamic and parameterized, by:
+ * - having placeholders to be replaced with parameters;
+ * - having a plural form;
+ * - supporting localization, to be translated to different languages.
  */
 final class Text extends Primitive implements IStringable, IStringInstantiable, ICloneable, IJsonSerializable
 {
@@ -67,23 +67,23 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Instantiate class.
 	 * 
-	 * @param string|null $string [default = null]
-	 * <p>The string to instantiate with.<br>
-	 * <br>
-	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
-	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
-	 * words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and 
-	 * underscores (<samp>_</samp>).<br>
-	 * <br>
+	 * @param string|null $string
+	 * The string to instantiate with.
+	 * 
+	 * Placeholders may optionally be set in the given string as `{{placeholder}}` to be replaced by a corresponding 
+	 * set of parameters, and they must be exclusively composed of identifiers, which are defined as words which must 
+	 * start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` or `A-Z`), 
+	 * digits (`0-9`) and underscores (`_`).
+	 * 
 	 * They may also contain pointers to specific object properties or associative array values from the given set of 
-	 * parameters by using a dot between identifiers, such as <samp>{{object.property}}</samp>, with no limit on the 
-	 * number of pointers chained.<br>
-	 * <br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to instantiate with.</p>
+	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 
+	 * pointers chained.
+	 * 
+	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
+	 * interpreted as getter method calls, but they cannot be given any arguments.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to instantiate with.
 	 */
 	final public function __construct(?string $string = null, $info_level = EInfoLevel::ENDUSER)
 	{
@@ -168,10 +168,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to check with.</p>
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to check for.
+	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has string.</p>
+	 * Boolean `true` if has string.
 	 */
 	final public function hasString($info_level = EInfoLevel::ENDUSER): bool
 	{
@@ -181,10 +182,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to get with.</p>
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to get for.
+	 * 
 	 * @return string|null
-	 * <p>The string or <code>null</code> if none is set.</p>
+	 * The string, or `null` if none is set.
 	 */
 	final public function getString($info_level = EInfoLevel::ENDUSER): ?string
 	{
@@ -195,24 +197,25 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set string.
 	 * 
 	 * @param string $string
-	 * <p>The string to set.<br>
-	 * <br>
-	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
-	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
-	 * words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and 
-	 * underscores (<samp>_</samp>).<br>
-	 * <br>
+	 * The string to set.
+	 * 
+	 * Placeholders may optionally be set in the given string as `{{placeholder}}` to be replaced by a corresponding 
+	 * set of parameters, and they must be exclusively composed of identifiers, which are defined as words which must 
+	 * start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` or `A-Z`), 
+	 * digits (`0-9`) and underscores (`_`).
+	 * 
 	 * They may also contain pointers to specific object properties or associative array values from the given set of 
-	 * parameters by using a dot between identifiers, such as <samp>{{object.property}}</samp>, with no limit on the 
-	 * number of pointers chained.<br>
-	 * <br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to set with.</p>
+	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 
+	 * pointers chained.
+	 * 
+	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
+	 * interpreted as getter method calls, but they cannot be given any arguments.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to set with.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setString(string $string, $info_level = EInfoLevel::ENDUSER)
 	{
@@ -223,10 +226,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has plural string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to check with.</p>
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to check for.
+	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has plural string.</p>
+	 * Boolean `true` if has plural string.
 	 */
 	final public function hasPluralString($info_level = EInfoLevel::ENDUSER): bool
 	{
@@ -236,10 +240,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get plural string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to get with.</p>
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to get for.
+	 * 
 	 * @return string|null
-	 * <p>The plural string or <code>null</code> if none is set.</p>
+	 * The plural string, or `null` if none is set.
 	 */
 	final public function getPluralString($info_level = EInfoLevel::ENDUSER): ?string
 	{
@@ -250,24 +255,25 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set plural string.
 	 * 
 	 * @param string $string
-	 * <p>The string to set.<br>
-	 * <br>
-	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
-	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
-	 * words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and 
-	 * underscores (<samp>_</samp>).<br>
-	 * <br>
+	 * The string to set.
+	 * 
+	 * Placeholders may optionally be set in the given string as `{{placeholder}}` to be replaced by a corresponding 
+	 * set of parameters, and they must be exclusively composed of identifiers, which are defined as words which must 
+	 * start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` or `A-Z`), 
+	 * digits (`0-9`) and underscores (`_`).
+	 * 
 	 * They may also contain pointers to specific object properties or associative array values from the given set of 
-	 * parameters by using a dot between identifiers, such as <samp>{{object.property}}</samp>, with no limit on the 
-	 * number of pointers chained.<br>
-	 * <br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to set with.</p>
+	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 
+	 * pointers chained.
+	 * 
+	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
+	 * interpreted as getter method calls, but they cannot be given any arguments.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to set with.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setPluralString(string $string, $info_level = EInfoLevel::ENDUSER)
 	{
@@ -279,7 +285,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Get plural number.
 	 * 
 	 * @return float
-	 * <p>The plural number.</p>
+	 * The plural number.
 	 */
 	final public function getPluralNumber(): float
 	{
@@ -290,9 +296,10 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set plural number.
 	 * 
 	 * @param float $number
-	 * <p>The number to set.</p>
+	 * The number to set.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setPluralNumber(float $number)
 	{
@@ -304,7 +311,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Check if has plural number placeholder.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if has plural number placeholder.</p>
+	 * Boolean `true` if has plural number placeholder.
 	 */
 	final public function hasPluralNumberPlaceholder(): bool
 	{
@@ -315,7 +322,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Get plural number placeholder.
 	 * 
 	 * @return string|null
-	 * <p>The plural number placeholder or <code>null</code> if none is set.</p>
+	 * The plural number placeholder, or `null` if none is set.
 	 */
 	final public function getPluralNumberPlaceholder(): ?string
 	{
@@ -326,9 +333,10 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set plural number placeholder.
 	 * 
 	 * @param string $placeholder
-	 * <p>The placeholder to set.</p>
+	 * The placeholder to set.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setPluralNumberPlaceholder(string $placeholder)
 	{
@@ -340,11 +348,13 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set parameter.
 	 * 
 	 * @param string $name
-	 * <p>The name to set with.</p>
+	 * The name to set with.
+	 * 
 	 * @param mixed $value
-	 * <p>The value to set with.</p>
+	 * The value to set with.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setParameter(string $name, mixed $value)
 	{
@@ -356,9 +366,10 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set parameters.
 	 * 
 	 * @param array $parameters
-	 * <p>The parameters to set, as a set of <samp>name => value</samp> pairs.</p>
+	 * The parameters to set, as a set of `name => value` pairs.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setParameters(array $parameters)
 	{
@@ -372,23 +383,28 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Set placeholder stringifier.
 	 * 
 	 * @param string $placeholder
-	 * <p>The placeholder to set for.</p>
+	 * The placeholder to set for.
+	 * 
 	 * @param callable $stringifier
-	 * <p>The function to use to stringify a given value.<br>
-	 * It must be compatible with the following signature:<br>
-	 * <br>
-	 * <code>function (mixed $value, \Dracodeum\Kit\Options\Text $text_options): string</code><br>
-	 * <br>
-	 * Parameters:<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>mixed $value</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The value to stringify.<br>
-	 * &nbsp; &#8226; &nbsp; <code><b>\Dracodeum\Kit\Options\Text $text_options</b></code><br>
-	 * &nbsp; &nbsp; &nbsp; The text options instance to use.<br>
-	 * <br>
-	 * Return: <code><b>string</b></code><br>
-	 * The stringified value.</p>
+	 * The function to use to stringify a given value.  
+	 * It must be compatible with the following signature:  
+	 * ```
+	 * function (mixed $value, \Dracodeum\Kit\Options\Text $text_options): string
+	 * ```
+	 * 
+	 * **Parameters:**
+	 * - `mixed $value`  
+	 *   The value to stringify.  
+	 *   &nbsp;
+	 * - `\Dracodeum\Kit\Options\Text $text_options`  
+	 *   The text options instance to use.  
+	 *   &nbsp;
+	 * 
+	 * **Return:** `string`  
+	 * The stringified value.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setPlaceholderStringifier(string $placeholder, callable $stringifier)
 	{
@@ -401,7 +417,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * Check if is localized.
 	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> if is localized.</p>
+	 * Boolean `true` if is localized.
 	 */
 	final public function isLocalized(): bool
 	{
@@ -411,10 +427,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Set as localized.
 	 * 
-	 * @param string|null $context [default = null]
-	 * <p>The context to set with.</p>
+	 * @param string|null $context
+	 * The context to set with.
+	 * 
 	 * @return $this
-	 * <p>This instance, for chaining purposes.</p>
+	 * This instance, for chaining purposes.
 	 */
 	final public function setAsLocalized(?string $context = null)
 	{
@@ -431,25 +448,26 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Build instance.
 	 * 
-	 * @param string|null $string [default = null]
-	 * <p>The string to build with.<br>
-	 * <br>
-	 * Placeholders may optionally be set in the given string as <samp>{{placeholder}}</samp> to be replaced by a 
-	 * corresponding set of parameters, and they must be exclusively composed of identifiers, which are defined as 
-	 * words which must start with a letter (<samp>a-z</samp> and <samp>A-Z</samp>) or underscore (<samp>_</samp>), 
-	 * and may only contain letters (<samp>a-z</samp> and <samp>A-Z</samp>), digits (<samp>0-9</samp>) and 
-	 * underscores (<samp>_</samp>).<br>
-	 * <br>
+	 * @param string|null $string
+	 * The string to build with.
+	 * 
+	 * Placeholders may optionally be set in the given string as `{{placeholder}}` to be replaced by a corresponding 
+	 * set of parameters, and they must be exclusively composed of identifiers, which are defined as words which must 
+	 * start with a letter (`a-z` or `A-Z`) or underscore (`_`), and may only contain letters (`a-z` or `A-Z`), 
+	 * digits (`0-9`) and underscores (`_`).
+	 * 
 	 * They may also contain pointers to specific object properties or associative array values from the given set of 
-	 * parameters by using a dot between identifiers, such as <samp>{{object.property}}</samp>, with no limit on the 
-	 * number of pointers chained.<br>
-	 * <br>
-	 * If suffixed with opening and closing parenthesis, such as <samp>{{object.method()}}</samp>, 
-	 * then the given pointers are interpreted as getter method calls, but they cannot be given any arguments.</p>
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level [default = ENDUSER]
-	 * <p>The info level to build with.</p>
+	 * parameters by using a dot between identifiers, such as `{{object.property}}`, with no limit on the number of 
+	 * pointers chained.
+	 * 
+	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
+	 * interpreted as getter method calls, but they cannot be given any arguments.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * The info level to build with.
+	 * 
 	 * @return static
-	 * <p>The built instance.</p>
+	 * The built instance.
 	 */
 	final public static function build(?string $string = null, $info_level = EInfoLevel::ENDUSER)
 	{
@@ -461,17 +479,21 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * 
 	 * //TODO: add @see towards Type prototype
 	 * 
-	 * @param mixed $value [reference]
-	 * <p>The value to coerce.</p>
-	 * @param array $properties [default = []]
-	 * <p>The properties to coerce with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @param bool $no_throw [default = false]
-	 * <p>Do not throw an exception.</p>
+	 * @param mixed $value
+	 * The value to coerce.
+	 * 
+	 * @param array $properties
+	 * The properties to coerce with, as a set of `name => value` pairs.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
 	 * @throws \Dracodeum\Kit\Primitives\Text\Exceptions\CoercionFailed
+	 * 
 	 * @return bool
-	 * <p>Boolean <code>true</code> is always returned if the given value was successfully coerced into an instance, 
-	 * otherwise an exception is thrown, unless <var>$no_throw</var> is set to boolean <code>true</code>, in which case 
-	 * boolean <code>false</code> is returned instead.</p>
+	 * Boolean `true` is always returned if the given value was successfully coerced into an instance, otherwise an 
+	 * exception is thrown, unless `$no_throw` is set to boolean `true`, in which case boolean `false` is returned 
+	 * instead.
 	 */
 	final public static function coerce(mixed &$value, array $properties = [], bool $no_throw = false): bool
 	{
