@@ -19,11 +19,12 @@ abstract class Mutator extends Prototype
 	/**
 	 * Process a given value.
 	 * 
-	 * @param mixed $value [reference]
-	 * <p>The value to process.</p>
+	 * @param mixed $value
+	 * The value to process.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|bool|null|void
-	 * <p>An error instance or boolean <code>false</code> if the given value failed to be processed, 
-	 * or <code>null</code>, boolean <code>true</code> or <code>void</code> if otherwise.</p>
+	 * An error instance or boolean `false` if the given value failed to be processed, 
+	 * or `null`, boolean `true` or `void` if otherwise.
 	 */
 	abstract public function process(mixed &$value);
 }

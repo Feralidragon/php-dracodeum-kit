@@ -22,7 +22,7 @@ trait DefaultPrototypeProducer
 	 * in the same order as how these properties were first declared.
 	 * 
 	 * @return \Dracodeum\Kit\Prototype|string|null
-	 * The produced default prototype instance or class, or `null` if none was produced.
+	 * The produced prototype instance or class, or `null` if none was produced.
 	 */
 	protected function produceDefaultPrototype(array $properties)
 	{

@@ -34,7 +34,7 @@ trait DefaultBuilder
 	 * The built instance.
 	 * 
 	 * @return callable|null
-	 * The default builder function, or `null` if none is set.
+	 * The builder function, or `null` if none is set.
 	 */
 	protected static function getDefaultBuilder(): ?callable
 	{

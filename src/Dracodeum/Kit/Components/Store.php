@@ -85,7 +85,7 @@ class Store extends Component
 	 * The ID to get from.
 	 * 
 	 * @return string|null
-	 * The string for the given UID scope placeholder from the given ID, or `null` if none is set.
+	 * The string, or `null` if none is set.
 	 */
 	protected function getUidScopePlaceholderIdString(string $placeholder, $id): ?string
 	{
@@ -141,7 +141,7 @@ class Store extends Component
 	 * The scope IDs to get with, as a set of `name => id` pairs.
 	 * 
 	 * @return string
-	 * The UID scope.
+	 * The scope.
 	 */
 	final public function getUidScope(string $base_scope, array $scope_ids): string
 	{

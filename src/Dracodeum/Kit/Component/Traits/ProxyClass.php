@@ -14,7 +14,7 @@ trait ProxyClass
 	 * Get proxy class.
 	 * 
 	 * @return string|null
-	 * The proxy class, or `null` if none is set.
+	 * The class, or `null` if none is set.
 	 */
 	protected static function getProxyClass(): ?string
 	{
