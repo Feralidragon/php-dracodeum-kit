@@ -29,9 +29,11 @@ class BooleanTest extends TestCase
 	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param bool $expected
-	 * <p>The expected processed value.</p>
+	 * The expected processed value.
+	 * 
 	 * @return void
 	 */
 	public function testProcess(mixed $value, bool $expected): void
@@ -44,7 +46,7 @@ class BooleanTest extends TestCase
 	 * Provide process data.
 	 * 
 	 * @return array
-	 * <p>The provided process data.</p>
+	 * The data.
 	 */
 	public function provideProcessData(): array
 	{
@@ -88,9 +90,11 @@ class BooleanTest extends TestCase
 	 * @dataProvider provideProcessData_NonInternal
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param bool $expected
-	 * <p>The expected processed value.</p>
+	 * The expected processed value.
+	 * 
 	 * @return void
 	 */
 	public function testProcess_NonInternal(mixed $value, bool $expected): void
@@ -108,7 +112,7 @@ class BooleanTest extends TestCase
 	 * Provide process data (non-internal).
 	 * 
 	 * @return array
-	 * <p>The provided process data (non-internal).</p>
+	 * The data.
 	 */
 	public function provideProcessData_NonInternal(): array
 	{
@@ -137,7 +141,8 @@ class BooleanTest extends TestCase
 	 * @dataProvider provideProcessData_NonInternal_Error
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @return void
 	 */
 	public function testProcess_NonInternal_Error(mixed $value): void
@@ -156,7 +161,7 @@ class BooleanTest extends TestCase
 	 * Provide process data (non-internal error).
 	 * 
 	 * @return array
-	 * <p>The provided process data (non-internal error).</p>
+	 * The data.
 	 */
 	public function provideProcessData_NonInternal_Error(): array
 	{
@@ -180,11 +185,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer</code> interface.
+	 * Test `InformationProducer` interface.
 	 * 
 	 * @testdox InformationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
+	 * 
 	 * @return void
 	 */
 	public function testInformationProducerInterface(): void
@@ -195,11 +201,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier</code> interface.
+	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
 	 * @return void
 	 */
 	public function testTextifierInterface(): void

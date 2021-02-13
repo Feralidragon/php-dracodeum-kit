@@ -22,12 +22,14 @@ abstract class Type extends Prototype
 	/**
 	 * Process a given value.
 	 * 
-	 * @param mixed $value [reference]
-	 * <p>The value to process.</p>
+	 * @param mixed $value
+	 * The value to process.
+	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * <p>The context to process for.</p>
+	 * The context to process for.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
-	 * <p>An error instance if the given value failed to be processed or <code>null</code> if otherwise.</p>
+	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
 	abstract public function process(mixed &$value, $context): ?Error;
 }

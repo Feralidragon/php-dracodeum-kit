@@ -26,13 +26,13 @@ use Dracodeum\Kit\Root\Locale;
 /**
  * This prototype represents a string.
  * 
- * Only the following types of values are allowed and coerced into a string:<br>
- * &nbsp; &#8226; &nbsp; a string, integer or float;<br>
- * &nbsp; &#8226; &nbsp; a stringable object, as an object implementing either the PHP <code>Stringable</code> 
- * interface or the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface.
+ * Only the following types of values are allowed and coerced into a string:
+ * - a string, integer or float;
+ * - a stringable object, as an object implementing either the PHP `Stringable` interface or 
+ * the `Dracodeum\Kit\Interfaces\Stringable` interface.
  * 
- * @property-write bool $unicode [writeonce] [transient] [default = false]
- * <p>Set as a Unicode string.</p>
+ * @property-write bool $unicode [writeonce] [transient] [default = false]  
+ * Set as a Unicode string.
  */
 class TString extends Prototype implements IInformationProducer, IMutatorProducer
 {

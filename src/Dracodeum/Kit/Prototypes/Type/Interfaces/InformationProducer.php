@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Prototypes\Type\Interfaces;
 
-/** This interface defines a set of methods to produce information, namely a label and a description. */
 interface InformationProducer
 {
 	//Public methods
@@ -15,9 +14,10 @@ interface InformationProducer
 	 * Produce label.
 	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * <p>The context to produce for.</p>
+	 * The context to produce for.
+	 * 
 	 * @return coercible:text
-	 * <p>The produced label.</p>
+	 * The produced label.
 	 */
 	public function produceLabel($context);
 	
@@ -25,9 +25,10 @@ interface InformationProducer
 	 * Produce description.
 	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * <p>The context to produce for.</p>
+	 * The context to produce for.
+	 * 
 	 * @return coercible:text
-	 * <p>The produced description.</p>
+	 * The produced description.
 	 */
 	public function produceDescription($context);
 }

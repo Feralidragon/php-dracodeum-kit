@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Prototypes\Type\Interfaces;
 
-/** This interface defines a method to produce mutators. */
 interface MutatorProducer
 {
 	//Public methods
@@ -15,13 +14,15 @@ interface MutatorProducer
 	 * Produce mutator.
 	 * 
 	 * @param string $name
-	 * <p>The name to produce for.</p>
+	 * The name to produce for.
+	 * 
 	 * @param array $properties
-	 * <p>The properties to produce with, as a set of <samp>name => value</samp> pairs.<br>
-	 * Required properties may also be given as an array of values (<samp>[value1, value2, ...]</samp>), 
-	 * in the same order as how these properties were first declared.</p>
+	 * The properties to produce with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
 	 * @return coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator>|null
-	 * <p>The produced mutator or <code>null</code> if none was produced.</p>
+	 * The produced mutator, or `null` if none was produced.
 	 */
 	public function produceMutator(string $name, array $properties);
 }

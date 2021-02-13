@@ -30,9 +30,11 @@ class TStringTest extends TestCase
 	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param string $expected
-	 * <p>The expected processed value.</p>
+	 * The expected processed value.
+	 * 
 	 * @return void
 	 */
 	public function testProcess(mixed $value, string $expected): void
@@ -45,7 +47,7 @@ class TStringTest extends TestCase
 	 * Provide process data.
 	 * 
 	 * @return array
-	 * <p>The provided process data.</p>
+	 * The data.
 	 */
 	public function provideProcessData(): array
 	{
@@ -75,7 +77,8 @@ class TStringTest extends TestCase
 	 * @dataProvider provideProcessData_Error
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @return void
 	 */
 	public function testProcess_Error(mixed $value): void
@@ -89,7 +92,7 @@ class TStringTest extends TestCase
 	 * Provide process data (error).
 	 * 
 	 * @return array
-	 * <p>The provided process data (error).</p>
+	 * The data.
 	 */
 	public function provideProcessData_Error(): array
 	{
@@ -110,9 +113,11 @@ class TStringTest extends TestCase
 	 * @dataProvider provideProcessData_Unicode
 	 * 
 	 * @param mixed $value
-	 * <p>The process value parameter to test with.</p>
+	 * The value to test with.
+	 * 
 	 * @param string $expected
-	 * <p>The expected processed value.</p>
+	 * The expected processed value.
+	 * 
 	 * @return void
 	 */
 	public function testProcess_Unicode(mixed $value, string $expected): void
@@ -125,7 +130,7 @@ class TStringTest extends TestCase
 	 * Provide process data (unicode).
 	 * 
 	 * @return array
-	 * <p>The provided process data (unicode).</p>
+	 * The data.
 	 */
 	public function provideProcessData_Unicode(): array
 	{
@@ -144,11 +149,12 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer</code> interface.
+	 * Test `InformationProducer` interface.
 	 * 
 	 * @testdox InformationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
+	 * 
 	 * @return void
 	 */
 	public function testInformationProducerInterface(): void
@@ -159,18 +165,22 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Test <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface.
+	 * Test `MutatorProducer` interface.
 	 * 
 	 * @testdox MutatorProducer interface ("$name")
 	 * @dataProvider provideMutatorProducerData
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
+	 * 
 	 * @param string $name
-	 * <p>The name parameter to test with.</p>
+	 * The name to test with.
+	 * 
 	 * @param array $properties
-	 * <p>The properties parameter to test with.</p>
+	 * The properties to test with.
+	 * 
 	 * @param string $expected
-	 * <p>The expected produced class.</p>
+	 * The expected produced class.
+	 * 
 	 * @return void
 	 */
 	public function testMutatorProducerInterface(string $name, array $properties, string $expected): void
@@ -181,10 +191,10 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Provide <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface data.
+	 * Provide `MutatorProducer` interface data.
 	 * 
 	 * @return array
-	 * <p>The provided <code>Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer</code> interface data.</p>
+	 * The data.
 	 */
 	public function provideMutatorProducerData(): array
 	{

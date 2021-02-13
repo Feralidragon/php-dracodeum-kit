@@ -24,25 +24,21 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This prototype represents a boolean.
  * 
- * All types of values are directly cast to a boolean when the internal context is used.<br>
- * <br>
- * Otherwise, when any other context is used, 
- * only the following types of values are allowed and coerced into a boolean:<br>
- * &nbsp; &#8226; &nbsp; a boolean;<br>
- * &nbsp; &#8226; &nbsp; an integer, with <code>0</code> as boolean <code>false</code>, 
- * and <code>1</code> as boolean <code>true</code>;<br>
- * &nbsp; &#8226; &nbsp; a string, with <code>"0"</code>, <code>"f"</code>, <code>"false"</code>, 
- * <code>"off"</code> or <code>"no"</code> as boolean <code>false</code>, 
- * and <code>"1"</code>, <code>"t"</code>, <code>"true"</code>, 
- * <code>"on"</code> or <code>"yes"</code> as boolean <code>true</code>.
+ * All types of values are directly cast to a boolean when the internal context is used.
+ * 
+ * Otherwise, when any other context is used, only the following types of values are allowed and coerced into a boolean:
+ * - a boolean;
+ * - an integer, with `0` as boolean `false`, and `1` as boolean `true`;
+ * - a string, with `"0"`, `"f"`, `"false"`, `"off"` or `"no"` as boolean `false`, 
+ * and `"1"`, `"t"`, `"true"`, `"on"` or `"yes"` as boolean `true`.
  */
 class Boolean extends Prototype implements ITextifier, IInformationProducer
 {
 	//Private constants
-	/** Strings recognized as <code>true</code>. */
+	/** Strings recognized as `true`. */
 	private const STRINGS_TRUE = ['1', 't', 'true', 'on', 'yes'];
 	
-	/** Strings recognized as <code>false</code>. */
+	/** Strings recognized as `false`. */
 	private const STRINGS_FALSE = ['0', 'f', 'false', 'off', 'no'];
 	
 	
@@ -139,7 +135,7 @@ class Boolean extends Prototype implements ITextifier, IInformationProducer
 	 * Get values placeholder stringifier.
 	 * 
 	 * @return callable
-	 * <p>The values placeholder stringifier.</p>
+	 * The stringifier.
 	 */
 	private function getValuesPlaceholderStringifier(): callable
 	{

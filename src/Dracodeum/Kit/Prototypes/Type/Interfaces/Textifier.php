@@ -7,7 +7,6 @@
 
 namespace Dracodeum\Kit\Prototypes\Type\Interfaces;
 
-/** This interface defines a method to textify a given value. */
 interface Textifier
 {
 	//Public methods
@@ -15,9 +14,10 @@ interface Textifier
 	 * Textify a given value.
 	 * 
 	 * @param mixed $value
-	 * <p>The value, already validated and normalized, to textify.</p>
+	 * The value, already validated and normalized, to textify.
+	 * 
 	 * @return coercible:text
-	 * <p>The given value textified.</p>
+	 * The given value textified.
 	 */
 	public function textify(mixed $value);
 }
