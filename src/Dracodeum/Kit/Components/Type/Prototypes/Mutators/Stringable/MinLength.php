@@ -44,7 +44,6 @@ class MinLength extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		/** @example At least 10 characters are required. */
 		return Text::build()
 			->setString("At least {{number}} character is required.")
 			->setPluralString("At least {{number}} characters are required.")

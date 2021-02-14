@@ -44,7 +44,6 @@ class MaxLength extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		/** @example Cannot be over 10 characters. */
 		return Text::build()
 			->setString("Cannot be over {{number}} character.")
 			->setPluralString("Cannot be over {{number}} characters.")

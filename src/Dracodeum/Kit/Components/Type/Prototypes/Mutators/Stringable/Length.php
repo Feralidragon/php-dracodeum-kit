@@ -44,7 +44,6 @@ class Length extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		/** @example Exactly 10 characters are required. */
 		return Text::build()
 			->setString("Exactly {{number}} character is required.")
 			->setPluralString("Exactly {{number}} characters are required.")

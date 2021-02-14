@@ -50,7 +50,6 @@ class LengthRange extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		/** @example Only between 5 and 10 characters are allowed. */
 		return Text::build()
 			->setString("Only between {{min_number}} and {{max_number}} character is allowed.")
 			->setPluralString("Only between {{min_number}} and {{max_number}} characters are allowed.")
