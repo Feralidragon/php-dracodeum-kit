@@ -61,6 +61,9 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	private bool $localized = false;
 	
+	/** @var \Dracodeum\Kit\Primitives\Text[] */
+	private array $texts = [];
+	
 	
 	
 	//Final public magic methods
@@ -138,6 +141,27 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 			
 		} elseif ($plural_string !== null && abs($this->plural_number) !== 1.0) {
 			$string = $plural_string;
+		}
+		
+		//texts
+		if ($this->texts) {
+			//strings
+			$strings = [];
+			foreach ($this->texts as $text) {
+				$strings[] = $text->toString($text_options);
+			}
+			$strings = array_filter($strings, fn ($string) => $string !== '');
+			
+			//string
+			if ($strings) {
+				if ($string !== '') {
+					$string .= "\n";
+				}
+				$string .= implode("\n", $strings);
+			}
+			
+			//finalize
+			unset($strings);
 		}
 		
 		//return
@@ -439,6 +463,60 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 		
 		//TODO
 		
+		return $this;
+	}
+	
+	/**
+	 * Check if has texts.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has texts.
+	 */
+	final public function hasTexts(): bool
+	{
+		return $this->texts;
+	}
+	
+	/**
+	 * Get text instances.
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Text[]
+	 * The text instances.
+	 */
+	final public function getTexts(): array
+	{
+		return $this->texts;
+	}
+	
+	/**
+	 * Prepend text.
+	 * 
+	 * @param coercible:text $text
+	 * The text to prepend.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function prependText($text)
+	{
+		$this->coerce($text);
+		array_unshift($this->texts, $text);
+		return $this;
+	}
+	
+	/**
+	 * Append text.
+	 * 
+	 * @param coercible:text $text
+	 * The text to append.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function appendText($text)
+	{
+		$this->coerce($text);
+		$this->texts[] = $text;
 		return $this;
 	}
 	
