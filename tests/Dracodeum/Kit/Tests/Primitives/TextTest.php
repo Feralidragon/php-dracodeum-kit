@@ -664,4 +664,142 @@ class TextTest extends TestCase
 		$this->assertSame($text, $text->setAsLocalized());
 		$this->assertTrue($text->isLocalized());
 	}
+	
+	/**
+	 * Test texts (append).
+	 * 
+	 * @testdox Texts (append)
+	 * 
+	 * @return void
+	 */
+	public function testTexts_Append(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$string_main = "The following is a set of appended test sentences.";
+		$string1 = "The quick brown fox jumps over the lazy dog.";
+		$string2 = "The quick brown fox named {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string2_param = "The quick brown fox named {$fox_name} jumps over the lazy dog {$dog_name}.";
+		$string1_2_param = "{$string1}\n{$string2_param}";
+		$string_main_1_2_param = "{$string_main}\n{$string1}\n{$string2_param}";
+		
+		//build
+		$text = Text::build();
+		
+		//assert
+		$this->assertFalse($text->hasTexts());
+		$this->assertSame([], $text->getTexts());
+		$this->assertSame('', $text->toString());
+		
+		//assert (0)
+		$this->assertSame($text, $text->appendText(''));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(1, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[0]);
+		$this->assertSame('', $text->getTexts()[0]->toString());
+		$this->assertSame('', $text->toString());
+		
+		//assert (1)
+		$this->assertSame($text, $text->appendText($string1));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(2, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[1]);
+		$this->assertSame($string1, $text->getTexts()[1]->toString());
+		$this->assertSame($string1, $text->toString());
+		
+		//text (2)
+		$text2 = Text::build($string2)->setParameters(['fox_name' => $fox_name, 'dog_name' => $dog_name]);
+		
+		//assert (2)
+		$this->assertSame($text, $text->appendText($text2));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(3, count($text->getTexts()));
+		$this->assertSame($text2, $text->getTexts()[2]);
+		$this->assertSame($string2_param, $text->getTexts()[2]->toString());
+		$this->assertSame($string1_2_param, $text->toString());
+		
+		//assert (3)
+		$this->assertSame($text, $text->appendText(''));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(4, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[3]);
+		$this->assertSame('', $text->getTexts()[3]->toString());
+		$this->assertSame($string1_2_param, $text->toString());
+		
+		//assert (4)
+		$this->assertSame($text, $text->setString($string_main));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(4, count($text->getTexts()));
+		$this->assertSame($string_main_1_2_param, $text->toString());
+	}
+	
+	/**
+	 * Test texts (prepend).
+	 * 
+	 * @testdox Texts (prepend)
+	 * 
+	 * @return void
+	 */
+	public function testTexts_Prepend(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$string_main = "The following is a set of prepended test sentences.";
+		$string1 = "The quick brown fox jumps over the lazy dog.";
+		$string2 = "The quick brown fox named {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string2_param = "The quick brown fox named {$fox_name} jumps over the lazy dog {$dog_name}.";
+		$string2_param_1 = "{$string2_param}\n{$string1}";
+		$string_main_2_param_1 = "{$string_main}\n{$string2_param}\n{$string1}";
+		
+		//build
+		$text = Text::build();
+		
+		//assert
+		$this->assertFalse($text->hasTexts());
+		$this->assertSame([], $text->getTexts());
+		$this->assertSame('', $text->toString());
+		
+		//assert (0)
+		$this->assertSame($text, $text->prependText(''));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(1, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[0]);
+		$this->assertSame('', $text->getTexts()[0]->toString());
+		$this->assertSame('', $text->toString());
+		
+		//assert (1)
+		$this->assertSame($text, $text->prependText($string1));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(2, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[0]);
+		$this->assertSame($string1, $text->getTexts()[0]->toString());
+		$this->assertSame($string1, $text->toString());
+		
+		//text (2)
+		$text2 = Text::build($string2)->setParameters(['fox_name' => $fox_name, 'dog_name' => $dog_name]);
+		
+		//assert (2)
+		$this->assertSame($text, $text->prependText($text2));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(3, count($text->getTexts()));
+		$this->assertSame($text2, $text->getTexts()[0]);
+		$this->assertSame($string2_param, $text->getTexts()[0]->toString());
+		$this->assertSame($string2_param_1, $text->toString());
+		
+		//assert (3)
+		$this->assertSame($text, $text->prependText(''));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(4, count($text->getTexts()));
+		$this->assertInstanceOf(Text::class, $text->getTexts()[0]);
+		$this->assertSame('', $text->getTexts()[0]->toString());
+		$this->assertSame($string2_param_1, $text->toString());
+		
+		//assert (4)
+		$this->assertSame($text, $text->setString($string_main));
+		$this->assertTrue($text->hasTexts());
+		$this->assertSame(4, count($text->getTexts()));
+		$this->assertSame($string_main_2_param_1, $text->toString());
+	}
 }

@@ -474,7 +474,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 */
 	final public function hasTexts(): bool
 	{
-		return $this->texts;
+		return (bool)$this->texts;
 	}
 	
 	/**
