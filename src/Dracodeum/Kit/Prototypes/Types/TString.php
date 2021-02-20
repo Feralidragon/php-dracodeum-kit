@@ -118,14 +118,20 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 		return match ($name) {
 			'length' => new StringableMutators\Length($properties + ['unicode' => $this->unicode]),
 			'length_range' => new StringableMutators\LengthRange($properties + ['unicode' => $this->unicode]),
-			'max_length' => new StringableMutators\MaxLength($properties + ['unicode' => $this->unicode]),
 			'min_length' => new StringableMutators\MinLength($properties + ['unicode' => $this->unicode]),
-			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
+			'max_length' => new StringableMutators\MaxLength($properties + ['unicode' => $this->unicode]),
 			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
 			'non_empty_iws' => new StringableMutators\NonEmpty(
 				['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
 			),
+			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
 			'uppercase' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
+			'wildcards' => StringableMutators\Wildcards::class,
+			'iwildcards' => new StringableMutators\Wildcards(['insensitive' => true] + $properties),
+			'non_wildcards' => new StringableMutators\Wildcards(['negate' => true] + $properties),
+			'non_iwildcards' => new StringableMutators\Wildcards(
+				['negate' => true, 'insensitive' => true] + $properties
+			),
 			default => null
 		};
 	}

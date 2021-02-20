@@ -10,13 +10,14 @@ System::setEnvironment('development');
 
 $t = Dracodeum\Kit\Components\Type::build('string', [
 	'mutators' => [
-		'max_length' => [12]
+		'non_iwildcards' => [['foo*']]
 	]
 ]);
 $v = 'foo bar aaaaaaaa';
 $e = $t->process($v);
 
-var_dump($v, (string)$e?->getText());
+var_dump($v);
+echo "\n\n", (string)$e?->getText(), "\n\n\n", $e?->getText()->toString(['info_level' => 1]), "\n\n";
 die();
 
 
