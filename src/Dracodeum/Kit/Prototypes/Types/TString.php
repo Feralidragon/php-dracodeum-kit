@@ -20,7 +20,10 @@ use Dracodeum\Kit\Primitives\{
 };
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as StringableMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enumerations\{
+	InfoLevel as EInfoLevel,
+	TextCase as ETextCase
+};
 use Dracodeum\Kit\Root\Locale;
 
 /**
@@ -121,17 +124,27 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 			'min_length' => new StringableMutators\MinLength($properties + ['unicode' => $this->unicode]),
 			'max_length' => new StringableMutators\MaxLength($properties + ['unicode' => $this->unicode]),
 			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
-			'non_empty_iws' => new StringableMutators\NonEmpty(
-				['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
-			),
+			'non_empty_iws'
+				=> new StringableMutators\NonEmpty(
+					['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
+				),
 			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
 			'uppercase' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
+			'alphabetical', 'alphabetic'
+				=> new StringableMutators\Alphabetical($properties + ['unicode' => $this->unicode]),
+			'lower_alphabetical', 'lower_alphabetic'
+				=> new StringableMutators\Alphabetical(
+					['case' => ETextCase::LOWER] + $properties + ['unicode' => $this->unicode]
+				),
+			'upper_alphabetical', 'upper_alphabetic'
+				=> new StringableMutators\Alphabetical(
+					['case' => ETextCase::UPPER] + $properties + ['unicode' => $this->unicode]
+				),
 			'wildcards' => StringableMutators\Wildcards::class,
 			'iwildcards' => new StringableMutators\Wildcards(['insensitive' => true] + $properties),
 			'non_wildcards' => new StringableMutators\Wildcards(['negate' => true] + $properties),
-			'non_iwildcards' => new StringableMutators\Wildcards(
-				['negate' => true, 'insensitive' => true] + $properties
-			),
+			'non_iwildcards'
+				=> new StringableMutators\Wildcards(['negate' => true, 'insensitive' => true] + $properties),
 			default => null
 		};
 	}
