@@ -213,6 +213,8 @@ class TStringTest extends TestCase
 			['lower_alphabetic', [], StringableMutators\Alphabetical::class],
 			['upper_alphabetical', [], StringableMutators\Alphabetical::class],
 			['upper_alphabetic', [], StringableMutators\Alphabetical::class],
+			['numerical', [], StringableMutators\Numerical::class],
+			['numeric', [], StringableMutators\Numerical::class],
 			['wildcards', [['*']], StringableMutators\Wildcards::class],
 			['iwildcards', [['*']], StringableMutators\Wildcards::class],
 			['non_wildcards', [['*']], StringableMutators\Wildcards::class],

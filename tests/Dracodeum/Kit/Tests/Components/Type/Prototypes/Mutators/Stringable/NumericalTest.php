@@ -9,15 +9,14 @@ namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators\Stringable;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Alphabetical as Prototype;
-use Dracodeum\Kit\Enumerations\TextCase as ETextCase;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Numerical as Prototype;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Alphabetical */
-class AlphabeticalTest extends TestCase
+/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Numerical */
+class NumericalTest extends TestCase
 {
 	//Public methods
 	/**
@@ -51,16 +50,11 @@ class AlphabeticalTest extends TestCase
 	{
 		return [
 			[''],
-			['foobar'],
-			['FOOBAR'],
-			['FooBar'],
-			['foobar', ['case' => ETextCase::LOWER]],
-			['FOOBAR', ['case' => ETextCase::UPPER]],
-			["f\u{03c9}\u{03c9}b\u{03b3}r", ['unicode' => true]],
-			["F\u{03a9}\u{03a9}B\u{0393}R", ['unicode' => true]],
-			["F\u{03a9}\u{03c9}B\u{0393}r", ['unicode' => true]],
-			["f\u{03c9}\u{03c9}b\u{03b3}r", ['case' => ETextCase::LOWER, 'unicode' => true]],
-			["F\u{03a9}\u{03a9}B\u{0393}R", ['case' => ETextCase::UPPER, 'unicode' => true]]
+			['0'],
+			['123'],
+			['9102837465'],
+			["\u{216d}\u{2169}\u{2166}", ['unicode' => true]],
+			["1\u{2161}3\u{2163}5\u{2165}", ['unicode' => true]]
 		];
 	}
 	
@@ -95,40 +89,28 @@ class AlphabeticalTest extends TestCase
 			[' '],
 			['_'],
 			['!'],
-			['123'],
-			['foo bar'],
-			['foo_bar'],
-			['foobar123'],
-			['FOO BAR'],
-			['FOO_BAR'],
-			['FOOBAR123'],
-			['Foo Bar'],
-			['Foo_Bar'],
-			['FooBar123'],
-			['FOOBAR', ['case' => ETextCase::LOWER]],
-			['FooBar', ['case' => ETextCase::LOWER]],
-			['foobar', ['case' => ETextCase::UPPER]],
-			['FooBar', ['case' => ETextCase::UPPER]],
+			['VII'],
+			['foo'],
+			['foo123'],
+			['foo 123'],
+			['123 456'],
+			['123_456'],
+			['123.456'],
+			['123,456'],
+			['-9102837465'],
+			["\u{216d}\u{2169}\u{2166}"],
+			["1\u{2161}3\u{2163}5\u{2165}"],
 			[' ', ['unicode' => true]],
 			['_', ['unicode' => true]],
 			['!', ['unicode' => true]],
-			['123', ['unicode' => true]],
-			["f\u{03c9}\u{03c9}b\u{03b3}r"],
-			["F\u{03a9}\u{03a9}B\u{0393}R"],
-			["F\u{03a9}\u{03c9}B\u{0393}r"],
-			["f\u{03c9}\u{03c9} b\u{03b3}r", ['unicode' => true]],
-			["f\u{03c9}\u{03c9}_b\u{03b3}r", ['unicode' => true]],
-			["f\u{03c9}\u{03c9}b\u{03b3}r123", ['unicode' => true]],
-			["F\u{03a9}\u{03a9} B\u{0393}R", ['unicode' => true]],
-			["F\u{03a9}\u{03a9}_B\u{0393}R", ['unicode' => true]],
-			["F\u{03a9}\u{03a9}B\u{0393}R123", ['unicode' => true]],
-			["F\u{03a9}\u{03c9} B\u{0393}r", ['unicode' => true]],
-			["F\u{03a9}\u{03c9}_B\u{0393}r", ['unicode' => true]],
-			["F\u{03a9}\u{03c9}B\u{0393}r123", ['unicode' => true]],
-			["F\u{03a9}\u{03a9}B\u{0393}R", ['case' => ETextCase::LOWER, 'unicode' => true]],
-			["F\u{03a9}\u{03c9}B\u{0393}r", ['case' => ETextCase::LOWER, 'unicode' => true]],
-			["f\u{03c9}\u{03c9}b\u{03b3}r", ['case' => ETextCase::UPPER, 'unicode' => true]],
-			["F\u{03a9}\u{03c9}B\u{0393}r", ['case' => ETextCase::UPPER, 'unicode' => true]],
+			['VII', ['unicode' => true]],
+			['foo', ['unicode' => true]],
+			['foo123', ['unicode' => true]],
+			["\u{216d} \u{2169} \u{2166}", ['unicode' => true]],
+			["\u{216d}_\u{2169}_\u{2166}", ['unicode' => true]],
+			["\u{216d}\u{2169}.\u{2166}", ['unicode' => true]],
+			["\u{216d}\u{2169},\u{2166}", ['unicode' => true]],
+			["-\u{216d}\u{2169}\u{2166}", ['unicode' => true]],
 			["f\u{03c9}\u{03c9}b\u{03b3}r1\u{2161}3\u{2163}5\u{2165}", ['unicode' => true]]
 		];
 	}
