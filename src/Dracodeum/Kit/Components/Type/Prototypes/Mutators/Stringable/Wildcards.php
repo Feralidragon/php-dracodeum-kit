@@ -133,11 +133,12 @@ class Wildcards extends Prototype implements IExplanationProducer
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'wildcards' => $this->createProperty()
-				->setMode('w--')
-				->setAsArray(fn (&$key, &$value): bool => UType::evaluateString($value), true, true)
-				->bind(self::class)
-			,
+			'wildcards'
+				=> $this->createProperty()
+					->setMode('w--')
+					->setAsArray(fn (&$key, &$value): bool => UType::evaluateString($value), true, true)
+					->bind(self::class)
+				,
 			'insensitive', 'negate' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
 			default => null
 		};

@@ -82,18 +82,20 @@ class Type extends Component
 	{
 		return match ($name) {
 			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
-			'mutators' => $this->createProperty()
-				->setMode('w--')
-				->setAsArray(function (&$key, &$value): bool {
-					if (is_string($key) && is_array($value)) {
-						$this->addMutator($key, $value);
-						return true;
-					} elseif (is_int($key) && (is_string($value) || is_object($value))) {
-						$this->addMutator($value);
-						return true;
-					}
-					return false;
-				}),
+			'mutators'
+				=> $this->createProperty()
+					->setMode('w--')
+					->setAsArray(function (&$key, &$value): bool {
+						if (is_string($key) && is_array($value)) {
+							$this->addMutator($key, $value);
+							return true;
+						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
+							$this->addMutator($value);
+							return true;
+						}
+						return false;
+					})
+				,
 			default => null
 		};
 	}
