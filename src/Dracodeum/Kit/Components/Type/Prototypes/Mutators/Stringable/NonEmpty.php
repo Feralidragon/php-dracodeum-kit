@@ -20,7 +20,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * Ignore whitespace characters from the given value.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class NonEmpty extends Prototype implements IExplanationProducer
 {

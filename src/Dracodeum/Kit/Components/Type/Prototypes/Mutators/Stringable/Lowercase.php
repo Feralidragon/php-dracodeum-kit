@@ -17,7 +17,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This prototype restricts a given stringable value to lowercase.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class Lowercase extends Prototype implements IExplanationProducer
 {

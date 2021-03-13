@@ -23,7 +23,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * The maximum length to restrict the given value to.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class LengthRange extends Prototype implements IExplanationProducer
 {

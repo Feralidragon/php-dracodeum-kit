@@ -23,7 +23,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * The case to restrict to.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class Alphanumerical extends Prototype implements IExplanationProducer
 {

@@ -17,7 +17,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This prototype restricts a given stringable value to uppercase.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class Uppercase extends Prototype implements IExplanationProducer
 {

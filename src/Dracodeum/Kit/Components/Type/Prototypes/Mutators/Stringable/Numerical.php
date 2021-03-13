@@ -17,7 +17,7 @@ use Dracodeum\Kit\Traits\LazyProperties\Property;
  * This prototype restricts a given stringable value to numerical characters.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
- * Check the given value as Unicode.
+ * Check as Unicode.
  */
 class Numerical extends Prototype implements IExplanationProducer
 {
