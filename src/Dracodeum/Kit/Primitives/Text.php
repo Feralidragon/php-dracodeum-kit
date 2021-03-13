@@ -64,6 +64,9 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/** @var \Dracodeum\Kit\Primitives\Text[] */
 	private array $texts = [];
 	
+	/** @var callable|null */
+	private $texts_strings_stringifier = null;
+	
 	
 	
 	//Final public magic methods
@@ -150,14 +153,16 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 			foreach ($this->texts as $text) {
 				$strings[] = $text->toString($text_options);
 			}
-			$strings = array_filter($strings, fn ($string) => $string !== '');
+			$strings = array_values(array_filter($strings, fn ($string) => $string !== ''));
 			
 			//string
 			if ($strings) {
 				if ($string !== '') {
 					$string .= "\n";
 				}
-				$string .= implode("\n", $strings);
+				$string .= $this->texts_strings_stringifier !== null
+					? ($this->texts_strings_stringifier)($strings, TextOptions::coerce($text_options))
+					: implode("\n", $strings);
 			}
 			
 			//finalize
@@ -517,6 +522,37 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	{
 		$this->coerce($text);
 		$this->texts[] = $text;
+		return $this;
+	}
+	
+	/**
+	 * Set texts strings stringifier.
+	 * 
+	 * @param callable $stringifier
+	 * The function to use to stringify a given set of text strings.  
+	 * It must be compatible with the following signature:  
+	 * ```
+	 * function (array $strings, \Dracodeum\Kit\Options\Text $text_options): string
+	 * ```
+	 * 
+	 * **Parameters:**
+	 * - `string[] $strings`  
+	 *   The strings to stringify.  
+	 *   &nbsp;
+	 * - `\Dracodeum\Kit\Options\Text $text_options`  
+	 *   The text options instance to use.  
+	 *   &nbsp;
+	 * 
+	 * **Return:** `string`  
+	 * The stringified value.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setTextsStringsStringifier(callable $stringifier)
+	{
+		UCall::assert('stringifier', $stringifier, function (array $strings, TextOptions $text_options): string {});
+		$this->texts_strings_stringifier = $stringifier;
 		return $this;
 	}
 	

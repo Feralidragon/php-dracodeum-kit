@@ -802,4 +802,39 @@ class TextTest extends TestCase
 		$this->assertSame(4, count($text->getTexts()));
 		$this->assertSame($string_main_2_param_1, $text->toString());
 	}
+	
+	/**
+	 * Test texts strings stringifier.
+	 * 
+	 * @testdox Texts strings stringifier
+	 * 
+	 * @return void
+	 */
+	public function testTextsStringsStringifier(): void
+	{
+		//initialize
+		$string_main = "The following is a set of test sentences:";
+		$string1 = "The quick brown fox jumps over the lazy dog.";
+		$string2 = "The quick brown dog jumps over the lazy fox.";
+		$string3 = "The slow red dog crawls under the quick fox.";
+		$string_main_1_2_3 = "{$string_main}\n1) {$string1}; 2) {$string2}; 3) {$string3}";
+		
+		//build
+		$text = Text::build($string_main)
+			->appendText($string1)
+			->appendText('')
+			->appendText($string2)
+			->appendText($string3)
+			->setTextsStringsStringifier(function (array $strings, TextOptions $text_options): string {
+				foreach ($strings as $i => &$string) {
+					$string = ($i + 1) . ") {$string}";
+				}
+				unset($string);
+				return implode('; ', $strings);
+			})
+		;
+		
+		//assert
+		$this->assertSame($string_main_1_2_3, $text->toString());
+	}
 }
