@@ -151,6 +151,16 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 				=> new StringableMutators\Alphanumerical(
 					['case' => ETextCase::UPPER] + $properties + ['unicode' => $this->unicode]
 				),
+			'identifier' => StringableMutators\Identifier::class,
+			'xidentifier' => new StringableMutators\Identifier(['extended' => true] + $properties),
+			'lower_identifier' => new StringableMutators\Identifier(['case' => ETextCase::LOWER] + $properties),
+			'upper_identifier' => new StringableMutators\Identifier(['case' => ETextCase::UPPER] + $properties),
+			'lower_xidentifier' => new StringableMutators\Identifier(
+				['case' => ETextCase::LOWER, 'extended' => true] + $properties
+			),
+			'upper_xidentifier' => new StringableMutators\Identifier(
+				['case' => ETextCase::UPPER, 'extended' => true] + $properties
+			),
 			'wildcards' => StringableMutators\Wildcards::class,
 			'iwildcards' => new StringableMutators\Wildcards(['insensitive' => true] + $properties),
 			'non_wildcards' => new StringableMutators\Wildcards(['negate' => true] + $properties),
