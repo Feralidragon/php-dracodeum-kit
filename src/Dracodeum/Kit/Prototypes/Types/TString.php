@@ -131,6 +131,7 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
 			'uppercase' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
 			'hexadecimal' => StringableMutators\Hexadecimal::class,
+			'base64' => StringableMutators\Base64::class,
 			'alphabetical', 'alphabetic'
 				=> new StringableMutators\Alphabetical($properties + ['unicode' => $this->unicode]),
 			'lower_alphabetical', 'lower_alphabetic'

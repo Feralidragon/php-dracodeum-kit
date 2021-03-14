@@ -208,6 +208,7 @@ class TStringTest extends TestCase
 			['lowercase', [], StringableMutators\Lowercase::class],
 			['uppercase', [], StringableMutators\Uppercase::class],
 			['hexadecimal', [], StringableMutators\Hexadecimal::class],
+			['base64', [], StringableMutators\Base64::class],
 			['alphabetical', [], StringableMutators\Alphabetical::class],
 			['alphabetic', [], StringableMutators\Alphabetical::class],
 			['lower_alphabetical', [], StringableMutators\Alphabetical::class],
