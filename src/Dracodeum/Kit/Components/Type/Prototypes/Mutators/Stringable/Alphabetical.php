@@ -64,6 +64,9 @@ class Alphabetical extends Prototype implements IExplanationProducer
 			};
 		}
 		
+		//parameter
+		$text->setParameter('letters', ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z']);
+		
 		//return
 		return match ($this->case) {
 			ETextCase::LOWER
@@ -73,7 +76,6 @@ class Alphabetical extends Prototype implements IExplanationProducer
 						"Only ASCII lowercase alphabetic characters ({{letters.a}}-{{letters.z}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameter('letters', ['a' => 'a', 'z' => 'z'])
 				,
 			ETextCase::UPPER
 				=> $text
@@ -82,7 +84,6 @@ class Alphabetical extends Prototype implements IExplanationProducer
 						"Only ASCII uppercase alphabetic characters ({{letters.A}}-{{letters.Z}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameter('letters', ['A' => 'A', 'Z' => 'Z'])
 				,
 			default
 				=> $text
@@ -95,7 +96,6 @@ class Alphabetical extends Prototype implements IExplanationProducer
 							"{{letters.A}}-{{letters.Z}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameter('letters', ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'])
 		};
 	}
 	

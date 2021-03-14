@@ -64,6 +64,12 @@ class Alphanumerical extends Prototype implements IExplanationProducer
 			};
 		}
 		
+		//parameters
+		$text->setParameters([
+			'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
+			'digits' => ['num0' => '0', 'num9' => '9']
+		]);
+		
 		//return
 		return match ($this->case) {
 			ETextCase::LOWER
@@ -77,10 +83,6 @@ class Alphanumerical extends Prototype implements IExplanationProducer
 							"{{digits.num0}}-{{digits.num9}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameters([
-						'letters' => ['a' => 'a', 'z' => 'z'],
-						'digits' => ['num0' => '0', 'num9' => '9']
-					])
 				,
 			ETextCase::UPPER
 				=> $text
@@ -93,10 +95,6 @@ class Alphanumerical extends Prototype implements IExplanationProducer
 							"{{digits.num0}}-{{digits.num9}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameters([
-						'letters' => ['A' => 'A', 'Z' => 'Z'],
-						'digits' => ['num0' => '0', 'num9' => '9']
-					])
 				,
 			default
 				=> $text
@@ -109,10 +107,6 @@ class Alphanumerical extends Prototype implements IExplanationProducer
 							"{{letters.A}}-{{letters.Z}} and {{digits.num0}}-{{digits.num9}}) are allowed.",
 						EInfoLevel::TECHNICAL
 					)
-					->setParameters([
-						'letters' => ['a' => 'a', 'z' => 'z', 'A' => 'A', 'Z' => 'Z'],
-						'digits' => ['num0' => '0', 'num9' => '9']
-					])
 		};
 	}
 	
