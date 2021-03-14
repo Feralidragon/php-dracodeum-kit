@@ -10,7 +10,6 @@ namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators\Stringable;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable\Base64 as Prototype;
-use Dracodeum\Kit\Enumerations\TextCase as ETextCase;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
