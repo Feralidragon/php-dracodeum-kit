@@ -17,7 +17,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This prototype prevents a given stringable value from being empty.
  * 
  * @property-write bool $ignore_whitespace [writeonce] [transient] [default = false]  
- * Ignore whitespace characters from the given value.
+ * Ignore whitespace characters.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
  * Check as Unicode.

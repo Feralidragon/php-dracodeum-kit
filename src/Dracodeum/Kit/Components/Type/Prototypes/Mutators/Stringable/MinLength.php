@@ -17,7 +17,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This prototype restricts a given stringable value to a minimum length.
  * 
  * @property-write int $length [writeonce] [transient]  
- * The length to restrict the given value to.
+ * The length to restrict to.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
  * Check as Unicode.

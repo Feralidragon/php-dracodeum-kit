@@ -17,10 +17,10 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * This prototype restricts a given stringable value to a length range.
  * 
  * @property-write int $min_length [writeonce] [transient]  
- * The minimum length to restrict the given value to.
+ * The minimum length to restrict to.
  * 
  * @property-write int $max_length [writeonce] [transient]  
- * The maximum length to restrict the given value to.
+ * The maximum length to restrict to.
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
  * Check as Unicode.

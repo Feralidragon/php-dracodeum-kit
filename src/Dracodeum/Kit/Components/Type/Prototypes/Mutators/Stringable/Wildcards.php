@@ -22,7 +22,7 @@ use Dracodeum\Kit\Utilities\{
  * This prototype restricts a given stringable value to a set of wildcard matches.
  * 
  * @property-write string[] $wildcards [writeonce] [transient]  
- * The wildcard matches to restrict the given value to.
+ * The wildcard matches to restrict to.
  * 
  * @property-write bool $insensitive [writeonce] [transient] [default = false]  
  * Match the given wildcards in a case-insensitive manner.
