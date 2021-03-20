@@ -44,6 +44,7 @@ class TrimTest extends TestCase
 	public function provideProcessData(): array
 	{
 		return [
+			[' ', ''],
 			['a', 'a'],
 			[' a', 'a'],
 			['a ', 'a'],
@@ -52,7 +53,7 @@ class TrimTest extends TestCase
 			[' foo bar', 'foo bar'],
 			['foo bar ', 'foo bar'],
 			[' foo bar ', 'foo bar'],
-			[" foo\nbar\t\n", "foo\nbar"],
+			["  foo\nbar\t\n", "foo\nbar"],
 			["\n\tfoo\tbar\n", "foo\tbar"]
 		];
 	}
