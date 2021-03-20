@@ -128,8 +128,11 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 				=> new StringableMutators\NonEmpty(
 					['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
 				),
-			'lowercase' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
-			'uppercase' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
+			'lowercase', 'lower' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
+			'uppercase', 'upper' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
+			'to_lowercase', 'to_lower' => new StringableMutators\ToLowercase(
+				$properties + ['unicode' => $this->unicode]
+			),
 			'hexadecimal' => StringableMutators\Hexadecimal::class,
 			'base64' => StringableMutators\Base64::class,
 			'alphabetical', 'alphabetic'
