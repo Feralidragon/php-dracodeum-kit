@@ -123,6 +123,7 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 			'length_range' => new StringableMutators\LengthRange($properties + ['unicode' => $this->unicode]),
 			'min_length' => new StringableMutators\MinLength($properties + ['unicode' => $this->unicode]),
 			'max_length' => new StringableMutators\MaxLength($properties + ['unicode' => $this->unicode]),
+			'truncate' => new StringableMutators\Truncate($properties + ['unicode' => $this->unicode]),
 			'non_empty' => new StringableMutators\NonEmpty($properties + ['unicode' => $this->unicode]),
 			'non_empty_iws'
 				=> new StringableMutators\NonEmpty(
