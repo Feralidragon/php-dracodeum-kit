@@ -129,6 +129,7 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 				=> new StringableMutators\NonEmpty(
 					['ignore_whitespace' => true] + $properties + ['unicode' => $this->unicode]
 				),
+			'trim' => StringableMutators\Trim::class,
 			'lowercase', 'lower' => new StringableMutators\Lowercase($properties + ['unicode' => $this->unicode]),
 			'uppercase', 'upper' => new StringableMutators\Uppercase($properties + ['unicode' => $this->unicode]),
 			'to_lowercase', 'to_lower' => new StringableMutators\ToLowercase(
