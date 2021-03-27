@@ -19,7 +19,7 @@ use Dracodeum\Kit\Interfaces\{
 	Floatable as IFloatable
 };
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as EType;
-//use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
@@ -245,12 +245,12 @@ class NumberTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	/*public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
+	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{
 		$mutator = (new Prototype())->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
 		$this->assertTrue(UType::isA($mutator, $expected));
-	}*/
+	}
 	
 	/**
 	 * Provide `MutatorProducer` interface data.
@@ -258,12 +258,17 @@ class NumberTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	/*public function provideMutatorProducerData(): array
+	public function provideMutatorProducerData(): array
 	{
 		return [
-			//['length', StringableMutators\Length::class, [10]]
+			['minimum', NumericalMutators\Minimum::class, [0]],
+			['min', NumericalMutators\Minimum::class, [0]],
+			['xminimum', NumericalMutators\Minimum::class, [0]],
+			['xmin', NumericalMutators\Minimum::class, [0]],
+			['unsigned', NumericalMutators\Minimum::class],
+			['positive', NumericalMutators\Minimum::class]
 		];
-	}*/
+	}
 }
 
 

@@ -8,12 +8,12 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 System::setAsFramework();
 System::setEnvironment('development');
 
-$t = Dracodeum\Kit\Components\Type::build('string', [
+$t = Dracodeum\Kit\Components\Type::build('number', [
 	'mutators' => [
-		'non_iwildcards' => [['foo*']]
+		'positive'
 	]
 ]);
-$v = 'foo bar aaaaaaaa';
+$v = '-11.11';
 $e = $t->process($v);
 
 var_dump($v);

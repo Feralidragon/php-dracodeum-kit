@@ -21,7 +21,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as EType;
-//use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Utilities\Math as UMath;
@@ -39,7 +39,7 @@ use Dracodeum\Kit\Utilities\Math as UMath;
  * @property-write enum<\Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type>|null $type [writeonce] [transient] [default = null]  
  * The type to restrict and cast to.
  */
-class Number extends Prototype implements IInformationProducer//, IMutatorProducer
+class Number extends Prototype implements IInformationProducer, IMutatorProducer
 {
 	//Protected properties
 	/** @var enum<\Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type>|null */
@@ -136,12 +136,16 @@ class Number extends Prototype implements IInformationProducer//, IMutatorProduc
 	
 	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer)
 	/** {@inheritdoc} */
-	/*public function produceMutator(string $name, array $properties)
+	public function produceMutator(string $name, array $properties)
 	{
 		return match ($name) {
+			'minimum', 'min' => NumericalMutators\Minimum::class,
+			'xminimum', 'xmin' => new NumericalMutators\Minimum(['exclusive' => true] + $properties),
+			'unsigned' => new NumericalMutators\Minimum([0] + $properties),
+			'positive' => new NumericalMutators\Minimum([0, 'exclusive' => true] + $properties),
 			default => null
 		};
-	}*/
+	}
 	
 	
 	
