@@ -106,7 +106,7 @@ class Alphabetical extends Prototype implements IExplanationProducer
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'case' 
+			'case'
 				=> $this->createProperty()
 					->setMode('w--')
 					->setAsEnumerationValue(ETextCase::class, true)
