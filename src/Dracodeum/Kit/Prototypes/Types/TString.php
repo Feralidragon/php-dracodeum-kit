@@ -81,10 +81,11 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 				->setString("Only a string of characters is allowed.")
 				->setString(
 					"Only the following types of values are allowed and coerced into a string:\n" . 
-					" - a string, integer or float;\n" . 
-					" - a stringable object, as an object implementing either the PHP \"Stringable\" interface or " . 
-					"the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface."
-				, EInfoLevel::INTERNAL)
+						" - a string, integer or float;\n" . 
+						" - a stringable object, as an object implementing either the PHP \"Stringable\" interface " . 
+						"or the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface.",
+					EInfoLevel::INTERNAL
+				)
 				->setAsLocalized(self::class)
 			;
 			return Error::build(text: $text);
