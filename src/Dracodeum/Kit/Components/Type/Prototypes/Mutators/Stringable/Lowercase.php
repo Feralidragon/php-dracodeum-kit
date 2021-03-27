@@ -39,7 +39,7 @@ class Lowercase extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		return Text::build("Only lowercase is allowed.")->setAsLocalized(self::class);
+		return Text::build("Must be lowercase.")->setAsLocalized(self::class);
 	}
 	
 	

@@ -39,7 +39,7 @@ class Uppercase extends Prototype implements IExplanationProducer
 	/** {@inheritdoc} */
 	public function produceExplanation()
 	{
-		return Text::build("Only uppercase is allowed.")->setAsLocalized(self::class);
+		return Text::build("Must be uppercase.")->setAsLocalized(self::class);
 	}
 	
 	

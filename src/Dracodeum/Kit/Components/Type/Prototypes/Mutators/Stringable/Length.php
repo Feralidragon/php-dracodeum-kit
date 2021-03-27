@@ -45,9 +45,9 @@ class Length extends Prototype implements IExplanationProducer
 	public function produceExplanation()
 	{
 		return Text::build()
-			->setString("Exactly {{number}} character is required.")
-			->setPluralString("Exactly {{number}} characters are required.")
-			->setPluralNumberPlaceholder('number')
+			->setString("Exactly {{length}} character is required.")
+			->setPluralString("Exactly {{length}} characters are required.")
+			->setPluralNumberPlaceholder('length')
 			->setPluralNumber($this->length)
 			->setAsLocalized(self::class)
 		;

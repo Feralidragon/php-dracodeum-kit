@@ -51,11 +51,11 @@ class LengthRange extends Prototype implements IExplanationProducer
 	public function produceExplanation()
 	{
 		return Text::build()
-			->setString("Only between {{min_number}} and {{max_number}} character is allowed.")
-			->setPluralString("Only between {{min_number}} and {{max_number}} characters are allowed.")
-			->setPluralNumberPlaceholder('max_number')
+			->setString("Only between {{min_length}} and {{max_length}} character is allowed.")
+			->setPluralString("Only between {{min_length}} and {{max_length}} characters are allowed.")
+			->setPluralNumberPlaceholder('max_length')
 			->setPluralNumber($this->max_length)
-			->setParameter('min_number', $this->min_length)
+			->setParameter('min_length', $this->min_length)
 			->setAsLocalized(self::class)
 		;
 	}

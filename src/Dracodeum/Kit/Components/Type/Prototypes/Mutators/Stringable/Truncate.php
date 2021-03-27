@@ -72,9 +72,9 @@ class Truncate extends Prototype implements IExplanationProducer
 	public function produceExplanation()
 	{
 		return Text::build()
-			->setString("The value is truncated to {{number}} character.")
-			->setPluralString("The value is truncated to {{number}} characters.")
-			->setPluralNumberPlaceholder('number')
+			->setString("The value is truncated to {{length}} character.")
+			->setPluralString("The value is truncated to {{length}} characters.")
+			->setPluralNumberPlaceholder('length')
 			->setPluralNumber($this->length)
 			->setAsLocalized(self::class)
 		;

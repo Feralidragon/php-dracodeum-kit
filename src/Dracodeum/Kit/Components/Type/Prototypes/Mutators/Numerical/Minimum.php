@@ -45,8 +45,8 @@ class Minimum extends Prototype implements IExplanationProducer
 	{
 		$text = Text::build()->setParameter('number', $this->number)->setAsLocalized(self::class);
 		return $this->exclusive
-			? $text->setString("Only a number greater than {{number}} is allowed.")
-			: $text->setString("Only a number greater than or equal to {{number}} is allowed.");
+			? $text->setString("Must be greater than {{number}}.")
+			: $text->setString("Must be greater than or equal to {{number}}.");
 	}
 	
 	
