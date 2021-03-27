@@ -292,12 +292,12 @@ final class Math extends Utility
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Math\Exceptions\Mnumber\InvalidNumber
-	 * @return int|null
+	 * @return int|float|null
 	 * <p>The machine-readable number from the given human one.<br>
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
-	final public static function mnumber(string $number, bool $no_throw = false): ?int
+	final public static function mnumber(string $number, bool $no_throw = false): int|float|null
 	{
 		//parse
 		$pattern = '/^\s*(?P<sign>[\-+])?(?P<number>\d+(?:[\.,]\d+)?)\s*(?P<multiple>[^\s]+)?\s*$/';
@@ -311,17 +311,26 @@ final class Math extends Utility
 		$n = (float)str_replace(',', '.', $matches['number']);
 		$multiple = $matches['multiple'] ?? '';
 		
-		//calculate
+		//multiple
 		if (!self::evaluateMultiple($multiple)) {
 			if ($no_throw) {
 				return null;
 			}
 			throw new Exceptions\Mnumber\InvalidNumber([$number]);
 		}
+		
+		//calculate
 		$n *= $multiple;
 		if ($sign === '-') {
 			$n *= -1;
 		}
+		
+		//cast
+		if ((float)$n === floor($n)) {
+			$n = (int)$n;
+		}
+		
+		//return
 		return $n;
 	}
 	

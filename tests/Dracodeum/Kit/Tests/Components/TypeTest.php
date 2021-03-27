@@ -76,6 +76,10 @@ class TypeTest extends TestCase
 		return [
 			['boolean', Prototypes\Boolean::class],
 			['bool', Prototypes\Boolean::class],
+			['number', Prototypes\Number::class],
+			['integer', Prototypes\Number::class],
+			['int', Prototypes\Number::class],
+			['float', Prototypes\Number::class],
 			['string', Prototypes\TString::class],
 			['ustring', Prototypes\TString::class]
 		];

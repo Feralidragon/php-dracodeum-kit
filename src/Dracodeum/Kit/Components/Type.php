@@ -25,6 +25,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Stringable as IPhpStringable;
+use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as ENumberType;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
@@ -108,6 +109,9 @@ class Type extends Component
 	{
 		return match ($name) {
 			'boolean', 'bool' => Prototypes\Boolean::class,
+			'number' => Prototypes\Number::class,
+			'integer', 'int' => new Prototypes\Number(['type' => ENumberType::INTEGER] + $properties),
+			'float' => new Prototypes\Number(['type' => ENumberType::FLOAT] + $properties),
 			'string' => Prototypes\TString::class,
 			'ustring' => new Prototypes\TString(['unicode' => true] + $properties),
 			default => null
