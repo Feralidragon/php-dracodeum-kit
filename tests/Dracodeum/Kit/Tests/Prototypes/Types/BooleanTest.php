@@ -31,12 +31,12 @@ class BooleanTest extends TestCase
 	 * @param mixed $value
 	 * The value to test with.
 	 * 
-	 * @param bool $expected
+	 * @param mixed $expected
 	 * The expected processed value.
 	 * 
 	 * @return void
 	 */
-	public function testProcess(mixed $value, bool $expected): void
+	public function testProcess(mixed $value, mixed $expected): void
 	{
 		$this->assertNull(Component::build(Prototype::class)->process($value));
 		$this->assertSame($expected, $value);
@@ -92,12 +92,12 @@ class BooleanTest extends TestCase
 	 * @param mixed $value
 	 * The value to test with.
 	 * 
-	 * @param bool $expected
+	 * @param mixed $expected
 	 * The expected processed value.
 	 * 
 	 * @return void
 	 */
-	public function testProcess_NonInternal(mixed $value, bool $expected): void
+	public function testProcess_NonInternal(mixed $value, mixed $expected): void
 	{
 		$component = Component::build(Prototype::class);
 		foreach (EContext::getValues() as $context) {

@@ -32,12 +32,12 @@ class TStringTest extends TestCase
 	 * @param mixed $value
 	 * The value to test with.
 	 * 
-	 * @param string $expected
+	 * @param mixed $expected
 	 * The expected processed value.
 	 * 
 	 * @return void
 	 */
-	public function testProcess(mixed $value, string $expected): void
+	public function testProcess(mixed $value, mixed $expected): void
 	{
 		$this->assertNull(Component::build(Prototype::class)->process($value));
 		$this->assertSame($expected, $value);
@@ -115,12 +115,12 @@ class TStringTest extends TestCase
 	 * @param mixed $value
 	 * The value to test with.
 	 * 
-	 * @param string $expected
+	 * @param mixed $expected
 	 * The expected processed value.
 	 * 
 	 * @return void
 	 */
-	public function testProcess_Unicode(mixed $value, string $expected): void
+	public function testProcess_Unicode(mixed $value, mixed $expected): void
 	{
 		$this->assertNull(Component::build(Prototype::class, ['unicode' => true])->process($value));
 		$this->assertSame($expected, $value);
@@ -175,15 +175,15 @@ class TStringTest extends TestCase
 	 * @param string $name
 	 * The name to test with.
 	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 * 
 	 * @param string $expected
 	 * The expected produced class.
 	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
 	 * @return void
 	 */
-	public function testMutatorProducerInterface(string $name, array $properties, string $expected): void
+	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{
 		$mutator = (new Prototype())->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
@@ -199,49 +199,49 @@ class TStringTest extends TestCase
 	public function provideMutatorProducerData(): array
 	{
 		return [
-			['length', [10], StringableMutators\Length::class],
-			['length_range', [5, 10], StringableMutators\LengthRange::class],
-			['min_length', [10], StringableMutators\MinLength::class],
-			['max_length', [10], StringableMutators\MaxLength::class],
-			['truncate', [10], StringableMutators\Truncate::class],
-			['non_empty', [], StringableMutators\NonEmpty::class],
-			['non_empty_iws', [], StringableMutators\NonEmpty::class],
-			['trim', [], StringableMutators\Trim::class],
-			['empty_null', [], StringableMutators\EmptyNull::class],
-			['lowercase', [], StringableMutators\Lowercase::class],
-			['lower', [], StringableMutators\Lowercase::class],
-			['uppercase', [], StringableMutators\Uppercase::class],
-			['upper', [], StringableMutators\Uppercase::class],
-			['to_lowercase', [], StringableMutators\ToLowercase::class],
-			['to_lower', [], StringableMutators\ToLowercase::class],
-			['to_uppercase', [], StringableMutators\ToUppercase::class],
-			['to_upper', [], StringableMutators\ToUppercase::class],
-			['hexadecimal', [], StringableMutators\Hexadecimal::class],
-			['base64', [], StringableMutators\Base64::class],
-			['alphabetical', [], StringableMutators\Alphabetical::class],
-			['alphabetic', [], StringableMutators\Alphabetical::class],
-			['lower_alphabetical', [], StringableMutators\Alphabetical::class],
-			['lower_alphabetic', [], StringableMutators\Alphabetical::class],
-			['upper_alphabetical', [], StringableMutators\Alphabetical::class],
-			['upper_alphabetic', [], StringableMutators\Alphabetical::class],
-			['numerical', [], StringableMutators\Numerical::class],
-			['numeric', [], StringableMutators\Numerical::class],
-			['alphanumerical', [], StringableMutators\Alphanumerical::class],
-			['alphanumeric', [], StringableMutators\Alphanumerical::class],
-			['lower_alphanumerical', [], StringableMutators\Alphanumerical::class],
-			['lower_alphanumeric', [], StringableMutators\Alphanumerical::class],
-			['upper_alphanumerical', [], StringableMutators\Alphanumerical::class],
-			['upper_alphanumeric', [], StringableMutators\Alphanumerical::class],
-			['identifier', [], StringableMutators\Identifier::class],
-			['xidentifier', [], StringableMutators\Identifier::class],
-			['lower_identifier', [], StringableMutators\Identifier::class],
-			['upper_identifier', [], StringableMutators\Identifier::class],
-			['lower_xidentifier', [], StringableMutators\Identifier::class],
-			['upper_xidentifier', [], StringableMutators\Identifier::class],
-			['wildcards', [['*']], StringableMutators\Wildcards::class],
-			['iwildcards', [['*']], StringableMutators\Wildcards::class],
-			['non_wildcards', [['*']], StringableMutators\Wildcards::class],
-			['non_iwildcards', [['*']], StringableMutators\Wildcards::class]
+			['length', StringableMutators\Length::class, [10]],
+			['length_range', StringableMutators\LengthRange::class, [5, 10]],
+			['min_length', StringableMutators\MinLength::class, [10]],
+			['max_length', StringableMutators\MaxLength::class, [10]],
+			['truncate', StringableMutators\Truncate::class, [10]],
+			['non_empty', StringableMutators\NonEmpty::class],
+			['non_empty_iws', StringableMutators\NonEmpty::class],
+			['trim', StringableMutators\Trim::class],
+			['empty_null', StringableMutators\EmptyNull::class],
+			['lowercase', StringableMutators\Lowercase::class],
+			['lower', StringableMutators\Lowercase::class],
+			['uppercase', StringableMutators\Uppercase::class],
+			['upper', StringableMutators\Uppercase::class],
+			['to_lowercase', StringableMutators\ToLowercase::class],
+			['to_lower', StringableMutators\ToLowercase::class],
+			['to_uppercase', StringableMutators\ToUppercase::class],
+			['to_upper', StringableMutators\ToUppercase::class],
+			['hexadecimal', StringableMutators\Hexadecimal::class],
+			['base64', StringableMutators\Base64::class],
+			['alphabetical', StringableMutators\Alphabetical::class],
+			['alphabetic', StringableMutators\Alphabetical::class],
+			['lower_alphabetical', StringableMutators\Alphabetical::class],
+			['lower_alphabetic', StringableMutators\Alphabetical::class],
+			['upper_alphabetical', StringableMutators\Alphabetical::class],
+			['upper_alphabetic', StringableMutators\Alphabetical::class],
+			['numerical', StringableMutators\Numerical::class],
+			['numeric', StringableMutators\Numerical::class],
+			['alphanumerical', StringableMutators\Alphanumerical::class],
+			['alphanumeric', StringableMutators\Alphanumerical::class],
+			['lower_alphanumerical', StringableMutators\Alphanumerical::class],
+			['lower_alphanumeric', StringableMutators\Alphanumerical::class],
+			['upper_alphanumerical', StringableMutators\Alphanumerical::class],
+			['upper_alphanumeric', StringableMutators\Alphanumerical::class],
+			['identifier', StringableMutators\Identifier::class],
+			['xidentifier', StringableMutators\Identifier::class],
+			['lower_identifier', StringableMutators\Identifier::class],
+			['upper_identifier', StringableMutators\Identifier::class],
+			['lower_xidentifier', StringableMutators\Identifier::class],
+			['upper_xidentifier', StringableMutators\Identifier::class],
+			['wildcards', StringableMutators\Wildcards::class, [['*']]],
+			['iwildcards', StringableMutators\Wildcards::class, [['*']]],
+			['non_wildcards', StringableMutators\Wildcards::class, [['*']]],
+			['non_iwildcards', StringableMutators\Wildcards::class, [['*']]]
 		];
 	}
 }
