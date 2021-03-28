@@ -14,8 +14,12 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer as IExplanationProducer;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\{
+	Validator as IValidator,
+	ExplanationProducer as IExplanationProducer
+};
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as UCallHaltExceptions;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type\Components\Mutator */
@@ -100,6 +104,20 @@ class MutatorTest extends TestCase
 	}
 	
 	/**
+	 * Test validator.
+	 * 
+	 * @testdox Validator
+	 * 
+	 * @return void
+	 */
+	public function testValidator(): void
+	{
+		$value = new stdClass();
+		$this->expectException(UCallHaltExceptions\ParameterNotAllowed::class);
+		Component::build(MutatorTest_Prototype2::class)->process($value);
+	}
+	
+	/**
 	 * Test explanation.
 	 * 
 	 * @testdox Explanation
@@ -157,7 +175,7 @@ class MutatorTest_Prototype1 extends Prototype implements IExplanationProducer
 
 
 /** Test case dummy prototype class 2. */
-class MutatorTest_Prototype2 extends Prototype
+class MutatorTest_Prototype2 extends Prototype implements IValidator
 {
 	public function process(mixed &$value)
 	{
@@ -167,5 +185,10 @@ class MutatorTest_Prototype2 extends Prototype
 			return true;
 		}
 		return false;
+	}
+	
+	public function validate(mixed $value): bool
+	{
+		return is_scalar($value);
 	}
 }

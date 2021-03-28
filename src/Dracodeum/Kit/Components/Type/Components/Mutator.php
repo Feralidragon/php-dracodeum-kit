@@ -50,6 +50,14 @@ class Mutator extends Component
 		$v = $value;
 		$prototype = $this->getPrototype();
 		
+		//validate
+		if ($prototype instanceof PrototypeInterfaces\Validator && !$prototype->validate($v)) {
+			UCall::haltParameter('value', $value, [
+				'error_message' => "Invalid value for prototype {{prototype}}.",
+				'parameters' => ['prototype' => $prototype]
+			]);
+		}
+		
 		//process
 		$error = $prototype->process($v);
 		if (is_bool($error)) {
