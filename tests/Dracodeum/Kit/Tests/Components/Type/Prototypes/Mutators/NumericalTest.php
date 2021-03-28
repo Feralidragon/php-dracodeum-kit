@@ -9,27 +9,44 @@ namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as Prototype;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as Prototype;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as UCallHaltExceptions;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable */
-class StringableTest extends TestCase
+/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical */
+class NumericalTest extends TestCase
 {
 	//Public methods
 	/**
 	 * Test `Validator` interface.
 	 * 
 	 * @testdox Validator interface
+	 * @dataProvider provideValidatorInterfaceData
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\Validator
 	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
 	 * @return void
 	 */
-	public function testValidatorInterface(): void
+	public function testValidatorInterface(mixed $value): void
 	{
-		$value = 'foobar';
-		$this->assertNull(Component::build(StringableTest_Prototype::class)->process($value));
+		$this->assertNull(Component::build(NumericalTest_Prototype::class)->process($value));
+	}
+	
+	/**
+	 * Provide `Validator` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideValidatorInterfaceData(): array
+	{
+		return [
+			[123],
+			[123.456]
+		];
 	}
 	
 	/**
@@ -48,7 +65,7 @@ class StringableTest extends TestCase
 	public function testValidatorInterface_Error(mixed $value): void
 	{
 		$this->expectException(UCallHaltExceptions\ParameterNotAllowed::class);
-		Component::build(StringableTest_Prototype::class)->process($value);
+		Component::build(NumericalTest_Prototype::class)->process($value);
 	}
 	
 	/**
@@ -63,8 +80,7 @@ class StringableTest extends TestCase
 			[null],
 			[false],
 			[true],
-			[123],
-			[123.456],
+			['foobar'],
 			[[]],
 			[new stdClass()],
 			[fopen(__FILE__, 'r')]
@@ -75,7 +91,7 @@ class StringableTest extends TestCase
 
 
 /** Test case dummy prototype class. */
-class StringableTest_Prototype extends Prototype
+class NumericalTest_Prototype extends Prototype
 {
 	public function process(mixed &$value) {}
 }

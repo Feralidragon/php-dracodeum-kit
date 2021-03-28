@@ -21,7 +21,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as EType;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals as NumericalMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Utilities\Math as UMath;

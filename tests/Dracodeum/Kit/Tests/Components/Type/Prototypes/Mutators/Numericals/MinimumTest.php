@@ -5,17 +5,17 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators\Numerical;
+namespace Dracodeum\Kit\Tests\Components\Type\Prototypes\Mutators\Numericals;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical\Minimum as Prototype;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Minimum as Prototype;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical\Minimum */
+/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Minimum */
 class MinimumTest extends TestCase
 {
 	//Public methods

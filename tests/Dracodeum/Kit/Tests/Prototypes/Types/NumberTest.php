@@ -19,7 +19,7 @@ use Dracodeum\Kit\Interfaces\{
 	Floatable as IFloatable
 };
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as EType;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as NumericalMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals as NumericalMutators;
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
