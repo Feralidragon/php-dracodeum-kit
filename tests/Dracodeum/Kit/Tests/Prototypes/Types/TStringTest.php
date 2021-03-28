@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as StringableMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables as StringableMutators;
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 

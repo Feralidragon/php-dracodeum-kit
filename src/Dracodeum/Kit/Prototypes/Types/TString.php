@@ -18,7 +18,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as StringableMutators;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables as StringableMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\{
 	InfoLevel as EInfoLevel,
