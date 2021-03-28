@@ -266,7 +266,12 @@ class NumberTest extends TestCase
 			['xminimum', NumericalMutators\Minimum::class, [0]],
 			['xmin', NumericalMutators\Minimum::class, [0]],
 			['unsigned', NumericalMutators\Minimum::class],
-			['positive', NumericalMutators\Minimum::class]
+			['positive', NumericalMutators\Minimum::class],
+			['maximum', NumericalMutators\Maximum::class, [0]],
+			['max', NumericalMutators\Maximum::class, [0]],
+			['xmaximum', NumericalMutators\Maximum::class, [0]],
+			['xmax', NumericalMutators\Maximum::class, [0]],
+			['negative', NumericalMutators\Maximum::class]
 		];
 	}
 }
