@@ -271,7 +271,11 @@ class NumberTest extends TestCase
 			['max', NumericalMutators\Maximum::class, [0]],
 			['xmaximum', NumericalMutators\Maximum::class, [0]],
 			['xmax', NumericalMutators\Maximum::class, [0]],
-			['negative', NumericalMutators\Maximum::class]
+			['negative', NumericalMutators\Maximum::class],
+			['range', NumericalMutators\Range::class, [0, 1]],
+			['xrange', NumericalMutators\Range::class, [0, 1]],
+			['not_range', NumericalMutators\Range::class, [0, 1]],
+			['not_xrange', NumericalMutators\Range::class, [0, 1]]
 		];
 	}
 }

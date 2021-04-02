@@ -146,6 +146,12 @@ class Number extends Prototype implements IInformationProducer, IMutatorProducer
 			'maximum', 'max' => NumericalMutators\Maximum::class,
 			'xmaximum', 'xmax' => new NumericalMutators\Maximum(['exclusive' => true] + $properties),
 			'negative' => new NumericalMutators\Maximum([0, 'exclusive' => true] + $properties),
+			'range' => NumericalMutators\Range::class,
+			'xrange' => new NumericalMutators\Range(['min_exclusive' => true, 'max_exclusive' => true] + $properties),
+			'not_range' => new NumericalMutators\Range(['negate' => true] + $properties),
+			'not_xrange' => new NumericalMutators\Range(
+				['negate' => true, 'min_exclusive' => true, 'max_exclusive' => true] + $properties
+			),
 			default => null
 		};
 	}
