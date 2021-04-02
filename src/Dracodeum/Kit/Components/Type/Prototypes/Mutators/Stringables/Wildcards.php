@@ -68,20 +68,20 @@ class Wildcards extends Prototype implements IExplanationProducer
 		//text (finalize)
 		if ($this->negate) {
 			$text
-				->setString("The following match is not allowed: {{wildcards}}.")
-				->setPluralString("The following matches are not allowed: {{wildcards}}.")
-				->setString("The following wildcard match is not allowed: {{wildcards}}.", EInfoLevel::TECHNICAL)
+				->setString("Cannot match {{wildcards}}.")
+				->setPluralString("Cannot match any of the following: {{wildcards}}.")
+				->setString("Cannot match wildcard {{wildcards}}.", EInfoLevel::TECHNICAL)
 				->setPluralString(
-					"The following wildcard matches are not allowed: {{wildcards}}.", EInfoLevel::TECHNICAL
+					"Cannot match any of the following wildcards: {{wildcards}}.", EInfoLevel::TECHNICAL
 				)
 			;
 		} else {
 			$text
-				->setString("Only the following match is allowed: {{wildcards}}.")
-				->setPluralString("Only the following matches are allowed: {{wildcards}}.")
-				->setString("Only the following wildcard match is allowed: {{wildcards}}.", EInfoLevel::TECHNICAL)
+				->setString("Must match {{wildcards}}.")
+				->setPluralString("Must match at least one of the following: {{wildcards}}.")
+				->setString("Must match wildcard {{wildcards}}.", EInfoLevel::TECHNICAL)
 				->setPluralString(
-					"Only the following wildcard matches are allowed: {{wildcards}}.", EInfoLevel::TECHNICAL
+					"Must match at least one of the following wildcards: {{wildcards}}.", EInfoLevel::TECHNICAL
 				)
 			;
 		}

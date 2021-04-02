@@ -45,8 +45,8 @@ class MinLength extends Prototype implements IExplanationProducer
 	public function produceExplanation()
 	{
 		return Text::build()
-			->setString("At least {{length}} character is required.")
-			->setPluralString("At least {{length}} characters are required.")
+			->setString("Must be at least {{length}} character long.")
+			->setPluralString("Must be at least {{length}} characters long.")
 			->setPluralNumberPlaceholder('length')
 			->setPluralNumber($this->length)
 			->setAsLocalized(self::class)

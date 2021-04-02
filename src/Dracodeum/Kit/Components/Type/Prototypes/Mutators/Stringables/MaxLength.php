@@ -45,8 +45,8 @@ class MaxLength extends Prototype implements IExplanationProducer
 	public function produceExplanation()
 	{
 		return Text::build()
-			->setString("Cannot be over {{length}} character.")
-			->setPluralString("Cannot be over {{length}} characters.")
+			->setString("Cannot be over {{length}} character long.")
+			->setPluralString("Cannot be over {{length}} characters long.")
 			->setPluralNumberPlaceholder('length')
 			->setPluralNumber($this->length)
 			->setAsLocalized(self::class)
