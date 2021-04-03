@@ -276,6 +276,8 @@ class NumberTest extends TestCase
 			['xrange', NumericalMutators\Range::class, [0, 1]],
 			['non_range', NumericalMutators\Range::class, [0, 1]],
 			['non_xrange', NumericalMutators\Range::class, [0, 1]],
+			['odd', NumericalMutators\Odd::class],
+			['even', NumericalMutators\Even::class],
 			['multiples', NumericalMutators\Multiples::class, [[1]]],
 			['non_multiples', NumericalMutators\Multiples::class, [[1]]]
 		];

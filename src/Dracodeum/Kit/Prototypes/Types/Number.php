@@ -152,6 +152,8 @@ class Number extends Prototype implements IInformationProducer, IMutatorProducer
 			'non_xrange' => new NumericalMutators\Range(
 				['negate' => true, 'min_exclusive' => true, 'max_exclusive' => true] + $properties
 			),
+			'odd' => NumericalMutators\Odd::class,
+			'even' => NumericalMutators\Even::class,
 			'multiples' => NumericalMutators\Multiples::class,
 			'non_multiples' => new NumericalMutators\Multiples(['negate' => true] + $properties),
 			default => null
