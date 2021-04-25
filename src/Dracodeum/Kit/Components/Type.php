@@ -114,6 +114,7 @@ class Type extends Component
 			'float' => new Prototypes\Number(['type' => ENumberType::FLOAT] + $properties),
 			'string' => Prototypes\TString::class,
 			'ustring' => new Prototypes\TString(['unicode' => true] + $properties),
+			'enumeration', 'enum' => Prototypes\Enumeration::class,
 			default => null
 		};
 	}

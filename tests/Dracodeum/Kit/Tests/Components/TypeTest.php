@@ -28,7 +28,10 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
-use Dracodeum\Kit\Component as KitComponent;
+use Dracodeum\Kit\{
+	Component as KitComponent,
+	Enumeration
+};
 use ReflectionProperty;
 use stdClass;
 
@@ -48,12 +51,15 @@ class TypeTest extends TestCase
 	 * @param string $expected
 	 * The expected prototype class.
 	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
 	 * @return void
 	 */
-	public function testPrototypeName(string $name, string $expected): void
+	public function testPrototypeName(string $name, string $expected, array $properties = []): void
 	{
 		//build
-		$component = Component::build($name);
+		$component = Component::build($name, $properties);
 		
 		//reflection
 		$reflection = new ReflectionProperty(KitComponent::class, 'prototype');
@@ -80,7 +86,9 @@ class TypeTest extends TestCase
 			['int', Prototypes\Number::class],
 			['float', Prototypes\Number::class],
 			['string', Prototypes\TString::class],
-			['ustring', Prototypes\TString::class]
+			['ustring', Prototypes\TString::class],
+			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
+			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]]
 		];
 	}
 	
@@ -687,3 +695,8 @@ class TypeTest_MutatorPrototype2 extends MutatorPrototype
 		};
 	}
 }
+
+
+
+/** Test case dummy enumeration. */
+class TypeTest_Enum extends Enumeration {}
