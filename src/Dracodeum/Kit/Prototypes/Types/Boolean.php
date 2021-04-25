@@ -8,10 +8,7 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\{
-	Textifier as ITextifier,
-	InformationProducer as IInformationProducer
-};
+use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -32,7 +29,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * - a string, with `"0"`, `"f"`, `"false"`, `"off"` or `"no"` as boolean `false`, 
  * and `"1"`, `"t"`, `"true"`, `"on"` or `"yes"` as boolean `true`.
  */
-class Boolean extends Prototype implements ITextifier, IInformationProducer
+class Boolean extends Prototype implements ITextifier
 {
 	//Private constants
 	/** Strings recognized as `true`. */
@@ -71,7 +68,9 @@ class Boolean extends Prototype implements ITextifier, IInformationProducer
 		}
 		
 		//error
-		$values_stringifier = $this->getValuesPlaceholderStringifier();
+		$values_stringifier = function (mixed $value, TextOptions $text_options): string {
+			return UText::commify($value, $text_options, 'or', true);
+		};
 		$text = Text::build()
 			->setString(
 				"Only a boolean is allowed, which may be given as {{values.true}} as boolean true, " . 
@@ -94,53 +93,6 @@ class Boolean extends Prototype implements ITextifier, IInformationProducer
 		return match ($value) {
 			false => Text::build("no")->setString("false", EInfoLevel::TECHNICAL)->setAsLocalized(self::class),
 			true => Text::build("yes")->setString("true", EInfoLevel::TECHNICAL)->setAsLocalized(self::class)
-		};
-	}
-	
-	
-	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer)
-	/** {@inheritdoc} */
-	public function produceLabel($context)
-	{
-		return Text::build("Boolean")->setAsLocalized(self::class);
-	}
-	
-	/** {@inheritdoc} */
-	public function produceDescription($context)
-	{
-		//internal
-		if ($context === EContext::INTERNAL) {
-			return "A boolean (true or false).";
-		}
-		
-		//non-internal
-		$values_stringifier = $this->getValuesPlaceholderStringifier();
-		return Text::build()
-			->setString(
-				"A boolean, which may be given as {{values.true}} as boolean true, " . 
-				"and {{values.false}} as boolean false."
-			)
-			->setParameter('values', ['true' => self::STRINGS_TRUE, 'false' => self::STRINGS_FALSE])
-			->setPlaceholderStringifier('values.true', $values_stringifier)
-			->setPlaceholderStringifier('values.false', $values_stringifier)
-			->setAsLocalized(self::class)
-		;
-	}
-	
-	
-	
-	//Private methods
-	/**
-	 * Get values placeholder stringifier.
-	 * 
-	 * @return callable
-	 * The stringifier.
-	 */
-	private function getValuesPlaceholderStringifier(): callable
-	{
-		return function (mixed $value, TextOptions $text_options): string {
-			return UText::commify($value, $text_options, 'or', true);
 		};
 	}
 }

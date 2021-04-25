@@ -185,22 +185,6 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test `InformationProducer` interface.
-	 * 
-	 * @testdox InformationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
-	 * 
-	 * @return void
-	 */
-	public function testInformationProducerInterface(): void
-	{
-		$component = Component::build(Prototype::class);
-		$this->assertInstanceOf(Text::class, $component->getLabel());
-		$this->assertInstanceOf(Text::class, $component->getDescription());
-	}
-	
-	/**
 	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface

@@ -8,10 +8,7 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\{
-	InformationProducer as IInformationProducer,
-	MutatorProducer as IMutatorProducer
-};
+use Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer as IMutatorProducer;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Stringable as IPhpStringable;
 use Dracodeum\Kit\Primitives\{
@@ -37,7 +34,7 @@ use Dracodeum\Kit\Root\Locale;
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
  * Set as a Unicode string.
  */
-class TString extends Prototype implements IInformationProducer, IMutatorProducer
+class TString extends Prototype implements IMutatorProducer
 {
 	//Protected properties
 	protected bool $unicode = false;
@@ -96,21 +93,6 @@ class TString extends Prototype implements IInformationProducer, IMutatorProduce
 		
 		//return
 		return null;
-	}
-	
-	
-	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer)
-	/** {@inheritdoc} */
-	public function produceLabel($context)
-	{
-		return Text::build("String")->setAsLocalized(self::class);
-	}
-	
-	/** {@inheritdoc} */
-	public function produceDescription($context)
-	{
-		return Text::build("A string of characters.")->setAsLocalized(self::class);
 	}
 	
 	

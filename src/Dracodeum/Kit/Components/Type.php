@@ -223,48 +223,6 @@ class Type extends Component
 	}
 	
 	/**
-	 * Get label.
-	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * The context to get for.
-	 * 
-	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * The label, as a text instance, or `null` if none is set.
-	 */
-	final public function getLabel($context = EContext::INTERNAL): ?Text
-	{
-		//initialize
-		$context = EContext::coerceValue($context);
-		$prototype = $this->getPrototype();
-		
-		//return
-		return $prototype instanceof PrototypeInterfaces\InformationProducer
-			? UCall::guardExecution([$prototype, 'produceLabel'], [$context], [Text::class, 'coerce'])
-			: null;
-	}
-	
-	/**
-	 * Get description.
-	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
-	 * The context to get for.
-	 * 
-	 * @return \Dracodeum\Kit\Primitives\Text|null
-	 * The description, as a text instance, or `null` if none is set.
-	 */
-	final public function getDescription($context = EContext::INTERNAL): ?Text
-	{
-		//initialize
-		$context = EContext::coerceValue($context);
-		$prototype = $this->getPrototype();
-		
-		//return
-		return $prototype instanceof PrototypeInterfaces\InformationProducer
-			? UCall::guardExecution([$prototype, 'produceDescription'], [$context], [Text::class, 'coerce'])
-			: null;
-	}
-	
-	/**
 	 * Add mutator.
 	 * 
 	 * @param coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator> $mutator

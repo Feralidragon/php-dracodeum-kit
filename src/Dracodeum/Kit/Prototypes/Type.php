@@ -12,7 +12,6 @@ use Dracodeum\Kit\Primitives\Error;
 
 /**
  * @see \Dracodeum\Kit\Components\Type
- * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
  * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
  * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
  */

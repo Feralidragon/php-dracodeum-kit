@@ -16,7 +16,6 @@ use Dracodeum\Kit\Prototypes\{
 use Dracodeum\Kit\Components\Type\Exceptions;
 use Dracodeum\Kit\Prototypes\Type\Interfaces\{
 	Textifier as ITextifier,
-	InformationProducer as IInformationProducer,
 	MutatorProducer as IMutatorProducer
 };
 use Dracodeum\Kit\Components\Type\Components\Mutator as MutatorComponent;
@@ -371,58 +370,6 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Test label.
-	 * 
-	 * @testdox Label
-	 * 
-	 * @return void
-	 */
-	public function testLabel(): void
-	{
-		//build
-		$component1 = Component::build(TypeTest_Prototype1::class);
-		$component2 = Component::build(TypeTest_Prototype2::class);
-		
-		//labels
-		$label1 = $component1->getLabel();
-		$label1_interface = $component1->getLabel(EContext::INTERFACE);
-		$label2 = $component2->getLabel();
-		
-		//assert
-		$this->assertInstanceOf(Text::class, $label1);
-		$this->assertInstanceOf(Text::class, $label1_interface);
-		$this->assertSame(TypeTest_Prototype1::LABEL_STRING_INTERNAL, (string)$label1);
-		$this->assertSame(TypeTest_Prototype1::LABEL_STRING, (string)$label1_interface);
-		$this->assertNull($label2);
-	}
-	
-	/**
-	 * Test description.
-	 * 
-	 * @testdox Description
-	 * 
-	 * @return void
-	 */
-	public function testDescription(): void
-	{
-		//build
-		$component1 = Component::build(TypeTest_Prototype1::class);
-		$component2 = Component::build(TypeTest_Prototype2::class);
-		
-		//descriptions
-		$description1 = $component1->getDescription();
-		$description1_interface = $component1->getDescription(EContext::INTERFACE);
-		$description2 = $component2->getDescription();
-		
-		//assert
-		$this->assertInstanceOf(Text::class, $description1);
-		$this->assertInstanceOf(Text::class, $description1_interface);
-		$this->assertSame(TypeTest_Prototype1::DESCRIPTION_STRING_INTERNAL, (string)$description1);
-		$this->assertSame(TypeTest_Prototype1::DESCRIPTION_STRING, (string)$description1_interface);
-		$this->assertNull($description2);
-	}
-	
-	/**
 	 * Test mutators.
 	 * 
 	 * @testdox Mutators
@@ -589,14 +536,10 @@ class TypeTest extends TestCase
 
 
 /** Test case dummy prototype class 1. */
-class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationProducer, IMutatorProducer
+class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProducer
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
 	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
-	public const LABEL_STRING = "Test 1";
-	public const LABEL_STRING_INTERNAL = "test1";
-	public const DESCRIPTION_STRING = "This is a testing type.";
-	public const DESCRIPTION_STRING_INTERNAL = "Testing type.";
 	
 	public function process(mixed &$value, $context): ?Error
 	{
@@ -622,16 +565,6 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IInformationP
 	public function textify(mixed $value)
 	{
 		return implode(' ', str_split($value));
-	}
-	
-	public function produceLabel($context)
-	{
-		return $context === EContext::INTERNAL ? self::LABEL_STRING_INTERNAL : self::LABEL_STRING;
-	}
-	
-	public function produceDescription($context)
-	{
-		return $context === EContext::INTERNAL ? self::DESCRIPTION_STRING_INTERNAL : self::DESCRIPTION_STRING;
 	}
 	
 	public function produceMutator(string $name, array $properties)

@@ -8,10 +8,7 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\{
-	InformationProducer as IInformationProducer,
-	MutatorProducer as IMutatorProducer
-};
+use Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer as IMutatorProducer;
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable
@@ -39,7 +36,7 @@ use Dracodeum\Kit\Utilities\Math as UMath;
  * @property-write enum<\Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type>|null $type [writeonce] [transient] [default = null]  
  * The type to restrict and cast to.
  */
-class Number extends Prototype implements IInformationProducer, IMutatorProducer
+class Number extends Prototype implements IMutatorProducer
 {
 	//Protected properties
 	/** @var enum<\Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type>|null */
@@ -103,33 +100,6 @@ class Number extends Prototype implements IInformationProducer, IMutatorProducer
 		
 		//return
 		return null;
-	}
-	
-	
-	
-	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer)
-	/** {@inheritdoc} */
-	public function produceLabel($context)
-	{
-		$text = Text::build("Number")->setAsLocalized(self::class);
-		if ($this->type === EType::INTEGER) {
-			$text->setString("Integer", EInfoLevel::TECHNICAL);
-		} elseif ($this->type === EType::FLOAT) {
-			$text->setString("Float", EInfoLevel::TECHNICAL);
-		}
-		return $text;
-	}
-	
-	/** {@inheritdoc} */
-	public function produceDescription($context)
-	{
-		$text = Text::build("A number.")->setAsLocalized(self::class);
-		if ($this->type === EType::INTEGER) {
-			$text->setString("An integer number.", EInfoLevel::TECHNICAL);
-		} elseif ($this->type === EType::FLOAT) {
-			$text->setString("A floating point number.", EInfoLevel::TECHNICAL);
-		}
-		return $text;
 	}
 	
 	

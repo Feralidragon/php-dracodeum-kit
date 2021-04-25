@@ -10,10 +10,7 @@ namespace Dracodeum\Kit\Tests\Prototypes\Types;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\TString as Prototype;
-use Dracodeum\Kit\Primitives\{
-	Error,
-	Text
-};
+use Dracodeum\Kit\Primitives\Error;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables as StringableMutators;
 use Dracodeum\Kit\Utilities\Type as UType;
@@ -146,22 +143,6 @@ class TStringTest extends TestCase
 			["\xE3\x81\x81", "\u{3041}"],
 			["\xEF\xBB\xBF\xE3\x81\x81", "\u{3041}"]
 		];
-	}
-	
-	/**
-	 * Test `InformationProducer` interface.
-	 * 
-	 * @testdox InformationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
-	 * 
-	 * @return void
-	 */
-	public function testInformationProducerInterface(): void
-	{
-		$component = Component::build(Prototype::class);
-		$this->assertInstanceOf(Text::class, $component->getLabel());
-		$this->assertInstanceOf(Text::class, $component->getDescription());
 	}
 	
 	/**

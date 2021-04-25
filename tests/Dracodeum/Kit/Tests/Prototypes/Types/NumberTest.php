@@ -10,10 +10,7 @@ namespace Dracodeum\Kit\Tests\Prototypes\Types;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\Number as Prototype;
-use Dracodeum\Kit\Primitives\{
-	Error,
-	Text
-};
+use Dracodeum\Kit\Primitives\Error;
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable
@@ -208,22 +205,6 @@ class NumberTest extends TestCase
 			['-123.4567k', ['type' => EType::INTEGER]],
 			[new NumberTest_Class2(), ['type' => EType::INTEGER]]
 		];
-	}
-	
-	/**
-	 * Test `InformationProducer` interface.
-	 * 
-	 * @testdox InformationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\InformationProducer
-	 * 
-	 * @return void
-	 */
-	public function testInformationProducerInterface(): void
-	{
-		$component = Component::build(Prototype::class);
-		$this->assertInstanceOf(Text::class, $component->getLabel());
-		$this->assertInstanceOf(Text::class, $component->getDescription());
 	}
 	
 	/**
