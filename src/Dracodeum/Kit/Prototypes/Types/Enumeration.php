@@ -80,9 +80,7 @@ class Enumeration extends Prototype implements ITextifier
 		
 		//error
 		if ($enum_value === null) {
-			$text = Text::build()
-				->setString("Only an enumeration value or name is allowed.")
-				->setString("Only a value or name of the {{enumeration}} enumeration is allowed.", EInfoLevel::INTERNAL)
+			$text = Text::build("Only a value or name of the {{enumeration}} enumeration is allowed.")
 				->setParameter('enumeration', $enumeration)
 				->setAsLocalized(self::class)
 			;
