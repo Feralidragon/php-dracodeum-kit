@@ -23,7 +23,8 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * 
  * All types of values are directly cast to a boolean when the internal context is used.
  * 
- * Otherwise, when any other context is used, only the following types of values are allowed and coerced into a boolean:
+ * Otherwise, when any other context is used, only the following types of values are allowed to be coerced into a 
+ * boolean:
  * - a boolean;
  * - an integer, with `0` as boolean `false`, and `1` as boolean `true`;
  * - a string, with `"0"`, `"f"`, `"false"`, `"off"` or `"no"` as boolean `false`, 

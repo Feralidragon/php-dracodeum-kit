@@ -26,7 +26,7 @@ use Dracodeum\Kit\Utilities\Math as UMath;
 /**
  * This prototype represents a number.
  * 
- * Only the following types of values are allowed and coerced into a number:
+ * Only the following types of values are allowed to be coerced into a number:
  * - a boolean, integer or float;
  * - a numeric string, such as `123.45` for 123.45;
  * - a human-readable numeric string, such as `123k` for 123000;
@@ -67,7 +67,7 @@ class Number extends Prototype implements IMutatorProducer
 			$text = Text::build()
 				->setString("Only a number is allowed.")
 				->setString(
-					"Only the following types of values are allowed and coerced into a number:\n" . 
+					"Only the following types of values are allowed to be coerced into a number:\n" . 
 						" - a boolean, integer or float;\n" . 
 						" - a numeric string, such as \"123.45\" for 123.45;\n" .  
 						" - a human-readable numeric string, such as \"123k\" for 123000;\n" . 

@@ -26,7 +26,7 @@ use Dracodeum\Kit\Root\Locale;
 /**
  * This prototype represents a string.
  * 
- * Only the following types of values are allowed and coerced into a string:
+ * Only the following types of values are allowed to be coerced into a string:
  * - a string, integer or float;
  * - a stringable object, as an object implementing either the PHP `Stringable` interface or 
  * the `Dracodeum\Kit\Interfaces\Stringable` interface.
@@ -77,7 +77,7 @@ class TString extends Prototype implements IMutatorProducer
 			$text = Text::build()
 				->setString("Only a string of characters is allowed.")
 				->setString(
-					"Only the following types of values are allowed and coerced into a string:\n" . 
+					"Only the following types of values are allowed to be coerced into a string:\n" . 
 						" - a string, integer or float;\n" . 
 						" - a stringable object, as an object implementing either the PHP \"Stringable\" interface " . 
 						"or the \"Dracodeum\\Kit\\Interfaces\\Stringable\" interface.",

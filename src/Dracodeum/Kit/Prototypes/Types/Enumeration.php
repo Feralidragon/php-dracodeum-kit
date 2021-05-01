@@ -22,7 +22,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
 /**
  * This prototype represents an enumeration.
  * 
- * Only the following types of values are allowed and coerced into an enumeration:
+ * Only the following types of values are allowed to be coerced into an enumeration:
  * - an integer or string as an enumeration element value (when the internal context is used);
  * - a string as an enumeration element name.
  * 
