@@ -88,7 +88,8 @@ class TypeTest extends TestCase
 			['string', Prototypes\TString::class],
 			['ustring', Prototypes\TString::class],
 			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
-			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]]
+			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
+			['class', Prototypes\TClass::class]
 		];
 	}
 	
