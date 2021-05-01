@@ -81,7 +81,6 @@ class Enumeration extends Prototype implements ITextifier
 		if ($enum_value === null) {
 			$text = Text::build("Only a value or name of the {{enumeration}} enumeration is allowed.")
 				->setParameter('enumeration', $enumeration)
-				->setAsLocalized(self::class)
 			;
 			return Error::build(text: $text);
 		}
