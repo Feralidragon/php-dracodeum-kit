@@ -93,6 +93,7 @@ class TInterfaceTest extends TestCase
 			['123'],
 			['foo'],
 			[[]],
+			[new stdClass()],
 			[fopen(__FILE__, 'r')],
 			[stdClass::class],
 			[TInterfaceTest_Class::class],

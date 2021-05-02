@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\TClass as Prototype;
 use Dracodeum\Kit\Primitives\Error;
+use Stringable as IStringable;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\TClass */
@@ -107,6 +108,8 @@ class TClassTest extends TestCase
 			['foo'],
 			[[]],
 			[fopen(__FILE__, 'r')],
+			[IStringable::class],
+			[TClassTest_Interface::class],
 			['_stdClass'],
 			['#stdClass'],
 			[' stdClass '],
@@ -133,3 +136,8 @@ class TClassTest_Class1 {}
 
 /** Test case dummy class 2. */
 class TClassTest_Class2 extends TClassTest_Class1 {}
+
+
+
+/** Test case dummy interface. */
+interface TClassTest_Interface {}
