@@ -50,6 +50,7 @@ class TClass extends Prototype
 		if ($this->class !== null && !UType::isA($class, $this->class)) {
 			$text = Text::build("Only a class matching or extending from {{class}} is allowed.")
 				->setParameter('class', $this->class)
+				->setPlaceholderAsQuoted('class')
 			;
 			return Error::build(text: $text);
 		}

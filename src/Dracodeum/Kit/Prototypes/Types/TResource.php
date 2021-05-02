@@ -41,7 +41,10 @@ class TResource extends Prototype implements ITextifier
 		
 		//type
 		if ($this->type !== null && get_resource_type($value) !== $this->type) {
-			$text = Text::build("Only a resource of the type {{type}} is allowed.")->setParameter('type', $this->type);
+			$text = Text::build("Only a resource of the type {{type}} is allowed.")
+				->setParameter('type', $this->type)
+				->setPlaceholderAsQuoted('type')
+			;
 			return Error::build(text: $text);
 		}
 		

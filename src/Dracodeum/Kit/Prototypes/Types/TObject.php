@@ -43,6 +43,7 @@ class TObject extends Prototype
 		if ($this->class !== null && !UType::isA($value, $this->class)) {
 			$text = Text::build("Only an object of a class matching or extending from {{class}} is allowed.")
 				->setParameter('class', $this->class)
+				->setPlaceholderAsQuoted('class')
 			;
 			return Error::build(text: $text);
 		}
