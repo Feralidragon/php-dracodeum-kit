@@ -117,6 +117,7 @@ class Type extends Component
 			'enumeration', 'enum' => Prototypes\Enumeration::class,
 			'class' => Prototypes\TClass::class,
 			'interface' => Prototypes\TInterface::class,
+			'object' => Prototypes\TObject::class,
 			default => null
 		};
 	}

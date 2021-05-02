@@ -90,7 +90,8 @@ class TypeTest extends TestCase
 			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
 			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
 			['class', Prototypes\TClass::class],
-			['interface', Prototypes\TInterface::class]
+			['interface', Prototypes\TInterface::class],
+			['object', Prototypes\TObject::class]
 		];
 	}
 	
