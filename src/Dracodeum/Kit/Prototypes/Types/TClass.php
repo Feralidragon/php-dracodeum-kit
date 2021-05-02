@@ -20,7 +20,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * 
  * Only a string, as a full class name, or an object, is allowed to be coerced into a class.
  * 
- * @property-write string|null $class [writeonce] [transient] [strict = class] [default = null]  
+ * @property-write string|null $class [writeonce] [transient] [default = null]  
  * The class to restrict to.
  */
 class TClass extends Prototype
@@ -68,12 +68,7 @@ class TClass extends Prototype
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'class'
-				=> $this->createProperty()
-					->setMode('w--')
-					->setAsStrictClass()
-					->bind(self::class)
-				,
+			'class' => $this->createProperty()->setMode('w--')->setAsClass()->bind(self::class),
 			default => null
 		};
 	}

@@ -26,7 +26,7 @@ use Dracodeum\Kit\Utilities\Text as UText;
  * - an integer or string as an enumeration element value (when the internal context is used);
  * - a string as an enumeration element name.
  * 
- * @property-write string $enumeration [writeonce] [transient] [strict = class]  
+ * @property-write string $enumeration [writeonce] [transient]  
  * The enumeration class to use.
  * 
  * @see \Dracodeum\Kit\Enumeration
@@ -120,7 +120,7 @@ class Enumeration extends Prototype implements ITextifier
 			'enumeration'
 				=> $this->createProperty()
 					->setMode('w--')
-					->setAsStrictClass(KitEnumeration::class)
+					->setAsClass(KitEnumeration::class)
 					->bind(self::class)
 				,
 			default => null

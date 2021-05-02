@@ -20,7 +20,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * 
  * Only an object is allowed.
  * 
- * @property-write string|null $class [writeonce] [transient] [strict = class] [default = null]  
+ * @property-write string|null $class [writeonce] [transient] [default = null]  
  * The class to restrict to.
  */
 class TObject extends Prototype
@@ -58,12 +58,7 @@ class TObject extends Prototype
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'class'
-				=> $this->createProperty()
-					->setMode('w--')
-					->setAsStrictClass()
-					->bind(self::class)
-				,
+			'class' => $this->createProperty()->setMode('w--')->setAsClass()->bind(self::class),
 			default => null
 		};
 	}
