@@ -116,6 +116,7 @@ class Type extends Component
 			'ustring' => new Prototypes\TString(['unicode' => true] + $properties),
 			'enumeration', 'enum' => Prototypes\Enumeration::class,
 			'class' => Prototypes\TClass::class,
+			'interface' => Prototypes\TInterface::class,
 			default => null
 		};
 	}
