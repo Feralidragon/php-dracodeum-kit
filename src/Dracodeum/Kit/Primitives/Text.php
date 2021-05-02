@@ -43,6 +43,12 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	
 	
+	//Private constants
+	/** Quoted placeholder flag. */
+	private const FLAG_PLACEHOLDER_QUOTED = 0x1;
+	
+	
+	
 	//Private properties
 	/** @var string[] */
 	private array $strings = [];
@@ -55,6 +61,9 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	private ?string $plural_number_placeholder = null;
 	
 	private array $parameters = [];
+	
+	/** @var int[] */
+	private array $placeholders_flags = [];
 	
 	/** @var callable[] */
 	private array $placeholders_stringifiers = [];
@@ -126,9 +135,21 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 			//initialize
 			$fill_text_options = TextOptions::coerce($text_options);
 			$fill_stringifier = function (string $placeholder, $value) use ($fill_text_options): ?string {
-				return isset($this->placeholders_stringifiers[$placeholder])
+				//string
+				$string = isset($this->placeholders_stringifiers[$placeholder])
 					? ($this->placeholders_stringifiers[$placeholder])($value, $fill_text_options)
-					: null;
+					: UText::stringify($value, $fill_text_options);
+				
+				//flags
+				$flags = $this->placeholders_flags[$placeholder] ?? 0x0;
+				if ($flags & self::FLAG_PLACEHOLDER_QUOTED) {
+					$string = $fill_text_options->info_level === EInfoLevel::ENDUSER
+						? "\u{201c}{$string}\u{201d}"
+						: "\"{$string}\"";
+				}
+				
+				//return
+				return $string;
 			};
 			
 			//fill
@@ -409,6 +430,21 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	}
 	
 	/**
+	 * Set placeholder as quoted.
+	 * 
+	 * @param string $placeholder
+	 * The placeholder to set for.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setPlaceholderAsQuoted(string $placeholder)
+	{
+		$this->setPlaceholderFlag($placeholder, self::FLAG_PLACEHOLDER_QUOTED);
+		return $this;
+	}
+	
+	/**
 	 * Set placeholder stringifier.
 	 * 
 	 * @param string $placeholder
@@ -624,5 +660,27 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 			}
 		}
 		return true;
+	}
+	
+	
+	
+	//Private methods
+	/**
+	 * Set placeholder flag.
+	 * 
+	 * @param string $placeholder
+	 * The placeholder to set for.
+	 * 
+	 * @param int $flag
+	 * The flag to set.
+	 * 
+	 * @return void
+	 */
+	private function setPlaceholderFlag(string $placeholder, int $flag): void
+	{
+		if (!isset($this->placeholders_flags[$placeholder])) {
+			$this->placeholders_flags[$placeholder] = 0x0;
+		}
+		$this->placeholders_flags[$placeholder] |= $flag;
 	}
 }

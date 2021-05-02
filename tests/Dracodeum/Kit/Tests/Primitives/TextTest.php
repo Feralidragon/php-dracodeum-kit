@@ -575,6 +575,38 @@ class TextTest extends TestCase
 	}
 	
 	/**
+	 * Test placeholder as quoted.
+	 * 
+	 * @testdox Placeholder as quoted
+	 * 
+	 * @return void
+	 */
+	public function testPlaceholderAsQuoted(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$string = "The quick brown fox {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string_param = "The quick brown fox \"{$fox_name}\" jumps over the lazy dog {$dog_name}.";
+		$string_param_enduser = "The quick brown fox \u{201c}{$fox_name}\u{201d} jumps over the lazy dog {$dog_name}.";
+		
+		//build
+		$text = Text::build($string)
+			->setParameters([
+				'fox_name' => $fox_name,
+				'dog_name' => $dog_name
+			])
+			->setPlaceholderAsQuoted('fox_name')
+		;
+		
+		//assert
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($string_param_enduser, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
+		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
+		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+	}
+	
+	/**
 	 * Test placeholder stringifier.
 	 * 
 	 * @testdox Placeholder stringifier
