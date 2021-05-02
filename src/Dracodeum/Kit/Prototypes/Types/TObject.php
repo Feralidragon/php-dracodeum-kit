@@ -8,6 +8,7 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
@@ -23,7 +24,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * @property-write string|null $class [writeonce] [transient] [default = null]  
  * The class to restrict to.
  */
-class TObject extends Prototype
+class TObject extends Prototype implements ITextifier
 {
 	//Protected properties
 	protected ?string $class = null;
@@ -50,6 +51,18 @@ class TObject extends Prototype
 		
 		//return
 		return null;
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier)
+	/** {@inheritdoc} */
+	public function textify(mixed $value)
+	{
+		return Text::build("object<{{class}}>#{{id}}")->setParameters([
+			'class' => get_class($value),
+			'id' => spl_object_id($value)
+		]);
 	}
 	
 	

@@ -10,7 +10,10 @@ namespace Dracodeum\Kit\Tests\Prototypes\Types;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\TObject as Prototype;
-use Dracodeum\Kit\Primitives\Error;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text
+};
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\TObject */
@@ -111,6 +114,44 @@ class TObjectTest extends TestCase
 			[new stdClass(), ['class' => TObjectTest_Class1::class]],
 			[new TObjectTest_Class1(), ['class' => stdClass::class]],
 			[new TObjectTest_Class1(), ['class' => TObjectTest_Class2::class]]
+		];
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected regular expression match.
+	 * 
+	 * @return void
+	 */
+	public function testTextifierInterface(mixed $value, string $expected): void
+	{
+		$text = Component::build(Prototype::class)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertMatchesRegularExpression($expected, $text->toString());
+	}
+	
+	/**
+	 * Provide `Textifier` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideTextifierInterfaceData(): array
+	{
+		return [
+			[new stdClass(), '/^object<stdClass>#\d+$/'],
+			[new TObjectTest_Class1(), '/^object<' . preg_quote(TObjectTest_Class1::class, '/') . '>#\d+$/'],
+			[new TObjectTest_Class2(), '/^object<' . preg_quote(TObjectTest_Class2::class, '/') . '>#\d+$/']
 		];
 	}
 }
