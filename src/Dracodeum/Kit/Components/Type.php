@@ -118,6 +118,7 @@ class Type extends Component
 			'class' => Prototypes\TClass::class,
 			'interface' => Prototypes\TInterface::class,
 			'object' => Prototypes\TObject::class,
+			'resource' => Prototypes\TResource::class,
 			default => null
 		};
 	}
