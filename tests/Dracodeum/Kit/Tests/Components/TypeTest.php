@@ -92,7 +92,9 @@ class TypeTest extends TestCase
 			['class', Prototypes\TClass::class],
 			['interface', Prototypes\TInterface::class],
 			['object', Prototypes\TObject::class],
-			['resource', Prototypes\TResource::class]
+			['resource', Prototypes\TResource::class],
+			['callable', Prototypes\TCallable::class],
+			['closure', Prototypes\TCallable::class]
 		];
 	}
 	

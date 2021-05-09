@@ -119,6 +119,8 @@ class Type extends Component
 			'interface' => Prototypes\TInterface::class,
 			'object' => Prototypes\TObject::class,
 			'resource' => Prototypes\TResource::class,
+			'callable' => Prototypes\TCallable::class,
+			'closure' => new Prototypes\TCallable(['closure' => true] + $properties),
 			default => null
 		};
 	}
