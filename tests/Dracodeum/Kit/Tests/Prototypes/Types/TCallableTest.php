@@ -75,14 +75,14 @@ class TCallableTest extends TestCase
 	{
 		//initialize
 		$c = new TCallableTest_Class();
-		$ic = new TCallableTest_InvokeableClass();
+		$ci = new TCallableTest_InvokeableClass();
 		$class = TCallableTest_Class::class;
 		
 		//return
 		return [
 			['strlen'],
 			[function () {}],
-			[$ic],
+			[$ci],
 			[[$c, 'getString']],
 			["{$class}::getStaticString"],
 			[[$class, 'getStaticString']],
@@ -96,10 +96,10 @@ class TCallableTest extends TestCase
 			['strlen', ['template' => function (string $string): int {}]],
 			[function ($string): int {}, ['template' => 'strlen']],
 			[function (string $string): int {}, ['template' => 'strlen']],
-			[$ic, ['template' => function () {}]],
-			[$ic, ['template' => function (): ?TCallableTest_Class {}]],
-			[function ($n = null): ?TCallableTest_Class2 {}, ['template' => $ic]],
-			[$ic, ['template' => function (): void {}]],
+			[$ci, ['template' => function () {}]],
+			[$ci, ['template' => function (): ?TCallableTest_Class {}]],
+			[function ($n = null): ?TCallableTest_Class2 {}, ['template' => $ci]],
+			[$ci, ['template' => function (): void {}]],
 			[[$c, 'getString'], ['template' => [$class, 'getStaticString']]],
 			[[$c, 'setString'], ['template' => [$class, 'setStaticString']]],
 			[[$class, 'getStaticString'], ['template' => [$c, 'getString']]],
@@ -188,7 +188,7 @@ class TCallableTest extends TestCase
 	{
 		//initialize
 		$c = new TCallableTest_Class();
-		$ic = new TCallableTest_InvokeableClass();
+		$ci = new TCallableTest_InvokeableClass();
 		$class = TCallableTest_Class::class;
 		
 		//return
@@ -219,7 +219,7 @@ class TCallableTest extends TestCase
 			["{$class}->getStaticString"],
 			[['strlen']],
 			[[function () {}]],
-			[[$ic]],
+			[[$ci]],
 			[[$class, 'getString()']],
 			[[$c, 'getString()']],
 			[[$class, 'getNonExistent']],
@@ -240,15 +240,15 @@ class TCallableTest extends TestCase
 			['strlen', ['template' => function ($string): int {}]],
 			[function ($string) {}, ['template' => 'strlen']],
 			[function (string $string) {}, ['template' => 'strlen']],
-			[function () {}, ['template' => $ic]],
-			[$ic, ['template' => function (): TCallableTest_Class2 {}]],
-			[$ic, ['template' => function (): TCallableTest_Class {}]],
-			[$ic, ['template' => function ($n) {}]],
-			[function ($n): ?TCallableTest_Class2 {}, ['template' => $ic]],
-			[$ic, ['template' => function ($n = null) {}]],
-			[function (): void {}, ['template' => $ic]],
-			[$ic, ['template' => function (): bool {}]],
-			[function (): bool {}, ['template' => $ic]],
+			[function () {}, ['template' => $ci]],
+			[$ci, ['template' => function (): TCallableTest_Class2 {}]],
+			[$ci, ['template' => function (): TCallableTest_Class {}]],
+			[$ci, ['template' => function ($n) {}]],
+			[function ($n): ?TCallableTest_Class2 {}, ['template' => $ci]],
+			[$ci, ['template' => function ($n = null) {}]],
+			[function (): void {}, ['template' => $ci]],
+			[$ci, ['template' => function (): bool {}]],
+			[function (): bool {}, ['template' => $ci]],
 			[[$c, 'getString'], ['template' => [$class, 'setStaticString']]],
 			[[$c, 'setString'], ['template' => [$class, 'getStaticString']]],
 			[[$class, 'getStaticString'], ['template' => function (): object {}]],
@@ -360,15 +360,15 @@ class TCallableTest extends TestCase
 	{
 		//initialize
 		$c = new TCallableTest_Class();
-		$ic = new TCallableTest_InvokeableClass();
+		$ci = new TCallableTest_InvokeableClass();
 		$class = TCallableTest_Class::class;
-		$invokeable_class = TCallableTest_InvokeableClass::class;
+		$class_invokeable = TCallableTest_InvokeableClass::class;
 		
 		//return
 		return [
 			['strlen', "callable<strlen>"],
 			[function () {}, "callable<anonymous@" . __FILE__ . ":370>"],
-			[$ic, "callable<{$invokeable_class}::__invoke>"],
+			[$ci, "callable<{$class_invokeable}::__invoke>"],
 			[[$c, 'getString'], "callable<{$class}::getString>"],
 			["{$class}::getStaticString", "callable<{$class}::getStaticString>"],
 			[[$class, 'getStaticString'], "callable<{$class}::getStaticString>"],
