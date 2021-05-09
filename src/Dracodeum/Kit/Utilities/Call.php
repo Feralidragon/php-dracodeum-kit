@@ -213,17 +213,11 @@ final class Call extends Utility
 	final public static function hash($function, string $algorithm = 'SHA1', bool $raw = false): string
 	{
 		return self::memoize(function ($function, string $algorithm = 'SHA1', bool $raw = false): string {
-			//initialize
-			$reflection = self::reflection($function);
-			$name = $reflection->getName();
-			
-			//data
-			$data = '';
-			if ($reflection instanceof \ReflectionMethod) {
-				$data = "{$reflection->getDeclaringClass()->getName()}::{$name}";
-			} else {
+			$data = self::name($function, true);
+			if ($data === null) {
 				//initialize
-				$data = $name;
+				$reflection = self::reflection($function);
+				$data = $reflection->getName();
 				
 				//lines
 				$start_line = $reflection->getStartLine();
@@ -238,8 +232,6 @@ final class Call extends Utility
 					$data = "{$reflection_scope_class->getName()}:{$data}";
 				}
 			}
-			
-			//return
 			return hash($algorithm, $data, $raw);
 		});
 	}

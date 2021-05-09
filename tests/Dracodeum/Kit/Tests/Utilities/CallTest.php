@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Call as UCall;
 use Dracodeum\Kit\Utilities\Call\Exceptions;
 use Dracodeum\Kit\Root\System;
+use Closure;
 
 /** @see \Dracodeum\Kit\Utilities\Call */
 class CallTest extends TestCase
@@ -301,6 +302,7 @@ class CallTest extends TestCase
 	public function provideHashData(): array
 	{
 		//initialize
+		$c = new CallTest_Class();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -309,22 +311,40 @@ class CallTest extends TestCase
 		return [
 			['strlen', 'MD5', '73d3a702db472629f27b06ac8f056476'],
 			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
-			[function () {}, 'MD5', '86ab92caf023f155e0f0d87cf2979e0b'],
-			[function () {}, 'SHA1', '7ad67dd52442e82dac2ae9729aefe32c9616b9f6'],
+			[Closure::fromCallable('strlen'), 'MD5', '73d3a702db472629f27b06ac8f056476'],
+			[Closure::fromCallable('strlen'), 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
+			[function () {}, 'MD5', 'b7db9ea8b97fd6b0eb52524a678de832'],
+			[function () {}, 'SHA1', '902baa5fe971af1e48335e3b1836d74ef9e9192d'],
 			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
 			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
+			[Closure::fromCallable(new CallTest_InvokeableClass()), 'MD5', '06678054507a08aa3179b82ad631ef77'],
+			[Closure::fromCallable(new CallTest_InvokeableClass()), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
+			[[$c, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
+			[[$c, 'getString'], 'SHA1', 'b9a57503eae0f1f314b0cdb601643ba0425831be'],
 			[[$class, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
 			[[$class, 'getString'], 'SHA1', 'b9a57503eae0f1f314b0cdb601643ba0425831be'],
 			[[$class, 'getStaticString'], 'MD5', '606b220c861176152934f9382769c599'],
 			[[$class, 'getStaticString'], 'SHA1', 'b159051679c6240c133cdef3c0580e94f7c82910'],
+			[Closure::fromCallable([$c, 'getString']), 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
+			[Closure::fromCallable([$c, 'getString']), 'SHA1', 'b9a57503eae0f1f314b0cdb601643ba0425831be'],
+			[Closure::fromCallable([$class, 'getStaticString']), 'MD5', '606b220c861176152934f9382769c599'],
+			[Closure::fromCallable([$class, 'getStaticString']), 'SHA1', 'b159051679c6240c133cdef3c0580e94f7c82910'],
 			[[$class, 'getProtectedInteger'], 'MD5', 'dd99454f0ed6bdf40cd53505eb95d82e'],
 			[[$class, 'getProtectedInteger'], 'SHA1', '54a3af5a5a2e3834dc27b2330af720591f08bedd'],
 			[[$class, 'getProtectedStaticInteger'], 'MD5', 'e133f75ff6daf5bcc1f49977f30b2539'],
 			[[$class, 'getProtectedStaticInteger'], 'SHA1', '7eeb8eba694d404d4dd0ee373a440885e0656da9'],
+			[$c->getGetProtectedIntegerClosure(), 'MD5', 'dd99454f0ed6bdf40cd53505eb95d82e'],
+			[$c->getGetProtectedIntegerClosure(), 'SHA1', '54a3af5a5a2e3834dc27b2330af720591f08bedd'],
+			[CallTest_Class::getGetProtectedStaticIntegerClosure(), 'MD5', 'e133f75ff6daf5bcc1f49977f30b2539'],
+			[CallTest_Class::getGetProtectedStaticIntegerClosure(), 'SHA1', '7eeb8eba694d404d4dd0ee373a440885e0656da9'],
 			[[$class, 'getPrivateBoolean'], 'MD5', '9a48386d5b2337a69be15ee81d72c001'],
 			[[$class, 'getPrivateBoolean'], 'SHA1', 'd404611ae4b96908c71461a068754952d13a3879'],
 			[[$class, 'getPrivateStaticBoolean'], 'MD5', '66dbcf40dcb6a4256ed221f7732a59d8'],
 			[[$class, 'getPrivateStaticBoolean'], 'SHA1', '8b6eecb43fe5e566a15712f3e8a8976fe88aaf79'],
+			[$c->getGetPrivateBooleanClosure(), 'MD5', '9a48386d5b2337a69be15ee81d72c001'],
+			[$c->getGetPrivateBooleanClosure(), 'SHA1', 'd404611ae4b96908c71461a068754952d13a3879'],
+			[CallTest_Class::getGetPrivateStaticBooleanClosure(), 'MD5', '66dbcf40dcb6a4256ed221f7732a59d8'],
+			[CallTest_Class::getGetPrivateStaticBooleanClosure(), 'SHA1', '8b6eecb43fe5e566a15712f3e8a8976fe88aaf79'],
 			[[$class_abstract, 'getString'], 'MD5', 'ece33a1617681db17ead701866ecd9e7'],
 			[[$class_abstract, 'getString'], 'SHA1', 'c3f476aae2ad3b67bb2d285262a2540a73bf04a1'],
 			[[$class_abstract, 'getStaticString'], 'MD5', '7b7150342e21e913a53c81eb63eb287e'],
@@ -5259,6 +5279,46 @@ class CallTest_Class
 	}
 	
 	final protected static function setFinalProtectedStaticInteger(int $integer): void {}
+	
+	public function getGetProtectedIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'getProtectedInteger']);
+	}
+	
+	public function getSetProtectedIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'setProtectedInteger']);
+	}
+	
+	public static function getGetProtectedStaticIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'getProtectedStaticInteger']);
+	}
+	
+	public static function getSetProtectedStaticIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'setProtectedStaticInteger']);
+	}
+	
+	public function getGetPrivateBooleanClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'getPrivateBoolean']);
+	}
+	
+	public function getSetPrivateBooleanClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'setPrivateBoolean']);
+	}
+	
+	public static function getGetPrivateStaticBooleanClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'getPrivateStaticBoolean']);
+	}
+	
+	public static function getSetPrivateStaticBooleanClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'setPrivateStaticBoolean']);
+	}
 }
 
 
