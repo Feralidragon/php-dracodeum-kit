@@ -448,6 +448,7 @@ class CallTest extends TestCase
 	public function provideNameData(): array
 	{
 		//initialize
+		$c = new CallTest_Class();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$class_invokeable = CallTest_InvokeableClass::class;
@@ -459,6 +460,10 @@ class CallTest extends TestCase
 			['strlen', false, true, 'strlen'],
 			['strlen', true, false, 'strlen'],
 			['strlen', true, true, 'strlen'],
+			[Closure::fromCallable('strlen'), false, false, 'strlen'],
+			[Closure::fromCallable('strlen'), false, true, 'strlen'],
+			[Closure::fromCallable('strlen'), true, false, 'strlen'],
+			[Closure::fromCallable('strlen'), true, true, 'strlen'],
 			[function () {}, false, false, null],
 			[function () {}, false, true, null],
 			[function () {}, true, false, null],
@@ -467,6 +472,18 @@ class CallTest extends TestCase
 			[new $class_invokeable(), false, true, '__invoke'],
 			[new $class_invokeable(), true, false, "{$class_invokeable}::__invoke"],
 			[new $class_invokeable(), true, true, 'CallTest_InvokeableClass::__invoke'],
+			[Closure::fromCallable(new $class_invokeable()), false, false, '__invoke'],
+			[Closure::fromCallable(new $class_invokeable()), false, true, '__invoke'],
+			[Closure::fromCallable(new $class_invokeable()), true, false, "{$class_invokeable}::__invoke"],
+			[Closure::fromCallable(new $class_invokeable()), true, true, 'CallTest_InvokeableClass::__invoke'],
+			[[$c, 'getString'], false, false, 'getString'],
+			[[$c, 'getString'], false, true, 'getString'],
+			[[$c, 'getString'], true, false, "{$class}::getString"],
+			[[$c, 'getString'], true, true, 'CallTest_Class::getString'],
+			[Closure::fromCallable([$c, 'getString']), false, false, 'getString'],
+			[Closure::fromCallable([$c, 'getString']), false, true, 'getString'],
+			[Closure::fromCallable([$c, 'getString']), true, false, "{$class}::getString"],
+			[Closure::fromCallable([$c, 'getString']), true, true, 'CallTest_Class::getString'],
 			[[$class, 'getString'], false, false, 'getString'],
 			[[$class, 'getString'], false, true, 'getString'],
 			[[$class, 'getString'], true, false, "{$class}::getString"],
@@ -475,22 +492,42 @@ class CallTest extends TestCase
 			[[$class, 'getStaticString'], false, true, 'getStaticString'],
 			[[$class, 'getStaticString'], true, false, "{$class}::getStaticString"],
 			[[$class, 'getStaticString'], true, true, 'CallTest_Class::getStaticString'],
+			[Closure::fromCallable([$class, 'getStaticString']), false, false, 'getStaticString'],
+			[Closure::fromCallable([$class, 'getStaticString']), false, true, 'getStaticString'],
+			[Closure::fromCallable([$class, 'getStaticString']), true, false, "{$class}::getStaticString"],
+			[Closure::fromCallable([$class, 'getStaticString']), true, true, 'CallTest_Class::getStaticString'],
 			[[$class, 'getProtectedInteger'], false, false, 'getProtectedInteger'],
 			[[$class, 'getProtectedInteger'], false, true, 'getProtectedInteger'],
 			[[$class, 'getProtectedInteger'], true, false, "{$class}::getProtectedInteger"],
 			[[$class, 'getProtectedInteger'], true, true, 'CallTest_Class::getProtectedInteger'],
+			[$c->getGetProtectedIntegerClosure(), false, false, 'getProtectedInteger'],
+			[$c->getGetProtectedIntegerClosure(), false, true, 'getProtectedInteger'],
+			[$c->getGetProtectedIntegerClosure(), true, false, "{$class}::getProtectedInteger"],
+			[$c->getGetProtectedIntegerClosure(), true, true, 'CallTest_Class::getProtectedInteger'],
 			[[$class, 'getProtectedStaticInteger'], false, false, 'getProtectedStaticInteger'],
 			[[$class, 'getProtectedStaticInteger'], false, true, 'getProtectedStaticInteger'],
 			[[$class, 'getProtectedStaticInteger'], true, false, "{$class}::getProtectedStaticInteger"],
 			[[$class, 'getProtectedStaticInteger'], true, true, 'CallTest_Class::getProtectedStaticInteger'],
+			[$class::getGetProtectedStaticIntegerClosure(), false, false, 'getProtectedStaticInteger'],
+			[$class::getGetProtectedStaticIntegerClosure(), false, true, 'getProtectedStaticInteger'],
+			[$class::getGetProtectedStaticIntegerClosure(), true, false, "{$class}::getProtectedStaticInteger"],
+			[$class::getGetProtectedStaticIntegerClosure(), true, true, 'CallTest_Class::getProtectedStaticInteger'],
 			[[$class, 'getPrivateBoolean'], false, false, 'getPrivateBoolean'],
 			[[$class, 'getPrivateBoolean'], false, true, 'getPrivateBoolean'],
 			[[$class, 'getPrivateBoolean'], true, false, "{$class}::getPrivateBoolean"],
 			[[$class, 'getPrivateBoolean'], true, true, 'CallTest_Class::getPrivateBoolean'],
+			[$c->getGetPrivateBooleanClosure(), false, false, 'getPrivateBoolean'],
+			[$c->getGetPrivateBooleanClosure(), false, true, 'getPrivateBoolean'],
+			[$c->getGetPrivateBooleanClosure(), true, false, "{$class}::getPrivateBoolean"],
+			[$c->getGetPrivateBooleanClosure(), true, true, 'CallTest_Class::getPrivateBoolean'],
 			[[$class, 'getPrivateStaticBoolean'], false, false, 'getPrivateStaticBoolean'],
 			[[$class, 'getPrivateStaticBoolean'], false, true, 'getPrivateStaticBoolean'],
 			[[$class, 'getPrivateStaticBoolean'], true, false, "{$class}::getPrivateStaticBoolean"],
 			[[$class, 'getPrivateStaticBoolean'], true, true, 'CallTest_Class::getPrivateStaticBoolean'],
+			[$class::getGetPrivateStaticBooleanClosure(), false, false, 'getPrivateStaticBoolean'],
+			[$class::getGetPrivateStaticBooleanClosure(), false, true, 'getPrivateStaticBoolean'],
+			[$class::getGetPrivateStaticBooleanClosure(), true, false, "{$class}::getPrivateStaticBoolean"],
+			[$class::getGetPrivateStaticBooleanClosure(), true, true, 'CallTest_Class::getPrivateStaticBoolean'],
 			[[$class_abstract, 'getString'], false, false, 'getString'],
 			[[$class_abstract, 'getString'], false, true, 'getString'],
 			[[$class_abstract, 'getString'], true, false, "{$class_abstract}::getString"],
@@ -2495,34 +2532,42 @@ class CallTest extends TestCase
 	public function provideObjectData(): array
 	{
 		//initialize
+		$c = new CallTest_Class();
+		$ci = new CallTest_InvokeableClass();
+		$ci2 = new CallTest_InvokeableClass2();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
-		$class_object = new CallTest_Class();
-		$invokeable_object = new CallTest_InvokeableClass();
-		$invokeable_object2 = new CallTest_InvokeableClass2();
 		
 		//return
 		return [
 			['strlen', null],
-			[\Closure::fromCallable('strlen'), null],
+			[Closure::fromCallable('strlen'), null],
 			[function () {}, $this],
-			[$invokeable_object, $invokeable_object],
-			[$invokeable_object2, $invokeable_object2],
+			[$ci, $ci],
+			[$ci2, $ci2],
+			[Closure::fromCallable($ci), $ci],
+			[Closure::fromCallable($ci2), $ci2],
 			[[$class, 'getString'], null],
 			[[$class, 'getStaticString'], null],
 			[[$class, 'getProtectedInteger'], null],
 			[[$class, 'getProtectedStaticInteger'], null],
 			[[$class, 'getPrivateBoolean'], null],
 			[[$class, 'getPrivateStaticBoolean'], null],
-			[[$class_object, 'getString'], $class_object],
-			[[$class_object, 'getStaticString'], null],
-			[[$class_object, 'getProtectedInteger'], $class_object],
-			[[$class_object, 'getProtectedStaticInteger'], null],
-			[[$class_object, 'getPrivateBoolean'], $class_object],
-			[[$class_object, 'getPrivateStaticBoolean'], null],
-			[\Closure::fromCallable([$class_object, 'getString']), $class_object],
-			[\Closure::fromCallable([$class_object, 'getStaticString']), null],
+			[[$c, 'getString'], $c],
+			[[$c, 'getStaticString'], null],
+			[[$c, 'getProtectedInteger'], $c],
+			[[$c, 'getProtectedStaticInteger'], null],
+			[[$c, 'getPrivateBoolean'], $c],
+			[[$c, 'getPrivateStaticBoolean'], null],
+			[Closure::fromCallable([$c, 'getString']), $c],
+			[Closure::fromCallable([$c, 'getStaticString']), null],
+			[$c->getGetProtectedIntegerClosure(), $c],
+			[$c->getGetPrivateBooleanClosure(), $c],
+			[$c->getGetProtectedStaticIntegerClosure(), null],
+			[$c->getGetPrivateStaticBooleanClosure(), null],
+			[$class::getGetProtectedStaticIntegerClosure(), null],
+			[$class::getGetPrivateStaticBooleanClosure(), null],
 			[[$class_abstract, 'getString'], null],
 			[[$class_abstract, 'getStaticString'], null],
 			[[$class_abstract, 'getProtectedInteger'], null],
@@ -2560,25 +2605,29 @@ class CallTest extends TestCase
 	public function provideClassData(): array
 	{
 		//initialize
+		$c = new CallTest_Class();
+		$ci = new CallTest_InvokeableClass();
+		$ci2 = new CallTest_InvokeableClass2();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
-		$class_object = new CallTest_Class();
-		$invokeable_object = new CallTest_InvokeableClass();
-		$invokeable_object2 = new CallTest_InvokeableClass2();
 		
 		//return
 		return [
 			['strlen', false, null],
 			['strlen', true, null],
-			[\Closure::fromCallable('strlen'), false, null],
-			[\Closure::fromCallable('strlen'), true, null],
+			[Closure::fromCallable('strlen'), false, null],
+			[Closure::fromCallable('strlen'), true, null],
 			[function () {}, false, static::class],
 			[function () {}, true, 'CallTest'],
-			[$invokeable_object, false, CallTest_InvokeableClass::class],
-			[$invokeable_object, true, 'CallTest_InvokeableClass'],
-			[$invokeable_object2, false, CallTest_InvokeableClass2::class],
-			[$invokeable_object2, true, 'CallTest_InvokeableClass2'],
+			[$ci, false, CallTest_InvokeableClass::class],
+			[$ci, true, 'CallTest_InvokeableClass'],
+			[$ci2, false, CallTest_InvokeableClass2::class],
+			[$ci2, true, 'CallTest_InvokeableClass2'],
+			[Closure::fromCallable($ci), false, CallTest_InvokeableClass::class],
+			[Closure::fromCallable($ci), true, 'CallTest_InvokeableClass'],
+			[Closure::fromCallable($ci2), false, CallTest_InvokeableClass2::class],
+			[Closure::fromCallable($ci2), true, 'CallTest_InvokeableClass2'],
 			[[$class, 'getString'], false, $class],
 			[[$class, 'getString'], true, 'CallTest_Class'],
 			[[$class, 'getStaticString'], false, $class],
@@ -2591,22 +2640,34 @@ class CallTest extends TestCase
 			[[$class, 'getPrivateBoolean'], true, 'CallTest_Class'],
 			[[$class, 'getPrivateStaticBoolean'], false, $class],
 			[[$class, 'getPrivateStaticBoolean'], true, 'CallTest_Class'],
-			[[$class_object, 'getString'], false, $class],
-			[[$class_object, 'getString'], true, 'CallTest_Class'],
-			[[$class_object, 'getStaticString'], false, $class],
-			[[$class_object, 'getStaticString'], true, 'CallTest_Class'],
-			[[$class_object, 'getProtectedInteger'], false, $class],
-			[[$class_object, 'getProtectedInteger'], true, 'CallTest_Class'],
-			[[$class_object, 'getProtectedStaticInteger'], false, $class],
-			[[$class_object, 'getProtectedStaticInteger'], true, 'CallTest_Class'],
-			[[$class_object, 'getPrivateBoolean'], false, $class],
-			[[$class_object, 'getPrivateBoolean'], true, 'CallTest_Class'],
-			[[$class_object, 'getPrivateStaticBoolean'], false, $class],
-			[[$class_object, 'getPrivateStaticBoolean'], true, 'CallTest_Class'],
-			[\Closure::fromCallable([$class_object, 'getString']), false, $class],
-			[\Closure::fromCallable([$class_object, 'getString']), true, 'CallTest_Class'],
-			[\Closure::fromCallable([$class_object, 'getStaticString']), false, $class],
-			[\Closure::fromCallable([$class_object, 'getStaticString']), true, 'CallTest_Class'],
+			[[$c, 'getString'], false, $class],
+			[[$c, 'getString'], true, 'CallTest_Class'],
+			[[$c, 'getStaticString'], false, $class],
+			[[$c, 'getStaticString'], true, 'CallTest_Class'],
+			[[$c, 'getProtectedInteger'], false, $class],
+			[[$c, 'getProtectedInteger'], true, 'CallTest_Class'],
+			[[$c, 'getProtectedStaticInteger'], false, $class],
+			[[$c, 'getProtectedStaticInteger'], true, 'CallTest_Class'],
+			[[$c, 'getPrivateBoolean'], false, $class],
+			[[$c, 'getPrivateBoolean'], true, 'CallTest_Class'],
+			[[$c, 'getPrivateStaticBoolean'], false, $class],
+			[[$c, 'getPrivateStaticBoolean'], true, 'CallTest_Class'],
+			[Closure::fromCallable([$c, 'getString']), false, $class],
+			[Closure::fromCallable([$c, 'getString']), true, 'CallTest_Class'],
+			[Closure::fromCallable([$c, 'getStaticString']), false, $class],
+			[Closure::fromCallable([$c, 'getStaticString']), true, 'CallTest_Class'],
+			[$c->getGetProtectedIntegerClosure(), false, $class],
+			[$c->getGetProtectedIntegerClosure(), true, 'CallTest_Class'],
+			[$c->getGetProtectedStaticIntegerClosure(), false, $class],
+			[$c->getGetProtectedStaticIntegerClosure(), true, 'CallTest_Class'],
+			[$class::getGetProtectedStaticIntegerClosure(), false, $class],
+			[$class::getGetProtectedStaticIntegerClosure(), true, 'CallTest_Class'],
+			[$c->getGetPrivateBooleanClosure(), false, $class],
+			[$c->getGetPrivateBooleanClosure(), true, 'CallTest_Class'],
+			[$c->getGetPrivateStaticBooleanClosure(), false, $class],
+			[$c->getGetPrivateStaticBooleanClosure(), true, 'CallTest_Class'],
+			[$class::getGetPrivateStaticBooleanClosure(), false, $class],
+			[$class::getGetPrivateStaticBooleanClosure(), true, 'CallTest_Class'],
 			[[$class_abstract, 'getString'], false, $class_abstract],
 			[[$class_abstract, 'getString'], true, 'CallTest_AbstractClass'],
 			[[$class_abstract, 'getStaticString'], false, $class_abstract],
@@ -2659,10 +2720,10 @@ class CallTest extends TestCase
 			['json_encode', 'json'],
 			[['ReflectionFunction', 'getName'], 'Reflection'],
 			[[UCall::reflection('strlen'), 'getName'], 'Reflection'],
-			[\Closure::fromCallable('strlen'), 'Core'],
-			[\Closure::fromCallable('mb_strlen'), 'mbstring'],
-			[\Closure::fromCallable('json_encode'), 'json'],
-			[\Closure::fromCallable([UCall::reflection('strlen'), 'getName']), 'Reflection'],
+			[Closure::fromCallable('strlen'), 'Core'],
+			[Closure::fromCallable('mb_strlen'), 'mbstring'],
+			[Closure::fromCallable('json_encode'), 'json'],
+			[Closure::fromCallable([UCall::reflection('strlen'), 'getName']), 'Reflection'],
 			[function () {}, null],
 			[new CallTest_InvokeableClass(), null],
 			[[$class, 'getString'], null],
@@ -2698,7 +2759,7 @@ class CallTest extends TestCase
 			foreach ([false, true] as $assertive) {
 				$v = $value;
 				$this->assertTrue(UCall::evaluate($v, $template, $nullable, $assertive));
-				$this->assertInstanceOf(\Closure::class, $v);
+				$this->assertInstanceOf(Closure::class, $v);
 			}
 		}
 	}
@@ -2719,7 +2780,7 @@ class CallTest extends TestCase
 	{
 		foreach ([false, true] as $nullable) {
 			foreach ([false, true] as $assertive) {
-				$this->assertInstanceOf(\Closure::class, UCall::coerce($value, $template, $nullable, $assertive));
+				$this->assertInstanceOf(Closure::class, UCall::coerce($value, $template, $nullable, $assertive));
 			}
 		}
 	}
@@ -2743,7 +2804,7 @@ class CallTest extends TestCase
 				foreach ([false, true] as $no_throw) {
 					$v = $value;
 					$this->assertTrue(UCall::processCoercion($v, $template, $nullable, $assertive, $no_throw));
-					$this->assertInstanceOf(\Closure::class, $v);
+					$this->assertInstanceOf(Closure::class, $v);
 				}
 			}
 		}
@@ -3140,7 +3201,7 @@ class CallTest extends TestCase
 			foreach ([false, true] as $nullable) {
 				$v = $value;
 				$this->assertTrue(UCall::evaluate($v, $template, $nullable, true));
-				$this->assertInstanceOf(\Closure::class, $v);
+				$this->assertInstanceOf(Closure::class, $v);
 			}
 		} finally {
 			System::setEnvironment($environment);
@@ -3173,7 +3234,7 @@ class CallTest extends TestCase
 		try {
 			System::setEnvironment('production');
 			foreach ([false, true] as $nullable) {
-				$this->assertInstanceOf(\Closure::class, UCall::coerce($value, $template, $nullable, true));
+				$this->assertInstanceOf(Closure::class, UCall::coerce($value, $template, $nullable, true));
 			}
 		} finally {
 			System::setEnvironment($environment);
@@ -3211,7 +3272,7 @@ class CallTest extends TestCase
 				foreach ([false, true] as $no_throw) {
 					$v = $value;
 					$this->assertTrue(UCall::processCoercion($v, $template, $nullable, true, $no_throw));
-					$this->assertInstanceOf(\Closure::class, $v);
+					$this->assertInstanceOf(Closure::class, $v);
 				}
 			}
 		} finally {

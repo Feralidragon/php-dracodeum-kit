@@ -294,7 +294,7 @@ final class Call extends Utility
 	{
 		$reflection = self::reflection($function);
 		$name = $reflection->getName();
-		if (preg_match('/^(?:[\w\\\\]+\\\\)?\{closure\}$/', $name)) {
+		if (preg_match('/\{closure\}$/', $name)) {
 			return null;
 		} elseif ($full) {
 			$class = self::class($function, $short);
