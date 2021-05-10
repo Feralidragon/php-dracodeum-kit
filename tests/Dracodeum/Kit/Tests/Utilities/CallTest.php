@@ -449,6 +449,7 @@ class CallTest extends TestCase
 	{
 		//initialize
 		$c = new CallTest_Class();
+		$ci = new CallTest_InvokeableClass();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$class_invokeable = CallTest_InvokeableClass::class;
@@ -468,14 +469,14 @@ class CallTest extends TestCase
 			[function () {}, false, true, null],
 			[function () {}, true, false, null],
 			[function () {}, true, true, null],
-			[new $class_invokeable(), false, false, '__invoke'],
-			[new $class_invokeable(), false, true, '__invoke'],
-			[new $class_invokeable(), true, false, "{$class_invokeable}::__invoke"],
-			[new $class_invokeable(), true, true, 'CallTest_InvokeableClass::__invoke'],
-			[Closure::fromCallable(new $class_invokeable()), false, false, '__invoke'],
-			[Closure::fromCallable(new $class_invokeable()), false, true, '__invoke'],
-			[Closure::fromCallable(new $class_invokeable()), true, false, "{$class_invokeable}::__invoke"],
-			[Closure::fromCallable(new $class_invokeable()), true, true, 'CallTest_InvokeableClass::__invoke'],
+			[$ci, false, false, '__invoke'],
+			[$ci, false, true, '__invoke'],
+			[$ci, true, false, "{$class_invokeable}::__invoke"],
+			[$ci, true, true, 'CallTest_InvokeableClass::__invoke'],
+			[Closure::fromCallable($ci), false, false, '__invoke'],
+			[Closure::fromCallable($ci), false, true, '__invoke'],
+			[Closure::fromCallable($ci), true, false, "{$class_invokeable}::__invoke"],
+			[Closure::fromCallable($ci), true, true, 'CallTest_InvokeableClass::__invoke'],
 			[[$c, 'getString'], false, false, 'getString'],
 			[[$c, 'getString'], false, true, 'getString'],
 			[[$c, 'getString'], true, false, "{$class}::getString"],
