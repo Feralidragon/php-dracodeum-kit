@@ -435,6 +435,8 @@ class CallTest extends TestCase
 			[[$class, 'getString'], ['public']],
 			[[$class, 'getStaticString'], ['public', 'static']],
 			[Closure::fromCallable([$class, 'getStaticString']), ['public', 'static']],
+			[[$c, 'getStaticString'], ['public', 'static']],
+			[Closure::fromCallable([$c, 'getStaticString']), ['public', 'static']],
 			[[$c, 'getProtectedInteger'], ['protected']],
 			[$c->getGetProtectedIntegerClosure(), ['protected']],
 			[[$class, 'getProtectedInteger'], ['protected']],
