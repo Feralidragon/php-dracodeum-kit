@@ -169,19 +169,21 @@ class CallTest extends TestCase
 	/**
 	 * Test <code>reflection</code> method.
 	 * 
-	 * @testdox Call::reflection({$function}) === $expected_class
+	 * @testdox Call::reflection({$function}, {$methodify}) === $expected_class
 	 * @dataProvider provideReflectionData
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param string $expected_class
 	 * <p>The expected method return instance class.</p>
+	 * @param bool $methodify [default = false]
+	 * <p>The method <var>$methodify</var> parameter to test with.</p>
 	 * @return void
 	 */
-	public function testReflection($function, string $expected_class): void
+	public function testReflection($function, string $expected_class, bool $methodify = false): void
 	{
 		foreach ([false, true] as $no_throw) {
-			$this->assertInstanceOf($expected_class, UCall::reflection($function, $no_throw));
+			$this->assertInstanceOf($expected_class, UCall::reflection($function, $methodify, $no_throw));
 		}
 	}
 	
@@ -193,46 +195,64 @@ class CallTest extends TestCase
 	 */
 	public function provideReflectionData(): array
 	{
+		//initialize
+		$c = new CallTest_Class();
+		$ci = new CallTest_InvokeableClass();
+		$class = CallTest_Class::class;
+		$class_abstract = CallTest_AbstractClass::class;
+		$interface = CallTest_Interface::class;
+		
+		//return
 		return [
 			['strlen', \ReflectionFunction::class],
+			['strlen', \ReflectionFunction::class, true],
 			[function () {}, \ReflectionFunction::class],
-			[new CallTest_InvokeableClass(), \ReflectionMethod::class],
-			[CallTest_Class::class . '::getString', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getString', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getString'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getString'], \ReflectionMethod::class],
-			[CallTest_Class::class . '::getStaticString', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getStaticString', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getStaticString'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getStaticString'], \ReflectionMethod::class],
-			[CallTest_Class::class . '::getProtectedInteger', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getProtectedInteger', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getProtectedInteger'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getProtectedInteger'], \ReflectionMethod::class],
-			[CallTest_Class::class . '::getProtectedStaticInteger', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getProtectedStaticInteger', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getProtectedStaticInteger'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getProtectedStaticInteger'], \ReflectionMethod::class],
-			[CallTest_Class::class . '::getPrivateBoolean', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getPrivateBoolean', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getPrivateBoolean'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getPrivateBoolean'], \ReflectionMethod::class],
-			[CallTest_Class::class . '::getPrivateStaticBoolean', \ReflectionMethod::class],
-			[CallTest_Class::class . '->getPrivateStaticBoolean', \ReflectionMethod::class],
-			[[CallTest_Class::class, 'getPrivateStaticBoolean'], \ReflectionMethod::class],
-			[[new CallTest_Class(), 'getPrivateStaticBoolean'], \ReflectionMethod::class],
-			[CallTest_AbstractClass::class . '::getString', \ReflectionMethod::class],
-			[[CallTest_AbstractClass::class, 'getString'], \ReflectionMethod::class],
-			[CallTest_AbstractClass::class . '::getStaticString', \ReflectionMethod::class],
-			[[CallTest_AbstractClass::class, 'getStaticString'], \ReflectionMethod::class],
-			[CallTest_AbstractClass::class . '::getProtectedInteger', \ReflectionMethod::class],
-			[[CallTest_AbstractClass::class, 'getProtectedInteger'], \ReflectionMethod::class],
-			[CallTest_AbstractClass::class . '::getProtectedStaticInteger', \ReflectionMethod::class],
-			[[CallTest_AbstractClass::class, 'getProtectedStaticInteger'], \ReflectionMethod::class],
-			[CallTest_Interface::class . '::getString', \ReflectionMethod::class],
-			[[CallTest_Interface::class, 'getString'], \ReflectionMethod::class],
-			[CallTest_Interface::class . '::getStaticString', \ReflectionMethod::class],
-			[[CallTest_Interface::class, 'getStaticString'], \ReflectionMethod::class]
+			[function () {}, \ReflectionFunction::class, true],
+			[$ci, \ReflectionMethod::class],
+			[Closure::fromCallable($ci), \ReflectionFunction::class],
+			[Closure::fromCallable($ci), \ReflectionMethod::class, true],
+			["{$class}::getString", \ReflectionMethod::class],
+			["{$class}->getString", \ReflectionMethod::class],
+			[[$class, 'getString'], \ReflectionMethod::class],
+			[[$c, 'getString'], \ReflectionMethod::class],
+			[Closure::fromCallable([$c, 'getString']), \ReflectionFunction::class],
+			[Closure::fromCallable([$c, 'getString']), \ReflectionMethod::class, true],
+			["{$class}::getStaticString", \ReflectionMethod::class],
+			["{$class}->getStaticString", \ReflectionMethod::class],
+			[[$class, 'getStaticString'], \ReflectionMethod::class],
+			[[$c, 'getStaticString'], \ReflectionMethod::class],
+			[Closure::fromCallable([$c, 'getStaticString']), \ReflectionFunction::class],
+			[Closure::fromCallable([$c, 'getStaticString']), \ReflectionMethod::class, true],
+			["{$class}::getProtectedInteger", \ReflectionMethod::class],
+			["{$class}->getProtectedInteger", \ReflectionMethod::class],
+			[[$class, 'getProtectedInteger'], \ReflectionMethod::class],
+			[Closure::fromCallable([$class, 'getStaticString']), \ReflectionFunction::class],
+			[Closure::fromCallable([$class, 'getStaticString']), \ReflectionMethod::class, true],
+			[[$c, 'getProtectedInteger'], \ReflectionMethod::class],
+			["{$class}::getProtectedStaticInteger", \ReflectionMethod::class],
+			["{$class}->getProtectedStaticInteger", \ReflectionMethod::class],
+			[[$class, 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			[[$c, 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			["{$class}::getPrivateBoolean", \ReflectionMethod::class],
+			["{$class}->getPrivateBoolean", \ReflectionMethod::class],
+			[[$class, 'getPrivateBoolean'], \ReflectionMethod::class],
+			[[$c, 'getPrivateBoolean'], \ReflectionMethod::class],
+			["{$class}::getPrivateStaticBoolean", \ReflectionMethod::class],
+			["{$class}->getPrivateStaticBoolean", \ReflectionMethod::class],
+			[[$class, 'getPrivateStaticBoolean'], \ReflectionMethod::class],
+			[[$c, 'getPrivateStaticBoolean'], \ReflectionMethod::class],
+			["{$class_abstract}::getString", \ReflectionMethod::class],
+			[[$class_abstract, 'getString'], \ReflectionMethod::class],
+			["{$class_abstract}::getStaticString", \ReflectionMethod::class],
+			[[$class_abstract, 'getStaticString'], \ReflectionMethod::class],
+			["{$class_abstract}::getProtectedInteger", \ReflectionMethod::class],
+			[[$class_abstract, 'getProtectedInteger'], \ReflectionMethod::class],
+			["{$class_abstract}::getProtectedStaticInteger", \ReflectionMethod::class],
+			[[$class_abstract, 'getProtectedStaticInteger'], \ReflectionMethod::class],
+			["{$interface}::getString", \ReflectionMethod::class],
+			[[$interface, 'getString'], \ReflectionMethod::class],
+			["{$interface}::getStaticString", \ReflectionMethod::class],
+			[[$interface, 'getStaticString'], \ReflectionMethod::class]
 		];
 	}
 	
@@ -261,7 +281,7 @@ class CallTest extends TestCase
 	 * Test <code>reflection</code> method with <var>$no_throw</var> set to boolean <code>true</code>, 
 	 * expecting <code>null</code> to be returned.
 	 * 
-	 * @testdox Call::reflection({$function}, true) === false
+	 * @testdox Call::reflection({$function}, no_throw: true) === false
 	 * @dataProvider provideValidateData_Exception_InvalidFunction
 	 * 
 	 * @param callable|array|string $function
@@ -270,7 +290,7 @@ class CallTest extends TestCase
 	 */
 	public function testReflection_NoThrow_Null($function): void
 	{
-		$this->assertNull(UCall::reflection($function, true));
+		$this->assertNull(UCall::reflection($function, no_throw: true));
 	}
 	
 	/**
@@ -313,8 +333,8 @@ class CallTest extends TestCase
 			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
 			[Closure::fromCallable('strlen'), 'MD5', '73d3a702db472629f27b06ac8f056476'],
 			[Closure::fromCallable('strlen'), 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
-			[function () {}, 'MD5', 'b7db9ea8b97fd6b0eb52524a678de832'],
-			[function () {}, 'SHA1', '902baa5fe971af1e48335e3b1836d74ef9e9192d'],
+			[function () {}, 'MD5', '3d7a34ab55a143de1dad30087b5da915'],
+			[function () {}, 'SHA1', '7a74c10d3807553aa0b4d8a23e91430296467142'],
 			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
 			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
 			[Closure::fromCallable(new CallTest_InvokeableClass()), 'MD5', '06678054507a08aa3179b82ad631ef77'],

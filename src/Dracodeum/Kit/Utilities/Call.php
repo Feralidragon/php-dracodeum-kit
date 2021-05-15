@@ -159,6 +159,9 @@ final class Call extends Utility
 	 * @see https://php.net/manual/en/class.reflectionmethod.php
 	 * @param callable|array|string $function
 	 * <p>The function to get from.</p>
+	 * @param bool $methodify [default = false]
+	 * <p>Coerce into a <code>ReflectionMethod</code> instance, 
+	 * if the given function is a closure which represents a method.</p>
 	 * @param bool $no_throw [default = false]
 	 * <p>Do not throw an exception.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\InvalidFunction
@@ -167,7 +170,9 @@ final class Call extends Utility
 	 * If <var>$no_throw</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be retrieved.</p>
 	 */
-	final public static function reflection($function, bool $no_throw = false): ?\ReflectionFunctionAbstract
+	final public static function reflection(
+		$function, bool $methodify = false, bool $no_throw = false
+	): ?\ReflectionFunctionAbstract
 	{
 		//validate
 		$valid = self::validate($function, $no_throw);
@@ -194,7 +199,28 @@ final class Call extends Utility
 		}
 		
 		//function
-		return new \ReflectionFunction($function);
+		$reflection = new \ReflectionFunction($function);
+		
+		//methodify
+		if ($methodify) {
+			//object or class
+			$object_class = $reflection->getClosureThis();
+			if ($object_class === null) {
+				$reflection_scope_class = $reflection->getClosureScopeClass();
+				if ($reflection_scope_class !== null) {
+					$object_class = $reflection_scope_class->getName();
+				}
+			}
+			
+			//finalize
+			$name = $reflection->getName();
+			if ($object_class !== null && !preg_match('/\{closure\}$/', $name)) {
+				$reflection = new \ReflectionMethod($object_class, $name);
+			}
+		}
+		
+		//return
+		return $reflection;
 	}
 	
 	/**
