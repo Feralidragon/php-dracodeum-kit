@@ -120,7 +120,7 @@ class Type extends Component
 			'object' => Prototypes\TObject::class,
 			'resource' => Prototypes\TResource::class,
 			'callable' => Prototypes\TCallable::class,
-			'closure' => new Prototypes\TCallable(['closure' => true] + $properties),
+			'closure' => new Prototypes\TCallable(['closurify' => true] + $properties),
 			default => null
 		};
 	}

@@ -30,7 +30,7 @@ use Closure;
  * Process in an assertive manner: perform the slower validations, such as template signature compatibility check, 
  * only when in a debugging environment.
  * 
- * @property-write bool $closure [writeonce] [transient] [default = false]  
+ * @property-write bool $closurify [writeonce] [transient] [default = false]  
  * Coerce into a `Closure` instance.
  */
 class TCallable extends Prototype implements ITextifier
@@ -41,7 +41,7 @@ class TCallable extends Prototype implements ITextifier
 	
 	protected bool $assertive = false;
 	
-	protected bool $closure = false;
+	protected bool $closurify = false;
 	
 	
 	
@@ -66,8 +66,8 @@ class TCallable extends Prototype implements ITextifier
 			return Error::build(text: $text);
 		}
 		
-		//closure
-		if ($this->closure && !($value instanceof Closure)) {
+		//closurify
+		if ($this->closurify && !($value instanceof Closure)) {
 			$value = Closure::fromCallable($value);
 		}
 		
@@ -100,7 +100,7 @@ class TCallable extends Prototype implements ITextifier
 	{
 		return match ($name) {
 			'template' => $this->createProperty()->setMode('w--')->setAsCallable(null, true)->bind(self::class),
-			'assertive', 'closure' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
+			'assertive', 'closurify' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
 			default => null
 		};
 	}

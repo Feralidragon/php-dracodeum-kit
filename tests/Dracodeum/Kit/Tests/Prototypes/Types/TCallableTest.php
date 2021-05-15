@@ -44,9 +44,9 @@ class TCallableTest extends TestCase
 	}
 	
 	/**
-	 * Test process (closure).
+	 * Test process (closurify).
 	 * 
-	 * @testdox Process (closure)
+	 * @testdox Process (closurify)
 	 * @dataProvider provideProcessData
 	 * 
 	 * @param mixed $value
@@ -60,7 +60,7 @@ class TCallableTest extends TestCase
 	public function testProcess_Closure(mixed $value, array $properties = []): void
 	{
 		$v = $value;
-		$this->assertNull(Component::build(Prototype::class, ['closure' => true] + $properties)->process($v));
+		$this->assertNull(Component::build(Prototype::class, ['closurify' => true] + $properties)->process($v));
 		$this->assertInstanceOf(Closure::class, $v);
 		$this->assertSame(UCall::hash($value), UCall::hash($v));
 	}
