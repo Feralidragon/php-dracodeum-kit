@@ -8,12 +8,14 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Utilities\Type as UType;
+use ReflectionClass;
 
 /**
  * This prototype represents a class.
@@ -23,7 +25,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * @property-write string|null $class [writeonce] [transient] [default = null]  
  * The class to restrict to.
  */
-class TClass extends Prototype
+class TClass extends Prototype implements ITextifier
 {
 	//Protected properties
 	protected ?string $class = null;
@@ -60,6 +62,23 @@ class TClass extends Prototype
 		
 		//return
 		return null;
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier)
+	/** {@inheritdoc} */
+	public function textify(mixed $value)
+	{
+		$name = $value;
+		if (UType::anonymous($value)) {
+			$reflection = new ReflectionClass($value);
+			$name = Text::build("anonymous@{{filename}}:{{line}}")->setParameters([
+				'filename' => $reflection->getFileName(),
+				'line' => $reflection->getStartLine()
+			]);
+		}
+		return Text::build("class<{{name}}>")->setParameter('name', $name);
 	}
 	
 	
