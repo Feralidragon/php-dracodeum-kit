@@ -273,8 +273,8 @@ final class Call extends Utility
 	final public static function modifiers($function): array
 	{
 		//reflection
-		$reflection = self::reflection($function);
-		if (!Type::isA($reflection, \ReflectionMethod::class)) {
+		$reflection = self::reflection($function, true);
+		if (!($reflection instanceof \ReflectionMethod)) {
 			return [];
 		}
 		

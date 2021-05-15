@@ -418,6 +418,8 @@ class CallTest extends TestCase
 	public function provideModifiersData(): array
 	{
 		//initialize
+		$c = new CallTest_Class();
+		$ci = new CallTest_InvokeableClass();
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -426,17 +428,40 @@ class CallTest extends TestCase
 		return [
 			['strlen', []],
 			[function () {}, []],
-			[new CallTest_InvokeableClass(), ['public']],
+			[$ci, ['public']],
+			[Closure::fromCallable($ci), ['public']],
+			[[$c, 'getString'], ['public']],
+			[Closure::fromCallable([$c, 'getString']), ['public']],
 			[[$class, 'getString'], ['public']],
 			[[$class, 'getStaticString'], ['public', 'static']],
+			[Closure::fromCallable([$class, 'getStaticString']), ['public', 'static']],
+			[[$c, 'getProtectedInteger'], ['protected']],
+			[$c->getGetProtectedIntegerClosure(), ['protected']],
 			[[$class, 'getProtectedInteger'], ['protected']],
 			[[$class, 'getProtectedStaticInteger'], ['protected', 'static']],
+			[$class::getGetProtectedStaticIntegerClosure(), ['protected', 'static']],
+			[[$c, 'getProtectedStaticInteger'], ['protected', 'static']],
+			[$c->getGetProtectedStaticIntegerClosure(), ['protected', 'static']],
+			[[$c, 'getPrivateBoolean'], ['private']],
+			[$c->getGetPrivateBooleanClosure(), ['private']],
 			[[$class, 'getPrivateBoolean'], ['private']],
 			[[$class, 'getPrivateStaticBoolean'], ['private', 'static']],
+			[$class::getGetPrivateStaticBooleanClosure(), ['private', 'static']],
+			[[$c, 'getPrivateStaticBoolean'], ['private', 'static']],
+			[$c->getGetPrivateStaticBooleanClosure(), ['private', 'static']],
+			[[$c, 'getFinalString'], ['final', 'public']],
+			[Closure::fromCallable([$c, 'getFinalString']), ['final', 'public']],
 			[[$class, 'getFinalString'], ['final', 'public']],
 			[[$class, 'getFinalStaticString'], ['final', 'public', 'static']],
+			[[$c, 'getFinalStaticString'], ['final', 'public', 'static']],
+			[Closure::fromCallable([$c, 'getFinalStaticString']), ['final', 'public', 'static']],
+			[[$c, 'getFinalProtectedInteger'], ['final', 'protected']],
+			[$c->getGetFinalProtectedIntegerClosure(), ['final', 'protected']],
 			[[$class, 'getFinalProtectedInteger'], ['final', 'protected']],
 			[[$class, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
+			[$class::getGetFinalProtectedStaticIntegerClosure(), ['final', 'protected', 'static']],
+			[[$c, 'getFinalProtectedStaticInteger'], ['final', 'protected', 'static']],
+			[$c->getGetFinalProtectedStaticIntegerClosure(), ['final', 'protected', 'static']],
 			[[$class_abstract, 'getString'], ['abstract', 'public']],
 			[[$class_abstract, 'getStaticString'], ['abstract', 'public', 'static']],
 			[[$class_abstract, 'getProtectedInteger'], ['abstract', 'protected']],
@@ -5272,13 +5297,6 @@ class CallTest_Class
 	protected const C_CONSTANT = 1200;
 	private const D_ENABLE = true;
 	
-	public function getString(): string
-	{
-		return '';
-	}
-	
-	public function setString(string $string): void {}
-	
 	public function doStuff(
 		?float $fnumber, CallTest_AbstractClass $ac, ?CallTest_Class &$c, $options, callable $c_function,
 		string $farboo = self::A_S, array $foob = self::B_ARRAY, int $cint = self::C_CONSTANT,
@@ -5310,6 +5328,13 @@ class CallTest_Class
 			public static function setStaticString(string $string): void {}
 		};
 	}
+	
+	public function getString(): string
+	{
+		return '';
+	}
+	
+	public function setString(string $string): void {}
 	
 	public static function getStaticString(): string
 	{
@@ -5392,6 +5417,26 @@ class CallTest_Class
 	public static function getSetProtectedStaticIntegerClosure(): Closure
 	{
 		return Closure::fromCallable([self::class, 'setProtectedStaticInteger']);
+	}
+	
+	public function getGetFinalProtectedIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'getFinalProtectedInteger']);
+	}
+	
+	public function getSetFinalProtectedIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([$this, 'setFinalProtectedInteger']);
+	}
+	
+	public static function getGetFinalProtectedStaticIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'getFinalProtectedStaticInteger']);
+	}
+	
+	public static function getSetFinalProtectedStaticIntegerClosure(): Closure
+	{
+		return Closure::fromCallable([self::class, 'setFinalProtectedStaticInteger']);
 	}
 	
 	public function getGetPrivateBooleanClosure(): Closure
