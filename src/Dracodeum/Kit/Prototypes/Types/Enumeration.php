@@ -119,11 +119,7 @@ class Enumeration extends Prototype implements ITextifier
 	{
 		return match ($name) {
 			'enumeration'
-				=> $this->createProperty()
-					->setMode('w--')
-					->setAsClass(KitEnumeration::class)
-					->bind(self::class)
-				,
+				=> $this->createProperty()->setMode('w--')->setAsClass(KitEnumeration::class)->bind(self::class),
 			default => null
 		};
 	}
