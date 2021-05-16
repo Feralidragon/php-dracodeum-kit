@@ -35,6 +35,9 @@ use Dracodeum\Kit\Utilities\Math as UMath;
  * 
  * @property-write enum<\Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type>|null $type [writeonce] [transient] [default = null]  
  * The type to restrict and cast to.
+ * 
+ * @see \Dracodeum\Kit\Interfaces\Integerable
+ * @see \Dracodeum\Kit\Interfaces\Floatable
  */
 class Number extends Prototype implements IMutatorProducer
 {

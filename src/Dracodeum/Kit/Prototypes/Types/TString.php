@@ -33,6 +33,9 @@ use Dracodeum\Kit\Root\Locale;
  * 
  * @property-write bool $unicode [writeonce] [transient] [default = false]  
  * Set as a Unicode string.
+ * 
+ * @see https://www.php.net/manual/en/class.stringable.php
+ * @see \Dracodeum\Kit\Interfaces\Stringable
  */
 class TString extends Prototype implements IMutatorProducer
 {
