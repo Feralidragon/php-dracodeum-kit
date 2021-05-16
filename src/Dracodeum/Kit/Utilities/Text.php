@@ -8,7 +8,10 @@
 namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
-use Dracodeum\Kit\Interfaces\Properties as IProperties;
+use Dracodeum\Kit\Interfaces\{
+	Properties as IProperties,
+	Stringable as IStringable
+};
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Enumerations\InfoScope as EInfoScope;
 use Dracodeum\Kit\Utilities\Text\{
@@ -273,6 +276,9 @@ final class Text extends Utility
 					return "(object){$class}#{$id} " . 
 						(empty($strings) ? '{}' : "{\n" . self::indentate(implode("\n", $strings), 3, ' ') . "\n}");
 					
+				} elseif ($value instanceof IStringable) {
+					$string = $value->toString($text_options);
+					return $prepend_type ? "(object){$class}#{$id} {$string}" : $string;
 				} elseif (Type::evaluateString($value)) {
 					return $prepend_type ? "(object){$class}#{$id} {$value}" : $value;
 				}
