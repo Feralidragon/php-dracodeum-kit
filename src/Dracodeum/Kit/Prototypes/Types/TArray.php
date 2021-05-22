@@ -40,7 +40,7 @@ use Dracodeum\Kit\Utilities\{
  * The type instance to use.
  * 
  * @property-write \Dracodeum\Kit\Components\Type|null $key_type [writeonce] [transient] [default = null]  
- * The key type instance to use.
+ * The key type instance to use (associative arrays only).
  * 
  * @property-write bool $non_associative [writeonce] [transient] [default = false]  
  * Restrict to a non-associative array.
@@ -166,18 +166,8 @@ class TArray extends Prototype implements ITextifier
 			return Error::build(text: $text);
 		}
 		
-		//error stringifier
-		$error_stringifier = function (mixed $value, TextOptions $text_options): string {
-			return UText::uncapitalize(
-				$value instanceof Text
-					? $value->toString($text_options)
-					: UText::localize("Invalid value.", self::class, $text_options),
-				true
-			);
-		};
-		
 		//key type
-		if ($key_type !== null) {
+		if ($associative && $key_type !== null) {
 			$i = 0;
 			$a = [];
 			foreach ($array as $k => $v) {
@@ -205,7 +195,6 @@ class TArray extends Prototype implements ITextifier
 							'error' => $error->getText()
 						])
 						->setPlaceholderAsQuoted('key')
-						->setPlaceholderStringifier('error', $error_stringifier)
 						->setAsLocalized(self::class)
 					;
 					return Error::build(text: $text);
@@ -231,7 +220,6 @@ class TArray extends Prototype implements ITextifier
 							'error' => $error->getText()
 						])
 						->setPlaceholderAsQuoted('key')
-						->setPlaceholderStringifier('error', $error_stringifier)
 						->setAsLocalized(self::class)
 					;
 					
@@ -271,47 +259,62 @@ class TArray extends Prototype implements ITextifier
 		$key_type = $this->key_type;
 		$associative = !$this->non_associative;
 		
-		//keys
-		$keys = [];
+		//key texts
+		$key_texts = [];
 		if ($associative) {
-			if ($key_type !== null) {
-				foreach ($value as $k => $v) {
-					$keys[] = $key_type->textify($k);
+			foreach ($value as $k => $v) {
+				if ($key_type !== null) {
+					$key_texts[] = $key_type->textify($k);
+				} else {
+					Text::coerce($k);
+					$key_texts[] = $k;
 				}
-			} else {
-				$keys = array_keys($value);
 			}
 		}
 		
-		//values
-		$values = [];
-		if ($type !== null) {
-			foreach ($value as $v) {
-				$values[] = $type->textify($v);
+		//value texts
+		$value_texts = [];
+		foreach ($value as $v) {
+			if ($type !== null) {
+				$value_texts[] = $type->textify($v);
+			} else {
+				Text::coerce($v);
+				$value_texts[] = $v;
 			}
-		} else {
-			$values = array_values($value);
 		}
 		
 		//items text
 		$items_text = Text::build()
 			->setTextsStringsStringifier(
 				function (array $strings, TextOptions $text_options) use ($associative): string {
-					//associative
-					if ($associative) {
-						$previous_multiline = false;
-						foreach ($strings as &$string) {
-							$s = $previous_multiline ? "\n{$string}" : $string;
-							$previous_multiline = UText::multiline($string);
-							$string = $s;
+					//multiline (check)
+					$multiline = $associative;
+					if (!$multiline) {
+						foreach ($strings as $string) {
+							$multiline = UText::multiline($string);
+							if ($multiline) {
+								break;
+							}
+						}
+					}
+					
+					//multiline (process)
+					if ($multiline) {
+						$prev_multi = false;
+						foreach ($strings as $i => &$string) {
+							$multi = UText::multiline($string);
+							if ($i > 0 && ($multi || $prev_multi)) {
+								$string = "\n{$string}";
+							}
+							$prev_multi = $multi;
 						}
 						unset($string);
 					}
 					
 					//string
-					$string = implode($associative ? "\n" : ", ", $strings);
-					if ($associative && $text_options->info_level > EInfoLevel::ENDUSER) {
-						$string = UText::indentate($string);
+					$string = implode($multiline ? ",\n" : ", ", $strings);
+					if ($multiline && $text_options->info_level !== EInfoLevel::ENDUSER) {
+						$string = "\n" . UText::indentate($string) . "\n";
 					}
 					
 					//return
@@ -319,41 +322,37 @@ class TArray extends Prototype implements ITextifier
 				}
 			)
 		;
-		$key_stringifier = function (mixed $value, TextOptions $text_options): string {
-			$string = $value->toString($text_options);
-			if (UText::multiline($string)) {
-				$string = "\n{$string}";
-			}
-			return $string;
-		};
-		$value_stringifier = function (mixed $value, TextOptions $text_options): string {
-			$string = $value->toString($text_options);
-			if (UText::multiline($string)) {
-				$string = "\n" . UText::indentate($string);
-			}
-			return $string;
-		};
-		foreach ($values as $i => $v) {
-			Text::coerce($v);
-			$t = $v;
+		
+		//value stringifier
+		$value_stringifier = null;
+		if ($associative) {
+			$value_stringifier = function (mixed $value, TextOptions $text_options): string {
+				$string = $value->toString($text_options);
+				if (UText::multiline($string)) {
+					$string = "\n" . UText::indentate($string);
+				}
+				return $string;
+			};
+		}
+		
+		//item texts
+		foreach ($value_texts as $i => $value_text) {
+			$item_text = $value_text;
 			if ($associative) {
-				$k = $keys[$i];
-				Text::coerce($k);
-				$t = Text::build("{{key}}: {{value}}")
+				$item_text = Text::build("{{key}}: {{value}}")
 					->setParameters([
-						'key' => $k,
-						'value' => $v
+						'key' => $key_texts[$i],
+						'value' => $value_text
 					])
-					->setPlaceholderStringifier('key', $key_stringifier)
 					->setPlaceholderStringifier('value', $value_stringifier)
 				;
 			}
-			$items_text->appendText($t);
+			$items_text->appendText($item_text);
 		}
 		
 		//return
 		return Text::build("{{items}}")
-			->setString($associative ? "{\n{{items}}\n}" : "[{{items}}]", EInfoLevel::TECHNICAL)
+			->setString($associative ? "{{{items}}}" : "[{{items}}]", EInfoLevel::TECHNICAL)
 			->setParameter('items', $items_text)
 		;
 	}
