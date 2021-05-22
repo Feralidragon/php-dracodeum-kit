@@ -776,7 +776,7 @@ final class Text extends Utility
 		
 		//tokenize
 		$f_string = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}([^{}]*)\}{2}/Us', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			//string
 			if ($i % 2 === 0) {
 				$f_string .= $token;
