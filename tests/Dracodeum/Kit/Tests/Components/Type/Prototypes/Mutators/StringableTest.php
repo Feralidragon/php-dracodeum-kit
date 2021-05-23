@@ -21,15 +21,32 @@ class StringableTest extends TestCase
 	 * Test `Validator` interface.
 	 * 
 	 * @testdox Validator interface
+	 * @dataProvider provideValidatorInterfaceData
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\Validator
 	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
 	 * @return void
 	 */
-	public function testValidatorInterface(): void
+	public function testValidatorInterface(mixed $value): void
 	{
-		$value = 'foobar';
 		$this->assertNull(Component::build(StringableTest_Prototype::class)->process($value));
+	}
+	
+	/**
+	 * Provide `Validator` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideValidatorInterfaceData(): array
+	{
+		return [
+			['foobar'],
+			[new StringableTest_Class()]
+		];
 	}
 	
 	/**
@@ -78,4 +95,15 @@ class StringableTest extends TestCase
 class StringableTest_Prototype extends Prototype
 {
 	public function process(mixed &$value) {}
+}
+
+
+
+/** Test case dummy class. */
+class StringableTest_Class
+{
+	public function __toString(): string
+	{
+		return '';
+	}
 }

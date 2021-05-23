@@ -24,6 +24,7 @@ class Base64Test extends TestCase
 	 * 
 	 * @testdox Process
 	 * @dataProvider provideProcessData
+	 * @dataProvider provideProcessData_Class
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -65,10 +66,27 @@ class Base64Test extends TestCase
 	}
 	
 	/**
+	 * Provide process data (class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Class(): array
+	{
+		$data = $this->provideProcessData();
+		foreach ($data as &$d) {
+			$d[0] = new Base64Test_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+	
+	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
 	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Class
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -135,6 +153,22 @@ class Base64Test extends TestCase
 	}
 	
 	/**
+	 * Provide process data (error, class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Error_Class(): array
+	{
+		$data = $this->provideProcessData_Error();
+		foreach ($data as &$d) {
+			$d[0] = new Base64Test_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+	
+	/**
 	 * Test `ExplanationProducer` interface.
 	 * 
 	 * @testdox ExplanationProducer interface
@@ -146,5 +180,18 @@ class Base64Test extends TestCase
 	public function testExplanationProducerInterface(): void
 	{
 		$this->assertInstanceOf(Text::class, Component::build(Prototype::class)->getExplanation());
+	}
+}
+
+
+
+/** Test case dummy class. */
+class Base64Test_Class
+{
+	public function __construct(private string $string) {}
+	
+	public function __toString(): string
+	{
+		return $this->string;
 	}
 }

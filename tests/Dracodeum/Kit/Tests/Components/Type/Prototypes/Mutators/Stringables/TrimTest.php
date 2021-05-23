@@ -20,6 +20,7 @@ class TrimTest extends TestCase
 	 * 
 	 * @testdox Process
 	 * @dataProvider provideProcessData
+	 * @dataProvider provideProcessData_Class
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -56,5 +57,34 @@ class TrimTest extends TestCase
 			["  foo\nbar\t\n", "foo\nbar"],
 			["\n\tfoo\tbar\n", "foo\tbar"]
 		];
+	}
+	
+	/**
+	 * Provide process data (class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Class(): array
+	{
+		$data = $this->provideProcessData();
+		foreach ($data as &$d) {
+			$d[0] = new TrimTest_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+}
+
+
+
+/** Test case dummy class. */
+class TrimTest_Class
+{
+	public function __construct(private string $string) {}
+	
+	public function __toString(): string
+	{
+		return $this->string;
 	}
 }

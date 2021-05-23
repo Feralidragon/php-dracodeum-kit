@@ -43,8 +43,8 @@ class Identifier extends Prototype implements IExplanationProducer
 	{
 		if (UText::isIdentifier($value, $this->extended)) {
 			return match ($this->case) {
-				ETextCase::LOWER => strtolower($value) === $value,
-				ETextCase::UPPER => strtoupper($value) === $value,
+				ETextCase::LOWER => strtolower($value) === (string)$value,
+				ETextCase::UPPER => strtoupper($value) === (string)$value,
 				default => true
 			};
 		}

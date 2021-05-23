@@ -21,6 +21,7 @@ class TruncateTest extends TestCase
 	 * 
 	 * @testdox Process
 	 * @dataProvider provideProcessData
+	 * @dataProvider provideProcessData_Class
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -86,6 +87,22 @@ class TruncateTest extends TestCase
 	}
 	
 	/**
+	 * Provide process data (class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Class(): array
+	{
+		$data = $this->provideProcessData();
+		foreach ($data as &$d) {
+			$d[0] = new TruncateTest_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+	
+	/**
 	 * Test `ExplanationProducer` interface.
 	 * 
 	 * @testdox ExplanationProducer interface
@@ -97,5 +114,18 @@ class TruncateTest extends TestCase
 	public function testExplanationProducerInterface(): void
 	{
 		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
+	}
+}
+
+
+
+/** Test case dummy class. */
+class TruncateTest_Class
+{
+	public function __construct(private string $string) {}
+	
+	public function __toString(): string
+	{
+		return $this->string;
 	}
 }

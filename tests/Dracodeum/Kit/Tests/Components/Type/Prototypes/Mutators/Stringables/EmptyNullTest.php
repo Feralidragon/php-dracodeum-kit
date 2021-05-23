@@ -43,10 +43,32 @@ class EmptyNullTest extends TestCase
 	 */
 	public function provideProcessData(): array
 	{
+		//initialize
+		$c1 = new EmptyNullTest_Class('');
+		$c2 = new EmptyNullTest_Class(' ');
+		$c3 = new EmptyNullTest_Class('a');
+		
+		//return
 		return [
 			['', null],
 			[' ', ' '],
-			['a', 'a']
+			['a', 'a'],
+			[$c1, null],
+			[$c2, $c2],
+			[$c3, $c3]
 		];
+	}
+}
+
+
+
+/** Test case dummy class. */
+class EmptyNullTest_Class
+{
+	public function __construct(private string $string) {}
+	
+	public function __toString(): string
+	{
+		return $this->string;
 	}
 }

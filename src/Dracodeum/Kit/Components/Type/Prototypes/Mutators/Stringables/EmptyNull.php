@@ -16,7 +16,7 @@ class EmptyNull extends Prototype
 	/** {@inheritdoc} */
 	public function process(mixed &$value)
 	{
-		if ($value === '') {
+		if ((string)$value === '') {
 			$value = null;
 		}
 	}
