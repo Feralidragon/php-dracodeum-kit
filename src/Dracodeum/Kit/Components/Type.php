@@ -107,6 +107,15 @@ class Type extends Component
 	/** {@inheritdoc} */
 	protected function producePrototype(string $name, array $properties)
 	{
+		//array
+		if (substr($name, -2) === '[]') {
+			return new Prototypes\TArray([
+				'type' => $this->coerce(substr($name, 0, -2), $properties),
+				'non_associative' => true
+			]);
+		}
+		
+		//return
 		return match ($name) {
 			'boolean', 'bool' => Prototypes\Boolean::class,
 			'number' => Prototypes\Number::class,
@@ -121,6 +130,8 @@ class Type extends Component
 			'resource' => Prototypes\TResource::class,
 			'callable' => Prototypes\TCallable::class,
 			'closure' => new Prototypes\TCallable(['closurify' => true] + $properties),
+			'array' => Prototypes\TArray::class,
+			'list' => new Prototypes\TArray(['non_associative' => true] + $properties),
 			default => null
 		};
 	}

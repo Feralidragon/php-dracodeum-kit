@@ -94,7 +94,12 @@ class TypeTest extends TestCase
 			['object', Prototypes\TObject::class],
 			['resource', Prototypes\TResource::class],
 			['callable', Prototypes\TCallable::class],
-			['closure', Prototypes\TCallable::class]
+			['closure', Prototypes\TCallable::class],
+			['array', Prototypes\TArray::class],
+			['list', Prototypes\TArray::class],
+			['boolean[]', Prototypes\TArray::class],
+			['integer[]', Prototypes\TArray::class],
+			['ustring[]', Prototypes\TArray::class]
 		];
 	}
 	

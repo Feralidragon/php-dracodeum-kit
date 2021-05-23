@@ -30,9 +30,9 @@ use Dracodeum\Kit\Utilities\{
  * Only the following types of values are allowed to be coerced into an array:
  * - an array;
  * - an arrayable object, as an object implementing the `Dracodeum\Kit\Interfaces\Arrayable` interface;
- * - a string as a comma separated list of values, optionally with whitespace, such as `value1,value2,value3` or 
+ * - a string, as a comma separated list of values, optionally with whitespace, such as `value1,value2,value3` or 
  * `value1, value2, value3` (when any non-internal context is used);
- * - a string as a comma separated list of colon separated key-value pairs, optionally with whitespace, 
+ * - a string, as a comma separated list of colon separated key-value pairs, optionally with whitespace, 
  * such as `key1:value1,key2:value2,key3:value3` or `key1: value1, key2: value2, key3: value3` (when any non-internal 
  * context is used).
  * 
@@ -125,46 +125,60 @@ class TArray extends Prototype implements ITextifier
 					;
 				}
 				
+			} elseif ($associative) {
+				$text
+					->setString(
+						"Only a list of key-value pairs is allowed, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs."
+					)
+					->setString(
+						"Only an associative array is allowed, " . 
+							"which may be given as a comma separated list of colon separated key-value pairs.",
+						EInfoLevel::TECHNICAL
+					)
+					->setString(
+						"Only the following types of values are allowed to be coerced into an array:\n" . 
+							" - an array;\n" . 
+							" - an arrayable object, as an object implementing the " . 
+							"\"Dracodeum\Kit\Interfaces\Arrayable\" interface;\n" . 
+							" - a string, as a comma separated list of values, optionally with whitespace, " . 
+							"such as \"value1,value2,value3\" or \"value1, value2, value3\";\n" . 
+							" - a string, as a comma separated list of colon separated key-value pairs, " . 
+							"optionally with whitespace, such as \"key1:value1,key2:value2,key3:value3\" or " . 
+							"\"key1: value1, key2: value2, key3: value3\".",
+						EInfoLevel::INTERNAL
+					)
+				;
 			} else {
-				//internal
-				$text->setString(
-					"Only the following types of values are allowed to be coerced into an array:\n" . 
-						" - an array;\n" . 
-						" - an arrayable object, as an object implementing the " . 
-						"\"Dracodeum\Kit\Interfaces\Arrayable\" interface;\n" . 
-						" - a string as a comma separated list of values, optionally with whitespace, " . 
-						"such as \"value1,value2,value3\" or \"value1, value2, value3\";\n" . 
-						" - a string as a comma separated list of colon separated key-value pairs, " . 
-						"optionally with whitespace, such as \"key1:value1,key2:value2,key3:value3\" or " . 
-						"\"key1: value1, key2: value2, key3: value3\".",
-					EInfoLevel::INTERNAL
-				);
-				
-				//non-internal
-				if ($associative) {
-					$text
-						->setString(
-							"Only a list of key-value pairs is allowed, " . 
-								"which may be given as a comma separated list of colon separated key-value pairs."
-						)
-						->setString(
-							"Only an associative array is allowed, " . 
-								"which may be given as a comma separated list of colon separated key-value pairs.",
-							EInfoLevel::TECHNICAL
-						)
-					;
-				} else {
-					$text
-						->setString("Only a list of values is allowed, which may be given as a comma separated list.")
-						->setString(
-							"Only a non-associative array is allowed, which may be given as a comma separated list.",
-							EInfoLevel::TECHNICAL
-						)
-					;
-				}
+				$text
+					->setString("Only a list of values is allowed, which may be given as a comma separated list.")
+					->setString(
+						"Only a non-associative array is allowed, which may be given as a comma separated list.",
+						EInfoLevel::TECHNICAL
+					)
+					->setString(
+						"Only the following types of values are allowed to be coerced into an array:\n" . 
+							" - an array;\n" . 
+							" - an arrayable object, as an object implementing the " . 
+							"\"Dracodeum\Kit\Interfaces\Arrayable\" interface;\n" . 
+							" - a string, as a comma separated list of values, optionally with whitespace, " . 
+							"such as \"value1,value2,value3\" or \"value1, value2, value3\".",
+						EInfoLevel::INTERNAL
+					)
+				;
 			}
 			return Error::build(text: $text);
 		}
+		
+		//error stringifier
+		$error_stringifier = function (mixed $value, TextOptions $text_options): string {
+			return UText::uncapitalize(
+				$value instanceof Text
+					? $value->toString($text_options)
+					: UText::localize("Unknown error.", self::class, $text_options),
+				true
+			);
+		};
 		
 		//key type
 		if ($associative && $key_type !== null) {
@@ -195,6 +209,7 @@ class TArray extends Prototype implements ITextifier
 							'error' => $error->getText()
 						])
 						->setPlaceholderAsQuoted('key')
+						->setPlaceholderStringifier('error', $error_stringifier)
 						->setAsLocalized(self::class)
 					;
 					return Error::build(text: $text);
@@ -220,6 +235,7 @@ class TArray extends Prototype implements ITextifier
 							'error' => $error->getText()
 						])
 						->setPlaceholderAsQuoted('key')
+						->setPlaceholderStringifier('error', $error_stringifier)
 						->setAsLocalized(self::class)
 					;
 					

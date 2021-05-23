@@ -467,15 +467,14 @@ class TArrayTest_TypePrototype1 extends TypePrototype implements ITextifier
 	{
 		if (is_string($value) && $value !== '' && in_array($value[0], ['#', '*'] , true)) {
 			return null;
-		}
-		if (in_array($value, [123, '456', 'foo', 'bar'], true)) {
+		} elseif (in_array($value, [123, '456', 'foo', 'bar'], true)) {
 			if ($value === '456') {
 				$value = (int)$value;
 			}
 			$value = is_int($value) ? "#{$value}" : "*{$value}";
 			return null;
 		}
-		return Error::build(text: "Must be 123, foo or bar.");
+		return Error::build(text: "Must be 123, 456, foo or bar.");
 	}
 	
 	public function textify(mixed $value)
@@ -493,12 +492,11 @@ class TArrayTest_TypePrototype2 extends TypePrototype implements ITextifier
 	{
 		if (is_string($value) && $value !== '' && in_array($value[0], ['!', '_'] , true)) {
 			return null;
-		}
-		if ((is_int($value) && $value < 5) || in_array($value, ['a', 'A', 'b', 'B', 'x', 'X', 'z', 'Z'], true)) {
+		} elseif ((is_int($value) && $value < 5) || in_array($value, ['a', 'A', 'b', 'B', 'x', 'X', 'z', 'Z'], true)) {
 			$value = is_int($value) ? "!{$value}" : strtolower("_{$value}");
 			return null;
 		}
-		return Error::build(text: "Must be an integer, or a, A, b, B, x, X, z or Z.");
+		return Error::build(text: "Must be an integer less than 5, or a, A, b, B, x, X, z or Z.");
 	}
 	
 	public function textify(mixed $value)
