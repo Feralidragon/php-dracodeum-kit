@@ -8,12 +8,12 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 System::setAsFramework();
 System::setEnvironment('development');
 
-$t = Dracodeum\Kit\Components\Type::build('number', [
+$t = Dracodeum\Kit\Components\Type::build('array', [
 	'mutators' => [
-		'positive'
+		'non_empty'
 	]
 ]);
-$v = '-11.11';
+$v = [123];
 $e = $t->process($v);
 
 var_dump($v);

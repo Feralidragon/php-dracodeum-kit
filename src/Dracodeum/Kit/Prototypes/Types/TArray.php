@@ -8,7 +8,10 @@
 namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
+use Dracodeum\Kit\Prototypes\Type\Interfaces\{
+	Textifier as ITextifier,
+	MutatorProducer as IMutatorProducer
+};
 use Dracodeum\Kit\Components\Type;
 use Dracodeum\Kit\Interfaces\Arrayable as IArrayable;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
@@ -16,6 +19,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables as CountableMutators;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
@@ -47,7 +51,7 @@ use Dracodeum\Kit\Utilities\{
  * 
  * @see \Dracodeum\Kit\Interfaces\Arrayable
  */
-class TArray extends Prototype implements ITextifier
+class TArray extends Prototype implements ITextifier, IMutatorProducer
 {
 	//Protected properties
 	protected ?Type $type = null;
@@ -371,6 +375,18 @@ class TArray extends Prototype implements ITextifier
 			->setString($associative ? "{{{items}}}" : "[{{items}}]", EInfoLevel::TECHNICAL)
 			->setParameter('items', $items_text)
 		;
+	}
+	
+	
+	
+	//Implemented public methods (Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer)
+	/** {@inheritdoc} */
+	public function produceMutator(string $name, array $properties)
+	{
+		return match ($name) {
+			'non_empty' => CountableMutators\NonEmpty::class,
+			default => null
+		};
 	}
 	
 	

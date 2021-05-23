@@ -18,7 +18,9 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Interfaces\Arrayable as IArrayable;
+use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables as CountableMutators;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\TArray */
@@ -432,6 +434,45 @@ class TArrayTest extends TestCase
 			[["foo", "AAA", "123\n45"], "foo,\nAAA,\n\n123\n45", ['non_associative' => true]],
 			[["foo", "AAA", "123\n45"], "[\n\tfoo,\n\tAAA,\n\t\n\t123\n\t45\n]", ['non_associative' => true],
 				EInfoLevel::TECHNICAL]
+		];
+	}
+	
+	/**
+	 * Test `MutatorProducer` interface.
+	 * 
+	 * @testdox MutatorProducer interface ("$name")
+	 * @dataProvider provideMutatorProducerData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $expected
+	 * The expected produced class.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
+	{
+		$mutator = (new Prototype())->produceMutator($name, $properties);
+		$this->assertNotNull($mutator);
+		$this->assertTrue(UType::isA($mutator, $expected));
+	}
+	
+	/**
+	 * Provide `MutatorProducer` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMutatorProducerData(): array
+	{
+		return [
+			['non_empty', CountableMutators\NonEmpty::class]
 		];
 	}
 }
