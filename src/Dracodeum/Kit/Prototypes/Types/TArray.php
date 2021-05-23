@@ -385,6 +385,7 @@ class TArray extends Prototype implements ITextifier, IMutatorProducer
 	{
 		return match ($name) {
 			'non_empty' => CountableMutators\NonEmpty::class,
+			'empty_null' => CountableMutators\EmptyNull::class,
 			default => null
 		};
 	}

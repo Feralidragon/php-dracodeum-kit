@@ -47,6 +47,7 @@ class NonEmptyTest extends TestCase
 	public function provideProcessData(): array
 	{
 		return [
+			[[[]]],
 			[[1, 2, 3]],
 			[['foobar']],
 			[new NonEmptyTest_Class1()]

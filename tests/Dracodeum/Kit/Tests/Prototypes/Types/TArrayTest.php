@@ -472,7 +472,8 @@ class TArrayTest extends TestCase
 	public function provideMutatorProducerData(): array
 	{
 		return [
-			['non_empty', CountableMutators\NonEmpty::class]
+			['non_empty', CountableMutators\NonEmpty::class],
+			['empty_null', CountableMutators\EmptyNull::class]
 		];
 	}
 }
