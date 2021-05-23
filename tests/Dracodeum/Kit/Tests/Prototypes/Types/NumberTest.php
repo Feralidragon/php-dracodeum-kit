@@ -56,8 +56,6 @@ class NumberTest extends TestCase
 	public function provideProcessData(): array
 	{
 		return [
-			[false, 0],
-			[true, 1],
 			[0, 0],
 			[0.0, 0],
 			[123, 123],
@@ -90,8 +88,6 @@ class NumberTest extends TestCase
 			['-123.4567k', -123456.7],
 			[new NumberTest_Class1(), 123],
 			[new NumberTest_Class2(), 456.789],
-			[false, 0, ['type' => EType::INTEGER]],
-			[true, 1, ['type' => EType::INTEGER]],
 			[0, 0, ['type' => EType::INTEGER]],
 			[0.0, 0, ['type' => EType::INTEGER]],
 			[123, 123, ['type' => EType::INTEGER]],
@@ -111,8 +107,6 @@ class NumberTest extends TestCase
 			['123.456k', 123456, ['type' => EType::INTEGER]],
 			['-123.456k', -123456, ['type' => EType::INTEGER]],
 			[new NumberTest_Class1(), 123, ['type' => EType::INTEGER]],
-			[false, 0.0, ['type' => EType::FLOAT]],
-			[true, 1.0, ['type' => EType::FLOAT]],
 			[0, 0.0, ['type' => EType::FLOAT]],
 			[0.0, 0.0, ['type' => EType::FLOAT]],
 			[123, 123.0, ['type' => EType::FLOAT]],
@@ -179,6 +173,8 @@ class NumberTest extends TestCase
 	{
 		return [
 			[null],
+			[false],
+			[true],
 			['foo'],
 			['#123'],
 			['123#'],

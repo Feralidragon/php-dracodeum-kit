@@ -27,7 +27,7 @@ use Dracodeum\Kit\Utilities\Math as UMath;
  * This prototype represents a number.
  * 
  * Only the following types of values are allowed to be coerced into a number:
- * - a boolean, integer or float;
+ * - an integer or float;
  * - a numeric string, such as `123.45` for 123.45;
  * - a human-readable numeric string, such as `123k` for 123000;
  * - an integerable object, as an object implementing the `Dracodeum\Kit\Interfaces\Integerable` interface;
@@ -53,9 +53,7 @@ class Number extends Prototype implements IMutatorProducer
 	{
 		//process
 		$number = null;
-		if (is_bool($value)) {
-			$number = (int)$value;
-		} elseif (is_int($value) || is_float($value)) {
+		if (is_int($value) || is_float($value)) {
 			$number = $value;
 		} elseif (is_string($value)) {
 			$number = is_numeric($value) ? (float)$value : UMath::mnumber($value, true);
@@ -71,7 +69,7 @@ class Number extends Prototype implements IMutatorProducer
 				->setString("Only a number is allowed.")
 				->setString(
 					"Only the following types of values are allowed to be coerced into a number:\n" . 
-						" - a boolean, integer or float;\n" . 
+						" - an integer or float;\n" . 
 						" - a numeric string, such as \"123.45\" for 123.45;\n" .  
 						" - a human-readable numeric string, such as \"123k\" for 123000;\n" . 
 						" - an integerable object, as an object implementing the " . 
