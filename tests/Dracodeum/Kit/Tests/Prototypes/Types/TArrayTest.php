@@ -473,7 +473,8 @@ class TArrayTest extends TestCase
 	{
 		return [
 			['non_empty', CountableMutators\NonEmpty::class],
-			['empty_null', CountableMutators\EmptyNull::class]
+			['empty_null', CountableMutators\EmptyNull::class],
+			['count', CountableMutators\Count::class]
 		];
 	}
 }
