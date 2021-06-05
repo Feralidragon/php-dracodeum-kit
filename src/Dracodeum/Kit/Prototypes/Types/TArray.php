@@ -387,6 +387,7 @@ class TArray extends Prototype implements ITextifier, IMutatorProducer
 			'non_empty' => CountableMutators\NonEmpty::class,
 			'empty_null' => CountableMutators\EmptyNull::class,
 			'count' => CountableMutators\Count::class,
+			'count_range' => CountableMutators\CountRange::class,
 			default => null
 		};
 	}
