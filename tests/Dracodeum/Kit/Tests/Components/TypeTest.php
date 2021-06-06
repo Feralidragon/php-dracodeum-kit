@@ -246,25 +246,47 @@ class TypeTest extends TestCase
 	 * Test process (nullable).
 	 * 
 	 * @testdox Process (nullable)
+	 * @dataProvider provideProcessData_Nullable
+	 * 
+	 * @param string $prototype
+	 * The prototype to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
 	 * 
 	 * @return void
 	 */
-	public function testProcess_Nullable(): void
+	public function testProcess_Nullable(string $prototype, array $properties = []): void
 	{
-		//build
-		$component1 = Component::build(TypeTest_Prototype1::class, ['nullable' => true]);
-		$component2 = Component::build('?' . TypeTest_Prototype2::class);
+		$value = null;
+		$error = Component::build($prototype, $properties)->process($value);
+		$this->assertNull($error);
+		$this->assertNull($value);
+	}
+	
+	/**
+	 * Provide process data (nullable).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Nullable(): array
+	{
+		//initialize
+		$prototype1_class = TypeTest_Prototype1::class;
+		$prototype2_class = TypeTest_Prototype2::class;
 		
-		//process
-		$value1 = $value2 = null;
-		$error1 = $component1->process($value1);
-		$error2 = $component2->process($value2);
-		
-		//assert
-		$this->assertNull($value1);
-		$this->assertNull($value2);
-		$this->assertNull($error1);
-		$this->assertNull($error2);
+		//return
+		return [
+			[$prototype1_class, ['nullable' => true]],
+			["?{$prototype2_class}"],
+			["{$prototype2_class}|null"],
+			["{$prototype2_class} | null"],
+			["null|{$prototype2_class}"],
+			["null | {$prototype2_class}"],
+			["{$prototype1_class}|null|{$prototype2_class}"],
+			["{$prototype1_class} | null | {$prototype2_class}"]
+		];
 	}
 	
 	/**

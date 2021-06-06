@@ -69,9 +69,17 @@ class Type extends Component
 	/** {@inheritdoc} */
 	protected function preInitialize(&$prototype, array &$properties): void
 	{
-		if (is_string($prototype) && isset($prototype[0]) && $prototype[0] === '?') {
-			$prototype = substr($prototype, 1);
-			$properties['nullable'] = true;
+		if (is_string($prototype) && isset($prototype[0])) {
+			if ($prototype[0] === '?') {
+				$prototype = substr($prototype, 1);
+				$properties['nullable'] = true;
+			} elseif ($prototype[0] !== '(') {
+				$count = 0;
+				$prototype = preg_replace('/^\s*null[^\w]+|[^\w]+null(?!\w)/', '', $prototype, count: $count);
+				if ($count) {
+					$properties['nullable'] = true;
+				}
+			}
 		}
 	}
 	
