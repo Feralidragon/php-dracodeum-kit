@@ -227,10 +227,21 @@ class Type extends Component
 			return Text::build("null")->setAsLocalized(self::class);
 		}
 		
-		//textify
+		//textifier
 		if ($has_textifier) {
-			return UCall::guardExecution([$prototype, 'textify'], [$v], [Text::class, 'coerce']);
-		} elseif ($v instanceof IStringable) {
+			//execute
+			$text = UCall::guardExecution([$prototype, 'textify'], [$v], function (&$value): bool {
+				return $value !== null ? Text::coerce($value) : true;
+			});
+			
+			//return
+			if ($text !== null) {
+				return $text;
+			}
+		}
+		
+		//textify
+		if ($v instanceof IStringable) {
 			return Text::build($v->toString());
 		} elseif (is_scalar($v) || $v instanceof IPhpStringable) {
 			return Text::build((string)$v);

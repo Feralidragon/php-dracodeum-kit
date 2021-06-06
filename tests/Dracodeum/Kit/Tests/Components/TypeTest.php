@@ -268,11 +268,16 @@ class TypeTest extends TestCase
 			$this->assertSame('1 0 8', (string)$text1);
 			
 			//text1 (2)
+			$text1 = $component1->textify(105, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text1);
+			$this->assertSame('105', (string)$text1);
+			
+			//text1 (3)
 			$text1 = $component1->textify('-79102.75', EContext::INTERFACE, $no_throw);
 			$this->assertInstanceOf(Text::class, $text1);
 			$this->assertSame('- 7 9 1 0 2', (string)$text1);
 			
-			//text1 (3)
+			//text1 (4)
 			$text1 = $component1->textify(null, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text1);
 			$this->assertSame('null', (string)$text1);
@@ -583,7 +588,7 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 	
 	public function textify(mixed $value)
 	{
-		return implode(' ', str_split($value));
+		return $value !== 105 ? implode(' ', str_split($value)) : null;
 	}
 	
 	public function produceMutator(string $name, array $properties)
