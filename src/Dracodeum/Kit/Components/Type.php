@@ -107,6 +107,19 @@ class Type extends Component
 	/** {@inheritdoc} */
 	protected function producePrototype(string $name, array $properties)
 	{
+		//enclosed array
+		if (substr($name, -3) === ')[]' && $name[0] === '(') {
+			return new Prototypes\TArray([
+				'type' => $this->coerce(substr($name, 1, -3), $properties),
+				'non_associative' => true
+			]);
+		}
+		
+		//union
+		if (strpos($name, '|') !== false) {
+			return new Prototypes\Any(['types' => array_map('trim', explode('|', $name))] + $properties);
+		}
+		
 		//array
 		if (substr($name, -2) === '[]') {
 			return new Prototypes\TArray([
@@ -117,6 +130,7 @@ class Type extends Component
 		
 		//return
 		return match ($name) {
+			'any', 'mixed' => Prototypes\Any::class,
 			'boolean', 'bool' => Prototypes\Boolean::class,
 			'number' => Prototypes\Number::class,
 			'integer', 'int' => new Prototypes\Number(['type' => ENumberType::INTEGER] + $properties),

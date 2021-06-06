@@ -79,6 +79,8 @@ class TypeTest extends TestCase
 	public function providePrototypeNameData(): array
 	{
 		return [
+			['any', Prototypes\Any::class],
+			['mixed', Prototypes\Any::class],
 			['boolean', Prototypes\Boolean::class],
 			['bool', Prototypes\Boolean::class],
 			['number', Prototypes\Number::class],
@@ -97,9 +99,28 @@ class TypeTest extends TestCase
 			['closure', Prototypes\TCallable::class],
 			['array', Prototypes\TArray::class],
 			['list', Prototypes\TArray::class],
+			['boolean|integer', Prototypes\Any::class],
+			['boolean | integer', Prototypes\Any::class],
+			['boolean|integer|ustring', Prototypes\Any::class],
+			['boolean | integer | ustring', Prototypes\Any::class],
+			['boolean|integer[]', Prototypes\Any::class],
+			['boolean | integer[]', Prototypes\Any::class],
+			['boolean[]|integer[]|ustring[]', Prototypes\Any::class],
+			['boolean[] | integer[] | ustring[]', Prototypes\Any::class],
 			['boolean[]', Prototypes\TArray::class],
 			['integer[]', Prototypes\TArray::class],
-			['ustring[]', Prototypes\TArray::class]
+			['ustring[]', Prototypes\TArray::class],
+			['(boolean)[]', Prototypes\TArray::class],
+			['(integer)[]', Prototypes\TArray::class],
+			['(ustring)[]', Prototypes\TArray::class],
+			['(boolean|integer)[]', Prototypes\TArray::class],
+			['(boolean | integer)[]', Prototypes\TArray::class],
+			['(boolean|integer|ustring)[]', Prototypes\TArray::class],
+			['(boolean | integer | ustring)[]', Prototypes\TArray::class],
+			['(boolean|integer[])[]', Prototypes\TArray::class],
+			['(boolean | integer[])[]', Prototypes\TArray::class],
+			['(boolean[]|integer[]|ustring[])[]', Prototypes\TArray::class],
+			['(boolean[] | integer[] | ustring[])[]', Prototypes\TArray::class]
 		];
 	}
 	
