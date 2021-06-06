@@ -117,10 +117,7 @@ class Type extends Component
 	{
 		//enclosed array
 		if (substr($name, -3) === ')[]' && $name[0] === '(') {
-			return new Prototypes\TArray([
-				'type' => $this->coerce(substr($name, 1, -3), $properties),
-				'non_associative' => true
-			]);
+			return new Prototypes\TArray(['type' => substr($name, 1, -3), 'non_associative' => true] + $properties);
 		}
 		
 		//union
@@ -130,10 +127,7 @@ class Type extends Component
 		
 		//array
 		if (substr($name, -2) === '[]') {
-			return new Prototypes\TArray([
-				'type' => $this->coerce(substr($name, 0, -2), $properties),
-				'non_associative' => true
-			]);
+			return new Prototypes\TArray(['type' => substr($name, 0, -2), 'non_associative' => true] + $properties);
 		}
 		
 		//return
