@@ -148,6 +148,7 @@ class Type extends Component
 			'closure' => new Prototypes\TCallable(['closurify' => true] + $properties),
 			'array' => Prototypes\TArray::class,
 			'list' => new Prototypes\TArray(['non_associative' => true] + $properties),
+			'component' => Prototypes\Component::class,
 			default => null
 		};
 	}

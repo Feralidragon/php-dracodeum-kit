@@ -99,6 +99,7 @@ class TypeTest extends TestCase
 			['closure', Prototypes\TCallable::class],
 			['array', Prototypes\TArray::class],
 			['list', Prototypes\TArray::class],
+			['component', Prototypes\Component::class, [Component::class]],
 			['boolean|integer', Prototypes\Any::class],
 			['boolean | integer', Prototypes\Any::class],
 			['boolean|integer|ustring', Prototypes\Any::class],
