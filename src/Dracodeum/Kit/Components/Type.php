@@ -149,6 +149,7 @@ class Type extends Component
 			'array' => Prototypes\TArray::class,
 			'list' => new Prototypes\TArray(['non_associative' => true] + $properties),
 			'component' => Prototypes\Component::class,
+			'structure', 'struct' => Prototypes\Structure::class,
 			default => null
 		};
 	}

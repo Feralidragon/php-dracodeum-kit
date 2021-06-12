@@ -30,6 +30,7 @@ use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\{
 	Component as KitComponent,
+	Structure as KitStructure,
 	Enumeration
 };
 use ReflectionProperty;
@@ -100,6 +101,8 @@ class TypeTest extends TestCase
 			['array', Prototypes\TArray::class],
 			['list', Prototypes\TArray::class],
 			['component', Prototypes\Component::class, [Component::class]],
+			['structure', Prototypes\Structure::class, [TypeTest_Struct::class]],
+			['struct', Prototypes\Structure::class, [TypeTest_Struct::class]],
 			['boolean|integer', Prototypes\Any::class],
 			['boolean | integer', Prototypes\Any::class],
 			['boolean|integer|ustring', Prototypes\Any::class],
@@ -760,3 +763,11 @@ class TypeTest_MutatorPrototype2 extends MutatorPrototype
 
 /** Test case dummy enumeration. */
 class TypeTest_Enum extends Enumeration {}
+
+
+
+/** Test case dummy structure. */
+class TypeTest_Struct extends KitStructure
+{
+	protected function loadProperties(): void {}
+}
