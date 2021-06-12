@@ -216,9 +216,7 @@ class ComponentTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value, array $properties): void
 	{
-		$v = $value;
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
 	}
 	
 	/**

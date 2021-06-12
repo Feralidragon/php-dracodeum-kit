@@ -189,9 +189,7 @@ class TArrayTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
-		$v = $value;
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
 	}
 	
 	/**
@@ -278,9 +276,7 @@ class TArrayTest extends TestCase
 		$component = Component::build(Prototype::class, $properties);
 		foreach (EContext::getValues() as $context) {
 			if ($context !== EContext::INTERNAL) {
-				$v = $value;
-				$this->assertInstanceOf(Error::class, $component->process($v, $context));
-				$this->assertSame($value, $v);
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
 			}
 		}
 	}

@@ -80,9 +80,7 @@ class TStringTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value): void
 	{
-		$v = $value;
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
 	}
 	
 	/**

@@ -86,9 +86,7 @@ class TClassTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
-		$v = $value;
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
 	}
 	
 	/**
@@ -167,7 +165,7 @@ class TClassTest extends TestCase
 		//return
 		return [
 			['stdClass', "class<stdClass>"],
-			[new class () {}, "class<anonymous@" . __FILE__ . ":170>"],
+			[new class () {}, "class<anonymous@" . __FILE__ . ":168>"],
 			[$class1, "class<{$class1}>"],
 			[$class2, "class<{$class2}>"]
 		];

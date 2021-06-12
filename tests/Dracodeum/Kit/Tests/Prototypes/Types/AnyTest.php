@@ -105,11 +105,9 @@ class AnyTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value, string $expected_error_string, array $properties = []): void
 	{
-		$v = $value;
-		$error = Component::build(Prototype::class, $properties)->process($v);
+		$error = Component::build(Prototype::class, $properties)->process($value);
 		$this->assertInstanceOf(Error::class, $error);
 		$this->assertSame($expected_error_string, $error->getText()->toString());
-		$this->assertSame($value, $v);
 	}
 	
 	/**

@@ -38,9 +38,7 @@ class TCallableTest extends TestCase
 	 */
 	public function testProcess(mixed $value, array $properties = []): void
 	{
-		$v = $value;
-		$this->assertNull(Component::build(Prototype::class, $properties)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertNull(Component::build(Prototype::class, $properties)->process($value));
 	}
 	
 	/**
@@ -173,9 +171,7 @@ class TCallableTest extends TestCase
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
-		$v = $value;
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($v));
-		$this->assertSame($value, $v);
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
 	}
 	
 	/**
@@ -367,7 +363,7 @@ class TCallableTest extends TestCase
 		//return
 		return [
 			['strlen', "callable<strlen>"],
-			[function () {}, "callable<anonymous@" . __FILE__ . ":370>"],
+			[function () {}, "callable<anonymous@" . __FILE__ . ":366>"],
 			[$ci, "callable<{$class_invokeable}::__invoke>"],
 			[[$c, 'getString'], "callable<{$class}::getString>"],
 			["{$class}::getStaticString", "callable<{$class}::getStaticString>"],
