@@ -16,7 +16,6 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Traits\LazyProperties\Property;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\Structure */
