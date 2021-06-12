@@ -114,7 +114,6 @@ class Component extends Prototype implements ITextifier
 						" - a prototype instance, class or name.",
 					EInfoLevel::INTERNAL
 				)
-				->setAsLocalized(self::class)
 			;
 			return Error::build(text: $text);
 		}
