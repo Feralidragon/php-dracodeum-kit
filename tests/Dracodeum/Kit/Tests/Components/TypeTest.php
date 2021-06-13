@@ -307,22 +307,25 @@ class TypeTest extends TestCase
 		$component1 = Component::build(TypeTest_Prototype1::class);
 		$component2 = Component::build(TypeTest_Prototype2::class);
 		
-		//assert (1)
-		$this->assertSame(75, $component1->processCast(75.5));
-		
-		//assert (2)
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertSame(50, $component1->processCast('50', $context));
+		//assert
+		foreach ([false, true] as $no_throw) {
+			//value (1)
+			$this->assertSame(75, $component1->processCast(75.5, no_throw: $no_throw));
+			
+			//value (2)
+			foreach (EContext::getValues() as $context) {
+				if ($context !== EContext::INTERNAL) {
+					$this->assertSame(50, $component1->processCast('50', $context, $no_throw));
+				}
 			}
+			
+			//value (3)
+			$value = new stdClass();
+			$this->assertSame($value, $component2->processCast($value, no_throw: $no_throw));
+			
+			//value (4)
+			$this->assertInstanceOf(stdClass::class, $component2->processCast(stdClass::class, no_throw: $no_throw));
 		}
-		
-		//assert (3)
-		$value = new stdClass();
-		$this->assertSame($value, $component2->processCast($value));
-		
-		//assert (4)
-		$this->assertInstanceOf(stdClass::class, $component2->processCast(stdClass::class));
 	}
 	
 	/**
@@ -447,29 +450,32 @@ class TypeTest extends TestCase
 		$component1 = Component::build(TypeTest_Prototype1::class);
 		$component2 = Component::build(TypeTest_Prototype2::class);
 		
-		//assert (1)
-		$value = 75.5;
-		$this->assertTrue($component1->processCoercion2($value));
-		$this->assertSame(75, $value);
-		
-		//assert (2)
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$value = '50';
-				$this->assertTrue($component1->processCoercion2($value, $context));
-				$this->assertSame(50, $value);
+		//assert
+		foreach ([false, true] as $no_throw) {
+			//value (1)
+			$value = 75.5;
+			$this->assertTrue($component1->processCoercion2($value, no_throw: $no_throw));
+			$this->assertSame(75, $value);
+			
+			//value (2)
+			foreach (EContext::getValues() as $context) {
+				if ($context !== EContext::INTERNAL) {
+					$value = '50';
+					$this->assertTrue($component1->processCoercion2($value, $context, $no_throw));
+					$this->assertSame(50, $value);
+				}
 			}
+			
+			//value (3)
+			$value = $v = new stdClass();
+			$this->assertTrue($component2->processCoercion2($value, no_throw: $no_throw));
+			$this->assertSame($v, $value);
+			
+			//value (4)
+			$value = stdClass::class;
+			$this->assertTrue($component2->processCoercion2($value, no_throw: $no_throw));
+			$this->assertInstanceOf(stdClass::class, $value);
 		}
-		
-		//assert (3)
-		$value = $v = new stdClass();
-		$this->assertTrue($component2->processCoercion2($value));
-		$this->assertSame($v, $value);
-		
-		//assert (4)
-		$value = stdClass::class;
-		$this->assertTrue($component2->processCoercion2($value));
-		$this->assertInstanceOf(stdClass::class, $value);
 	}
 	
 	/**
