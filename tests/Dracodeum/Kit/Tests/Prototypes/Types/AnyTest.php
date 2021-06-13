@@ -242,7 +242,6 @@ class AnyTest extends TestCase
 		
 		//return
 		return [
-			[null],
 			[[]],
 			[new stdClass()],
 			[fopen(__FILE__, 'r')],
