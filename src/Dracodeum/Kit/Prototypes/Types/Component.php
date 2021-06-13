@@ -75,6 +75,8 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * 
  * **Return:** `Dracodeum\Kit\Component|null`  
  * The built instance for the given name, or `null` if none was built.
+ * 
+ * @see \Dracodeum\Kit\Component
  */
 class Component extends Prototype implements ITextifier
 {

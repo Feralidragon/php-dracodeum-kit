@@ -27,6 +27,7 @@ use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
  * the `Dracodeum\Kit\Interfaces\Stringable` interface.
  * 
  * @see https://www.php.net/manual/en/class.stringable.php
+ * @see \Dracodeum\Kit\Primitives\Text
  * @see \Dracodeum\Kit\Interfaces\Stringable
  */
 class Text extends Prototype implements ITextifier

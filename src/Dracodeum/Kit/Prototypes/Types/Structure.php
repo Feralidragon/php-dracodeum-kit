@@ -52,6 +52,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * **Return:** `Dracodeum\Kit\Structure`  
  * The built instance.
  * 
+ * @see \Dracodeum\Kit\Structure
  * @see \Dracodeum\Kit\Interfaces\Arrayable
  */
 class Structure extends Prototype implements ITextifier
