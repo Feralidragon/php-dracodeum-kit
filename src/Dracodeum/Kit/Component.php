@@ -288,6 +288,17 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	
 	//Final public methods
 	/**
+	 * Get prototype class.
+	 * 
+	 * @return string
+	 * The prototype class.
+	 */
+	final public function getPrototypeClass(): string
+	{
+		return $this->prototype::class;
+	}
+	
+	/**
 	 * Check if has proxy.
 	 * 
 	 * @return bool
