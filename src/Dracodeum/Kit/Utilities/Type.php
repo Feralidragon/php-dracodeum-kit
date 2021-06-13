@@ -2775,7 +2775,7 @@ final class Type extends Utility
 	 * 
 	 * @return mixed
 	 * The given value cast.  
-	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the cast failed.
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be cast.
 	 */
 	final public static function cast(
 		mixed $value, $type, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false

@@ -222,8 +222,8 @@ class Type extends Component
 	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CastFailed
 	 * 
 	 * @return mixed
-	 * The given value processed cast.  
-	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the processing of the cast failed.
+	 * The given value cast.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be cast.
 	 */
 	final public function processCast(mixed $value, $context = EContext::INTERNAL, bool $no_throw = false): mixed
 	{
