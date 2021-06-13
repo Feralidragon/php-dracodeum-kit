@@ -303,7 +303,7 @@ final class Text extends Utility
 		}
 		
 		//resource
-		if (is_resource($value)) {
+		if (is_resource($value) || gettype($value) === 'resource (closed)') {
 			$id = (int)$value;
 			if ($is_enduser) {
 				/**

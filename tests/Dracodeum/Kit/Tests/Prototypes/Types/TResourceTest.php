@@ -52,12 +52,15 @@ class TResourceTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$resource = fopen(__FILE__, 'r');
+		$resource1 = fopen(__FILE__, 'r');
+		$resource2 = fopen(__FILE__, 'r');
+		fclose($resource2);
 		
 		//return
 		return [
-			[$resource, $resource],
-			[$resource, $resource, ['type' => 'stream']]
+			[$resource1, $resource1],
+			[$resource2, $resource2],
+			[$resource1, $resource1, ['type' => 'stream']]
 		];
 	}
 	

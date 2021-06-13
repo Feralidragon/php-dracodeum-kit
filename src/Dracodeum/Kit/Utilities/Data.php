@@ -229,7 +229,7 @@ final class Data extends Utility
 		} elseif (is_object($value)) {
 			$safe = false;
 			return 'O:' . spl_object_id($value);
-		} elseif (is_resource($value)) {
+		} elseif (is_resource($value) || gettype($value) === 'resource (closed)') {
 			$safe = false;
 			return 'R:' . (int)$value;
 		} elseif (is_array($value)) {
