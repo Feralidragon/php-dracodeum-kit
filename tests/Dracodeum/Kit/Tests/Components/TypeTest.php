@@ -295,6 +295,265 @@ class TypeTest extends TestCase
 	}
 	
 	/**
+	 * Test process cast.
+	 * 
+	 * @testdox ProcessCast
+	 * 
+	 * @return void
+	 */
+	public function testProcessCast(): void
+	{
+		//build
+		$component1 = Component::build(TypeTest_Prototype1::class);
+		$component2 = Component::build(TypeTest_Prototype2::class);
+		
+		//assert (1)
+		$this->assertSame(75, $component1->processCast(75.5));
+		
+		//assert (2)
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertSame(50, $component1->processCast('50', $context));
+			}
+		}
+		
+		//assert (3)
+		$value = new stdClass();
+		$this->assertSame($value, $component2->processCast($value));
+		
+		//assert (4)
+		$this->assertInstanceOf(stdClass::class, $component2->processCast(stdClass::class));
+	}
+	
+	/**
+	 * Test process cast expecting a `CastFailed` exception to be thrown.
+	 * 
+	 * @testdox ProcessCast CastFailed exception
+	 * @dataProvider provideProcessCastData_Exception_CastFailed
+	 * 
+	 * @param string $prototype
+	 * The prototype to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to test with.
+	 * 
+	 * @param string|null $expected_error_string
+	 * The expected error string.
+	 * 
+	 * @param coercible:options<\Dracodeum\Kit\Options\Text> $error_text_options
+	 * The error text options to test with.
+	 * 
+	 * @param bool $error_string_not_same
+	 * Expect the error string to not be the same as the expected error string.
+	 * 
+	 * @return void
+	 */
+	public function testProcessCast_Exception_CastFailed(
+		string $prototype, mixed $value, $context = EContext::INTERNAL, ?string $expected_error_string = null,
+		$error_text_options = null, bool $error_string_not_same = false
+	): void
+	{
+		$component = Component::build($prototype);
+		$this->expectException(Exceptions\CastFailed::class);
+		try {
+			$component->processCast($value, $context);
+		} catch (Exceptions\CastFailed $exception) {
+			$this->assertSame($component, $exception->component);
+			$this->assertSame($value, $exception->value);
+			$this->assertSame($context, $exception->context);
+			$this->assertNotNull($exception->error);
+			$this->assertNotSame('', (string)$exception->error->getText());
+			if ($expected_error_string !== null) {
+				$error_string = $exception->error->getText()->toString($error_text_options);
+				if ($error_string_not_same) {
+					$this->assertNotSame($expected_error_string, $error_string);
+				} else {
+					$this->assertSame($expected_error_string, $error_string);
+				}
+			}
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test process cast with `$no_throw` set to boolean `true`, expecting `null` to be returned.
+	 * 
+	 * @testdox ProcessCast (no throw ==> null)
+	 * @dataProvider provideProcessCastData_Exception_CastFailed
+	 * 
+	 * @param string $prototype
+	 * The prototype to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcessCast_NoThrow_Null(string $prototype, mixed $value, $context = EContext::INTERNAL): void
+	{
+		$this->assertNull(Component::build($prototype)->processCast($value, $context, true));
+	}
+	
+	/**
+	 * Provide process cast data for a `CastFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessCastData_Exception_CastFailed(): array
+	{
+		//initialize
+		$prototype1 = TypeTest_Prototype1::class;
+		$prototype2 = TypeTest_Prototype2::class;
+		
+		//return
+		return [
+			[$prototype1, null],
+			[$prototype2, null],
+			[$prototype1, '-79102.75'],
+			[$prototype2, 'foo'],
+			[$prototype2, stdClass::class, EContext::CONFIGURATION],
+			[$prototype2, stdClass::class, EContext::INTERFACE],
+			[$prototype1, 120.5, EContext::INTERNAL, $prototype1::ERROR_STRING],
+			[$prototype1, '50', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
+			[$prototype1, 'foo', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
+			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING,
+				['info_level' => EInfoLevel::ENDUSER], true],
+			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::ENDUSER], true],
+			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::TECHNICAL]],
+			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::INTERNAL]]
+		];
+	}
+	
+	/**
+	 * Test process coercion.
+	 * 
+	 * @testdox ProcessCoercion
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercion(): void
+	{
+		//build
+		$component1 = Component::build(TypeTest_Prototype1::class);
+		$component2 = Component::build(TypeTest_Prototype2::class);
+		
+		//assert (1)
+		$value = 75.5;
+		$this->assertTrue($component1->processCoercion2($value));
+		$this->assertSame(75, $value);
+		
+		//assert (2)
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$value = '50';
+				$this->assertTrue($component1->processCoercion2($value, $context));
+				$this->assertSame(50, $value);
+			}
+		}
+		
+		//assert (3)
+		$value = $v = new stdClass();
+		$this->assertTrue($component2->processCoercion2($value));
+		$this->assertSame($v, $value);
+		
+		//assert (4)
+		$value = stdClass::class;
+		$this->assertTrue($component2->processCoercion2($value));
+		$this->assertInstanceOf(stdClass::class, $value);
+	}
+	
+	/**
+	 * Test process coercion expecting a `CoercionFailed` exception to be thrown.
+	 * 
+	 * @testdox ProcessCoercion CoercionFailed exception
+	 * @dataProvider provideProcessCastData_Exception_CastFailed
+	 * 
+	 * @param string $prototype
+	 * The prototype to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to test with.
+	 * 
+	 * @param string|null $expected_error_string
+	 * The expected error string.
+	 * 
+	 * @param coercible:options<\Dracodeum\Kit\Options\Text> $error_text_options
+	 * The error text options to test with.
+	 * 
+	 * @param bool $error_string_not_same
+	 * Expect the error string to not be the same as the expected error string.
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercion_Exception_CoercionFailed(
+		string $prototype, mixed $value, $context = EContext::INTERNAL, ?string $expected_error_string = null,
+		$error_text_options = null, bool $error_string_not_same = false
+	): void
+	{
+		$v = $value;
+		$component = Component::build($prototype);
+		$this->expectException(Exceptions\CoercionFailed::class);
+		try {
+			$component->processCoercion2($v, $context);
+		} catch (Exceptions\CoercionFailed $exception) {
+			$this->assertSame($value, $v);
+			$this->assertSame($component, $exception->component);
+			$this->assertSame($value, $exception->value);
+			$this->assertSame($context, $exception->context);
+			$this->assertNotNull($exception->error);
+			$this->assertNotSame('', (string)$exception->error->getText());
+			if ($expected_error_string !== null) {
+				$error_string = $exception->error->getText()->toString($error_text_options);
+				if ($error_string_not_same) {
+					$this->assertNotSame($expected_error_string, $error_string);
+				} else {
+					$this->assertSame($expected_error_string, $error_string);
+				}
+			}
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test process coercion with `$no_throw` set to boolean `true`, expecting boolean `false` to be returned.
+	 * 
+	 * @testdox ProcessCoercion (no throw ==> false)
+	 * @dataProvider provideProcessCastData_Exception_CastFailed
+	 * 
+	 * @param string $prototype
+	 * The prototype to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcessCoercion_NoThrow_False(
+		string $prototype, mixed $value, $context = EContext::INTERNAL
+	): void
+	{
+		$v = $value;
+		$this->assertFalse(Component::build($prototype)->processCoercion2($v, $context, true));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
 	 * Test textify.
 	 * 
 	 * @testdox Textify
@@ -381,14 +640,12 @@ class TypeTest extends TestCase
 		string $prototype, mixed $value, $context, bool $null_error
 	): void
 	{
-		$component = null;
+		$component = Component::build($prototype);
 		$this->expectException(Exceptions\TextificationFailed::class);
 		try {
-			$component = Component::build($prototype);
 			$component->textify($value, $context);
 		} catch (Exceptions\TextificationFailed $exception) {
 			$this->assertSame($component, $exception->component);
-			$this->assertInstanceOf($prototype, $exception->prototype);
 			$this->assertSame($value, $exception->value);
 			$this->assertSame($context, $exception->context);
 			if ($null_error) {

@@ -208,6 +208,66 @@ class Type extends Component
 	}
 	
 	/**
+	 * Process the cast of a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to process the cast of.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to process the cast for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CastFailed
+	 * 
+	 * @return mixed
+	 * The given value processed cast.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the processing of the cast failed.
+	 */
+	final public function processCast(mixed $value, $context = EContext::INTERNAL, bool $no_throw = false): mixed
+	{
+		$error = $this->process($value, $context);
+		if ($error !== null) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\CastFailed([$this, $value, $context, 'error' => $error]);
+		}
+		return $value;
+	}
+	
+	/**
+	 * Process the coercion of a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to process the coercion of.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to process the coercion for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CoercionFailed
+	 * 
+	 * @return bool
+	 * Boolean `true` is always returned if the given value is successfully coerced, otherwise an exception is thrown, 
+	 * unless `$no_throw` is set to boolean `true`, in which case boolean `false` is returned instead.
+	 */
+	final public function processCoercion2(mixed &$value, $context = EContext::INTERNAL, bool $no_throw = false): bool
+	{
+		$error = $this->process($value, $context);
+		if ($error !== null) {
+			if ($no_throw) {
+				return false;
+			}
+			throw new Exceptions\CoercionFailed([$this, $value, $context, 'error' => $error]);
+		}
+		return true;
+	}
+	
+	/**
 	 * Textify a given value.
 	 * 
 	 * @param mixed $value
@@ -238,7 +298,7 @@ class Type extends Component
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\TextificationFailed([$this, $prototype, $value, $context, 'error' => $error]);
+			throw new Exceptions\TextificationFailed([$this, $value, $context, 'error' => $error]);
 		}
 		
 		//null
@@ -267,7 +327,7 @@ class Type extends Component
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\TextificationFailed([$this, $prototype, $value, $context]);
+		throw new Exceptions\TextificationFailed([$this, $value, $context]);
 	}
 	
 	/**

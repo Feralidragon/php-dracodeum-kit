@@ -13,9 +13,6 @@ use Dracodeum\Kit\Components\Type as Component;
 /**
  * @property-read \Dracodeum\Kit\Components\Type $component
  * The component instance.
- * 
- * @property-read \Dracodeum\Kit\Prototypes\Type $prototype
- * The prototype instance.
  */
 abstract class Exception extends KitException
 {
@@ -24,6 +21,5 @@ abstract class Exception extends KitException
 	protected function loadProperties(): void
 	{
 		$this->addProperty('component')->setAsStrictObject(Component::class);
-		$this->addProperty('prototype')->setAsStrictObject(Component::getPrototypeBaseClass());
 	}
 }

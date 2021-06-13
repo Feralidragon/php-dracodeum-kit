@@ -7,12 +7,12 @@
 
 namespace Dracodeum\Kit\Components\Type\Exceptions;
 
-class TextificationFailed extends ProcessFailed
+class CoercionFailed extends ProcessFailed
 {
 	//Implemented protected methods
 	/** {@inheritdoc} */
 	protected function getLabel(): string
 	{
-		return "Textification";
+		return "Coercion";
 	}
 }
