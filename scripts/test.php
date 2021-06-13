@@ -17,7 +17,15 @@ $v = [123];
 $e = $t->process($v);
 
 var_dump($v);
-echo "\n\n", (string)$e?->getText(), "\n\n\n", $e?->getText()->toString(['info_level' => 1]), "\n\n";
+echo 
+	"\n\n", 
+	(string)$e?->getText(), 
+	"\n\n\n",
+	$e?->getText()->toString(['info_level' => 1]),
+	"\n\n\n",
+	$e?->getText()->toString(['info_level' => 2]),
+	"\n\n"
+;
 die();
 
 
