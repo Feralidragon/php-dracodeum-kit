@@ -150,6 +150,7 @@ class Type extends Component
 			'list' => new Prototypes\TArray(['non_associative' => true] + $properties),
 			'component' => Prototypes\Component::class,
 			'structure', 'struct' => Prototypes\Structure::class,
+			'text' => Prototypes\Text::class,
 			default => null
 		};
 	}

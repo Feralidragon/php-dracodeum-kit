@@ -103,6 +103,7 @@ class TypeTest extends TestCase
 			['component', Prototypes\Component::class, [Component::class]],
 			['structure', Prototypes\Structure::class, [TypeTest_Struct::class]],
 			['struct', Prototypes\Structure::class, [TypeTest_Struct::class]],
+			['text', Prototypes\Text::class],
 			['boolean|integer', Prototypes\Any::class],
 			['boolean | integer', Prototypes\Any::class],
 			['boolean|integer|ustring', Prototypes\Any::class],
