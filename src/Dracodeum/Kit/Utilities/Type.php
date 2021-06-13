@@ -31,6 +31,7 @@ use Dracodeum\Kit\Interfaces\{
 };
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
+use Dracodeum\Kit\Primitives\Text as TextPrimitive;
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -2820,5 +2821,55 @@ final class Type extends Utility
 			$type = Component::build($type, $properties);
 		}
 		return $type->processCoercion2($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Textify a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to textify.
+	 * 
+	 * @param coercible:component<\Dracodeum\Kit\Components\Type>|null $type
+	 * The type to textify with.
+	 * 
+	 * @param array $properties
+	 * The properties to textify with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to textify for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\TextificationFailed
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Text|null
+	 * The given value textified, as a text instance.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given value failed to be textified.
+	 */
+	final public static function textify(
+		mixed $value, $type = null, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): ?TextPrimitive
+	{
+		if (!($type instanceof Component)) {
+			if ($type === null) {
+				//type
+				$type_name = gettype($value);
+				$type = match ($type_name) {
+					'boolean', 'integer', 'double', 'string', 'array', 'object', 'resource' => $type_name,
+					'resource (closed)' => 'resource',
+					default => 'mixed'
+				};
+				
+				//array
+				if ($type === 'array') {
+					$properties += ['non_associative' => !Data::associative($value)];
+				}
+			}
+			$type = Component::build($type, $properties);
+		}
+		return $type->textify($value, $context, $no_throw);
 	}
 }

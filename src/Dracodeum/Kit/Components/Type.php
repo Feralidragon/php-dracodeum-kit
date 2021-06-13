@@ -136,7 +136,7 @@ class Type extends Component
 			'boolean', 'bool' => Prototypes\Boolean::class,
 			'number' => Prototypes\Number::class,
 			'integer', 'int' => new Prototypes\Number(['type' => ENumberType::INTEGER] + $properties),
-			'float' => new Prototypes\Number(['type' => ENumberType::FLOAT] + $properties),
+			'float', 'double' => new Prototypes\Number(['type' => ENumberType::FLOAT] + $properties),
 			'string' => Prototypes\TString::class,
 			'ustring' => new Prototypes\TString(['unicode' => true] + $properties),
 			'enumeration', 'enum' => Prototypes\Enumeration::class,
@@ -301,13 +301,8 @@ class Type extends Component
 			throw new Exceptions\TextificationFailed([$this, $value, $context, 'error' => $error]);
 		}
 		
-		//null
-		if ($v === null && ($this->nullable || !$has_textifier)) {
-			return Text::build("null")->setAsLocalized(self::class);
-		}
-		
 		//textifier
-		if ($has_textifier) {
+		if ($has_textifier && ($v !== null || !$this->nullable)) {
 			//execute
 			$text = UCall::guardExecution([$prototype, 'textify'], [$v], function (&$value): bool {
 				return $value !== null ? Text::coerce($value) : true;
@@ -320,7 +315,9 @@ class Type extends Component
 		}
 		
 		//textify
-		if ($v instanceof IStringable) {
+		if ($v === null) {
+			return Text::build("null")->setAsLocalized(self::class);
+		} elseif ($v instanceof IStringable) {
 			return Text::build($v->toString());
 		} elseif (is_scalar($v) || $v instanceof IPhpStringable) {
 			return Text::build((string)$v);

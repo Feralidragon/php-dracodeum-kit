@@ -88,6 +88,7 @@ class TypeTest extends TestCase
 			['integer', Prototypes\Number::class],
 			['int', Prototypes\Number::class],
 			['float', Prototypes\Number::class],
+			['double', Prototypes\Number::class],
 			['string', Prototypes\TString::class],
 			['ustring', Prototypes\TString::class],
 			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
@@ -572,6 +573,8 @@ class TypeTest extends TestCase
 		$component1 = Component::build(TypeTest_Prototype1::class, ['nullable' => true]);
 		$component2 = Component::build(TypeTest_Prototype2::class);
 		$component3 = Component::build(TypeTest_Prototype3::class);
+		$component4 = Component::build(TypeTest_Prototype4::class);
+		$component4_null = Component::build(TypeTest_Prototype4::class, ['nullable' => true]);
 		
 		//assert
 		foreach ([false, true] as $no_throw) {
@@ -619,6 +622,16 @@ class TypeTest extends TestCase
 			$text3 = $component3->textify(null, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text3);
 			$this->assertSame('null', (string)$text3);
+			
+			//text4
+			$text4 = $component4->textify(null, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text4);
+			$this->assertSame('null', (string)$text4);
+			
+			//text4 (null)
+			$text4 = $component4_null->textify(null, no_throw: $no_throw);
+			$this->assertInstanceOf(Text::class, $text4);
+			$this->assertSame('null', (string)$text4);
 		}
 	}
 	
@@ -932,6 +945,22 @@ class TypeTest_Prototype2 extends Prototype
 class TypeTest_Prototype3 extends Prototype
 {
 	public function process(mixed &$value, $context): ?Error
+	{
+		return null;
+	}
+}
+
+
+
+/** Test case dummy prototype class 4. */
+class TypeTest_Prototype4 extends Prototype implements ITextifier
+{
+	public function process(mixed &$value, $context): ?Error
+	{
+		return null;
+	}
+	
+	public function textify(mixed $value)
 	{
 		return null;
 	}
