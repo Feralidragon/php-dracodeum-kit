@@ -29,6 +29,8 @@ use Dracodeum\Kit\Interfaces\{
 	Persistable as IPersistable,
 	Unpersistable as IUnpersistable
 };
+use Dracodeum\Kit\Components\Type as Component;
+use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -2746,5 +2748,77 @@ final class Type extends Utility
 	final public static function contravariant(string $type, string $base_type): bool
 	{
 		return self::covariant($base_type, $type);
+	}
+	
+	/**
+	 * Cast a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to cast.
+	 * 
+	 * @param coercible:component<\Dracodeum\Kit\Components\Type> $type
+	 * The type to cast with.
+	 * 
+	 * @param array $properties
+	 * The properties to cast with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to cast for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CastFailed
+	 * 
+	 * @return mixed
+	 * The given value cast.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the cast failed.
+	 */
+	final public static function cast(
+		mixed $value, $type, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): mixed
+	{
+		if (!($type instanceof Component)) {
+			$type = Component::build($type, $properties);
+		}
+		return $type->processCast($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Coerce a given value.
+	 * 
+	 * @param mixed $value
+	 * The value to coerce.
+	 * 
+	 * @param coercible:component<\Dracodeum\Kit\Components\Type> $type
+	 * The type to coerce with.
+	 * 
+	 * @param array $properties
+	 * The properties to coerce with, as a set of `name => value` pairs.  
+	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
+	 * in the same order as how these properties were first declared.
+	 * 
+	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * The context to coerce for.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Components\Type\Exceptions\CoercionFailed
+	 * 
+	 * @return bool
+	 * Boolean `true` is always returned if the given value is successfully coerced, otherwise an exception is thrown, 
+	 * unless `$no_throw` is set to boolean `true`, in which case boolean `false` is returned instead.
+	 */
+	final public static function coerce(
+		mixed &$value, $type, array $properties = [], $context = EContext::INTERNAL, bool $no_throw = false
+	): bool
+	{
+		if (!($type instanceof Component)) {
+			$type = Component::build($type, $properties);
+		}
+		return $type->processCoercion2($value, $context, $no_throw);
 	}
 }
