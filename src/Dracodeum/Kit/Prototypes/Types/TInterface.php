@@ -23,13 +23,20 @@ class TInterface extends Prototype implements ITextifier
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
+		//check
 		if (is_string($value) && interface_exists($value)) {
 			$value = $value[0] === '\\' ? substr($value, 1) : $value;
 			return null;
 		}
-		return Error::build(text: "Only a string, as a full interface name, is allowed as an interface.");
+		
+		//return
+		return Error::build(
+			text: $strict
+				? "Only a string, as a full interface name, is strictly allowed."
+				: "Only a string, as a full interface name, is allowed as an interface."
+		);
 	}
 	
 	

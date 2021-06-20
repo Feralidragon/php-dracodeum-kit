@@ -136,9 +136,9 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal error).
+	 * Test process (non-internal, error).
 	 * 
-	 * @testdox Process (non-internal error)
+	 * @testdox Process (non-internal, error)
 	 * @dataProvider provideProcessData_NonInternal_Error
 	 * 
 	 * @param mixed $value
@@ -157,7 +157,7 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (non-internal error).
+	 * Provide process data (non-internal, error).
 	 * 
 	 * @return array
 	 * The data.
@@ -180,6 +180,141 @@ class BooleanTest extends TestCase
 			[['']],
 			[new stdClass()],
 			[fopen(__FILE__, 'r')]
+		];
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true])->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			[false],
+			[true]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[null],
+			[0],
+			[1],
+			[10],
+			[-1],
+			[-10],
+			[0.0],
+			[1.0],
+			[10.0],
+			[-1.0],
+			[-10.0],
+			[''],
+			[' '],
+			['0'],
+			['1'],
+			['f'],
+			['t',],
+			['false'],
+			['true'],
+			['off'],
+			['on'],
+			['no'],
+			['yes'],
+			[[]],
+			[['']],
+			[new stdClass()],
+			[fopen(__FILE__, 'r')]
+		];
+	}
+	
+	/**
+	 * Test process (non-internal, error, strict).
+	 * 
+	 * @testdox Process (non-internal, error, strict)
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * @dataProvider provideProcessData_NonInternal_Error_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_NonInternal_Error_Strict(mixed $value): void
+	{
+		$component = Component::build(Prototype::class, ['strict' => true]);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Provide process data (non-internal, error, strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_NonInternal_Error_Strict(): array
+	{
+		return [
+			[0],
+			[1],
+			[''],
+			[' '],
+			['0'],
+			['1'],
+			['f'],
+			['t',],
+			['false'],
+			['true'],
+			['off'],
+			['on'],
+			['no'],
+			['yes']
 		];
 	}
 	

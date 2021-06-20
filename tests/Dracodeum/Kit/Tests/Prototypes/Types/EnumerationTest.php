@@ -145,12 +145,20 @@ class EnumerationTest extends TestCase
 	 */
 	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties): void
 	{
-		$component = Component::build(Prototype::class, $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$v = $value;
-				$this->assertNull($component->process($v, $context));
-				$this->assertSame($expected, $v);
+		//components
+		$components = [
+			Component::build(Prototype::class, $properties),
+			Component::build(Prototype::class, ['strict' => true] + $properties)
+		];
+		
+		//assert
+		foreach ($components as $component) {
+			foreach (EContext::getValues() as $context) {
+				if ($context !== EContext::INTERNAL) {
+					$v = $value;
+					$this->assertNull($component->process($v, $context));
+					$this->assertSame($expected, $v);
+				}
 			}
 		}
 	}
@@ -188,10 +196,18 @@ class EnumerationTest extends TestCase
 	 */
 	public function testProcess_NonInternal_Error(mixed $value, array $properties): void
 	{
-		$component = Component::build(Prototype::class, $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+		//components
+		$components = [
+			Component::build(Prototype::class, $properties),
+			Component::build(Prototype::class, ['strict' => true] + $properties)
+		];
+		
+		//assert
+		foreach ($components as $component) {
+			foreach (EContext::getValues() as $context) {
+				if ($context !== EContext::INTERNAL) {
+					$this->assertInstanceOf(Error::class, $component->process($value, $context));
+				}
 			}
 		}
 	}
@@ -211,6 +227,83 @@ class EnumerationTest extends TestCase
 			['foo', [EnumerationTest_Enum2::class]],
 			['bar', [EnumerationTest_Enum2::class]]
 		]);
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, array $properties): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			[1, [EnumerationTest_Enum1::class]],
+			[4, [EnumerationTest_Enum1::class]],
+			[9, [EnumerationTest_Enum1::class]],
+			['foo', [EnumerationTest_Enum2::class]],
+			['bar', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			['A', [EnumerationTest_Enum1::class]],
+			['B', [EnumerationTest_Enum1::class]],
+			['C', [EnumerationTest_Enum1::class]],
+			['FOO', [EnumerationTest_Enum2::class]],
+			['BAR', [EnumerationTest_Enum2::class]]
+		];
 	}
 	
 	/**

@@ -166,22 +166,27 @@ class StructureTest extends TestCase
 		$class1a = StructureTest_Class1_A::class;
 		$properties1a = ['label' => "Bar", 'flags' => 0xbd47, 'ratio' => 4.765];
 		
-		//assert (keep)
-		$value = $v = new $class1a($properties1a);
-		$this->assertNull(Component::build(Prototype::class, [$class1])->process($v));
-		$this->assertInstanceOf($class1a, $v);
-		$this->assertSame($value, $v);
-		foreach ($properties1a as $p_name => $p_value) {
-			$this->assertSame($p_value, $v->$p_name);
-		}
-		
-		//assert (clone)
-		$value = $v = new $class1a($properties1a);
-		$this->assertNull(Component::build(Prototype::class, [$class1, 'clone' => true])->process($v));
-		$this->assertInstanceOf($class1a, $v);
-		$this->assertNotSame($value, $v);
-		foreach ($properties1a as $p_name => $p_value) {
-			$this->assertSame($p_value, $v->$p_name);
+		//assert
+		foreach ([false, true] as $strict) {
+			//keep
+			$value = $v = new $class1a($properties1a);
+			$this->assertNull(Component::build(Prototype::class, [$class1, 'strict' => $strict])->process($v));
+			$this->assertInstanceOf($class1a, $v);
+			$this->assertSame($value, $v);
+			foreach ($properties1a as $p_name => $p_value) {
+				$this->assertSame($p_value, $v->$p_name);
+			}
+			
+			//clone
+			$value = $v = new $class1a($properties1a);
+			$this->assertNull(
+				Component::build(Prototype::class, [$class1, 'clone' => true, 'strict' => $strict])->process($v)
+			);
+			$this->assertInstanceOf($class1a, $v);
+			$this->assertNotSame($value, $v);
+			foreach ($properties1a as $p_name => $p_value) {
+				$this->assertSame($p_value, $v->$p_name);
+			}
 		}
 	}
 	
@@ -240,6 +245,88 @@ class StructureTest extends TestCase
 			[null, [$class1a, 'builder' => $builder1]],
 			[null, [$class1b, 'builder' => $builder1]],
 			[null, [$class2, 'builder' => $builder1]]
+		];
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, array $properties): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		//initialize
+		$class1 = StructureTest_Class1::class;
+		$class2 = StructureTest_Class2::class;
+		
+		//return
+		return [
+			[new $class1(), [$class1]],
+			[new $class2(), [$class2]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		//initialize
+		$class1 = StructureTest_Class1::class;
+		$class_array = StructureTest_ArrayClass::class;
+		
+		//return
+		return [
+			[null, [$class1]],
+			[[], [$class1]],
+			[new $class_array([]), [$class1]]
 		];
 	}
 	

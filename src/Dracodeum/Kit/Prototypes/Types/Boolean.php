@@ -43,11 +43,13 @@ class Boolean extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//process
 		if (is_bool($value)) {
 			return null;
+		} elseif ($strict) {
+			return Error::build(text: Text::build("Only a boolean is strictly allowed.")->setAsLocalized(self::class));
 		} elseif ($context === EContext::INTERNAL) {
 			$value = (bool)$value;
 			return null;

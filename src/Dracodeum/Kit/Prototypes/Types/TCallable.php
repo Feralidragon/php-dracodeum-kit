@@ -47,11 +47,11 @@ class TCallable extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//check
 		if (!is_callable($value)) {
-			return Error::build(text: "Only a callable is allowed.");
+			return Error::build(text: $strict ? "Only a callable is strictly allowed." : "Only a callable is allowed.");
 		}
 		
 		//template

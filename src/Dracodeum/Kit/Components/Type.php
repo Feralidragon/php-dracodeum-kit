@@ -29,13 +29,16 @@ use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as ENumberType;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /**
- * This component represents a type which validates and normalizes values.
+ * This component represents a type which validates and coerces values.
  * 
  * If a prototype is given as a name prefixed with a question mark character (`?`), then that character is stripped 
  * from the given name and the type is set as nullable.
  * 
  * @property-read bool $nullable [default = false]  
  * Allow a `null` value.
+ * 
+ * @property-read bool $strict [default = false]  
+ * Perform strict validation without value coercion.
  * 
  * @property-write coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]  
  * The mutators to add, as any combination of the following:
@@ -50,6 +53,8 @@ class Type extends Component
 {
 	//Private properties
 	private bool $nullable = false;
+	
+	private bool $strict = false;
 	
 	/** @var \Dracodeum\Kit\Components\Type\Components\Mutator[] */
 	private array $mutators = [];
@@ -90,7 +95,7 @@ class Type extends Component
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'nullable' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
+			'nullable', 'strict' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
 			'mutators'
 				=> $this->createProperty()
 					->setMode('w--')
@@ -117,17 +122,23 @@ class Type extends Component
 	{
 		//enclosed array
 		if (substr($name, -3) === ')[]' && $name[0] === '(') {
-			return new Prototypes\TArray(['type' => substr($name, 1, -3), 'non_associative' => true] + $properties);
+			$type = $this->build(substr($name, 1, -3), ['strict' => $this->strict]);
+			return new Prototypes\TArray(['type' => $type, 'non_associative' => true] + $properties);
 		}
 		
 		//union
 		if (strpos($name, '|') !== false) {
-			return new Prototypes\Any(['types' => array_map('trim', explode('|', $name))] + $properties);
+			$types = [];
+			foreach (array_map('trim', explode('|', $name)) as $type_name) {
+				$types[] = $this->build($type_name, ['strict' => $this->strict]);
+			}
+			return new Prototypes\Any(['types' => $types] + $properties);
 		}
 		
 		//array
 		if (substr($name, -2) === '[]') {
-			return new Prototypes\TArray(['type' => substr($name, 0, -2), 'non_associative' => true] + $properties);
+			$type = $this->build(substr($name, 0, -2), ['strict' => $this->strict]);
+			return new Prototypes\TArray(['type' => $type, 'non_associative' => true] + $properties);
 		}
 		
 		//return
@@ -183,7 +194,7 @@ class Type extends Component
 		}
 		
 		//process
-		$error = $prototype->process($v, $context);
+		$error = $prototype->process($v, $context, $this->strict);
 		if ($error !== null) {
 			$error_text = $error->getText() ?? Text::build();
 			if (!$error_text->hasString()) {

@@ -69,7 +69,7 @@ class Structure extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//initialize
 		$structure = null;
@@ -81,6 +81,8 @@ class Structure extends Prototype implements ITextifier
 		//check
 		if ($value instanceof KitStructure) {
 			$structure = $clone ? $value->clone() : $value;
+		} elseif ($strict) {
+			return Error::build(text: "Only a structure instance is strictly allowed.");
 		} elseif ($value instanceof IArrayable) {
 			$properties = $value->toArray();
 		} elseif (is_array($value)) {

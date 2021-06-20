@@ -40,10 +40,22 @@ class Enumeration extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//initialize
 		$enumeration = $this->enumeration;
+		
+		//process (strict)
+		if ($strict && $context === EContext::INTERNAL) {
+			if ((!is_int($value) && !is_string($value)) || !$enumeration::hasValue($value)) {
+				$text = Text::build("Only a value of the {{enumeration}} enumeration is strictly allowed.")
+					->setParameter('enumeration', $enumeration)
+					->setPlaceholderAsQuoted('enumeration')
+				;
+				return Error::build(text: $text);
+			}
+			return null;
+		}
 		
 		//process
 		$enum_value = null;

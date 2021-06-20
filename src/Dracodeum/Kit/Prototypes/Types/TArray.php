@@ -64,7 +64,7 @@ class TArray extends Prototype implements ITextifier, IMutatorProducer
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//initialize
 		$type = $this->type;
@@ -75,6 +75,8 @@ class TArray extends Prototype implements ITextifier, IMutatorProducer
 		$array = null;
 		if (is_array($value)) {
 			$array = $value;
+		} elseif ($strict) {
+			return Error::build(text: Text::build("Only an array is strictly allowed.")->setAsLocalized(self::class));
 		} elseif (is_string($value) && $context !== EContext::INTERNAL) {
 			$array = [];
 			if (!UText::empty($value, true)) {

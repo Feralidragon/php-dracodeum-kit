@@ -144,6 +144,80 @@ class TStringTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true])->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			[''],
+			[' '],
+			['0'],
+			['foo'],
+			['foo Bar'],
+			["premi\xC3\xA9re"],
+			["premi\xE9re"]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[0],
+			[1],
+			[0.0],
+			[1.0],
+			[7.5],
+			[-179.248],
+			[new TStringTest_Class1()],
+			[new TStringTest_Class2()]
+		];
+	}
+	
+	/**
 	 * Test `MutatorProducer` interface.
 	 * 
 	 * @testdox MutatorProducer interface ("$name")

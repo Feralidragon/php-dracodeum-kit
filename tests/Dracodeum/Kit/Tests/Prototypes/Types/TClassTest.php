@@ -128,6 +128,87 @@ class TClassTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, mixed $expected, array $properties = []): void
+	{
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($value));
+		$this->assertSame($expected, $value);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			['stdClass', stdClass::class],
+			['\stdClass', stdClass::class],
+			[stdClass::class, stdClass::class],
+			['Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1', TClassTest_Class1::class],
+			['\Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1', TClassTest_Class1::class],
+			[TClassTest_Class1::class, TClassTest_Class1::class],
+			[stdClass::class, stdClass::class, ['class' => stdClass::class]],
+			[TClassTest_Class1::class, TClassTest_Class1::class, ['class' => TClassTest_Class1::class]],
+			[TClassTest_Class2::class, TClassTest_Class2::class, ['class' => TClassTest_Class1::class]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[new stdClass()],
+			[new TClassTest_Class1()],
+			[new TClassTest_Class2()]
+		];
+	}
+	
+	/**
 	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface
@@ -165,7 +246,7 @@ class TClassTest extends TestCase
 		//return
 		return [
 			['stdClass', "class<stdClass>"],
-			[new class () {}, "class<anonymous@" . __FILE__ . ":168>"],
+			[new class () {}, "class<anonymous@" . __FILE__ . ":249>"],
 			[$class1, "class<{$class1}>"],
 			[$class2, "class<{$class2}>"]
 		];

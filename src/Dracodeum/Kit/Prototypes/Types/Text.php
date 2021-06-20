@@ -34,14 +34,16 @@ class Text extends Prototype implements ITextifier
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//process
 		$text = null;
-		if (is_string($value)) {
-			$text = TextPrimitive::build($value);
-		} elseif ($value instanceof TextPrimitive) {
+		if ($value instanceof TextPrimitive) {
 			$text = $value;
+		} elseif ($strict) {
+			return Error::build(text: "Only a text instance is strictly allowed.");
+		} elseif (is_string($value)) {
+			$text = TextPrimitive::build($value);
 		} elseif ($value instanceof IStringable) {
 			$text = TextPrimitive::build($value->toString());
 		} elseif ($value instanceof IPhpStringable) {

@@ -33,11 +33,11 @@ class TObject extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//check
 		if (!is_object($value)) {
-			return Error::build(text: "Only an object is allowed.");
+			return Error::build(text: $strict ? "Only an object is strictly allowed." : "Only an object is allowed.");
 		}
 		
 		//class

@@ -98,81 +98,6 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal).
-	 * 
-	 * @testdox Process (non-internal)
-	 * @dataProvider provideProcessData
-	 * @dataProvider provideProcessData_NonInternal
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected processed value.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 * 
-	 * @return void
-	 */
-	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties = []): void
-	{
-		$component = Component::build(Prototype::class, $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$v = $value;
-				$this->assertNull($component->process($v, $context));
-				$this->assertSame($expected, $v);
-			}
-		}
-	}
-	
-	/**
-	 * Provide process data (non-internal).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_NonInternal(): array
-	{
-		//initialize
-		$type1_class = TArrayTest_TypePrototype1::class;
-		$type2_class = TArrayTest_TypePrototype2::class;
-		
-		//return
-		return [
-			['', []],
-			[' ', []],
-			[',', ['', '']],
-			[' , ', ['', '']],
-			[':', ['' => '']],
-			[' : ', ['' => '']],
-			[':,', ['' => '', '']],
-			[' : , ', ['' => '', '']],
-			['foo,bar,456', ['foo', 'bar', '456']],
-			['0:foo,1:bar,2:456', ['foo', 'bar', '456']],
-			["  foo ,\nbar\t,  \t456\t\n", ['foo', 'bar', '456']],
-			["  foo bar ,\nbar\t,  \t456\t\n", ['foo bar', 'bar', '456']],
-			['z:foo,bar,x:456', ['z' => 'foo', 'bar', 'x' => '456']],
-			["\tz\t:\n\nfoo   ,bar \n,\tx  :\n \t456\n  ", ['z' => 'foo', 'bar', 'x' => '456']],
-			["\tz x2\t:\n\nfoo   ,bar \n,\tx  :\n \t45 67\n  ", ['z x2' => 'foo', 'bar', 'x' => '45 67']],
-			['', [], ['type' => $type1_class]],
-			['foo,bar,456', ['*foo', '*bar', '#456'], ['type' => $type1_class]],
-			['z:foo,bar,x:456', ['z' => '*foo', '*bar', 'x' => '#456'], ['type' => $type1_class]],
-			['', [], ['key_type' => $type2_class]],
-			['foo,bar,456', ['!0' => 'foo', '!1' => 'bar', '!2' => '456'], ['key_type' => $type2_class]],
-			['z:foo,bar,x:456', ['_z' => 'foo', '!0' => 'bar', '_x' => '456'], ['key_type' => $type2_class]],
-			['', [], ['type' => $type1_class, 'key_type' => $type2_class]],
-			['foo,bar,456', ['!0' => '*foo', '!1' => '*bar', '!2' => '#456'],
-				['type' => $type1_class, 'key_type' => $type2_class]],
-			['z:foo,bar,x:456', ['_z' => '*foo', '!0' => '*bar', '_x' => '#456'],
-				['type' => $type1_class, 'key_type' => $type2_class]],
-			['foo,bar,456', ['foo', 'bar', '456'], ['non_associative' => true]],
-			['0:foo,1:bar,2:456', ['0:foo', '1:bar', '2:456'], ['non_associative' => true]]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -257,11 +182,86 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error, non-internal).
+	 * Test process (non-internal).
 	 * 
-	 * @testdox Process (error, non-internal)
+	 * @testdox Process (non-internal)
+	 * @dataProvider provideProcessData
+	 * @dataProvider provideProcessData_NonInternal
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties = []): void
+	{
+		$component = Component::build(Prototype::class, $properties);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$v = $value;
+				$this->assertNull($component->process($v, $context));
+				$this->assertSame($expected, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Provide process data (non-internal).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_NonInternal(): array
+	{
+		//initialize
+		$type1_class = TArrayTest_TypePrototype1::class;
+		$type2_class = TArrayTest_TypePrototype2::class;
+		
+		//return
+		return [
+			['', []],
+			[' ', []],
+			[',', ['', '']],
+			[' , ', ['', '']],
+			[':', ['' => '']],
+			[' : ', ['' => '']],
+			[':,', ['' => '', '']],
+			[' : , ', ['' => '', '']],
+			['foo,bar,456', ['foo', 'bar', '456']],
+			['0:foo,1:bar,2:456', ['foo', 'bar', '456']],
+			["  foo ,\nbar\t,  \t456\t\n", ['foo', 'bar', '456']],
+			["  foo bar ,\nbar\t,  \t456\t\n", ['foo bar', 'bar', '456']],
+			['z:foo,bar,x:456', ['z' => 'foo', 'bar', 'x' => '456']],
+			["\tz\t:\n\nfoo   ,bar \n,\tx  :\n \t456\n  ", ['z' => 'foo', 'bar', 'x' => '456']],
+			["\tz x2\t:\n\nfoo   ,bar \n,\tx  :\n \t45 67\n  ", ['z x2' => 'foo', 'bar', 'x' => '45 67']],
+			['', [], ['type' => $type1_class]],
+			['foo,bar,456', ['*foo', '*bar', '#456'], ['type' => $type1_class]],
+			['z:foo,bar,x:456', ['z' => '*foo', '*bar', 'x' => '#456'], ['type' => $type1_class]],
+			['', [], ['key_type' => $type2_class]],
+			['foo,bar,456', ['!0' => 'foo', '!1' => 'bar', '!2' => '456'], ['key_type' => $type2_class]],
+			['z:foo,bar,x:456', ['_z' => 'foo', '!0' => 'bar', '_x' => '456'], ['key_type' => $type2_class]],
+			['', [], ['type' => $type1_class, 'key_type' => $type2_class]],
+			['foo,bar,456', ['!0' => '*foo', '!1' => '*bar', '!2' => '#456'],
+				['type' => $type1_class, 'key_type' => $type2_class]],
+			['z:foo,bar,x:456', ['_z' => '*foo', '!0' => '*bar', '_x' => '#456'],
+				['type' => $type1_class, 'key_type' => $type2_class]],
+			['foo,bar,456', ['foo', 'bar', '456'], ['non_associative' => true]],
+			['0:foo,1:bar,2:456', ['0:foo', '1:bar', '2:456'], ['non_associative' => true]]
+		];
+	}
+	
+	/**
+	 * Test process (non-internal, error).
+	 * 
+	 * @testdox Process (non-internal, error)
 	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Error_NonInternal
+	 * @dataProvider provideProcessData_NonInternal_Error
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -271,7 +271,7 @@ class TArrayTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProcess_Error_NonInternal(mixed $value, array $properties = []): void
+	public function testProcess_NonInternal_Error(mixed $value, array $properties = []): void
 	{
 		$component = Component::build(Prototype::class, $properties);
 		foreach (EContext::getValues() as $context) {
@@ -282,12 +282,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (error, non-internal).
+	 * Provide process data (non-internal, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_NonInternal(): array
+	public function provideProcessData_NonInternal_Error(): array
 	{
 		//initialize
 		$type1_class = TArrayTest_TypePrototype1::class;
@@ -311,6 +311,148 @@ class TArrayTest extends TestCase
 			['z:foo,bar,@xCXx_:456', ['key_type' => $type2_class]],
 			['A:foo,bar,a:456', ['key_type' => $type2_class]],
 			['z:foo,bar,Z:456', ['key_type' => $type2_class]]
+		];
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, mixed $expected, array $properties = []): void
+	{
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($value));
+		$this->assertSame($expected, $value);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		//initialize
+		$type1_class = TArrayTest_TypePrototype1::class;
+		$type2_class = TArrayTest_TypePrototype2::class;
+		
+		//return
+		return [
+			[[], []],
+			[['foo', 'bar', 123], ['foo', 'bar', 123]],
+			[['z' => 'foo', 'bar', 'x' => 123], ['z' => 'foo', 'bar', 'x' => 123]],
+			[[], [], ['type' => $type1_class]],
+			[['foo', 'bar', 123], ['*foo', '*bar', '#123'], ['type' => $type1_class]],
+			[['z' => 'foo', 'bar', 'x' => 123], ['z' => '*foo', '*bar', 'x' => '#123'], ['type' => $type1_class]],
+			[[], [], ['key_type' => $type2_class]],
+			[['foo', 'bar', 123], ['!0' => 'foo', '!1' => 'bar', '!2' => 123], ['key_type' => $type2_class]],
+			[['z' => 'foo', 'bar', 'x' => 123], ['_z' => 'foo', '!0' => 'bar', '_x' => 123],
+				['key_type' => $type2_class]],
+			[[], [], ['type' => $type1_class, 'key_type' => $type2_class]],
+			[['foo', 'bar', 123], ['!0' => '*foo', '!1' => '*bar', '!2' => '#123'],
+				['type' => $type1_class, 'key_type' => $type2_class]],
+			[['z' => 'foo', 'bar', 'x' => 123], ['_z' => '*foo', '!0' => '*bar', '_x' => '#123'],
+				['type' => $type1_class, 'key_type' => $type2_class]],
+			[[], [], ['non_associative' => true]],
+			[['foo', 'bar', 123], ['foo', 'bar', 123], ['non_associative' => true]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Internal
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[new TArrayTest_Class1()],
+			[new TArrayTest_Class2()]
+		];
+	}
+	
+	/**
+	 * Test process (non-internal, error, strict).
+	 * 
+	 * @testdox Process (non-internal, error, strict)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * @dataProvider provideProcessData_NonInternal_Error_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_NonInternal_Error_Strict(mixed $value, array $properties = []): void
+	{
+		$component = Component::build(Prototype::class, ['strict' => true] + $properties);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Provide process data (non-internal, error, strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_NonInternal_Error_Strict(): array
+	{
+		return [
+			[''],
+			[' '],
+			[','],
+			[' , '],
+			[':'],
+			[' : '],
+			[':,'],
+			[' : , '],
+			['foo,bar,456'],
+			['0:foo,1:bar,2:456']
 		];
 	}
 	
@@ -505,7 +647,7 @@ class TArrayTest_Class2 implements IArrayable
 /** Test case dummy type prototype 1. */
 class TArrayTest_TypePrototype1 extends TypePrototype implements ITextifier
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		if (is_string($value) && $value !== '' && in_array($value[0], ['#', '*'] , true)) {
 			return null;
@@ -530,7 +672,7 @@ class TArrayTest_TypePrototype1 extends TypePrototype implements ITextifier
 /** Test case dummy type prototype 2. */
 class TArrayTest_TypePrototype2 extends TypePrototype implements ITextifier
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		if (is_string($value) && $value !== '' && in_array($value[0], ['!', '_'] , true)) {
 			return null;

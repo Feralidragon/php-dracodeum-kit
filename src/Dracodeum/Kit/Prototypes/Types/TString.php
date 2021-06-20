@@ -46,12 +46,16 @@ class TString extends Prototype implements IMutatorProducer
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//process
 		$string = null;
 		if (is_string($value)) {
 			$string = $value;
+		} elseif ($strict) {
+			return Error::build(
+				text: Text::build("Only a string of characters is strictly allowed.")->setAsLocalized(self::class)
+			);
 		} elseif ($value instanceof IStringable) {
 			$string = $value->toString();
 		} elseif (is_int($value) || is_float($value) || $value instanceof IPhpStringable) {

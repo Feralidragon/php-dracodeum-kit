@@ -100,6 +100,77 @@ class TextTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected_string
+	 * The expected processed value string.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, string $expected_string): void
+	{
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true])->process($value));
+		$this->assertInstanceOf(Text::class, $value);
+		$this->assertSame($expected_string, $value->toString());
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			[Text::build('foo bar 123'), 'foo bar 123']
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[''],
+			[' '],
+			['0'],
+			['123'],
+			['foo'],
+			['foo Bar'],
+			[new TextTest_Class1('foo 123 BAR')],
+			[new TextTest_Class2('FOO 1 BAR 23')]
+		];
+	}
+	
+	/**
 	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface

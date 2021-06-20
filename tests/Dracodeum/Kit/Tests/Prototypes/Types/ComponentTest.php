@@ -282,6 +282,103 @@ class ComponentTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, array $properties): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		//initialize
+		$class1 = ComponentTest_Component1::class;
+		$class1a = ComponentTest_Component1_A::class;
+		$class1b = ComponentTest_Component1_B::class;
+		$class2 = ComponentTest_Component2::class;
+		
+		//return
+		return [
+			[new $class1(), [$class1]],
+			[new $class1a(), [$class1]],
+			[new $class1a(), [$class1a]],
+			[new $class1b(), [$class1]],
+			[new $class1b(), [$class1b]],
+			[new $class2(), [$class2]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		//initialize
+		$class1 = ComponentTest_Component1::class;
+		$class1_proto = ComponentTest_Prototype1::class;
+		$named_builder = function (string $name, array $properties): ?KitComponent {
+			return match ($name) {
+				'c1' => new ComponentTest_Component1(),
+				'c1_p1a' => new ComponentTest_Component1('p1a', $properties),
+				default => null
+			};
+		};
+		
+		//return
+		return [
+			['c1', [$class1, 'named_builder' => $named_builder]],
+			['c1_p1a', [$class1]],
+			[new $class1_proto(), [$class1]],
+			[$class1_proto, [$class1]],
+			['p1', [$class1]]
+		];
+	}
+	
+	/**
 	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface

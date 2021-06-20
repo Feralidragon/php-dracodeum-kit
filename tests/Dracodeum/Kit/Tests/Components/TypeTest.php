@@ -296,6 +296,61 @@ class TypeTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(): void
+	{
+		//build
+		$component1 = Component::build(TypeTest_Prototype1::class, ['strict' => true]);
+		$component2 = Component::build(TypeTest_Prototype2::class, ['strict' => true]);
+		
+		//null
+		$value1 = $value2 = null;
+		$error1 = $component1->process($value1);
+		$error2 = $component2->process($value2);
+		$this->assertNull($value1);
+		$this->assertNull($value2);
+		$this->assertInstanceOf(Error::class, $error1);
+		$this->assertInstanceOf(Error::class, $error2);
+		$this->assertTrue($error1->hasText());
+		$this->assertTrue($error2->hasText());
+		
+		//value1 (errors)
+		foreach (['foo', '50', 120.5, 75.5, 75.0] as $v1) {
+			$value1 = $v1;
+			$error1 = $component1->process($value1);
+			$this->assertSame($v1, $value1);
+			$this->assertInstanceOf(Error::class, $error1);
+			$this->assertTrue($error1->hasText());
+			$this->assertSame(TypeTest_Prototype1::ERROR_STRING_STRICT, (string)$error1->getText());
+		}
+		
+		//value1 (success)
+		$value1 = $v1 = 75;
+		$this->assertNull($component1->process($value1));
+		$this->assertSame($v1, $value1);
+		
+		//value2 (errors)
+		foreach (['foo', stdClass::class] as $v2) {
+			$value2 = $v2;
+			$error2 = $component2->process($value2);
+			$this->assertSame($v2, $value2);
+			$this->assertInstanceOf(Error::class, $error2);
+			$this->assertTrue($error2->hasText());
+			$this->assertNotSame('', (string)$error2->getText());
+		}
+		
+		//value2 (success)
+		$value2 = $v2 = new stdClass();
+		$this->assertNull($component2->process($value2));
+		$this->assertSame($v2, $value2);
+	}
+	
+	/**
 	 * Test process cast.
 	 * 
 	 * @testdox ProcessCast
@@ -888,9 +943,15 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
 	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
+	public const ERROR_STRING_STRICT = "Must strictly be an integer.";
 	
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
+		//strict
+		if ($strict && !is_int($value)) {
+			return Error::build(text: self::ERROR_STRING_STRICT);
+		}
+		
 		//context
 		if ($context !== EContext::INTERNAL && is_string($value) && is_numeric($value)) {
 			$value = (float)$value;
@@ -930,9 +991,11 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 /** Test case dummy prototype class 2. */
 class TypeTest_Prototype2 extends Prototype
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
-		if ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
+		if ($strict && !is_object($value)) {
+			return Error::build();
+		} elseif ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
 			$value = new $value();
 		}
 		return is_object($value) ? null : Error::build();
@@ -944,7 +1007,7 @@ class TypeTest_Prototype2 extends Prototype
 /** Test case dummy prototype class 3. */
 class TypeTest_Prototype3 extends Prototype
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		return null;
 	}
@@ -955,7 +1018,7 @@ class TypeTest_Prototype3 extends Prototype
 /** Test case dummy prototype class 4. */
 class TypeTest_Prototype4 extends Prototype implements ITextifier
 {
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		return null;
 	}

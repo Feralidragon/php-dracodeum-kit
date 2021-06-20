@@ -95,7 +95,7 @@ class Component extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//initialize
 		$component = null;
@@ -107,6 +107,8 @@ class Component extends Prototype implements ITextifier
 		//check
 		if ($value instanceof KitComponent) {
 			$component = $value;
+		} elseif ($strict) {
+			return Error::build(text: "Only a component instance is strictly allowed.");
 		} elseif (!is_string($value) && !($value instanceof KitPrototype)) {
 			$text = Text::build()
 				->setString("Only a component is allowed.")

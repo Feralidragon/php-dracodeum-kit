@@ -49,8 +49,26 @@ class Number extends Prototype implements IMutatorProducer
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
+		//process (strict)
+		if ($strict) {
+			if ($this->type === EType::INTEGER && !is_int($value)) {
+				return Error::build(
+					text: Text::build("Only an integer number is strictly allowed.")->setAsLocalized(self::class)
+				);
+			} elseif ($this->type === EType::FLOAT && !is_float($value)) {
+				return Error::build(
+					text: Text::build("Only a floating-point number is strictly allowed.")->setAsLocalized(self::class)
+				);
+			} elseif (!is_int($value) && !is_float($value)) {
+				return Error::build(
+					text: Text::build("Only a number is strictly allowed.")->setAsLocalized(self::class)
+				);
+			}
+			return null;
+		}
+		
 		//process
 		$number = null;
 		if (is_int($value) || is_float($value)) {
@@ -90,8 +108,7 @@ class Number extends Prototype implements IMutatorProducer
 		
 		//type
 		if ($this->type === EType::INTEGER && !is_int($number)) {
-			$text = Text::build()->setString("Only an integer number is allowed.")->setAsLocalized(self::class);
-			return Error::build(text: $text);
+			return Error::build(text: Text::build("Only an integer number is allowed.")->setAsLocalized(self::class));
 		} elseif ($this->type === EType::FLOAT) {
 			$number = (float)$number;
 		}

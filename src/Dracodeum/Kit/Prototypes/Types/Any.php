@@ -29,7 +29,7 @@ class Any extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		$error = null;
 		foreach ($this->types as $type) {

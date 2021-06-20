@@ -202,6 +202,121 @@ class NumberTest extends TestCase
 	}
 	
 	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict(mixed $value, array $properties = []): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict(): array
+	{
+		return [
+			[0],
+			[0.0],
+			[123],
+			[-123],
+			[123.0],
+			[-123.0],
+			[0.123],
+			[-0.123],
+			[123.456],
+			[-123.456],
+			[0, ['type' => EType::INTEGER]],
+			[123, ['type' => EType::INTEGER]],
+			[-123, ['type' => EType::INTEGER]],
+			[0.0, ['type' => EType::FLOAT]],
+			[123.0, ['type' => EType::FLOAT]],
+			[-123.0, ['type' => EType::FLOAT]],
+			[0.123, ['type' => EType::FLOAT]],
+			[-0.123, ['type' => EType::FLOAT]],
+			[123.456, ['type' => EType::FLOAT]],
+			[-123.456, ['type' => EType::FLOAT]]
+		];
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @return void
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideProcessData_Strict_Error(): array
+	{
+		return [
+			['0'],
+			['0.0'],
+			['123'],
+			['-123'],
+			['123.0'],
+			['-123.0'],
+			['.123'],
+			['-.123'],
+			['0.123'],
+			['-0.123'],
+			['123.456'],
+			['-123.456'],
+			['123k'],
+			['-123k'],
+			['123.0k'],
+			['-123.0k'],
+			['123.456k'],
+			['-123.456k'],
+			['123.4567k'],
+			['-123.4567k'],
+			[new NumberTest_Class1()],
+			[new NumberTest_Class2()],
+			[0.0, ['type' => EType::INTEGER]],
+			[123.0, ['type' => EType::INTEGER]],
+			[-123.0, ['type' => EType::INTEGER]],
+			[0, ['type' => EType::FLOAT]],
+			[123, ['type' => EType::FLOAT]],
+			[-123, ['type' => EType::FLOAT]]
+		];
+	}
+	
+	/**
 	 * Test `MutatorProducer` interface.
 	 * 
 	 * @testdox MutatorProducer interface ("$name")

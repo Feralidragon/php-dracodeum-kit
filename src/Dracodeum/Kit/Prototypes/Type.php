@@ -27,8 +27,11 @@ abstract class Type extends Prototype
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to process for.
 	 * 
+	 * @param bool $strict
+	 * Process the given value strictly without coercion.
+	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
-	abstract public function process(mixed &$value, $context): ?Error;
+	abstract public function process(mixed &$value, $context, bool $strict): ?Error;
 }

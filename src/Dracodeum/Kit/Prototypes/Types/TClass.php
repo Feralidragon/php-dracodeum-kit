@@ -34,12 +34,14 @@ class TClass extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//process
 		$class = null;
 		if (is_string($value) && class_exists($value)) {
 			$class = $value[0] === '\\' ? substr($value, 1) : $value;
+		} elseif ($strict) {
+			return Error::build(text: "Only a string, as a full class name, is strictly allowed.");
 		} elseif (is_object($value)) {
 			$class = get_class($value);
 		} else {

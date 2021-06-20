@@ -266,7 +266,7 @@ class AnyTest_TypePrototype1 extends TypePrototype
 {
 	public const ERROR_MESSAGE = "Must be numeric.";
 	
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		if (is_scalar($value) && is_numeric($value)) {
 			$value = (int)$value;
@@ -283,7 +283,7 @@ class AnyTest_TypePrototype2 extends TypePrototype implements ITextifier
 {
 	public const ERROR_MESSAGE = "Must be a string or an object.";
 	
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		if (is_string($value)) {
 			if ($value !== '' && $value[0] !== ':') {

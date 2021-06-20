@@ -32,11 +32,11 @@ class TResource extends Prototype implements ITextifier
 	
 	//Implemented public methods
 	/** {@inheritdoc} */
-	public function process(mixed &$value, $context): ?Error
+	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		//check
 		if (!is_resource($value) && gettype($value) !== 'resource (closed)') {
-			return Error::build(text: "Only a resource is allowed.");
+			return Error::build(text: $strict ? "Only a resource is strictly allowed." : "Only a resource is allowed.");
 		}
 		
 		//type
