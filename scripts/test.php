@@ -4,9 +4,48 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
+use Dracodeum\Kit\Attributes\Property\{
+	coercive,
+	strict
+};
 
 System::setAsFramework();
 System::setEnvironment('development');
+
+class A
+{
+	#[coercive('ustring', nullable: true)]
+	public string $label;
+	
+	protected int $amount = 12;
+	
+	private bool $enabled = false;
+}
+
+class B extends A
+{
+	protected array $list = [];
+	
+	public static mixed $value = null;
+}
+
+
+
+$a = new class extends B {
+	
+	#[coercive]
+	private float $ratio = 1.0;
+	
+	#[strict]
+	public float $percentage = 100.0;
+	
+};
+$p = new Dracodeum\Kit\Managers\PropertiesV2($a);
+
+new Dracodeum\Kit\Managers\PropertiesV2(new B);
+
+die();
+
 
 $t = Dracodeum\Kit\Components\Type::build('array', [
 	'mutators' => [
