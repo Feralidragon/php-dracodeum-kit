@@ -13,12 +13,12 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPrope
 use ReflectionClass;
 
 /**
- * This manager handles and extends the properties of an object with the following functionality:
+ * This manager handles and extends the properties of an object class with the following functionality:
  * - extended coercive and strict typification, using type components and mutators;
  * - modes of operation, such as read-write, read-only, write-only, and others;
  * - aliasing;
  * - custom getters and setters;
- * - lazy type coercion;
+ * - lazy type coercion and validation;
  * - value persistence.
  * 
  * Only non-static and non-private properties are supported and affected.
@@ -59,8 +59,9 @@ final class PropertiesV2 extends Manager
 		//initialize
 		static $classes_properties = [];
 		$owner_class = get_class($this->owner);
+		
+		//check
 		if (isset($classes_properties[$owner_class])) {
-			var_dump($classes_properties);
 			$this->properties = $classes_properties[$owner_class];
 			return;
 		}
@@ -76,7 +77,6 @@ final class PropertiesV2 extends Manager
 		$parent_class = null;
 		$new_properties = [];
 		foreach ($classes as $class) {
-			//load
 			if (!isset($classes_properties[$class])) {
 				$properties = $parent_properties_map = [];
 				foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
@@ -100,11 +100,10 @@ final class PropertiesV2 extends Manager
 					
 					//finalize
 					$classes_properties[$class] = $parent_properties + $properties;
+					unset($parent_properties);
 				}
-				unset($properties, $parent_properties);
+				unset($properties, $parent_properties_map);
 			}
-			
-			//finalize
 			$parent_class = $class;
 		}
 		
@@ -120,7 +119,7 @@ final class PropertiesV2 extends Manager
 					$attribute = $r_attribute->newInstance();
 					if ($attribute instanceof IPropertyInitializer) {
 						$has_attributes = true;
-						$attribute->initializeProperty($properties[$p_name]);
+						$attribute->initializeProperty($property);
 					}
 				}
 				
@@ -135,8 +134,5 @@ final class PropertiesV2 extends Manager
 		
 		//finalize
 		$this->properties = $classes_properties[$owner_class];
-		
-		
-		var_dump($this->properties);
 	}
 }
