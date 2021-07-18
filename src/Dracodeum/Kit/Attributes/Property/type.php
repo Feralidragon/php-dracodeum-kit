@@ -7,11 +7,9 @@
 
 namespace Dracodeum\Kit\Attributes\Property;
 
-use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPropertyInitializer;
+use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyPostInitializer as IPropertyPostInitializer;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Dracodeum\Kit\Components\Type as TypeComponent;
-use ReflectionNamedType;
-use ReflectionUnionType;
 use Attribute;
 
 /**
@@ -20,7 +18,7 @@ use Attribute;
  * If no prototype is given, then it's automatically retrieved from the property declared type.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-abstract class type implements IPropertyInitializer
+abstract class type implements IPropertyPostInitializer
 {
 	//Private properties
 	private ?string $prototype;
@@ -58,31 +56,16 @@ abstract class type implements IPropertyInitializer
 	
 	
 	
-	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer)
+	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyPostInitializer)
 	/** {@inheritdoc} */
-	final public function initializeProperty(Property $property): void
+	final public function postInitializeProperty(Property $property): void
 	{
-		//prototype
 		$prototype = $this->prototype;
-		if ($prototype === null) {
-			$r_type = $property->getReflection()->getType();
-			if ($r_type instanceof ReflectionNamedType) {
-				$prototype = $r_type->getName();
-			} elseif ($r_type instanceof ReflectionUnionType) {
-				$r_type_names = [];
-				foreach ($r_type->getTypes() as $r_named_type) {
-					$r_type_names[] = $r_named_type->getName();
-				}
-				$prototype = implode('|', $r_type_names);
-			}
-		}
-		
-		//properties
 		$properties = ['strict' => $this->isStrict()] + $this->properties;
-		
-		//finalize
 		if ($prototype !== null) {
 			$property->setType(TypeComponent::build($prototype, $properties));
+		} else {
+			$property->setTypeByReflection($properties);
 		}
 	}
 }

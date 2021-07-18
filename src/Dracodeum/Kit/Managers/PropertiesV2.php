@@ -9,7 +9,10 @@ namespace Dracodeum\Kit\Managers;
 
 use Dracodeum\Kit\Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
-use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPropertyInitializer;
+use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\{
+	PropertyInitializer as IPropertyInitializer,
+	PropertyPostInitializer as IPropertyPostInitializer
+};
 use ReflectionClass;
 
 /**
@@ -22,6 +25,9 @@ use ReflectionClass;
  * - value persistence.
  * 
  * Only non-static and non-private properties are supported and affected.
+ * 
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyPostInitializer
  */
 final class PropertiesV2 extends Manager
 {
@@ -59,76 +65,72 @@ final class PropertiesV2 extends Manager
 		//initialize
 		static $classes_properties = [];
 		$owner_class = get_class($this->owner);
-		
-		//check
-		if (isset($classes_properties[$owner_class])) {
-			$this->properties = $classes_properties[$owner_class];
-			return;
-		}
-		
-		//classes
-		$classes = [];
-		for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
-			$classes[] = $class;
-		}
-		$classes = array_reverse($classes);
-		
-		//properties
-		$parent_class = null;
-		$new_properties = [];
-		foreach ($classes as $class) {
-			if (!isset($classes_properties[$class])) {
-				$properties = $parent_properties_map = [];
-				foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
-					//check
-					if ($r_property->isStatic() || $r_property->isPrivate()) {
-						continue;
-					}
+		if (!isset($classes_properties[$owner_class])) {
+			//classes
+			$classes = [];
+			for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
+				$classes[] = $class;
+			}
+			$classes = array_reverse($classes);
+			
+			//properties
+			$parent_class = null;
+			foreach ($classes as $class) {
+				//class
+				if (!isset($classes_properties[$class])) {
+					//initialize
+					$properties = $parent_properties_map = $properties_post_attributes = [];
 					
 					//properties
-					$p_name = $r_property->getName();
-					if ($parent_class !== null && isset($classes_properties[$parent_class][$p_name])) {
-						$parent_properties_map[$p_name] = true;
-					} else {
-						$properties[$p_name] = $new_properties[$class][$p_name] = new Property($r_property);
+					foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
+						//check
+						if ($r_property->isStatic() || $r_property->isPrivate()) {
+							continue;
+						}
+						
+						//property
+						$p_name = $r_property->getName();
+						if ($parent_class !== null && isset($classes_properties[$parent_class][$p_name])) {
+							$parent_properties_map[$p_name] = true;
+						} else {
+							//property
+							$property = $properties[$p_name] = new Property($r_property);
+							
+							//attributes
+							foreach ($r_property->getAttributes() as $r_attribute) {
+								$attribute = $r_attribute->newInstance();
+								if ($attribute instanceof IPropertyInitializer) {
+									$attribute->initializeProperty($property);
+								}
+								if ($attribute instanceof IPropertyPostInitializer) {
+									$properties_post_attributes[$p_name][] = $attribute;
+								}
+							}
+						}
 					}
 					
 					//parent properties
-					$parent_properties = $parent_properties_map
+					$parent_properties = $parent_class !== null
 						? array_intersect_key($classes_properties[$parent_class], $parent_properties_map)
 						: [];
 					
-					//finalize
+					//class properties
 					$classes_properties[$class] = $parent_properties + $properties;
-					unset($parent_properties);
-				}
-				unset($properties, $parent_properties_map);
-			}
-			$parent_class = $class;
-		}
-		
-		//new properties
-		foreach ($new_properties as $properties) {
-			foreach ($properties as $p_name => $property) {
-				//reflection
-				$reflection = $property->getReflection();
-				
-				//attributes
-				$has_attributes = false;
-				foreach ($reflection->getAttributes() as $r_attribute) {
-					$attribute = $r_attribute->newInstance();
-					if ($attribute instanceof IPropertyInitializer) {
-						$has_attributes = true;
-						$attribute->initializeProperty($property);
+					
+					//post-attributes
+					foreach ($properties_post_attributes as $p_name => $attributes) {
+						$property = $properties[$p_name];
+						foreach ($attributes as $attribute) {
+							$attribute->postInitializeProperty($property);
+						}
 					}
+					
+					//finalize
+					unset($properties, $parent_properties, $parent_properties_map, $properties_post_attributes);
 				}
 				
-				//cleanup
-				if (!$has_attributes) {
-					foreach ($classes as $class) {
-						unset($classes_properties[$class][$p_name]);
-					}
-				}
+				//parent class
+				$parent_class = $class;
 			}
 		}
 		

@@ -38,11 +38,10 @@ $a = new class extends B {
 	
 	#[strict]
 	public float $percentage = 100.0;
-	
 };
 $p = new Dracodeum\Kit\Managers\PropertiesV2($a);
 
-new Dracodeum\Kit\Managers\PropertiesV2(new B);
+var_dump($p);
 
 die();
 
