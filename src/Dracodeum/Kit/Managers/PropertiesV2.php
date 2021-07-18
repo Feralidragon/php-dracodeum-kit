@@ -79,40 +79,33 @@ final class PropertiesV2 extends Manager
 				//class
 				if (!isset($classes_properties[$class])) {
 					//initialize
-					$properties = $parent_properties_map = $properties_post_attributes = [];
+					$properties = $properties_post_attributes = [];
+					$parent_properties = $parent_class !== null ? $classes_properties[$parent_class] : [];
 					
 					//properties
 					foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
+						//initialize
+						$p_name = $r_property->getName();
+						
 						//check
-						if ($r_property->isStatic() || $r_property->isPrivate()) {
+						if ($r_property->isStatic() || $r_property->isPrivate() || isset($parent_properties[$p_name])) {
 							continue;
 						}
 						
 						//property
-						$p_name = $r_property->getName();
-						if ($parent_class !== null && isset($classes_properties[$parent_class][$p_name])) {
-							$parent_properties_map[$p_name] = true;
-						} else {
-							//property
-							$property = $properties[$p_name] = new Property($r_property);
-							
-							//attributes
-							foreach ($r_property->getAttributes() as $r_attribute) {
-								$attribute = $r_attribute->newInstance();
-								if ($attribute instanceof IPropertyInitializer) {
-									$attribute->initializeProperty($property);
-								}
-								if ($attribute instanceof IPropertyPostInitializer) {
-									$properties_post_attributes[$p_name][] = $attribute;
-								}
+						$property = $properties[$p_name] = new Property($r_property);
+						
+						//attributes
+						foreach ($r_property->getAttributes() as $r_attribute) {
+							$attribute = $r_attribute->newInstance();
+							if ($attribute instanceof IPropertyInitializer) {
+								$attribute->initializeProperty($property);
+							}
+							if ($attribute instanceof IPropertyPostInitializer) {
+								$properties_post_attributes[$p_name][] = $attribute;
 							}
 						}
 					}
-					
-					//parent properties
-					$parent_properties = $parent_class !== null
-						? array_intersect_key($classes_properties[$parent_class], $parent_properties_map)
-						: [];
 					
 					//class properties
 					$classes_properties[$class] = $parent_properties + $properties;
@@ -126,7 +119,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//finalize
-					unset($properties, $parent_properties, $parent_properties_map, $properties_post_attributes);
+					unset($properties, $properties_post_attributes, $parent_properties);
 				}
 				
 				//parent class
