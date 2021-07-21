@@ -9,6 +9,7 @@ namespace Dracodeum\Kit\Managers\PropertiesV2;
 
 use ReflectionProperty as Reflection;
 use Dracodeum\Kit\Components\Type;
+use Dracodeum\Kit\Utilities\Call as UCall;
 use ReflectionNamedType;
 use ReflectionUnionType;
 
@@ -88,11 +89,17 @@ final class Property
 		$r_inner_types = [];
 		$r_type = $this->reflection->getType();
 		if ($r_type === null) {
+			$this->type = null;
 			return $this;
 		} elseif ($r_type instanceof ReflectionNamedType) {
 			$r_inner_types[] = $r_type;
 		} elseif ($r_type instanceof ReflectionUnionType) {
 			$r_inner_types = $r_type->getTypes();
+		} else {
+			UCall::haltInternal([
+				'error_message' => "Unknown reflection type class {{class}}.",
+				'parameters' => ['class' => $r_type::class]
+			]);
 		}
 		
 		//properties

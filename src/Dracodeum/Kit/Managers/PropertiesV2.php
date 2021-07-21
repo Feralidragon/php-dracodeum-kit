@@ -64,7 +64,7 @@ final class PropertiesV2 extends Manager
 	{
 		//initialize
 		static $classes_properties = [];
-		$owner_class = get_class($this->owner);
+		$owner_class = $this->owner::class;
 		if (!isset($classes_properties[$owner_class])) {
 			//classes
 			$classes = [];
