@@ -9,16 +9,32 @@ namespace Dracodeum\Kit\Managers\PropertiesV2;
 
 use ReflectionProperty as Reflection;
 use Dracodeum\Kit\Components\Type;
-use Dracodeum\Kit\Utilities\Call as UCall;
+use Dracodeum\Kit\Utilities\{
+	Call as UCall,
+	Text as UText
+};
 use ReflectionNamedType;
 use ReflectionUnionType;
 
 final class Property
 {
+	//Private constants
+	/** Modes of operation. */
+	private const MODES = ['r', 'r+', 'rw', 'w', 'w-'];
+	
+	/** Affect subclasses by mode (flag). */
+	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x1;
+	
+	
+	
 	//Private properties
 	private Reflection $reflection;
 	
+	private string $mode = 'rw';
+	
 	private ?Type $type = null;
+	
+	private int $flags = 0x0;
 	
 	
 	
@@ -46,6 +62,65 @@ final class Property
 	final public function getReflection(): Reflection
 	{
 		return $this->reflection;
+	}
+	
+	/**
+	 * Get mode.
+	 * 
+	 * @return string
+	 * The mode.
+	 */
+	final public function getMode(): string
+	{
+		return $this->mode;
+	}
+	
+	/**
+	 * Check if subclasses are affected by mode.
+	 * 
+	 * @return bool
+	 * Boolean `true` if subclasses are affected by mode.
+	 */
+	final public function areSubclassesAffectedByMode(): bool
+	{
+		return $this->hasFlag(self::FLAG_MODE_AFFECT_SUBCLASSES);
+	}
+	
+	/**
+	 * Set mode.
+	 * 
+	 * @param string $mode
+	 * The mode to set, as one of the following:
+	 * - `r` : allow this property to be only strictly read from (strict read-only), not allowing to be given during 
+	 * initialization;
+	 * - `r+` : allow this property to be only read from (read-only), but allowing to be given during initialization;
+	 * - `rw` : allow this property to be both read from and written to (read-write);
+	 * - `w` : allow this property to be only written to (write-only);
+	 * - `w-` :allow this property to be only written to, but only once during initialization (write-once).
+	 * 
+	 * @param bool $affect_subclasses
+	 * Affect subclasses by the given mode, in other words, enforce the mode of operation internally for subclasses too.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setMode(string $mode, bool $affect_subclasses = false)
+	{
+		//check
+		if (!in_array($mode, self::MODES, true)) {
+			UCall::haltParameter('mode', $mode, [
+				'hint_message' => "Only one of the following is allowed: {{modes}}.",
+				'parameters' => ['modes' => self::MODES],
+				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+			]);
+		}
+		
+		//set
+		$this->mode = $mode;
+		$this->updateFlag(self::FLAG_MODE_AFFECT_SUBCLASSES, $affect_subclasses);
+		
+		//return
+		return $this;
 	}
 	
 	/**
@@ -136,5 +211,68 @@ final class Property
 		
 		//return
 		return $this;
+	}
+	
+	
+	
+	//Private methods
+	/**
+	 * Check if has a given flag.
+	 * 
+	 * @param int $flag
+	 * The flag to check.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has the given flag.
+	 */
+	private function hasFlag(int $flag): bool
+	{
+		return $this->flags & $flag;
+	}
+	
+	/**
+	 * Set flag.
+	 * 
+	 * @param int $flag
+	 * The flag to set.
+	 * 
+	 * @return void
+	 */
+	private function setFlag(int $flag): void
+	{
+		$this->flags |= $flag;
+	}
+	
+	/**
+	 * Unset flag.
+	 * 
+	 * @param int $flag
+	 * The flag to unset.
+	 * 
+	 * @return void
+	 */
+	private function unsetFlag(int $flag): void
+	{
+		$this->flags &= ~$flag;
+	}
+	
+	/**
+	 * Update flag.
+	 * 
+	 * @param int $flag
+	 * The flag to update.
+	 * 
+	 * @param bool $enable
+	 * Enable the given flag.
+	 * 
+	 * @return void
+	 */
+	private function updateFlag(int $flag, bool $enable): void
+	{
+		if ($enable) {
+			$this->setFlag($flag);
+		} else {
+			$this->unsetFlag($flag);
+		}
 	}
 }
