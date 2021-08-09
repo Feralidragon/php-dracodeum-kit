@@ -25,6 +25,9 @@ final class Property
 	/** Affect subclasses by mode (flag). */
 	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x1;
 	
+	/** Lazy (flag). */
+	private const FLAG_LAZY = 0x2;
+	
 	
 	
 	//Private properties
@@ -111,7 +114,7 @@ final class Property
 			UCall::haltParameter('mode', $mode, [
 				'hint_message' => "Only one of the following is allowed: {{modes}}.",
 				'parameters' => ['modes' => self::MODES],
-				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_AND]
+				'string_options' => ['non_assoc_mode' => UText::STRING_NONASSOC_MODE_COMMA_LIST_OR]
 			]);
 		}
 		
@@ -210,6 +213,29 @@ final class Property
 		$this->type = Type::build('any', ['types' => $inner_types] + $properties);
 		
 		//return
+		return $this;
+	}
+	
+	/**
+	 * Check if is lazy.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is lazy.
+	 */
+	final public function isLazy(): bool
+	{
+		return $this->hasFlag(self::FLAG_LAZY);
+	}
+	
+	/**
+	 * Set as lazy, so that a value is only validated and coerced later on read, instead of immediately on write.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setAsLazy()
+	{
+		$this->setFlag(self::FLAG_LAZY);
 		return $this;
 	}
 	

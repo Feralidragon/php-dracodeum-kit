@@ -8,7 +8,8 @@ use Dracodeum\Kit\Attributes\Property\{
 	coercive,
 	strict,
 	read,
-	write
+	write,
+	lazy
 };
 
 System::setAsFramework();
@@ -16,7 +17,7 @@ System::setEnvironment('development');
 
 class A
 {
-	#[coercive('ustring', nullable: true), read]
+	#[coercive('ustring', nullable: true), read, lazy]
 	public string $label;
 	
 	protected int $amount = 12;
