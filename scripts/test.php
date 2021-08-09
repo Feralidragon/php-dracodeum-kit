@@ -6,7 +6,9 @@ use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
 use Dracodeum\Kit\Attributes\Property\{
 	coercive,
-	strict
+	strict,
+	read,
+	write
 };
 
 System::setAsFramework();
@@ -14,7 +16,7 @@ System::setEnvironment('development');
 
 class A
 {
-	#[coercive('ustring', nullable: true)]
+	#[coercive('ustring', nullable: true), read]
 	public string $label;
 	
 	protected int $amount = 12;
@@ -36,7 +38,7 @@ $a = new class extends B {
 	#[coercive]
 	private float $ratio = 1.0;
 	
-	#[strict]
+	#[strict, write(true)]
 	public float $percentage = 100.0;
 };
 $p = new Dracodeum\Kit\Managers\PropertiesV2($a);
