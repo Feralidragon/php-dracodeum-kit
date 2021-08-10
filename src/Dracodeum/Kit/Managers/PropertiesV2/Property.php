@@ -68,6 +68,17 @@ final class Property
 	}
 	
 	/**
+	 * Check if is required.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is required.
+	 */
+	final public function isRequired(): bool
+	{
+		return !$this->reflection->hasDefaultValue() && $this->mode !== 'r';
+	}
+	
+	/**
 	 * Get mode.
 	 * 
 	 * @return string
@@ -214,6 +225,17 @@ final class Property
 		
 		//return
 		return $this;
+	}
+	
+	/**
+	 * Check if is self-managed.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is self-managed.
+	 */
+	final public function isSelfManaged(): bool
+	{
+		return $this->type === null && $this->mode === 'rw';
 	}
 	
 	/**

@@ -13,6 +13,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\{
 	PropertyInitializer as IPropertyInitializer,
 	PropertyPostInitializer as IPropertyPostInitializer
 };
+use Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
 use ReflectionClass;
 
 /**
@@ -37,6 +38,10 @@ final class PropertiesV2 extends Manager
 	/** @var \Dracodeum\Kit\Managers\PropertiesV2\Property[] */
 	private array $properties;
 	
+	private array $required_map;
+	
+	private array $values = [];
+	
 	
 	
 	//Final public magic methods
@@ -54,6 +59,37 @@ final class PropertiesV2 extends Manager
 	
 	
 	
+	//Final public methods
+	/**
+	 * Get owner object.
+	 * 
+	 * @return object
+	 * The owner object.
+	 */
+	final public function getOwner(): object
+	{
+		return $this->owner;
+	}
+	
+	/**
+	 * Initialize.
+	 * 
+	 * @param array $values
+	 * The values to initialize with, as a set of `name => value` pairs.  
+	 * Values corresponding to required properties may also be given as a non-associative array, with the given values 
+	 * following the same order as their corresponding property declarations.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\MissingValues
+	 * 
+	 * @return void
+	 */
+	final public function initialize(array $values): void
+	{
+		$this->processRequiredValues($values);
+	}
+	
+	
+	
 	//Private methods
 	/**
 	 * Initialize properties.
@@ -63,8 +99,8 @@ final class PropertiesV2 extends Manager
 	private function initializeProperties(): void
 	{
 		//initialize
-		static $classes_properties = [];
 		$owner_class = $this->owner::class;
+		static $classes_properties = [], $classes_required_maps = [];
 		if (!isset($classes_properties[$owner_class])) {
 			//classes
 			$classes = [];
@@ -110,6 +146,23 @@ final class PropertiesV2 extends Manager
 					//class properties
 					$classes_properties[$class] = $parent_properties + $properties;
 					
+					//sort
+					uasort($classes_properties[$class], function (Property $property1, Property $property2): int {
+						return (int)$property2->isRequired() - (int)$property1->isRequired();
+					});
+					
+					//required mapping
+					$i = 0;
+					$classes_required_maps[$class] = [];
+					foreach ($classes_properties[$class] as $p_name => $property) {
+						if ($property->isRequired()) {
+							$classes_required_maps[$class][$p_name] = $i++;
+						} else {
+							break;
+						}
+					}
+					unset($i);
+					
 					//post-attributes
 					foreach ($properties_post_attributes as $p_name => $attributes) {
 						$property = $properties[$p_name];
@@ -129,5 +182,36 @@ final class PropertiesV2 extends Manager
 		
 		//finalize
 		$this->properties = $classes_properties[$owner_class];
+		$this->required_map = $classes_required_maps[$owner_class];
+	}
+	
+	/**
+	 * Process required values.
+	 * 
+	 * @param array $values
+	 * The values to process, as a set of `name => value` pairs.  
+	 * Values corresponding to required properties may also be given as a non-associative array, with the given values 
+	 * following the same order as their corresponding property declarations.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\MissingValues
+	 * 
+	 * @return void
+	 */
+	private function processRequiredValues(array &$values): void
+	{
+		//map
+		$names_map = array_flip($this->required_map);
+		foreach ($values as $name => $value) {
+			if (is_int($name) && isset($names_map[$name])) {
+				$values[$names_map[$name]] = $value;
+				unset($values[$name]);
+			}
+		}
+		
+		//missing
+		$missing_names = array_keys(array_diff_key($this->required_map, $values));
+		if ($missing_names) {
+			throw new Exceptions\MissingValues([$this, $missing_names]);
+		}
 	}
 }
