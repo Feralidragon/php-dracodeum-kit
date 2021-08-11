@@ -81,6 +81,7 @@ final class PropertiesV2 extends Manager
 	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * 
 	 * @return void
 	 */
@@ -89,11 +90,11 @@ final class PropertiesV2 extends Manager
 		//required
 		$this->processRequiredValues($values);
 		
-		//undefined
-		$undefined_names = array_keys(array_diff_key($values, $this->properties));
-		if ($undefined_names) {
-			throw new Exceptions\Undefined([$this, $undefined_names]);
-		}
+		//names
+		$names = array_keys($values);
+		
+		//validate
+		$this->validateUndefined($names)->validateAccess($names);
 	}
 	
 	
@@ -221,5 +222,65 @@ final class PropertiesV2 extends Manager
 		if ($missing_names) {
 			throw new Exceptions\Missing([$this, $missing_names]);
 		}
+	}
+	
+	/**
+	 * Validate undefined.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateUndefined(array $names)
+	{
+		//initialize
+		$undefined_names = [];
+		foreach ($names as $name) {
+			if (!isset($this->properties[$name])) {
+				$undefined_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($undefined_names) {
+			throw new Exceptions\Undefined([$this, $undefined_names]);
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Validate access.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateAccess(array $names)
+	{
+		//initialize
+		$inaccessible_names = [];
+		foreach ($names as $name) {
+			if (!isset($this->properties[$name]) || !$this->properties[$name]->isPublic()) {
+				$inaccessible_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($inaccessible_names) {
+			throw new Exceptions\Inaccessible([$this, $inaccessible_names]);
+		}
+		
+		//return
+		return $this;
 	}
 }

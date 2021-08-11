@@ -34,15 +34,18 @@ class B extends A
 
 
 
-$a = new class extends B {
-	
+class C extends B
+{	
 	#[coercive]
 	private float $ratio = 1.0;
 	
 	#[strict, write(true)]
 	public float $percentage = 100.0;
 };
+$a = new C;
 $p = new Dracodeum\Kit\Managers\PropertiesV2($a);
+
+$p->initialize(['foo', 'percentage' => 95.0]);
 
 var_dump($p);
 

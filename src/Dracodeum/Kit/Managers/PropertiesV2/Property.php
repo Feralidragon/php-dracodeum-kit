@@ -86,7 +86,7 @@ final class Property
 	 */
 	final public function isRequired(): bool
 	{
-		return !$this->hasDefaultValue() && $this->mode !== 'r';
+		return $this->isPublic() && !$this->hasDefaultValue() && $this->mode !== 'r';
 	}
 	
 	/**
