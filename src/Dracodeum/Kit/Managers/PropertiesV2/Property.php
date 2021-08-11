@@ -68,17 +68,6 @@ final class Property
 	}
 	
 	/**
-	 * Check if is public.
-	 * 
-	 * @return bool
-	 * Boolean `true` if is public.
-	 */
-	final public function isPublic(): bool
-	{
-		return $this->reflection->isPublic();
-	}
-	
-	/**
 	 * Check if is required.
 	 * 
 	 * @return bool
@@ -86,7 +75,28 @@ final class Property
 	 */
 	final public function isRequired(): bool
 	{
-		return $this->isPublic() && !$this->hasDefaultValue() && $this->mode !== 'r';
+		return $this->reflection->isPublic() && !$this->hasDefaultValue() && $this->mode !== 'r';
+	}
+	
+	/**
+	 * Check if is accessible.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to check with.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is accessible.
+	 */
+	final public function isAccessible(?string $scope_class): bool
+	{
+		if ($this->reflection->isPublic()) {
+			return true;
+		} elseif ($scope_class === null || !$this->reflection->isProtected()) {
+			return false;
+		} elseif (is_a($scope_class, $this->reflection->getDeclaringClass()->getName(), true)) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -247,17 +257,6 @@ final class Property
 		
 		//return
 		return $this;
-	}
-	
-	/**
-	 * Check if is self-managed.
-	 * 
-	 * @return bool
-	 * Boolean `true` if is self-managed.
-	 */
-	final public function isSelfManaged(): bool
-	{
-		return $this->type === null && $this->mode === 'rw';
 	}
 	
 	/**

@@ -16,6 +16,9 @@ use Dracodeum\Kit\Utilities\{
 /**
  * @property-read string[] $names
  * The names.
+ * 
+ * @property-read string|null $scope_class
+ * The scope class.
  */
 class Inaccessible extends Exception
 {
@@ -23,9 +26,16 @@ class Inaccessible extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return count($this->names) === 1
-			? "The property {{names}} from {{manager.getOwner()}} is not accessible from the called scope."
-			: "The properties {{names}} from {{manager.getOwner()}} are not accessible from the called scope.";
+		//message
+		$message = count($this->names) === 1
+			? "The property {{names}} from {{manager.getOwner()}} is not accessible"
+			: "The properties {{names}} from {{manager.getOwner()}} are not accessible";
+		
+		//scope class
+		$message .= $this->scope_class !== null ? " from the {{scope_class}} class scope." : ".";
+		
+		//return
+		return $message;
 	}
 	
 	
@@ -41,6 +51,7 @@ class Inaccessible extends Exception
 		$this->addProperty('names')->setAsArray(
 			fn (&$key, &$value): bool => UType::evaluateString($value, true), true, true
 		);
+		$this->addProperty('scope_class')->setAsString(true, true);
 	}
 	
 	/** {@inheritdoc} */

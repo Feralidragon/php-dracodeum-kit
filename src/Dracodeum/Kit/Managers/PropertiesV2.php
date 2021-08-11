@@ -79,22 +79,18 @@ final class PropertiesV2 extends Manager
 	 * Values corresponding to required properties may also be given as a non-associative array, with the given values 
 	 * following the same order as their corresponding property declarations.
 	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * 
 	 * @return void
 	 */
-	final public function initialize(array $values): void
+	final public function initialize(array $values, ?string $scope_class = null): void
 	{
-		//required
-		$this->processRequiredValues($values);
-		
-		//names
-		$names = array_keys($values);
-		
-		//validate
-		$this->validateUndefined($names)->validateAccess($names);
+		$this->processRequiredValues($values)->setValues($values, $scope_class, true);
 	}
 	
 	
@@ -204,16 +200,17 @@ final class PropertiesV2 extends Manager
 	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
 	 * 
-	 * @return void
+	 * @return $this
+	 * This instance, for chaining purposes.
 	 */
-	private function processRequiredValues(array &$values): void
+	private function processRequiredValues(array &$values)
 	{
 		//map
 		$names_map = array_flip($this->required_map);
-		foreach ($values as $name => $value) {
-			if (is_int($name) && isset($names_map[$name])) {
-				$values[$names_map[$name]] = $value;
-				unset($values[$name]);
+		foreach ($values as $i => $value) {
+			if (is_int($i) && isset($names_map[$i])) {
+				$values[$names_map[$i]] = $value;
+				unset($values[$i]);
 			}
 		}
 		
@@ -222,6 +219,9 @@ final class PropertiesV2 extends Manager
 		if ($missing_names) {
 			throw new Exceptions\Missing([$this, $missing_names]);
 		}
+		
+		//return
+		return $this;
 	}
 	
 	/**
@@ -237,7 +237,7 @@ final class PropertiesV2 extends Manager
 	 */
 	private function validateUndefined(array $names)
 	{
-		//initialize
+		//process
 		$undefined_names = [];
 		foreach ($names as $name) {
 			if (!isset($this->properties[$name])) {
@@ -260,27 +260,57 @@ final class PropertiesV2 extends Manager
 	 * @param string[] $names
 	 * The names to validate.
 	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	private function validateAccess(array $names)
+	private function validateAccess(array $names, ?string $scope_class)
 	{
-		//initialize
+		//process
 		$inaccessible_names = [];
 		foreach ($names as $name) {
-			if (!isset($this->properties[$name]) || !$this->properties[$name]->isPublic()) {
+			if (!isset($this->properties[$name]) || !$this->properties[$name]->isAccessible($scope_class)) {
 				$inaccessible_names[] = $name;
 			}
 		}
 		
 		//check
 		if ($inaccessible_names) {
-			throw new Exceptions\Inaccessible([$this, $inaccessible_names]);
+			throw new Exceptions\Inaccessible([$this, $inaccessible_names, $scope_class]);
 		}
 		
 		//return
 		return $this;
+	}
+	
+	/**
+	 * Set values.
+	 * 
+	 * @param array $values
+	 * The values to set, as a set of `name => value` pairs.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @param bool $initializing
+	 * Whether or not the call is being performed in the context of an initialization.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * 
+	 * @return void
+	 */
+	private function setValues(array $values, ?string $scope_class, bool $initializing = false): void
+	{
+		//initialize
+		$names = array_keys($values);
+		$this->validateUndefined($names)->validateAccess($names, $scope_class);
+		
+		
+		//TODO
 	}
 }
