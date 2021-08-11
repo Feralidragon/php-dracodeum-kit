@@ -38,7 +38,9 @@ class MissingValues extends Exception
 		parent::loadProperties();
 		
 		//properties
-		$this->addProperty('names')->setAsArray(fn (&$key, &$value): bool => UType::evaluateString($value), true, true);
+		$this->addProperty('names')->setAsArray(
+			fn (&$key, &$value): bool => UType::evaluateString($value, true), true, true
+		);
 	}
 	
 	/** {@inheritdoc} */
