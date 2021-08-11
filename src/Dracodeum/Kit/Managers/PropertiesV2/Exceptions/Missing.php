@@ -17,15 +17,15 @@ use Dracodeum\Kit\Utilities\{
  * @property-read string[] $names
  * The names.
  */
-class MissingValues extends Exception
+class Missing extends Exception
 {
 	//Implemented public methods
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
 		return count($this->names) === 1
-			? "Missing value for required property {{names}} in manager with owner {{manager.getOwner()}}."
-			: "Missing values for required properties {{names}} in manager with owner {{manager.getOwner()}}.";
+			? "Missing value for required property {{names}} for {{manager.getOwner()}}."
+			: "Missing values for required properties {{names}} for {{manager.getOwner()}}.";
 	}
 	
 	

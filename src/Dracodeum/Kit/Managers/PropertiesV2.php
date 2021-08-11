@@ -79,13 +79,21 @@ final class PropertiesV2 extends Manager
 	 * Values corresponding to required properties may also be given as a non-associative array, with the given values 
 	 * following the same order as their corresponding property declarations.
 	 * 
-	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\MissingValues
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * 
 	 * @return void
 	 */
 	final public function initialize(array $values): void
 	{
+		//required
 		$this->processRequiredValues($values);
+		
+		//undefined
+		$undefined_names = array_keys(array_diff_key($values, $this->properties));
+		if ($undefined_names) {
+			throw new Exceptions\Undefined([$this, $undefined_names]);
+		}
 	}
 	
 	
@@ -193,7 +201,7 @@ final class PropertiesV2 extends Manager
 	 * Values corresponding to required properties may also be given as a non-associative array, with the given values 
 	 * following the same order as their corresponding property declarations.
 	 * 
-	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\MissingValues
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
 	 * 
 	 * @return void
 	 */
@@ -211,7 +219,7 @@ final class PropertiesV2 extends Manager
 		//missing
 		$missing_names = array_keys(array_diff_key($this->required_map, $values));
 		if ($missing_names) {
-			throw new Exceptions\MissingValues([$this, $missing_names]);
+			throw new Exceptions\Missing([$this, $missing_names]);
 		}
 	}
 }

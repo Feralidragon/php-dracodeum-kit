@@ -68,6 +68,17 @@ final class Property
 	}
 	
 	/**
+	 * Check if is public.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is public.
+	 */
+	final public function isPublic(): bool
+	{
+		return $this->reflection->isPublic();
+	}
+	
+	/**
 	 * Check if is required.
 	 * 
 	 * @return bool
@@ -75,7 +86,18 @@ final class Property
 	 */
 	final public function isRequired(): bool
 	{
-		return !$this->reflection->hasDefaultValue() && $this->mode !== 'r';
+		return !$this->hasDefaultValue() && $this->mode !== 'r';
+	}
+	
+	/**
+	 * Check if has default value.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has default value.
+	 */
+	final public function hasDefaultValue(): bool
+	{
+		return $this->reflection->hasDefaultValue();
 	}
 	
 	/**
