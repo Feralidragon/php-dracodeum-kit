@@ -85,6 +85,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Missing
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * 
 	 * @return void
 	 */
@@ -373,6 +374,7 @@ final class PropertiesV2 extends Manager
 	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * 
 	 * @return void
 	 */
