@@ -13,7 +13,7 @@ use Dracodeum\Kit\Utilities\Byte\{
 	Exceptions
 };
 
-/** This utility implements a set of methods used to get information at the byte level. */
+/** This utility implements a set of methods used to get and set information at the byte level. */
 final class Byte extends Utility
 {
 	//Private constants
@@ -469,5 +469,77 @@ final class Byte extends Utility
 				" - an SI symbol string, such as \"kB\" or \"k\" for kilobytes;\n" . 
 				" - an SI name string in English, such as \"kilobyte\" or \"kilobytes\" for kilobytes."
 		]);
+	}
+	
+	/**
+	 * Check if a given value has a given flag.
+	 * 
+	 * @param int $value
+	 * The value to check from.
+	 * 
+	 * @param int $flag
+	 * The flag to check.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the given value has the given flag.
+	 */
+	final public static function hasFlag(int $value, int $flag): bool
+	{
+		return $value & $flag;
+	}
+	
+	/**
+	 * Set flag in a given value.
+	 * 
+	 * @param int $value
+	 * The value to set in.
+	 * 
+	 * @param int $flag
+	 * The flag to set.
+	 * 
+	 * @return void
+	 */
+	final public static function setFlag(int &$value, int $flag): void
+	{
+		$value |= $flag;
+	}
+	
+	/**
+	 * Unset flag in a given value.
+	 * 
+	 * @param int $value
+	 * The value to unset in.
+	 * 
+	 * @param int $flag
+	 * The flag to unset.
+	 * 
+	 * @return void
+	 */
+	final public static function unsetFlag(int &$value, int $flag): void
+	{
+		$value &= ~$flag;
+	}
+	
+	/**
+	 * Update flag in a given value.
+	 * 
+	 * @param int $value
+	 * The value to update in.
+	 * 
+	 * @param int $flag
+	 * The flag to update.
+	 * 
+	 * @param bool $enable
+	 * Enable the given flag.
+	 * 
+	 * @return void
+	 */
+	final public static function updateFlag(int &$value, int $flag, bool $enable): void
+	{
+		if ($enable) {
+			self::setFlag($value, $flag);
+		} else {
+			self::unsetFlag($value, $flag);
+		}
 	}
 }

@@ -925,4 +925,85 @@ class ByteTest extends TestCase
 		$this->assertFalse(UByte::processMultipleCoercion($value, false, true));
 		$this->assertNull($value);
 	}
+	
+	/**
+	 * Test flag methods.
+	 * 
+	 * @testdox Flags
+	 * 
+	 * @return void
+	 */
+	public function testFlags(): void
+	{
+		//initialize
+		$value = 0x0;
+		$flag1 = 0x1;
+		$flag2 = 0x2;
+		$flag3 = 0x4;
+		
+		//assert
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//set (1)
+		UByte::setFlag($value, $flag1);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//set (2)
+		UByte::setFlag($value, $flag3);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//set (3)
+		UByte::setFlag($value, $flag2);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//unset (1)
+		UByte::unsetFlag($value, $flag1);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//unset (2)
+		UByte::unsetFlag($value, $flag3);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertTrue(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//unset (3)
+		UByte::unsetFlag($value, $flag2);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//update (1)
+		UByte::updateFlag($value, $flag1, true);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+		
+		//update (2)
+		UByte::updateFlag($value, $flag3, true);
+		$this->assertTrue(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//update (3)
+		UByte::updateFlag($value, $flag1, false);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertTrue(UByte::hasFlag($value, $flag3));
+		
+		//update (4)
+		UByte::updateFlag($value, $flag3, false);
+		$this->assertFalse(UByte::hasFlag($value, $flag1));
+		$this->assertFalse(UByte::hasFlag($value, $flag2));
+		$this->assertFalse(UByte::hasFlag($value, $flag3));
+	}
 }

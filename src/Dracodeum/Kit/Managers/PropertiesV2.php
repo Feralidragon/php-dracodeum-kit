@@ -14,6 +14,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\{
 	PropertyPostInitializer as IPropertyPostInitializer
 };
 use Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
+use Dracodeum\Kit\Utilities\Byte as UByte;
 use ReflectionClass;
 
 /**
@@ -22,7 +23,7 @@ use ReflectionClass;
  * - modes of operation, such as read-write, read-only, write-only, and others;
  * - name aliasing;
  * - custom getters and setters;
- * - lazy type coercion and validation;
+ * - lazy type validation and coercion;
  * - value persistence.
  * 
  * Only non-static and non-private properties are supported and affected.
@@ -32,6 +33,18 @@ use ReflectionClass;
  */
 final class PropertiesV2 extends Manager
 {
+	//Private constants
+	/** Set (value flag). */
+	private const VALUE_FLAG_SET = 0x1;
+	
+	/** Typed (value flag). */
+	private const VALUE_FLAG_TYPED = 0x2;
+	
+	/** Dirty (value flag). */
+	private const VALUE_FLAG_DIRTY = 0x4;
+	
+	
+	
 	//Private properties
 	private object $owner;
 	
@@ -41,6 +54,9 @@ final class PropertiesV2 extends Manager
 	private array $required_map;
 	
 	private array $values = [];
+	
+	/** @var int[] */
+	private array $values_flags = [];
 	
 	
 	
@@ -86,6 +102,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return void
 	 */
@@ -375,6 +392,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return void
 	 */
@@ -390,7 +408,48 @@ final class PropertiesV2 extends Manager
 			->validateWrite($names, $scope_class, $initializing)
 		;
 		
+		//initializing
+		if ($initializing) {
+			foreach ($this->properties as $name => $property) {
+				$property->reset($this->owner);
+				$this->values[$name] = null;
+				$this->values_flags[$name] = 0x0;
+			}
+		}
 		
-		//TODO
+		//process
+		$errors = [];
+		$values_flags = array_fill_keys($names, self::VALUE_FLAG_SET);
+		foreach ($values as $name => &$value) {
+			//initialize
+			$property = $this->properties[$name];
+			
+			//typed
+			UByte::updateFlag($values_flags[$name], self::VALUE_FLAG_TYPED, $property->hasType());
+			
+			//lazy
+			if ($property->isLazy()) {
+				UByte::setFlag($values_flags[$name], self::VALUE_FLAG_DIRTY);
+				continue;
+			}
+			
+			//process
+			$error = $property->processValue($this->owner, $value);
+			if ($error !== null) {
+				$errors[$name] = $error;
+			}
+		}
+		unset($value);
+		
+		//errors
+		if ($errors) {
+			throw new Exceptions\Invalid([$this, array_intersect_key($values, $errors), $errors]);
+		}
+		
+		//values
+		$this->values = array_replace($this->values, $values);
+		foreach ($values_flags as $name => $flag) {
+			UByte::setFlag($this->values_flags[$name], $flag);
+		}
 	}
 }

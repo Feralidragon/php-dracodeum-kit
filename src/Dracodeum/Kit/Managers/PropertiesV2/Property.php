@@ -9,12 +9,19 @@ namespace Dracodeum\Kit\Managers\PropertiesV2;
 
 use ReflectionProperty as Reflection;
 use Dracodeum\Kit\Components\Type;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text
+};
+use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Utilities\{
+	Byte as UByte,
 	Call as UCall,
 	Text as UText
 };
 use ReflectionNamedType;
 use ReflectionUnionType;
+use TypeError;
 
 final class Property
 {
@@ -129,7 +136,7 @@ final class Property
 	 */
 	final public function areSubclassesAffectedByMode(): bool
 	{
-		return $this->hasFlag(self::FLAG_MODE_AFFECT_SUBCLASSES);
+		return UByte::hasFlag($this->flags, self::FLAG_MODE_AFFECT_SUBCLASSES);
 	}
 	
 	/**
@@ -163,7 +170,7 @@ final class Property
 		
 		//set
 		$this->mode = $mode;
-		$this->updateFlag(self::FLAG_MODE_AFFECT_SUBCLASSES, $affect_subclasses);
+		UByte::updateFlag($this->flags, self::FLAG_MODE_AFFECT_SUBCLASSES, $affect_subclasses);
 		
 		//return
 		return $this;
@@ -220,6 +227,17 @@ final class Property
 		return $scope_class === $declaring_class || (
 			is_a($scope_class, $declaring_class, true) && !$this->areSubclassesAffectedByMode()
 		);
+	}
+	
+	/**
+	 * Check if has type.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has type.
+	 */
+	final public function hasType(): bool
+	{
+		return $this->type !== null;
 	}
 	
 	/**
@@ -320,7 +338,7 @@ final class Property
 	 */
 	final public function isLazy(): bool
 	{
-		return $this->hasFlag(self::FLAG_LAZY);
+		return UByte::hasFlag($this->flags, self::FLAG_LAZY);
 	}
 	
 	/**
@@ -331,70 +349,64 @@ final class Property
 	 */
 	final public function setAsLazy()
 	{
-		$this->setFlag(self::FLAG_LAZY);
+		UByte::setFlag($this->flags, self::FLAG_LAZY);
 		return $this;
 	}
 	
-	
-	
-	//Private methods
 	/**
-	 * Check if has a given flag.
+	 * Reset for a given object.
 	 * 
-	 * @param int $flag
-	 * The flag to check.
+	 * @param object $object
+	 * The object to reset for.
 	 * 
-	 * @return bool
-	 * Boolean `true` if has the given flag.
+	 * @return $this
+	 * This instance, for chaining purposes.
 	 */
-	private function hasFlag(int $flag): bool
+	final public function reset(object $object)
 	{
-		return $this->flags & $flag;
+		$function = function (string $name): void {
+			unset($this->$name);
+		};
+		$function->bindTo($object, $object);
+		$function($this->reflection->getName());
+		return $this;
 	}
 	
 	/**
-	 * Set flag.
+	 * Process value for a given object.
 	 * 
-	 * @param int $flag
-	 * The flag to set.
+	 * @param object $object
+	 * The object to process for.
 	 * 
-	 * @return void
+	 * @param mixed $value
+	 * The value to process.
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Error|null
+	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
-	private function setFlag(int $flag): void
+	final public function processValue(object $object, mixed &$value): ?Error
 	{
-		$this->flags |= $flag;
-	}
-	
-	/**
-	 * Unset flag.
-	 * 
-	 * @param int $flag
-	 * The flag to unset.
-	 * 
-	 * @return void
-	 */
-	private function unsetFlag(int $flag): void
-	{
-		$this->flags &= ~$flag;
-	}
-	
-	/**
-	 * Update flag.
-	 * 
-	 * @param int $flag
-	 * The flag to update.
-	 * 
-	 * @param bool $enable
-	 * Enable the given flag.
-	 * 
-	 * @return void
-	 */
-	private function updateFlag(int $flag, bool $enable): void
-	{
-		if ($enable) {
-			$this->setFlag($flag);
-		} else {
-			$this->unsetFlag($flag);
+		//type
+		if ($this->type !== null) {
+			return $this->type->process($value);
 		}
+		
+		//self
+		$this->reflection->setAccessible(true); //TODO: to be removed in PHP 8.1: https://wiki.php.net/rfc/make-reflection-setaccessible-no-op
+		try {
+			$this->reflection->setValue($object, $value);
+			$value = $this->reflection->getValue($object);
+		} catch (TypeError $type_error) {
+			$text = Text::build()
+				->setString("Invalid value type.")
+				->setString($type_error->getMessage(), EInfoLevel::INTERNAL)
+			;
+			return Error::build(text: $text);
+		} finally {
+			$this->reset($object);
+		}
+		
+		//return
+		return null;
 	}
 }
