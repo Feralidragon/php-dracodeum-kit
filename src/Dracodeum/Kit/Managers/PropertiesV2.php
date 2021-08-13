@@ -288,6 +288,78 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Validate read.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateRead(array $names, ?string $scope_class)
+	{
+		//process
+		$unreadable_names = [];
+		foreach ($names as $name) {
+			if (!isset($this->properties[$name]) || !$this->properties[$name]->isReadable($scope_class)) {
+				$unreadable_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($unreadable_names) {
+			throw new Exceptions\Unreadable([$this, $unreadable_names, $scope_class]);
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
+	 * Validate write.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @param bool $initializing
+	 * Whether or not the call is being performed in the context of an initialization.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateWrite(array $names, ?string $scope_class, bool $initializing = false)
+	{
+		//process
+		$unwriteable_names = [];
+		foreach ($names as $name) {
+			if (
+				!isset($this->properties[$name]) || 
+				!$this->properties[$name]->isWriteable($scope_class, $initializing)
+			) {
+				$unwriteable_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($unwriteable_names) {
+			throw new Exceptions\Unwriteable([$this, $unwriteable_names, $scope_class]);
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Set values.
 	 * 
 	 * @param array $values
@@ -308,7 +380,13 @@ final class PropertiesV2 extends Manager
 	{
 		//initialize
 		$names = array_keys($values);
-		$this->validateUndefined($names)->validateAccess($names, $scope_class);
+		
+		//validate
+		$this
+			->validateUndefined($names)
+			->validateAccess($names, $scope_class)
+			->validateWrite($names, $scope_class, $initializing)
+		;
 		
 		
 		//TODO

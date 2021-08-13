@@ -170,6 +170,59 @@ final class Property
 	}
 	
 	/**
+	 * Check if is readable.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to check with.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is readable.
+	 */
+	final public function isReadable(?string $scope_class): bool
+	{
+		//check
+		if ($this->mode[0] === 'r') {
+			return true;
+		} elseif ($scope_class === null) {
+			return false;
+		}
+		
+		//scope
+		$declaring_class = $this->reflection->getDeclaringClass()->getName();
+		return $scope_class === $declaring_class || (
+			is_a($scope_class, $declaring_class, true) && !$this->areSubclassesAffectedByMode()
+		);
+	}
+	
+	/**
+	 * Check if is writeable.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to check with.
+	 * 
+	 * @param bool $initializing
+	 * Whether or not the call is being performed in the context of an initialization.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is writeable.
+	 */
+	final public function isWriteable(?string $scope_class, bool $initializing = false): bool
+	{
+		//check
+		if (($initializing && $this->mode !== 'r') || in_array($this->mode, ['rw', 'w'], true)) {
+			return true;
+		} elseif ($scope_class === null) {
+			return false;
+		}
+		
+		//scope
+		$declaring_class = $this->reflection->getDeclaringClass()->getName();
+		return $scope_class === $declaring_class || (
+			is_a($scope_class, $declaring_class, true) && !$this->areSubclassesAffectedByMode()
+		);
+	}
+	
+	/**
 	 * Get type instance.
 	 * 
 	 * @return \Dracodeum\Kit\Components\Type|null
