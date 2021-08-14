@@ -111,6 +111,96 @@ final class PropertiesV2 extends Manager
 		$this->processRequiredValues($values)->setValues($values, $scope_class, true);
 	}
 	
+	/**
+	 * Check if has property.
+	 * 
+	 * @param string $name
+	 * The property name to check.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has property.
+	 */
+	final public function has(string $name, ?string $scope_class = null): bool
+	{
+		if (isset($this->properties[$name])) {
+			$property = $this->properties[$name];
+			return $property->isAccessible($scope_class) && $property->isReadable($scope_class);
+		}
+		return false;
+	}
+	
+	/**
+	 * Check if property is set (exists and is not `null`).
+	 * 
+	 * @param string $name
+	 * The name of the property to check.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @return bool
+	 * Boolean `true` if property is set (exists and is not `null`).
+	 */
+	final public function isset(string $name, ?string $scope_class = null): bool
+	{
+		return $this->has($name, $scope_class) && $this->get($name, $scope_class) !== null;
+	}
+	
+	/**
+	 * Get property value.
+	 * 
+	 * @param string $name
+	 * The name of the property to get.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
+	 * 
+	 * @return mixed
+	 * The property value.
+	 */
+	final public function get(string $name, ?string $scope_class = null): mixed
+	{
+		return $this->getValues([$name], $scope_class)[$name];
+	}
+	
+	/**
+	 * Get property values.
+	 * 
+	 * @param string[]|null $names
+	 * The names of the properties to get.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
+	 * 
+	 * @return array
+	 * The property values, as a set of `name => value` pairs.
+	 */
+	final public function mget(?array $names = null, ?string $scope_class = null): array
+	{
+		if ($names === null) {
+			$names = [];
+			foreach ($this->properties as $name => $property) {
+				if ($this->has($name, $scope_class)) {
+					$names[] = $name;
+				}
+			}
+		}
+		return $this->getValues($names, $scope_class);
+	}
+	
 	
 	
 	//Private methods
@@ -378,6 +468,77 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Get values.
+	 * 
+	 * @param string[] $names
+	 * The value names to get.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
+	 * 
+	 * @return array
+	 * The values, as a set of `name => value` pairs.
+	 */
+	private function getValues(array $names, ?string $scope_class): array
+	{
+		//check
+		if (!$names) {
+			return [];
+		}
+		
+		//validate
+		$this->validateUndefined($names)->validateAccess($names, $scope_class)->validateRead($names, $scope_class);
+		
+		//process
+		$values = $errors = $errors_values = [];
+		foreach ($names as $name) {
+			//initialize
+			$value = $this->values[$name];
+			$flags = $this->values_flags[$name];
+			$property = $this->properties[$name];
+			
+			//default
+			if (!UByte::hasFlag($flags, self::VALUE_FLAG_SET)) {
+				$value = $property->getDefaultValue();
+				UByte::setFlag($flags, self::VALUE_FLAG_SET | self::VALUE_FLAG_DIRTY);
+			}
+			
+			//dirty
+			if (
+				UByte::hasFlag($flags, self::VALUE_FLAG_DIRTY) || 
+				UByte::hasFlag($flags, self::VALUE_FLAG_TYPED) !== $property->hasType()
+			) {
+				$error = $property->processValue($this->owner, $value);
+				if ($error !== null) {
+					$errors[$name] = $error;
+					$errors_values[$name] = $value;
+				} else {
+					UByte::unsetFlag($flags, self::VALUE_FLAG_DIRTY);
+					UByte::updateFlag($flags, self::VALUE_FLAG_TYPED, $property->hasType());
+					$this->values[$name] = $value;
+					$this->values_flags[$name] = $flags;
+				}
+			}
+			
+			//finalize
+			$values[$name] = $value;
+		}
+		
+		//errors
+		if ($errors) {
+			throw new Exceptions\Invalid([$this, $errors_values, $errors]);
+		}
+		
+		//return
+		return $values;
+	}
+	
+	/**
 	 * Set values.
 	 * 
 	 * @param array $values
@@ -455,8 +616,8 @@ final class PropertiesV2 extends Manager
 		
 		//values
 		$this->values = array_replace($this->values, $values);
-		foreach ($values_flags as $name => $flag) {
-			UByte::setFlag($this->values_flags[$name], $flag);
+		foreach ($values_flags as $name => $flags) {
+			UByte::setFlag($this->values_flags[$name], $flags);
 		}
 	}
 }

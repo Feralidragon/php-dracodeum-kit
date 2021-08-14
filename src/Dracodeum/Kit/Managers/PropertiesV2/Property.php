@@ -118,6 +118,17 @@ final class Property
 	}
 	
 	/**
+	 * Get default value.
+	 * 
+	 * @return mixed
+	 * The default value.
+	 */
+	final public function getDefaultValue(): mixed
+	{
+		return $this->reflection->getDefaultValue();
+	}
+	
+	/**
 	 * Get mode.
 	 * 
 	 * @return string
