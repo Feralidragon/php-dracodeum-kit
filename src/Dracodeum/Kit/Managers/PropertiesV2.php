@@ -14,7 +14,10 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\{
 	PropertyPostInitializer as IPropertyPostInitializer
 };
 use Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
-use Dracodeum\Kit\Utilities\Byte as UByte;
+use Dracodeum\Kit\Utilities\{
+	Byte as UByte,
+	Call as UCall
+};
 use ReflectionClass;
 
 /**
@@ -53,6 +56,8 @@ final class PropertiesV2 extends Manager
 	
 	private array $required_map;
 	
+	private bool $initialized = false;
+	
 	private array $values = [];
 	
 	/** @var int[] */
@@ -88,6 +93,17 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Get properties.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property[]
+	 * The properties, as a set of `name => property` pairs.
+	 */
+	final public function getProperties(): array
+	{
+		return $this->properties;
+	}
+	
+	/**
 	 * Initialize.
 	 * 
 	 * @param array $values
@@ -104,11 +120,22 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
-	 * @return void
+	 * @return $this
+	 * This instance, for chaining purposes.
 	 */
-	final public function initialize(array $values, ?string $scope_class = null): void
+	final public function initialize(array $values, ?string $scope_class = null)
 	{
+		//check
+		if ($this->initialized) {
+			UCall::halt(['error_message' => "This manager is already initialized."]);
+		}
+		
+		//initialize
 		$this->processRequiredValues($values)->setValues($values, $scope_class, true);
+		$this->initialized = true;
+		
+		//return
+		return $this;
 	}
 	
 	/**
@@ -218,11 +245,13 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
-	 * @return void
+	 * @return $this
+	 * This instance, for chaining purposes.
 	 */
-	final public function set(string $name, mixed $value, ?string $scope_class = null): void
+	final public function set(string $name, mixed $value, ?string $scope_class = null)
 	{
 		$this->setValues([$name => $value], $scope_class);
+		return $this;
 	}
 	
 	/**
@@ -239,11 +268,13 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
-	 * @return void
+	 * @return $this
+	 * This instance, for chaining purposes.
 	 */
-	final public function mset(array $values, ?string $scope_class = null): void
+	final public function mset(array $values, ?string $scope_class = null)
 	{
 		$this->setValues($values, $scope_class);
+		return $this;
 	}
 	
 	
@@ -532,7 +563,12 @@ final class PropertiesV2 extends Manager
 	private function getValues(array $names, ?string $scope_class): array
 	{
 		//check
-		if (!$names) {
+		if (!$this->initialized) {
+			UCall::halt([
+				'hint_message' => "This manager must be initialized first in order to be able to call this method.",
+				'stack_offset' => 1
+			]);
+		} elseif (!$names) {
 			return [];
 		}
 		
@@ -615,6 +651,12 @@ final class PropertiesV2 extends Manager
 			foreach ($this->properties as $property) {
 				$property->reset($this->owner);
 			}
+			
+		} elseif (!$this->initialized) {
+			UCall::halt([
+				'hint_message' => "This manager must be initialized first in order to be able to call this method.",
+				'stack_offset' => 1
+			]);
 		}
 		
 		//check
