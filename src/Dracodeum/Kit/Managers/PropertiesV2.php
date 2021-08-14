@@ -399,6 +399,9 @@ final class PropertiesV2 extends Manager
 	private function setValues(array $values, ?string $scope_class, bool $initializing = false): void
 	{
 		//initialize
+		if (!$values && !$initializing) {
+			return;
+		}
 		$names = array_keys($values);
 		
 		//validate
@@ -410,10 +413,14 @@ final class PropertiesV2 extends Manager
 		
 		//initializing
 		if ($initializing) {
-			foreach ($this->properties as $name => $property) {
+			//initialize
+			$property_names = array_keys($this->properties);
+			$this->values = array_fill_keys($property_names, null);
+			$this->values_flags = array_fill_keys($property_names, 0x0);
+			
+			//reset
+			foreach ($this->properties as $property) {
 				$property->reset($this->owner);
-				$this->values[$name] = null;
-				$this->values_flags[$name] = 0x0;
 			}
 		}
 		

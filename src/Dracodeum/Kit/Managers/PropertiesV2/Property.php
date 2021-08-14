@@ -399,7 +399,7 @@ final class Property
 		} catch (TypeError $type_error) {
 			$text = Text::build()
 				->setString("Invalid value type.")
-				->setString($type_error->getMessage(), EInfoLevel::INTERNAL)
+				->setString("{$type_error->getMessage()}.", EInfoLevel::INTERNAL)
 			;
 			return Error::build(text: $text);
 		} finally {

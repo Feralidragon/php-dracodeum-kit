@@ -34,7 +34,7 @@ class Invalid extends Exception
 			: "Invalid values given for the following properties in {{manager.getOwner()}}:\n" . 
 				"{{values}}\n" . 
 				"with the following errors:\n" . 
-				"{{errors}}";
+				"{{errors}}\n";
 	}
 	
 	
