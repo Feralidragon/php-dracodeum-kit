@@ -399,19 +399,6 @@ final class PropertiesV2 extends Manager
 	private function setValues(array $values, ?string $scope_class, bool $initializing = false): void
 	{
 		//initialize
-		if (!$values && !$initializing) {
-			return;
-		}
-		$names = array_keys($values);
-		
-		//validate
-		$this
-			->validateUndefined($names)
-			->validateAccess($names, $scope_class)
-			->validateWrite($names, $scope_class, $initializing)
-		;
-		
-		//initializing
 		if ($initializing) {
 			//initialize
 			$property_names = array_keys($this->properties);
@@ -428,6 +415,14 @@ final class PropertiesV2 extends Manager
 		if (!$values) {
 			return;
 		}
+		
+		//validate
+		$names = array_keys($values);
+		$this
+			->validateUndefined($names)
+			->validateAccess($names, $scope_class)
+			->validateWrite($names, $scope_class, $initializing)
+		;
 		
 		//process
 		$errors = [];
