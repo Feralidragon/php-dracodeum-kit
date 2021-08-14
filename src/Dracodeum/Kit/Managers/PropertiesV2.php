@@ -424,6 +424,11 @@ final class PropertiesV2 extends Manager
 			}
 		}
 		
+		//check
+		if (!$values) {
+			return;
+		}
+		
 		//process
 		$errors = [];
 		$values_flags = array_fill_keys($names, self::VALUE_FLAG_SET);
