@@ -201,6 +201,51 @@ final class PropertiesV2 extends Manager
 		return $this->getValues($names, $scope_class);
 	}
 	
+	/**
+	 * Set property value.
+	 * 
+	 * @param string $name
+	 * The name of the property to set.
+	 * 
+	 * @param mixed $value
+	 * The value to set.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
+	 * 
+	 * @return void
+	 */
+	final public function set(string $name, mixed $value, ?string $scope_class = null): void
+	{
+		$this->setValues([$name => $value], $scope_class);
+	}
+	
+	/**
+	 * Set property values.
+	 * 
+	 * @param array $values
+	 * The values to set, as a set of `name => value` pairs.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
+	 * 
+	 * @return void
+	 */
+	final public function mset(array $values, ?string $scope_class = null): void
+	{
+		$this->setValues($values, $scope_class);
+	}
+	
 	
 	
 	//Private methods
