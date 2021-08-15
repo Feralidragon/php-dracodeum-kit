@@ -277,6 +277,50 @@ final class PropertiesV2 extends Manager
 		return $this;
 	}
 	
+	/**
+	 * Unset property value.
+	 * 
+	 * @param string $name
+	 * The name of the property to unset.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Ununsettable
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function unset(string $name, ?string $scope_class = null)
+	{
+		$this->unsetValues([$name], $scope_class);
+		return $this;
+	}
+	
+	/**
+	 * Unset property values.
+	 * 
+	 * @param string[] $names
+	 * The names of the properties to unset.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Ununsettable
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function munset(array $names, ?string $scope_class = null)
+	{
+		$this->unsetValues($names, $scope_class);
+		return $this;
+	}
+	
 	
 	
 	//Private methods
@@ -544,6 +588,42 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Validate unset.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Ununsettable
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateUnset(array $names, ?string $scope_class)
+	{
+		//process
+		$ununsettable_names = [];
+		foreach ($names as $name) {
+			if (
+				!isset($this->properties[$name]) || $this->properties[$name]->isRequired() || 
+				!$this->properties[$name]->isWriteable($scope_class)
+			) {
+				$ununsettable_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($ununsettable_names) {
+			throw new Exceptions\Ununsettable([$this, $ununsettable_names, $scope_class]);
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Get values.
 	 * 
 	 * @param string[] $names
@@ -705,6 +785,43 @@ final class PropertiesV2 extends Manager
 		$this->values = array_replace($this->values, $values);
 		foreach ($values_flags as $name => $flags) {
 			UByte::setFlag($this->values_flags[$name], $flags);
+		}
+	}
+	
+	/**
+	 * Unset values.
+	 * 
+	 * @param string[] $names
+	 * The value names to unset.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to use.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Ununsettable
+	 * 
+	 * @return void
+	 */
+	private function unsetValues(array $names, ?string $scope_class): void
+	{
+		//check
+		if (!$this->initialized) {
+			UCall::halt([
+				'hint_message' => "This manager must be initialized first in order to be able to call this method.",
+				'stack_offset' => 1
+			]);
+		} elseif (!$names) {
+			return;
+		}
+		
+		//validate
+		$this->validateUndefined($names)->validateAccess($names, $scope_class)->validateUnset($names, $scope_class);
+		
+		//process
+		foreach ($names as $name) {
+			$this->values[$name] = null;
+			$this->values_flags[$name] = 0x0;
 		}
 	}
 }
