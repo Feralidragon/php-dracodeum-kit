@@ -54,6 +54,7 @@ final class PropertiesV2 extends Manager
 	/** @var \Dracodeum\Kit\Managers\PropertiesV2\Property[] */
 	private array $properties;
 	
+	/** @var int[] */
 	private array $required_map;
 	
 	private bool $initialized = false;
@@ -62,6 +63,15 @@ final class PropertiesV2 extends Manager
 	
 	/** @var int[] */
 	private array $values_flags = [];
+	
+	
+	
+	//Private static properties
+	/** @var \Dracodeum\Kit\Managers\PropertiesV2\Property[] */
+	private static array $classes_properties = [];
+	
+	/** @var int[] */
+	private static array $classes_required_maps = [];
 	
 	
 	
@@ -93,6 +103,34 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Check if has property.
+	 * 
+	 * @param string $name
+	 * The name of the property to check.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has property.
+	 */
+	final public function hasProperty(string $name): bool
+	{
+		return isset($this->properties[$name]);
+	}
+	
+	/**
+	 * Get property instance.
+	 * 
+	 * @param string $name
+	 * The name of the property to get.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property|null
+	 * The property instance, or `null` if none is set.
+	 */
+	final public function getProperty(string $name): ?Property
+	{
+		return $this->properties[$name] ?? null;
+	}
+	
+	/**
 	 * Get properties.
 	 * 
 	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property[]
@@ -101,6 +139,17 @@ final class PropertiesV2 extends Manager
 	final public function getProperties(): array
 	{
 		return $this->properties;
+	}
+	
+	/**
+	 * Check if is initialized.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is initialized.
+	 */
+	final public function isInitialized(): bool
+	{
+		return $this->initialized;
 	}
 	
 	/**
@@ -123,7 +172,7 @@ final class PropertiesV2 extends Manager
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function initialize(array $values, ?string $scope_class = null)
+	final public function initialize(array $values = [], ?string $scope_class = null)
 	{
 		//check
 		if ($this->initialized) {
@@ -323,6 +372,19 @@ final class PropertiesV2 extends Manager
 	
 	
 	
+	//Final public static methods
+	/**
+	 * Clear cache.
+	 * 
+	 * @return void
+	 */
+	final public static function clearCache(): void
+	{
+		self::$classes_properties = self::$classes_required_maps = [];
+	}
+	
+	
+	
 	//Private methods
 	/**
 	 * Initialize properties.
@@ -333,8 +395,7 @@ final class PropertiesV2 extends Manager
 	{
 		//initialize
 		$owner_class = $this->owner::class;
-		static $classes_properties = [], $classes_required_maps = [];
-		if (!isset($classes_properties[$owner_class])) {
+		if (!isset(self::$classes_properties[$owner_class])) {
 			//classes
 			$classes = [];
 			for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
@@ -346,10 +407,10 @@ final class PropertiesV2 extends Manager
 			$parent_class = null;
 			foreach ($classes as $class) {
 				//class
-				if (!isset($classes_properties[$class])) {
+				if (!isset(self::$classes_properties[$class])) {
 					//initialize
 					$properties = $properties_post_attributes = [];
-					$parent_properties = $parent_class !== null ? $classes_properties[$parent_class] : [];
+					$parent_properties = $parent_class !== null ? self::$classes_properties[$parent_class] : [];
 					
 					//properties
 					foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
@@ -377,19 +438,19 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//class properties
-					$classes_properties[$class] = $parent_properties + $properties;
+					self::$classes_properties[$class] = $parent_properties + $properties;
 					
 					//sort
-					uasort($classes_properties[$class], function (Property $property1, Property $property2): int {
+					uasort(self::$classes_properties[$class], function (Property $property1, Property $property2): int {
 						return (int)$property2->isRequired() - (int)$property1->isRequired();
 					});
 					
 					//required mapping
 					$i = 0;
-					$classes_required_maps[$class] = [];
-					foreach ($classes_properties[$class] as $p_name => $property) {
+					self::$classes_required_maps[$class] = [];
+					foreach (self::$classes_properties[$class] as $p_name => $property) {
 						if ($property->isRequired()) {
-							$classes_required_maps[$class][$p_name] = $i++;
+							self::$classes_required_maps[$class][$p_name] = $i++;
 						} else {
 							break;
 						}
@@ -414,8 +475,8 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//finalize
-		$this->properties = $classes_properties[$owner_class];
-		$this->required_map = $classes_required_maps[$owner_class];
+		$this->properties = self::$classes_properties[$owner_class];
+		$this->required_map = self::$classes_required_maps[$owner_class];
 	}
 	
 	/**

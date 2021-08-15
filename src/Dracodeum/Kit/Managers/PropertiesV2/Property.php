@@ -94,7 +94,7 @@ final class Property
 	 * @return bool
 	 * Boolean `true` if is accessible.
 	 */
-	final public function isAccessible(?string $scope_class): bool
+	final public function isAccessible(?string $scope_class = null): bool
 	{
 		if ($this->reflection->isPublic()) {
 			return true;
@@ -196,7 +196,7 @@ final class Property
 	 * @return bool
 	 * Boolean `true` if is readable.
 	 */
-	final public function isReadable(?string $scope_class): bool
+	final public function isReadable(?string $scope_class = null): bool
 	{
 		//check
 		if ($this->mode[0] === 'r') {
@@ -224,7 +224,7 @@ final class Property
 	 * @return bool
 	 * Boolean `true` if is writeable.
 	 */
-	final public function isWriteable(?string $scope_class, bool $initializing = false): bool
+	final public function isWriteable(?string $scope_class = null, bool $initializing = false): bool
 	{
 		//check
 		if (($initializing && $this->mode !== 'r') || in_array($this->mode, ['rw', 'w'], true)) {
@@ -286,7 +286,7 @@ final class Property
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function setTypeByReflection(array $properties)
+	final public function setTypeByReflection(array $properties = [])
 	{
 		//initialize
 		$r_inner_types = [];
