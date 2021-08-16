@@ -497,7 +497,7 @@ final class PropertiesV2 extends Manager
 		$mapped_values = [];
 		$names_map = array_flip($this->required_map);
 		foreach ($values as $k => $value) {
-			$mapped_values[is_int($k) && isset($names_map[$k]) ? $names_map[$k] : $k] = $value;
+			$mapped_values[$names_map[$k] ?? $k] = $value;
 		}
 		$values = $mapped_values;
 		unset($mapped_values);
