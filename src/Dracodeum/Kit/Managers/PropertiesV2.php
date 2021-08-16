@@ -24,9 +24,8 @@ use ReflectionClass;
  * This manager handles and extends the properties of an object class with the following functionality:
  * - extended coercive and strict typification, using type components and mutators;
  * - modes of operation, such as read-write, read-only, write-only, and others;
- * - name aliasing;
- * - custom getters and setters;
  * - lazy type validation and coercion;
+ * - custom getters and setters;
  * - value persistence.
  * 
  * Only non-static and non-private properties are supported and affected.
@@ -495,13 +494,13 @@ final class PropertiesV2 extends Manager
 	private function processRequiredValues(array &$values)
 	{
 		//map
+		$mapped_values = [];
 		$names_map = array_flip($this->required_map);
-		foreach ($values as $i => $value) {
-			if (is_int($i) && isset($names_map[$i])) {
-				$values[$names_map[$i]] = $value;
-				unset($values[$i]);
-			}
+		foreach ($values as $k => $value) {
+			$mapped_values[is_int($k) && isset($names_map[$k]) ? $names_map[$k] : $k] = $value;
 		}
+		$values = $mapped_values;
+		unset($mapped_values);
 		
 		//missing
 		$missing_names = array_keys(array_diff_key($this->required_map, $values));
