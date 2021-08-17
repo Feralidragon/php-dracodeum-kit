@@ -208,7 +208,7 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Check if property is set (exists and is not `null`).
+	 * Check if property is set (exists, is initialized and is not `null`).
 	 * 
 	 * @param string $name
 	 * The name of the property to check.
@@ -217,11 +217,12 @@ final class PropertiesV2 extends Manager
 	 * The scope class to use.
 	 * 
 	 * @return bool
-	 * Boolean `true` if property is set (exists and is not `null`).
+	 * Boolean `true` if property is set (exists, is initialized and is not `null`).
 	 */
 	final public function isset(string $name, ?string $scope_class = null): bool
 	{
-		return $this->has($name, $scope_class) && $this->get($name, $scope_class) !== null;
+		return $this->has($name, $scope_class) && $this->isValueInitialized($name) && 
+			$this->get($name, $scope_class) !== null;
 	}
 	
 	/**
@@ -236,6 +237,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return mixed
@@ -258,6 +260,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return array
@@ -268,7 +271,7 @@ final class PropertiesV2 extends Manager
 		if ($names === null) {
 			$names = [];
 			foreach ($this->properties as $name => $property) {
-				if ($this->has($name, $scope_class)) {
+				if ($this->has($name, $scope_class) && $this->isValueInitialized($name)) {
 					$names[] = $name;
 				}
 			}
@@ -684,6 +687,53 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
+	 * Check if value with a given name is initialized.
+	 * 
+	 * @param string $name
+	 * The name to check with.
+	 * 
+	 * @return bool
+	 * Boolean `true` if the value with the given name is initialized.
+	 */
+	private function isValueInitialized(string $name): bool
+	{
+		return isset($this->properties[$name]) && isset($this->values_flags[$name]) && (
+			$this->properties[$name]->hasDefaultValue() ||
+			UByte::hasFlag($this->values_flags[$name], self::VALUE_FLAG_SET)
+		);
+	}
+	
+	/**
+	 * Validate initialized.
+	 * 
+	 * @param string[] $names
+	 * The names to validate.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	private function validateInitialized(array $names)
+	{
+		//process
+		$uninitialized_names = [];
+		foreach ($names as $name) {
+			if (!$this->isValueInitialized($name)) {
+				$uninitialized_names[] = $name;
+			}
+		}
+		
+		//check
+		if ($uninitialized_names) {
+			throw new Exceptions\Uninitialized([$this, $uninitialized_names]);
+		}
+		
+		//return
+		return $this;
+	}
+	
+	/**
 	 * Get values.
 	 * 
 	 * @param string[] $names
@@ -695,6 +745,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unreadable
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return array
@@ -713,7 +764,12 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//validate
-		$this->validateUndefined($names)->validateAccess($names, $scope_class)->validateRead($names, $scope_class);
+		$this
+			->validateUndefined($names)
+			->validateAccess($names, $scope_class)
+			->validateRead($names, $scope_class)
+			->validateInitialized($names)
+		;
 		
 		//process
 		$values = $errors = $errors_values = [];
