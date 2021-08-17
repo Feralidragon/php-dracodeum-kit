@@ -378,14 +378,14 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
-					'p17' => null,
-					'p18' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
+					'p17' => 1,
+					'p18' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -419,11 +419,11 @@ class PropertiesTest extends TestCase
 					'p8' => -98,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
+					'p11' => 1,
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p17' => false,
 					'p18' => true,
@@ -446,14 +446,14 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
-					'p17' => null,
-					'p18' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
+					'p17' => 1,
+					'p18' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -487,11 +487,11 @@ class PropertiesTest extends TestCase
 					'p8' => -98,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
+					'p11' => 1,
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p17' => false,
 					'p18' => true,
@@ -515,14 +515,14 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
-					'p17' => null,
-					'p18' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
+					'p17' => 1,
+					'p18' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -591,14 +591,14 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
-					'p17' => null,
-					'p18' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
+					'p17' => 1,
+					'p18' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -642,7 +642,7 @@ class PropertiesTest extends TestCase
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p17' => false,
 					'p18' => true,
@@ -669,12 +669,12 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -714,11 +714,11 @@ class PropertiesTest extends TestCase
 					'p8' => -98,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
+					'p11' => 1,
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p19' => -749,
 					'p20' => 'fooBar',
@@ -745,12 +745,12 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -790,11 +790,11 @@ class PropertiesTest extends TestCase
 					'p8' => -98,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
+					'p11' => 1,
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p19' => -749,
 					'p20' => 'fooBar',
@@ -822,12 +822,12 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -905,12 +905,12 @@ class PropertiesTest extends TestCase
 					'p8' => 0,
 					'p9' => 1.0,
 					'p10' => null,
-					'p11' => null,
-					'p12' => null,
-					'p13' => null,
-					'p14' => null,
-					'p15' => null,
-					'p16' => null,
+					'p11' => 1,
+					'p12' => 1,
+					'p13' => 1,
+					'p14' => 1,
+					'p15' => 1,
+					'p16' => 1,
 					'p19' => 1200,
 					'p20' => '420',
 					'p21' => null,
@@ -961,7 +961,7 @@ class PropertiesTest extends TestCase
 					'p12' => ['a'],
 					'p13' => 333,
 					'p14' => 8.75,
-					'p15' => null,
+					'p15' => 1,
 					'p16' => 'FOO',
 					'p19' => -749,
 					'p20' => 'fooBar',
@@ -1315,6 +1315,578 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `has` method.
+	 * 
+	 * @testdox Has
+	 * @dataProvider provideHasData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected returning value.
+	 * 
+	 * @return void
+	 */
+	public function testHas(string $name, string $class, ?string $scope_class, bool $expected): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		
+		//assert
+		$this->assertSame($expected, $manager->has($name, $scope_class));
+	}
+	
+	/**
+	 * Provide `has` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideHasData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p', $class1, null, false],
+			['p', $class1, $stdclass, false],
+			['p', $class1, $class1, false],
+			['p', $class1, $class2, false],
+			['p', $class2, null, false],
+			['p', $class2, $stdclass, false],
+			['p', $class2, $class1, false],
+			['p', $class2, $class2, false],
+			['p0', $class1, null, true],
+			['p0', $class1, $stdclass, true],
+			['p0', $class1, $class1, true],
+			['p0', $class1, $class2, true],
+			['p0', $class2, null, true],
+			['p0', $class2, $stdclass, true],
+			['p0', $class2, $class1, true],
+			['p0', $class2, $class2, true],
+			['p1', $class1, null, false],
+			['p1', $class1, $stdclass, false],
+			['p1', $class1, $class1, true],
+			['p1', $class1, $class2, true],
+			['p1', $class2, null, false],
+			['p1', $class2, $stdclass, false],
+			['p1', $class2, $class1, true],
+			['p1', $class2, $class2, true],
+			['p2', $class1, null, false],
+			['p2', $class1, $stdclass, false],
+			['p2', $class1, $class1, false],
+			['p2', $class1, $class2, false],
+			['p2', $class2, null, false],
+			['p2', $class2, $stdclass, false],
+			['p2', $class2, $class1, false],
+			['p2', $class2, $class2, false],
+			['p3', $class1, null, false],
+			['p3', $class1, $stdclass, false],
+			['p3', $class1, $class1, false],
+			['p3', $class1, $class2, false],
+			['p3', $class2, null, false],
+			['p3', $class2, $stdclass, false],
+			['p3', $class2, $class1, false],
+			['p3', $class2, $class2, false],
+			['p4', $class1, null, false],
+			['p4', $class1, $stdclass, false],
+			['p4', $class1, $class1, false],
+			['p4', $class1, $class2, false],
+			['p4', $class2, null, false],
+			['p4', $class2, $stdclass, false],
+			['p4', $class2, $class1, false],
+			['p4', $class2, $class2, false],
+			['p5', $class1, null, false],
+			['p5', $class1, $stdclass, false],
+			['p5', $class1, $class1, false],
+			['p5', $class1, $class2, false],
+			['p5', $class2, null, false],
+			['p5', $class2, $stdclass, false],
+			['p5', $class2, $class1, false],
+			['p5', $class2, $class2, false],
+			['p6', $class1, null, true],
+			['p6', $class1, $stdclass, true],
+			['p6', $class1, $class1, true],
+			['p6', $class1, $class2, true],
+			['p6', $class2, null, true],
+			['p6', $class2, $stdclass, true],
+			['p6', $class2, $class1, true],
+			['p6', $class2, $class2, true],
+			['p7', $class1, null, false],
+			['p7', $class1, $stdclass, false],
+			['p7', $class1, $class1, true],
+			['p7', $class1, $class2, true],
+			['p7', $class2, null, false],
+			['p7', $class2, $stdclass, false],
+			['p7', $class2, $class1, true],
+			['p7', $class2, $class2, true],
+			['p8', $class1, null, true],
+			['p8', $class1, $stdclass, true],
+			['p8', $class1, $class1, true],
+			['p8', $class1, $class2, true],
+			['p8', $class2, null, true],
+			['p8', $class2, $stdclass, true],
+			['p8', $class2, $class1, true],
+			['p8', $class2, $class2, true],
+			['p9', $class1, null, false],
+			['p9', $class1, $stdclass, false],
+			['p9', $class1, $class1, true],
+			['p9', $class1, $class2, true],
+			['p9', $class2, null, false],
+			['p9', $class2, $stdclass, false],
+			['p9', $class2, $class1, true],
+			['p9', $class2, $class2, true],
+			['p10', $class1, null, true],
+			['p10', $class1, $stdclass, true],
+			['p10', $class1, $class1, true],
+			['p10', $class1, $class2, true],
+			['p10', $class2, null, true],
+			['p10', $class2, $stdclass, true],
+			['p10', $class2, $class1, true],
+			['p10', $class2, $class2, true],
+			['p11', $class1, null, true],
+			['p11', $class1, $stdclass, true],
+			['p11', $class1, $class1, true],
+			['p11', $class1, $class2, true],
+			['p11', $class2, null, true],
+			['p11', $class2, $stdclass, true],
+			['p11', $class2, $class1, true],
+			['p11', $class2, $class2, true],
+			['p12', $class1, null, true],
+			['p12', $class1, $stdclass, true],
+			['p12', $class1, $class1, true],
+			['p12', $class1, $class2, true],
+			['p12', $class2, null, true],
+			['p12', $class2, $stdclass, true],
+			['p12', $class2, $class1, true],
+			['p12', $class2, $class2, true],
+			['p13', $class1, null, false],
+			['p13', $class1, $stdclass, false],
+			['p13', $class1, $class1, true],
+			['p13', $class1, $class2, true],
+			['p13', $class2, null, false],
+			['p13', $class2, $stdclass, false],
+			['p13', $class2, $class1, true],
+			['p13', $class2, $class2, true],
+			['p14', $class1, null, false],
+			['p14', $class1, $stdclass, false],
+			['p14', $class1, $class1, true],
+			['p14', $class1, $class2, true],
+			['p14', $class2, null, false],
+			['p14', $class2, $stdclass, false],
+			['p14', $class2, $class1, true],
+			['p14', $class2, $class2, true],
+			['p15', $class1, null, true],
+			['p15', $class1, $stdclass, true],
+			['p15', $class1, $class1, true],
+			['p15', $class1, $class2, true],
+			['p15', $class2, null, true],
+			['p15', $class2, $stdclass, true],
+			['p15', $class2, $class1, true],
+			['p15', $class2, $class2, true],
+			['p16', $class1, null, true],
+			['p16', $class1, $stdclass, true],
+			['p16', $class1, $class1, true],
+			['p16', $class1, $class2, true],
+			['p16', $class2, null, true],
+			['p16', $class2, $stdclass, true],
+			['p16', $class2, $class1, true],
+			['p16', $class2, $class2, true],
+			['p17', $class1, null, false],
+			['p17', $class1, $stdclass, false],
+			['p17', $class1, $class1, true],
+			['p17', $class1, $class2, false],
+			['p17', $class2, null, false],
+			['p17', $class2, $stdclass, false],
+			['p17', $class2, $class1, true],
+			['p17', $class2, $class2, false],
+			['p18', $class1, null, false],
+			['p18', $class1, $stdclass, false],
+			['p18', $class1, $class1, true],
+			['p18', $class1, $class2, false],
+			['p18', $class2, null, false],
+			['p18', $class2, $stdclass, false],
+			['p18', $class2, $class1, true],
+			['p18', $class2, $class2, false],
+			['c1p0', $class1, null, true],
+			['c1p0', $class1, $stdclass, true],
+			['c1p0', $class1, $class1, true],
+			['c1p0', $class1, $class2, true],
+			['c1p0', $class2, null, true],
+			['c1p0', $class2, $stdclass, true],
+			['c1p0', $class2, $class1, true],
+			['c1p0', $class2, $class2, true],
+			['c1p1', $class1, null, false],
+			['c1p1', $class1, $stdclass, false],
+			['c1p1', $class1, $class1, true],
+			['c1p1', $class1, $class2, false],
+			['c1p1', $class2, null, false],
+			['c1p1', $class2, $stdclass, false],
+			['c1p1', $class2, $class1, true],
+			['c1p1', $class2, $class2, false],
+			['c2p0', $class1, null, false],
+			['c2p0', $class1, $stdclass, false],
+			['c2p0', $class1, $class1, false],
+			['c2p0', $class1, $class2, false],
+			['c2p0', $class2, null, false],
+			['c2p0', $class2, $stdclass, false],
+			['c2p0', $class2, $class1, false],
+			['c2p0', $class2, $class2, true],
+			['c2p1', $class1, null, false],
+			['c2p1', $class1, $stdclass, false],
+			['c2p1', $class1, $class1, false],
+			['c2p1', $class1, $class2, false],
+			['c2p1', $class2, null, false],
+			['c2p1', $class2, $stdclass, false],
+			['c2p1', $class2, $class1, false],
+			['c2p1', $class2, $class2, true],
+			['c2p2', $class1, null, false],
+			['c2p2', $class1, $stdclass, false],
+			['c2p2', $class1, $class1, false],
+			['c2p2', $class1, $class2, false],
+			['c2p2', $class2, null, true],
+			['c2p2', $class2, $stdclass, true],
+			['c2p2', $class2, $class1, true],
+			['c2p2', $class2, $class2, true],
+			['c2p3', $class1, null, false],
+			['c2p3', $class1, $stdclass, false],
+			['c2p3', $class1, $class1, false],
+			['c2p3', $class1, $class2, false],
+			['c2p3', $class2, null, true],
+			['c2p3', $class2, $stdclass, true],
+			['c2p3', $class2, $class1, true],
+			['c2p3', $class2, $class2, true],
+			['c2p4', $class1, null, false],
+			['c2p4', $class1, $stdclass, false],
+			['c2p4', $class1, $class1, false],
+			['c2p4', $class1, $class2, false],
+			['c2p4', $class2, null, false],
+			['c2p4', $class2, $stdclass, false],
+			['c2p4', $class2, $class1, false],
+			['c2p4', $class2, $class2, true],
+			['c2p5', $class1, null, false],
+			['c2p5', $class1, $stdclass, false],
+			['c2p5', $class1, $class1, false],
+			['c2p5', $class1, $class2, false],
+			['c2p5', $class2, null, false],
+			['c2p5', $class2, $stdclass, false],
+			['c2p5', $class2, $class1, false],
+			['c2p5', $class2, $class2, false]
+		];
+	}
+	
+	/**
+	 * Test `isset` method.
+	 * 
+	 * @testdox Isset
+	 * @dataProvider provideIssetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected returning value.
+	 * 
+	 * @return void
+	 */
+	public function testIsset(string $name, string $class, ?string $scope_class, bool $expected): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//assert
+		$this->assertSame($expected, $manager->isset($name, $scope_class));
+	}
+	
+	/**
+	 * Provide `isset` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideIssetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p', $class1, null, false],
+			['p', $class1, $stdclass, false],
+			['p', $class1, $class1, false],
+			['p', $class1, $class2, false],
+			['p', $class2, null, false],
+			['p', $class2, $stdclass, false],
+			['p', $class2, $class1, false],
+			['p', $class2, $class2, false],
+			['p0', $class1, null, true],
+			['p0', $class1, $stdclass, true],
+			['p0', $class1, $class1, true],
+			['p0', $class1, $class2, true],
+			['p0', $class2, null, true],
+			['p0', $class2, $stdclass, true],
+			['p0', $class2, $class1, true],
+			['p0', $class2, $class2, true],
+			['p1', $class1, null, false],
+			['p1', $class1, $stdclass, false],
+			['p1', $class1, $class1, false],
+			['p1', $class1, $class2, false],
+			['p1', $class2, null, false],
+			['p1', $class2, $stdclass, false],
+			['p1', $class2, $class1, false],
+			['p1', $class2, $class2, false],
+			['p2', $class1, null, false],
+			['p2', $class1, $stdclass, false],
+			['p2', $class1, $class1, false],
+			['p2', $class1, $class2, false],
+			['p2', $class2, null, false],
+			['p2', $class2, $stdclass, false],
+			['p2', $class2, $class1, false],
+			['p2', $class2, $class2, false],
+			['p3', $class1, null, false],
+			['p3', $class1, $stdclass, false],
+			['p3', $class1, $class1, false],
+			['p3', $class1, $class2, false],
+			['p3', $class2, null, false],
+			['p3', $class2, $stdclass, false],
+			['p3', $class2, $class1, false],
+			['p3', $class2, $class2, false],
+			['p4', $class1, null, false],
+			['p4', $class1, $stdclass, false],
+			['p4', $class1, $class1, false],
+			['p4', $class1, $class2, false],
+			['p4', $class2, null, false],
+			['p4', $class2, $stdclass, false],
+			['p4', $class2, $class1, false],
+			['p4', $class2, $class2, false],
+			['p5', $class1, null, false],
+			['p5', $class1, $stdclass, false],
+			['p5', $class1, $class1, false],
+			['p5', $class1, $class2, false],
+			['p5', $class2, null, false],
+			['p5', $class2, $stdclass, false],
+			['p5', $class2, $class1, false],
+			['p5', $class2, $class2, false],
+			['p6', $class1, null, false],
+			['p6', $class1, $stdclass, false],
+			['p6', $class1, $class1, false],
+			['p6', $class1, $class2, false],
+			['p6', $class2, null, false],
+			['p6', $class2, $stdclass, false],
+			['p6', $class2, $class1, false],
+			['p6', $class2, $class2, false],
+			['p7', $class1, null, false],
+			['p7', $class1, $stdclass, false],
+			['p7', $class1, $class1, false],
+			['p7', $class1, $class2, false],
+			['p7', $class2, null, false],
+			['p7', $class2, $stdclass, false],
+			['p7', $class2, $class1, false],
+			['p7', $class2, $class2, false],
+			['p8', $class1, null, true],
+			['p8', $class1, $stdclass, true],
+			['p8', $class1, $class1, true],
+			['p8', $class1, $class2, true],
+			['p8', $class2, null, true],
+			['p8', $class2, $stdclass, true],
+			['p8', $class2, $class1, true],
+			['p8', $class2, $class2, true],
+			['p9', $class1, null, false],
+			['p9', $class1, $stdclass, false],
+			['p9', $class1, $class1, true],
+			['p9', $class1, $class2, true],
+			['p9', $class2, null, false],
+			['p9', $class2, $stdclass, false],
+			['p9', $class2, $class1, true],
+			['p9', $class2, $class2, true],
+			['p10', $class1, null, false],
+			['p10', $class1, $stdclass, false],
+			['p10', $class1, $class1, false],
+			['p10', $class1, $class2, false],
+			['p10', $class2, null, false],
+			['p10', $class2, $stdclass, false],
+			['p10', $class2, $class1, false],
+			['p10', $class2, $class2, false],
+			['p11', $class1, null, true],
+			['p11', $class1, $stdclass, true],
+			['p11', $class1, $class1, true],
+			['p11', $class1, $class2, true],
+			['p11', $class2, null, true],
+			['p11', $class2, $stdclass, true],
+			['p11', $class2, $class1, true],
+			['p11', $class2, $class2, true],
+			['p12', $class1, null, true],
+			['p12', $class1, $stdclass, true],
+			['p12', $class1, $class1, true],
+			['p12', $class1, $class2, true],
+			['p12', $class2, null, true],
+			['p12', $class2, $stdclass, true],
+			['p12', $class2, $class1, true],
+			['p12', $class2, $class2, true],
+			['p13', $class1, null, false],
+			['p13', $class1, $stdclass, false],
+			['p13', $class1, $class1, true],
+			['p13', $class1, $class2, true],
+			['p13', $class2, null, false],
+			['p13', $class2, $stdclass, false],
+			['p13', $class2, $class1, true],
+			['p13', $class2, $class2, true],
+			['p14', $class1, null, false],
+			['p14', $class1, $stdclass, false],
+			['p14', $class1, $class1, true],
+			['p14', $class1, $class2, true],
+			['p14', $class2, null, false],
+			['p14', $class2, $stdclass, false],
+			['p14', $class2, $class1, true],
+			['p14', $class2, $class2, true],
+			['p15', $class1, null, true],
+			['p15', $class1, $stdclass, true],
+			['p15', $class1, $class1, true],
+			['p15', $class1, $class2, true],
+			['p15', $class2, null, true],
+			['p15', $class2, $stdclass, true],
+			['p15', $class2, $class1, true],
+			['p15', $class2, $class2, true],
+			['p16', $class1, null, true],
+			['p16', $class1, $stdclass, true],
+			['p16', $class1, $class1, true],
+			['p16', $class1, $class2, true],
+			['p16', $class2, null, true],
+			['p16', $class2, $stdclass, true],
+			['p16', $class2, $class1, true],
+			['p16', $class2, $class2, true],
+			['p17', $class1, null, false],
+			['p17', $class1, $stdclass, false],
+			['p17', $class1, $class1, true],
+			['p17', $class1, $class2, false],
+			['p17', $class2, null, false],
+			['p17', $class2, $stdclass, false],
+			['p17', $class2, $class1, true],
+			['p17', $class2, $class2, false],
+			['p18', $class1, null, false],
+			['p18', $class1, $stdclass, false],
+			['p18', $class1, $class1, true],
+			['p18', $class1, $class2, false],
+			['p18', $class2, null, false],
+			['p18', $class2, $stdclass, false],
+			['p18', $class2, $class1, true],
+			['p18', $class2, $class2, false],
+			['p19', $class1, null, true],
+			['p19', $class1, $stdclass, true],
+			['p19', $class1, $class1, true],
+			['p19', $class1, $class2, true],
+			['p19', $class2, null, true],
+			['p19', $class2, $stdclass, true],
+			['p19', $class2, $class1, true],
+			['p19', $class2, $class2, true],
+			['p20', $class1, null, true],
+			['p20', $class1, $stdclass, true],
+			['p20', $class1, $class1, true],
+			['p20', $class1, $class2, true],
+			['p20', $class2, null, true],
+			['p20', $class2, $stdclass, true],
+			['p20', $class2, $class1, true],
+			['p20', $class2, $class2, true],
+			['p21', $class1, null, false],
+			['p21', $class1, $stdclass, false],
+			['p21', $class1, $class1, false],
+			['p21', $class1, $class2, false],
+			['p21', $class2, null, false],
+			['p21', $class2, $stdclass, false],
+			['p21', $class2, $class1, false],
+			['p21', $class2, $class2, false],
+			['c1p0', $class1, null, true],
+			['c1p0', $class1, $stdclass, true],
+			['c1p0', $class1, $class1, true],
+			['c1p0', $class1, $class2, true],
+			['c1p0', $class2, null, true],
+			['c1p0', $class2, $stdclass, true],
+			['c1p0', $class2, $class1, true],
+			['c1p0', $class2, $class2, true],
+			['c1p1', $class1, null, false],
+			['c1p1', $class1, $stdclass, false],
+			['c1p1', $class1, $class1, true],
+			['c1p1', $class1, $class2, false],
+			['c1p1', $class2, null, false],
+			['c1p1', $class2, $stdclass, false],
+			['c1p1', $class2, $class1, true],
+			['c1p1', $class2, $class2, false],
+			['c2p0', $class1, null, false],
+			['c2p0', $class1, $stdclass, false],
+			['c2p0', $class1, $class1, false],
+			['c2p0', $class1, $class2, false],
+			['c2p0', $class2, null, false],
+			['c2p0', $class2, $stdclass, false],
+			['c2p0', $class2, $class1, false],
+			['c2p0', $class2, $class2, true],
+			['c2p1', $class1, null, false],
+			['c2p1', $class1, $stdclass, false],
+			['c2p1', $class1, $class1, false],
+			['c2p1', $class1, $class2, false],
+			['c2p1', $class2, null, false],
+			['c2p1', $class2, $stdclass, false],
+			['c2p1', $class2, $class1, false],
+			['c2p1', $class2, $class2, true],
+			['c2p2', $class1, null, false],
+			['c2p2', $class1, $stdclass, false],
+			['c2p2', $class1, $class1, false],
+			['c2p2', $class1, $class2, false],
+			['c2p2', $class2, null, true],
+			['c2p2', $class2, $stdclass, true],
+			['c2p2', $class2, $class1, true],
+			['c2p2', $class2, $class2, true],
+			['c2p3', $class1, null, false],
+			['c2p3', $class1, $stdclass, false],
+			['c2p3', $class1, $class1, false],
+			['c2p3', $class1, $class2, false],
+			['c2p3', $class2, null, true],
+			['c2p3', $class2, $stdclass, true],
+			['c2p3', $class2, $class1, true],
+			['c2p3', $class2, $class2, true],
+			['c2p4', $class1, null, false],
+			['c2p4', $class1, $stdclass, false],
+			['c2p4', $class1, $class1, false],
+			['c2p4', $class1, $class2, false],
+			['c2p4', $class2, null, false],
+			['c2p4', $class2, $stdclass, false],
+			['c2p4', $class2, $class1, false],
+			['c2p4', $class2, $class2, true],
+			['c2p5', $class1, null, false],
+			['c2p5', $class1, $stdclass, false],
+			['c2p5', $class1, $class1, false],
+			['c2p5', $class1, $class2, false],
+			['c2p5', $class2, null, false],
+			['c2p5', $class2, $stdclass, false],
+			['c2p5', $class2, $class1, false],
+			['c2p5', $class2, $class2, false]
+		];
+	}
+	
 	
 	
 	//Protected methods
@@ -1642,7 +2214,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('r', $property->getMode());
 		$this->assertFalse($property->areSubclassesAffectedByMode());
 		$this->assertTrue($property->isReadable());
@@ -1685,7 +2257,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('r+', $property->getMode());
 		$this->assertFalse($property->areSubclassesAffectedByMode());
 		$this->assertTrue($property->isReadable());
@@ -1728,7 +2300,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('w', $property->getMode());
 		$this->assertFalse($property->areSubclassesAffectedByMode());
 		$this->assertFalse($property->isReadable());
@@ -1771,7 +2343,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('w-', $property->getMode());
 		$this->assertFalse($property->areSubclassesAffectedByMode());
 		$this->assertFalse($property->isReadable());
@@ -1814,7 +2386,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('r', $property->getMode());
 		$this->assertTrue($property->areSubclassesAffectedByMode());
 		$this->assertTrue($property->isReadable());
@@ -1857,7 +2429,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('r+', $property->getMode());
 		$this->assertTrue($property->areSubclassesAffectedByMode());
 		$this->assertTrue($property->isReadable());
@@ -1900,7 +2472,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('w', $property->getMode());
 		$this->assertTrue($property->areSubclassesAffectedByMode());
 		$this->assertFalse($property->isReadable());
@@ -1943,7 +2515,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertNull($property->getDefaultValue());
+		$this->assertSame(1, $property->getDefaultValue());
 		$this->assertSame('w-', $property->getMode());
 		$this->assertTrue($property->areSubclassesAffectedByMode());
 		$this->assertFalse($property->isReadable());
@@ -2525,28 +3097,28 @@ class PropertiesTest_Class1
 	public mixed $p10;
 	
 	#[mode('r')]
-	public $p11 = null;
+	public $p11 = 1;
 	
 	#[mode('r+')]
-	public $p12 = null;
+	public $p12 = 1;
 	
 	#[mode('w')]
-	public $p13 = null;
+	public $p13 = 1;
 	
 	#[mode('w-')]
-	public $p14 = null;
+	public $p14 = 1;
 	
 	#[mode('r', true)]
-	public $p15 = null;
+	public $p15 = 1;
 	
 	#[mode('r+', true)]
-	public $p16 = null;
+	public $p16 = 1;
 	
 	#[mode('w', true)]
-	public $p17 = null;
+	public $p17 = 1;
 	
 	#[mode('w-', true)]
-	public $p18 = null;
+	public $p18 = 1;
 	
 	#[coercive('int')]
 	public $p19 = '1.2k';
