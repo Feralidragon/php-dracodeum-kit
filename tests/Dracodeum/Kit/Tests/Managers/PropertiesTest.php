@@ -20,7 +20,9 @@ use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\{
 	Missing as MissingException,
 	Undefined as UndefinedException,
 	Inaccessible as InaccessibleException,
+	Unreadable as UnreadableException,
 	Unwriteable as UnwriteableException,
+	Uninitialized as UninitializedException,
 	Invalid as InvalidException
 };
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed as CallNotAllowedException;
@@ -390,7 +392,7 @@ class PropertiesTest extends TestCase
 					'p22' => '100',
 					'p23' => 1,
 					'c1p0' => 'foo',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, null, [
@@ -429,7 +431,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => 930,
 					'c1p0' => '56.72',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, $stdclass, [
@@ -454,7 +456,7 @@ class PropertiesTest extends TestCase
 					'p22' => '100',
 					'p23' => 1,
 					'c1p0' => 'foo',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, $stdclass, [
@@ -493,7 +495,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => 930,
 					'c1p0' => '56.72',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, $class1, [
@@ -520,7 +522,7 @@ class PropertiesTest extends TestCase
 					'p22' => '100',
 					'p23' => 1,
 					'c1p0' => 'foo',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, $class1, [
@@ -545,7 +547,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => '930',
 					'c1p0' => 56.72,
-					'c1p1' => 1
+					'c1p1' => 234
 				], [
 					'p0' => 123,
 					'p1' => 456,
@@ -568,7 +570,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => 930,
 					'c1p0' => '56.72',
-					'c1p1' => true
+					'c1p1' => '234'
 				]
 			], [
 				$class1, $class2, [
@@ -595,7 +597,7 @@ class PropertiesTest extends TestCase
 					'p22' => '100',
 					'p23' => 1,
 					'c1p0' => 'foo',
-					'c1p1' => false
+					'c1p1' => ''
 				]
 			], [
 				$class1, $class2, [
@@ -619,7 +621,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => '930',
 					'c1p0' => 56.72,
-					'c1p1' => 1
+					'c1p1' => 234
 				], [
 					'p0' => 123,
 					'p1' => 456,
@@ -642,7 +644,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => 930,
 					'c1p0' => '56.72',
-					'c1p1' => true
+					'c1p1' => '234'
 				]
 			], [
 				$class2, null, [
@@ -842,7 +844,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => '930',
 					'c1p0' => 56.72,
-					'c1p1' => 1,
+					'c1p1' => 234,
 					'c2p2' => '975'
 				], [
 					'p0' => 123,
@@ -923,7 +925,7 @@ class PropertiesTest extends TestCase
 					'p22' => '75.80',
 					'p23' => '930',
 					'c1p0' => 56.72,
-					'c1p1' => 1,
+					'c1p1' => 234,
 					'c2p1' => 1,
 					'c2p2' => '975',
 					'c2p4' => ['foo', 'bar']
@@ -1867,6 +1869,543 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `get` method.
+	 * 
+	 * @testdox Get
+	 * @dataProvider provideGetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected returning value.
+	 * 
+	 * @return void
+	 */
+	public function testGet(string $name, string $class, ?string $scope_class, mixed $expected): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		} + [
+			'p1' => 456,
+			'p10' => '__T__',
+			'p21' => '7k',
+			'p23' => '930'
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize($values, $class);
+		
+		//assert
+		$this->assertSame($expected, $manager->get($name, $scope_class));
+	}
+	
+	/**
+	 * Provide `get` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p0', $class1, null, 123],
+			['p0', $class1, $stdclass, 123],
+			['p0', $class1, $class1, 123],
+			['p0', $class1, $class2, 123],
+			['p0', $class2, null, 123],
+			['p0', $class2, $stdclass, 123],
+			['p0', $class2, $class1, 123],
+			['p0', $class2, $class2, 123],
+			['p1', $class1, $class1, 456],
+			['p1', $class1, $class2, 456],
+			['p1', $class2, $class1, 456],
+			['p1', $class2, $class2, 456],
+			['p6', $class1, null, null],
+			['p6', $class1, $stdclass, null],
+			['p6', $class1, $class1, null],
+			['p6', $class1, $class2, null],
+			['p6', $class2, null, null],
+			['p6', $class2, $stdclass, null],
+			['p6', $class2, $class1, null],
+			['p6', $class2, $class2, null],
+			['p7', $class1, $class1, null],
+			['p7', $class1, $class2, null],
+			['p7', $class2, $class1, null],
+			['p7', $class2, $class2, null],
+			['p8', $class1, null, 0],
+			['p8', $class1, $stdclass, 0],
+			['p8', $class1, $class1, 0],
+			['p8', $class1, $class2, 0],
+			['p8', $class2, null, 0],
+			['p8', $class2, $stdclass, 0],
+			['p8', $class2, $class1, 0],
+			['p8', $class2, $class2, 0],
+			['p9', $class1, $class1, 1.0],
+			['p9', $class1, $class2, 1.0],
+			['p9', $class2, $class1, 1.0],
+			['p9', $class2, $class2, 1.0],
+			['p10', $class1, null, '__T__'],
+			['p10', $class1, $stdclass, '__T__'],
+			['p10', $class1, $class1, '__T__'],
+			['p10', $class1, $class2, '__T__'],
+			['p10', $class2, null, '__T__'],
+			['p10', $class2, $stdclass, '__T__'],
+			['p10', $class2, $class1, '__T__'],
+			['p10', $class2, $class2, '__T__'],
+			['p11', $class1, null, 1],
+			['p11', $class1, $stdclass, 1],
+			['p11', $class1, $class1, 1],
+			['p11', $class1, $class2, 1],
+			['p11', $class2, null, 1],
+			['p11', $class2, $stdclass, 1],
+			['p11', $class2, $class1, 1],
+			['p11', $class2, $class2, 1],
+			['p12', $class1, null, 1],
+			['p12', $class1, $stdclass, 1],
+			['p12', $class1, $class1, 1],
+			['p12', $class1, $class2, 1],
+			['p12', $class2, null, 1],
+			['p12', $class2, $stdclass, 1],
+			['p12', $class2, $class1, 1],
+			['p12', $class2, $class2, 1],
+			['p13', $class1, $class1, 1],
+			['p13', $class1, $class2, 1],
+			['p13', $class2, $class1, 1],
+			['p13', $class2, $class2, 1],
+			['p14', $class1, $class1, 1],
+			['p14', $class1, $class2, 1],
+			['p14', $class2, $class1, 1],
+			['p14', $class2, $class2, 1],
+			['p15', $class1, null, 1],
+			['p15', $class1, $stdclass, 1],
+			['p15', $class1, $class1, 1],
+			['p15', $class1, $class2, 1],
+			['p15', $class2, null, 1],
+			['p15', $class2, $stdclass, 1],
+			['p15', $class2, $class1, 1],
+			['p15', $class2, $class2, 1],
+			['p16', $class1, null, 1],
+			['p16', $class1, $stdclass, 1],
+			['p16', $class1, $class1, 1],
+			['p16', $class1, $class2, 1],
+			['p16', $class2, null, 1],
+			['p16', $class2, $stdclass, 1],
+			['p16', $class2, $class1, 1],
+			['p16', $class2, $class2, 1],
+			['p17', $class1, $class1, 1],
+			['p17', $class2, $class1, 1],
+			['p18', $class1, $class1, 1],
+			['p18', $class2, $class1, 1],
+			['p19', $class1, null, 1200],
+			['p19', $class1, $stdclass, 1200],
+			['p19', $class1, $class1, 1200],
+			['p19', $class1, $class2, 1200],
+			['p19', $class2, null, 1200],
+			['p19', $class2, $stdclass, 1200],
+			['p19', $class2, $class1, 1200],
+			['p19', $class2, $class2, 1200],
+			['p20', $class1, null, '420'],
+			['p20', $class1, $stdclass, '420'],
+			['p20', $class1, $class1, '420'],
+			['p20', $class1, $class2, '420'],
+			['p20', $class2, null, '420'],
+			['p20', $class2, $stdclass, '420'],
+			['p20', $class2, $class1, '420'],
+			['p20', $class2, $class2, '420'],
+			['p21', $class1, null, 7000],
+			['p21', $class1, $stdclass, 7000],
+			['p21', $class1, $class1, 7000],
+			['p21', $class1, $class2, 7000],
+			['p21', $class2, null, 7000],
+			['p21', $class2, $stdclass, 7000],
+			['p21', $class2, $class1, 7000],
+			['p21', $class2, $class2, 7000],
+			['p23', $class1, null, 930],
+			['p23', $class1, $stdclass, 930],
+			['p23', $class1, $class1, 930],
+			['p23', $class1, $class2, 930],
+			['p23', $class2, null, 930],
+			['p23', $class2, $stdclass, 930],
+			['p23', $class2, $class1, 930],
+			['p23', $class2, $class2, 930],
+			['c1p0', $class1, null, 'foo'],
+			['c1p0', $class1, $stdclass, 'foo'],
+			['c1p0', $class1, $class1, 'foo'],
+			['c1p0', $class1, $class2, 'foo'],
+			['c1p0', $class2, null, 'foo'],
+			['c1p0', $class2, $stdclass, 'foo'],
+			['c1p0', $class2, $class1, 'foo'],
+			['c1p0', $class2, $class2, 'foo'],
+			['c1p1', $class1, $class1, ''],
+			['c1p1', $class2, $class1, ''],
+			['c2p0', $class2, $class2, 4350000],
+			['c2p1', $class2, $class2, false],
+			['c2p2', $class2, null, 75.5],
+			['c2p2', $class2, $stdclass, 75.5],
+			['c2p2', $class2, $class1, 75.5],
+			['c2p2', $class2, $class2, 75.5],
+			['c2p3', $class2, null, '2'],
+			['c2p3', $class2, $stdclass, '2'],
+			['c2p3', $class2, $class1, '2'],
+			['c2p3', $class2, $class2, '2'],
+			['c2p4', $class2, $class2, []]
+		];
+	}
+	
+	/**
+	 * Test `get` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Get Undefined exception
+	 * @dataProvider provideGetData_UndefinedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testGet_UndefinedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->get($name);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `get` method data for an `Undefined` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData_UndefinedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p', $class1],
+			['p2', $class1],
+			['p3', $class1],
+			['p4', $class1],
+			['p5', $class1],
+			['c2p0', $class1],
+			['p', $class2],
+			['p2', $class2],
+			['p3', $class2],
+			['p4', $class2],
+			['p5', $class2],
+			['c2p5', $class2]
+		];
+	}
+	
+	/**
+	 * Test `get` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Get Inaccessible exception
+	 * @dataProvider provideGetData_InaccessibleException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testGet_InaccessibleException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->get($name, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `get` method data for an `Inaccessible` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData_InaccessibleException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p1', $class1, null],
+			['p1', $class1, $stdclass],
+			['p1', $class2, null],
+			['p1', $class2, $stdclass],
+			['p7', $class1, null],
+			['p7', $class1, $stdclass],
+			['p7', $class2, null],
+			['p7', $class2, $stdclass],
+			['p9', $class1, null],
+			['p9', $class1, $stdclass],
+			['p9', $class2, null],
+			['p9', $class2, $stdclass],
+			['c2p1', $class2, null],
+			['c2p1', $class2, $stdclass]
+		];
+	}
+	
+	/**
+	 * Test `get` method expecting an `Unreadable` exception to be thrown.
+	 * 
+	 * @testdox Get Unreadable exception
+	 * @dataProvider provideGetData_UnreadableException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testGet_UnreadableException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnreadableException::class);
+		try {
+			$manager->get($name, $scope_class);
+		} catch (UnreadableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `get` method data for an `Unreadable` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData_UnreadableException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p13', $class1, null],
+			['p13', $class1, $stdclass],
+			['p13', $class2, null],
+			['p13', $class2, $stdclass],
+			['p14', $class1, null],
+			['p14', $class1, $stdclass],
+			['p14', $class2, null],
+			['p14', $class2, $stdclass],
+			['p17', $class1, null],
+			['p17', $class1, $stdclass],
+			['p17', $class1, $class2],
+			['p17', $class2, null],
+			['p17', $class2, $stdclass],
+			['p17', $class2, $class2],
+			['p18', $class1, null],
+			['p18', $class1, $stdclass],
+			['p18', $class1, $class2],
+			['p18', $class2, null],
+			['p18', $class2, $stdclass],
+			['p18', $class2, $class2],
+			['c1p1', $class1, $class2],
+			['c1p1', $class2, $class2],
+			['c2p0', $class2, null],
+			['c2p0', $class2, $stdclass],
+			['c2p0', $class2, $class1]
+		];
+	}
+	
+	/**
+	 * Test `get` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Get Uninitialized exception
+	 * @dataProvider provideGetData_UninitializedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testGet_UninitializedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->get($name, $class);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `get` method data for an `Uninitialized` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData_UninitializedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p1', $class1],
+			['p1', $class2],
+			['p10', $class1],
+			['p10', $class2]
+		];
+	}
+	
+	/**
+	 * Test `get` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Get Invalid exception
+	 * @dataProvider provideGetData_InvalidException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testGet_InvalidException(string $name, string $class): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		} + [
+			'p23' => 'foo',
+			'c1p1' => new stdClass()
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize($values, $class);
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->get($name, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], array_keys($exception->values));
+			$this->assertSame([$name], array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `get` method data for an `Invalid` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideGetData_InvalidException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p23', $class1],
+			['p23', $class2],
+			['c1p1', $class1],
+			['c2p3', $class2]
+		];
+	}
+	
 	
 	
 	//Protected methods
@@ -2804,7 +3343,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
 		$this->assertTrue($property->hasDefaultValue());
-		$this->assertSame(false, $property->getDefaultValue());
+		$this->assertSame('', $property->getDefaultValue());
 		$this->assertSame('w-', $property->getMode());
 		$this->assertTrue($property->areSubclassesAffectedByMode());
 		$this->assertFalse($property->isReadable());
@@ -3118,7 +3657,7 @@ class PropertiesTest_Class1
 	public string $c1p0 = 'foo';
 	
 	#[lazy, mode('w-', true)]
-	protected bool $c1p1 = false;
+	protected string $c1p1 = '';
 }
 
 
@@ -3136,7 +3675,7 @@ class PropertiesTest_Class2 extends PropertiesTest_Class1
 	public int|float $c2p2 = 75.5;
 	
 	#[coercive, lazy]
-	public bool|string|null $c2p3;
+	public int|string|null $c2p3;
 	
 	#[strict('string[]', strict: true), mode('w', true)]
 	protected array $c2p4 = [];
