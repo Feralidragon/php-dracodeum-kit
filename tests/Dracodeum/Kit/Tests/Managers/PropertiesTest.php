@@ -2406,6 +2406,869 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `mget` method.
+	 * 
+	 * @testdox Mget
+	 * @dataProvider provideMgetData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[]|null $names
+	 * The names to test with.
+	 * 
+	 * @param array $expected
+	 * The expected returning values.
+	 * 
+	 * @return void
+	 */
+	public function testMget(string $class, ?string $scope_class, ?array $names, array $expected): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		} + [
+			'p1' => 456,
+			'p10' => '__T__',
+			'p21' => '7k',
+			'p23' => '930'
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize($values, $class);
+		
+		//assert
+		$this->assertSame($expected, $manager->mget($names, $scope_class));
+	}
+	
+	/**
+	 * Provide `mget` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, null, [
+				'p0' => 123,
+				'p6' => null,
+				'p8' => 0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo'
+			]],
+			[$class1, $stdclass, null, [
+				'p0' => 123,
+				'p6' => null,
+				'p8' => 0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo'
+			]],
+			[$class1, $class1, null, [
+				'p0' => 123,
+				'p1' => 456,
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p17' => 1,
+				'p18' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo',
+				'c1p1' => ''
+			]],
+			[$class1, $class2, null, [
+				'p0' => 123,
+				'p1' => 456,
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo'
+			]],
+			[$class2, null, null, [
+				'p0' => 123,
+				'c2p3' => '2',
+				'p6' => null,
+				'p8' => 0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo',
+				'c2p2' => 75.5
+			]],
+			[$class2, $stdclass, null, [
+				'p0' => 123,
+				'c2p3' => '2',
+				'p6' => null,
+				'p8' => 0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo',
+				'c2p2' => 75.5
+			]],
+			[$class2, $class1, null, [
+				'p0' => 123,
+				'c2p3' => '2',
+				'p1' => 456,
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p17' => 1,
+				'p18' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo',
+				'c1p1' => '',
+				'c2p2' => 75.5
+			]],
+			[$class2, $class2, null, [
+				'p0' => 123,
+				'c2p0' => 4350000,
+				'c2p3' => '2',
+				'p1' => 456,
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p10' => '__T__',
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => 7000,
+				'p22' => '100',
+				'p23' => 930,
+				'c1p0' => 'foo',
+				'c2p1' => false,
+				'c2p2' => 75.5,
+				'c2p4' => []
+			]],
+			[$class1, null, ['p6', 'p10', 'c1p0', 'p8', 'p21', 'p0'], [
+				'p6' => null,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[$class1, $stdclass, ['p6', 'p10', 'c1p0', 'p8', 'p21', 'p0'], [
+				'p6' => null,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[$class1, $class1, ['p6', 'p18', 'p10', 'c1p0', 'p1', 'p8', 'p21', 'c1p1', 'p0'], [
+				'p6' => null,
+				'p18' => 1,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'p1' => 456,
+				'p8' => 0,
+				'p21' => 7000,
+				'c1p1' => '',
+				'p0' => 123
+			]],
+			[$class1, $class2, ['p6', 'p14', 'p10', 'c1p0', 'p1', 'p8', 'p21', 'p0'], [
+				'p6' => null,
+				'p14' => 1,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'p1' => 456,
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[$class2, null, ['c2p2', 'p6', 'p10', 'c1p0', 'c2p3', 'p8', 'p21', 'p0'], [
+				'c2p2' => 75.5,
+				'p6' => null,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'c2p3' => '2',
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[$class2, $stdclass, ['c2p2', 'p6', 'p10', 'c1p0', 'c2p3', 'p8', 'p21', 'p0'], [
+				'c2p2' => 75.5,
+				'p6' => null,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'c2p3' => '2',
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[$class2, $class1, ['c2p2', 'p6', 'p18', 'p10', 'c1p0', 'c2p3', 'p1', 'p8', 'p21', 'c1p1', 'p0'], [
+				'c2p2' => 75.5,
+				'p6' => null,
+				'p18' => 1,
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'c2p3' => '2',
+				'p1' => 456,
+				'p8' => 0,
+				'p21' => 7000,
+				'c1p1' => '',
+				'p0' => 123
+			]],
+			[$class2, $class2, ['c2p2', 'p6', 'p14', 'c2p4', 'p10', 'c1p0', 'c2p3', 'p1', 'p8', 'p21', 'p0'], [
+				'c2p2' => 75.5,
+				'p6' => null,
+				'p14' => 1,
+				'c2p4' => [],
+				'p10' => '__T__',
+				'c1p0' => 'foo',
+				'c2p3' => '2',
+				'p1' => 456,
+				'p8' => 0,
+				'p21' => 7000,
+				'p0' => 123
+			]],
+			[
+				$class1, null, [
+					'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p12', 'p11', 'p10', 'p8', 'p6', 'p0'
+				], [
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p8' => 0,
+					'p6' => null,
+					'p0' => 123
+				]
+			],
+			[
+				$class1, $stdclass, [
+					'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p12', 'p11', 'p10', 'p8', 'p6', 'p0'
+				], [
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p8' => 0,
+					'p6' => null,
+					'p0' => 123
+				]
+			],
+			[
+				$class1, $class1, [
+					'c1p1', 'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p18', 'p17', 'p16', 'p15', 'p14', 'p13', 'p12',
+					'p11', 'p10', 'p9', 'p8', 'p7', 'p6', 'p1', 'p0'
+				], [
+					'c1p1' => '',
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p18' => 1,
+					'p17' => 1,
+					'p16' => 1,
+					'p15' => 1,
+					'p14' => 1,
+					'p13' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p9' => 1.0,
+					'p8' => 0,
+					'p7' => null,
+					'p6' => null,
+					'p1' => 456,
+					'p0' => 123
+				]
+			],
+			[
+				$class1, $class2, [
+					'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p14', 'p13', 'p12', 'p11', 'p10', 'p9',
+					'p8', 'p7', 'p6', 'p1', 'p0'
+				], [
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p14' => 1,
+					'p13' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p9' => 1.0,
+					'p8' => 0,
+					'p7' => null,
+					'p6' => null,
+					'p1' => 456,
+					'p0' => 123
+				]
+			],
+			[
+				$class2, null, [
+					'c2p2', 'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p12', 'p11', 'p10', 'p8', 'p6',
+					'c2p3', 'p0'
+				], [
+					'c2p2' => 75.5,
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p8' => 0,
+					'p6' => null,
+					'c2p3' => '2',
+					'p0' => 123
+				]
+			],
+			[
+				$class2, $stdclass, [
+					'c2p2', 'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p12', 'p11', 'p10', 'p8', 'p6',
+					'c2p3', 'p0'
+				], [
+					'c2p2' => 75.5,
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p8' => 0,
+					'p6' => null,
+					'c2p3' => '2',
+					'p0' => 123
+				]
+			],
+			[
+				$class2, $class1, [
+					'c2p2', 'c1p1', 'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p18', 'p17', 'p16', 'p15', 'p14', 'p13',
+					'p12', 'p11', 'p10', 'p9', 'p8', 'p7', 'p6', 'p1', 'c2p3', 'p0'
+				], [
+					'c2p2' => 75.5,
+					'c1p1' => '',
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p18' => 1,
+					'p17' => 1,
+					'p16' => 1,
+					'p15' => 1,
+					'p14' => 1,
+					'p13' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p9' => 1.0,
+					'p8' => 0,
+					'p7' => null,
+					'p6' => null,
+					'p1' => 456,
+					'c2p3' => '2',
+					'p0' => 123
+				]
+			],
+			[
+				$class2, $class2, [
+					'c2p4', 'c2p2', 'c2p1', 'c1p0', 'p23', 'p22', 'p21', 'p20', 'p19', 'p16', 'p15', 'p14', 'p13',
+					'p12', 'p11', 'p10', 'p9', 'p8', 'p7', 'p6', 'p1', 'c2p3', 'c2p0', 'p0'
+				], [
+					'c2p4' => [],
+					'c2p2' => 75.5,
+					'c2p1' => false,
+					'c1p0' => 'foo',
+					'p23' => 930,
+					'p22' => '100',
+					'p21' => 7000,
+					'p20' => '420',
+					'p19' => 1200,
+					'p16' => 1,
+					'p15' => 1,
+					'p14' => 1,
+					'p13' => 1,
+					'p12' => 1,
+					'p11' => 1,
+					'p10' => '__T__',
+					'p9' => 1.0,
+					'p8' => 0,
+					'p7' => null,
+					'p6' => null,
+					'p1' => 456,
+					'c2p3' => '2',
+					'c2p0' => 4350000,
+					'p0' => 123
+				]
+			]
+		];
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Mget Undefined exception
+	 * @dataProvider provideMgetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMget_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->mget($names);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mget` method data for an `Undefined` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData_UndefinedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p'], ['p']],
+			[$class1, ['p', 'p0'], ['p']],
+			[$class1, ['p2', 'p3'], ['p2', 'p3']],
+			[$class1, ['p0', 'p2', 'p6', 'p3'], ['p2', 'p3']],
+			[$class1, ['p4', 'p5', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class1, ['p0', 'p4', 'p5', 'p6', 'p11', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class2, ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']],
+			[$class2, ['p', 'p0', 'p2', 'p3', 'p4', 'p5', 'p6', 'c2p2', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']]
+		];
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Mget Inaccessible exception
+	 * @dataProvider provideMgetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMget_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->mget($names, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mget` method data for an `Inaccessible` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData_InaccessibleException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, ['p1'], ['p1']],
+			[$class1, $stdclass, ['p1'], ['p1']],
+			[$class1, null, ['p0', 'p1'], ['p1']],
+			[$class1, $stdclass, ['p0', 'p1'], ['p1']],
+			[$class1, null, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, null, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class2, null, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, null, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']]
+		];
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Unreadable` exception to be thrown.
+	 * 
+	 * @testdox Mget Unreadable exception
+	 * @dataProvider provideMgetData_UnreadableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMget_UnreadableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnreadableException::class);
+		try {
+			$manager->mget($names, $scope_class);
+		} catch (UnreadableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mget` method data for an `Unreadable` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData_UnreadableException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, ['p13'], ['p13']],
+			[$class1, $stdclass, ['p13'], ['p13']],
+			[$class1, null, ['p0', 'p13'], ['p13']],
+			[$class1, $stdclass, ['p0', 'p13'], ['p13']],
+			[$class1, null, ['p14', 'p17', 'p18'], ['p14', 'p17', 'p18']],
+			[$class1, $stdclass, ['p14', 'p17', 'p18'], ['p14', 'p17', 'p18']],
+			[$class1, null, ['p0', 'p14', 'p17', 'p6', 'p18'], ['p14', 'p17', 'p18']],
+			[$class1, $stdclass, ['p0', 'p14', 'p17', 'p6', 'p18'], ['p14', 'p17', 'p18']],
+			[$class1, $class2, ['p17', 'p18', 'c1p1'], ['p17', 'p18', 'c1p1']],
+			[$class1, $class2, ['p17', 'p0', 'p6', 'p18', 'c1p0', 'c1p1'], ['p17', 'p18', 'c1p1']],
+			[$class2, null, ['p13', 'p14', 'p17', 'p18', 'c2p0'], ['p13', 'p14', 'p17', 'p18', 'c2p0']],
+			[$class2, $stdclass, ['p13', 'p14', 'p17', 'p18', 'c2p0'], ['p13', 'p14', 'p17', 'p18', 'c2p0']],
+			[$class2, null, ['p13', 'p0', 'p14', 'p17', 'p6', 'p18', 'c2p0', 'c2p2'],
+				['p13', 'p14', 'p17', 'p18', 'c2p0']],
+			[$class2, $stdclass, ['p13', 'p0', 'p14', 'p17', 'p6', 'p18', 'c2p0', 'c2p2'],
+				['p13', 'p14', 'p17', 'p18', 'c2p0']],
+			[$class2, $class2, ['p17', 'p18', 'c1p1'], ['p17', 'p18', 'c1p1']],
+			[$class2, $class2, ['p0', 'p17', 'p18', 'p6', 'c1p1', 'c2p2'], ['p17', 'p18', 'c1p1']],
+			[$class2, $class1, ['c2p0'], ['c2p0']],
+			[$class2, $class1, ['p0', 'c2p0', 'c2p2'], ['c2p0']]
+		];
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Mget Uninitialized exception
+	 * @dataProvider provideMgetData_UninitializedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMget_UninitializedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->mget($names, $class);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mget` method data for an `Uninitialized` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData_UninitializedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p1'], ['p1']],
+			[$class2, ['p1'], ['p1']],
+			[$class1, ['p1', 'p0'], ['p1']],
+			[$class2, ['p1', 'p0'], ['p1']],
+			[$class1, ['p1', 'p10'], ['p1', 'p10']],
+			[$class2, ['p1', 'p10'], ['p1', 'p10']],
+			[$class1, ['p0', 'p1', 'p6', 'p10'], ['p1', 'p10']],
+			[$class2, ['p0', 'p1', 'p6', 'p10', 'c2p2'], ['p1', 'p10']]
+		];
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Mget Invalid exception
+	 * @dataProvider provideMgetData_InvalidException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMget_InvalidException(string $class, array $names, array $expected_names): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		} + [
+			'p23' => 'foo',
+			'c1p1' => new stdClass()
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize($values, $class);
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->mget($names, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, array_keys($exception->values));
+			$this->assertSame($expected_names, array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mget` method data for an `Invalid` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMgetData_InvalidException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p23'], ['p23']],
+			[$class2, ['p23'], ['p23']],
+			[$class1, ['p0', 'p23'], ['p23']],
+			[$class2, ['p0', 'p23'], ['p23']],
+			[$class1, ['p23', 'c1p1'], ['p23', 'c1p1']],
+			[$class2, ['p23', 'c2p3'], ['p23', 'c2p3']],
+			[$class1, ['p0', 'p23', 'p6', 'c1p1'], ['p23', 'c1p1']],
+			[$class2, ['p0', 'p23', 'p6', 'c2p2', 'c2p3'], ['p23', 'c2p3']]
+		];
+	}
+	
 	
 	
 	//Protected methods
