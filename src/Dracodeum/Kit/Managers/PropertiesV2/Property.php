@@ -156,11 +156,11 @@ final class Property
 	 * @param string $mode
 	 * The mode to set, as one of the following:
 	 * - `r` : allow this property to be only strictly read from (exclusive read-only), not allowing to be given during 
-	 * instantiation;
-	 * - `r+` : allow this property to be only read from (read-only), but allowing to be given during instantiation;
+	 * initialization;
+	 * - `r+` : allow this property to be only read from (read-only), but allowing to be given during initialization;
 	 * - `rw` : allow this property to be both read from and written to (read-write);
 	 * - `w` : allow this property to be only written to (write-only);
-	 * - `w-` : allow this property to be only written to, but only once during instantiation (write-once).
+	 * - `w-` : allow this property to be only written to, but only once during initialization (write-once).
 	 * 
 	 * @param bool $affect_subclasses
 	 * Enforce the mode of operation internally for subclasses as well.

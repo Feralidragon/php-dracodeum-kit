@@ -13,7 +13,7 @@ use Attribute;
 
 /**
  * This attribute defines the property mode of operation to be only read from (read-only), but allowing to be given 
- * during instantiation.
+ * during initialization.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class read implements IPropertyInitializer

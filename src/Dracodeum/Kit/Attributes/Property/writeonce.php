@@ -12,7 +12,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Attribute;
 
 /**
- * This attribute defines the property mode of operation to be only written to, but only once during instantiation 
+ * This attribute defines the property mode of operation to be only written to, but only once during initialization 
  * (write-once).
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]

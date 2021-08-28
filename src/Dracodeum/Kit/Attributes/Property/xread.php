@@ -13,7 +13,7 @@ use Attribute;
 
 /**
  * This attribute defines the property mode of operation to be only strictly read from (exclusive read-only), 
- * not allowing to be given during instantiation.
+ * not allowing to be given during initialization.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class xread implements IPropertyInitializer
