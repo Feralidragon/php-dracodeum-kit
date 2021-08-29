@@ -824,34 +824,6 @@ class TypeTest extends TestCase
 				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37]))
 			, '48', 935.5
 		], [
-			Component::build(TypeTest_Prototype3::class, [
-				'mutators' => [
-					TypeTest_MutatorPrototype1::class,
-					TypeTest_MutatorPrototype2::class => [1000]
-				]
-			]), '35', 1735.0
-		], [
-			Component::build(TypeTest_Prototype3::class, [
-				'mutators' => [
-					TypeTest_MutatorPrototype1::class => ['amount' => 850.5],
-					TypeTest_MutatorPrototype2::class => ['amount' => 37]
-				]
-			]), '48', 935.5
-		], [
-			Component::build(TypeTest_Prototype3::class, [
-				'mutators' => [
-					MutatorComponent::build(TypeTest_MutatorPrototype1::class),
-					MutatorComponent::build(TypeTest_MutatorPrototype2::class, [1000])
-				]
-			]), '35', 1735.0
-		], [
-			Component::build(TypeTest_Prototype3::class, [
-				'mutators' => [
-					MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]),
-					MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37])
-				]
-			]), '48', 935.5
-		], [
 			Component::build(TypeTest_Prototype1::class)
 				->addMutator('proto1')
 				->addMutator('proto2', [1000])
@@ -871,34 +843,6 @@ class TypeTest extends TestCase
 				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
 				->addMutator('proto2', ['amount' => 37])
 			, 48, 935.5
-		], [
-			Component::build(TypeTest_Prototype1::class, [
-				'mutators' => [
-					'proto1',
-					'proto2' => [1000]
-				]
-			]), 35, 1735.0
-		], [
-			Component::build(TypeTest_Prototype1::class, [
-				'mutators' => [
-					'proto1' => ['amount' => 850.5],
-					'proto2' => ['amount' => 37]
-				]
-			]), 48, 935.5
-		], [
-			Component::build(TypeTest_Prototype1::class, [
-				'mutators' => [
-					TypeTest_MutatorPrototype1::class,
-					'proto2' => [1000]
-				]
-			]), 35, 1735.0
-		], [
-			Component::build(TypeTest_Prototype1::class, [
-				'mutators' => [
-					TypeTest_MutatorPrototype1::class => ['amount' => 850.5],
-					'proto2' => ['amount' => 37]
-				]
-			]), 48, 935.5
 		]];
 	}
 	

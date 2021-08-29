@@ -52,11 +52,7 @@ var_dump($p);
 die();
 
 
-$t = Dracodeum\Kit\Components\Type::build('array', [
-	'mutators' => [
-		'non_empty'
-	]
-]);
+$t = Dracodeum\Kit\Components\Type::build('array')->addMutator('non_empty');
 $v = [123];
 $e = $t->process($v);
 

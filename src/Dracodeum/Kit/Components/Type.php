@@ -40,11 +40,6 @@ use Dracodeum\Kit\Utilities\Call as UCall;
  * @property-read bool $strict [default = false]  
  * Perform strict validation without value coercion.
  * 
- * @property-write coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator>[] $mutators [writeonce] [transient] [default = []]  
- * The mutators to add, as any combination of the following:
- * - instances, classes or names;
- * - `class => properties` or `name => properties` pairs.
- * 
  * @method \Dracodeum\Kit\Prototypes\Type getPrototype() [protected]
  * 
  * @see \Dracodeum\Kit\Prototypes\Type
@@ -96,20 +91,6 @@ class Type extends Component
 	{
 		return match ($name) {
 			'nullable', 'strict' => $this->createProperty()->setMode('r+')->setAsBoolean()->bind(self::class),
-			'mutators'
-				=> $this->createProperty()
-					->setMode('w--')
-					->setAsArray(function (&$key, &$value): bool {
-						if (is_string($key) && is_array($value)) {
-							$this->addMutator($key, $value);
-							return true;
-						} elseif (is_int($key) && (is_string($value) || is_object($value))) {
-							$this->addMutator($value);
-							return true;
-						}
-						return false;
-					})
-				,
 			default => null
 		};
 	}
