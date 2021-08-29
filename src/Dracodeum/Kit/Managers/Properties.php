@@ -687,7 +687,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			
 			//remainder (properties)
 			if ($remainder !== null) {
-				//process
 				foreach ($properties as $name => $value) {
 					if (is_int($name)) {
 						$remainder[$name - $required_count] = $value;
@@ -696,12 +695,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 						$remainder[$name] = $value;
 						unset($properties[$name]);
 					}
-				}
-				
-				//remainderer
-				if ($this->remainderer !== null) {
-					($this->remainderer)($remainder);
-					$this->remainderer = null;
 				}
 			}
 			
@@ -759,6 +752,12 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 			//persistence
 			if ($persisted) {
 				$this->reloadPersistedValues();
+			}
+			
+			//remainderer
+			if ($this->remainderer !== null && $remainder !== null) {
+				($this->remainderer)($remainder);
+				$this->remainderer = null;
 			}
 			
 		} finally {
