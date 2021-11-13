@@ -516,7 +516,7 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Validate undefined.
+	 * Validate defined.
 	 * 
 	 * @param string[] $names
 	 * The names to validate.
@@ -526,7 +526,7 @@ final class PropertiesV2 extends Manager
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	private function validateUndefined(array $names)
+	private function validateDefined(array $names)
 	{
 		//process
 		$undefined_names = [];
@@ -765,7 +765,7 @@ final class PropertiesV2 extends Manager
 		
 		//validate
 		$this
-			->validateUndefined($names)
+			->validateDefined($names)
 			->validateAccess($names, $scope_class)
 			->validateRead($names, $scope_class)
 			->validateInitialized($names)
@@ -863,7 +863,7 @@ final class PropertiesV2 extends Manager
 		//validate
 		$names = array_keys($values);
 		$this
-			->validateUndefined($names)
+			->validateDefined($names)
 			->validateAccess($names, $scope_class)
 			->validateWrite($names, $scope_class, $initializing)
 		;
@@ -932,7 +932,7 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//validate
-		$this->validateUndefined($names)->validateAccess($names, $scope_class)->validateUnset($names, $scope_class);
+		$this->validateDefined($names)->validateAccess($names, $scope_class)->validateUnset($names, $scope_class);
 		
 		//process
 		foreach ($names as $name) {
