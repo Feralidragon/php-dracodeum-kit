@@ -24,8 +24,8 @@ class Undefined extends Exception
 	public function getDefaultMessage(): string
 	{
 		return count($this->names) === 1
-			? "No property is defined with name {{names}} in {{manager.getOwner()}}."
-			: "No properties are defined with names {{names}} in {{manager.getOwner()}}.";
+			? "No property is defined with the name {{names}} in {{manager.getOwner()}}."
+			: "No properties are defined with the names {{names}} in {{manager.getOwner()}}.";
 	}
 	
 	

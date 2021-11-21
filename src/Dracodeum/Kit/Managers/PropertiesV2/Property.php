@@ -96,14 +96,9 @@ final class Property
 	 */
 	final public function isAccessible(?string $scope_class = null): bool
 	{
-		if ($this->reflection->isPublic()) {
-			return true;
-		} elseif ($scope_class === null || !$this->reflection->isProtected()) {
-			return false;
-		} elseif (is_a($scope_class, $this->reflection->getDeclaringClass()->getName(), true)) {
-			return true;
-		}
-		return false;
+		return $this->reflection->isPublic() || (
+			$scope_class !== null && is_a($scope_class, $this->reflection->getDeclaringClass()->getName(), true)
+		);
 	}
 	
 	/**
@@ -227,7 +222,7 @@ final class Property
 	final public function isWriteable(?string $scope_class = null, bool $initializing = false): bool
 	{
 		//check
-		if (($initializing && $this->mode !== 'r') || in_array($this->mode, ['rw', 'w'], true)) {
+		if ($this->mode !== 'r' && ($initializing || in_array($this->mode, ['rw', 'w'], true))) {
 			return true;
 		} elseif ($scope_class === null) {
 			return false;
