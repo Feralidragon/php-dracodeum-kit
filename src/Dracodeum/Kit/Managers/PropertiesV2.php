@@ -8,12 +8,11 @@
 namespace Dracodeum\Kit\Managers;
 
 use Dracodeum\Kit\Manager;
-use Dracodeum\Kit\Managers\PropertiesV2\Property;
-use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\{
-	PropertyInitializer as IPropertyInitializer,
-	PropertyPostInitializer as IPropertyPostInitializer
+use Dracodeum\Kit\Managers\PropertiesV2\{
+	Property,
+	Interfaces,
+	Exceptions
 };
-use Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
 	Call as UCall
@@ -430,10 +429,10 @@ final class PropertiesV2 extends Manager
 						//attributes
 						foreach ($r_property->getAttributes() as $r_attribute) {
 							$attribute = $r_attribute->newInstance();
-							if ($attribute instanceof IPropertyInitializer) {
+							if ($attribute instanceof Interfaces\PropertyInitializer) {
 								$attribute->initializeProperty($property);
 							}
-							if ($attribute instanceof IPropertyPostInitializer) {
+							if ($attribute instanceof Interfaces\PropertyPostInitializer) {
 								$properties_post_attributes[$p_name][] = $attribute;
 							}
 						}
