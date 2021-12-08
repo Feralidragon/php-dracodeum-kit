@@ -101,13 +101,13 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Check if has property.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * The name of the property to check.
 	 * 
 	 * @return bool
-	 * Boolean `true` if has property.
+	 * Boolean `true` if has the property with the given name.
 	 */
 	final public function hasProperty(string $name): bool
 	{
@@ -115,13 +115,13 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Get property instance.
+	 * Get property instance with a given name.
 	 * 
 	 * @param string $name
 	 * The name of the property to get.
 	 * 
 	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property|null
-	 * The property instance, or `null` if none is set.
+	 * The property instance with the given name, or `null` if none is set.
 	 */
 	final public function getProperty(string $name): ?Property
 	{
@@ -129,10 +129,10 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Get properties.
+	 * Get property instances.
 	 * 
 	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property[]
-	 * The properties, as a set of `name => property` pairs.
+	 * The property instances, as a set of `name => property` pairs.
 	 */
 	final public function getProperties(): array
 	{
@@ -186,7 +186,7 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Check if has property.
+	 * Check if has a property with a given name.
 	 * 
 	 * @param string $name
 	 * The property name to check.
@@ -195,7 +195,7 @@ final class PropertiesV2 extends Manager
 	 * The scope class to use.
 	 * 
 	 * @return bool
-	 * Boolean `true` if has property.
+	 * Boolean `true` if has the property with the given name.
 	 */
 	final public function has(string $name, ?string $scope_class = null): bool
 	{
@@ -207,7 +207,7 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Check if property is set (exists, is initialized and is not `null`).
+	 * Check if a property with a given name is set (exists, is initialized and is not `null`).
 	 * 
 	 * @param string $name
 	 * The name of the property to check.
@@ -216,7 +216,7 @@ final class PropertiesV2 extends Manager
 	 * The scope class to use.
 	 * 
 	 * @return bool
-	 * Boolean `true` if property is set (exists, is initialized and is not `null`).
+	 * Boolean `true` if the property with the given name is set (exists, is initialized and is not `null`).
 	 */
 	final public function isset(string $name, ?string $scope_class = null): bool
 	{
@@ -225,10 +225,10 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Get property value.
+	 * Get value of a property with a given name.
 	 * 
 	 * @param string $name
-	 * The name of the property to get.
+	 * The name of the property to get from.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
@@ -240,7 +240,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
 	 * @return mixed
-	 * The property value.
+	 * The value of the property with the given name.
 	 */
 	final public function get(string $name, ?string $scope_class = null): mixed
 	{
@@ -251,7 +251,7 @@ final class PropertiesV2 extends Manager
 	 * Get property values.
 	 * 
 	 * @param string[]|null $names
-	 * The names of the properties to get.
+	 * The names of the properties to get from.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
@@ -279,10 +279,10 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Set property value.
+	 * Set value into a property with a given name.
 	 * 
 	 * @param string $name
-	 * The name of the property to set.
+	 * The name of the property to set into.
 	 * 
 	 * @param mixed $value
 	 * The value to set.
@@ -501,14 +501,15 @@ final class PropertiesV2 extends Manager
 		foreach ($values as $k => $value) {
 			$mapped_values[$names_map[$k] ?? $k] = $value;
 		}
-		$values = $mapped_values;
-		unset($mapped_values);
 		
 		//missing
-		$missing_names = array_keys(array_diff_key($this->required_map, $values));
+		$missing_names = array_keys(array_diff_key($this->required_map, $mapped_values));
 		if ($missing_names) {
 			throw new Exceptions\Missing([$this, $missing_names]);
 		}
+		
+		//finalize
+		$values = $mapped_values;
 		
 		//return
 		return $this;
@@ -686,13 +687,13 @@ final class PropertiesV2 extends Manager
 	}
 	
 	/**
-	 * Check if value with a given name is initialized.
+	 * Check if a property with a given name is initialized with a value.
 	 * 
 	 * @param string $name
 	 * The name to check with.
 	 * 
 	 * @return bool
-	 * Boolean `true` if the value with the given name is initialized.
+	 * Boolean `true` if the property with the given name is initialized with a value.
 	 */
 	private function isValueInitialized(string $name): bool
 	{
@@ -736,7 +737,7 @@ final class PropertiesV2 extends Manager
 	 * Get values.
 	 * 
 	 * @param string[] $names
-	 * The value names to get.
+	 * The names to get values from.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
@@ -869,10 +870,11 @@ final class PropertiesV2 extends Manager
 		
 		//process
 		$errors = [];
-		$values_flags = array_fill_keys($names, self::VALUE_FLAG_SET);
+		$values_flags = array_intersect_key($this->values_flags, $values);
 		foreach ($values as $name => &$value) {
 			//initialize
 			$property = $this->properties[$name];
+			UByte::setFlag($values_flags[$name], self::VALUE_FLAG_SET);
 			
 			//typed
 			UByte::updateFlag($values_flags[$name], self::VALUE_FLAG_TYPED, $property->hasType());
@@ -896,18 +898,16 @@ final class PropertiesV2 extends Manager
 			throw new Exceptions\Invalid([$this, array_intersect_key($values, $errors), $errors]);
 		}
 		
-		//values
+		//finalize
 		$this->values = array_replace($this->values, $values);
-		foreach ($values_flags as $name => $flags) {
-			UByte::setFlag($this->values_flags[$name], $flags);
-		}
+		$this->values_flags = array_replace($this->values_flags, $values_flags);
 	}
 	
 	/**
 	 * Unset values.
 	 * 
 	 * @param string[] $names
-	 * The value names to unset.
+	 * The names to unset values from.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
