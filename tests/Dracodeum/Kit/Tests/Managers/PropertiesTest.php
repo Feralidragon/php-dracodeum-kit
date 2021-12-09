@@ -4267,6 +4267,208 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `mset` method.
+	 * 
+	 * @testdox Mset
+	 * @dataProvider provideMsetData
+	 * 
+	 * @param array $values
+	 * The values to test with, as a set of `name => value` pairs.
+	 * 
+	 * @param array $expected
+	 * The expected values, as a set of `name => value` pairs.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testMset(array $values, array $expected, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		
+		//assert
+		$this->assertSame($manager, $manager->mset($values, $scope_class));
+		$this->assertSame(
+			$expected, array_intersect_key($manager->mget(null, $class1) + $manager->mget(null, $class2), $values)
+		);
+	}
+	
+	/**
+	 * Provide `mset` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMsetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//values
+		$values = [
+			'p0' => 321,
+			'c2p3' => null,
+			'p1' => 456,
+			'p6' => true,
+			'p7' => [],
+			'p8' => '-98',
+			'p9' => '-2.5',
+			'p10' => '__T__',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => '-749',
+			'p20' => 'fooBar',
+			'p21' => '7k',
+			'p22' => '75.80',
+			'p23' => '930',
+			'c1p0' => 56.72,
+			'c2p2' => '975',
+			'c1p1' => 234,
+			'c2p0' => '-4.12k',
+			'c2p1' => 1,
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//expected
+		$expected = [
+			'p0' => 321,
+			'c2p3' => null,
+			'p1' => 456,
+			'p6' => true,
+			'p7' => [],
+			'p8' => -98,
+			'p9' => -2.5,
+			'p10' => '__T__',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => -749,
+			'p20' => 'fooBar',
+			'p21' => 7000,
+			'p22' => '75.80',
+			'p23' => 930,
+			'c1p0' => '56.72',
+			'c2p2' => 975,
+			'c1p1' => '234',
+			'c2p0' => -4120,
+			'c2p1' => true,
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//prepare (class1, null)
+		$class1_null_names_map = array_flip(['p0', 'p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']);
+		$class1_null_values = array_intersect_key($values, $class1_null_names_map);
+		$class1_null_expected = array_intersect_key($expected, $class1_null_names_map);
+		
+		//prepare (class1, stdclass)
+		$class1_stdclass_names_map = array_flip(['p0', 'p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']);
+		$class1_stdclass_values = array_intersect_key($values, $class1_stdclass_names_map);
+		$class1_stdclass_expected = array_intersect_key($expected, $class1_stdclass_names_map);
+		
+		//prepare (class1, class1)
+		$class1_class1_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19',
+			'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1'
+		]);
+		$class1_class1_values = array_intersect_key($values, $class1_class1_names_map);
+		$class1_class1_expected = array_intersect_key($expected, $class1_class1_names_map);
+		
+		//prepare (class1, class2)
+		$class1_class2_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22',
+			'p23', 'c1p0'
+		]);
+		$class1_class2_values = array_intersect_key($values, $class1_class2_names_map);
+		$class1_class2_expected = array_intersect_key($expected, $class1_class2_names_map);
+		
+		//prepare (class1, class3)
+		$class1_class3_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22',
+			'p23', 'c1p0'
+		]);
+		$class1_class3_values = array_intersect_key($values, $class1_class3_names_map);
+		$class1_class3_expected = array_intersect_key($expected, $class1_class3_names_map);
+		
+		//prepare (class2, null)
+		$class2_null_names_map = array_flip([
+			'p0', 'p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c2p3'
+		]);
+		$class2_null_values = array_intersect_key($values, $class2_null_names_map);
+		$class2_null_expected = array_intersect_key($expected, $class2_null_names_map);
+		
+		//prepare (class2, stdclass)
+		$class2_stdclass_names_map = array_flip([
+			'p0', 'p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c2p3'
+		]);
+		$class2_stdclass_values = array_intersect_key($values, $class2_stdclass_names_map);
+		$class2_stdclass_expected = array_intersect_key($expected, $class2_stdclass_names_map);
+		
+		//prepare (class2, class1)
+		$class2_class1_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19',
+			'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1', 'c2p3'
+		]);
+		$class2_class1_values = array_intersect_key($values, $class2_class1_names_map);
+		$class2_class1_expected = array_intersect_key($expected, $class2_class1_names_map);
+		
+		//prepare (class2, class2)
+		$class2_class2_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22',
+			'p23', 'c1p0', 'c2p0', 'c2p1', 'c2p2', 'c2p3', 'c2p4'
+		]);
+		$class2_class2_values = array_intersect_key($values, $class2_class2_names_map);
+		$class2_class2_expected = array_intersect_key($expected, $class2_class2_names_map);
+		
+		//prepare (class2, class3)
+		$class2_class3_names_map = array_flip([
+			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22',
+			'p23', 'c1p0', 'c2p0', 'c2p3', 'c2p4'
+		]);
+		$class2_class3_values = array_intersect_key($values, $class2_class3_names_map);
+		$class2_class3_expected = array_intersect_key($expected, $class2_class3_names_map);
+		
+		//return
+		return [
+			[$class1_null_values, $class1_null_expected, $class1, null],
+			[$class1_stdclass_values, $class1_stdclass_expected, $class1, $stdclass],
+			[$class1_class1_values, $class1_class1_expected, $class1, $class1],
+			[$class1_class2_values, $class1_class2_expected, $class1, $class2],
+			[$class1_class3_values, $class1_class3_expected, $class1, $class3],
+			[$class2_null_values, $class2_null_expected, $class2, null],
+			[$class2_stdclass_values, $class2_stdclass_expected, $class2, $stdclass],
+			[$class2_class1_values, $class2_class1_expected, $class2, $class1],
+			[$class2_class2_values, $class2_class2_expected, $class2, $class2],
+			[$class2_class3_values, $class2_class3_expected, $class2, $class3]
+		];
+	}
+	
 	
 	
 	//Protected methods
