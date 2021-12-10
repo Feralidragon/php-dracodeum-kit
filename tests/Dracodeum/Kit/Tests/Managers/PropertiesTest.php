@@ -4469,6 +4469,301 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `mset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Mset Undefined exception
+	 * @dataProvider provideMsetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMset_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1));
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mset` method data for an `Undefined` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMsetData_UndefinedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p'], ['p']],
+			[$class1, ['p', 'p0'], ['p']],
+			[$class1, ['p2', 'p3'], ['p2', 'p3']],
+			[$class1, ['p0', 'p2', 'p6', 'p3'], ['p2', 'p3']],
+			[$class1, ['p4', 'p5', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class1, ['p0', 'p4', 'p5', 'p6', 'p11', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class2, ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']],
+			[$class2, ['p', 'p0', 'p2', 'p3', 'p4', 'p5', 'p6', 'c2p2', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']]
+		];
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Mset Inaccessible exception
+	 * @dataProvider provideMsetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMset_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1), $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mset` method data for an `Inaccessible` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMsetData_InaccessibleException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, ['p1'], ['p1']],
+			[$class1, $stdclass, ['p1'], ['p1']],
+			[$class1, null, ['p0', 'p1'], ['p1']],
+			[$class1, $stdclass, ['p0', 'p1'], ['p1']],
+			[$class1, null, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, null, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class2, null, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, null, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']]
+		];
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Unwriteable` exception to be thrown.
+	 * 
+	 * @testdox Mset Unwriteable exception
+	 * @dataProvider provideMsetData_UnwriteableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMset_UnwriteableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnwriteableException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1), $scope_class);
+		} catch (UnwriteableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mset` method data for an `Unwriteable` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMsetData_UnwriteableException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			[$class1, null, ['p10'], ['p10']],
+			[$class1, $stdclass, ['p10'], ['p10']],
+			[$class2, null, ['p10'], ['p10']],
+			[$class2, $stdclass, ['p10'], ['p10']],
+			[$class1, null, ['p10', 'p0'], ['p10']],
+			[$class1, $stdclass, ['p10', 'p0'], ['p10']],
+			[$class2, null, ['c2p3', 'p10', 'p0'], ['p10']],
+			[$class2, $stdclass, ['c2p3', 'p10', 'p0'], ['p10']],
+			[$class1, null, ['p6', 'p11', 'p0', 'p12', 'p14', 'c1p0'], ['p11', 'p12', 'p14', 'c1p0']],
+			[$class1, $stdclass, ['p6', 'p11', 'p0', 'p12', 'p14', 'c1p0'], ['p11', 'p12', 'p14', 'c1p0']],
+			[$class2, null, ['p6', 'p11', 'p0', 'c2p3', 'p12', 'p14', 'c1p0'], ['p11', 'p12', 'p14', 'c1p0']],
+			[$class2, $stdclass, ['p6', 'p11', 'p0', 'c2p3', 'p12', 'p14', 'c1p0'], ['p11', 'p12', 'p14', 'c1p0']],
+			[$class1, null, ['p15', 'p0', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class1, $stdclass, ['p15', 'p0', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class1, $class2, ['p15', 'p0', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class1, $class3, ['p15', 'p0', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class2, null, ['p15', 'p0', 'c2p3', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class2, $stdclass, ['p15', 'p0', 'c2p3', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class2, $class2, ['p15', 'p0', 'c2p3', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class2, $class3, ['p15', 'p0', 'c2p3', 'p16', 'p18', 'p6'], ['p15', 'p16', 'p18']],
+			[$class1, $class2, ['p10', 'p11', 'c1p1', 'p0'], ['c1p1']],
+			[$class1, $class3, ['p10', 'p11', 'c1p1', 'p0'], ['c1p1']],
+			[$class2, $class2, ['p10', 'p11', 'c1p1', 'p0'], ['c1p1']],
+			[$class2, $class3, ['p10', 'p11', 'c1p1', 'p0'], ['c1p1']],
+			[$class2, null, ['p0', 'c2p0', 'c2p3', 'c2p2', 'p6'], ['c2p0', 'c2p2']],
+			[$class2, $stdclass, ['p0', 'c2p0', 'c2p3', 'c2p2', 'p6'], ['c2p0', 'c2p2']],
+			[$class2, $class1, ['p0', 'c2p0', 'c2p3', 'p6', 'c2p2'], ['c2p0', 'c2p2']],
+			[$class2, $class3, ['p0', 'c2p0', 'c2p1', 'c2p2', 'c2p3'], ['c2p1', 'c2p2']]
+		];
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Mset Invalid exception
+	 * @dataProvider provideMsetData_InvalidException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @param array $values
+	 * The values to test with, as a set of `name => value` pairs.
+	 * 
+	 * @return void
+	 */
+	public function testMset_InvalidException(string $class, array $expected_names, array $values): void
+	{		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		});
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->mset($values, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame(array_intersect_key($values, array_flip($expected_names)), $exception->values);
+			$this->assertSame($expected_names, array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `mset` method data for an `Invalid` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMsetData_InvalidException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p8'], ['p8' => 'foo']],
+			[$class2, ['p8'], ['p8' => 'foo']],
+			[$class1, ['p8'], ['p0' => 321, 'p8' => 'foo']],
+			[$class2, ['p8'], ['p0' => 321, 'p8' => 'foo']],
+			[$class1, ['p9', 'p19', 'p20', 'p21'], [
+				'p9' => '1bar', 'p0' => 321, 'p19' => true, 'p20' => [], 'p6' => true, 'p21' => 1.1
+			]],
+			[$class2, ['p9', 'p19', 'p20', 'p21', 'c2p0', 'c2p2', 'c2p4'], [
+				'p9' => '1bar', 'p0' => 321, 'p19' => true, 'p20' => [], 'p6' => true, 'p21' => 1.1, 'c2p0' => 'a',
+				'p17' => false, 'c2p1' => 1, 'c2p2' => false, 'c2p4' => [1, 2], 'p22' => '75.80'
+			]]
+		];
+	}
+	
 	
 	
 	//Protected methods
