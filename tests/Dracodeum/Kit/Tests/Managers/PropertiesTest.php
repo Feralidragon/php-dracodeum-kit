@@ -22,6 +22,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\{
 	Inaccessible as InaccessibleException,
 	Unreadable as UnreadableException,
 	Unwriteable as UnwriteableException,
+	Ununsettable as UnunsettableException,
 	Uninitialized as UninitializedException,
 	Invalid as InvalidException
 };
@@ -4761,6 +4762,607 @@ class PropertiesTest extends TestCase
 				'p9' => '1bar', 'p0' => 321, 'p19' => true, 'p20' => [], 'p6' => true, 'p21' => 1.1, 'c2p0' => 'a',
 				'p17' => false, 'c2p1' => 1, 'c2p2' => false, 'c2p4' => [1, 2], 'p22' => '75.80'
 			]]
+		];
+	}
+	
+	/**
+	 * Test `unset` method.
+	 * 
+	 * @testdox Unset
+	 * @dataProvider provideUnsetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testUnset(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values1 = [
+			'p6' => true,
+			'p7' => [],
+			'p8' => '-98',
+			'p9' => '-2.5',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => '-749',
+			'p20' => 'fooBar',
+			'p21' => '7k',
+			'p22' => '75.80',
+			'p23' => '930',
+			'c1p0' => 56.72,
+			'c1p1' => 234
+		];
+		$values2 = [
+			'c2p1' => 1,
+			'c2p2' => '975',
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//defaults
+		$defaults = [
+			'p6' => null,
+			'p7' => null,
+			'p8' => 0,
+			'p9' => 1.0,
+			'p11' => 1,
+			'p12' => 1,
+			'p13' => 1,
+			'p14' => 1,
+			'p15' => 1,
+			'p16' => 1,
+			'p17' => 1,
+			'p18' => 1,
+			'p19' => 1200,
+			'p20' => '420',
+			'p21' => null,
+			'p22' => '100',
+			'p23' => 1,
+			'c1p0' => 'foo',
+			'c1p1' => '',
+			'c2p1' => false,
+			'c2p2' => 75.5,
+			'c2p4' => []
+		];
+		
+		//manager
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values1, $class1);
+		if ($class === $class2) {
+			$manager->mset($values2, $class2);
+		}
+		
+		//assert
+		$this->assertNotSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+		$this->assertSame($manager, $manager->unset($name, $scope_class));
+		$this->assertSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+	}
+	
+	/**
+	 * Provide `unset` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideUnsetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			['p6', $class1, null],
+			['p6', $class1, $stdclass],
+			['p6', $class1, $class1],
+			['p6', $class1, $class2],
+			['p6', $class1, $class3],
+			['p6', $class2, null],
+			['p6', $class2, $stdclass],
+			['p6', $class2, $class1],
+			['p6', $class2, $class2],
+			['p6', $class2, $class3],
+			['p7', $class1, $class1],
+			['p7', $class1, $class2],
+			['p7', $class1, $class3],
+			['p7', $class2, $class1],
+			['p7', $class2, $class2],
+			['p7', $class2, $class3],
+			['p8', $class1, null],
+			['p8', $class1, $stdclass],
+			['p8', $class1, $class1],
+			['p8', $class1, $class2],
+			['p8', $class1, $class3],
+			['p8', $class2, null],
+			['p8', $class2, $stdclass],
+			['p8', $class2, $class1],
+			['p8', $class2, $class2],
+			['p8', $class2, $class3],
+			['p9', $class1, $class1],
+			['p9', $class1, $class2],
+			['p9', $class1, $class3],
+			['p9', $class2, $class1],
+			['p9', $class2, $class2],
+			['p9', $class2, $class3],
+			['p11', $class1, $class1],
+			['p11', $class1, $class2],
+			['p11', $class1, $class3],
+			['p11', $class2, $class1],
+			['p11', $class2, $class2],
+			['p11', $class2, $class3],
+			['p12', $class1, $class1],
+			['p12', $class1, $class2],
+			['p12', $class1, $class3],
+			['p12', $class2, $class1],
+			['p12', $class2, $class2],
+			['p12', $class2, $class3],
+			['p13', $class1, null],
+			['p13', $class1, $stdclass],
+			['p13', $class1, $class1],
+			['p13', $class1, $class2],
+			['p13', $class1, $class3],
+			['p13', $class2, null],
+			['p13', $class2, $stdclass],
+			['p13', $class2, $class1],
+			['p13', $class2, $class2],
+			['p13', $class2, $class3],
+			['p14', $class1, $class1],
+			['p14', $class1, $class2],
+			['p14', $class1, $class3],
+			['p14', $class2, $class1],
+			['p14', $class2, $class2],
+			['p14', $class2, $class3],
+			['p15', $class1, $class1],
+			['p15', $class2, $class1],
+			['p16', $class1, $class1],
+			['p16', $class2, $class1],
+			['p17', $class1, null],
+			['p17', $class1, $stdclass],
+			['p17', $class1, $class1],
+			['p17', $class1, $class2],
+			['p17', $class1, $class3],
+			['p17', $class2, null],
+			['p17', $class2, $stdclass],
+			['p17', $class2, $class1],
+			['p17', $class2, $class2],
+			['p17', $class2, $class3],
+			['p18', $class1, $class1],
+			['p18', $class2, $class1],
+			['p19', $class1, null],
+			['p19', $class1, $stdclass],
+			['p19', $class1, $class1],
+			['p19', $class1, $class2],
+			['p19', $class1, $class3],
+			['p19', $class2, null],
+			['p19', $class2, $stdclass],
+			['p19', $class2, $class1],
+			['p19', $class2, $class2],
+			['p19', $class2, $class3],
+			['p20', $class1, null],
+			['p20', $class1, $stdclass],
+			['p20', $class1, $class1],
+			['p20', $class1, $class2],
+			['p20', $class1, $class3],
+			['p20', $class2, null],
+			['p20', $class2, $stdclass],
+			['p20', $class2, $class1],
+			['p20', $class2, $class2],
+			['p20', $class2, $class3],
+			['p21', $class1, null],
+			['p21', $class1, $stdclass],
+			['p21', $class1, $class1],
+			['p21', $class1, $class2],
+			['p21', $class1, $class3],
+			['p21', $class2, null],
+			['p21', $class2, $stdclass],
+			['p21', $class2, $class1],
+			['p21', $class2, $class2],
+			['p21', $class2, $class3],
+			['p22', $class1, null],
+			['p22', $class1, $stdclass],
+			['p22', $class1, $class1],
+			['p22', $class1, $class2],
+			['p22', $class1, $class3],
+			['p22', $class2, null],
+			['p22', $class2, $stdclass],
+			['p22', $class2, $class1],
+			['p22', $class2, $class2],
+			['p22', $class2, $class3],
+			['p23', $class1, null],
+			['p23', $class1, $stdclass],
+			['p23', $class1, $class1],
+			['p23', $class1, $class2],
+			['p23', $class1, $class3],
+			['p23', $class2, null],
+			['p23', $class2, $stdclass],
+			['p23', $class2, $class1],
+			['p23', $class2, $class2],
+			['p23', $class2, $class3],
+			['c1p0', $class1, $class1],
+			['c1p0', $class1, $class2],
+			['c1p0', $class1, $class3],
+			['c1p0', $class2, $class1],
+			['c1p0', $class2, $class2],
+			['c1p0', $class2, $class3],
+			['c1p1', $class1, $class1],
+			['c1p1', $class2, $class1],
+			['c2p1', $class2, $class2],
+			['c2p2', $class2, $class2],
+			['c2p4', $class2, $class2],
+			['c2p4', $class2, $class3]
+		];
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Unset Uninitialized exception
+	 * @dataProvider provideUnsetData_UninitializedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testUnset_UninitializedException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values = [
+			'p1' => 456,
+			'p10' => '__A__'
+		];
+		
+		//manager
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values, $class1);
+		
+		//assert
+		$this->assertSame($values[$name], $manager->get($name, $class1));
+		$this->assertSame($manager, $manager->unset($name, $scope_class));
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->get($name, $class1);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `unset` method data for an `Uninitialized` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideUnsetData_UninitializedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			['p1', $class1, $class1],
+			['p1', $class1, $class2],
+			['p1', $class1, $class3],
+			['p1', $class2, $class1],
+			['p1', $class2, $class2],
+			['p1', $class2, $class3],
+			['p10', $class1, $class1],
+			['p10', $class1, $class2],
+			['p10', $class1, $class3],
+			['p10', $class2, $class1],
+			['p10', $class2, $class2],
+			['p10', $class2, $class3]
+		];
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Unset Undefined exception
+	 * @dataProvider provideUnsetData_UndefinedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testUnset_UndefinedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->unset($name);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `unset` method data for an `Undefined` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideUnsetData_UndefinedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p', $class1],
+			['p2', $class1],
+			['p3', $class1],
+			['p4', $class1],
+			['p5', $class1],
+			['c2p0', $class1],
+			['p', $class2],
+			['p2', $class2],
+			['p3', $class2],
+			['p4', $class2],
+			['p5', $class2],
+			['c2p5', $class2]
+		];
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Unset Inaccessible exception
+	 * @dataProvider provideUnsetData_InaccessibleException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testUnset_InaccessibleException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->unset($name, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `unset` method data for an `Inaccessible` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideUnsetData_InaccessibleException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			['p1', $class1, null],
+			['p1', $class1, $stdclass],
+			['p1', $class2, null],
+			['p1', $class2, $stdclass],
+			['p7', $class1, null],
+			['p7', $class1, $stdclass],
+			['p7', $class2, null],
+			['p7', $class2, $stdclass],
+			['p9', $class1, null],
+			['p9', $class1, $stdclass],
+			['p9', $class2, null],
+			['p9', $class2, $stdclass],
+			['c2p1', $class2, null],
+			['c2p1', $class2, $stdclass]
+		];
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Ununsettable` exception to be thrown.
+	 * 
+	 * @testdox Unset Ununsettable exception
+	 * @dataProvider provideUnsetData_UnunsettableException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testUnset_UnunsettableException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnunsettableException::class);
+		try {
+			$manager->unset($name, $scope_class);
+		} catch (UnunsettableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `unset` method data for an `Ununsettable` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideUnsetData_UnunsettableException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			['p0', $class1, null],
+			['p0', $class1, $stdclass],
+			['p0', $class1, $class1],
+			['p0', $class1, $class2],
+			['p0', $class1, $class3],
+			['p0', $class2, null],
+			['p0', $class2, $stdclass],
+			['p0', $class2, $class1],
+			['p0', $class2, $class2],
+			['p0', $class2, $class3],
+			['p10', $class1, null],
+			['p10', $class1, $stdclass],
+			['p10', $class2, null],
+			['p10', $class2, $stdclass],
+			['p11', $class1, null],
+			['p11', $class1, $stdclass],
+			['p11', $class2, null],
+			['p11', $class2, $stdclass],
+			['p12', $class1, null],
+			['p12', $class1, $stdclass],
+			['p12', $class2, null],
+			['p12', $class2, $stdclass],
+			['p14', $class1, null],
+			['p14', $class1, $stdclass],
+			['p14', $class2, null],
+			['p14', $class2, $stdclass],
+			['p15', $class1, null],
+			['p15', $class1, $stdclass],
+			['p15', $class1, $class2],
+			['p15', $class1, $class3],
+			['p15', $class2, null],
+			['p15', $class2, $stdclass],
+			['p15', $class2, $class2],
+			['p15', $class2, $class3],
+			['p16', $class1, null],
+			['p16', $class1, $stdclass],
+			['p16', $class1, $class2],
+			['p16', $class1, $class3],
+			['p16', $class2, null],
+			['p16', $class2, $stdclass],
+			['p16', $class2, $class2],
+			['p16', $class2, $class3],
+			['p18', $class1, null],
+			['p18', $class1, $stdclass],
+			['p18', $class1, $class2],
+			['p18', $class1, $class3],
+			['p18', $class2, null],
+			['p18', $class2, $stdclass],
+			['p18', $class2, $class2],
+			['p18', $class2, $class3],
+			['c1p0', $class1, null],
+			['c1p0', $class1, $stdclass],
+			['c1p0', $class2, null],
+			['c1p0', $class2, $stdclass],
+			['c1p1', $class1, $class2],
+			['c1p1', $class1, $class3],
+			['c1p1', $class2, $class2],
+			['c1p1', $class2, $class3],
+			['c2p0', $class2, null],
+			['c2p0', $class2, $stdclass],
+			['c2p0', $class2, $class1],
+			['c2p0', $class2, $class2],
+			['c2p0', $class2, $class3],
+			['c2p1', $class2, $class3],
+			['c2p2', $class2, null],
+			['c2p2', $class2, $stdclass],
+			['c2p2', $class2, $class1],
+			['c2p2', $class2, $class3],
+			['c2p3', $class2, null],
+			['c2p3', $class2, $stdclass],
+			['c2p3', $class2, $class1],
+			['c2p3', $class2, $class2],
+			['c2p3', $class2, $class3]
 		];
 	}
 	
