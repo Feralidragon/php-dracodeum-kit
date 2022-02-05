@@ -5366,6 +5366,170 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `munset` method.
+	 * 
+	 * @testdox Munset
+	 * @dataProvider provideMunsetData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @return void
+	 */
+	public function testMunset(string $class, ?string $scope_class, array $names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values1 = [
+			'p6' => true,
+			'p7' => [],
+			'p8' => '-98',
+			'p9' => '-2.5',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => '-749',
+			'p20' => 'fooBar',
+			'p21' => '7k',
+			'p22' => '75.80',
+			'p23' => '930',
+			'c1p0' => 56.72,
+			'c1p1' => 234
+		];
+		$values2 = [
+			'c2p2' => '975',
+			'c2p1' => 1,
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//defaults
+		$defaults = [
+			'p6' => null,
+			'p7' => null,
+			'p8' => 0,
+			'p9' => 1.0,
+			'p11' => 1,
+			'p12' => 1,
+			'p13' => 1,
+			'p14' => 1,
+			'p15' => 1,
+			'p16' => 1,
+			'p17' => 1,
+			'p18' => 1,
+			'p19' => 1200,
+			'p20' => '420',
+			'p21' => null,
+			'p22' => '100',
+			'p23' => 1,
+			'c1p0' => 'foo',
+			'c1p1' => '',
+			'c2p2' => 75.5,
+			'c2p1' => false,
+			'c2p4' => []
+		];
+		
+		//manager
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values1, $class1);
+		if ($class === $class2) {
+			$manager->mset($values2, $class2);
+		}
+		
+		//assert (before)
+		$names_map = array_flip($names);
+		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$inner_defaults = array_intersect_key($defaults, $names_map);
+		foreach ($inner_defaults as $name => $default) {
+			$this->assertNotSame($default, $values[$name]);
+		}
+		
+		//assert
+		$this->assertSame($manager, $manager->munset($names, $scope_class));
+		
+		//assert (after)
+		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$outer_defaults = array_diff_key(array_intersect_key($defaults, $values), $names_map);
+		foreach ($outer_defaults as $name => $default) {
+			$this->assertNotSame($default, $values[$name]);
+		}
+		$this->assertSame(array_intersect_key($defaults, $names_map), array_intersect_key($values, $names_map));
+	}
+	
+	/**
+	 * Provide `munset` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMunsetData(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			[$class1, null, ['p6', 'p8', 'p13']],
+			[$class1, null, ['p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']],
+			[$class1, $stdclass, ['p6', 'p8', 'p13']],
+			[$class1, $stdclass, ['p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']],
+			[$class1, $class1, ['p6', 'p7', 'p8', 'p12', 'p15', 'p20', 'p21', 'c1p0']],
+			[$class1, $class1, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21',
+				'p22', 'p23', 'c1p0', 'c1p1'
+			]],
+			[$class1, $class2, ['p6', 'p7', 'p8', 'p9', 'p12', 'p20', 'p21', 'c1p0']],
+			[$class1, $class2, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0'
+			]],
+			[$class1, $class3, ['p6', 'p7', 'p8', 'p9', 'p12', 'p20', 'p21', 'c1p0']],
+			[$class1, $class3, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0'
+			]],
+			[$class2, null, ['p6', 'p8', 'p13']],
+			[$class2, null, ['p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']],
+			[$class2, $stdclass, ['p6', 'p8', 'p13']],
+			[$class2, $stdclass, ['p6', 'p8', 'p13', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23']],
+			[$class2, $class1, ['p6', 'p7', 'p8', 'p12', 'p15', 'p20', 'p21', 'c1p0']],
+			[$class2, $class1, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21',
+				'p22', 'p23', 'c1p0', 'c1p1'
+			]],
+			[$class2, $class2, ['p6', 'p7', 'p8', 'p9', 'p12', 'p20', 'c1p0', 'c2p1']],
+			[$class2, $class2, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0',
+				'c2p1', 'c2p2', 'c2p4'
+			]],
+			[$class2, $class3, ['p6', 'p7', 'p8', 'p9', 'p12', 'p20', 'c1p0', 'c2p4']],
+			[$class2, $class3, [
+				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0',
+				'c2p4'
+			]]
+		];
+	}
+	
 	
 	
 	//Protected methods
