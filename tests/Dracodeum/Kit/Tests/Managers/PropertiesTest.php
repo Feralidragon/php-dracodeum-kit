@@ -5530,6 +5530,265 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test `munset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Munset Undefined exception
+	 * @dataProvider provideMunsetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMunset_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->munset($names);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `munset` method data for an `Undefined` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMunsetData_UndefinedException(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, ['p'], ['p']],
+			[$class1, ['p', 'p0'], ['p']],
+			[$class1, ['p2', 'p3'], ['p2', 'p3']],
+			[$class1, ['p0', 'p2', 'p6', 'p3'], ['p2', 'p3']],
+			[$class1, ['p4', 'p5', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class1, ['p0', 'p4', 'p5', 'p6', 'p11', 'c2p0'], ['p4', 'p5', 'c2p0']],
+			[$class2, ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']],
+			[$class2, ['p', 'p0', 'p2', 'p3', 'p4', 'p5', 'p6', 'c2p2', 'c2p5'], ['p', 'p2', 'p3', 'p4', 'p5', 'c2p5']]
+		];
+	}
+	
+	/**
+	 * Test `munset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Munset Inaccessible exception
+	 * @dataProvider provideMunsetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMunset_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->munset($names, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `munset` method data for an `Inaccessible` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMunsetData_InaccessibleException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, ['p1'], ['p1']],
+			[$class1, $stdclass, ['p1'], ['p1']],
+			[$class1, null, ['p0', 'p1'], ['p1']],
+			[$class1, $stdclass, ['p0', 'p1'], ['p1']],
+			[$class1, null, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p7', 'p9'], ['p7', 'p9']],
+			[$class1, null, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class1, $stdclass, ['p0', 'p7', 'p6', 'p9'], ['p7', 'p9']],
+			[$class2, null, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p7', 'p9', 'c2p1'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, null, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']],
+			[$class2, $stdclass, ['p1', 'p0', 'p7', 'p6', 'p9', 'c2p1', 'c2p2'], ['p1', 'p7', 'p9', 'c2p1']]
+		];
+	}
+	
+	/**
+	 * Test `munset` method expecting an `Ununsettable` exception to be thrown.
+	 * 
+	 * @testdox Munset Ununsettable exception
+	 * @dataProvider provideMunsetData_UnunsettableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @return void
+	 */
+	public function testMunset_UnunsettableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class());
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnunsettableException::class);
+		try {
+			$manager->munset($names, $scope_class);
+		} catch (UnunsettableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide `munset` method data for an `Ununsettable` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMunsetData_UnunsettableException(): array
+	{
+		//initialize
+		$stdclass = stdClass::class;
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$class3 = PropertiesTest_Class3::class;
+		
+		//return
+		return [
+			[$class1, null, ['p0'], ['p0']],
+			[$class1, null, ['p6', 'p0', 'p8'], ['p0']],
+			[$class1, null,
+				['p0', 'p6', 'p8', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'c1p0'],
+				['p0', 'p10', 'p11', 'p12', 'p14', 'p15', 'p16', 'p18', 'c1p0']
+			],
+			[$class1, $stdclass, ['p0'], ['p0']],
+			[$class1, $stdclass, ['p6', 'p0', 'p8'], ['p0']],
+			[$class1, $stdclass,
+				['p0', 'p6', 'p8', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'c1p0'],
+				['p0', 'p10', 'p11', 'p12', 'p14', 'p15', 'p16', 'p18', 'c1p0']
+			],
+			[$class1, $class1, ['p0'], ['p0']],
+			[$class1, $class1, ['p6', 'p0', 'p8'], ['p0']],
+			[$class1, $class2, ['p0'], ['p0']],
+			[$class1, $class2, ['p6', 'p0', 'p8'], ['p0']],
+			[$class1, $class2,
+				['p0', 'p6', 'p7', 'p8', 'p9', 'p15', 'p16', 'p17', 'p18', 'c1p0', 'c1p1'],
+				['p0', 'p15', 'p16', 'p18', 'c1p1']
+			],
+			[$class1, $class3, ['p0'], ['p0']],
+			[$class1, $class3, ['p6', 'p0', 'p8'], ['p0']],
+			[$class1, $class3,
+				['p0', 'p6', 'p7', 'p8', 'p9', 'p15', 'p16', 'p17', 'p18', 'c1p0', 'c1p1'],
+				['p0', 'p15', 'p16', 'p18', 'c1p1']
+			],
+			[$class2, null, ['p0'], ['p0']],
+			[$class2, null, ['p6', 'p0', 'p8'], ['p0']],
+			[$class2, null,
+				['p0', 'p6', 'p8', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21',
+					'c1p0', 'c2p0', 'c2p2', 'c2p3'],
+				['p0', 'p10', 'p11', 'p12', 'p14', 'p15', 'p16', 'p18', 'c1p0', 'c2p0', 'c2p2', 'c2p3']
+			],
+			[$class2, $stdclass, ['p0'], ['p0']],
+			[$class2, $stdclass, ['p6', 'p0', 'p8'], ['p0']],
+			[$class2, $stdclass,
+				['p0', 'p6', 'p8', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21',
+					'c1p0', 'c2p0', 'c2p2', 'c2p3'],
+				['p0', 'p10', 'p11', 'p12', 'p14', 'p15', 'p16', 'p18', 'c1p0', 'c2p0', 'c2p2', 'c2p3']
+			],
+			[$class2, $class1, ['p0'], ['p0']],
+			[$class2, $class1, ['p6', 'p0', 'p8'], ['p0']],
+			[$class2, $class1,
+				['p0', 'p6', 'p7', 'p8', 'c1p0', 'c1p1', 'c2p0', 'c2p2', 'c2p3'], ['p0', 'c2p0', 'c2p2', 'c2p3']
+			],
+			[$class2, $class2, ['p0'], ['p0']],
+			[$class2, $class2, ['p6', 'p0', 'p8'], ['p0']],
+			[$class2, $class2,
+				['p0', 'p6', 'p7', 'p8', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'c1p0', 'c1p1', 'c2p0', 'c2p1',
+					'c2p2', 'c2p3', 'c2p4'],
+				['p0', 'p15', 'p16', 'p18', 'c1p1', 'c2p0', 'c2p3']
+			],
+			[$class2, $class3, ['p0'], ['p0']],
+			[$class2, $class3, ['p6', 'p0', 'p8'], ['p0']],
+			[$class2, $class3,
+				['p0', 'p6', 'p7', 'p8', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'c1p0', 'c1p1', 'c2p0', 'c2p1',
+					'c2p2', 'c2p3', 'c2p4'],
+				['p0', 'p15', 'p16', 'p18', 'c1p1', 'c2p0', 'c2p1', 'c2p2', 'c2p3']
+			]
+		];
+	}
+	
 	
 	
 	//Protected methods
