@@ -29,11 +29,14 @@ final class Property
 	/** Modes of operation. */
 	private const MODES = ['r', 'r+', 'rw', 'w', 'w-'];
 	
-	/** Affect subclasses by mode (flag). */
-	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x1;
-	
 	/** Lazy (flag). */
-	private const FLAG_LAZY = 0x2;
+	private const FLAG_LAZY = 0x1;
+	
+	/** Required (flag). */
+	private const FLAG_REQUIRED = 0x2;
+	
+	/** Affect subclasses by mode (flag). */
+	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x4;
 	
 	
 	
@@ -82,7 +85,21 @@ final class Property
 	 */
 	final public function isRequired(): bool
 	{
-		return $this->reflection->isPublic() && !$this->hasDefaultValue() && $this->mode !== 'r';
+		return UByte::hasFlag($this->flags, self::FLAG_REQUIRED) || (
+			$this->reflection->isPublic() && !$this->hasDefaultValue() && $this->mode !== 'r'
+		);
+	}
+	
+	/**
+	 * Set as required.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setAsRequired()
+	{
+		UByte::setFlag($this->flags, self::FLAG_REQUIRED);
+		return $this;
 	}
 	
 	/**

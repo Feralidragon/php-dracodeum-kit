@@ -10,6 +10,7 @@ namespace Dracodeum\Kit\Tests\Managers;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Attributes\Property\{
 	mode,
+	required,
 	coercive,
 	strict,
 	lazy
@@ -6768,7 +6769,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isAccessible($stdclass));
 		$this->assertTrue($property->isAccessible($class1));
 		$this->assertTrue($property->isAccessible($class2));
-		$this->assertFalse($property->hasDefaultValue());
+		$this->assertTrue($property->hasDefaultValue());
 		$this->assertNull($property->getDefaultValue());
 		$this->assertSame('w-', $property->getMode());
 		$this->assertFalse($property->areSubclassesAffectedByMode());
@@ -7048,8 +7049,8 @@ class PropertiesTest_Class1
 /** Test case dummy class 2. */
 class PropertiesTest_Class2 extends PropertiesTest_Class1
 {
-	#[mode('w-'), coercive]
-	public int $c2p0;
+	#[required, mode('w-'), coercive('int')]
+	public $c2p0;
 	
 	#[lazy, mode('r', true)]
 	protected bool $c2p1 = false;
