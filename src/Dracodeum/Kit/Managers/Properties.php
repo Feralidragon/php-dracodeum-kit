@@ -1763,6 +1763,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 				//lazy
 				if ($persisted && $property->isLazy() && array_key_exists($name, $old_values)) {
 					$property->evaluateValue($old_values[$name]);
+					$old_keys[$name] = UType::keyValue($old_values[$name], true);
 				}
 				
 				//persistable (new uid)
