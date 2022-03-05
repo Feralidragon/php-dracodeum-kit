@@ -41,6 +41,23 @@ class TypeTest extends TestCase
 {
 	//Public methods
 	/**
+	 * Test build.
+	 * 
+	 * @testdox Build
+	 * 
+	 * @return void
+	 */
+	public function testBuild(): void
+	{
+		//build
+		$component = Component::build(TypeTest_Prototype1::class);
+		
+		//assert
+		$this->assertInstanceOf(Component::class, $component);
+		$this->assertFalse($component->hasMutators());
+	}
+	
+	/**
 	 * Test prototype name.
 	 * 
 	 * @testdox Prototype name ("$name")
@@ -791,6 +808,7 @@ class TypeTest extends TestCase
 	 */
 	public function testMutators(Component $component, mixed $value, mixed $expected): void
 	{
+		$this->assertTrue($component->hasMutators());
 		$this->assertNull($component->process($value));
 		$this->assertSame($expected, $value);
 	}
@@ -860,6 +878,9 @@ class TypeTest extends TestCase
 			->addMutator(TypeTest_MutatorPrototype1::class)
 			->addMutator(TypeTest_MutatorPrototype2::class, [1000])
 		;
+		
+		//check
+		$this->assertTrue($component->hasMutators());
 		
 		//error 1
 		$value = $v = '65';

@@ -345,4 +345,15 @@ class Type extends Component
 		//return
 		return $this;
 	}
+	
+	/**
+	 * Check if has mutators.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has mutators.
+	 */
+	final public function hasMutators(): bool
+	{
+		return (bool)$this->mutators;
+	}
 }
