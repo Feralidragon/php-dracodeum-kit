@@ -7,9 +7,8 @@ use Dracodeum\Kit\Factories\Component as FComponent;
 use Dracodeum\Kit\Attributes\Property\{
 	coercive,
 	strict,
-	read,
-	write,
-	lazy
+	mutator,
+	write
 };
 
 System::setAsFramework();
@@ -17,7 +16,7 @@ System::setEnvironment('development');
 
 class A
 {
-	#[coercive('ustring', nullable: true), read, lazy]
+	#[coercive('ustring', nullable: true), mutator('non_empty'), mutator('truncate', 5, ellipsis: true)]
 	public string $label;
 	
 	protected int $amount = 12;
@@ -45,7 +44,7 @@ class C extends B
 $a = new C;
 $p = new Dracodeum\Kit\Managers\PropertiesV2($a);
 
-$p->initialize(['foo', 'percentage' => 95.0]);
+$p->initialize(['foobar', 'percentage' => 95.0]);
 
 var_dump($p);
 
