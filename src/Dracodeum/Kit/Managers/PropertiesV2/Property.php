@@ -78,6 +78,17 @@ final class Property
 	}
 	
 	/**
+	 * Get name.
+	 * 
+	 * @return string
+	 * The name.
+	 */
+	final public function getName(): string
+	{
+		return $this->reflection->getName();
+	}
+	
+	/**
 	 * Check if is required.
 	 * 
 	 * @return bool

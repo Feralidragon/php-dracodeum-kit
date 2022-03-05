@@ -28,6 +28,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\{
 	Invalid as InvalidException
 };
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed as CallNotAllowedException;
+use ReflectionProperty;
 use stdClass;
 use Closure;
 
@@ -5809,7 +5810,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p0', $property->getReflection()->getName());
+		$this->assertSame('p0', $property->getName());
 		$this->assertTrue($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -5852,7 +5855,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p1', $property->getReflection()->getName());
+		$this->assertSame('p1', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
@@ -5895,7 +5900,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p6', $property->getReflection()->getName());
+		$this->assertSame('p6', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -5938,7 +5945,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p7', $property->getReflection()->getName());
+		$this->assertSame('p7', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
@@ -5981,7 +5990,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p8', $property->getReflection()->getName());
+		$this->assertSame('p8', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6024,7 +6035,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p9', $property->getReflection()->getName());
+		$this->assertSame('p9', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
@@ -6067,7 +6080,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p10', $property->getReflection()->getName());
+		$this->assertSame('p10', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6110,7 +6125,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p11', $property->getReflection()->getName());
+		$this->assertSame('p11', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6153,7 +6170,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p12', $property->getReflection()->getName());
+		$this->assertSame('p12', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6196,7 +6215,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p13', $property->getReflection()->getName());
+		$this->assertSame('p13', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6239,7 +6260,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p14', $property->getReflection()->getName());
+		$this->assertSame('p14', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6282,7 +6305,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p15', $property->getReflection()->getName());
+		$this->assertSame('p15', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6325,7 +6350,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p16', $property->getReflection()->getName());
+		$this->assertSame('p16', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6368,7 +6395,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p17', $property->getReflection()->getName());
+		$this->assertSame('p17', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6411,7 +6440,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p18', $property->getReflection()->getName());
+		$this->assertSame('p18', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6454,7 +6485,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p19', $property->getReflection()->getName());
+		$this->assertSame('p19', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6499,7 +6532,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p20', $property->getReflection()->getName());
+		$this->assertSame('p20', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6544,7 +6579,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p21', $property->getReflection()->getName());
+		$this->assertSame('p21', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6589,7 +6626,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p22', $property->getReflection()->getName());
+		$this->assertSame('p22', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6632,7 +6671,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('p23', $property->getReflection()->getName());
+		$this->assertSame('p23', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6675,7 +6716,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c1p0', $property->getReflection()->getName());
+		$this->assertSame('c1p0', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6720,7 +6763,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c1p1', $property->getReflection()->getName());
+		$this->assertSame('c1p1', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
@@ -6763,7 +6808,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c2p0', $property->getReflection()->getName());
+		$this->assertSame('c2p0', $property->getName());
 		$this->assertTrue($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6808,7 +6855,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c2p1', $property->getReflection()->getName());
+		$this->assertSame('c2p1', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
@@ -6851,7 +6900,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c2p2', $property->getReflection()->getName());
+		$this->assertSame('c2p2', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6896,7 +6947,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c2p3', $property->getReflection()->getName());
+		$this->assertSame('c2p3', $property->getName());
 		$this->assertTrue($property->isRequired());
 		$this->assertTrue($property->isAccessible());
 		$this->assertTrue($property->isAccessible($stdclass));
@@ -6941,7 +6994,9 @@ class PropertiesTest extends TestCase
 		$class2 = PropertiesTest_Class2::class;
 		
 		//assert
+		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
 		$this->assertSame('c2p4', $property->getReflection()->getName());
+		$this->assertSame('c2p4', $property->getName());
 		$this->assertFalse($property->isRequired());
 		$this->assertFalse($property->isAccessible());
 		$this->assertFalse($property->isAccessible($stdclass));
