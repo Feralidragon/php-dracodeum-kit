@@ -36,6 +36,9 @@ class PropertiesTest extends TestCase
 		$this->assertInstanceOf(Manager::class, $object->getPManager());
 		$this->assertSame($object->getManager(), $object->getPManager());
 		
+		//assert (p0)
+		$this->assertFalse(isset($object->p0));
+		
 		//assert (p1)
 		$this->assertTrue(isset($object->p1));
 		$this->assertSame('unreal', $object->p1);
