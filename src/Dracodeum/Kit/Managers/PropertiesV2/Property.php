@@ -401,8 +401,7 @@ final class Property
 		$function = function (string $name): void {
 			unset($this->$name);
 		};
-		$function->bindTo($object, $object);
-		$function($this->reflection->getName());
+		$function->bindTo($object, $object)($this->getName());
 		return $this;
 	}
 	

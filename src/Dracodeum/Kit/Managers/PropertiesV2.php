@@ -23,9 +23,7 @@ use ReflectionClass;
  * This manager handles and extends the properties of an object class with the following functionality:
  * - extended coercive and strict typification, using type components and mutators;
  * - modes of operation, such as read-write, read-only, write-only, and others;
- * - lazy type validation and coercion;
- * - custom getters and setters;
- * - value persistence.
+ * - lazy type validation and coercion.
  * 
  * Only non-static and non-private properties are supported and affected.
  * 
