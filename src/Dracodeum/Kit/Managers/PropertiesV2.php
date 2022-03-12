@@ -27,8 +27,8 @@ use ReflectionClass;
  * 
  * Only non-static and non-private properties are supported and affected.
  * 
- * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer
- * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyPostInitializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\Initializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PostInitializer
  */
 final class PropertiesV2 extends Manager
 {
@@ -427,10 +427,10 @@ final class PropertiesV2 extends Manager
 						//attributes
 						foreach ($r_property->getAttributes() as $r_attribute) {
 							$attribute = $r_attribute->newInstance();
-							if ($attribute instanceof Interfaces\PropertyInitializer) {
+							if ($attribute instanceof Interfaces\Attribute\Property\Initializer) {
 								$attribute->initializeProperty($property);
 							}
-							if ($attribute instanceof Interfaces\PropertyPostInitializer) {
+							if ($attribute instanceof Interfaces\Attribute\Property\PostInitializer) {
 								$properties_post_attributes[$p_name][] = $attribute;
 							}
 						}

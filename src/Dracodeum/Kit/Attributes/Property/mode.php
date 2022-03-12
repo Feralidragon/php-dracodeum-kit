@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Attributes\Property;
 
-use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPropertyInitializer;
+use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\Initializer as IPropertyInitializer;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Attribute;
 

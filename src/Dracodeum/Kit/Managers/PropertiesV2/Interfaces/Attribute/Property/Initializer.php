@@ -5,12 +5,12 @@
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Dracodeum\Kit\Managers\PropertiesV2\Interfaces;
+namespace Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 
-/** This interface defines a method to initialize a property. */
-interface PropertyInitializer
+/** This interface defines a method to initialize a property from an attribute. */
+interface Initializer
 {
 	//Public methods
 	/**
