@@ -11,7 +11,8 @@ use Dracodeum\Kit\Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\{
 	Property,
 	Interfaces,
-	Exceptions
+	Exceptions,
+	ClassEntry
 };
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
@@ -64,11 +65,8 @@ final class PropertiesV2 extends Manager
 	
 	
 	//Private static properties
-	/** @var array<string,array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property>> */
-	private static array $classes_properties = [];
-	
-	/** @var array<string,array<string,int>> */
-	private static array $classes_required_maps = [];
+	/** @var array<string,\Dracodeum\Kit\Managers\PropertiesV2\ClassEntry> */
+	private static array $classes_entries = [];
 	
 	
 	
@@ -227,7 +225,7 @@ final class PropertiesV2 extends Manager
 	 * Get value of a property with a given name.
 	 * 
 	 * @param string $name
-	 * The name of the property to get from.
+	 * The name of the property to get.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
@@ -250,7 +248,7 @@ final class PropertiesV2 extends Manager
 	 * Get property values.
 	 * 
 	 * @param string[]|null $names
-	 * The names of the properties to get from.
+	 * The names of the properties to get.
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to use.
@@ -380,7 +378,7 @@ final class PropertiesV2 extends Manager
 	 */
 	final public static function clearCache(): void
 	{
-		self::$classes_properties = self::$classes_required_maps = [];
+		self::$classes_entries = [];
 	}
 	
 	
@@ -395,7 +393,7 @@ final class PropertiesV2 extends Manager
 	{
 		//initialize
 		$owner_class = $this->owner::class;
-		if (!isset(self::$classes_properties[$owner_class])) {
+		if (!isset(self::$classes_entries[$owner_class])) {
 			//classes
 			$classes = [];
 			for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
@@ -407,10 +405,12 @@ final class PropertiesV2 extends Manager
 			$parent_class = null;
 			foreach ($classes as $class) {
 				//class
-				if (!isset(self::$classes_properties[$class])) {
+				if (!isset(self::$classes_entries[$class])) {
 					//initialize
 					$properties = $properties_post_attributes = [];
-					$parent_properties = $parent_class !== null ? self::$classes_properties[$parent_class] : [];
+					$parent_properties = $parent_class !== null 
+						? self::$classes_entries[$parent_class]->properties
+						: [];
 					
 					//properties
 					foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
@@ -437,20 +437,19 @@ final class PropertiesV2 extends Manager
 						}
 					}
 					
-					//class properties
-					self::$classes_properties[$class] = $parent_properties + $properties;
+					//class entry
+					$class_entry = self::$classes_entries[$class] = new ClassEntry($parent_properties + $properties);
 					
 					//sort
-					uasort(self::$classes_properties[$class], function (Property $property1, Property $property2): int {
+					uasort($class_entry->properties, function (Property $property1, Property $property2): int {
 						return (int)$property2->isRequired() - (int)$property1->isRequired();
 					});
 					
 					//required mapping
 					$i = 0;
-					self::$classes_required_maps[$class] = [];
-					foreach (self::$classes_properties[$class] as $p_name => $property) {
+					foreach ($class_entry->properties as $p_name => $property) {
 						if ($property->isRequired()) {
-							self::$classes_required_maps[$class][$p_name] = $i++;
+							$class_entry->required_maps[$p_name] = $i++;
 						} else {
 							break;
 						}
@@ -466,7 +465,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//finalize
-					unset($properties, $properties_post_attributes, $parent_properties);
+					unset($properties, $properties_post_attributes, $parent_properties, $class_entry);
 				}
 				
 				//parent class
@@ -475,8 +474,9 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//finalize
-		$this->properties = self::$classes_properties[$owner_class];
-		$this->required_map = self::$classes_required_maps[$owner_class];
+		$class_entry = self::$classes_entries[$owner_class];
+		$this->properties = $class_entry->properties;
+		$this->required_map = $class_entry->required_maps;
 	}
 	
 	/**
