@@ -47,26 +47,27 @@ final class PropertiesV2 extends Manager
 	//Private properties
 	private object $owner;
 	
-	/** @var \Dracodeum\Kit\Managers\PropertiesV2\Property[] */
+	/** @var array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property> */
 	private array $properties;
 	
-	/** @var int[] */
+	/** @var array<string,int> */
 	private array $required_map;
 	
 	private bool $initialized = false;
 	
+	/** @var array<string,mixed> */
 	private array $values = [];
 	
-	/** @var int[] */
+	/** @var array<string,int> */
 	private array $values_flags = [];
 	
 	
 	
 	//Private static properties
-	/** @var \Dracodeum\Kit\Managers\PropertiesV2\Property[] */
+	/** @var array<string,array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property>> */
 	private static array $classes_properties = [];
 	
-	/** @var int[] */
+	/** @var array<string,array<string,int>> */
 	private static array $classes_required_maps = [];
 	
 	
@@ -129,7 +130,7 @@ final class PropertiesV2 extends Manager
 	/**
 	 * Get property instances.
 	 * 
-	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Property[]
+	 * @return array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property>
 	 * The property instances, as a set of `name => property` pairs.
 	 */
 	final public function getProperties(): array

@@ -50,22 +50,23 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	
 	//Private properties
-	/** @var string[] */
+	/** @var array<int,string> */
 	private array $strings = [];
 	
-	/** @var string[] */
+	/** @var array<int,string> */
 	private array $plural_strings = [];
 	
 	private float $plural_number = 1.0;
 	
 	private ?string $plural_number_placeholder = null;
 	
+	/** @var array<string,mixed> */
 	private array $parameters = [];
 	
-	/** @var int[] */
+	/** @var array<string,int> */
 	private array $placeholders_flags = [];
 	
-	/** @var callable[] */
+	/** @var array<string,callable> */
 	private array $placeholders_stringifiers = [];
 	
 	private bool $localized = false;
