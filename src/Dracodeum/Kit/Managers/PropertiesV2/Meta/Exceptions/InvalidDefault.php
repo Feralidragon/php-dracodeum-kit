@@ -28,7 +28,7 @@ class InvalidDefault extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Invalid default value {{value}} given for meta entry with name {{name}} in class {{class}}, " . 
+		return "Invalid default value {{value}} given for property meta entry with name {{name}} in class {{class}}, " . 
 			"with the following error: {{error}}";
 	}
 	

@@ -19,7 +19,7 @@ class Defined extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "A meta entry is already defined with the name {{name}} in class {{class}}.";
+		return "A property meta entry is already defined with the name {{name}} in class {{class}}.";
 	}
 	
 	

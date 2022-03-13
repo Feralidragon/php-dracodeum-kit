@@ -137,10 +137,7 @@ final class Meta
 	 */
 	final public function process(string $name, mixed &$value): ?Error
 	{
-		if (!isset($this->entries[$name])) {
-			throw new Exceptions\Undefined([$this->class, $name]);
-		}
-		return $this->entries[$name]->type->process($value);
+		return $this->get($name)->type->process($value);
 	}
 	
 	/**
@@ -149,10 +146,10 @@ final class Meta
 	 * @param string $class
 	 * The class to set the cloned instance with.
 	 * 
-	 * @return self
+	 * @return static
 	 * A new clone from this instance.
 	 */
-	final public function clone(string $class): self
+	final public function clone(string $class): static
 	{
 		$clone = clone $this;
 		$clone->class = $class;

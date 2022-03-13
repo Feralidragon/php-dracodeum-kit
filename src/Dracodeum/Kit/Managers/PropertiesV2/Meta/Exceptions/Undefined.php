@@ -19,7 +19,7 @@ class Undefined extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "No meta entry is defined with the name {{name}} in class {{class}}.";
+		return "No property meta entry is defined with the name {{name}} in class {{class}}.";
 	}
 	
 	
