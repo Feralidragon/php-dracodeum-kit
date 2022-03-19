@@ -15,7 +15,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Meta\Exceptions\{
 	Undefined as UndefinedException,
 	InvalidDefault as InvalidDefaultException
 };
-use Dracodeum\Kit\Components\Type as TypeComponent;
+use Dracodeum\Kit\Components\Type;
 use Dracodeum\Kit\Prototypes\Type as TypePrototype;
 use Dracodeum\Kit\Primitives\Error;
 
@@ -32,8 +32,9 @@ class MetaTest extends TestCase
 	 */
 	public function testClass(): void
 	{
-		$meta = new Meta(MetaTest_Class1::class);
-		$this->assertSame(MetaTest_Class1::class, $meta->getClass());
+		$class = MetaTest_Class1::class;
+		$meta = new Meta($class);
+		$this->assertSame($class, $meta->getClass());
 	}
 	
 	/**
@@ -47,8 +48,8 @@ class MetaTest extends TestCase
 	{
 		//initialize
 		$meta = new Meta(MetaTest_Class1::class);
-		$type1 = TypeComponent::build(MetaTest_TypePrototype1::class);
-		$type2 = TypeComponent::build(MetaTest_TypePrototype2::class);
+		$type1 = Type::build(MetaTest_Type1::class);
+		$type2 = Type::build(MetaTest_Type2::class);
 		$name1 = 'foo';
 		$name2 = 'bar';
 		
@@ -125,7 +126,8 @@ class MetaTest extends TestCase
 	public function testGet_UndefinedException(): void
 	{
 		//initialize
-		$meta = new Meta(MetaTest_Class1::class);
+		$class = MetaTest_Class1::class;
+		$meta = new Meta($class);
 		$name = 'foo';
 		
 		//exception
@@ -133,7 +135,7 @@ class MetaTest extends TestCase
 		try {
 			$meta->get($name);
 		} catch (UndefinedException $exception) {
-			$this->assertSame($meta->getClass(), $exception->class);
+			$this->assertSame($class, $exception->class);
 			$this->assertSame($name, $exception->name);
 			throw $exception;
 		}
@@ -149,8 +151,9 @@ class MetaTest extends TestCase
 	public function testSet_DefinedException(): void
 	{
 		//initialize
-		$meta = new Meta(MetaTest_Class1::class);
-		$type = TypeComponent::build(MetaTest_TypePrototype1::class);
+		$class = MetaTest_Class1::class;
+		$meta = new Meta($class);
+		$type = Type::build(MetaTest_Type1::class);
 		$name = 'foo';
 		$meta->set($name, $type, 123);
 		
@@ -159,14 +162,14 @@ class MetaTest extends TestCase
 		try {
 			$meta->set($name, $type, 123);
 		} catch (DefinedException $exception) {
-			$this->assertSame($meta->getClass(), $exception->class);
+			$this->assertSame($class, $exception->class);
 			$this->assertSame($name, $exception->name);
 			throw $exception;
 		}
 	}
 	
 	/**
-	 * Test `set` method expecting a `InvalidDefault` exception to be thrown.
+	 * Test `set` method expecting an `InvalidDefault` exception to be thrown.
 	 * 
 	 * @testdox Set InvalidDefault exception
 	 * 
@@ -175,8 +178,9 @@ class MetaTest extends TestCase
 	public function testSet_InvalidDefaultException(): void
 	{
 		//initialize
-		$meta = new Meta(MetaTest_Class1::class);
-		$type = TypeComponent::build(MetaTest_TypePrototype1::class);
+		$class = MetaTest_Class1::class;
+		$meta = new Meta($class);
+		$type = Type::build(MetaTest_Type1::class);
 		$name = 'foo';
 		$default = 123.456;
 		
@@ -185,7 +189,7 @@ class MetaTest extends TestCase
 		try {
 			$meta->set($name, $type, $default);
 		} catch (InvalidDefaultException $exception) {
-			$this->assertSame($meta->getClass(), $exception->class);
+			$this->assertSame($class, $exception->class);
 			$this->assertSame($name, $exception->name);
 			$this->assertSame($default, $exception->value);
 			$this->assertInstanceOf(Error::class, $exception->error);
@@ -203,7 +207,8 @@ class MetaTest extends TestCase
 	public function testProcess_UndefinedException(): void
 	{
 		//initialize
-		$meta = new Meta(MetaTest_Class1::class);
+		$class = MetaTest_Class1::class;
+		$meta = new Meta($class);
 		$name = 'foo';
 		$value = $v = 123;
 		
@@ -212,7 +217,7 @@ class MetaTest extends TestCase
 		try {
 			$meta->process($name, $value);
 		} catch (UndefinedException $exception) {
-			$this->assertSame($meta->getClass(), $exception->class);
+			$this->assertSame($class, $exception->class);
 			$this->assertSame($name, $exception->name);
 			$this->assertSame($v, $value);
 			throw $exception;
@@ -229,19 +234,20 @@ class MetaTest extends TestCase
 	public function testClone(): void
 	{
 		//initialize
-		$meta1 = new Meta(MetaTest_Class1::class);
-		$type1 = TypeComponent::build(MetaTest_TypePrototype1::class);
-		$type2 = TypeComponent::build(MetaTest_TypePrototype2::class);
+		$class1 = MetaTest_Class1::class;
+		$class2 = MetaTest_Class2::class;
+		$meta1 = new Meta($class1);
 		$name1 = 'foo';
 		$name2 = 'bar';
 		$name3 = 'def';
-		$meta1->set($name1, $type1, '123');
-		$meta1->set($name2, $type2, 'abc');
-		$meta2 = $meta1->clone(MetaTest_Class2::class);
+		$meta1->set($name1, Type::build(MetaTest_Type1::class), '123');
+		$meta1->set($name2, Type::build(MetaTest_Type2::class), 'abc');
+		$meta2 = $meta1->clone($class2);
 		
 		//assert
-		$this->assertSame(MetaTest_Class1::class, $meta1->getClass());
-		$this->assertSame(MetaTest_Class2::class, $meta2->getClass());
+		$this->assertNotSame($meta1, $meta2);
+		$this->assertSame($class1, $meta1->getClass());
+		$this->assertSame($class2, $meta2->getClass());
 		$this->assertTrue($meta1->has($name1));
 		$this->assertTrue($meta1->has($name2));
 		$this->assertFalse($meta1->has($name3));
@@ -265,8 +271,8 @@ class MetaTest_Class2 {}
 
 
 
-/** Test case type prototype class 1. */
-class MetaTest_TypePrototype1 extends TypePrototype
+/** Test case type class 1. */
+class MetaTest_Type1 extends TypePrototype
 {
 	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
@@ -281,8 +287,8 @@ class MetaTest_TypePrototype1 extends TypePrototype
 
 
 
-/** Test case type prototype class 2. */
-class MetaTest_TypePrototype2 extends TypePrototype
+/** Test case type class 2. */
+class MetaTest_Type2 extends TypePrototype
 {
 	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
