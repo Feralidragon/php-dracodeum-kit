@@ -428,10 +428,10 @@ final class PropertiesV2 extends Manager
 						//attributes
 						foreach ($r_property->getAttributes() as $r_attribute) {
 							$attribute = $r_attribute->newInstance();
-							if ($attribute instanceof Interfaces\Attribute\Property\Initializer) {
+							if ($attribute instanceof Interfaces\Attribute\Property\PropertyInitializer) {
 								$attribute->initializeProperty($property);
 							}
-							if ($attribute instanceof Interfaces\Attribute\Property\PostInitializer) {
+							if ($attribute instanceof Interfaces\Attribute\Property\PropertyPostInitializer) {
 								$properties_post_attributes[$p_name][] = $attribute;
 							}
 						}

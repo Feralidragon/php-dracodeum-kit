@@ -9,17 +9,17 @@ namespace Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 
-/** This interface defines a method to initialize a property from an attribute. */
-interface Initializer
+/** This interface defines a method to post-initialize a property instance from a property attribute. */
+interface PropertyPostInitializer
 {
 	//Public methods
 	/**
-	 * Initialize a given property instance.
+	 * Post-initialize a given property instance.
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
-	 * The property instance to initialize.
+	 * The property instance to post-initialize.
 	 * 
 	 * @return void
 	 */
-	public function initializeProperty(Property $property): void;
+	public function postInitializeProperty(Property $property): void;
 }
