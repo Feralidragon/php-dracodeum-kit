@@ -8,6 +8,7 @@
 namespace Dracodeum\Kit\Managers\PropertiesV2;
 
 use ReflectionProperty as Reflection;
+use Dracodeum\Kit\Managers\PropertiesV2\Property\Exceptions;
 use Dracodeum\Kit\Components\Type;
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -43,11 +44,16 @@ final class Property
 	//Private properties
 	private Reflection $reflection;
 	
+	private Meta $meta;
+	
 	private string $mode = 'rw';
 	
 	private ?Type $type = null;
 	
 	private int $flags = 0x0;
+	
+	/** @var array<string,mixed> */
+	private array $meta_values = [];
 	
 	
 	
@@ -57,10 +63,14 @@ final class Property
 	 * 
 	 * @param \ReflectionProperty $reflection
 	 * The reflection instance to instantiate with.
+	 * 
+	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Meta $meta
+	 * The meta instance to instantiate with.
 	 */
-	final public function __construct(Reflection $reflection)
+	final public function __construct(Reflection $reflection, Meta $meta)
 	{
 		$this->reflection = $reflection;
+		$this->meta = $meta;
 	}
 	
 	
@@ -441,5 +451,61 @@ final class Property
 		
 		//return
 		return null;
+	}
+	
+	/**
+	 * Get meta instance.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Meta
+	 * The meta instance.
+	 */
+	final public function getMeta(): Meta
+	{
+		return $this->meta;
+	}
+	
+	/**
+	 * Get meta value of a given name.
+	 * 
+	 * @param string $name
+	 * The name of the meta value to get.
+	 * 
+	 * @return mixed
+	 * The meta value of the given name.
+	 */
+	final public function getMetaValue(string $name): mixed
+	{
+		return array_key_exists($name, $this->meta_values)
+			? $this->meta_values[$name]
+			: $this->meta->get($name)->default;
+	}
+	
+	/**
+	 * Set meta value with a given name.
+	 * 
+	 * @param string $name
+	 * The name of the meta value to set.
+	 * 
+	 * @param mixed $value
+	 * The value to set.
+	 * 
+	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Property\Exceptions\InvalidMetaValue
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setMetaValue(string $name, mixed $value)
+	{
+		//process
+		$error = $this->meta->process($name, $value);
+		if ($error !== null) {
+			throw new Exceptions\InvalidMetaValue([$this, $name, $value, $error]);
+		}
+		
+		//set
+		$this->meta_values[$name] = $value;
+		
+		//return
+		return $this;
 	}
 }

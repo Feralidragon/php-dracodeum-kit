@@ -9,6 +9,7 @@ namespace Dracodeum\Kit\Managers;
 
 use Dracodeum\Kit\Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\{
+	Meta,
 	Property,
 	Interfaces,
 	Exceptions,
@@ -28,8 +29,9 @@ use ReflectionClass;
  * 
  * Only non-static and non-private properties are supported and affected.
  * 
- * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\Initializer
- * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PostInitializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Class\MetaInitializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyInitializer
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer
  */
 final class PropertiesV2 extends Manager
 {
@@ -407,23 +409,37 @@ final class PropertiesV2 extends Manager
 				//class
 				if (!isset(self::$classes_entries[$class])) {
 					//initialize
-					$properties = $properties_post_attributes = [];
-					$parent_properties = $parent_class !== null 
-						? self::$classes_entries[$parent_class]->properties
-						: [];
+					$r_class = new ReflectionClass($class);
+					$properties_post_attributes = [];
 					
 					//properties
-					foreach ((new ReflectionClass($class))->getProperties() as $r_property) {
+					$properties = $parent_class !== null ? self::$classes_entries[$parent_class]->properties : [];
+					
+					//meta
+					$meta = $parent_class !== null
+						? self::$classes_entries[$parent_class]->meta->clone($class)
+						: new Meta($class);
+					
+					//class
+					foreach ($r_class->getAttributes() as $r_attribute) {
+						$attribute = $r_attribute->newInstance();
+						if ($attribute instanceof Interfaces\Attribute\Class\MetaInitializer) {
+							$attribute->initializeMeta($meta);
+						}
+					}
+					
+					//properties
+					foreach ($r_class->getProperties() as $r_property) {
 						//initialize
 						$p_name = $r_property->getName();
 						
 						//check
-						if ($r_property->isStatic() || $r_property->isPrivate() || isset($parent_properties[$p_name])) {
+						if ($r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name])) {
 							continue;
 						}
 						
 						//property
-						$property = $properties[$p_name] = new Property($r_property);
+						$property = $properties[$p_name] = new Property($r_property, $meta);
 						
 						//attributes
 						foreach ($r_property->getAttributes() as $r_attribute) {
@@ -438,7 +454,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//class entry
-					$class_entry = self::$classes_entries[$class] = new ClassEntry($parent_properties + $properties);
+					$class_entry = self::$classes_entries[$class] = new ClassEntry($properties, $meta);
 					
 					//sort
 					uasort($class_entry->properties, function (Property $property1, Property $property2): int {
@@ -465,7 +481,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//finalize
-					unset($properties, $properties_post_attributes, $parent_properties, $class_entry);
+					unset($r_class, $properties_post_attributes, $properties, $meta, $class_entry);
 				}
 				
 				//parent class

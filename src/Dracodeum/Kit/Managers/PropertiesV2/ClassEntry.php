@@ -14,6 +14,8 @@ final class ClassEntry
 	/** @var array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property> */
 	public array $properties;
 	
+	public Meta $meta;
+	
 	/** @var array<string,int> */
 	public array $required_maps = [];
 	
@@ -25,9 +27,13 @@ final class ClassEntry
 	 * 
 	 * @param array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property> $properties
 	 * The property instances to instantiate with, as a set of `name => property` pairs.
+	 * 
+	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Meta $meta
+	 * The meta instance to instantiate with.
 	 */
-	final public function __construct(array $properties)
+	final public function __construct(array $properties, Meta $meta)
 	{
 		$this->properties = $properties;
+		$this->meta = $meta;
 	}
 }
