@@ -11,7 +11,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyIn
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Attribute;
 
-/** This attribute defines a meta value with a given name for the property. */
+/** This attribute defines a meta value for the property. */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 final class meta implements IPropertyInitializer
 {
