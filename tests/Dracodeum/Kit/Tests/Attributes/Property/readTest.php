@@ -16,9 +16,9 @@ class readTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test properties.
+	 * Test property.
 	 * 
-	 * @dataProvider providePropertiesData
+	 * @dataProvider providePropertyData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -31,7 +31,7 @@ class readTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProperties(string $name, string $mode, bool $affect_subclasses = false): void
+	public function testProperty(string $name, string $mode, bool $affect_subclasses = false): void
 	{
 		//initialize
 		$manager = new Manager(new readTest_Class());
@@ -43,12 +43,12 @@ class readTest extends TestCase
 	}
 	
 	/**
-	 * Provide properties data.
+	 * Provide property data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function providePropertiesData(): array
+	public function providePropertyData(): array
 	{
 		return [
 			['p1', 'rw'],

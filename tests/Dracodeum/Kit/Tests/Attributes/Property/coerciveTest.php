@@ -16,9 +16,9 @@ class coerciveTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test properties.
+	 * Test property.
 	 * 
-	 * @dataProvider providePropertiesData
+	 * @dataProvider providePropertyData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -31,7 +31,7 @@ class coerciveTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProperties(string $name, bool $typed, bool $nullable = false): void
+	public function testProperty(string $name, bool $typed, bool $nullable = false): void
 	{
 		//initialize
 		$manager = new Manager(new coerciveTest_Class());
@@ -46,12 +46,12 @@ class coerciveTest extends TestCase
 	}
 	
 	/**
-	 * Provide properties data.
+	 * Provide property data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function providePropertiesData(): array
+	public function providePropertyData(): array
 	{
 		return [
 			['p1', false],

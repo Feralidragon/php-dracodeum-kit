@@ -20,9 +20,9 @@ class mutatorTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test properties.
+	 * Test property.
 	 * 
-	 * @dataProvider providePropertiesData
+	 * @dataProvider providePropertyData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -35,7 +35,7 @@ class mutatorTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProperties(string $name, bool $typed, bool $mutated): void
+	public function testProperty(string $name, bool $typed, bool $mutated): void
 	{
 		//initialize
 		$manager = new Manager(new mutatorTest_Class());
@@ -49,12 +49,12 @@ class mutatorTest extends TestCase
 	}
 	
 	/**
-	 * Provide properties data.
+	 * Provide property data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function providePropertiesData(): array
+	public function providePropertyData(): array
 	{
 		return [
 			['p1', false, false],
