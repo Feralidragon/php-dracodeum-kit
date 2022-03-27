@@ -56,6 +56,8 @@ final class PropertiesV2 extends Manager
 	/** @var array<string,int> */
 	private array $required_map;
 	
+	private Meta $meta;
+	
 	private bool $initialized = false;
 	
 	/** @var array<string,mixed> */
@@ -136,6 +138,17 @@ final class PropertiesV2 extends Manager
 	final public function getProperties(): array
 	{
 		return $this->properties;
+	}
+	
+	/**
+	 * Get meta instance.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Meta
+	 * The meta instance.
+	 */
+	final public function getMeta(): Meta
+	{
+		return $this->meta;
 	}
 	
 	/**
@@ -493,6 +506,7 @@ final class PropertiesV2 extends Manager
 		$class_entry = self::$classes_entries[$owner_class];
 		$this->properties = $class_entry->properties;
 		$this->required_map = $class_entry->required_maps;
+		$this->meta = $class_entry->meta;
 	}
 	
 	/**

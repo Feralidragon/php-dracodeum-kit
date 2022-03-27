@@ -88,6 +88,17 @@ final class Property
 	}
 	
 	/**
+	 * Get meta instance.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Meta
+	 * The meta instance.
+	 */
+	final public function getMeta(): Meta
+	{
+		return $this->meta;
+	}
+	
+	/**
 	 * Get name.
 	 * 
 	 * @return string
@@ -454,24 +465,13 @@ final class Property
 	}
 	
 	/**
-	 * Get meta instance.
-	 * 
-	 * @return \Dracodeum\Kit\Managers\PropertiesV2\Meta
-	 * The meta instance.
-	 */
-	final public function getMeta(): Meta
-	{
-		return $this->meta;
-	}
-	
-	/**
-	 * Get meta value of a given name.
+	 * Get meta value.
 	 * 
 	 * @param string $name
 	 * The name of the meta value to get.
 	 * 
 	 * @return mixed
-	 * The meta value of the given name.
+	 * The meta value.
 	 */
 	final public function getMetaValue(string $name): mixed
 	{
@@ -481,7 +481,7 @@ final class Property
 	}
 	
 	/**
-	 * Set meta value with a given name.
+	 * Set meta value.
 	 * 
 	 * @param string $name
 	 * The name of the meta value to set.
