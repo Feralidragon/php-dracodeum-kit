@@ -18,7 +18,7 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class lazy implements IPropertyInitializer
 {
-	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer)
+	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyInitializer)
 	/** {@inheritdoc} */
 	final public function initializeProperty(Property $property): void
 	{

@@ -56,7 +56,7 @@ abstract class type implements IPropertyPostInitializer
 	
 	
 	
-	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyPostInitializer)
+	//Implemented final public methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer)
 	/** {@inheritdoc} */
 	final public function postInitializeProperty(Property $property): void
 	{
