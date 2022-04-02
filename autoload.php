@@ -12,13 +12,12 @@ use Dracodeum\Kit\Root\Loader;
 
 
 
-//avoid the loader to be loaded again
+//prevent the loader from being loaded again
 if (class_exists(Loader::class, false)) {
 	return false;
 }
 
 //constants
-define('DRACODEUM_KIT_VERSION', '1.0.0');
 define('DRACODEUM_KIT_DIRECTORY', __DIR__ . '/src');
 
 //required classes
