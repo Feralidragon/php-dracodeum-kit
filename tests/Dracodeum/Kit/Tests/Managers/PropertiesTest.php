@@ -8,7 +8,9 @@
 namespace Dracodeum\Kit\Tests\Managers;
 
 use PHPUnit\Framework\TestCase;
+use Dracodeum\Kit\Attributes\Class\propertyMeta;
 use Dracodeum\Kit\Attributes\Property\{
+	meta,
 	mode,
 	required,
 	coercive,
@@ -16,7 +18,10 @@ use Dracodeum\Kit\Attributes\Property\{
 	lazy
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
-use Dracodeum\Kit\Managers\PropertiesV2\Property;
+use Dracodeum\Kit\Managers\PropertiesV2\{
+	Property,
+	Meta as PMeta
+};
 use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\{
 	Missing as MissingException,
 	Undefined as UndefinedException,
@@ -27,7 +32,9 @@ use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\{
 	Uninitialized as UninitializedException,
 	Invalid as InvalidException
 };
+use Dracodeum\Kit\Managers\PropertiesV2\Property\Exceptions\InvalidMetaValue as PropertyInvalidMetaValueException;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed as CallNotAllowedException;
+use Dracodeum\Kit\Primitives\Error;
 use ReflectionProperty;
 use stdClass;
 use Closure;
@@ -5791,6 +5798,144 @@ class PropertiesTest extends TestCase
 		];
 	}
 	
+	/**
+	 * Test meta.
+	 * 
+	 * @testdox Meta
+	 * 
+	 * @return void
+	 */
+	public function testMeta(): void
+	{
+		//initialize
+		Manager::clearCache();
+		
+		//managers
+		$manager1 = new Manager(new PropertiesTest_ClassM1());
+		$manager1b = new Manager(new PropertiesTest_ClassM1());
+		$manager2 = new Manager(new PropertiesTest_ClassM2());
+		$manager2b = new Manager(new PropertiesTest_ClassM2());
+		
+		//metas
+		$meta1 = $manager1->getMeta();
+		$meta1b = $manager1b->getMeta();
+		$meta2 = $manager2->getMeta();
+		$meta2b = $manager2b->getMeta();
+		
+		//assert (instances)
+		$this->assertInstanceOf(PMeta::class, $meta1);
+		$this->assertInstanceOf(PMeta::class, $meta1b);
+		$this->assertInstanceOf(PMeta::class, $meta2);
+		$this->assertInstanceOf(PMeta::class, $meta2b);
+		
+		//assert (references)
+		$this->assertSame($meta1, $meta1b);
+		$this->assertSame($meta2, $meta2b);
+		$this->assertNotSame($meta1, $meta2);
+		
+		//assert (entries)
+		$this->assertFalse($meta1->has('m0'));
+		$this->assertTrue($meta1->has('m1'));
+		$this->assertFalse($meta1->has('m2'));
+		$this->assertFalse($meta2->has('m0'));
+		$this->assertTrue($meta2->has('m1'));
+		$this->assertTrue($meta2->has('m2'));
+		
+		//assert (defaults)
+		$this->assertSame(1, $meta1->get('m1')->default);
+		$this->assertSame(1, $meta2->get('m1')->default);
+		$this->assertSame(false, $meta2->get('m2')->default);
+		
+		//assert (properties)
+		foreach (['p1', 'p2'] as $pname) {
+			$this->assertSame($meta1, $manager1->getProperty($pname)->getMeta());
+			$this->assertSame($meta1, $manager2->getProperty($pname)->getMeta());
+		}
+		foreach (['p3', 'p4', 'p5'] as $pname) {
+			$this->assertSame($meta2, $manager2->getProperty($pname)->getMeta());
+		}
+	}
+	
+	/**
+	 * Test meta value.
+	 * 
+	 * @testdox Meta value
+	 * @dataProvider provideMetaValueData
+	 * 
+	 * @param string $pname
+	 * The property name to test with.
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param mixed $value
+	 * The expected value.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @return void
+	 */
+	public function testMetaValue(string $pname, string $name, mixed $value, string $class): void
+	{
+		Manager::clearCache();
+		$this->assertSame($value, (new Manager(new $class()))->getProperty($pname)->getMetaValue($name));
+	}
+	
+	/**
+	 * Provide meta value data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideMetaValueData(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_ClassM1::class;
+		$class2 = PropertiesTest_ClassM2::class;
+		
+		//return
+		return [
+			['p1', 'm1', 1, $class1],
+			['p1', 'm1', 1, $class2],
+			['p2', 'm1', 3, $class1],
+			['p2', 'm1', 3, $class2],
+			['p3', 'm1', 1, $class2],
+			['p3', 'm2', false, $class2],
+			['p4', 'm1', 1000, $class2],
+			['p4', 'm2', false, $class2],
+			['p5', 'm1', 7, $class2],
+			['p5', 'm2', true, $class2]
+		];
+	}
+	
+	/**
+	 * Test meta expecting a property `InvalidMetaValue` exception to be thrown.
+	 * 
+	 * @testdox Meta property InvalidMetaValue exception
+	 * 
+	 * @return void
+	 */
+	public function testMeta_PropertyInvalidMetaValueException(): void
+	{
+		//initialize
+		$name = 'm1';
+		$value = 'abc';
+		$property = (new Manager(new PropertiesTest_ClassM1()))->getProperty('p1');
+		
+		//exception
+		$this->expectException(PropertyInvalidMetaValueException::class);
+		try {
+			$property->setMetaValue($name, $value);
+		} catch (PropertyInvalidMetaValueException $exception) {
+			$this->assertSame($property, $exception->property);
+			$this->assertSame($name, $exception->name);
+			$this->assertSame($value, $exception->value);
+			$this->assertInstanceOf(Error::class, $exception->error);
+			throw $exception;
+		}
+	}
+	
 	
 	
 	//Protected methods
@@ -5811,6 +5956,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p0', $property->getReflection()->getName());
 		$this->assertSame('p0', $property->getName());
 		$this->assertTrue($property->isRequired());
@@ -5856,6 +6002,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p1', $property->getReflection()->getName());
 		$this->assertSame('p1', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -5901,6 +6048,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p6', $property->getReflection()->getName());
 		$this->assertSame('p6', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -5946,6 +6094,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p7', $property->getReflection()->getName());
 		$this->assertSame('p7', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -5991,6 +6140,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p8', $property->getReflection()->getName());
 		$this->assertSame('p8', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6036,6 +6186,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p9', $property->getReflection()->getName());
 		$this->assertSame('p9', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6081,6 +6232,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p10', $property->getReflection()->getName());
 		$this->assertSame('p10', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6126,6 +6278,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p11', $property->getReflection()->getName());
 		$this->assertSame('p11', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6171,6 +6324,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p12', $property->getReflection()->getName());
 		$this->assertSame('p12', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6216,6 +6370,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p13', $property->getReflection()->getName());
 		$this->assertSame('p13', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6261,6 +6416,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p14', $property->getReflection()->getName());
 		$this->assertSame('p14', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6306,6 +6462,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p15', $property->getReflection()->getName());
 		$this->assertSame('p15', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6351,6 +6508,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p16', $property->getReflection()->getName());
 		$this->assertSame('p16', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6396,6 +6554,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p17', $property->getReflection()->getName());
 		$this->assertSame('p17', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6441,6 +6600,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p18', $property->getReflection()->getName());
 		$this->assertSame('p18', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6486,6 +6646,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p19', $property->getReflection()->getName());
 		$this->assertSame('p19', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6533,6 +6694,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p20', $property->getReflection()->getName());
 		$this->assertSame('p20', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6580,6 +6742,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p21', $property->getReflection()->getName());
 		$this->assertSame('p21', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6627,6 +6790,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p22', $property->getReflection()->getName());
 		$this->assertSame('p22', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6672,6 +6836,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('p23', $property->getReflection()->getName());
 		$this->assertSame('p23', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6717,6 +6882,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c1p0', $property->getReflection()->getName());
 		$this->assertSame('c1p0', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6764,6 +6930,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c1p1', $property->getReflection()->getName());
 		$this->assertSame('c1p1', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6809,6 +6976,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c2p0', $property->getReflection()->getName());
 		$this->assertSame('c2p0', $property->getName());
 		$this->assertTrue($property->isRequired());
@@ -6856,6 +7024,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c2p1', $property->getReflection()->getName());
 		$this->assertSame('c2p1', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6901,6 +7070,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c2p2', $property->getReflection()->getName());
 		$this->assertSame('c2p2', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -6948,6 +7118,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c2p3', $property->getReflection()->getName());
 		$this->assertSame('c2p3', $property->getName());
 		$this->assertTrue($property->isRequired());
@@ -6995,6 +7166,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(ReflectionProperty::class, $property->getReflection());
+		$this->assertInstanceOf(PMeta::class, $property->getMeta());
 		$this->assertSame('c2p4', $property->getReflection()->getName());
 		$this->assertSame('c2p4', $property->getName());
 		$this->assertFalse($property->isRequired());
@@ -7129,4 +7301,31 @@ class PropertiesTest_Class3 extends PropertiesTest_Class2
 {
 	#[mode('r')]
 	public $c3p0;
+}
+
+
+
+/** Test case dummy meta class 1. */
+#[propertyMeta('m1', 'int', 1)]
+class PropertiesTest_ClassM1
+{
+	public $p1;
+	
+	#[meta('m1', '3')]
+	public $p2;
+}
+
+
+
+/** Test case dummy meta class 2. */
+#[propertyMeta('m2', 'bool', 0)]
+class PropertiesTest_ClassM2 extends PropertiesTest_ClassM1
+{
+	public $p3;
+	
+	#[meta('m1', '1k')]
+	public $p4;
+	
+	#[meta('m1', 7), meta('m2', true)]
+	public $p5;
 }
