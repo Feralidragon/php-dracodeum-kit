@@ -4,7 +4,7 @@
  * Require or include this file in order to use this package.
  * 
  * @version 1.0.0
- * @author Cláudio "Feralidragon" Luís <claudio.luis@aptoide.com>
+ * @author Cláudio "Feralidragon" Luís <claudioluis8@gmail.com>
  * @license https://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
