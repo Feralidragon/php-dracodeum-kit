@@ -28,7 +28,7 @@ class InvalidMetaValue extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Invalid value {{value}} for meta entry {{name}}, set for property {{property.getName()}} " . 
+		return "Invalid value {{value}} for meta entry {{name}}, in property {{property.getName()}} " . 
 			"in class {{property.getMeta().getClass()}}, with the following error: {{error}}";
 	}
 	

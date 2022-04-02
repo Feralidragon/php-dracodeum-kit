@@ -10,12 +10,12 @@ namespace Dracodeum\Kit\Tests\Managers;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Attributes\Class\propertyMeta;
 use Dracodeum\Kit\Attributes\Property\{
-	meta,
 	mode,
 	required,
 	coercive,
 	strict,
-	lazy
+	lazy,
+	meta
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\{
