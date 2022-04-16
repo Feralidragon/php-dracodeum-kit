@@ -446,10 +446,18 @@ final class Property
 		}
 		
 		//self
-		$this->reflection->setAccessible(true); //TODO: to be removed in PHP 8.1: https://wiki.php.net/rfc/make-reflection-setaccessible-no-op
 		try {
-			$this->reflection->setValue($object, $value);
-			$value = $this->reflection->getValue($object);
+			//initialize
+			$name = $this->getName();
+			$set = function (string $name, mixed $value): void {
+				$this->$name = $value;
+			};
+			$get = fn (string $name): mixed => $this->$name;
+			
+			//process
+			$set->bindTo($object, $object)($name, $value);
+			$value = $get->bindTo($object, $object)($name);
+			
 		} catch (TypeError $type_error) {
 			$text = Text::build()
 				->setString("Invalid value type.")
