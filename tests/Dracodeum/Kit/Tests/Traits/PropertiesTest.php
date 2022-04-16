@@ -14,6 +14,7 @@ use Dracodeum\Kit\Attributes\Property\{
 	strict
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
+use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible as InaccessibleException;
 use Dracodeum\Kit\Prototypes\Type;
 use Dracodeum\Kit\Primitives\Error;
 
@@ -22,14 +23,16 @@ class PropertiesTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test trait.
+	 * Test public.
+	 * 
+	 * @testdox Public
 	 * 
 	 * @return void
 	 */
-	public function testTrait(): void
+	public function testPublic(): void
 	{
 		//initialize
-		$object = new PropertiesTest_Class('unreal', p2: 250);
+		$object = new PropertiesTest_Class1('unreal', p2: 250);
 		
 		//assert (manager)
 		$this->assertInstanceOf(Manager::class, $object->getManager());
@@ -69,12 +72,112 @@ class PropertiesTest extends TestCase
 		$this->assertFalse(isset($object->p3));
 		$this->assertNull($object->p3);
 	}
+	
+	/**
+	 * Test protected.
+	 * 
+	 * @testdox Protected
+	 * 
+	 * @return void
+	 */
+	public function testProtected(): void
+	{
+		//initialize
+		$object = new PropertiesTest_Class2('unreal', p2: 250);
+		
+		//assert (manager)
+		$this->assertInstanceOf(Manager::class, $object->getManager());
+		$this->assertInstanceOf(Manager::class, $object->getPManager());
+		$this->assertSame($object->getManager(), $object->getPManager());
+		
+		//assert (p4)
+		$this->assertFalse(isset($object->p4));
+		$this->assertFalse($object->issetP4());
+		$this->assertNull($object->getP4());
+		$object->setP4('__B__');
+		$this->assertFalse(isset($object->p4));
+		$this->assertTrue($object->issetP4());
+		$this->assertSame('__B__', $object->getP4());
+		$object->unsetP4();
+		$this->assertFalse(isset($object->p4));
+		$this->assertFalse($object->issetP4());
+		$this->assertNull($object->getP4());
+	}
+	
+	/**
+	 * Test protected `get` expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Protected get Inaccessible exception
+	 * 
+	 * @return void
+	 */
+	public function testProtected_Get_InaccessibleException(): void
+	{
+		//initialize
+		$object = new PropertiesTest_Class2('unreal', p2: 250);
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$object->p4;
+		} catch (InaccessibleException $exception) {
+			$this->assertSame(['p4'], $exception->names);
+			$this->assertSame(self::class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test protected `set` expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Protected set Inaccessible exception
+	 * 
+	 * @return void
+	 */
+	public function testProtected_Set_InaccessibleException(): void
+	{
+		//initialize
+		$object = new PropertiesTest_Class2('unreal', p2: 250);
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$object->p4 = '__B__';
+		} catch (InaccessibleException $exception) {
+			$this->assertSame(['p4'], $exception->names);
+			$this->assertSame(self::class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test protected `unset` expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Protected unset Inaccessible exception
+	 * 
+	 * @return void
+	 */
+	public function testProtected_Unset_InaccessibleException(): void
+	{
+		//initialize
+		$object = new PropertiesTest_Class2('unreal', p2: 250);
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			unset($object->p4);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame(['p4'], $exception->names);
+			$this->assertSame(self::class, $exception->scope_class);
+			throw $exception;
+		}
+	}
 }
 
 
 
-/** Test case dummy class. */
-class PropertiesTest_Class
+/** Test case dummy class 1. */
+class PropertiesTest_Class1
 {
 	use Traits\PropertiesV2;
 	
@@ -86,6 +189,8 @@ class PropertiesTest_Class
 	
 	#[coercive(PropertiesTest_Type::class)]
 	public $p3;
+	
+	protected $p4;
 	
 	private $manager;
 	
@@ -102,6 +207,32 @@ class PropertiesTest_Class
 	public function getPManager()
 	{
 		return $this->getPropertiesManager();
+	}
+}
+
+
+
+/** Test case dummy class 2. */
+class PropertiesTest_Class2 extends PropertiesTest_Class1
+{
+	public function issetP4(): bool
+	{
+		return isset($this->p4);
+	}
+	
+	public function getP4(): mixed
+	{
+		return $this->p4;
+	}
+	
+	public function setP4(mixed $value): void
+	{
+		$this->p4 = $value;
+	}
+	
+	public function unsetP4(): void
+	{
+		unset($this->p4);
 	}
 }
 
