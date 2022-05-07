@@ -14,7 +14,6 @@ use Dracodeum\Kit\Prototypes\{
 	Types as Prototypes
 };
 use Dracodeum\Kit\Components\Type\Exceptions;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Components\Type\Components\Mutator as MutatorComponent;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator as MutatorPrototype;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
@@ -642,27 +641,20 @@ class TypeTest extends TestCase
 		$component1 = Component::build(TypeTest_Prototype1::class, ['nullable' => true]);
 		$component2 = Component::build(TypeTest_Prototype2::class);
 		$component3 = Component::build(TypeTest_Prototype3::class);
-		$component4 = Component::build(TypeTest_Prototype4::class);
-		$component4_null = Component::build(TypeTest_Prototype4::class, ['nullable' => true]);
 		
 		//assert
 		foreach ([false, true] as $no_throw) {
 			//text1 (1)
-			$text1 = $component1->textify(108.5, no_throw: $no_throw);
-			$this->assertInstanceOf(Text::class, $text1);
-			$this->assertSame('1 0 8', (string)$text1);
-			
-			//text1 (2)
 			$text1 = $component1->textify(105, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text1);
 			$this->assertSame('105', (string)$text1);
 			
-			//text1 (3)
-			$text1 = $component1->textify('-79102.75', EContext::INTERFACE, $no_throw);
+			//text1 (2)
+			$text1 = $component1->textify(108.5, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text1);
-			$this->assertSame('- 7 9 1 0 2', (string)$text1);
+			$this->assertSame('108', (string)$text1);
 			
-			//text1 (4)
+			//text1 (3)
 			$text1 = $component1->textify(null, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text1);
 			$this->assertSame('null', (string)$text1);
@@ -691,16 +683,6 @@ class TypeTest extends TestCase
 			$text3 = $component3->textify(null, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text3);
 			$this->assertSame('null', (string)$text3);
-			
-			//text4
-			$text4 = $component4->textify(null, no_throw: $no_throw);
-			$this->assertInstanceOf(Text::class, $text4);
-			$this->assertSame('null', (string)$text4);
-			
-			//text4 (null)
-			$text4 = $component4_null->textify(null, no_throw: $no_throw);
-			$this->assertInstanceOf(Text::class, $text4);
-			$this->assertSame('null', (string)$text4);
 		}
 	}
 	
@@ -881,7 +863,7 @@ class TypeTest extends TestCase
 
 
 /** Test case dummy prototype class 1. */
-class TypeTest_Prototype1 extends Prototype implements ITextifier
+class TypeTest_Prototype1 extends Prototype
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
 	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
@@ -916,11 +898,6 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier
 		}
 		return null;
 	}
-	
-	public function textify(mixed $value)
-	{
-		return $value !== 105 ? implode(' ', str_split($value)) : null;
-	}
 }
 
 
@@ -950,22 +927,6 @@ class TypeTest_Prototype2 extends Prototype
 class TypeTest_Prototype3 extends Prototype
 {
 	public function process(mixed &$value, $context, bool $strict): ?Error
-	{
-		return null;
-	}
-}
-
-
-
-/** Test case dummy prototype class 4. */
-class TypeTest_Prototype4 extends Prototype implements ITextifier
-{
-	public function process(mixed &$value, $context, bool $strict): ?Error
-	{
-		return null;
-	}
-	
-	public function textify(mixed $value)
 	{
 		return null;
 	}
