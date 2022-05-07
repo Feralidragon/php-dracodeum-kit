@@ -14,10 +14,7 @@ use Dracodeum\Kit\Prototypes\{
 	Types as Prototypes
 };
 use Dracodeum\Kit\Components\Type\Exceptions;
-use Dracodeum\Kit\Prototypes\Type\Interfaces\{
-	Textifier as ITextifier,
-	MutatorProducer as IMutatorProducer
-};
+use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Components\Type\Components\Mutator as MutatorComponent;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator as MutatorPrototype;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
@@ -796,7 +793,7 @@ class TypeTest extends TestCase
 	 * @dataProvider provideMutatorsData
 	 * 
 	 * @param \Dracodeum\Kit\Components\Type $component
-	 * The component to test with.
+	 * The component instance to test with.
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
@@ -841,26 +838,6 @@ class TypeTest extends TestCase
 				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]))
 				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37]))
 			, '48', 935.5
-		], [
-			Component::build(TypeTest_Prototype1::class)
-				->addMutator('proto1')
-				->addMutator('proto2', [1000])
-			, 35, 1735.0
-		], [
-			Component::build(TypeTest_Prototype1::class)
-				->addMutator('proto1', ['amount' => 850.5])
-				->addMutator('proto2', ['amount' => 37])
-			, 48, 935.5
-		], [
-			Component::build(TypeTest_Prototype1::class)
-				->addMutator(TypeTest_MutatorPrototype1::class)
-				->addMutator('proto2', [1000])
-			, 35, 1735.0
-		], [
-			Component::build(TypeTest_Prototype1::class)
-				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
-				->addMutator('proto2', ['amount' => 37])
-			, 48, 935.5
 		]];
 	}
 	
@@ -904,7 +881,7 @@ class TypeTest extends TestCase
 
 
 /** Test case dummy prototype class 1. */
-class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProducer
+class TypeTest_Prototype1 extends Prototype implements ITextifier
 {
 	public const ERROR_STRING = "Cannot be greater than 100.";
 	public const ERROR_STRING_TECHNICAL = "Cannot be an object.";
@@ -914,6 +891,7 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 	{
 		//strict
 		if ($strict && !is_int($value)) {
+			$value = -1;
 			return Error::build(text: self::ERROR_STRING_STRICT);
 		}
 		
@@ -924,12 +902,15 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 		
 		//process
 		if (is_object($value)) {
+			$value = -1;
 			return Error::build(text: Text::build(self::ERROR_STRING_TECHNICAL, EInfoLevel::TECHNICAL));
 		} elseif (!is_int($value) && !is_float($value)) {
+			$value = -1;
 			return Error::build();
 		} else {
 			$value = (int)$value;
 			if ($value > 110) {
+				$value = -1;
 				return Error::build(text: self::ERROR_STRING);
 			}
 		}
@@ -939,15 +920,6 @@ class TypeTest_Prototype1 extends Prototype implements ITextifier, IMutatorProdu
 	public function textify(mixed $value)
 	{
 		return $value !== 105 ? implode(' ', str_split($value)) : null;
-	}
-	
-	public function produceMutator(string $name, array $properties)
-	{
-		return match ($name) {
-			'proto1' => TypeTest_MutatorPrototype1::class,
-			'proto2' => new TypeTest_MutatorPrototype2($properties),
-			default => null
-		};
 	}
 }
 
@@ -959,11 +931,16 @@ class TypeTest_Prototype2 extends Prototype
 	public function process(mixed &$value, $context, bool $strict): ?Error
 	{
 		if ($strict && !is_object($value)) {
+			$value = -1;
 			return Error::build();
 		} elseif ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
 			$value = new $value();
 		}
-		return is_object($value) ? null : Error::build();
+		if (is_object($value)) {
+			return null;
+		}
+		$value = -1;
+		return Error::build();
 	}
 }
 
@@ -1037,6 +1014,7 @@ class TypeTest_MutatorPrototype1 extends MutatorPrototype
 			$value += $this->amount;
 			return null;
 		}
+		$value = -1;
 		return Error::build(text: self::ERROR_STRING);
 	}
 	
@@ -1063,6 +1041,7 @@ class TypeTest_MutatorPrototype2 extends MutatorPrototype
 			$value += $this->amount;
 			return null;
 		}
+		$value = -1;
 		return Error::build();
 	}
 	
