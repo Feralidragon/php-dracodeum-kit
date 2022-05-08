@@ -7,14 +7,14 @@
 
 namespace Dracodeum\Kit\Components\Type;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Components\Type as Component;
 
 /**
  * @property-read \Dracodeum\Kit\Components\Type $component
  * The component instance.
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

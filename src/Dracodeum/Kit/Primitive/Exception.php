@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Primitive;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Primitive;
 use Dracodeum\Kit\Utilities\Type as UType;
 
@@ -15,7 +15,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * @property-read \Dracodeum\Kit\Primitive|string $primitive
  * <p>The primitive instance or class.</p>
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Abstract protected static methods
 	/**

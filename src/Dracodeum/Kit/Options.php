@@ -24,7 +24,7 @@ use Dracodeum\Kit\Options\{
 	Traits,
 	Exceptions
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -56,13 +56,13 @@ implements IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IKeyable,
 IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstantiable, IArrayInstantiable, ICloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
-	use KitTraits\LazyProperties;
-	use KitTraits\LazyProperties\ArrayAccess;
-	use KitTraits\LazyProperties\Keyable;
-	use KitTraits\Readonly;
-	use KitTraits\CloneableOnly;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
+	use KTraits\LazyProperties;
+	use KTraits\LazyProperties\ArrayAccess;
+	use KTraits\LazyProperties\Keyable;
+	use KTraits\Readonly;
+	use KTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\PropertiesInitializer;
 	use Traits\IntegerPropertiesExtractor;

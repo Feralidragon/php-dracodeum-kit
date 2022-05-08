@@ -7,12 +7,12 @@
 
 namespace Dracodeum\Kit\Components\Store;
 
-use Dracodeum\Kit\Proxy as KitProxy;
+use Dracodeum\Kit\Proxy as KProxy;
 use Dracodeum\Kit\Prototypes\Store\Contract as IContract;
 use Dracodeum\Kit\Components\Store as Owner;
 use Dracodeum\Kit\Structures\Uid;
 
-class Proxy extends KitProxy implements IContract
+class Proxy extends KProxy implements IContract
 {
 	//Implemented protected static methods
 	/** {@inheritdoc} */

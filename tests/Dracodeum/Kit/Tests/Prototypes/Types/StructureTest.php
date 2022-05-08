@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Tests\Prototypes\Types;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\Structure as Prototype;
-use Dracodeum\Kit\Structure as KitStructure;
+use Dracodeum\Kit\Structure as KStructure;
 use Dracodeum\Kit\Interfaces\Arrayable as IArrayable;
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -45,7 +45,7 @@ class StructureTest extends TestCase
 	): void
 	{
 		$this->assertNull(Component::build(Prototype::class, $properties)->process($value));
-		$this->assertInstanceOf(KitStructure::class, $value);
+		$this->assertInstanceOf(KStructure::class, $value);
 		$this->assertSame($expected, get_class($value));
 		foreach ($expected_properties as $name => $v) {
 			$this->assertSame($v, $value->$name);
@@ -371,7 +371,7 @@ class StructureTest extends TestCase
 
 
 /** Test case dummy class 1. */
-class StructureTest_Class1 extends KitStructure
+class StructureTest_Class1 extends KStructure
 {
 	protected function loadProperties(): void {}
 }
@@ -405,7 +405,7 @@ class StructureTest_Class1_B extends StructureTest_Class1
 
 
 /** Test case dummy class 2. */
-class StructureTest_Class2 extends KitStructure
+class StructureTest_Class2 extends KStructure
 {
 	protected function loadProperties(): void {}
 }

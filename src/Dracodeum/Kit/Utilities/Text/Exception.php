@@ -7,6 +7,6 @@
 
 namespace Dracodeum\Kit\Utilities\Text;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 
-abstract class Exception extends KitException {}
+abstract class Exception extends KException {}

@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Prototypes\Types;
 
 use Dracodeum\Kit\Prototypes\Type as Prototype;
 use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
-use Dracodeum\Kit\Enumeration as KitEnumeration;
+use Dracodeum\Kit\Enumeration as KEnumeration;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -131,7 +131,7 @@ class Enumeration extends Prototype implements ITextifier
 	{
 		return match ($name) {
 			'enumeration'
-				=> $this->createProperty()->setMode('w--')->setAsClass(KitEnumeration::class)->bind(self::class),
+				=> $this->createProperty()->setMode('w--')->setAsClass(KEnumeration::class)->bind(self::class),
 			default => null
 		};
 	}

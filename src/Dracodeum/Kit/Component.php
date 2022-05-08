@@ -18,7 +18,7 @@ use Dracodeum\Kit\Component\{
 	Traits,
 	PrototypeProducer
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -83,9 +83,9 @@ use Dracodeum\Kit\Utilities\Type\Exceptions as UTypeExceptions;
 abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\LazyProperties;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\LazyProperties;
+	use KTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\PreInitializer;
 	use Traits\PropertiesInitializer;

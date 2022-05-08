@@ -27,7 +27,7 @@ use Dracodeum\Kit\Entity\{
 	Options,
 	Exceptions
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Components\Store;
 use Dracodeum\Kit\Components\Store\{
@@ -85,14 +85,14 @@ implements IUid, IDebugInfo, IDebugInfoProcessor, IProperties, \ArrayAccess, IAr
 IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, IStringable, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
-	use KitTraits\Properties\ArrayAccess;
-	use KitTraits\Properties\Keyable;
-	use KitTraits\Readonly;
-	use KitTraits\Stringable;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
+	use KTraits\Properties\ArrayAccess;
+	use KTraits\Properties\Keyable;
+	use KTraits\Readonly;
+	use KTraits\Stringable;
+	use KTraits\Uncloneable;
 	use Traits\DefaultBuilder;
 	use Traits\Initializer;
 	use Traits\PropertiesInitializer;

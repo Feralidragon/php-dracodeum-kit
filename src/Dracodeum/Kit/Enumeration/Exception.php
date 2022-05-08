@@ -7,14 +7,14 @@
 
 namespace Dracodeum\Kit\Enumeration;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Enumeration;
 
 /**
  * @property-read string $enumeration [strict = class]
  * <p>The enumeration class.</p>
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

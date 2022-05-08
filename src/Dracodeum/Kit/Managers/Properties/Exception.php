@@ -7,14 +7,14 @@
 
 namespace Dracodeum\Kit\Managers\Properties;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Managers\Properties as Manager;
 
 /**
  * @property-read \Dracodeum\Kit\Managers\Properties $manager
  * <p>The manager instance.</p>
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

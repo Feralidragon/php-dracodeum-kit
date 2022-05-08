@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Components\Input;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Components\Input as Component;
 
 /**
@@ -16,7 +16,7 @@ use Dracodeum\Kit\Components\Input as Component;
  * @property-read \Dracodeum\Kit\Prototypes\Input $prototype
  * <p>The prototype instance.</p>
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

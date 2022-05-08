@@ -14,7 +14,7 @@ use Dracodeum\Kit\Enumeration\{
 };
 use Dracodeum\Kit\Utilities\Text as UText;
 use Dracodeum\Kit\Options\Text as TextOptions;
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 
 /**
  * This class is the base to be extended from when creating an enumeration.
@@ -28,7 +28,7 @@ use Dracodeum\Kit\Traits as KitTraits;
 abstract class Enumeration implements IUninstantiable
 {
 	//Traits
-	use KitTraits\Uninstantiable;
+	use KTraits\Uninstantiable;
 	use Traits\Information;
 	
 	

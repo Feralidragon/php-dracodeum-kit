@@ -7,13 +7,13 @@
 
 namespace Dracodeum\Kit\Managers\PropertiesV2\Meta;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 
 /**
  * @property-read string $class
  * The class.
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

@@ -7,6 +7,6 @@
 
 namespace Dracodeum\Kit\Utilities\Base64;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 
-abstract class Exception extends KitException {}
+abstract class Exception extends KException {}

@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Components\Store;
 
-use Dracodeum\Kit\Exception as KitException;
+use Dracodeum\Kit\Exception as KException;
 use Dracodeum\Kit\Components\Store as Component;
 
 /**
@@ -17,7 +17,7 @@ use Dracodeum\Kit\Components\Store as Component;
  * @property-read \Dracodeum\Kit\Prototypes\Store $prototype
  * The prototype instance.
  */
-abstract class Exception extends KitException
+abstract class Exception extends KException
 {
 	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
 	/** {@inheritdoc} */

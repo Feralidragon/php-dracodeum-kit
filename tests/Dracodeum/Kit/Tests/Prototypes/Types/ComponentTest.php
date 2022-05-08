@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Prototypes\Types\Component as Prototype;
 use Dracodeum\Kit\{
-	Component as KitComponent,
-	Prototype as KitPrototype	
+	Component as KComponent,
+	Prototype as KPrototype	
 };
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -48,7 +48,7 @@ class ComponentTest extends TestCase
 	): void
 	{
 		$this->assertNull(Component::build(Prototype::class, $properties)->process($value));
-		$this->assertInstanceOf(KitComponent::class, $value);
+		$this->assertInstanceOf(KComponent::class, $value);
 		$this->assertSame($expected, get_class($value));
 		foreach ($expected_properties as $name => $v) {
 			$this->assertSame($v, $value->$name);
@@ -96,7 +96,7 @@ class ComponentTest extends TestCase
 		$builder2 = function ($prototype, array $properties): ComponentTest_Component2 {
 			return new ComponentTest_Component2($prototype, $properties);
 		};
-		$named_builder = function (string $name, array $properties): ?KitComponent {
+		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
 				'c1' => new ComponentTest_Component1(),
 				'c1a' => new ComponentTest_Component1_A(),
@@ -236,7 +236,7 @@ class ComponentTest extends TestCase
 		$builder2 = function ($prototype, array $properties): ComponentTest_Component2 {
 			return new ComponentTest_Component2($prototype, $properties);
 		};
-		$named_builder = function (string $name, array $properties): ?KitComponent {
+		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
 				'c1' => new ComponentTest_Component1(),
 				'c1a' => new ComponentTest_Component1_A(),
@@ -352,7 +352,7 @@ class ComponentTest extends TestCase
 		//initialize
 		$class1 = ComponentTest_Component1::class;
 		$class1_proto = ComponentTest_Prototype1::class;
-		$named_builder = function (string $name, array $properties): ?KitComponent {
+		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
 				'c1' => new ComponentTest_Component1(),
 				'c1_p1a' => new ComponentTest_Component1('p1a', $properties),
@@ -421,7 +421,7 @@ class ComponentTest extends TestCase
 
 
 /** Test case dummy component class 1. */
-class ComponentTest_Component1 extends KitComponent
+class ComponentTest_Component1 extends KComponent
 {
 	public static function getPrototypeBaseClass(): string
 	{
@@ -452,7 +452,7 @@ class ComponentTest_Component1_B extends ComponentTest_Component1 {}
 
 
 /** Test case dummy prototype class 1. */
-class ComponentTest_Prototype1 extends KitPrototype {}
+class ComponentTest_Prototype1 extends KPrototype {}
 
 
 
@@ -494,7 +494,7 @@ class ComponentTest_Prototype1_B extends ComponentTest_Prototype1
 
 
 /** Test case dummy component class 2. */
-class ComponentTest_Component2 extends KitComponent
+class ComponentTest_Component2 extends KComponent
 {
 	public static function getPrototypeBaseClass(): string
 	{
@@ -505,4 +505,4 @@ class ComponentTest_Component2 extends KitComponent
 
 
 /** Test case dummy prototype class 2. */
-class ComponentTest_Prototype2 extends KitPrototype {}
+class ComponentTest_Prototype2 extends KPrototype {}

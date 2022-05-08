@@ -10,8 +10,8 @@ namespace Dracodeum\Kit\Prototypes\Types;
 use Dracodeum\Kit\Prototypes\Type as Prototype;
 use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\{
-	Component as KitComponent,
-	Prototype as KitPrototype
+	Component as KComponent,
+	Prototype as KPrototype
 };
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -105,11 +105,11 @@ class Component extends Prototype implements ITextifier
 		$named_builder = $this->named_builder;
 		
 		//check
-		if ($value instanceof KitComponent) {
+		if ($value instanceof KComponent) {
 			$component = $value;
 		} elseif ($strict) {
 			return Error::build(text: "Only a component instance is strictly allowed.");
-		} elseif (!is_string($value) && !($value instanceof KitPrototype)) {
+		} elseif (!is_string($value) && !($value instanceof KPrototype)) {
 			$text = Text::build()
 				->setString("Only a component is allowed.")
 				->setString(
@@ -176,18 +176,18 @@ class Component extends Prototype implements ITextifier
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'class' => $this->createProperty()->setMode('w--')->setAsClass(KitComponent::class)->bind(self::class),
+			'class' => $this->createProperty()->setMode('w--')->setAsClass(KComponent::class)->bind(self::class),
 			'properties' => $this->createProperty()->setMode('w--')->setAsArray()->bind(self::class),
 			'builder'
 				=> $this->createProperty()
 					->setMode('w--')
-					->setAsCallable(function ($prototype, array $properties): KitComponent {}, true, true)
+					->setAsCallable(function ($prototype, array $properties): KComponent {}, true, true)
 					->bind(self::class)
 				,
 			'named_builder'
 				=> $this->createProperty()
 					->setMode('w--')
-					->setAsCallable(function (string $name, array $properties): ?KitComponent {}, true, true)
+					->setAsCallable(function (string $name, array $properties): ?KComponent {}, true, true)
 					->bind(self::class)
 				,
 			default => null

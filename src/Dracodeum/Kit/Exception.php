@@ -13,7 +13,7 @@ use Dracodeum\Kit\Interfaces\{
 	Arrayable as IArrayable
 };
 use Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor as IDebugInfoProcessor;
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Exception\{
 	Options,
 	Traits
@@ -33,10 +33,10 @@ use Dracodeum\Kit\Utilities\Text as UText;
 abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoProcessor, IProperties, IArrayable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\PropertiesDumpProcessor;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\PropertiesDumpProcessor;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
 	use Traits\PropertiesInitializer;
 	use Traits\PropertiesLoader;
 	

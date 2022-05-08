@@ -26,7 +26,7 @@ use Dracodeum\Kit\Structure\{
 	Traits,
 	Exceptions
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Data as UData,
@@ -57,15 +57,15 @@ IReadonlyable, IStringable, IIntegerInstantiable, IFloatInstantiable, IStringIns
 IArrayInstantiable, ICloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
-	use KitTraits\Properties;
-	use KitTraits\Properties\Arrayable;
-	use KitTraits\Properties\ArrayAccess;
-	use KitTraits\Properties\Keyable;
-	use KitTraits\Readonly;
-	use KitTraits\Stringable;
-	use KitTraits\CloneableOnly;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\ReadonlyPropertiesDumpProcessor;
+	use KTraits\Properties;
+	use KTraits\Properties\Arrayable;
+	use KTraits\Properties\ArrayAccess;
+	use KTraits\Properties\Keyable;
+	use KTraits\Readonly;
+	use KTraits\Stringable;
+	use KTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\PropertiesInitializer;
 	use Traits\IntegerPropertiesExtractor;

@@ -25,8 +25,8 @@ use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\{
-	Component as KitComponent,
-	Structure as KitStructure,
+	Component as KComponent,
+	Structure as KStructure,
 	Enumeration
 };
 use ReflectionProperty;
@@ -72,7 +72,7 @@ class TypeTest extends TestCase
 		$component = Component::build($name, $properties);
 		
 		//reflection
-		$reflection = new ReflectionProperty(KitComponent::class, 'prototype');
+		$reflection = new ReflectionProperty(KComponent::class, 'prototype');
 		$reflection->setAccessible(true);
 		
 		//assert
@@ -996,7 +996,7 @@ class TypeTest_Enum extends Enumeration {}
 
 
 /** Test case dummy structure. */
-class TypeTest_Struct extends KitStructure
+class TypeTest_Struct extends KStructure
 {
 	protected function loadProperties(): void {}
 }

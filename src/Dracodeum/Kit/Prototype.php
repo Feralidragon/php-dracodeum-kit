@@ -17,7 +17,7 @@ use Dracodeum\Kit\Prototype\{
 	Interfaces,
 	Traits
 };
-use Dracodeum\Kit\Traits as KitTraits;
+use Dracodeum\Kit\Traits as KTraits;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Type as UType
@@ -38,10 +38,10 @@ use Dracodeum\Kit\Utilities\{
 abstract class Prototype implements IDebugInfo, IDebugInfoProcessor, IProperties, IUncloneable
 {
 	//Traits
-	use KitTraits\DebugInfo;
-	use KitTraits\DebugInfo\PropertiesDumpProcessor;
-	use KitTraits\LazyProperties;
-	use KitTraits\Uncloneable;
+	use KTraits\DebugInfo;
+	use KTraits\DebugInfo\PropertiesDumpProcessor;
+	use KTraits\LazyProperties;
+	use KTraits\Uncloneable;
 	use Traits\PropertiesInitializer;
 	use Traits\PropertyBuilder;
 	use Traits\Initializer;

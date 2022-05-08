@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Prototypes\Types;
 use Dracodeum\Kit\Prototypes\Type as Prototype;
 use Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier as ITextifier;
 use Dracodeum\Kit\Interfaces\Arrayable as IArrayable;
-use Dracodeum\Kit\Structure as KitStructure;
+use Dracodeum\Kit\Structure as KStructure;
 use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
@@ -79,7 +79,7 @@ class Structure extends Prototype implements ITextifier
 		$builder = $this->builder;
 		
 		//check
-		if ($value instanceof KitStructure) {
+		if ($value instanceof KStructure) {
 			$structure = $clone ? $value->clone() : $value;
 		} elseif ($strict) {
 			return Error::build(text: "Only a structure instance is strictly allowed.");
@@ -160,12 +160,12 @@ class Structure extends Prototype implements ITextifier
 	protected function buildProperty(string $name): ?Property
 	{
 		return match ($name) {
-			'class' => $this->createProperty()->setMode('w--')->setAsClass(KitStructure::class)->bind(self::class),
+			'class' => $this->createProperty()->setMode('w--')->setAsClass(KStructure::class)->bind(self::class),
 			'clone' => $this->createProperty()->setMode('w--')->setAsBoolean()->bind(self::class),
 			'builder'
 				=> $this->createProperty()
 					->setMode('w--')
-					->setAsCallable(function (array $properties): KitStructure {}, true, true)
+					->setAsCallable(function (array $properties): KStructure {}, true, true)
 					->bind(self::class)
 				,
 			default => null
