@@ -16,11 +16,13 @@ class lazyTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test properties.
+	 * Test.
+	 * 
+	 * @testdox Test
 	 * 
 	 * @return void
 	 */
-	public function testProperties(): void
+	public function test(): void
 	{
 		//initialize
 		$manager = new Manager(new lazyTest_Class());

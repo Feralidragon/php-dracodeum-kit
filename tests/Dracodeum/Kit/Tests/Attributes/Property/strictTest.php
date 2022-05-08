@@ -16,9 +16,10 @@ class strictTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test property.
+	 * Test.
 	 * 
-	 * @dataProvider providePropertyData
+	 * @testdox Test
+	 * @dataProvider provideData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -31,7 +32,7 @@ class strictTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProperty(string $name, bool $typed, bool $nullable = false): void
+	public function test(string $name, bool $typed, bool $nullable = false): void
 	{
 		//initialize
 		$manager = new Manager(new strictTest_Class());
@@ -46,12 +47,12 @@ class strictTest extends TestCase
 	}
 	
 	/**
-	 * Provide property data.
+	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function providePropertyData(): array
+	public function provideData(): array
 	{
 		return [
 			['p1', false],

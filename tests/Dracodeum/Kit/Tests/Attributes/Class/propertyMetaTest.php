@@ -17,9 +17,10 @@ class propertyMetaTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test meta.
+	 * Test.
 	 * 
-	 * @dataProvider provideMetaData
+	 * @testdox Test
+	 * @dataProvider provideData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -35,7 +36,7 @@ class propertyMetaTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testMeta(string $name, bool $exists, mixed $default = null, bool $nullable = false): void
+	public function test(string $name, bool $exists, mixed $default = null, bool $nullable = false): void
 	{
 		//initialize
 		$manager = new Manager(new propertyMetaTest_Class());
@@ -51,12 +52,12 @@ class propertyMetaTest extends TestCase
 	}
 	
 	/**
-	 * Provide meta data.
+	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMetaData(): array
+	public function provideData(): array
 	{
 		return [
 			['m0', false],

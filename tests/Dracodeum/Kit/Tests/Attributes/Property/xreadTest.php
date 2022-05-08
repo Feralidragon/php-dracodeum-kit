@@ -16,9 +16,10 @@ class xreadTest extends TestCase
 {
 	//Public methods
 	/**
-	 * Test property.
+	 * Test.
 	 * 
-	 * @dataProvider providePropertyData
+	 * @testdox Test
+	 * @dataProvider provideData
 	 * 
 	 * @param string $name
 	 * The name to test with.
@@ -31,7 +32,7 @@ class xreadTest extends TestCase
 	 * 
 	 * @return void
 	 */
-	public function testProperty(string $name, string $mode, bool $affect_subclasses = false): void
+	public function test(string $name, string $mode, bool $affect_subclasses = false): void
 	{
 		//initialize
 		$manager = new Manager(new xreadTest_Class());
@@ -43,12 +44,12 @@ class xreadTest extends TestCase
 	}
 	
 	/**
-	 * Provide property data.
+	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function providePropertyData(): array
+	public function provideData(): array
 	{
 		return [
 			['p1', 'rw'],
