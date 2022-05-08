@@ -467,6 +467,11 @@ final class PropertiesV2 extends Manager
 							continue;
 						}
 						
+						//owner
+						if ($this->owner instanceof Interfaces\PropertyInitializer) {
+							$this->owner->initializeProperty($property);
+						}
+						
 						//attributes (post)
 						foreach ($r_property->getAttributes() as $r_attribute) {
 							$attribute = $r_attribute->newInstance();
