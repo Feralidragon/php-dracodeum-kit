@@ -21,7 +21,7 @@ interface MutatorProducer
 	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
 	 * in the same order as how these properties were first declared.
 	 * 
-	 * @return coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator>|null
+	 * @return coercible<\Dracodeum\Kit\Components\Type\Components\Mutator>|null
 	 * The produced mutator, or `null` if none was produced.
 	 */
 	public function produceMutator(string $name, array $properties);

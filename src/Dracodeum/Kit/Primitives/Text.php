@@ -98,7 +98,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to instantiate with.
 	 */
 	final public function __construct(?string $string = null, $info_level = EInfoLevel::ENDUSER)
@@ -219,7 +219,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to check for.
 	 * 
 	 * @return bool
@@ -233,7 +233,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to get for.
 	 * 
 	 * @return string|null
@@ -262,7 +262,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to set with.
 	 * 
 	 * @return $this
@@ -277,7 +277,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has plural string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to check for.
 	 * 
 	 * @return bool
@@ -291,7 +291,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get plural string.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to get for.
 	 * 
 	 * @return string|null
@@ -320,7 +320,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to set with.
 	 * 
 	 * @return $this
@@ -533,7 +533,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Prepend text.
 	 * 
-	 * @param coercible:text $text
+	 * @param coercible<\Dracodeum\Kit\Primitives\Text> $text
 	 * The text to prepend.
 	 * 
 	 * @return $this
@@ -549,7 +549,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Append text.
 	 * 
-	 * @param coercible:text $text
+	 * @param coercible<\Dracodeum\Kit\Primitives\Text> $text
 	 * The text to append.
 	 * 
 	 * @return $this
@@ -614,7 +614,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to build with.
 	 * 
 	 * @return static

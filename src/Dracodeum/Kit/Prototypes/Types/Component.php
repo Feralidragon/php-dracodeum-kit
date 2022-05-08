@@ -44,7 +44,7 @@ use Dracodeum\Kit\Utilities\Type as UType;
  * ```
  * 
  * **Parameters:**
- * - `coercible:prototype|null $prototype`  
+ * - `coercible<\Dracodeum\Kit\Prototype>|null $prototype`  
  *   The prototype to build with.  
  *   &nbsp;
  * - `array $properties`  

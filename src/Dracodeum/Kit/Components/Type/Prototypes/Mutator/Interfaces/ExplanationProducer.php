@@ -13,7 +13,7 @@ interface ExplanationProducer
 	/**
 	 * Produce explanation.
 	 * 
-	 * @return coercible:text
+	 * @return coercible<\Dracodeum\Kit\Primitives\Text>
 	 * The produced explanation.
 	 */
 	public function produceExplanation();

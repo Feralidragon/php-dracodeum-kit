@@ -16,7 +16,7 @@ interface Textifier
 	 * @param mixed $value
 	 * The value, already validated and normalized, to textify.
 	 * 
-	 * @return coercible:text|null
+	 * @return coercible<\Dracodeum\Kit\Primitives\Text>|null
 	 * The given value textified, or `null` if no textification occurred.
 	 */
 	public function textify(mixed $value);

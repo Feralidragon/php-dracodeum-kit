@@ -48,7 +48,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * @param string|null $name
 	 * The name to instantiate with.
 	 * 
-	 * @param coercible:text|null $text
+	 * @param coercible<\Dracodeum\Kit\Primitives\Text>|null $text
 	 * The text to instantiate with.
 	 * 
 	 * @param mixed $data
@@ -150,7 +150,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	/**
 	 * Set text.
 	 * 
-	 * @param coercible:text $text
+	 * @param coercible<\Dracodeum\Kit\Primitives\Text> $text
 	 * The text to set.
 	 * 
 	 * @return $this
@@ -209,7 +209,7 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * @param string|null $name
 	 * The name to build with.
 	 * 
-	 * @param coercible:text|null $text
+	 * @param coercible<\Dracodeum\Kit\Primitives\Text>|null $text
 	 * The text to build with.
 	 * 
 	 * @param mixed $data

@@ -156,7 +156,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to process.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to process for.
 	 * 
 	 * @return \Dracodeum\Kit\Primitives\Error|null
@@ -205,7 +205,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to process the cast of.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to process the cast for.
 	 * 
 	 * @param bool $no_throw
@@ -235,7 +235,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to process the coercion of.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to process the coercion for.
 	 * 
 	 * @param bool $no_throw
@@ -265,7 +265,7 @@ class Type extends Component
 	 * @param mixed $value
 	 * The value to textify.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to textify for.
 	 * 
 	 * @param bool $no_throw
@@ -322,7 +322,7 @@ class Type extends Component
 	/**
 	 * Add mutator.
 	 * 
-	 * @param coercible:component<\Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
+	 * @param coercible<\Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
 	 * The mutator to add.
 	 * 
 	 * @param array $properties

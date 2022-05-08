@@ -2757,7 +2757,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * The value to cast.
 	 * 
-	 * @param coercible:component<\Dracodeum\Kit\Components\Type> $type
+	 * @param coercible<\Dracodeum\Kit\Components\Type> $type
 	 * The type to cast with.
 	 * 
 	 * @param array $properties
@@ -2765,7 +2765,7 @@ final class Type extends Utility
 	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
 	 * in the same order as how these properties were first declared.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to cast for.
 	 * 
 	 * @param bool $no_throw
@@ -2793,7 +2793,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * The value to coerce.
 	 * 
-	 * @param coercible:component<\Dracodeum\Kit\Components\Type> $type
+	 * @param coercible<\Dracodeum\Kit\Components\Type> $type
 	 * The type to coerce with.
 	 * 
 	 * @param array $properties
@@ -2801,7 +2801,7 @@ final class Type extends Utility
 	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
 	 * in the same order as how these properties were first declared.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to coerce for.
 	 * 
 	 * @param bool $no_throw
@@ -2829,7 +2829,7 @@ final class Type extends Utility
 	 * @param mixed $value
 	 * The value to textify.
 	 * 
-	 * @param coercible:component<\Dracodeum\Kit\Components\Type>|null $type
+	 * @param coercible<\Dracodeum\Kit\Components\Type>|null $type
 	 * The type to textify with.
 	 * 
 	 * @param array $properties
@@ -2837,7 +2837,7 @@ final class Type extends Utility
 	 * Required properties may also be given as an array of values (`[value1, value2, ...]`), 
 	 * in the same order as how these properties were first declared.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
+	 * @param coercible<enum<\Dracodeum\Kit\Components\Type\Enumerations\Context>> $context
 	 * The context to textify for.
 	 * 
 	 * @param bool $no_throw

@@ -473,7 +473,7 @@ class TArrayTest extends TestCase
 	 * @param array $properties
 	 * The properties to test with.
 	 * 
-	 * @param coercible:enum<\Dracodeum\Kit\Enumerations\InfoLevel> $info_level
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
 	 * The info level to test with.
 	 * 
 	 * @return void

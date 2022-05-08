@@ -79,7 +79,7 @@ class Logger extends Component
 	/**
 	 * Add event.
 	 * 
-	 * @param coercible:struct<\Dracodeum\Kit\Structures\Log\Event> $event
+	 * @param coercible<\Dracodeum\Kit\Structures\Log\Event> $event 
 	 * The event to add.
 	 * 
 	 * @return $this

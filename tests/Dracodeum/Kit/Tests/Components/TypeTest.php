@@ -415,7 +415,7 @@ class TypeTest extends TestCase
 	 * @param string|null $expected_error_string
 	 * The expected error string.
 	 * 
-	 * @param coercible:options<\Dracodeum\Kit\Options\Text> $error_text_options
+	 * @param coercible<\Dracodeum\Kit\Options\Text> $error_text_options
 	 * The error text options to test with.
 	 * 
 	 * @param bool $error_string_not_same
@@ -565,7 +565,7 @@ class TypeTest extends TestCase
 	 * @param string|null $expected_error_string
 	 * The expected error string.
 	 * 
-	 * @param coercible:options<\Dracodeum\Kit\Options\Text> $error_text_options
+	 * @param coercible<\Dracodeum\Kit\Options\Text> $error_text_options
 	 * The error text options to test with.
 	 * 
 	 * @param bool $error_string_not_same
