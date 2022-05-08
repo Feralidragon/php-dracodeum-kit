@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
-use Dracodeum\Kit\Attributes\Property\{
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
 	coercive,
 	strict,
 	mutator,

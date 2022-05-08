@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Tests\Managers\Properties\Interfaces\Attribute\Property;
 
 use PHPUnit\Framework\TestCase;
-use Dracodeum\Kit\Attributes\Class\propertyMeta;
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
 use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer as IPropertyPostInitializer;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;

@@ -8,8 +8,8 @@
 namespace Dracodeum\Kit\Tests\Managers;
 
 use PHPUnit\Framework\TestCase;
-use Dracodeum\Kit\Attributes\Class\propertyMeta;
-use Dracodeum\Kit\Attributes\Property\{
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
 	mode,
 	required,
 	coercive,

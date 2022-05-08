@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Tests\Traits;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Traits;
-use Dracodeum\Kit\Attributes\Property\{
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
 	coercive,
 	strict
 };
