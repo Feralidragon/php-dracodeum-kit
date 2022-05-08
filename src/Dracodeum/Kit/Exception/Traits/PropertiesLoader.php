@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Exception\Traits;
 trait PropertiesLoader
 {
 	//Protected methods
-	/**
-	 * Load properties.
-	 * 
-	 * @return void
-	 */
+	/** Load properties. */
 	protected function loadProperties(): void {}
 }

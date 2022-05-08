@@ -38,8 +38,6 @@ class NumberTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -153,8 +151,6 @@ class NumberTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
@@ -212,8 +208,6 @@ class NumberTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value, array $properties = []): void
 	{
@@ -266,8 +260,6 @@ class NumberTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
 	{
@@ -332,8 +324,6 @@ class NumberTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{

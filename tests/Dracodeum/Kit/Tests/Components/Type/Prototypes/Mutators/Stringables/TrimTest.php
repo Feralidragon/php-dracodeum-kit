@@ -27,8 +27,6 @@ class TrimTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected): void
 	{

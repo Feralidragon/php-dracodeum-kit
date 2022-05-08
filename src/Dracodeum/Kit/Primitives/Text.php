@@ -674,8 +674,6 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * 
 	 * @param int $flag
 	 * The flag to set.
-	 * 
-	 * @return void
 	 */
 	private function setPlaceholderFlag(string $placeholder, int $flag): void
 	{

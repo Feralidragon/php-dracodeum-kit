@@ -28,7 +28,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
 	 * @param bool $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testEncoded(string $string, string $alphabet, bool $expected): void
 	{
@@ -108,7 +107,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testEncode(string $string, bool $url_safe, string $alphabet, string $expected): void
 	{
@@ -185,7 +183,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testDecode(string $string, string $alphabet, string $expected): void
 	{
@@ -257,7 +254,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param string $alphabet
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testDecode_Exception_InvalidString(string $string, string $alphabet): void
 	{
@@ -282,7 +278,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param string $alphabet
 	 * <p>The method <var>$alphabet</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testDecode_NoThrow_Null(string $string, string $alphabet): void
 	{
@@ -336,7 +331,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$alphabet_to</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testNormalize(
 		string $string, string $alphabet_from, string $alphabet_to, string $expected
@@ -398,7 +392,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param string $alphabet_from
 	 * <p>The method <var>$alphabet_from</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testNormalize_Exception_InvalidString(string $string, string $alphabet_from): void
 	{
@@ -423,7 +416,6 @@ class Base32Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param string $alphabet_from
 	 * <p>The method <var>$alphabet_from</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testNormalize_NoThrow_Null(string $string, string $alphabet_from): void
 	{

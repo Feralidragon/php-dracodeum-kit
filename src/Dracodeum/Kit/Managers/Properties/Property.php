@@ -866,7 +866,6 @@ class Property implements IUncloneable
 	 * 
 	 * @param bool $full [default = false]
 	 * <p>Perform a full initialization check.</p>
-	 * @return void
 	 */
 	final protected function guardNonInitializedCall(bool $full = false): void
 	{
@@ -887,11 +886,7 @@ class Property implements IUncloneable
 		}
 	}
 	
-	/**
-	 * Guard the current function or method in the stack so it may only be called if this instance is initialized.
-	 * 
-	 * @return void
-	 */
+	/** Guard the current function or method in the stack so it may only be called if this instance is initialized. */
 	final protected function guardInitializedCall(): void
 	{
 		if (!$this->isInitialized()) {
@@ -904,11 +899,7 @@ class Property implements IUncloneable
 		}
 	}
 	
-	/**
-	 * Guard the current function or method in the stack so it may only be called if no getter function is set.
-	 * 
-	 * @return void
-	 */
+	/** Guard the current function or method in the stack so it may only be called if no getter function is set. */
 	final protected function guardGetterNotSetCall(): void
 	{
 		if ($this->hasGetter()) {

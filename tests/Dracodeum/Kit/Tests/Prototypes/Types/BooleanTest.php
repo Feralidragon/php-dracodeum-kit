@@ -33,8 +33,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected): void
 	{
@@ -94,8 +92,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_NonInternal(mixed $value, mixed $expected): void
 	{
@@ -143,8 +139,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_NonInternal_Error(mixed $value): void
 	{
@@ -191,8 +185,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value): void
 	{
@@ -223,8 +215,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value): void
 	{
@@ -279,8 +269,6 @@ class BooleanTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_NonInternal_Error_Strict(mixed $value): void
 	{
@@ -324,8 +312,6 @@ class BooleanTest extends TestCase
 	 * @testdox Textifier interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(): void
 	{

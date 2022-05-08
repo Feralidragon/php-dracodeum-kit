@@ -37,8 +37,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties): void
 	{
@@ -79,8 +77,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties): void
 	{
@@ -140,8 +136,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties): void
 	{
@@ -191,8 +185,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_NonInternal_Error(mixed $value, array $properties): void
 	{
@@ -240,8 +232,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value, array $properties): void
 	{
@@ -279,8 +269,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value, array $properties): void
 	{
@@ -322,8 +310,6 @@ class EnumerationTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected, array $properties): void
 	{

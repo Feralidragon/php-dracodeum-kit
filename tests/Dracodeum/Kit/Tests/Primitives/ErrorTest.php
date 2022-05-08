@@ -24,8 +24,6 @@ class ErrorTest extends TestCase
 	 * @testdox Cloneable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
-	 * 
-	 * @return void
 	 */
 	public function testCloneableInterface(): void
 	{
@@ -51,8 +49,6 @@ class ErrorTest extends TestCase
 	 * @testdox JsonSerializable interface
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
-	 * 
-	 * @return void
 	 */
 	public function testJsonSerializableInterface(): void
 	{
@@ -78,8 +74,6 @@ class ErrorTest extends TestCase
 	 * Test name.
 	 * 
 	 * @testdox Name
-	 * 
-	 * @return void
 	 */
 	public function testName(): void
 	{
@@ -102,8 +96,6 @@ class ErrorTest extends TestCase
 	 * Test name (build).
 	 * 
 	 * @testdox Name (build)
-	 * 
-	 * @return void
 	 */
 	public function testName_Build(): void
 	{
@@ -123,8 +115,6 @@ class ErrorTest extends TestCase
 	 * Test text.
 	 * 
 	 * @testdox Text
-	 * 
-	 * @return void
 	 */
 	public function testText(): void
 	{
@@ -151,8 +141,6 @@ class ErrorTest extends TestCase
 	 * Test text (build).
 	 * 
 	 * @testdox Text (build)
-	 * 
-	 * @return void
 	 */
 	public function testText_Build(): void
 	{
@@ -177,8 +165,6 @@ class ErrorTest extends TestCase
 	 * Test data.
 	 * 
 	 * @testdox Data
-	 * 
-	 * @return void
 	 */
 	public function testData(): void
 	{
@@ -201,8 +187,6 @@ class ErrorTest extends TestCase
 	 * Test data (build).
 	 * 
 	 * @testdox Data (build)
-	 * 
-	 * @return void
 	 */
 	public function testData_Build(): void
 	{

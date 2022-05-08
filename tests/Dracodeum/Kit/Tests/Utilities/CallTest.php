@@ -25,7 +25,6 @@ class CallTest extends TestCase
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testValidate($function): void
 	{
@@ -92,7 +91,6 @@ class CallTest extends TestCase
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testValidate_Exception_InvalidFunction($function): void
 	{
@@ -114,7 +112,6 @@ class CallTest extends TestCase
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testValidate_NoThrow_False($function): void
 	{
@@ -178,7 +175,6 @@ class CallTest extends TestCase
 	 * <p>The expected method return instance class.</p>
 	 * @param bool $methodify [default = false]
 	 * <p>The method <var>$methodify</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testReflection($function, string $expected_class, bool $methodify = false): void
 	{
@@ -276,7 +272,6 @@ class CallTest extends TestCase
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testReflection_Exception_InvalidFunction($function): void
 	{
@@ -298,7 +293,6 @@ class CallTest extends TestCase
 	 * 
 	 * @param callable|array|string $function
 	 * <p>The method <var>$function</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testReflection_NoThrow_Null($function): void
 	{
@@ -317,7 +311,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$algorithm</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testHash($function, string $algorithm, string $expected): void
 	{
@@ -345,8 +338,8 @@ class CallTest extends TestCase
 			['strlen', 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
 			[Closure::fromCallable('strlen'), 'MD5', '73d3a702db472629f27b06ac8f056476'],
 			[Closure::fromCallable('strlen'), 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
-			[function () {}, 'MD5', 'bac1ff6c096124a515b64b42d93c80f3'],
-			[function () {}, 'SHA1', '339638c04736145b5d2b3c2cb5f6b855cca59282'],
+			[function () {}, 'MD5', '69da2bc791c8bcf17964f7cf7a2759a5'],
+			[function () {}, 'SHA1', 'c7a68f923c90b58523f7b5f86080ea2fbc5b2cc5'],
 			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
 			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
 			[Closure::fromCallable(new CallTest_InvokeableClass()), 'MD5', '06678054507a08aa3179b82ad631ef77'],
@@ -402,7 +395,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param string[] $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testModifiers($function, array $expected): void
 	{
@@ -491,7 +483,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$short</var> parameter to test with.</p>
 	 * @param string|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testName($function, bool $full, bool $short, ?string $expected): void
 	{
@@ -629,7 +620,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testParameters($function, int $flags, array $expected): void
 	{
@@ -861,7 +851,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testType($function, int $flags, string $expected): void
 	{
@@ -1009,7 +998,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testHeader($function, int $flags, string $expected): void
 	{
@@ -1383,7 +1371,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testBody($function, string $expected): void
 	{
@@ -1475,7 +1462,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testSource($function, int $flags, string $expected): void
 	{
@@ -1909,7 +1895,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testSignature($function, string $expected): void
 	{
@@ -2022,7 +2007,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$template</var> parameter to test with.</p>
 	 * @param bool $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testCompatible($function, $template, bool $expected): void
 	{
@@ -2440,7 +2424,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param callable|array|string $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testAssert($function, $template): void
 	{
@@ -2475,7 +2458,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param callable|array|string $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testAssert_Exception_AssertionFailed($function, $template): void
 	{
@@ -2503,7 +2485,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param callable|array|string $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testAssert_NoThrow_False($function, $template): void
 	{
@@ -2537,7 +2518,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param callable|array|string $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testAssert_Environment_Production($function, $template): void
 	{
@@ -2576,7 +2556,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param object|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testObject($function, ?object $expected): void
 	{
@@ -2649,7 +2628,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$short</var> parameter to test with.</p>
 	 * @param string|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testClass($function, bool $short, ?string $expected): void
 	{
@@ -2753,7 +2731,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$function</var> parameter to test with.</p>
 	 * @param string|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testExtension($function, ?string $expected): void
 	{
@@ -2811,7 +2788,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testEvaluate($value, $template): void
 	{
@@ -2834,7 +2810,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testCoerce($value, $template): void
 	{
@@ -2855,7 +2830,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessCoercion($value, $template): void
 	{
@@ -2943,8 +2917,6 @@ class CallTest extends TestCase
 	 * Test <code>evaluate</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Call::evaluate(&{null} --> &{null}, null, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testEvaluate_Null(): void
 	{
@@ -2959,8 +2931,6 @@ class CallTest extends TestCase
 	 * Test <code>coerce</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Call::coerce({null}, null, true) === null
-	 * 
-	 * @return void
 	 */
 	public function testCoerce_Null(): void
 	{
@@ -2973,8 +2943,6 @@ class CallTest extends TestCase
 	 * Test <code>processCoercion</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Call::processCoercion(&{null} --> &{null}, null, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion_Null(): void
 	{
@@ -2997,7 +2965,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testEvaluate_False($value, $template): void
 	{
@@ -3018,7 +2985,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testCoerce_Exception_CoercionFailed($value, $template): void
 	{
@@ -3041,7 +3007,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessCoercion_Exception_CoercionFailed($value, $template): void
 	{
@@ -3067,7 +3032,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessCoercion_NoThrow_False($value, $template): void
 	{
@@ -3175,8 +3139,6 @@ class CallTest extends TestCase
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Call::evaluate(&{null} --> &{null}) === false
-	 * 
-	 * @return void
 	 */
 	public function testEvaluate_Null_False(): void
 	{
@@ -3190,8 +3152,6 @@ class CallTest extends TestCase
 	 * expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Call::coerce({null}) --> CoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testCoerce_Null_Exception_CoercionFailed(): void
 	{
@@ -3209,8 +3169,6 @@ class CallTest extends TestCase
 	 * expecting a <code>CoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Call::processCoercion(&{null}) --> CoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion_Null_Exception_CoercionFailed(): void
 	{
@@ -3230,8 +3188,6 @@ class CallTest extends TestCase
 	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Call::processCoercion(&{null}, null, false, false, true) === false
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion_Null_NoThrow_False(): void
 	{
@@ -3250,7 +3206,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testEvaluate_Assertive($value, $template): void
 	{
@@ -3285,7 +3240,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testCoerce_Assertive($value, $template): void
 	{
@@ -3320,7 +3274,6 @@ class CallTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param callable|array|string|null $template
 	 * <p>The method <var>$template</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessCoercion_Assertive($value, $template): void
 	{
@@ -3374,8 +3327,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousClass</code> method.
 	 * 
 	 * @testdox Call::stackPreviousClass()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousClass(): void
 	{
@@ -3410,8 +3361,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousClasses</code> method.
 	 * 
 	 * @testdox Call::stackPreviousClasses()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousClasses(): void
 	{
@@ -3499,8 +3448,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousObject</code> method.
 	 * 
 	 * @testdox Call::stackPreviousObject()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousObject(): void
 	{
@@ -3536,8 +3483,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousObjects</code> method.
 	 * 
 	 * @testdox Call::stackPreviousObjects()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousObjects(): void
 	{
@@ -3617,8 +3562,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousObjectClass</code> method.
 	 * 
 	 * @testdox Call::stackPreviousObjectClass()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousObjectClass(): void
 	{
@@ -3654,8 +3597,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousObjectsClasses</code> method.
 	 * 
 	 * @testdox Call::stackPreviousObjectsClasses()
-	 * 
-	 * @return void
 	 */
 	public function testStackPreviousObjectsClasses(): void
 	{
@@ -3744,8 +3685,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousName</code> method.
 	 *
 	 * @testdox Call::stackPreviousName()
-	 *
-	 * @return void
 	 */
 	public function testStackPreviousName(): void
 	{
@@ -3879,8 +3818,6 @@ class CallTest extends TestCase
 	 * Test <code>stackPreviousNames</code> method.
 	 *
 	 * @testdox Call::stackPreviousNames()
-	 *
-	 * @return void
 	 */
 	public function testStackPreviousNames(): void
 	{
@@ -4347,8 +4284,6 @@ class CallTest extends TestCase
 	 * Test <code>halt</code> method.
 	 * 
 	 * @testdox Call::halt(...)
-	 * 
-	 * @return void
 	 */
 	public function testHalt(): void
 	{
@@ -4427,8 +4362,6 @@ class CallTest extends TestCase
 	 * Test <code>guard</code> method.
 	 * 
 	 * @testdox Call::guard(...)
-	 * 
-	 * @return void
 	 */
 	public function testGuard(): void
 	{
@@ -4536,8 +4469,6 @@ class CallTest extends TestCase
 	 * Test <code>haltParameter</code> method.
 	 * 
 	 * @testdox Call::haltParameter(...)
-	 * 
-	 * @return void
 	 */
 	public function testHaltParameter(): void
 	{
@@ -4616,8 +4547,6 @@ class CallTest extends TestCase
 	 * Test <code>guardParameter</code> method.
 	 * 
 	 * @testdox Call::guardParameter(...)
-	 * 
-	 * @return void
 	 */
 	public function testGuardParameter(): void
 	{
@@ -4725,8 +4654,6 @@ class CallTest extends TestCase
 	 * Test <code>haltInternal</code> method.
 	 * 
 	 * @testdox Call::haltInternal(...)
-	 * 
-	 * @return void
 	 */
 	public function testHaltInternal(): void
 	{
@@ -4805,8 +4732,6 @@ class CallTest extends TestCase
 	 * Test <code>guardInternal</code> method.
 	 * 
 	 * @testdox Call::guardInternal(...)
-	 * 
-	 * @return void
 	 */
 	public function testGuardInternal(): void
 	{
@@ -4914,8 +4839,6 @@ class CallTest extends TestCase
 	 * Test <code>haltExecution</code> method.
 	 * 
 	 * @testdox Call::haltExecution(...)
-	 * 
-	 * @return void
 	 */
 	public function testHaltExecution(): void
 	{
@@ -5061,8 +4984,6 @@ class CallTest extends TestCase
 	 * Test <code>guardExecution</code> method.
 	 * 
 	 * @testdox Call::guardExecution(...)
-	 * 
-	 * @return void
 	 */
 	public function testGuardExecution(): void
 	{

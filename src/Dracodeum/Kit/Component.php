@@ -734,7 +734,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param \Dracodeum\Kit\Component\PrototypeProducer|string $prototype_producer
 	 * <p>The prototype producer instance or class to prepend.</p>
-	 * @return void
 	 */
 	final public static function prependPrototypeProducer($prototype_producer): void
 	{
@@ -751,7 +750,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param \Dracodeum\Kit\Component\PrototypeProducer|string $prototype_producer
 	 * <p>The prototype producer instance or class to append.</p>
-	 * @return void
 	 */
 	final public static function appendPrototypeProducer($prototype_producer): void
 	{
@@ -778,7 +776,6 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 	 * 
 	 * @param string $name
 	 * <p>The prototype method name to use.</p>
-	 * @return void
 	 */
 	final protected function haltPrototypeMethodNotImplemented(string $name): void
 	{

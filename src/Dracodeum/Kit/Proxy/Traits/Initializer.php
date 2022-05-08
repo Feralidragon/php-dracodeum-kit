@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Proxy\Traits;
 trait Initializer
 {
 	//Protected methods
-	/**
-	 * Initialize.
-	 * 
-	 * @return void
-	 */
+	/** Initialize. */
 	protected function initialize(): void {}
 }

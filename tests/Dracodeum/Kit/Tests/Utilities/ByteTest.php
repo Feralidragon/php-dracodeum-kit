@@ -27,7 +27,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$options</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testHvalue(int $value, $options, string $expected): void
 	{
@@ -106,7 +105,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testMvalue(string $value, int $expected): void
 	{
@@ -195,7 +193,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param string $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testMvalue_Exception_InvalidValue(string $value): void
 	{
@@ -217,7 +214,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param string $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testMvalue_NoThrow_Null(string $value): void
 	{
@@ -258,7 +254,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int $expected_value
 	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
 	 */
 	public function testEvaluateSize($value, int $expected_value): void
 	{
@@ -279,7 +274,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testCoerceSize($value, ?int $expected): void
 	{
@@ -298,7 +292,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int $expected_value
 	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
 	 */
 	public function testProcessSizeCoercion($value, int $expected_value): void
 	{
@@ -359,8 +352,6 @@ class ByteTest extends TestCase
 	 * Test <code>evaluateSize</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::evaluateSize(&{null} --> &{null}, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testEvaluateSize_Null(): void
 	{
@@ -373,8 +364,6 @@ class ByteTest extends TestCase
 	 * Test <code>coerceSize</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::coerceSize({null}, true) === null
-	 * 
-	 * @return void
 	 */
 	public function testCoerceSize_Null(): void
 	{
@@ -385,8 +374,6 @@ class ByteTest extends TestCase
 	 * Test <code>processSizeCoercion</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::processSizeCoercion(&{null} --> &{null}, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testProcessSizeCoercion_Null(): void
 	{
@@ -405,7 +392,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testEvaluateSize_False($value): void
 	{
@@ -424,7 +410,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testCoerceSize_Exception_SizeCoercionFailed($value): void
 	{
@@ -445,7 +430,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessSizeCoercion_Exception_SizeCoercionFailed($value): void
 	{
@@ -469,7 +453,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessSizeCoercion_NoThrow_False($value): void
 	{
@@ -515,8 +498,6 @@ class ByteTest extends TestCase
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::evaluateSize(&{null} --> &{null}) === false
-	 * 
-	 * @return void
 	 */
 	public function testEvaluateSize_Null_False(): void
 	{
@@ -530,8 +511,6 @@ class ByteTest extends TestCase
 	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Byte::coerceSize({null}) --> SizeCoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testCoerceSize_Null_Exception_SizeCoercionFailed(): void
 	{
@@ -549,8 +528,6 @@ class ByteTest extends TestCase
 	 * expecting a <code>SizeCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Byte::processSizeCoercion(&{null}) --> SizeCoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testProcessSizeCoercion_Null_Exception_SizeCoercionFailed(): void
 	{
@@ -570,8 +547,6 @@ class ByteTest extends TestCase
 	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::processSizeCoercion(&{null}, false, true) === false
-	 * 
-	 * @return void
 	 */
 	public function testProcessSizeCoercion_Null_NoThrow_False(): void
 	{
@@ -590,7 +565,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int $expected_value
 	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
 	 */
 	public function testEvaluateMultiple($value, int $expected_value): void
 	{
@@ -611,7 +585,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int|null $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testCoerceMultiple($value, ?int $expected): void
 	{
@@ -630,7 +603,6 @@ class ByteTest extends TestCase
 	 * <p>The method <var>$value</var> parameter to test with.</p>
 	 * @param int $expected_value
 	 * <p>The expected value derived from the given <var>$value</var> parameter.</p>
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion($value, int $expected_value): void
 	{
@@ -701,8 +673,6 @@ class ByteTest extends TestCase
 	 * Test <code>evaluateMultiple</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::evaluateMultiple(&{null} --> &{null}, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testEvaluateMultiple_Null(): void
 	{
@@ -715,8 +685,6 @@ class ByteTest extends TestCase
 	 * Test <code>coerceMultiple</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::coerceMultiple({null}, true) === null
-	 * 
-	 * @return void
 	 */
 	public function testCoerceMultiple_Null(): void
 	{
@@ -727,8 +695,6 @@ class ByteTest extends TestCase
 	 * Test <code>processMultipleCoercion</code> method with a <code>null</code> value.
 	 * 
 	 * @testdox Byte::processMultipleCoercion(&{null} --> &{null}, true) === true
-	 * 
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion_Null(): void
 	{
@@ -747,7 +713,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testEvaluateMultiple_False($value): void
 	{
@@ -766,7 +731,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testCoerceMultiple_Exception_MultipleCoercionFailed($value): void
 	{
@@ -788,7 +752,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion_Exception_MultipleCoercionFailed($value): void
 	{
@@ -812,7 +775,6 @@ class ByteTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * <p>The method <var>$value</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion_NoThrow_False($value): void
 	{
@@ -861,8 +823,6 @@ class ByteTest extends TestCase
 	 * expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::evaluateMultiple(&{null} --> &{null}) === false
-	 * 
-	 * @return void
 	 */
 	public function testEvaluateMultiple_Null_False(): void
 	{
@@ -876,8 +836,6 @@ class ByteTest extends TestCase
 	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Byte::coerceMultiple({null}) --> MultipleCoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testCoerceMultiple_Null_Exception_MultipleCoercionFailed(): void
 	{
@@ -895,8 +853,6 @@ class ByteTest extends TestCase
 	 * expecting a <code>MultipleCoercionFailed</code> exception to be thrown.
 	 * 
 	 * @testdox Byte::processMultipleCoercion(&{null}) --> MultipleCoercionFailed exception
-	 * 
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion_Null_Exception_MultipleCoercionFailed(): void
 	{
@@ -916,8 +872,6 @@ class ByteTest extends TestCase
 	 * with <var>$no_throw</var> set to boolean <code>true</code>, expecting boolean <code>false</code> to be returned.
 	 * 
 	 * @testdox Byte::processMultipleCoercion(&{null}, false, true) === false
-	 * 
-	 * @return void
 	 */
 	public function testProcessMultipleCoercion_Null_NoThrow_False(): void
 	{
@@ -930,8 +884,6 @@ class ByteTest extends TestCase
 	 * Test flag methods.
 	 * 
 	 * @testdox Flags
-	 * 
-	 * @return void
 	 */
 	public function testFlags(): void
 	{

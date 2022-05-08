@@ -1321,7 +1321,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\Halt|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
-	 * @return void
 	 */
 	final public static function halt($options = null): void
 	{
@@ -1364,7 +1363,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\Halt|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\NotAllowed
-	 * @return void
 	 */
 	final public static function guard(bool $assertion, $halt_options = null): void
 	{
@@ -1389,7 +1387,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
-	 * @return void
 	 */
 	final public static function haltParameter(string $name, $value, $options = null): void
 	{
@@ -1435,7 +1432,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltParameter|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ParameterNotAllowed
-	 * @return void
 	 */
 	final public static function guardParameter(string $name, $value, bool $assertion, $halt_options = null): void
 	{
@@ -1456,7 +1452,6 @@ final class Call extends Utility
 	 * @param \Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
-	 * @return void
 	 */
 	final public static function haltInternal($options = null): void
 	{
@@ -1496,7 +1491,6 @@ final class Call extends Utility
 	 * Return: <code><b>\Dracodeum\Kit\Utilities\Call\Options\HaltInternal|array</b></code><br>
 	 * The halt options, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\InternalError
-	 * @return void
 	 */
 	final public static function guardInternal(bool $assertion, $halt_options = null): void
 	{
@@ -1520,7 +1514,6 @@ final class Call extends Utility
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnError
 	 * @throws \Dracodeum\Kit\Utilities\Call\Exceptions\Halt\ReturnNotAllowed
-	 * @return void
 	 */
 	final public static function haltExecution(callable $function, $options = null): void
 	{

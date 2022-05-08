@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Prototypes\Input\Interfaces;
 interface ErrorUnsetter
 {
 	//Public methods
-	/**
-	 * Unset error.
-	 * 
-	 * @return void
-	 */
+	/** Unset error. */
 	public function unsetError(): void;
 }

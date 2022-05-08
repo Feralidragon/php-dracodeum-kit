@@ -149,7 +149,6 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * @param int $stack_offset [default = 0]
 	 * <p>The stack offset to use.</p>
-	 * @return void
 	 */
 	final public function guardCall(int $stack_offset = 0): void
 	{

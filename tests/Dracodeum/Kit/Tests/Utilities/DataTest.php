@@ -24,7 +24,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$array</var> parameter to test with.</p>
 	 * @param bool $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testAssociative(array $array, bool $expected): void
 	{
@@ -66,7 +65,6 @@ class DataTest extends TestCase
 	 * <p>The expected method return value.</p>
 	 * @param bool $expected_safe
 	 * <p>The expected <var>$safe</var> reference parameter output value.</p>
-	 * @return void
 	 */
 	public function testKeyfy($value, string $expected, bool $expected_safe): void
 	{
@@ -129,7 +127,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testMerge(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
 	{
@@ -1983,7 +1980,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testUnique(array $array, ?int $depth, int $flags, array $expected): void
 	{
@@ -3065,7 +3061,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testSort(array $array, ?int $depth, int $flags, array $expected): void
 	{
@@ -3570,7 +3565,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testKsort(array $array, ?int $depth, int $flags, array $expected): void
 	{
@@ -4049,7 +4043,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testFsort(array $array, callable $comparer, ?int $depth, int $flags, array $expected): void
 	{
@@ -4568,7 +4561,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testFilter(array $array, array $values, ?int $depth, int $flags, array $expected): void
 	{
@@ -5344,7 +5336,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testKfilter(array $array, array $keys, ?int $depth, int $flags, array $expected): void
 	{
@@ -6053,7 +6044,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testTrim(array $array, array $values, ?int $depth, int $flags, array $expected): void
 	{
@@ -7452,7 +7442,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testKtrim(array $array, array $keys, ?int $depth, int $flags, array $expected): void
 	{
@@ -8954,7 +8943,6 @@ class DataTest extends TestCase
 	 * <p>The method <var>$flags</var> parameter to test with.</p>
 	 * @param array $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testIntersect(array $array1, array $array2, ?int $depth, int $flags, array $expected): void
 	{

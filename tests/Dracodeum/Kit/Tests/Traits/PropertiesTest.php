@@ -26,8 +26,6 @@ class PropertiesTest extends TestCase
 	 * Test public.
 	 * 
 	 * @testdox Public
-	 * 
-	 * @return void
 	 */
 	public function testPublic(): void
 	{
@@ -77,8 +75,6 @@ class PropertiesTest extends TestCase
 	 * Test protected.
 	 * 
 	 * @testdox Protected
-	 * 
-	 * @return void
 	 */
 	public function testProtected(): void
 	{
@@ -108,8 +104,6 @@ class PropertiesTest extends TestCase
 	 * Test protected `get` expecting an `Inaccessible` exception to be thrown.
 	 * 
 	 * @testdox Protected get Inaccessible exception
-	 * 
-	 * @return void
 	 */
 	public function testProtected_Get_InaccessibleException(): void
 	{
@@ -131,8 +125,6 @@ class PropertiesTest extends TestCase
 	 * Test protected `set` expecting an `Inaccessible` exception to be thrown.
 	 * 
 	 * @testdox Protected set Inaccessible exception
-	 * 
-	 * @return void
 	 */
 	public function testProtected_Set_InaccessibleException(): void
 	{
@@ -154,8 +146,6 @@ class PropertiesTest extends TestCase
 	 * Test protected `unset` expecting an `Inaccessible` exception to be thrown.
 	 * 
 	 * @testdox Protected unset Inaccessible exception
-	 * 
-	 * @return void
 	 */
 	public function testProtected_Unset_InaccessibleException(): void
 	{

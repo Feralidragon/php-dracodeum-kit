@@ -1739,7 +1739,6 @@ final class Data extends Utility
 	 * <p>The value to prepend.</p>
 	 * @param int|string|null $key [default = null]
 	 * <p>The key to prepend with.</p>
-	 * @return void
 	 */
 	final public static function prepend(array &$array, $value, $key = null): void
 	{
@@ -1760,7 +1759,6 @@ final class Data extends Utility
 	 * <p>The value to append.</p>
 	 * @param int|string|null $key [default = null]
 	 * <p>The key to append with.</p>
-	 * @return void
 	 */
 	final public static function append(array &$array, $value, $key = null): void
 	{

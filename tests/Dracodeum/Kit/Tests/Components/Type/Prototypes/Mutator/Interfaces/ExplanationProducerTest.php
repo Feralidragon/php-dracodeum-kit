@@ -24,8 +24,6 @@ class ExplanationProducerTest extends TestCase
 	 * Test.
 	 * 
 	 * @testdox Test
-	 * 
-	 * @return void
 	 */
 	public function test(): void
 	{
@@ -49,8 +47,6 @@ class ExplanationProducerTest extends TestCase
 	 * Test process.
 	 * 
 	 * @testdox Process
-	 * 
-	 * @return void
 	 */
 	public function testProcess(): void
 	{

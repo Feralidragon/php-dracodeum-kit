@@ -18,8 +18,6 @@ interface PropertyPostInitializer
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to post-initialize.
-	 * 
-	 * @return void
 	 */
 	public function postInitializeProperty(Property $property): void;
 }

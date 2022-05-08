@@ -386,11 +386,7 @@ final class PropertiesV2 extends Manager
 	
 	
 	//Final public static methods
-	/**
-	 * Clear cache.
-	 * 
-	 * @return void
-	 */
+	/** Clear cache. */
 	final public static function clearCache(): void
 	{
 		self::$classes_entries = [];
@@ -399,11 +395,7 @@ final class PropertiesV2 extends Manager
 	
 	
 	//Private methods
-	/**
-	 * Initialize properties.
-	 * 
-	 * @return void
-	 */
+	/** Initialize properties. */
 	private function initializeProperties(): void
 	{
 		//initialize
@@ -878,8 +870,6 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
-	 * 
-	 * @return void
 	 */
 	private function setValues(array $values, ?string $scope_class, bool $initializing = false): void
 	{
@@ -962,8 +952,6 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Ununsettable
-	 * 
-	 * @return void
 	 */
 	private function unsetValues(array $names, ?string $scope_class): void
 	{

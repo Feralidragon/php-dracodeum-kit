@@ -23,8 +23,6 @@ class TextTest extends TestCase
 	 * @testdox StringInstantiable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\StringInstantiable
-	 * 
-	 * @return void
 	 */
 	public function testStringInstantiableInterface(): void
 	{
@@ -45,8 +43,6 @@ class TextTest extends TestCase
 	 * @testdox Cloneable interface
 	 * 
 	 * @see \Dracodeum\Kit\Interfaces\Cloneable
-	 * 
-	 * @return void
 	 */
 	public function testCloneableInterface(): void
 	{
@@ -84,8 +80,6 @@ class TextTest extends TestCase
 	 * @testdox JsonSerializable interface
 	 * 
 	 * @see https://www.php.net/manual/en/class.jsonserializable.php
-	 * 
-	 * @return void
 	 */
 	public function testJsonSerializableInterface(): void
 	{
@@ -104,8 +98,6 @@ class TextTest extends TestCase
 	 * Test string.
 	 * 
 	 * @testdox String
-	 * 
-	 * @return void
 	 */
 	public function testString(): void
 	{
@@ -130,8 +122,6 @@ class TextTest extends TestCase
 	 * Test string (technical).
 	 * 
 	 * @testdox String (technical)
-	 * 
-	 * @return void
 	 */
 	public function testString_Technical(): void
 	{
@@ -158,8 +148,6 @@ class TextTest extends TestCase
 	 * Test string (internal).
 	 * 
 	 * @testdox String (internal)
-	 * 
-	 * @return void
 	 */
 	public function testString_Internal(): void
 	{
@@ -188,8 +176,6 @@ class TextTest extends TestCase
 	 * Test strings (end-user and technical).
 	 * 
 	 * @testdox String (end-user and technical)
-	 * 
-	 * @return void
 	 */
 	public function testStrings_Enduser_Technical(): void
 	{
@@ -219,8 +205,6 @@ class TextTest extends TestCase
 	 * Test strings (end-user, technical and internal).
 	 * 
 	 * @testdox String (end-user, technical and internal)
-	 * 
-	 * @return void
 	 */
 	public function testStrings_Enduser_Technical_Internal(): void
 	{
@@ -254,8 +238,6 @@ class TextTest extends TestCase
 	 * Test strings (technical and internal).
 	 * 
 	 * @testdox Strings (technical and internal)
-	 * 
-	 * @return void
 	 */
 	public function testStrings_Technical_Internal(): void
 	{
@@ -285,8 +267,6 @@ class TextTest extends TestCase
 	 * Test plural string.
 	 * 
 	 * @testdox Plural string
-	 * 
-	 * @return void
 	 */
 	public function testPluralString(): void
 	{
@@ -326,8 +306,6 @@ class TextTest extends TestCase
 	 * Test plural string (placeholder).
 	 * 
 	 * @testdox Plural string (placeholder)
-	 * 
-	 * @return void
 	 */
 	public function testPluralString_Placeholder(): void
 	{
@@ -367,8 +345,6 @@ class TextTest extends TestCase
 	 * Test parameter.
 	 * 
 	 * @testdox Parameter
-	 * 
-	 * @return void
 	 */
 	public function testParameter(): void
 	{
@@ -391,8 +367,6 @@ class TextTest extends TestCase
 	 * Test parameters.
 	 * 
 	 * @testdox Parameters
-	 * 
-	 * @return void
 	 */
 	public function testParameters(): void
 	{
@@ -419,8 +393,6 @@ class TextTest extends TestCase
 	 * Test strings (end-user and technical, with parameter).
 	 * 
 	 * @testdox Strings (end-user and technical, with parameter)
-	 * 
-	 * @return void
 	 */
 	public function testStrings_Enduser_Technical_Parameter(): void
 	{
@@ -453,8 +425,6 @@ class TextTest extends TestCase
 	 * Test strings (end-user and technical, with parameters).
 	 * 
 	 * @testdox Strings (end-user and technical, with parameters)
-	 * 
-	 * @return void
 	 */
 	public function testStrings_Enduser_Technical_Parameters(): void
 	{
@@ -491,8 +461,6 @@ class TextTest extends TestCase
 	 * Test plural strings (end-user and technical, with parameters).
 	 * 
 	 * @testdox Plural strings (end-user and technical, with parameters)
-	 * 
-	 * @return void
 	 */
 	public function testPluralStrings_Enduser_Technical_Parameters(): void
 	{
@@ -578,8 +546,6 @@ class TextTest extends TestCase
 	 * Test placeholder as quoted.
 	 * 
 	 * @testdox Placeholder as quoted
-	 * 
-	 * @return void
 	 */
 	public function testPlaceholderAsQuoted(): void
 	{
@@ -610,8 +576,6 @@ class TextTest extends TestCase
 	 * Test placeholder stringifier.
 	 * 
 	 * @testdox Placeholder stringifier
-	 * 
-	 * @return void
 	 */
 	public function testPlaceholderStringifier(): void
 	{
@@ -646,8 +610,6 @@ class TextTest extends TestCase
 	 * 
 	 * @param callable $stringifier
 	 * The stringifier to test with.
-	 * 
-	 * @return void
 	 */
 	public function testPlaceholderStringifier_AssertionFailedException(callable $stringifier): void
 	{
@@ -680,8 +642,6 @@ class TextTest extends TestCase
 	 * Test localized.
 	 * 
 	 * @testdox Localized
-	 * 
-	 * @return void
 	 */
 	public function testLocalized(): void
 	{
@@ -701,8 +661,6 @@ class TextTest extends TestCase
 	 * Test texts (append).
 	 * 
 	 * @testdox Texts (append)
-	 * 
-	 * @return void
 	 */
 	public function testTexts_Append(): void
 	{
@@ -770,8 +728,6 @@ class TextTest extends TestCase
 	 * Test texts (prepend).
 	 * 
 	 * @testdox Texts (prepend)
-	 * 
-	 * @return void
 	 */
 	public function testTexts_Prepend(): void
 	{
@@ -839,8 +795,6 @@ class TextTest extends TestCase
 	 * Test texts strings stringifier.
 	 * 
 	 * @testdox Texts strings stringifier
-	 * 
-	 * @return void
 	 */
 	public function testTextsStringsStringifier(): void
 	{

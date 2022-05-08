@@ -34,8 +34,6 @@ class TObjectTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -78,8 +76,6 @@ class TObjectTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
@@ -128,8 +124,6 @@ class TObjectTest extends TestCase
 	 * 
 	 * @param string $expected
 	 * The expected regular expression match.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected): void
 	{

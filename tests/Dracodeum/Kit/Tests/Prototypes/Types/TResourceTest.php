@@ -34,8 +34,6 @@ class TResourceTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -75,8 +73,6 @@ class TResourceTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
@@ -113,8 +109,6 @@ class TResourceTest extends TestCase
 	 * @testdox Textifier interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(): void
 	{

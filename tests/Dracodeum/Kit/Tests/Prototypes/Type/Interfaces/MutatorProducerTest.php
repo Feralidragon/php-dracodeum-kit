@@ -33,8 +33,6 @@ class MutatorProducerTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function test(Component $component, mixed $value, mixed $expected): void
 	{
@@ -90,8 +88,6 @@ class MutatorProducerTest extends TestCase
 	 * Test error.
 	 * 
 	 * @testdox Error
-	 * 
-	 * @return void
 	 */
 	public function testError(): void
 	{

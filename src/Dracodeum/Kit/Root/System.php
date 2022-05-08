@@ -55,8 +55,6 @@ final class System implements IUninstantiable
 	 * 
 	 * When set as a framework, this package will act as the main framework for the entire application, 
 	 * thus global PHP settings (such as ones set through <code>ini_set</code> calls) will be affected and modified.
-	 * 
-	 * @return void
 	 */
 	final public static function setAsFramework(): void
 	{
@@ -90,7 +88,6 @@ final class System implements IUninstantiable
 	 * 
 	 * @param \Dracodeum\Kit\Root\System\Components\Environment|\Dracodeum\Kit\Root\System\Prototypes\Environment|string $environment
 	 * <p>The environment component instance, or prototype instance, class or name, to set.</p>
-	 * @return void
 	 */
 	final public static function setEnvironment($environment): void
 	{
@@ -213,7 +210,6 @@ final class System implements IUninstantiable
 	 * @see https://php.net/manual/en/errorfunc.constants.php
 	 * @param int $flags
 	 * <p>The flags to set.</p>
-	 * @return void
 	 */
 	final public static function setErrorReportingFlags(int $flags): void
 	{

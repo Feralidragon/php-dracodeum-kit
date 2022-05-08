@@ -79,7 +79,6 @@ final class Remote implements IUninstantiable
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
 	 * The IP address or <code>null</code> if none is set.</p>
-	 * @return void
 	 */
 	final public static function addIpAddressGetter(callable $getter): void
 	{
@@ -131,7 +130,6 @@ final class Remote implements IUninstantiable
 	 * <br>
 	 * Return: <code><b>string|null</b></code><br>
 	 * The agent or <code>null</code> if none is set.</p>
-	 * @return void
 	 */
 	final public static function addAgentGetter(callable $getter): void
 	{

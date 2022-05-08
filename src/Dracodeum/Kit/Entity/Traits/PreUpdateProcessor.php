@@ -18,7 +18,6 @@ trait PreUpdateProcessor
 	 * <p>The old values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param array $new_values [reference]
 	 * <p>The new values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	protected function processPreUpdate(array $old_values, array &$new_values): void {}
 }

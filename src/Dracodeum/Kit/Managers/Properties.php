@@ -1649,7 +1649,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param string $name [reference]
 	 * <p>The property name to process.</p>
-	 * @return void
 	 */
 	final protected function processPropertyNameAlias(string &$name): void
 	{
@@ -1663,7 +1662,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param array $values [reference]
 	 * <p>The property values to process, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function processPropertyValuesAliases(array &$values): void
 	{
@@ -1679,8 +1677,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	
 	/**
 	 * Guard the current function or method in the stack so it may only be called if this instance is not initialized.
-	 * 
-	 * @return void
 	 */
 	final protected function guardNonInitializedCall(): void
 	{
@@ -1694,11 +1690,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Guard the current function or method in the stack so it may only be called if this instance is initialized.
-	 * 
-	 * @return void
-	 */
+	/** Guard the current function or method in the stack so it may only be called if this instance is initialized. */
 	final protected function guardInitializedCall(): void
 	{
 		if (!$this->isInitialized()) {
@@ -1802,7 +1794,6 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 	 * 
 	 * @param array $values
 	 * <p>The property values to set, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	private function setPersistedPropertyValues(array $values): void
 	{
@@ -1815,11 +1806,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Reload persisted property values.
-	 * 
-	 * @return void
-	 */
+	/** Reload persisted property values. */
 	private function reloadPersistedValues(): void
 	{
 		$this->clearPersistedValues();
@@ -1832,11 +1819,7 @@ class Properties extends Manager implements IDebugInfo, IDebugInfoProcessor, IKe
 		}
 	}
 	
-	/**
-	 * Clear persisted property values.
-	 * 
-	 * @return void
-	 */
+	/** Clear persisted property values. */
 	private function clearPersistedValues(): void
 	{
 		$this->persisted_values = $this->persisted_keys = [];

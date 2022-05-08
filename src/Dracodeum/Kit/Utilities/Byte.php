@@ -496,8 +496,6 @@ final class Byte extends Utility
 	 * 
 	 * @param int $flag
 	 * The flag to set.
-	 * 
-	 * @return void
 	 */
 	final public static function setFlag(int &$value, int $flag): void
 	{
@@ -512,8 +510,6 @@ final class Byte extends Utility
 	 * 
 	 * @param int $flag
 	 * The flag to unset.
-	 * 
-	 * @return void
 	 */
 	final public static function unsetFlag(int &$value, int $flag): void
 	{
@@ -531,8 +527,6 @@ final class Byte extends Utility
 	 * 
 	 * @param bool $enable
 	 * Enable the given flag.
-	 * 
-	 * @return void
 	 */
 	final public static function updateFlag(int &$value, int $flag, bool $enable): void
 	{

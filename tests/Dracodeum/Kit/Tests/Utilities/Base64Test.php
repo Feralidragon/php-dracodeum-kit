@@ -27,7 +27,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @param bool $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testEncoded(string $string, ?bool $url_safe, bool $expected): void
 	{
@@ -109,7 +108,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testEncode(string $string, bool $url_safe, string $expected): void
 	{
@@ -154,7 +152,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testDecode(string $string, ?bool $url_safe, string $expected): void
 	{
@@ -208,7 +205,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param bool|null $url_safe
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testDecode_Exception_InvalidString(string $string, ?bool $url_safe): void
 	{
@@ -233,7 +229,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param bool|null $url_safe
 	 * <p>The method <var>$url_safe</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testDecode_NoThrow_Null(string $string, ?bool $url_safe): void
 	{
@@ -290,7 +285,6 @@ class Base64Test extends TestCase
 	 * <p>The method <var>$string</var> parameter to test with.</p>
 	 * @param string $expected
 	 * <p>The expected method return value.</p>
-	 * @return void
 	 */
 	public function testNormalize(string $string, string $expected): void
 	{
@@ -330,7 +324,6 @@ class Base64Test extends TestCase
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testNormalize_Exception_InvalidString(string $string): void
 	{
@@ -352,7 +345,6 @@ class Base64Test extends TestCase
 	 * 
 	 * @param string $string
 	 * <p>The method <var>$string</var> parameter to test with.</p>
-	 * @return void
 	 */
 	public function testNormalize_NoThrow_Null(string $string): void
 	{

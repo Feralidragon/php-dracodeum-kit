@@ -106,7 +106,6 @@ final class Runtime implements IUninstantiable
 	 * 
 	 * @param string $origin
 	 * <p>The origin to set.</p>
-	 * @return void
 	 */
 	final public static function setOrigin(string $origin): void
 	{
@@ -116,11 +115,7 @@ final class Runtime implements IUninstantiable
 		self::$origin = $origin;
 	}
 	
-	/**
-	 * Unset origin.
-	 * 
-	 * @return void
-	 */
+	/** Unset origin. */
 	final public static function unsetOrigin(): void
 	{
 		self::$origin = null;

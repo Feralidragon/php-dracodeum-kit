@@ -30,8 +30,6 @@ class metaTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The expected value.
-	 * 
-	 * @return void
 	 */
 	public function test(string $name, string $meta_name, mixed $value): void
 	{

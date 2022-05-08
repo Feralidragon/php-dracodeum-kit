@@ -112,8 +112,6 @@ class Environment extends Component
 	 * 
 	 * This method may only be called from within the <code>setEnvironment</code> method 
 	 * from the <code>Dracodeum\Kit\Root\System</code> class.
-	 * 
-	 * @return void
 	 */
 	final public function apply(): void
 	{

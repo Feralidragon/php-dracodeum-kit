@@ -17,8 +17,6 @@ interface PropertyInitializer
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to initialize.
-	 * 
-	 * @return void
 	 */
 	public static function initializeProperty(Property $property): void;
 }

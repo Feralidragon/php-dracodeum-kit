@@ -395,8 +395,6 @@ class Store extends Component
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\NotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\ScopeNotFound
 	 * @throws \Dracodeum\Kit\Components\Store\Exceptions\Conflict
-	 * 
-	 * @return void
 	 */
 	protected function halt(Uid $uid, string $type): void
 	{

@@ -17,8 +17,6 @@ trait PrototypeInitializer
 	 * 
 	 * @param \Dracodeum\Kit\Prototype $prototype
 	 * The prototype instance to initialize.
-	 * 
-	 * @return void
 	 */
 	protected function initializePrototype(Prototype $prototype): void {}
 }

@@ -29,8 +29,6 @@ class HexadecimalTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value): void
 	{
@@ -81,8 +79,6 @@ class HexadecimalTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value): void
 	{
@@ -135,8 +131,6 @@ class HexadecimalTest extends TestCase
 	 * @testdox ExplanationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 * 
-	 * @return void
 	 */
 	public function testExplanationProducerInterface(): void
 	{

@@ -32,8 +32,6 @@ class MinCountTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, array $properties): void
 	{
@@ -94,8 +92,6 @@ class MinCountTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties): void
 	{
@@ -147,8 +143,6 @@ class MinCountTest extends TestCase
 	 * @testdox ExplanationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 * 
-	 * @return void
 	 */
 	public function testExplanationProducerInterface(): void
 	{

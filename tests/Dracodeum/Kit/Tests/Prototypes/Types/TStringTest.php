@@ -31,8 +31,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected): void
 	{
@@ -75,8 +73,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value): void
 	{
@@ -112,8 +108,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Unicode(mixed $value, mixed $expected): void
 	{
@@ -151,8 +145,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value): void
 	{
@@ -189,8 +181,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value): void
 	{
@@ -233,8 +223,6 @@ class TStringTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{

@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Entity\Traits;
 trait PostDeleteProcessor
 {
 	//Protected methods
-	/**
-	 * Perform processing after a delete.
-	 * 
-	 * @return void
-	 */
+	/** Perform processing after a delete. */
 	protected function processPostDelete(): void {}
 }

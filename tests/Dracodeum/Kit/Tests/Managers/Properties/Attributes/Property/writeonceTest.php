@@ -29,8 +29,6 @@ class writeonceTest extends TestCase
 	 * 
 	 * @param bool $affect_subclasses
 	 * Whether or not it is expected to affect subclasses.
-	 * 
-	 * @return void
 	 */
 	public function test(string $name, string $mode, bool $affect_subclasses = false): void
 	{

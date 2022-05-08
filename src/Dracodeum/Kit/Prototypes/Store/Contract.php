@@ -22,7 +22,6 @@ interface Contract
 	 * @param string $type
 	 * <p>The type to halt with, 
 	 * as a name or value from the <code>Dracodeum\Kit\Components\Store\Enumerations\Halt\Type</code> enumeration.</p>
-	 * @return void
 	 */
 	public function halt(Uid $uid, string $type): void;
 }

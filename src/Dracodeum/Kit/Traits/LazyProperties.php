@@ -70,7 +70,6 @@ trait LazyProperties
 	 * <p>The name to set with.</p>
 	 * @param mixed $value
 	 * <p>The value to set.</p>
-	 * @return void
 	 */
 	final public function __set(string $name, mixed $value): void
 	{
@@ -82,7 +81,6 @@ trait LazyProperties
 	 * 
 	 * @param string $name
 	 * <p>The name to unset with.</p>
-	 * @return void
 	 */
 	final public function __unset(string $name): void
 	{

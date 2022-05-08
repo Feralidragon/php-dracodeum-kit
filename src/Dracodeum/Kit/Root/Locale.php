@@ -52,7 +52,6 @@ final class Locale implements IUninstantiable
 	 * 
 	 * @param string $encoding
 	 * <p>The encoding to set.</p>
-	 * @return void
 	 */
 	final public static function setEncoding(string $encoding): void
 	{

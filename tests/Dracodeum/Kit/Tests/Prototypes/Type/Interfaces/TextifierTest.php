@@ -31,8 +31,6 @@ class TextifierTest extends TestCase
 	 * 
 	 * @param string $expected
 	 * The expected textified value.
-	 * 
-	 * @return void
 	 */
 	public function test(mixed $value, string $expected): void
 	{

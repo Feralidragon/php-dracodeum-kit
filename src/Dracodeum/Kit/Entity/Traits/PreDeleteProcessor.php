@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Entity\Traits;
 trait PreDeleteProcessor
 {
 	//Protected methods
-	/**
-	 * Perform processing before a delete.
-	 * 
-	 * @return void
-	 */
+	/** Perform processing before a delete. */
 	protected function processPreDelete(): void {}
 }

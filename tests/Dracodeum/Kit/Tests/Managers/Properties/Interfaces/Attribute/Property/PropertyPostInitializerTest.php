@@ -22,8 +22,6 @@ class PropertyPostInitializerTest extends TestCase
 	 * Test.
 	 * 
 	 * @testdox Test
-	 * 
-	 * @return void
 	 */
 	public function test(): void
 	{

@@ -40,8 +40,6 @@ class TypeTest extends TestCase
 	 * Test build.
 	 * 
 	 * @testdox Build
-	 * 
-	 * @return void
 	 */
 	public function testBuild(): void
 	{
@@ -67,8 +65,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testPrototypeName(string $name, string $expected, array $properties = []): void
 	{
@@ -147,8 +143,6 @@ class TypeTest extends TestCase
 	 * Test process.
 	 * 
 	 * @testdox Process
-	 * 
-	 * @return void
 	 */
 	public function testProcess(): void
 	{
@@ -272,8 +266,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Nullable(string $prototype, array $properties = []): void
 	{
@@ -312,8 +304,6 @@ class TypeTest extends TestCase
 	 * Test process (strict).
 	 * 
 	 * @testdox Process (strict)
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(): void
 	{
@@ -367,8 +357,6 @@ class TypeTest extends TestCase
 	 * Test process cast.
 	 * 
 	 * @testdox ProcessCast
-	 * 
-	 * @return void
 	 */
 	public function testProcessCast(): void
 	{
@@ -420,8 +408,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param bool $error_string_not_same
 	 * Expect the error string to not be the same as the expected error string.
-	 * 
-	 * @return void
 	 */
 	public function testProcessCast_Exception_CastFailed(
 		string $prototype, mixed $value, $context = EContext::INTERNAL, ?string $expected_error_string = null,
@@ -464,8 +450,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcessCast_NoThrow_Null(string $prototype, mixed $value, $context = EContext::INTERNAL): void
 	{
@@ -510,8 +494,6 @@ class TypeTest extends TestCase
 	 * Test process coercion.
 	 * 
 	 * @testdox ProcessCoercion
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion(): void
 	{
@@ -570,8 +552,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param bool $error_string_not_same
 	 * Expect the error string to not be the same as the expected error string.
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion_Exception_CoercionFailed(
 		string $prototype, mixed $value, $context = EContext::INTERNAL, ?string $expected_error_string = null,
@@ -616,8 +596,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcessCoercion_NoThrow_False(
 		string $prototype, mixed $value, $context = EContext::INTERNAL
@@ -632,8 +610,6 @@ class TypeTest extends TestCase
 	 * Test textify.
 	 * 
 	 * @testdox Textify
-	 * 
-	 * @return void
 	 */
 	public function testTextify(): void
 	{
@@ -703,8 +679,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param bool $null_error
 	 * Expect the exception error property to be `null`.
-	 * 
-	 * @return void
 	 */
 	public function testTextify_Exception_TextificationFailed(
 		string $prototype, mixed $value, $context, bool $null_error
@@ -741,8 +715,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param enum<\Dracodeum\Kit\Components\Type\Enumerations\Context> $context
 	 * The context to test with.
-	 * 
-	 * @return void
 	 */
 	public function testTextify_NoThrow_Null(string $prototype, mixed $value, $context): void
 	{
@@ -782,8 +754,6 @@ class TypeTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testMutators(Component $component, mixed $value, mixed $expected): void
 	{
@@ -827,8 +797,6 @@ class TypeTest extends TestCase
 	 * Test mutators (error).
 	 * 
 	 * @testdox Mutators (error)
-	 * 
-	 * @return void
 	 */
 	public function testMutators_Error(): void
 	{

@@ -11,10 +11,6 @@ namespace Dracodeum\Kit\Entity\Traits;
 trait PostLoadProcessor
 {
 	//Protected methods
-	/**
-	 * Perform processing after a load.
-	 * 
-	 * @return void
-	 */
+	/** Perform processing after a load. */
 	protected function processPostLoad(): void {}
 }

@@ -27,8 +27,6 @@ class MetaTest extends TestCase
 	 * Test class.
 	 * 
 	 * @testdox Class
-	 * 
-	 * @return void
 	 */
 	public function testClass(): void
 	{
@@ -41,8 +39,6 @@ class MetaTest extends TestCase
 	 * Test entry.
 	 * 
 	 * @testdox Entry
-	 * 
-	 * @return void
 	 */
 	public function testEntry(): void
 	{
@@ -120,8 +116,6 @@ class MetaTest extends TestCase
 	 * Test `get` method expecting an `Undefined` exception to be thrown.
 	 * 
 	 * @testdox Get Undefined exception
-	 * 
-	 * @return void
 	 */
 	public function testGet_UndefinedException(): void
 	{
@@ -145,8 +139,6 @@ class MetaTest extends TestCase
 	 * Test `set` method expecting a `Defined` exception to be thrown.
 	 * 
 	 * @testdox Set Defined exception
-	 * 
-	 * @return void
 	 */
 	public function testSet_DefinedException(): void
 	{
@@ -172,8 +164,6 @@ class MetaTest extends TestCase
 	 * Test `set` method expecting an `InvalidDefault` exception to be thrown.
 	 * 
 	 * @testdox Set InvalidDefault exception
-	 * 
-	 * @return void
 	 */
 	public function testSet_InvalidDefaultException(): void
 	{
@@ -201,8 +191,6 @@ class MetaTest extends TestCase
 	 * Test `process` method expecting an `Undefined` exception to be thrown.
 	 * 
 	 * @testdox Process Undefined exception
-	 * 
-	 * @return void
 	 */
 	public function testProcess_UndefinedException(): void
 	{
@@ -228,8 +216,6 @@ class MetaTest extends TestCase
 	 * Test clone.
 	 * 
 	 * @testdox Clone
-	 * 
-	 * @return void
 	 */
 	public function testClone(): void
 	{

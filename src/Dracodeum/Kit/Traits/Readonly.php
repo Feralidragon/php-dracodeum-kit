@@ -54,8 +54,6 @@ trait Readonly
 	/**
 	 * Guard the current function or method in the stack so it may only be called if this object is not set as 
 	 * read-only.
-	 * 
-	 * @return void
 	 */
 	final protected function guardNonReadonlyCall(): void
 	{

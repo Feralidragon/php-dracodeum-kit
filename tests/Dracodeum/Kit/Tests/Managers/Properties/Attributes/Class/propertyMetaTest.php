@@ -33,8 +33,6 @@ class propertyMetaTest extends TestCase
 	 * 
 	 * @param bool $nullable
 	 * Whether or not it is expected to be nullable.
-	 * 
-	 * @return void
 	 */
 	public function test(string $name, bool $exists, mixed $default = null, bool $nullable = false): void
 	{

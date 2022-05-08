@@ -32,8 +32,6 @@ class TextTest extends TestCase
 	 * 
 	 * @param string $expected_string
 	 * The expected processed value string.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, string $expected_string): void
 	{
@@ -71,8 +69,6 @@ class TextTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value): void
 	{
@@ -110,8 +106,6 @@ class TextTest extends TestCase
 	 * 
 	 * @param string $expected_string
 	 * The expected processed value string.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value, string $expected_string): void
 	{
@@ -142,8 +136,6 @@ class TextTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value): void
 	{
@@ -176,8 +168,6 @@ class TextTest extends TestCase
 	 * @testdox Textifier interface
 	 * 
 	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(): void
 	{

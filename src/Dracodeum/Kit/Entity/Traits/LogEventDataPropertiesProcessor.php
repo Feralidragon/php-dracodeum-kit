@@ -16,7 +16,6 @@ trait LogEventDataPropertiesProcessor
 	 * 
 	 * @param array $properties [reference]
 	 * <p>The properties to process, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	protected function processLogEventDataProperties(array &$properties): void {}
 }

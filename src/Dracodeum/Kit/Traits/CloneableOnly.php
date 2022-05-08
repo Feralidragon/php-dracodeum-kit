@@ -19,11 +19,7 @@ use Dracodeum\Kit\Utilities\Call as UCall;
 trait CloneableOnly
 {
 	//Final public magic methods
-	/**
-	 * Prevent class instance from being cloned through the PHP <code>clone</code> keyword.
-	 * 
-	 * @return void
-	 */
+	/** Prevent class instance from being cloned through the PHP <code>clone</code> keyword. */
 	final public function __clone(): void
 	{
 		UCall::halt([

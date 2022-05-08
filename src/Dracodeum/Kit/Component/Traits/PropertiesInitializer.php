@@ -10,10 +10,6 @@ namespace Dracodeum\Kit\Component\Traits;
 trait PropertiesInitializer
 {
 	//Protected methods
-	/**
-	 * Initialize properties.
-	 * 
-	 * @return void
-	 */
+	/** Initialize properties. */
 	protected function initializeProperties(): void {}
 }

@@ -31,8 +31,6 @@ class TruncateTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties): void
 	{
@@ -108,8 +106,6 @@ class TruncateTest extends TestCase
 	 * @testdox ExplanationProducer interface
 	 * 
 	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 * 
-	 * @return void
 	 */
 	public function testExplanationProducerInterface(): void
 	{

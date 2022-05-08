@@ -18,7 +18,6 @@ trait LogEventProcessor
 	 * 
 	 * @param \Dracodeum\Kit\Structures\Log\Event $event
 	 * <p>The log event instance to process.</p>
-	 * @return void
 	 */
 	protected function processLogEvent(LogEvent $event): void {}
 }

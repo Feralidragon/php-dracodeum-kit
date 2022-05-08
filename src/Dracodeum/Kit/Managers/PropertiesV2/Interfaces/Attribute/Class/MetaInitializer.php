@@ -18,8 +18,6 @@ interface MetaInitializer
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Meta $meta
 	 * The meta instance to initialize.
-	 * 
-	 * @return void
 	 */
 	public function initializeMeta(Meta $meta): void;
 }

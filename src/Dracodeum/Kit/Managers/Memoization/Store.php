@@ -54,11 +54,7 @@ final class Store implements ICloneable
 		$this->limit = $limit;
 	}
 	
-	/**
-	 * Process instance clone.
-	 * 
-	 * @return void
-	 */
+	/** Process instance clone. */
 	final public function __clone(): void
 	{
 		foreach ($this->keys as $k => &$key) {

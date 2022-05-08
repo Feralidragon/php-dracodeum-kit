@@ -48,8 +48,6 @@ class PropertiesTest extends TestCase
 	 * Test instantiation.
 	 * 
 	 * @testdox Instantiation
-	 * 
-	 * @return void
 	 */
 	public function testInstantiation(): void
 	{
@@ -68,8 +66,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `get` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "get" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Get_CallNotAllowedException(): void
 	{
@@ -93,8 +89,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `mget` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "mget" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Mget_CallNotAllowedException(): void
 	{
@@ -118,8 +112,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `set` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "set" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Set_CallNotAllowedException(): void
 	{
@@ -143,8 +135,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `mset` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "mset" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Mset_CallNotAllowedException(): void
 	{
@@ -168,8 +158,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `unset` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "unset" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Unset_CallNotAllowedException(): void
 	{
@@ -193,8 +181,6 @@ class PropertiesTest extends TestCase
 	 * Test pre-initialization `munset` method expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Pre-initialization "munset" method NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPreInitialization_Munset_CallNotAllowedException(): void
 	{
@@ -218,8 +204,6 @@ class PropertiesTest extends TestCase
 	 * Test initialization.
 	 * 
 	 * @testdox Initialization
-	 * 
-	 * @return void
 	 */
 	public function testInitialization(): void
 	{
@@ -239,8 +223,6 @@ class PropertiesTest extends TestCase
 	 * Test post-initialization expecting a `NotAllowed` exception to be thrown.
 	 * 
 	 * @testdox Post-initialization NotAllowed exception
-	 * 
-	 * @return void
 	 */
 	public function testPostInitialization_CallNotAllowedException(): void
 	{
@@ -266,8 +248,6 @@ class PropertiesTest extends TestCase
 	 * Test properties (class 1).
 	 * 
 	 * @testdox Properties (class 1)
-	 * 
-	 * @return void
 	 */
 	public function testProperties_Class1(): void
 	{
@@ -299,8 +279,6 @@ class PropertiesTest extends TestCase
 	 * Test properties (class 2).
 	 * 
 	 * @testdox Properties (class 2)
-	 * 
-	 * @return void
 	 */
 	public function testProperties_Class2(): void
 	{
@@ -349,8 +327,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param array $expected_values
 	 * The expected initialized values.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization(
 		string $class, ?string $scope_class, array $values, array $expected_values
@@ -1141,8 +1117,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception value names.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization_MissingException(string $class, array $values, array $expected_names): void
 	{
@@ -1199,8 +1173,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception value names.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization_UndefinedException(
 		string $class, array $values, array $expected_names
@@ -1263,8 +1235,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception value names.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization_InaccessibleException(
 		string $class, ?string $scope_class, array $values, array $expected_names
@@ -1340,8 +1310,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception value names.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization_UnwriteableException(
 		string $class, ?string $scope_class, array $values, array $expected_names
@@ -1413,8 +1381,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception value names.
-	 * 
-	 * @return void
 	 */
 	public function testValuesInitialization_InvalidException(string $class, array $values, array $expected_names): void
 	{
@@ -1482,8 +1448,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param bool $expected
 	 * The expected returning value.
-	 * 
-	 * @return void
 	 */
 	public function testHas(string $name, string $class, ?string $scope_class, bool $expected): void
 	{
@@ -1811,8 +1775,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param bool $expected
 	 * The expected returning value.
-	 * 
-	 * @return void
 	 */
 	public function testIsset(string $name, string $class, ?string $scope_class, bool $expected): void
 	{
@@ -2174,8 +2136,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected returning value.
-	 * 
-	 * @return void
 	 */
 	public function testGet(string $name, string $class, ?string $scope_class, mixed $expected): void
 	{
@@ -2410,8 +2370,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testGet_UndefinedException(string $name, string $class): void
 	{
@@ -2477,8 +2435,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testGet_InaccessibleException(string $name, string $class, ?string $scope_class): void
 	{
@@ -2548,8 +2504,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testGet_UnreadableException(string $name, string $class, ?string $scope_class): void
 	{
@@ -2635,8 +2589,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testGet_UninitializedException(string $name, string $class): void
 	{
@@ -2691,8 +2643,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testGet_InvalidException(string $name, string $class): void
 	{
@@ -2760,8 +2710,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param array $expected
 	 * The expected returning values.
-	 * 
-	 * @return void
 	 */
 	public function testMget(string $class, ?string $scope_class, ?array $names, array $expected): void
 	{
@@ -3393,8 +3341,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMget_UndefinedException(string $class, array $names, array $expected_names): void
 	{
@@ -3459,8 +3405,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMget_InaccessibleException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -3533,8 +3477,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMget_UnreadableException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -3615,8 +3557,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMget_UninitializedException(string $class, array $names, array $expected_names): void
 	{
@@ -3678,8 +3618,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMget_InvalidException(string $class, array $names, array $expected_names): void
 	{
@@ -3754,8 +3692,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testSet(string $name, mixed $value, mixed $expected, string $class, ?string $scope_class): void
 	{
@@ -3971,8 +3907,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testSet_UndefinedException(string $name, string $class): void
 	{
@@ -4038,8 +3972,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testSet_InaccessibleException(string $name, string $class, ?string $scope_class): void
 	{
@@ -4109,8 +4041,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testSet_UnwriteableException(string $name, string $class, ?string $scope_class): void
 	{
@@ -4223,8 +4153,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testSet_InvalidException(string $name, mixed $value, string $class): void
 	{		
@@ -4295,8 +4223,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testMset(array $values, array $expected, string $class, ?string $scope_class): void
 	{
@@ -4494,8 +4420,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMset_UndefinedException(string $class, array $names, array $expected_names): void
 	{
@@ -4560,8 +4484,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMset_InaccessibleException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -4634,8 +4556,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMset_UnwriteableException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -4722,8 +4642,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param array $values
 	 * The values to test with, as a set of `name => value` pairs.
-	 * 
-	 * @return void
 	 */
 	public function testMset_InvalidException(string $class, array $expected_names, array $values): void
 	{		
@@ -4789,8 +4707,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testUnset(string $name, string $class, ?string $scope_class): void
 	{
@@ -5041,8 +4957,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testUnset_UninitializedException(string $name, string $class, ?string $scope_class): void
 	{
@@ -5121,8 +5035,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testUnset_UndefinedException(string $name, string $class): void
 	{
@@ -5188,8 +5100,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testUnset_InaccessibleException(string $name, string $class, ?string $scope_class): void
 	{
@@ -5259,8 +5169,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string|null $scope_class
 	 * The scope class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testUnset_UnunsettableException(string $name, string $class, ?string $scope_class): void
 	{
@@ -5390,8 +5298,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $names
 	 * The names to test with.
-	 * 
-	 * @return void
 	 */
 	public function testMunset(string $class, ?string $scope_class, array $names): void
 	{
@@ -5554,8 +5460,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMunset_UndefinedException(string $class, array $names, array $expected_names): void
 	{
@@ -5620,8 +5524,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMunset_InaccessibleException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -5694,8 +5596,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string[] $expected_names
 	 * The expected exception names.
-	 * 
-	 * @return void
 	 */
 	public function testMunset_UnunsettableException(
 		string $class, ?string $scope_class, array $names, array $expected_names
@@ -5803,8 +5703,6 @@ class PropertiesTest extends TestCase
 	 * Test meta.
 	 * 
 	 * @testdox Meta
-	 * 
-	 * @return void
 	 */
 	public function testMeta(): void
 	{
@@ -5874,8 +5772,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param string $class
 	 * The class to test with.
-	 * 
-	 * @return void
 	 */
 	public function testMetaValue(string $pname, string $name, mixed $value, string $class): void
 	{
@@ -5914,8 +5810,6 @@ class PropertiesTest extends TestCase
 	 * Test meta expecting a property `InvalidMetaValue` exception to be thrown.
 	 * 
 	 * @testdox Meta property InvalidMetaValue exception
-	 * 
-	 * @return void
 	 */
 	public function testMeta_PropertyInvalidMetaValueException(): void
 	{
@@ -5945,8 +5839,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP0(Property $property): void
 	{
@@ -5992,8 +5884,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP1(Property $property): void
 	{
@@ -6039,8 +5929,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP6(Property $property): void
 	{
@@ -6086,8 +5974,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP7(Property $property): void
 	{
@@ -6133,8 +6019,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP8(Property $property): void
 	{
@@ -6180,8 +6064,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP9(Property $property): void
 	{
@@ -6227,8 +6109,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP10(Property $property): void
 	{
@@ -6274,8 +6154,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP11(Property $property): void
 	{
@@ -6321,8 +6199,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP12(Property $property): void
 	{
@@ -6368,8 +6244,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP13(Property $property): void
 	{
@@ -6415,8 +6289,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP14(Property $property): void
 	{
@@ -6462,8 +6334,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP15(Property $property): void
 	{
@@ -6509,8 +6379,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP16(Property $property): void
 	{
@@ -6556,8 +6424,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP17(Property $property): void
 	{
@@ -6603,8 +6469,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP18(Property $property): void
 	{
@@ -6650,8 +6514,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP19(Property $property): void
 	{
@@ -6699,8 +6561,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP20(Property $property): void
 	{
@@ -6748,8 +6608,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP21(Property $property): void
 	{
@@ -6797,8 +6655,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP22(Property $property): void
 	{
@@ -6844,8 +6700,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkP23(Property $property): void
 	{
@@ -6891,8 +6745,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC1P0(Property $property): void
 	{
@@ -6940,8 +6792,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC1P1(Property $property): void
 	{
@@ -6987,8 +6837,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC2P0(Property $property): void
 	{
@@ -7036,8 +6884,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC2P1(Property $property): void
 	{
@@ -7083,8 +6929,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC2P2(Property $property): void
 	{
@@ -7132,8 +6976,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC2P3(Property $property): void
 	{
@@ -7181,8 +7023,6 @@ class PropertiesTest extends TestCase
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
 	 * The property instance to check.
-	 * 
-	 * @return void
 	 */
 	protected function checkC2P4(Property $property): void
 	{

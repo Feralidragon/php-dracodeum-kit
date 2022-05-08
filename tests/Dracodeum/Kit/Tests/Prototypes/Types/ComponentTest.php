@@ -42,8 +42,6 @@ class ComponentTest extends TestCase
 	 * 
 	 * @param array $expected_properties
 	 * The expected properties from the processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(
 		mixed $value, string $expected, array $properties, array $expected_properties = []
@@ -211,8 +209,6 @@ class ComponentTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties): void
 	{
@@ -292,8 +288,6 @@ class ComponentTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value, array $properties): void
 	{
@@ -339,8 +333,6 @@ class ComponentTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value, array $properties): void
 	{
@@ -394,8 +386,6 @@ class ComponentTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected, array $properties): void
 	{

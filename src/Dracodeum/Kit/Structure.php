@@ -101,11 +101,7 @@ IArrayInstantiable, ICloneable
 	
 	
 	//Abstract protected methods
-	/**
-	 * Load properties.
-	 * 
-	 * @return void
-	 */
+	/** Load properties. */
 	abstract protected function loadProperties(): void;
 	
 	

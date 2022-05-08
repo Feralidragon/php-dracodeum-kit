@@ -36,8 +36,6 @@ class AnyTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -100,8 +98,6 @@ class AnyTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, string $expected_error_string, array $properties = []): void
 	{
@@ -159,8 +155,6 @@ class AnyTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected, array $properties = []): void
 	{
@@ -219,8 +213,6 @@ class AnyTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface_Null(mixed $value, array $properties = []): void
 	{

@@ -27,8 +27,6 @@ class NumericalTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testValidatorInterface(mixed $value): void
 	{
@@ -59,8 +57,6 @@ class NumericalTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testValidatorInterface_Error(mixed $value): void
 	{

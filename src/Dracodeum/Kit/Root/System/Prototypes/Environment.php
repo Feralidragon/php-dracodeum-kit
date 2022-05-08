@@ -45,10 +45,6 @@ abstract class Environment extends Prototype
 	 */
 	abstract public function getDumpVerbosityLevel(): int;
 	
-	/**
-	 * Apply.
-	 * 
-	 * @return void
-	 */
+	/** Apply.  */
 	abstract public function apply(): void;
 }

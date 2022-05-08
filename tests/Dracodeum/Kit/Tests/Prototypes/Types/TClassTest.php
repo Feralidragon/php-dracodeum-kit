@@ -35,8 +35,6 @@ class TClassTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -81,8 +79,6 @@ class TClassTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
@@ -141,8 +137,6 @@ class TClassTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict(mixed $value, mixed $expected, array $properties = []): void
 	{
@@ -183,8 +177,6 @@ class TClassTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
 	{
@@ -221,8 +213,6 @@ class TClassTest extends TestCase
 	 * 
 	 * @param string $expected
 	 * The expected textified value.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected): void
 	{
@@ -246,7 +236,7 @@ class TClassTest extends TestCase
 		//return
 		return [
 			['stdClass', "class<stdClass>"],
-			[new class () {}, "class<anonymous@" . __FILE__ . ":249>"],
+			[new class () {}, "class<anonymous@" . __FILE__ . ":239>"],
 			[$class1, "class<{$class1}>"],
 			[$class2, "class<{$class2}>"]
 		];

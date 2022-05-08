@@ -32,8 +32,6 @@ class TInterfaceTest extends TestCase
 	 * 
 	 * @param mixed $expected
 	 * The expected processed value.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, mixed $expected): void
 	{
@@ -67,8 +65,6 @@ class TInterfaceTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value): void
 	{
@@ -121,8 +117,6 @@ class TInterfaceTest extends TestCase
 	 * 
 	 * @param string $expected
 	 * The expected textified value.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected): void
 	{

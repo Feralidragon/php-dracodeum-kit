@@ -21,7 +21,6 @@ interface DebugInfoProcessor
 	 * 
 	 * @param \Dracodeum\Kit\Traits\DebugInfo\Info $info
 	 * <p>The debug info instance to process.</p>
-	 * @return void
 	 */
 	public function processDebugInfo(Info $info): void;
 }

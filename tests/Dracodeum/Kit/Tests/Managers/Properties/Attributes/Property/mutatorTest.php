@@ -33,8 +33,6 @@ class mutatorTest extends TestCase
 	 * 
 	 * @param bool $mutated
 	 * Whether or not it is expected to be mutated.
-	 * 
-	 * @return void
 	 */
 	public function test(string $name, bool $typed, bool $mutated): void
 	{

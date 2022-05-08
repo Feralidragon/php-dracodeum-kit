@@ -64,7 +64,6 @@ abstract class Factory implements IUninstantiable
 	 * @param \Dracodeum\Kit\Factory\Builder|string $builder
 	 * <p>The builder instance or class to set.<br>
 	 * It must implement the builder interface set for the given type.</p>
-	 * @return void
 	 */
 	final public static function setBuilder(string $type, $builder): void
 	{

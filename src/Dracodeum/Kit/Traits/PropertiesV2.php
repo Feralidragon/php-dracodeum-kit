@@ -59,8 +59,6 @@ trait PropertiesV2
 	 * 
 	 * @param mixed $value
 	 * The value to set.
-	 * 
-	 * @return void
 	 */
 	final public function __set(string $name, mixed $value): void
 	{
@@ -72,8 +70,6 @@ trait PropertiesV2
 	 * 
 	 * @param string $name
 	 * The name of the property to unset.
-	 * 
-	 * @return void
 	 */
 	final public function __unset(string $name): void
 	{

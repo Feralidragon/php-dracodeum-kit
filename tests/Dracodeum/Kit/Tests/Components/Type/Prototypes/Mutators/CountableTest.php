@@ -28,8 +28,6 @@ class CountableTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testValidatorInterface(mixed $value): void
 	{
@@ -60,8 +58,6 @@ class CountableTest extends TestCase
 	 * 
 	 * @param mixed $value
 	 * The value to test with.
-	 * 
-	 * @return void
 	 */
 	public function testValidatorInterface_Error(mixed $value): void
 	{

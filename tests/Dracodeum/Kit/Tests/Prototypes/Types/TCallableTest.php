@@ -33,8 +33,6 @@ class TCallableTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess(mixed $value, array $properties = []): void
 	{
@@ -52,8 +50,6 @@ class TCallableTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Closure(mixed $value, array $properties = []): void
 	{
@@ -166,8 +162,6 @@ class TCallableTest extends TestCase
 	 * 
 	 * @param array $properties
 	 * The properties to test with.
-	 * 
-	 * @return void
 	 */
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
@@ -336,8 +330,6 @@ class TCallableTest extends TestCase
 	 * 
 	 * @param string $expected
 	 * The expected textified value.
-	 * 
-	 * @return void
 	 */
 	public function testTextifierInterface(mixed $value, string $expected): void
 	{
@@ -363,7 +355,7 @@ class TCallableTest extends TestCase
 		//return
 		return [
 			['strlen', "callable<strlen>"],
-			[function () {}, "callable<anonymous@" . __FILE__ . ":366>"],
+			[function () {}, "callable<anonymous@" . __FILE__ . ":358>"],
 			[$ci, "callable<{$class_invokeable}::__invoke>"],
 			[[$c, 'getString'], "callable<{$class}::getString>"],
 			["{$class}::getStaticString", "callable<{$class}::getStaticString>"],

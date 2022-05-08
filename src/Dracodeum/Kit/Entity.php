@@ -173,11 +173,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	
 	//Abstract protected methods	
-	/**
-	 * Load properties.
-	 * 
-	 * @return void
-	 */
+	/** Load properties. */
 	abstract protected function loadProperties(): void;
 	
 	
@@ -1260,7 +1256,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * then the identifiers are interpreted as getter method calls, but they cannot be given any arguments.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function logEvent($level, string $message, $options = null): void
 	{
@@ -1319,7 +1314,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The placeholder to fill with the given number in the final message.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\PlogEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function plogEvent(
 		$level, string $message1, string $message2, float $number, ?string $number_placeholder = null, $options = null
@@ -1348,7 +1342,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The throwable instance to log with.</p>
 	 * @param \Dracodeum\Kit\Entity\Options\LogThrowableEvent|array|null $options [default = null]
 	 * <p>Additional options to use, as an instance or a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	final protected function logThrowableEvent($level, \Throwable $throwable, $options = null): void
 	{
@@ -1369,7 +1362,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * 
 	 * @param \Throwable $throwable
 	 * <p>The throwable instance to throw.</p>
-	 * @return void
 	 */
 	final protected function throw(\Throwable $throwable): void
 	{
@@ -1527,7 +1519,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The output UID instance to use.</p>
 	 * @param array|null $old_values [reference] [default = null]
 	 * <p>The old values to process with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	private function processPrePersistence(array &$new_values, ?Uid &$uid, ?array &$old_values = null): void
 	{
@@ -1633,7 +1624,6 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	 * <p>The values to process with, as a set of <samp>name => value</samp> pairs.</p>
 	 * @param \Dracodeum\Kit\Structures\Uid $uid
 	 * <p>The UID instance to use.</p>
-	 * @return void
 	 */
 	private function processPostPersistence(array &$values, Uid $uid): void
 	{

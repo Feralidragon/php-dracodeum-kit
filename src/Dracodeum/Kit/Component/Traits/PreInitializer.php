@@ -18,8 +18,6 @@ trait PreInitializer
 	 * 
 	 * @param array $properties
 	 * The properties to pre-initialize with, as a set of `name => value` pairs.
-	 * 
-	 * @return void
 	 */
 	protected function preInitialize(&$prototype, array &$properties): void {}
 }

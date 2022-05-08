@@ -25,8 +25,6 @@ class MutatorTest extends TestCase
 	 * Test process.
 	 * 
 	 * @testdox Process
-	 * 
-	 * @return void
 	 */
 	public function testProcess(): void
 	{
@@ -94,8 +92,6 @@ class MutatorTest extends TestCase
 	 * Test explanation.
 	 * 
 	 * @testdox Explanation
-	 * 
-	 * @return void
 	 */
 	public function testExplanation(): void
 	{

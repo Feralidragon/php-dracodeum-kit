@@ -2027,7 +2027,6 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to set as read-only.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\UnreadonlyableObject
-	 * @return void
 	 */
 	final public static function setAsReadonly(object $object): void
 	{
@@ -2049,7 +2048,6 @@ final class Type extends Utility
 	 * 
 	 * @param mixed $value
 	 * <p>The value to set as read-only.</p>
-	 * @return void
 	 */
 	final public static function setValueAsReadonly($value): void
 	{
@@ -2214,7 +2212,6 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to persist.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotPersistableObject
-	 * @return void
 	 */
 	final public static function persist(object $object): void
 	{
@@ -2236,7 +2233,6 @@ final class Type extends Utility
 	 * 
 	 * @param mixed $value
 	 * <p>The value to persist.</p>
-	 * @return void
 	 */
 	final public static function persistValue($value): void
 	{
@@ -2268,7 +2264,6 @@ final class Type extends Utility
 	 * @param object $object
 	 * <p>The object to unpersist.</p>
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\NotUnpersistableObject
-	 * @return void
 	 */
 	final public static function unpersist(object $object): void
 	{
@@ -2290,7 +2285,6 @@ final class Type extends Utility
 	 * 
 	 * @param mixed $value
 	 * <p>The value to unpersist.</p>
-	 * @return void
 	 */
 	final public static function unpersistValue($value): void
 	{

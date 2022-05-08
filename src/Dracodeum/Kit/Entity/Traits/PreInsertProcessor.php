@@ -16,7 +16,6 @@ trait PreInsertProcessor
 	 * 
 	 * @param array $values [reference]
 	 * <p>The values to perform processing with, as a set of <samp>name => value</samp> pairs.</p>
-	 * @return void
 	 */
 	protected function processPreInsert(array &$values): void {}
 }
