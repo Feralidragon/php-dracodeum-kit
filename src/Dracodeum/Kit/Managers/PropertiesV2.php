@@ -452,7 +452,7 @@ final class PropertiesV2 extends Manager
 						}
 						
 						//property
-						$property = $properties[$p_name] = new Property($r_property, $meta);
+						$property = new Property($r_property, $meta);
 						
 						//attributes
 						foreach ($r_property->getAttributes() as $r_attribute) {
@@ -460,10 +460,23 @@ final class PropertiesV2 extends Manager
 							if ($attribute instanceof Interfaces\Attribute\Property\PropertyInitializer) {
 								$attribute->initializeProperty($property);
 							}
+						}
+						
+						//ignore
+						if ($property->isIgnored()) {
+							continue;
+						}
+						
+						//attributes (post)
+						foreach ($r_property->getAttributes() as $r_attribute) {
+							$attribute = $r_attribute->newInstance();
 							if ($attribute instanceof Interfaces\Attribute\Property\PropertyPostInitializer) {
 								$properties_post_attributes[$p_name][] = $attribute;
 							}
 						}
+						
+						//finalize
+						$properties[$p_name] = $property;
 					}
 					
 					//class entry

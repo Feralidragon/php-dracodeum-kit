@@ -14,6 +14,7 @@ use Dracodeum\Kit\Attributes\Property\{
 	required,
 	coercive,
 	strict,
+	ignore,
 	lazy,
 	meta
 };
@@ -5982,6 +5983,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6028,6 +6030,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6074,6 +6077,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6120,6 +6124,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6166,6 +6171,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6212,6 +6218,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6258,6 +6265,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6304,6 +6312,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6350,6 +6359,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6396,6 +6406,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6442,6 +6453,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6488,6 +6500,7 @@ class PropertiesTest extends TestCase
 		$this->assertFalse($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6534,6 +6547,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6580,6 +6594,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6626,6 +6641,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6674,6 +6690,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertFalse($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6722,6 +6739,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertTrue($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6770,6 +6788,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertTrue($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6816,6 +6835,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -6862,6 +6882,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertTrue($property->isLazy());
 	}
 	
@@ -6910,6 +6931,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertFalse($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertTrue($property->isLazy());
 	}
 	
@@ -6956,6 +6978,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertTrue($property->isLazy());
 	}
 	
@@ -7004,6 +7027,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertFalse($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -7050,6 +7074,7 @@ class PropertiesTest extends TestCase
 		$this->assertTrue($property->isWriteable($class2, true));
 		$this->assertFalse($property->hasType());
 		$this->assertNull($property->getType());
+		$this->assertFalse($property->isIgnored());
 		$this->assertTrue($property->isLazy());
 	}
 	
@@ -7098,6 +7123,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertFalse($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 	
@@ -7146,6 +7172,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertTrue($property->getType()->nullable);
 		$this->assertFalse($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertTrue($property->isLazy());
 	}
 	
@@ -7194,6 +7221,7 @@ class PropertiesTest extends TestCase
 		$this->assertNotNull($property->getType());
 		$this->assertFalse($property->getType()->nullable);
 		$this->assertTrue($property->getType()->strict);
+		$this->assertFalse($property->isIgnored());
 		$this->assertFalse($property->isLazy());
 	}
 }
@@ -7263,6 +7291,9 @@ class PropertiesTest_Class1
 	
 	#[lazy]
 	public int $p23 = 1;
+	
+	#[ignore]
+	public $p24;
 	
 	#[mode('r+'), coercive, lazy]
 	public string $c1p0 = 'foo';

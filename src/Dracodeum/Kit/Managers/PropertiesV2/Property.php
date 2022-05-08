@@ -30,14 +30,17 @@ final class Property
 	/** Modes of operation. */
 	private const MODES = ['r', 'r+', 'rw', 'w', 'w-'];
 	
+	/** Ignored (flag). */
+	private const FLAG_IGNORED = 0x1;
+	
 	/** Lazy (flag). */
-	private const FLAG_LAZY = 0x1;
+	private const FLAG_LAZY = 0x2;
 	
 	/** Required (flag). */
-	private const FLAG_REQUIRED = 0x2;
+	private const FLAG_REQUIRED = 0x4;
 	
 	/** Affect subclasses by mode (flag). */
-	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x4;
+	private const FLAG_MODE_AFFECT_SUBCLASSES = 0x8;
 	
 	
 	
@@ -382,6 +385,29 @@ final class Property
 		$this->type = Type::build('any', ['types' => $inner_types] + $properties);
 		
 		//return
+		return $this;
+	}
+	
+	/**
+	 * Check if is ignored.
+	 * 
+	 * @return bool
+	 * Boolean `true` if is ignored.
+	 */
+	final public function isIgnored(): bool
+	{
+		return UByte::hasFlag($this->flags, self::FLAG_IGNORED);
+	}
+	
+	/**
+	 * Set as ignored, so that this property is excluded from being managed in any way.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setAsIgnored()
+	{
+		UByte::setFlag($this->flags, self::FLAG_IGNORED);
 		return $this;
 	}
 	
