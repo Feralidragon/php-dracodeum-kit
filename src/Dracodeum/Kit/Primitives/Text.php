@@ -19,6 +19,7 @@ use Dracodeum\Kit\Primitives\Text\Exceptions;
 use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
+	Byte as UByte,
 	Call as UCall,
 	Text as UText,
 	Type as UType
@@ -62,6 +63,8 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	/** @var array<string,mixed> */
 	private array $parameters = [];
+	
+	private ?object $object = null;
 	
 	/** @var array<string,int> */
 	private array $placeholders_flags = [];
@@ -135,34 +138,37 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 		if (UText::hasPlaceholders($string)) {
 			//initialize
 			$fill_text_options = TextOptions::coerce($text_options);
-			$fill_stringifier = function (string $placeholder, $value) use ($fill_text_options): ?string {
-				//string
-				$string = isset($this->placeholders_stringifiers[$placeholder])
-					? ($this->placeholders_stringifiers[$placeholder])($value, $fill_text_options)
-					: UText::stringify($value, $fill_text_options);
-				
-				//flags
-				$flags = $this->placeholders_flags[$placeholder] ?? 0x0;
-				if ($flags & self::FLAG_PLACEHOLDER_QUOTED) {
-					$string = $fill_text_options->info_level === EInfoLevel::ENDUSER
-						? "\u{201c}{$string}\u{201d}"
-						: "\"{$string}\"";
+			$fill_options = [
+				'object' => $this->object,
+				'stringifier' => function (string $placeholder, $value) use ($fill_text_options): ?string {
+					//string
+					$string = isset($this->placeholders_stringifiers[$placeholder])
+						? ($this->placeholders_stringifiers[$placeholder])($value, $fill_text_options)
+						: UText::stringify($value, $fill_text_options);
+					
+					//flags
+					$flags = $this->placeholders_flags[$placeholder] ?? 0x0;
+					if (UByte::hasFlag($flags, self::FLAG_PLACEHOLDER_QUOTED)) {
+						$string = $fill_text_options->info_level === EInfoLevel::ENDUSER
+							? "\u{201c}{$string}\u{201d}"
+							: "\"{$string}\"";
+					}
+					
+					//return
+					return $string;
 				}
-				
-				//return
-				return $string;
-			};
+			];
 			
 			//fill
 			$string = $plural_string !== null
 				? UText::pfill(
 					$string, $plural_string, $this->plural_number, $this->plural_number_placeholder, $this->parameters,
-					$fill_text_options, ['stringifier' => $fill_stringifier]
+					$fill_text_options, $fill_options
 				)
-				: UText::fill($string, $this->parameters, $fill_text_options, ['stringifier' => $fill_stringifier]);
+				: UText::fill($string, $this->parameters, $fill_text_options, $fill_options);
 			
 			//finalize
-			unset($fill_text_options, $fill_stringifier);
+			unset($fill_text_options, $fill_options);
 			
 		} elseif ($plural_string !== null && abs($this->plural_number) !== 1.0) {
 			$string = $plural_string;
@@ -431,6 +437,21 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	}
 	
 	/**
+	 * Set object.
+	 * 
+	 * @param object $object
+	 * The object to set.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setObject(object $object)
+	{
+		$this->object = $object;
+		return $this;
+	}
+	
+	/**
 	 * Set placeholder as quoted.
 	 * 
 	 * @param string $placeholder
@@ -677,9 +698,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 */
 	private function setPlaceholderFlag(string $placeholder, int $flag): void
 	{
-		if (!isset($this->placeholders_flags[$placeholder])) {
-			$this->placeholders_flags[$placeholder] = 0x0;
-		}
-		$this->placeholders_flags[$placeholder] |= $flag;
+		$this->placeholders_flags[$placeholder] ??= 0x0;
+		UByte::setFlag($this->placeholders_flags[$placeholder], $flag);
 	}
 }

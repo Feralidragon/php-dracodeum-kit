@@ -390,6 +390,31 @@ class TextTest extends TestCase
 	}
 	
 	/**
+	 * Test object.
+	 * 
+	 * @testdox Object
+	 */
+	public function testObject(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$string = "The quick brown fox {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string_param = "The quick brown fox {$fox_name} jumps over the lazy dog {$dog_name}.";
+		
+		//build
+		$text = Text::build($string)->setObject(new class ($fox_name, $dog_name) {
+			public function __construct(public string $fox_name, public string $dog_name) {}
+		});
+		
+		//assert
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertTrue($text->hasString());
+		$this->assertSame($string, $text->getString());
+		$this->assertSame($string_param, $text->toString());
+	}
+	
+	/**
 	 * Test strings (end-user and technical, with parameter).
 	 * 
 	 * @testdox Strings (end-user and technical, with parameter)
@@ -422,123 +447,168 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Test strings (end-user and technical, with parameters).
+	 * Test strings (end-user and technical, with parameters and object).
 	 * 
-	 * @testdox Strings (end-user and technical, with parameters)
+	 * @testdox Strings (end-user and technical, with parameters and object)
 	 */
-	public function testStrings_Enduser_Technical_Parameters(): void
+	public function testStrings_Enduser_Technical_Parameters_Object(): void
 	{
 		//initialize
-		$fox_name = "Cooper";
-		$dog_name = "Murphy";
+		$p_fox_name = "Cooper";
+		$p_dog_name = "Murphy";
+		$o_fox_name = "Marley";
+		$o_dog_name = "Oliver";
+		$parameter_sets = [
+			[],
+			['fox_name' => $p_fox_name],
+			['dog_name' => $p_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $p_dog_name]
+		];
+		$object = new class ($o_fox_name, $o_dog_name) {
+			public function __construct(public string $fox_name, public string $dog_name) {}
+		};
+		$values = [
+			['fox_name' => $o_fox_name, 'dog_name' => $o_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $o_dog_name],
+			['fox_name' => $o_fox_name, 'dog_name' => $p_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $p_dog_name]
+		];
 		$string = "The quick brown fox {{fox_name}} jumps over the lazy dog {{dog_name}}.";
 		$string_tech = "The high-speed brown vulpes {{fox_name}} jumps over the laziest canis {{dog_name}}.";
-		$string_param = "The quick brown fox {$fox_name} jumps over the lazy dog {$dog_name}.";
-		$string_tech_param = "The high-speed brown vulpes {$fox_name} jumps over the laziest canis {$dog_name}.";
 		
-		//build
-		$text = Text::build($string)
-			->setString($string_tech, EInfoLevel::TECHNICAL)
-			->setParameters([
-				'fox_name' => $fox_name,
-				'dog_name' => $dog_name
-			])
-		;
-		
-		//assert
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertTrue($text->hasString());
-		$this->assertSame($string, $text->getString());
-		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
-		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
-		$this->assertSame($string_param, $text->toString());
-		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		//iterate
+		foreach ($parameter_sets as $i => $parameters) {
+			//initialize
+			$string_param = "The quick brown fox {$values[$i]['fox_name']} jumps over " . 
+				"the lazy dog {$values[$i]['dog_name']}.";
+			$string_tech_param = "The high-speed brown vulpes {$values[$i]['fox_name']} jumps over " . 
+				"the laziest canis {$values[$i]['dog_name']}.";
+			
+			//build
+			$text = Text::build($string)
+				->setString($string_tech, EInfoLevel::TECHNICAL)
+				->setParameters($parameters)
+				->setObject($object)
+			;
+			
+			//assert
+			$this->assertInstanceOf(Text::class, $text);
+			$this->assertTrue($text->hasString());
+			$this->assertSame($string, $text->getString());
+			$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+			$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+			$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
+			$this->assertNull($text->getString(EInfoLevel::INTERNAL));
+			$this->assertSame($string_param, $text->toString());
+			$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
+			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
+			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		}
 	}
 	
 	/**
-	 * Test plural strings (end-user and technical, with parameters).
+	 * Test plural strings (end-user and technical, with parameters and object).
 	 * 
-	 * @testdox Plural strings (end-user and technical, with parameters)
+	 * @testdox Plural strings (end-user and technical, with parameters and object)
 	 */
-	public function testPluralStrings_Enduser_Technical_Parameters(): void
+	public function testPluralStrings_Enduser_Technical_Parameters_Object(): void
 	{
 		//initialize
-		$fox_name = "Cooper";
-		$dog_name = "Murphy";
+		$p_fox_name = "Cooper";
+		$p_dog_name = "Murphy";
+		$o_fox_name = "Marley";
+		$o_dog_name = "Oliver";
+		$parameter_sets = [
+			[],
+			['fox_name' => $p_fox_name],
+			['dog_name' => $p_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $p_dog_name]
+		];
+		$object = new class ($o_fox_name, $o_dog_name) {
+			public function __construct(public string $fox_name, public string $dog_name) {}
+		};
+		$values = [
+			['fox_name' => $o_fox_name, 'dog_name' => $o_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $o_dog_name],
+			['fox_name' => $o_fox_name, 'dog_name' => $p_dog_name],
+			['fox_name' => $p_fox_name, 'dog_name' => $p_dog_name]
+		];
 		$string = "The {{fox_count}} quick brown fox named {{fox_name}} jumps over the lazy dog {{dog_name}}.";
-		$string_tech = "The {{fox_count}} high-speed brown vulpes named {{fox_name}} jumps over the " . 
-			"laziest canis {{dog_name}}.";
-		$string_param = "The {{fox_count}} quick brown fox named {$fox_name} jumps over the lazy dog {$dog_name}.";
-		$string_tech_param = "The {{fox_count}} high-speed brown vulpes named {$fox_name} jumps over the " . 
-			"laziest canis {$dog_name}.";
+		$string_tech = "The {{fox_count}} high-speed brown vulpes named {{fox_name}} jumps over " . 
+			"the laziest canis {{dog_name}}.";
 		$string_plural = "The {{fox_count}} quick brown foxes named {{fox_name}} jump over the lazy dog {{dog_name}}.";
-		$string_plural_tech = "The {{fox_count}} high-speed brown vulpes named {{fox_name}} jump over the " . 
-			"laziest canis {{dog_name}}.";
-		$string_plural_param = "The {{fox_count}} quick brown foxes named {$fox_name} jump over the " . 
-			"lazy dog {$dog_name}.";
-		$string_plural_tech_param = "The {{fox_count}} high-speed brown vulpes named {$fox_name} jump over the " . 
-			"laziest canis {$dog_name}.";
+		$string_plural_tech = "The {{fox_count}} high-speed brown vulpeses named {{fox_name}} jump over " . 
+			"the laziest canis {{dog_name}}.";
 		
-		//build
-		$text = Text::build($string)
-			->setPluralString($string_plural)
-			->setString($string_tech, EInfoLevel::TECHNICAL)
-			->setPluralString($string_plural_tech, EInfoLevel::TECHNICAL)
-			->setPluralNumberPlaceholder('fox_count')
-			->setParameters([
-				'fox_name' => $fox_name,
-				'dog_name' => $dog_name
-			])
-		;
-		
-		//assert
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertTrue($text->hasString());
-		$this->assertSame($string, $text->getString());
-		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
-		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
-		$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
-		$this->assertNull($text->getString(EInfoLevel::INTERNAL));
-		$this->assertTrue($text->hasPluralString());
-		$this->assertSame($string_plural, $text->getPluralString());
-		$this->assertTrue($text->hasPluralString(EInfoLevel::TECHNICAL));
-		$this->assertSame($string_plural_tech, $text->getPluralString(EInfoLevel::TECHNICAL));
-		$this->assertFalse($text->hasPluralString(EInfoLevel::INTERNAL));
-		$this->assertNull($text->getPluralString(EInfoLevel::INTERNAL));
-		$this->assertSame(1.0, $text->getPluralNumber());
-		$this->assertTrue($text->hasPluralNumberPlaceholder());
-		$this->assertSame('fox_count', $text->getPluralNumberPlaceholder());
-		
-		//assert (singular)
-		foreach ([1, -1] as $number) {
+		//iterate
+		foreach ($parameter_sets as $i => $parameters) {
 			//initialize
-			$s = str_replace('{{fox_count}}', $number, $string_param);
-			$s_tech = str_replace('{{fox_count}}', $number, $string_tech_param);
-			$text->setPluralNumber($number);
+			$string_param = "The {{fox_count}} quick brown fox named {$values[$i]['fox_name']} " . 
+				"jumps over the lazy dog {$values[$i]['dog_name']}.";
+			$string_tech_param = "The {{fox_count}} high-speed brown vulpes named {$values[$i]['fox_name']} " . 
+				"jumps over the laziest canis {$values[$i]['dog_name']}.";
+			$string_plural_param = "The {{fox_count}} quick brown foxes named {$values[$i]['fox_name']} " . 
+				"jump over the lazy dog {$values[$i]['dog_name']}.";
+			$string_plural_tech_param = "The {{fox_count}} high-speed brown vulpeses named {$values[$i]['fox_name']} " .
+				"jump over the laziest canis {$values[$i]['dog_name']}.";
+			
+			//build
+			$text = Text::build($string)
+				->setPluralString($string_plural)
+				->setString($string_tech, EInfoLevel::TECHNICAL)
+				->setPluralString($string_plural_tech, EInfoLevel::TECHNICAL)
+				->setPluralNumberPlaceholder('fox_count')
+				->setParameters($parameters)
+				->setObject($object)
+			;
 			
 			//assert
-			$this->assertSame((float)$number, $text->getPluralNumber());
-			$this->assertSame($s, $text->toString());
-			$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
-		}
-		
-		//assert (plural)
-		foreach ([0, 2, -2, 1.5, -1.5] as $number) {
-			//initialize
-			$s = str_replace('{{fox_count}}', $number, $string_plural_param);
-			$s_tech = str_replace('{{fox_count}}', $number, $string_plural_tech_param);
-			$text->setPluralNumber($number);
+			$this->assertInstanceOf(Text::class, $text);
+			$this->assertTrue($text->hasString());
+			$this->assertSame($string, $text->getString());
+			$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
+			$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
+			$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
+			$this->assertNull($text->getString(EInfoLevel::INTERNAL));
+			$this->assertTrue($text->hasPluralString());
+			$this->assertSame($string_plural, $text->getPluralString());
+			$this->assertTrue($text->hasPluralString(EInfoLevel::TECHNICAL));
+			$this->assertSame($string_plural_tech, $text->getPluralString(EInfoLevel::TECHNICAL));
+			$this->assertFalse($text->hasPluralString(EInfoLevel::INTERNAL));
+			$this->assertNull($text->getPluralString(EInfoLevel::INTERNAL));
+			$this->assertSame(1.0, $text->getPluralNumber());
+			$this->assertTrue($text->hasPluralNumberPlaceholder());
+			$this->assertSame('fox_count', $text->getPluralNumberPlaceholder());
 			
-			//assert
-			$this->assertSame((float)$number, $text->getPluralNumber());
-			$this->assertSame($s, $text->toString());
-			$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-			$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+			//assert (singular)
+			foreach ([1, -1] as $number) {
+				//initialize
+				$s = str_replace('{{fox_count}}', $number, $string_param);
+				$s_tech = str_replace('{{fox_count}}', $number, $string_tech_param);
+				$text->setPluralNumber($number);
+				
+				//assert
+				$this->assertSame((float)$number, $text->getPluralNumber());
+				$this->assertSame($s, $text->toString());
+				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+			}
+			
+			//assert (plural)
+			foreach ([0, 2, -2, 1.5, -1.5] as $number) {
+				//initialize
+				$s = str_replace('{{fox_count}}', $number, $string_plural_param);
+				$s_tech = str_replace('{{fox_count}}', $number, $string_plural_tech_param);
+				$text->setPluralNumber($number);
+				
+				//assert
+				$this->assertSame((float)$number, $text->getPluralNumber());
+				$this->assertSame($s, $text->toString());
+				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+			}
 		}
 	}
 	
