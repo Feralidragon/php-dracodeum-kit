@@ -613,6 +613,71 @@ class TextTest extends TestCase
 	}
 	
 	/**
+	 * Test stringifier.
+	 * 
+	 * @testdox Stringifier
+	 */
+	public function testStringifier(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$fox_name_upper = strtoupper($fox_name);
+		$dog_name_upper = strtoupper($dog_name);
+		$string = "The quick brown fox {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string_param = "The quick brown fox {$fox_name_upper} jumps over the lazy dog {$dog_name_upper}.";
+		
+		//build
+		$text = Text::build($string)
+			->setParameters([
+				'fox_name' => $fox_name,
+				'dog_name' => $dog_name
+			])
+			->setStringifier(fn (mixed $value, TextOptions $text_options): string => strtoupper($value))
+		;
+		
+		//assert
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($string_param, $text->toString());
+	}
+	
+	/**
+	 * Test stringifier expecting an `AssertionFailed` exception to be thrown.
+	 * 
+	 * @testdox Stringifier AssertionFailed exception
+	 * @dataProvider provideStringifierData_AssertionFailedException
+	 * 
+	 * @param callable $stringifier
+	 * The stringifier to test with.
+	 */
+	public function testStringifier_AssertionFailedException(callable $stringifier): void
+	{
+		$this->expectException(CallAssertionFailedException::class);
+		try {
+			Text::build()->setStringifier($stringifier);
+		} catch (CallAssertionFailedException $exception) {
+			$this->assertSame('stringifier', $exception->name);
+			$this->assertSame($stringifier, $exception->function);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Provide stringifier data for an `AssertionFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public function provideStringifierData_AssertionFailedException(): array
+	{
+		return [
+			[function (mixed $value): string {}],
+			[function (mixed $value, TextOptions $text_options) {}],
+			[function (string $value, TextOptions $text_options): string {}]
+		];
+	}
+	
+	/**
 	 * Test placeholder as quoted.
 	 * 
 	 * @testdox Placeholder as quoted
@@ -706,6 +771,38 @@ class TextTest extends TestCase
 			[function (mixed $value, TextOptions $text_options) {}],
 			[function (string $value, TextOptions $text_options): string {}]
 		];
+	}
+	
+	/**
+	 * Test stringifier (with placeholder stringifier).
+	 * 
+	 * @testdox Stringifier (with placeholder stringifier)
+	 */
+	public function testStringifier_PlaceholderStringifier(): void
+	{
+		//initialize
+		$fox_name = "Cooper";
+		$dog_name = "Murphy";
+		$fox_name_lower = strtolower($fox_name);
+		$dog_name_upper = strtoupper($dog_name);
+		$string = "The quick brown fox {{fox_name}} jumps over the lazy dog {{dog_name}}.";
+		$string_param = "The quick brown fox {$fox_name_lower} jumps over the lazy dog {$dog_name_upper}.";
+		
+		//build
+		$text = Text::build($string)
+			->setParameters([
+				'fox_name' => $fox_name,
+				'dog_name' => $dog_name
+			])
+			->setStringifier(fn (mixed $value, TextOptions $text_options): string => strtoupper($value))
+			->setPlaceholderStringifier(
+				'fox_name', fn (mixed $value, TextOptions $text_options): string => strtolower($value)
+			)
+		;
+		
+		//assert
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($string_param, $text->toString());
 	}
 	
 	/**

@@ -66,6 +66,9 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	
 	private ?object $object = null;
 	
+	/** @var callable|null */
+	private $stringifier = null;
+	
 	/** @var array<string,int> */
 	private array $placeholders_flags = [];
 	
@@ -144,7 +147,11 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 					//string
 					$string = isset($this->placeholders_stringifiers[$placeholder])
 						? ($this->placeholders_stringifiers[$placeholder])($value, $fill_text_options)
-						: UText::stringify($value, $fill_text_options);
+						: (
+							$this->stringifier !== null
+							? ($this->stringifier)($value, $fill_text_options)
+							: UText::stringify($value, $fill_text_options)
+						);
 					
 					//flags
 					$flags = $this->placeholders_flags[$placeholder] ?? 0x0;
@@ -448,6 +455,37 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	final public function setObject(object $object)
 	{
 		$this->object = $object;
+		return $this;
+	}
+	
+	/**
+	 * Set stringifier.
+	 * 
+	 * @param callable $stringifier
+	 * The function to use to stringify a given value.  
+	 * It must be compatible with the following signature:  
+	 * ```
+	 * function (mixed $value, \Dracodeum\Kit\Options\Text $text_options): string
+	 * ```
+	 * 
+	 * **Parameters:**
+	 * - `mixed $value`  
+	 *   The value to stringify.  
+	 *   &nbsp;
+	 * - `\Dracodeum\Kit\Options\Text $text_options`  
+	 *   The text options instance to use.  
+	 *   &nbsp;
+	 * 
+	 * **Return:** `string`  
+	 * The stringified value.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setStringifier(callable $stringifier)
+	{
+		UCall::assert('stringifier', $stringifier, function (mixed $value, TextOptions $text_options): string {});
+		$this->stringifier = $stringifier;
 		return $this;
 	}
 	
