@@ -58,6 +58,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertSame($owner, $manager->getOwner());
+		$this->assertNull($manager->getOwnerBaseClass());
 		$this->assertSame([], $manager->getProperties());
 		$this->assertFalse($manager->isInitialized());
 	}
@@ -215,6 +216,7 @@ class PropertiesTest extends TestCase
 		
 		//assert
 		$this->assertSame($owner, $manager->getOwner());
+		$this->assertNull($manager->getOwnerBaseClass());
 		$this->assertSame([], $manager->getProperties());
 		$this->assertTrue($manager->isInitialized());
 	}
@@ -302,6 +304,36 @@ class PropertiesTest extends TestCase
 			'p0', 'c2p0', 'c2p3', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17',
 			'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1', 'c2p1', 'c2p2', 'c2p4'
 		]);
+		foreach ($properties as $name => $property) {
+			$this->assertInstanceOf(Property::class, $property);
+			$this->assertTrue($manager->hasProperty($name));
+			$check_function = Closure::fromCallable([$this, 'check' . strtoupper($name)]);
+			$check_function($property);
+		}
+	}
+	
+	/**
+	 * Test properties (class 2, owner base class).
+	 * 
+	 * @testdox Properties (class 2, owner base class)
+	 */
+	public function testProperties_Class2_OwnerBaseClass(): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class2 = PropertiesTest_Class2::class;
+		$manager = new Manager(new $class2(), $class2);
+		
+		//owner base class
+		$this->assertSame($class2, $manager->getOwnerBaseClass());
+		
+		//inexistent
+		$this->assertFalse($manager->hasProperty('p'));
+		$this->assertNull($manager->getProperty('p'));
+		
+		//properties
+		$properties = $manager->getProperties();
+		$this->assertSame(array_keys($properties), ['c2p0', 'c2p3', 'c2p1', 'c2p2', 'c2p4']);
 		foreach ($properties as $name => $property) {
 			$this->assertInstanceOf(Property::class, $property);
 			$this->assertTrue($manager->hasProperty($name));

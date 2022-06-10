@@ -166,8 +166,16 @@ class PropertiesTest extends TestCase
 
 
 
+/** Test case dummy class 0. */
+class PropertiesTest_Class0
+{
+	public string $p0;
+}
+
+
+
 /** Test case dummy class 1. */
-class PropertiesTest_Class1
+class PropertiesTest_Class1 extends PropertiesTest_Class0
 {
 	use Traits\PropertiesV2;
 	

@@ -109,7 +109,7 @@ trait PropertiesV2
 	final protected function getPropertiesManager(): Manager
 	{
 		if (!isset($this->properties_manager)) {
-			$this->properties_manager = new Manager($this);
+			$this->properties_manager = new Manager($this, self::class);
 		}
 		return $this->properties_manager;
 	}

@@ -50,6 +50,8 @@ final class PropertiesV2 extends Manager
 	//Private properties
 	private object $owner;
 	
+	private ?string $owner_base_class = null;
+	
 	/** @var array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property> */
 	private array $properties;
 	
@@ -80,10 +82,14 @@ final class PropertiesV2 extends Manager
 	 * 
 	 * @param object $owner
 	 * The owner object to instantiate with.
+	 * 
+	 * @param string|null $owner_base_class
+	 * The owner base class to instantiate with.
 	 */
-	final public function __construct(object $owner)
+	final public function __construct(object $owner, ?string $owner_base_class = null)
 	{
 		$this->owner = $owner;
+		$this->owner_base_class = $owner_base_class;
 		$this->initializeProperties();
 	}
 	
@@ -99,6 +105,17 @@ final class PropertiesV2 extends Manager
 	final public function getOwner(): object
 	{
 		return $this->owner;
+	}
+	
+	/**
+	 * Get owner base class.
+	 * 
+	 * @return string|null
+	 * The owner base class, or `null` if none is set.
+	 */
+	final public function getOwnerBaseClass(): ?string
+	{
+		return $this->owner_base_class;
 	}
 	
 	/**
@@ -402,9 +419,15 @@ final class PropertiesV2 extends Manager
 		$owner_class = $this->owner::class;
 		if (!isset(self::$classes_entries[$owner_class])) {
 			//classes
-			$classes = [];
+			$is_outer = false;
+			$classes = $outer_classes = [];
 			for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
-				$classes[] = $class;
+				if ($is_outer) {
+					$outer_classes[] = $class;
+				} else {
+					$classes[] = $class;
+					$is_outer = $class === $this->owner_base_class;
+				}
 			}
 			$classes = array_reverse($classes);
 			
@@ -439,7 +462,10 @@ final class PropertiesV2 extends Manager
 						$p_name = $r_property->getName();
 						
 						//check
-						if ($r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name])) {
+						if (
+							$r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name]) || 
+							in_array($r_property->getDeclaringClass()->getName(), $outer_classes, true)
+						) {
 							continue;
 						}
 						
