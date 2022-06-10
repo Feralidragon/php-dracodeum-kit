@@ -53,6 +53,8 @@ final class Property
 	
 	private ?Type $type = null;
 	
+	private ?object $mock = null;
+	
 	private int $flags = 0x0;
 	
 	/** @var array<string,mixed> */
@@ -453,10 +455,7 @@ final class Property
 	}
 	
 	/**
-	 * Process value for a given object.
-	 * 
-	 * @param object $object
-	 * The object to process for.
+	 * Process value.
 	 * 
 	 * @param mixed $value
 	 * The value to process.
@@ -464,34 +463,33 @@ final class Property
 	 * @return \Dracodeum\Kit\Primitives\Error|null
 	 * An error instance if the given value failed to be processed, or `null` if otherwise.
 	 */
-	final public function processValue(object $object, mixed &$value): ?Error
+	final public function processValue(mixed &$value): ?Error
 	{
 		//type
 		if ($this->type !== null) {
 			return $this->type->process($value);
 		}
 		
-		//self
+		//mock
+		if ($this->mock === null) {
+			$this->mock = eval("return new class {
+				public {$this->reflection->getType()} \$value;
+			};");
+		}
+		
+		//value
 		try {
-			//initialize
-			$name = $this->getName();
-			$set = function (string $name, mixed $value): void {
-				$this->$name = $value;
-			};
-			$get = fn (string $name): mixed => $this->$name;
-			
-			//process
-			$set->bindTo($object, $object)($name, $value);
-			$value = $get->bindTo($object, $object)($name);
-			
+			$value = ($this->mock->value = $value);
 		} catch (TypeError $type_error) {
 			$text = Text::build()
 				->setString("Invalid value type.")
-				->setString("{$type_error->getMessage()}.", EInfoLevel::INTERNAL)
+				->setString(
+					str_replace(' class@anonymous::$value', '', $type_error->getMessage()) . '.', EInfoLevel::INTERNAL
+				)
 			;
 			return Error::build(text: $text);
 		} finally {
-			$this->reset($object);
+			unset($this->mock->value);
 		}
 		
 		//return

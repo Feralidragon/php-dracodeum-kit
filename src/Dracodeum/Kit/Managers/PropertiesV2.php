@@ -855,7 +855,7 @@ final class PropertiesV2 extends Manager
 				UByte::hasFlag($flags, self::VALUE_FLAG_DIRTY) || 
 				UByte::hasFlag($flags, self::VALUE_FLAG_TYPED) !== $property->hasType()
 			) {
-				$error = $property->processValue($this->owner, $value);
+				$error = $property->processValue($value);
 				if ($error !== null) {
 					$errors[$name] = $error;
 					$errors_values[$name] = $value;
@@ -949,7 +949,7 @@ final class PropertiesV2 extends Manager
 			}
 			
 			//process
-			$error = $property->processValue($this->owner, $value);
+			$error = $property->processValue($value);
 			if ($error !== null) {
 				$errors[$name] = $error;
 			}
