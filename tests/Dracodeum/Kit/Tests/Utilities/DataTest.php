@@ -83,7 +83,7 @@ class DataTest extends TestCase
 	public function provideKeyfyData(): array
 	{
 		//initialize
-		$object = new \stdClass();
+		$object = new \stdClass;
 		$resource = fopen(__FILE__, 'r');
 		
 		//return

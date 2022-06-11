@@ -158,7 +158,7 @@ class CallTest extends TestCase
 			[[CallTest_Interface::class, 'getNonExistent']],
 			[[CallTest_Class::class, 'getString', null]],
 			[[new CallTest_Class, 'getString', null]],
-			[new \stdClass()],
+			[new \stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}
@@ -3104,7 +3104,7 @@ class CallTest extends TestCase
 			[[CallTest_AbstractClass::class, 'getProtectedStaticInteger'], null],
 			[[CallTest_Interface::class, 'getString'], null],
 			[[CallTest_Interface::class, 'getStaticString'], null],
-			[new \stdClass(), null],
+			[new \stdClass, null],
 			[fopen(__FILE__, 'r'), null],
 			[function (): void {}, function (): bool|float|object|array {}],
 			[function (): bool|float|object|array {}, function (): bool|float|object {}],
@@ -5010,7 +5010,7 @@ class CallTest extends TestCase
 		$callback_exception = function (&$value): bool {
 			$this->assertSame('_bar_', $value);
 			$value = 'foo555';
-			throw new \Exception();
+			throw new \Exception;
 		};
 		
 		//success

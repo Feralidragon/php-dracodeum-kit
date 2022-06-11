@@ -488,7 +488,7 @@ class ByteTest extends TestCase
 			['5.5 bytes'],
 			['123.4567 kB'],
 			[[]],
-			[new \stdClass()],
+			[new \stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}
@@ -813,7 +813,7 @@ class ByteTest extends TestCase
 			['foobyte'],
 			['Kilobyte'],
 			[[]],
-			[new \stdClass()],
+			[new \stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}
