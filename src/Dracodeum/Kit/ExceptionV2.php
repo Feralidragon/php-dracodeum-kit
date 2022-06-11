@@ -46,6 +46,11 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 	final public function __construct(...$properties)
 	{
 		//initialize
+		$code = $properties['code'] ?? 0;
+		$previous = $properties['previous'] ?? null;
+		unset($properties['code'], $properties['previous']);
+		
+		//properties
 		$this->initializePropertiesManager($properties);
 		
 		//text
@@ -61,7 +66,7 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		;
 		
 		//parent
-		parent::__construct($text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		parent::__construct($text->toString(['info_level' => EInfoLevel::INTERNAL]), $code, $previous);
 	}
 	
 	
