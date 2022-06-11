@@ -224,7 +224,7 @@ class Type extends Component
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\CastFailed([$this, $value, $context, 'error' => $error]);
+			throw new Exceptions\CastFailed($this, $value, $context, error: $error);
 		}
 		return $value;
 	}
@@ -254,7 +254,7 @@ class Type extends Component
 			if ($no_throw) {
 				return false;
 			}
-			throw new Exceptions\CoercionFailed([$this, $value, $context, 'error' => $error]);
+			throw new Exceptions\CoercionFailed($this, $value, $context, error: $error);
 		}
 		return true;
 	}
@@ -290,7 +290,7 @@ class Type extends Component
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\TextificationFailed([$this, $value, $context, 'error' => $error]);
+			throw new Exceptions\TextificationFailed($this, $value, $context, error: $error);
 		}
 		
 		//textifier
@@ -316,7 +316,7 @@ class Type extends Component
 		} elseif ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\TextificationFailed([$this, $value, $context]);
+		throw new Exceptions\TextificationFailed($this, $value, $context);
 	}
 	
 	/**
