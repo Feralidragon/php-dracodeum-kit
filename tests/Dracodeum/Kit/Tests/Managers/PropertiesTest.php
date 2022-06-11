@@ -333,6 +333,8 @@ class PropertiesTest extends TestCase
 		
 		//properties
 		$properties = $manager->getProperties();
+		$this->assertNotSame($properties, (new Manager(new $class2()))->getProperties());
+		$this->assertSame($properties, (new Manager(new $class2(), $class2))->getProperties());
 		$this->assertSame(array_keys($properties), ['c2p0', 'c2p3', 'c2p1', 'c2p2', 'c2p4']);
 		foreach ($properties as $name => $property) {
 			$this->assertInstanceOf(Property::class, $property);

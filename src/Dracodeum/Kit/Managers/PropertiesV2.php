@@ -71,7 +71,7 @@ final class PropertiesV2 extends Manager
 	
 	
 	//Private static properties
-	/** @var array<string,\Dracodeum\Kit\Managers\PropertiesV2\ClassEntry> */
+	/** @var array<string,array<string,\Dracodeum\Kit\Managers\PropertiesV2\ClassEntry>> */
 	private static array $classes_entries = [];
 	
 	
@@ -417,7 +417,8 @@ final class PropertiesV2 extends Manager
 	{
 		//initialize
 		$owner_class = $this->owner::class;
-		if (!isset(self::$classes_entries[$owner_class])) {
+		$owner_base_key = (string)$this->owner_base_class;
+		if (!isset(self::$classes_entries[$owner_base_key][$owner_class])) {
 			//classes
 			$is_outer = false;
 			$classes = $outer_classes = [];
@@ -435,17 +436,19 @@ final class PropertiesV2 extends Manager
 			$parent_class = null;
 			foreach ($classes as $class) {
 				//class
-				if (!isset(self::$classes_entries[$class])) {
+				if (!isset(self::$classes_entries[$owner_base_key][$class])) {
 					//initialize
 					$r_class = new ReflectionClass($class);
 					$properties_post_attributes = [];
 					
 					//properties
-					$properties = $parent_class !== null ? self::$classes_entries[$parent_class]->properties : [];
+					$properties = $parent_class !== null
+						? self::$classes_entries[$owner_base_key][$parent_class]->properties
+						: [];
 					
 					//meta
 					$meta = $parent_class !== null
-						? self::$classes_entries[$parent_class]->meta->clone($class)
+						? self::$classes_entries[$owner_base_key][$parent_class]->meta->clone($class)
 						: new Meta($class);
 					
 					//class
@@ -503,7 +506,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//class entry
-					$class_entry = self::$classes_entries[$class] = new ClassEntry($properties, $meta);
+					$class_entry = self::$classes_entries[$owner_base_key][$class] = new ClassEntry($properties, $meta);
 					
 					//sort
 					uasort($class_entry->properties, function (Property $property1, Property $property2): int {
@@ -539,7 +542,7 @@ final class PropertiesV2 extends Manager
 		}
 		
 		//finalize
-		$class_entry = self::$classes_entries[$owner_class];
+		$class_entry = self::$classes_entries[$owner_base_key][$owner_class];
 		$this->properties = $class_entry->properties;
 		$this->required_map = $class_entry->required_maps;
 		$this->meta = $class_entry->meta;
