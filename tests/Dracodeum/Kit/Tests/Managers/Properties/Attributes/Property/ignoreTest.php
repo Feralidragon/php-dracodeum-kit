@@ -23,7 +23,7 @@ class ignoreTest extends TestCase
 	public function test(): void
 	{
 		//initialize
-		$manager = new Manager(new ignoreTest_Class());
+		$manager = new Manager(new ignoreTest_Class);
 		
 		//assert (p1)
 		$this->assertTrue($manager->hasProperty('p1'));

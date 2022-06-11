@@ -84,8 +84,8 @@ class NumberTest extends TestCase
 			['-123.456k', -123456],
 			['123.4567k', 123456.7],
 			['-123.4567k', -123456.7],
-			[new NumberTest_Class1(), 123],
-			[new NumberTest_Class2(), 456.789],
+			[new NumberTest_Class1, 123],
+			[new NumberTest_Class2, 456.789],
 			[0, 0, ['type' => EType::INTEGER]],
 			[0.0, 0, ['type' => EType::INTEGER]],
 			[123, 123, ['type' => EType::INTEGER]],
@@ -104,7 +104,7 @@ class NumberTest extends TestCase
 			['-123.0k', -123000, ['type' => EType::INTEGER]],
 			['123.456k', 123456, ['type' => EType::INTEGER]],
 			['-123.456k', -123456, ['type' => EType::INTEGER]],
-			[new NumberTest_Class1(), 123, ['type' => EType::INTEGER]],
+			[new NumberTest_Class1, 123, ['type' => EType::INTEGER]],
 			[0, 0.0, ['type' => EType::FLOAT]],
 			[0.0, 0.0, ['type' => EType::FLOAT]],
 			[123, 123.0, ['type' => EType::FLOAT]],
@@ -135,8 +135,8 @@ class NumberTest extends TestCase
 			['-123.456k', -123456.0, ['type' => EType::FLOAT]],
 			['123.4567k', 123456.7, ['type' => EType::FLOAT]],
 			['-123.4567k', -123456.7, ['type' => EType::FLOAT]],
-			[new NumberTest_Class1(), 123.0, ['type' => EType::FLOAT]],
-			[new NumberTest_Class2(), 456.789, ['type' => EType::FLOAT]]
+			[new NumberTest_Class1, 123.0, ['type' => EType::FLOAT]],
+			[new NumberTest_Class2, 456.789, ['type' => EType::FLOAT]]
 		];
 	}
 	
@@ -179,7 +179,7 @@ class NumberTest extends TestCase
 			['123-456'],
 			['0x123456'],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')],
 			[0.123, ['type' => EType::INTEGER]],
 			[-0.123, ['type' => EType::INTEGER]],
@@ -193,7 +193,7 @@ class NumberTest extends TestCase
 			['-123.456', ['type' => EType::INTEGER]],
 			['123.4567k', ['type' => EType::INTEGER]],
 			['-123.4567k', ['type' => EType::INTEGER]],
-			[new NumberTest_Class2(), ['type' => EType::INTEGER]]
+			[new NumberTest_Class2, ['type' => EType::INTEGER]]
 		];
 	}
 	
@@ -297,8 +297,8 @@ class NumberTest extends TestCase
 			['-123.456k'],
 			['123.4567k'],
 			['-123.4567k'],
-			[new NumberTest_Class1()],
-			[new NumberTest_Class2()],
+			[new NumberTest_Class1],
+			[new NumberTest_Class2],
 			[0.0, ['type' => EType::INTEGER]],
 			[123.0, ['type' => EType::INTEGER]],
 			[-123.0, ['type' => EType::INTEGER]],
@@ -327,7 +327,7 @@ class NumberTest extends TestCase
 	 */
 	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{
-		$mutator = (new Prototype())->produceMutator($name, $properties);
+		$mutator = (new Prototype)->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
 		$this->assertTrue(UType::isA($mutator, $expected));
 	}

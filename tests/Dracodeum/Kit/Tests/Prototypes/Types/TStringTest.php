@@ -60,8 +60,8 @@ class TStringTest extends TestCase
 			['foo Bar', 'foo Bar'],
 			["premi\xC3\xA9re", "premi\xC3\xA9re"],
 			["premi\xE9re", "premi\xE9re"],
-			[new TStringTest_Class1(), 'Class1'],
-			[new TStringTest_Class2(), '__Class2']
+			[new TStringTest_Class1, 'Class1'],
+			[new TStringTest_Class2, '__Class2']
 		];
 	}
 	
@@ -92,7 +92,7 @@ class TStringTest extends TestCase
 			[false],
 			[true],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}
@@ -202,8 +202,8 @@ class TStringTest extends TestCase
 			[1.0],
 			[7.5],
 			[-179.248],
-			[new TStringTest_Class1()],
-			[new TStringTest_Class2()]
+			[new TStringTest_Class1],
+			[new TStringTest_Class2]
 		];
 	}
 	
@@ -226,7 +226,7 @@ class TStringTest extends TestCase
 	 */
 	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{
-		$mutator = (new Prototype())->produceMutator($name, $properties);
+		$mutator = (new Prototype)->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
 		$this->assertTrue(UType::isA($mutator, $expected));
 	}

@@ -48,7 +48,7 @@ class NonEmptyTest extends TestCase
 			[[[]]],
 			[[1, 2, 3]],
 			[['foobar']],
-			[new NonEmptyTest_Class1()]
+			[new NonEmptyTest_Class1]
 		];
 	}
 	
@@ -76,7 +76,7 @@ class NonEmptyTest extends TestCase
 	{
 		return [
 			[[]],
-			[new NonEmptyTest_Class2()]
+			[new NonEmptyTest_Class2]
 		];
 	}
 	

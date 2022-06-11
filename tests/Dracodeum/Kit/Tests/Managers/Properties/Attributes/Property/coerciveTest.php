@@ -33,7 +33,7 @@ class coerciveTest extends TestCase
 	public function test(string $name, bool $typed, bool $nullable = false): void
 	{
 		//initialize
-		$manager = new Manager(new coerciveTest_Class());
+		$manager = new Manager(new coerciveTest_Class);
 		$property = $manager->getProperty($name);
 		
 		//assert

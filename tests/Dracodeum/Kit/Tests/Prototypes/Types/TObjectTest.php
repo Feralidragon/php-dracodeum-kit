@@ -50,9 +50,9 @@ class TObjectTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$object0 = new stdClass();
-		$object1 = new TObjectTest_Class1();
-		$object2 = new TObjectTest_Class2();
+		$object0 = new stdClass;
+		$object1 = new TObjectTest_Class1;
+		$object2 = new TObjectTest_Class2;
 		
 		//return
 		return [
@@ -105,9 +105,9 @@ class TObjectTest extends TestCase
 			[stdClass::class],
 			[TObjectTest_Class1::class],
 			[TObjectTest_Class2::class],
-			[new stdClass(), ['class' => TObjectTest_Class1::class]],
-			[new TObjectTest_Class1(), ['class' => stdClass::class]],
-			[new TObjectTest_Class1(), ['class' => TObjectTest_Class2::class]]
+			[new stdClass, ['class' => TObjectTest_Class1::class]],
+			[new TObjectTest_Class1, ['class' => stdClass::class]],
+			[new TObjectTest_Class1, ['class' => TObjectTest_Class2::class]]
 		];
 	}
 	
@@ -141,9 +141,9 @@ class TObjectTest extends TestCase
 	public function provideTextifierInterfaceData(): array
 	{
 		return [
-			[new stdClass(), '/^object<stdClass>#\d+$/'],
-			[new TObjectTest_Class1(), '/^object<' . preg_quote(TObjectTest_Class1::class, '/') . '>#\d+$/'],
-			[new TObjectTest_Class2(), '/^object<' . preg_quote(TObjectTest_Class2::class, '/') . '>#\d+$/']
+			[new stdClass, '/^object<stdClass>#\d+$/'],
+			[new TObjectTest_Class1, '/^object<' . preg_quote(TObjectTest_Class1::class, '/') . '>#\d+$/'],
+			[new TObjectTest_Class2, '/^object<' . preg_quote(TObjectTest_Class2::class, '/') . '>#\d+$/']
 		];
 	}
 }

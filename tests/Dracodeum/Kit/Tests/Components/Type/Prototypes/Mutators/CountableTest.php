@@ -44,7 +44,7 @@ class CountableTest extends TestCase
 	{
 		return [
 			[[]],
-			[new CountableTest_Class()]
+			[new CountableTest_Class]
 		];
 	}
 	
@@ -80,7 +80,7 @@ class CountableTest extends TestCase
 			[123],
 			[123.456],
 			['foobar'],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}

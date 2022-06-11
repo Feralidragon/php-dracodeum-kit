@@ -23,7 +23,7 @@ class requiredTest extends TestCase
 	public function test(): void
 	{
 		//initialize
-		$manager = new Manager(new requiredTest_Class());
+		$manager = new Manager(new requiredTest_Class);
 		
 		//assert (p1)
 		$this->assertFalse($manager->getProperty('p1')->isRequired());

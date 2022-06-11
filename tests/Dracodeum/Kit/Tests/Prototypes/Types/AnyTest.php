@@ -52,7 +52,7 @@ class AnyTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$stdc = new stdClass();
+		$stdc = new stdClass;
 		$r = fopen(__FILE__, 'r');
 		$type1_class = AnyTest_TypePrototype1::class;
 		$type2_class = AnyTest_TypePrototype2::class;
@@ -115,7 +115,7 @@ class AnyTest extends TestCase
 	public function provideProcessData_Error(): array
 	{
 		//initialize
-		$stdc = new stdClass();
+		$stdc = new stdClass;
 		$r = fopen(__FILE__, 'r');
 		$type1_class = AnyTest_TypePrototype1::class;
 		$type2_class = AnyTest_TypePrototype2::class;
@@ -172,7 +172,7 @@ class AnyTest extends TestCase
 	public function provideTextifierInterfaceData(): array
 	{
 		//initialize
-		$stdc = new stdClass();
+		$stdc = new stdClass;
 		$stdc_class = get_class($stdc);
 		$type1_class = AnyTest_TypePrototype1::class;
 		$type2_class = AnyTest_TypePrototype2::class;
@@ -228,14 +228,14 @@ class AnyTest extends TestCase
 	public function provideTextifierInterfaceData_Null(): array
 	{
 		//initialize
-		$c = new AnyTest_Class();
+		$c = new AnyTest_Class;
 		$type1_class = AnyTest_TypePrototype1::class;
 		$type2_class = AnyTest_TypePrototype2::class;
 		
 		//return
 		return [
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')],
 			[$c],
 			[$c, ['types' => [$type1_class]]],

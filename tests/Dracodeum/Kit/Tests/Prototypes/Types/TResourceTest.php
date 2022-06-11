@@ -98,7 +98,7 @@ class TResourceTest extends TestCase
 			['123'],
 			['foo'],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r'), ['type' => 'curl']]
 		];
 	}

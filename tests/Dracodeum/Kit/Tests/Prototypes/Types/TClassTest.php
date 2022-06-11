@@ -54,17 +54,17 @@ class TClassTest extends TestCase
 			['stdClass', stdClass::class],
 			['\stdClass', stdClass::class],
 			[stdClass::class, stdClass::class],
-			[new stdClass(), stdClass::class],
+			[new stdClass, stdClass::class],
 			['Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1', TClassTest_Class1::class],
 			['\Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1', TClassTest_Class1::class],
 			[TClassTest_Class1::class, TClassTest_Class1::class],
-			[new TClassTest_Class1(), TClassTest_Class1::class],
+			[new TClassTest_Class1, TClassTest_Class1::class],
 			[stdClass::class, stdClass::class, ['class' => stdClass::class]],
-			[new stdClass(), stdClass::class, ['class' => stdClass::class]],
+			[new stdClass, stdClass::class, ['class' => stdClass::class]],
 			[TClassTest_Class1::class, TClassTest_Class1::class, ['class' => TClassTest_Class1::class]],
-			[new TClassTest_Class1(), TClassTest_Class1::class, ['class' => TClassTest_Class1::class]],
+			[new TClassTest_Class1, TClassTest_Class1::class, ['class' => TClassTest_Class1::class]],
 			[TClassTest_Class2::class, TClassTest_Class2::class, ['class' => TClassTest_Class1::class]],
-			[new TClassTest_Class2(), TClassTest_Class2::class, ['class' => TClassTest_Class1::class]]
+			[new TClassTest_Class2, TClassTest_Class2::class, ['class' => TClassTest_Class1::class]]
 		];
 	}
 	
@@ -115,11 +115,11 @@ class TClassTest extends TestCase
 			['_Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1'],
 			['\\\Dracodeum\Kit\Tests\Prototypes\Types\TClassTest_Class1'],
 			[stdClass::class, ['class' => TClassTest_Class1::class]],
-			[new stdClass(), ['class' => TClassTest_Class1::class]],
+			[new stdClass, ['class' => TClassTest_Class1::class]],
 			[TClassTest_Class1::class, ['class' => stdClass::class]],
-			[new TClassTest_Class1(), ['class' => stdClass::class]],
+			[new TClassTest_Class1, ['class' => stdClass::class]],
 			[TClassTest_Class1::class, ['class' => TClassTest_Class2::class]],
-			[new TClassTest_Class1(), ['class' => TClassTest_Class2::class]]
+			[new TClassTest_Class1, ['class' => TClassTest_Class2::class]]
 		];
 	}
 	
@@ -194,9 +194,9 @@ class TClassTest extends TestCase
 	public function provideProcessData_Strict_Error(): array
 	{
 		return [
-			[new stdClass()],
-			[new TClassTest_Class1()],
-			[new TClassTest_Class2()]
+			[new stdClass],
+			[new TClassTest_Class1],
+			[new TClassTest_Class2]
 		];
 	}
 	

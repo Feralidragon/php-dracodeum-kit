@@ -33,7 +33,7 @@ class strictTest extends TestCase
 	public function test(string $name, bool $typed, bool $nullable = false): void
 	{
 		//initialize
-		$manager = new Manager(new strictTest_Class());
+		$manager = new Manager(new strictTest_Class);
 		$property = $manager->getProperty($name);
 		
 		//assert

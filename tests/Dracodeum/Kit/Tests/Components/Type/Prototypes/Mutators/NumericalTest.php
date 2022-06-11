@@ -78,7 +78,7 @@ class NumericalTest extends TestCase
 			[true],
 			['foobar'],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}

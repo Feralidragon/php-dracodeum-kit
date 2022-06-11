@@ -76,7 +76,7 @@ class BooleanTest extends TestCase
 			['yes', true],
 			[[], false],
 			[[''], true],
-			[new stdClass(), true],
+			[new stdClass, true],
 			[fopen(__FILE__, 'r'), true]
 		];
 	}
@@ -172,7 +172,7 @@ class BooleanTest extends TestCase
 			[' '],
 			[[]],
 			[['']],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}
@@ -255,7 +255,7 @@ class BooleanTest extends TestCase
 			['yes'],
 			[[]],
 			[['']],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}

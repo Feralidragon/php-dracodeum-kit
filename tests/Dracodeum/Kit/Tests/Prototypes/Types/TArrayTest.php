@@ -57,8 +57,8 @@ class TArrayTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$c1 = new TArrayTest_Class1();
-		$c2 = new TArrayTest_Class2();
+		$c1 = new TArrayTest_Class1;
+		$c2 = new TArrayTest_Class2;
 		$type1_class = TArrayTest_TypePrototype1::class;
 		$type2_class = TArrayTest_TypePrototype2::class;
 		
@@ -122,8 +122,8 @@ class TArrayTest extends TestCase
 	public function provideProcessData_Error(): array
 	{
 		//initialize
-		$c1 = new TArrayTest_Class1();
-		$c2 = new TArrayTest_Class2();
+		$c1 = new TArrayTest_Class1;
+		$c2 = new TArrayTest_Class2;
 		$type1_class = TArrayTest_TypePrototype1::class;
 		$type2_class = TArrayTest_TypePrototype2::class;
 		
@@ -134,7 +134,7 @@ class TArrayTest extends TestCase
 			[true],
 			[1],
 			[1.1],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')],
 			[$c1, ['type' => $type2_class]],
 			[$c2, ['type' => $type2_class]],
@@ -391,8 +391,8 @@ class TArrayTest extends TestCase
 	public function provideProcessData_Strict_Error(): array
 	{
 		return [
-			[new TArrayTest_Class1()],
-			[new TArrayTest_Class2()]
+			[new TArrayTest_Class1],
+			[new TArrayTest_Class2]
 		];
 	}
 	
@@ -578,7 +578,7 @@ class TArrayTest extends TestCase
 	 */
 	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
 	{
-		$mutator = (new Prototype())->produceMutator($name, $properties);
+		$mutator = (new Prototype)->produceMutator($name, $properties);
 		$this->assertNotNull($mutator);
 		$this->assertTrue(UType::isA($mutator, $expected));
 	}

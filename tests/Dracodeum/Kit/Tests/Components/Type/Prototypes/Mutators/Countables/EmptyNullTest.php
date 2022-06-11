@@ -43,8 +43,8 @@ class EmptyNullTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$c1 = new EmptyNullTest_Class1();
-		$c2 = new EmptyNullTest_Class2();
+		$c1 = new EmptyNullTest_Class1;
+		$c2 = new EmptyNullTest_Class2;
 		
 		//return
 		return [

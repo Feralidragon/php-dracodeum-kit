@@ -23,7 +23,7 @@ class lazyTest extends TestCase
 	public function test(): void
 	{
 		//initialize
-		$manager = new Manager(new lazyTest_Class());
+		$manager = new Manager(new lazyTest_Class);
 		
 		//assert (p1)
 		$this->assertFalse($manager->getProperty('p1')->isLazy());

@@ -53,7 +53,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$owner = new stdClass();
+		$owner = new stdClass;
 		$manager = new Manager($owner);
 		
 		//assert
@@ -72,7 +72,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -95,7 +95,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -118,7 +118,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -141,7 +141,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -164,7 +164,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -187,7 +187,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		
 		//exception
@@ -210,7 +210,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$owner = new stdClass();
+		$owner = new stdClass;
 		$manager = new Manager($owner);
 		$manager->initialize();
 		
@@ -230,7 +230,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new stdClass());
+		$manager = new Manager(new stdClass);
 		$this->assertFalse($manager->isInitialized());
 		$manager->initialize();
 		$this->assertTrue($manager->isInitialized());
@@ -256,7 +256,7 @@ class PropertiesTest extends TestCase
 		//initialize
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
-		$manager = new Manager(new $class1());
+		$manager = new Manager(new $class1);
 		
 		//inexistent
 		$this->assertFalse($manager->hasProperty('p'));
@@ -264,7 +264,7 @@ class PropertiesTest extends TestCase
 		
 		//properties
 		$properties = $manager->getProperties();
-		$this->assertSame($properties, (new Manager(new $class1()))->getProperties());
+		$this->assertSame($properties, (new Manager(new $class1))->getProperties());
 		$this->assertSame(array_keys($properties), [
 			'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19',
 			'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1'
@@ -288,7 +288,7 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class2());
+		$manager = new Manager(new $class2);
 		
 		//inexistent
 		$this->assertFalse($manager->hasProperty('p'));
@@ -296,10 +296,10 @@ class PropertiesTest extends TestCase
 		
 		//properties
 		$properties = $manager->getProperties();
-		foreach ((new Manager(new $class1()))->getProperties() as $name => $c1_property) {
+		foreach ((new Manager(new $class1))->getProperties() as $name => $c1_property) {
 			$this->assertSame($properties[$name], $c1_property);
 		}
-		$this->assertSame($properties, (new Manager(new $class2()))->getProperties());
+		$this->assertSame($properties, (new Manager(new $class2))->getProperties());
 		$this->assertSame(array_keys($properties), [
 			'p0', 'c2p0', 'c2p3', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17',
 			'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1', 'c2p1', 'c2p2', 'c2p4'
@@ -322,7 +322,7 @@ class PropertiesTest extends TestCase
 		//initialize
 		Manager::clearCache();
 		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class2(), $class2);
+		$manager = new Manager(new $class2, $class2);
 		
 		//owner base class
 		$this->assertSame($class2, $manager->getOwnerBaseClass());
@@ -333,8 +333,8 @@ class PropertiesTest extends TestCase
 		
 		//properties
 		$properties = $manager->getProperties();
-		$this->assertNotSame($properties, (new Manager(new $class2()))->getProperties());
-		$this->assertSame($properties, (new Manager(new $class2(), $class2))->getProperties());
+		$this->assertNotSame($properties, (new Manager(new $class2))->getProperties());
+		$this->assertSame($properties, (new Manager(new $class2, $class2))->getProperties());
 		$this->assertSame(array_keys($properties), ['c2p0', 'c2p3', 'c2p1', 'c2p2', 'c2p4']);
 		foreach ($properties as $name => $property) {
 			$this->assertInstanceOf(Property::class, $property);
@@ -368,7 +368,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize($values, $scope_class);
 		
 		//assert
@@ -1156,7 +1156,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//exception
 		$this->expectException(MissingException::class);
@@ -1214,7 +1214,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//exception
 		$this->expectException(UndefinedException::class);
@@ -1276,7 +1276,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//exception
 		$this->expectException(InaccessibleException::class);
@@ -1351,7 +1351,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//exception
 		$this->expectException(UnwriteableException::class);
@@ -1420,7 +1420,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//exception
 		$this->expectException(InvalidException::class);
@@ -1487,7 +1487,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		
 		//assert
 		$this->assertSame($expected, $manager->has($name, $scope_class));
@@ -1814,7 +1814,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -2186,7 +2186,7 @@ class PropertiesTest extends TestCase
 		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize($values, $class);
 		
 		//assert
@@ -2409,7 +2409,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -2474,7 +2474,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -2543,7 +2543,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -2628,7 +2628,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -2686,12 +2686,12 @@ class PropertiesTest extends TestCase
 			PropertiesTest_Class2::class => [123, '4.35M', []]
 		} + [
 			'p23' => 'foo',
-			'c1p1' => new stdClass()
+			'c1p1' => new stdClass
 		];
 		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize($values, $class);
 		
 		//exception
@@ -2760,7 +2760,7 @@ class PropertiesTest extends TestCase
 		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize($values, $class);
 		
 		//assert
@@ -3380,7 +3380,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -3446,7 +3446,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -3518,7 +3518,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -3596,7 +3596,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -3661,12 +3661,12 @@ class PropertiesTest extends TestCase
 			PropertiesTest_Class2::class => [123, '4.35M', []]
 		} + [
 			'p23' => 'foo',
-			'c1p1' => new stdClass()
+			'c1p1' => new stdClass
 		];
 		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize($values, $class);
 		
 		//exception
@@ -3733,7 +3733,7 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
 			$class2 => [123, '4.35M', 2]
@@ -3946,7 +3946,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4011,7 +4011,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4080,7 +4080,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4192,7 +4192,7 @@ class PropertiesTest extends TestCase
 	{		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', []]
@@ -4264,7 +4264,7 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
 			$class2 => [123, '4.35M', 2]
@@ -4459,7 +4459,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4525,7 +4525,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4597,7 +4597,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -4681,7 +4681,7 @@ class PropertiesTest extends TestCase
 	{		
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', []]
@@ -4804,7 +4804,7 @@ class PropertiesTest extends TestCase
 		];
 		
 		//manager
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
 			$class2 => [123, '4.35M', 2]
@@ -5006,7 +5006,7 @@ class PropertiesTest extends TestCase
 		];
 		
 		//manager
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
 			$class2 => [123, '4.35M', 2]
@@ -5074,7 +5074,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5139,7 +5139,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5208,7 +5208,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5395,7 +5395,7 @@ class PropertiesTest extends TestCase
 		];
 		
 		//manager
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
 			$class2 => [123, '4.35M', 2]
@@ -5499,7 +5499,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5565,7 +5565,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5637,7 +5637,7 @@ class PropertiesTest extends TestCase
 	{
 		//initialize
 		Manager::clearCache();
-		$manager = new Manager(new $class());
+		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
 			PropertiesTest_Class2::class => [123, '4.35M', 2]
@@ -5744,10 +5744,10 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		
 		//managers
-		$manager1 = new Manager(new PropertiesTest_ClassM1());
-		$manager1b = new Manager(new PropertiesTest_ClassM1());
-		$manager2 = new Manager(new PropertiesTest_ClassM2());
-		$manager2b = new Manager(new PropertiesTest_ClassM2());
+		$manager1 = new Manager(new PropertiesTest_ClassM1);
+		$manager1b = new Manager(new PropertiesTest_ClassM1);
+		$manager2 = new Manager(new PropertiesTest_ClassM2);
+		$manager2b = new Manager(new PropertiesTest_ClassM2);
 		
 		//metas
 		$meta1 = $manager1->getMeta();
@@ -5810,7 +5810,7 @@ class PropertiesTest extends TestCase
 	public function testMetaValue(string $pname, string $name, mixed $value, string $class): void
 	{
 		Manager::clearCache();
-		$this->assertSame($value, (new Manager(new $class()))->getProperty($pname)->getMetaValue($name));
+		$this->assertSame($value, (new Manager(new $class))->getProperty($pname)->getMetaValue($name));
 	}
 	
 	/**
@@ -5850,7 +5850,7 @@ class PropertiesTest extends TestCase
 		//initialize
 		$name = 'm1';
 		$value = 'abc';
-		$property = (new Manager(new PropertiesTest_ClassM1()))->getProperty('p1');
+		$property = (new Manager(new PropertiesTest_ClassM1))->getProperty('p1');
 		
 		//exception
 		$this->expectException(PropertyInvalidMetaValueException::class);

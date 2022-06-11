@@ -33,7 +33,7 @@ class writeonceTest extends TestCase
 	public function test(string $name, string $mode, bool $affect_subclasses = false): void
 	{
 		//initialize
-		$manager = new Manager(new writeonceTest_Class());
+		$manager = new Manager(new writeonceTest_Class);
 		$property = $manager->getProperty($name);
 		
 		//assert

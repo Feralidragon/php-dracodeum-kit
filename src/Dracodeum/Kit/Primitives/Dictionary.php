@@ -295,7 +295,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	final public function clone(): object
 	{
 		//clone
-		$clone = new static();
+		$clone = new static;
 		
 		//evaluators
 		foreach ($this->getKeyEvaluators() as $evaluator) {

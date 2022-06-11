@@ -98,10 +98,10 @@ class ComponentTest extends TestCase
 		};
 		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
-				'c1' => new ComponentTest_Component1(),
-				'c1a' => new ComponentTest_Component1_A(),
-				'c1b' => new ComponentTest_Component1_B(),
-				'c2' => new ComponentTest_Component2(),
+				'c1' => new ComponentTest_Component1,
+				'c1a' => new ComponentTest_Component1_A,
+				'c1b' => new ComponentTest_Component1_B,
+				'c2' => new ComponentTest_Component2,
 				'c1_p1a' => new ComponentTest_Component1('p1a', $properties),
 				'c1_p1b' => new ComponentTest_Component1('p1b', $properties),
 				'c1a_p1a' => new ComponentTest_Component1_A('p1a', $properties),
@@ -114,12 +114,12 @@ class ComponentTest extends TestCase
 		
 		//return
 		return [
-			[new $class1(), $class1, [$class1]],
-			[new $class1a(), $class1a, [$class1]],
-			[new $class1a(), $class1a, [$class1a]],
-			[new $class1b(), $class1b, [$class1]],
-			[new $class1b(), $class1b, [$class1b]],
-			[new $class2(), $class2, [$class2]],
+			[new $class1, $class1, [$class1]],
+			[new $class1a, $class1a, [$class1]],
+			[new $class1a, $class1a, [$class1a]],
+			[new $class1b, $class1b, [$class1]],
+			[new $class1b, $class1b, [$class1b]],
+			[new $class2, $class2, [$class2]],
 			['c1', $class1, [$class1, 'named_builder' => $named_builder]],
 			['c1a', $class1a, [$class1, 'named_builder' => $named_builder]],
 			['c1b', $class1b, [$class1, 'named_builder' => $named_builder]],
@@ -146,10 +146,10 @@ class ComponentTest extends TestCase
 				$properties1a_4e],
 			['c1b_p1b', $class1b, [$class1, 'properties' => $properties1b_3, 'named_builder' => $named_builder],
 				$properties1b_3e],
-			[new $class1_proto(), $class1, [$class1]],
-			[new $class1_proto(), $class1a, [$class1a]],
-			[new $class1_proto(), $class1b, [$class1b]],
-			[new $class2_proto(), $class2, [$class2]],
+			[new $class1_proto, $class1, [$class1]],
+			[new $class1_proto, $class1a, [$class1a]],
+			[new $class1_proto, $class1b, [$class1b]],
+			[new $class2_proto, $class2, [$class2]],
 			[new $class1_proto_a($properties1a_1), $class1, [$class1], $properties1a_1e],
 			[new $class1_proto_a($properties1a_2), $class1, [$class1], $properties1a_2e],
 			[new $class1_proto_a($properties1a_3), $class1, [$class1], $properties1a_3e],
@@ -238,10 +238,10 @@ class ComponentTest extends TestCase
 		};
 		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
-				'c1' => new ComponentTest_Component1(),
-				'c1a' => new ComponentTest_Component1_A(),
-				'c1b' => new ComponentTest_Component1_B(),
-				'c2' => new ComponentTest_Component2(),
+				'c1' => new ComponentTest_Component1,
+				'c1a' => new ComponentTest_Component1_A,
+				'c1b' => new ComponentTest_Component1_B,
+				'c2' => new ComponentTest_Component2,
 				default => null
 			};
 		};
@@ -254,14 +254,14 @@ class ComponentTest extends TestCase
 			[1, [$class1]],
 			[1.1, [$class1]],
 			[[], [$class1]],
-			[new stdClass(), [$class1]],
+			[new stdClass, [$class1]],
 			[fopen(__FILE__, 'r'), [$class1]],
-			[new $class1(), [$class2]],
-			[new $class1(), [$class1a]],
-			[new $class1(), [$class1b]],
-			[new $class1a(), [$class2]],
-			[new $class1b(), [$class2]],
-			[new $class2(), [$class1]],
+			[new $class1, [$class2]],
+			[new $class1, [$class1a]],
+			[new $class1, [$class1b]],
+			[new $class1a, [$class2]],
+			[new $class1b, [$class2]],
+			[new $class2, [$class1]],
 			['c1', [$class2, 'named_builder' => $named_builder]],
 			['c1', [$class1a, 'named_builder' => $named_builder]],
 			['c1', [$class1b, 'named_builder' => $named_builder]],
@@ -312,12 +312,12 @@ class ComponentTest extends TestCase
 		
 		//return
 		return [
-			[new $class1(), [$class1]],
-			[new $class1a(), [$class1]],
-			[new $class1a(), [$class1a]],
-			[new $class1b(), [$class1]],
-			[new $class1b(), [$class1b]],
-			[new $class2(), [$class2]]
+			[new $class1, [$class1]],
+			[new $class1a, [$class1]],
+			[new $class1a, [$class1a]],
+			[new $class1b, [$class1]],
+			[new $class1b, [$class1b]],
+			[new $class2, [$class2]]
 		];
 	}
 	
@@ -354,7 +354,7 @@ class ComponentTest extends TestCase
 		$class1_proto = ComponentTest_Prototype1::class;
 		$named_builder = function (string $name, array $properties): ?KComponent {
 			return match ($name) {
-				'c1' => new ComponentTest_Component1(),
+				'c1' => new ComponentTest_Component1,
 				'c1_p1a' => new ComponentTest_Component1('p1a', $properties),
 				default => null
 			};
@@ -364,7 +364,7 @@ class ComponentTest extends TestCase
 		return [
 			['c1', [$class1, 'named_builder' => $named_builder]],
 			['c1_p1a', [$class1]],
-			[new $class1_proto(), [$class1]],
+			[new $class1_proto, [$class1]],
 			[$class1_proto, [$class1]],
 			['p1', [$class1]]
 		];
@@ -410,10 +410,10 @@ class ComponentTest extends TestCase
 		
 		//return
 		return [
-			[new $class1(), '/^component<' . preg_quote($class1, '/') . '>#\d+$/', [$class1]],
-			[new $class1a(), '/^component<' . preg_quote($class1a, '/') . '>#\d+$/', [$class1]],
-			[new $class1b(), '/^component<' . preg_quote($class1b, '/') . '>#\d+$/', [$class1]],
-			[new $class2(), '/^component<' . preg_quote($class2, '/') . '>#\d+$/', [$class2]]
+			[new $class1, '/^component<' . preg_quote($class1, '/') . '>#\d+$/', [$class1]],
+			[new $class1a, '/^component<' . preg_quote($class1a, '/') . '>#\d+$/', [$class1]],
+			[new $class1b, '/^component<' . preg_quote($class1b, '/') . '>#\d+$/', [$class1]],
+			[new $class2, '/^component<' . preg_quote($class2, '/') . '>#\d+$/', [$class2]]
 		];
 	}
 }

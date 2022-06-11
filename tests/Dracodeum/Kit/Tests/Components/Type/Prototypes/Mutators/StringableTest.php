@@ -43,7 +43,7 @@ class StringableTest extends TestCase
 	{
 		return [
 			['foobar'],
-			[new StringableTest_Class()]
+			[new StringableTest_Class]
 		];
 	}
 	
@@ -79,7 +79,7 @@ class StringableTest extends TestCase
 			[123],
 			[123.456],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}

@@ -188,7 +188,7 @@ class TypeTest extends TestCase
 		$this->assertSame(TypeTest_Prototype1::ERROR_STRING, (string)$error1->getText());
 		
 		//value1 (error 4)
-		$value1 = $v1 = new stdClass();
+		$value1 = $v1 = new stdClass;
 		$error1 = $component1->process($value1);
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);
@@ -245,7 +245,7 @@ class TypeTest extends TestCase
 		}
 		
 		//value2 (success 1)
-		$value2 = $v2 = new stdClass();
+		$value2 = $v2 = new stdClass;
 		$this->assertNull($component2->process($value2));
 		$this->assertSame($v2, $value2);
 		
@@ -348,7 +348,7 @@ class TypeTest extends TestCase
 		}
 		
 		//value2 (success)
-		$value2 = $v2 = new stdClass();
+		$value2 = $v2 = new stdClass;
 		$this->assertNull($component2->process($value2));
 		$this->assertSame($v2, $value2);
 	}
@@ -377,7 +377,7 @@ class TypeTest extends TestCase
 			}
 			
 			//value (3)
-			$value = new stdClass();
+			$value = new stdClass;
 			$this->assertSame($value, $component2->processCast($value, no_throw: $no_throw));
 			
 			//value (4)
@@ -479,13 +479,13 @@ class TypeTest extends TestCase
 			[$prototype1, 120.5, EContext::INTERNAL, $prototype1::ERROR_STRING],
 			[$prototype1, '50', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
 			[$prototype1, 'foo', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
-			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING,
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING,
 				['info_level' => EInfoLevel::ENDUSER], true],
-			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
 				['info_level' => EInfoLevel::ENDUSER], true],
-			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
 				['info_level' => EInfoLevel::TECHNICAL]],
-			[$prototype1, new stdClass(), EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
 				['info_level' => EInfoLevel::INTERNAL]]
 		];
 	}
@@ -518,7 +518,7 @@ class TypeTest extends TestCase
 			}
 			
 			//value (3)
-			$value = $v = new stdClass();
+			$value = $v = new stdClass;
 			$this->assertTrue($component2->processCoercion2($value, no_throw: $no_throw));
 			$this->assertSame($v, $value);
 			
@@ -636,12 +636,12 @@ class TypeTest extends TestCase
 			$this->assertSame('null', (string)$text1);
 			
 			//text2 (1)
-			$text2 = $component2->textify(new TypeTest_Class1(), no_throw: $no_throw);
+			$text2 = $component2->textify(new TypeTest_Class1, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text2);
 			$this->assertSame('Class1', (string)$text2);
 			
 			//text2 (2)
-			$text2 = $component2->textify(new TypeTest_Class2(), no_throw: $no_throw);
+			$text2 = $component2->textify(new TypeTest_Class2, no_throw: $no_throw);
 			$this->assertInstanceOf(Text::class, $text2);
 			$this->assertSame('__Class2', (string)$text2);
 			
@@ -735,7 +735,7 @@ class TypeTest extends TestCase
 			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERFACE, false],
 			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERNAL, true],
 			[TypeTest_Prototype3::class, [], EContext::INTERNAL, true],
-			[TypeTest_Prototype3::class, new stdClass(), EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, new stdClass, EContext::INTERNAL, true],
 			[TypeTest_Prototype3::class, fopen(__FILE__, 'r'), EContext::INTERNAL, true]
 		];
 	}
@@ -879,7 +879,7 @@ class TypeTest_Prototype2 extends Prototype
 			$value = -1;
 			return Error::build();
 		} elseif ($context === EContext::INTERNAL && is_string($value) && class_exists($value)) {
-			$value = new $value();
+			$value = new $value;
 		}
 		if (is_object($value)) {
 			return null;

@@ -106,8 +106,8 @@ class StructureTest extends TestCase
 			[null, $class2, [$class2]],
 			[null, $class1a, [$class1a], $properties1a_1e],
 			[null, $class2a, [$class2a], $properties2a_1e],
-			[new $class1(), $class1, [$class1]],
-			[new $class2(), $class2, [$class2]],
+			[new $class1, $class1, [$class1]],
+			[new $class2, $class2, [$class2]],
 			[new $class1a($properties1a_1), $class1a, [$class1], $properties1a_1e],
 			[new $class1a($properties1a_1), $class1a, [$class1a], $properties1a_1e],
 			[new $class1a($properties1a_2), $class1a, [$class1], $properties1a_2e],
@@ -233,7 +233,7 @@ class StructureTest extends TestCase
 			[' ', [$class1]],
 			['123', [$class1]],
 			['foo', [$class1]],
-			[new stdClass(), [$class1]],
+			[new stdClass, [$class1]],
 			[fopen(__FILE__, 'r'), [$class1]],
 			[null, [$class1, 'builder' => $builder2]],
 			[null, [$class1a, 'builder' => $builder1]],
@@ -275,8 +275,8 @@ class StructureTest extends TestCase
 		
 		//return
 		return [
-			[new $class1(), [$class1]],
-			[new $class2(), [$class2]]
+			[new $class1, [$class1]],
+			[new $class2, [$class2]]
 		];
 	}
 	
@@ -360,10 +360,10 @@ class StructureTest extends TestCase
 		
 		//return
 		return [
-			[new $class1(), '/^structure<' . preg_quote($class1, '/') . '>#\d+$/', [$class1]],
-			[new $class1a(), '/^structure<' . preg_quote($class1a, '/') . '>#\d+$/', [$class1]],
-			[new $class2(), '/^structure<' . preg_quote($class2, '/') . '>#\d+$/', [$class2]],
-			[new $class2a(), '/^structure<' . preg_quote($class2a, '/') . '>#\d+$/', [$class2]]
+			[new $class1, '/^structure<' . preg_quote($class1, '/') . '>#\d+$/', [$class1]],
+			[new $class1a, '/^structure<' . preg_quote($class1a, '/') . '>#\d+$/', [$class1]],
+			[new $class2, '/^structure<' . preg_quote($class2, '/') . '>#\d+$/', [$class2]],
+			[new $class2a, '/^structure<' . preg_quote($class2a, '/') . '>#\d+$/', [$class2]]
 		];
 	}
 }

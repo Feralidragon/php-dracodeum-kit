@@ -26,7 +26,7 @@ class MetaInitializerTest extends TestCase
 	public function test(): void
 	{
 		//initialize
-		$meta = (new Manager(new MetaInitializerTest_Class()))->getMeta();
+		$meta = (new Manager(new MetaInitializerTest_Class))->getMeta();
 		
 		//assert
 		$this->assertFalse($meta->has('m0'));

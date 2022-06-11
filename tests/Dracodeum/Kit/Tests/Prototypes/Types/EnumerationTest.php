@@ -105,7 +105,7 @@ class EnumerationTest extends TestCase
 			[' ', [EnumerationTest_Enum1::class]],
 			['foobar', [EnumerationTest_Enum1::class]],
 			[[], [EnumerationTest_Enum1::class]],
-			[new stdClass(), [EnumerationTest_Enum1::class]],
+			[new stdClass, [EnumerationTest_Enum1::class]],
 			[fopen(__FILE__, 'r'), [EnumerationTest_Enum1::class]],
 			[2, [EnumerationTest_Enum1::class]],
 			['D', [EnumerationTest_Enum1::class]],

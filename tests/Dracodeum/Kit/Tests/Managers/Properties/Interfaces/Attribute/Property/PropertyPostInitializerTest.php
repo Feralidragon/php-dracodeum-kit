@@ -26,7 +26,7 @@ class PropertyPostInitializerTest extends TestCase
 	public function test(): void
 	{
 		//initialize
-		$manager = new Manager(new PropertyPostInitializerTest_Class());
+		$manager = new Manager(new PropertyPostInitializerTest_Class);
 		
 		//assert
 		$this->assertSame(0, $manager->getProperty('p1')->getMetaValue('m1'));

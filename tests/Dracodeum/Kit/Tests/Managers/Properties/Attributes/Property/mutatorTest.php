@@ -37,7 +37,7 @@ class mutatorTest extends TestCase
 	public function test(string $name, bool $typed, bool $mutated): void
 	{
 		//initialize
-		$manager = new Manager(new mutatorTest_Class());
+		$manager = new Manager(new mutatorTest_Class);
 		$property = $manager->getProperty($name);
 		
 		//assert

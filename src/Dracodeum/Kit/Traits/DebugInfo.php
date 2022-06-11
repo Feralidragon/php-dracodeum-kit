@@ -51,7 +51,7 @@ trait DebugInfo
 		$debug_info = [];
 		if (System::getDumpVerbosityLevel() < EDumpVerbosityLevel::HIGH) {
 			//info
-			$info = new Info();
+			$info = new Info;
 			if ($this instanceof Interfaces\DebugInfoProcessor) {
 				$this->processDebugInfo($info);
 			}

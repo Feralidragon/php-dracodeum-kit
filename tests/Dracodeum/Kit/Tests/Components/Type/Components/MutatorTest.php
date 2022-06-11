@@ -41,7 +41,7 @@ class MutatorTest extends TestCase
 		$this->assertSame(MutatorTest_Prototype1::ERROR_STRING, (string)$error1->getText());
 		
 		//value1 (error 2)
-		$value1 = $v1 = new stdClass();
+		$value1 = $v1 = new stdClass;
 		$error1 = $component1->process($value1);
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);

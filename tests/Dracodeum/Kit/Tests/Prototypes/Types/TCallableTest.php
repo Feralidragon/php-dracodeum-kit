@@ -68,8 +68,8 @@ class TCallableTest extends TestCase
 	public function provideProcessData(): array
 	{
 		//initialize
-		$c = new TCallableTest_Class();
-		$ci = new TCallableTest_InvokeableClass();
+		$c = new TCallableTest_Class;
+		$ci = new TCallableTest_InvokeableClass;
 		$class = TCallableTest_Class::class;
 		
 		//return
@@ -177,8 +177,8 @@ class TCallableTest extends TestCase
 	public function provideProcessData_Error(): array
 	{
 		//initialize
-		$c = new TCallableTest_Class();
-		$ci = new TCallableTest_InvokeableClass();
+		$c = new TCallableTest_Class;
+		$ci = new TCallableTest_InvokeableClass;
 		$class = TCallableTest_Class::class;
 		
 		//return
@@ -193,7 +193,7 @@ class TCallableTest extends TestCase
 			['123'],
 			['foo'],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')],
 			['strlens'],
 			[' strlen '],
@@ -347,8 +347,8 @@ class TCallableTest extends TestCase
 	public function provideTextifierInterfaceData(): array
 	{
 		//initialize
-		$c = new TCallableTest_Class();
-		$ci = new TCallableTest_InvokeableClass();
+		$c = new TCallableTest_Class;
+		$ci = new TCallableTest_InvokeableClass;
 		$class = TCallableTest_Class::class;
 		$class_invokeable = TCallableTest_InvokeableClass::class;
 		

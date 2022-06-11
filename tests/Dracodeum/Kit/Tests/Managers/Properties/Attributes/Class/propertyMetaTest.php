@@ -37,7 +37,7 @@ class propertyMetaTest extends TestCase
 	public function test(string $name, bool $exists, mixed $default = null, bool $nullable = false): void
 	{
 		//initialize
-		$manager = new Manager(new propertyMetaTest_Class());
+		$manager = new Manager(new propertyMetaTest_Class);
 		$meta = $manager->getMeta();
 		
 		//assert

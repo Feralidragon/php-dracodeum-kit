@@ -43,31 +43,31 @@ class CallTest extends TestCase
 		return [
 			['strlen'],
 			[function () {}],
-			[new CallTest_InvokeableClass()],
+			[new CallTest_InvokeableClass],
 			[CallTest_Class::class . '::getString'],
 			[CallTest_Class::class . '->getString'],
 			[[CallTest_Class::class, 'getString']],
-			[[new CallTest_Class(), 'getString']],
+			[[new CallTest_Class, 'getString']],
 			[CallTest_Class::class . '::getStaticString'],
 			[CallTest_Class::class . '->getStaticString'],
 			[[CallTest_Class::class, 'getStaticString']],
-			[[new CallTest_Class(), 'getStaticString']],
+			[[new CallTest_Class, 'getStaticString']],
 			[CallTest_Class::class . '::getProtectedInteger'],
 			[CallTest_Class::class . '->getProtectedInteger'],
 			[[CallTest_Class::class, 'getProtectedInteger']],
-			[[new CallTest_Class(), 'getProtectedInteger']],
+			[[new CallTest_Class, 'getProtectedInteger']],
 			[CallTest_Class::class . '::getProtectedStaticInteger'],
 			[CallTest_Class::class . '->getProtectedStaticInteger'],
 			[[CallTest_Class::class, 'getProtectedStaticInteger']],
-			[[new CallTest_Class(), 'getProtectedStaticInteger']],
+			[[new CallTest_Class, 'getProtectedStaticInteger']],
 			[CallTest_Class::class . '::getPrivateBoolean'],
 			[CallTest_Class::class . '->getPrivateBoolean'],
 			[[CallTest_Class::class, 'getPrivateBoolean']],
-			[[new CallTest_Class(), 'getPrivateBoolean']],
+			[[new CallTest_Class, 'getPrivateBoolean']],
 			[CallTest_Class::class . '::getPrivateStaticBoolean'],
 			[CallTest_Class::class . '->getPrivateStaticBoolean'],
 			[[CallTest_Class::class, 'getPrivateStaticBoolean']],
-			[[new CallTest_Class(), 'getPrivateStaticBoolean']],
+			[[new CallTest_Class, 'getPrivateStaticBoolean']],
 			[CallTest_AbstractClass::class . '::getString'],
 			[[CallTest_AbstractClass::class, 'getString']],
 			[CallTest_AbstractClass::class . '::getStaticString'],
@@ -149,15 +149,15 @@ class CallTest extends TestCase
 			[[]],
 			[['strlen']],
 			[[function () {}]],
-			[[new CallTest_InvokeableClass()]],
+			[[new CallTest_InvokeableClass]],
 			[[CallTest_Class::class, 'getString()']],
-			[[new CallTest_Class(), 'getString()']],
+			[[new CallTest_Class, 'getString()']],
 			[[CallTest_Class::class, 'getNonExistent']],
-			[[new CallTest_Class(), 'getNonExistent']],
+			[[new CallTest_Class, 'getNonExistent']],
 			[[CallTest_AbstractClass::class, 'getNonExistent']],
 			[[CallTest_Interface::class, 'getNonExistent']],
 			[[CallTest_Class::class, 'getString', null]],
-			[[new CallTest_Class(), 'getString', null]],
+			[[new CallTest_Class, 'getString', null]],
 			[new \stdClass()],
 			[fopen(__FILE__, 'r')]
 		];
@@ -192,8 +192,8 @@ class CallTest extends TestCase
 	public function provideReflectionData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
-		$ci = new CallTest_InvokeableClass();
+		$c = new CallTest_Class;
+		$ci = new CallTest_InvokeableClass;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -327,7 +327,7 @@ class CallTest extends TestCase
 	public function provideHashData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
+		$c = new CallTest_Class;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -340,10 +340,10 @@ class CallTest extends TestCase
 			[Closure::fromCallable('strlen'), 'SHA1', '6c19df52f4536474beeb594b4c186a34750bfbba'],
 			[function () {}, 'MD5', '69da2bc791c8bcf17964f7cf7a2759a5'],
 			[function () {}, 'SHA1', 'c7a68f923c90b58523f7b5f86080ea2fbc5b2cc5'],
-			[new CallTest_InvokeableClass(), 'MD5', '06678054507a08aa3179b82ad631ef77'],
-			[new CallTest_InvokeableClass(), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
-			[Closure::fromCallable(new CallTest_InvokeableClass()), 'MD5', '06678054507a08aa3179b82ad631ef77'],
-			[Closure::fromCallable(new CallTest_InvokeableClass()), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
+			[new CallTest_InvokeableClass, 'MD5', '06678054507a08aa3179b82ad631ef77'],
+			[new CallTest_InvokeableClass, 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
+			[Closure::fromCallable(new CallTest_InvokeableClass), 'MD5', '06678054507a08aa3179b82ad631ef77'],
+			[Closure::fromCallable(new CallTest_InvokeableClass), 'SHA1', 'cbb1e245087d78bcf998a89555f3517ceb491114'],
 			[[$c, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
 			[[$c, 'getString'], 'SHA1', 'b9a57503eae0f1f314b0cdb601643ba0425831be'],
 			[[$class, 'getString'], 'MD5', 'bd30850066e2deb385eae54d1369edfb'],
@@ -410,8 +410,8 @@ class CallTest extends TestCase
 	public function provideModifiersData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
-		$ci = new CallTest_InvokeableClass();
+		$c = new CallTest_Class;
+		$ci = new CallTest_InvokeableClass;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -498,8 +498,8 @@ class CallTest extends TestCase
 	public function provideNameData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
-		$ci = new CallTest_InvokeableClass();
+		$c = new CallTest_Class;
+		$ci = new CallTest_InvokeableClass;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$class_invokeable = CallTest_InvokeableClass::class;
@@ -676,25 +676,25 @@ class CallTest extends TestCase
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i) {},
 				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
 				['CallTest_AbstractClass $ac' , '?CallTest_Interface $i']],
-			[new CallTest_InvokeableClass(), 0x00, []],
-			[new CallTest_InvokeableClass2(), 0x00,
+			[new CallTest_InvokeableClass, 0x00, []],
+			[new CallTest_InvokeableClass2, 0x00,
 				['string $s_foo = ' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
-			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_CONSTANTS_VALUES,
+			[new CallTest_InvokeableClass2, UCall::PARAMETERS_CONSTANTS_VALUES,
 				['string $s_foo = "bar2foo"']],
-			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_TYPES_SHORT_NAMES,
+			[new CallTest_InvokeableClass2, UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
-			[new CallTest_InvokeableClass2(), UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
 				['string $s_foo = \\' . CallTest_InvokeableClass2::class . '::FOO_CONSTANT']],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES,
 				['string $s_foo = "bar2foo"']],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
 				['string $s_foo = "bar2foo"']],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_TYPES_SHORT_NAMES | UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
 				['string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT']],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::PARAMETERS_CONSTANTS_VALUES | UCall::PARAMETERS_TYPES_SHORT_NAMES | 
 				UCall::PARAMETERS_NAMESPACES_LEADING_SLASH,
 				['string $s_foo = "bar2foo"']],
@@ -931,12 +931,12 @@ class CallTest extends TestCase
 				'CallTest_Interface'],
 			[function (): ?CallTest_Interface {}, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
 				'?CallTest_Interface'],
-			[new CallTest_InvokeableClass(), 0x00, "?{$class}"],
-			[new CallTest_InvokeableClass(), UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
-			[new CallTest_InvokeableClass(), UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
-			[new CallTest_InvokeableClass(), UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
+			[new CallTest_InvokeableClass, 0x00, "?{$class}"],
+			[new CallTest_InvokeableClass, UCall::TYPE_SHORT_NAME, '?CallTest_Class'],
+			[new CallTest_InvokeableClass, UCall::TYPE_NAMESPACE_LEADING_SLASH, "?\\{$class}"],
+			[new CallTest_InvokeableClass, UCall::TYPE_SHORT_NAME | UCall::TYPE_NAMESPACE_LEADING_SLASH,
 				'?CallTest_Class'],
-			[new CallTest_InvokeableClass2(), 0x00, 'void'],
+			[new CallTest_InvokeableClass2, 0x00, 'void'],
 			[[$class, 'getString'], 0x00, 'string'],
 			[[$class, 'setString'], 0x00, 'void'],
 			[[$class, 'getStaticString'], 0x00, 'string'],
@@ -1122,33 +1122,33 @@ class CallTest extends TestCase
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
 				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable'],
-			[new CallTest_InvokeableClass(), 0x00, 'public function __invoke(): ?' . $class],
-			[new CallTest_InvokeableClass(), UCall::HEADER_TYPES_SHORT_NAMES,
+			[new CallTest_InvokeableClass, 0x00, 'public function __invoke(): ?' . $class],
+			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(): ?CallTest_Class'],
-			[new CallTest_InvokeableClass(), UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(): ?\\' . $class],
-			[new CallTest_InvokeableClass(), UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(): ?CallTest_Class'],
-			[new CallTest_InvokeableClass2(), 0x00,
+			[new CallTest_InvokeableClass2, 0x00,
 				'public function __invoke(string $s_foo = ' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void'],
-			[new CallTest_InvokeableClass2(), UCall::HEADER_CONSTANTS_VALUES,
+			[new CallTest_InvokeableClass2, UCall::HEADER_CONSTANTS_VALUES,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
-			[new CallTest_InvokeableClass2(), UCall::HEADER_TYPES_SHORT_NAMES,
+			[new CallTest_InvokeableClass2, UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
-			[new CallTest_InvokeableClass2(), UCall::HEADER_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = \\' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void'],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::HEADER_TYPES_SHORT_NAMES | UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void'],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::HEADER_CONSTANTS_VALUES | UCall::HEADER_TYPES_SHORT_NAMES | 
 				UCall::HEADER_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void'],
@@ -1409,8 +1409,8 @@ class CallTest extends TestCase
 				},
 				"if (\$i > 2) {\n\treturn \$i + 1;\n}\nreturn null;"
 			],
-			[new CallTest_InvokeableClass(), ''],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass, ''],
+			[new CallTest_InvokeableClass2,
 				"//condition\nif (strlen(\$s_foo) > 45) {\n\t\$s_foo = substr(\$s_foo, 0, 45);\n}"],
 			[[$class, 'getString'], "return '';"],
 			[[$class, 'setString'], ''],
@@ -1636,35 +1636,35 @@ class CallTest extends TestCase
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
 				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {}'],
-			[new CallTest_InvokeableClass(), 0x00, 'public function __invoke(): ?' . $class . ' {}'],
-			[new CallTest_InvokeableClass(), UCall::SOURCE_TYPES_SHORT_NAMES,
+			[new CallTest_InvokeableClass, 0x00, 'public function __invoke(): ?' . $class . ' {}'],
+			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(): ?CallTest_Class {}'],
-			[new CallTest_InvokeableClass(), UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(): ?\\' . $class . ' {}'],
-			[new CallTest_InvokeableClass(), UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass, UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(): ?CallTest_Class {}'],
-			[new CallTest_InvokeableClass2(), 0x00,
+			[new CallTest_InvokeableClass2, 0x00,
 				'public function __invoke(string $s_foo = ' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void' . $invoke_body],
-			[new CallTest_InvokeableClass2(), UCall::SOURCE_CONSTANTS_VALUES,
+			[new CallTest_InvokeableClass2, UCall::SOURCE_CONSTANTS_VALUES,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
-			[new CallTest_InvokeableClass2(), UCall::SOURCE_TYPES_SHORT_NAMES,
+			[new CallTest_InvokeableClass2, UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void' . 
 				$invoke_body],
-			[new CallTest_InvokeableClass2(), UCall::SOURCE_NAMESPACES_LEADING_SLASH,
+			[new CallTest_InvokeableClass2, UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = \\' . CallTest_InvokeableClass2::class . 
 				'::FOO_CONSTANT): void' . $invoke_body],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_TYPES_SHORT_NAMES | UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = CallTest_InvokeableClass2::FOO_CONSTANT): void' . 
 				$invoke_body],
-			[new CallTest_InvokeableClass2(),
+			[new CallTest_InvokeableClass2,
 				UCall::SOURCE_CONSTANTS_VALUES | UCall::SOURCE_TYPES_SHORT_NAMES | 
 				UCall::SOURCE_NAMESPACES_LEADING_SLASH,
 				'public function __invoke(string $s_foo = "bar2foo"): void' . $invoke_body],
@@ -1954,8 +1954,8 @@ class CallTest extends TestCase
 				'( ' . $class . ' , stdClass [, bool [, mixed ]]): void'],
 			[function (CallTest_AbstractClass $ac, ?CallTest_Interface $i): ?callable {},
 				'( ' . $class_abstract . ' , ?' . $interface . ' ): ?callable'],
-			[new CallTest_InvokeableClass(), '(): ?' . $class],
-			[new CallTest_InvokeableClass2(), '([ string ]): void'],
+			[new CallTest_InvokeableClass, '(): ?' . $class],
+			[new CallTest_InvokeableClass2, '([ string ]): void'],
 			[[$class, 'getString'], '(): string'],
 			[[$class, 'setString'], '( string ): void'],
 			[[$class, 'getStaticString'], '(): string'],
@@ -2286,23 +2286,23 @@ class CallTest extends TestCase
 			[function (?string $s, object $sc, ?object $o = null, float &$f = 0.0, ?int ...$i): CallTest_Class2 {},
 				function (string $s, \stdClass $sc, \stdClass $o, float &$f = 0.0, int $i = 1): CallTest_Class {},
 				false],
-			[new CallTest_InvokeableClass(), function () {}, true],
-			[function () {}, new CallTest_InvokeableClass(), false],
-			[new CallTest_InvokeableClass(), function (): CallTest_Class2 {}, false],
-			[new CallTest_InvokeableClass(), function (): ?CallTest_Class {}, true],
-			[new CallTest_InvokeableClass(), function (): CallTest_Class {}, false],
-			[new CallTest_InvokeableClass(), function ($n) {}, false],
-			[function ($n): ?CallTest_Class2 {}, new CallTest_InvokeableClass(), false],
-			[new CallTest_InvokeableClass(), function ($n = null) {}, false],
-			[function ($n = null): ?CallTest_Class2 {}, new CallTest_InvokeableClass(), true],
-			[new CallTest_InvokeableClass(), function (): void {}, true],
-			[function (): void {}, new CallTest_InvokeableClass(), false],
-			[new CallTest_InvokeableClass(), function (): bool {}, false],
-			[function (): bool {}, new CallTest_InvokeableClass(), false],
-			[new CallTest_InvokeableClass2(), function (string $s): void {}, true],
-			[new CallTest_InvokeableClass2(), function (string $s = ''): void {}, true],
-			[new CallTest_InvokeableClass2(), function (string $s) {}, false],
-			[new CallTest_InvokeableClass2(), function (?string $s): void {}, false],
+			[new CallTest_InvokeableClass, function () {}, true],
+			[function () {}, new CallTest_InvokeableClass, false],
+			[new CallTest_InvokeableClass, function (): CallTest_Class2 {}, false],
+			[new CallTest_InvokeableClass, function (): ?CallTest_Class {}, true],
+			[new CallTest_InvokeableClass, function (): CallTest_Class {}, false],
+			[new CallTest_InvokeableClass, function ($n) {}, false],
+			[function ($n): ?CallTest_Class2 {}, new CallTest_InvokeableClass, false],
+			[new CallTest_InvokeableClass, function ($n = null) {}, false],
+			[function ($n = null): ?CallTest_Class2 {}, new CallTest_InvokeableClass, true],
+			[new CallTest_InvokeableClass, function (): void {}, true],
+			[function (): void {}, new CallTest_InvokeableClass, false],
+			[new CallTest_InvokeableClass, function (): bool {}, false],
+			[function (): bool {}, new CallTest_InvokeableClass, false],
+			[new CallTest_InvokeableClass2, function (string $s): void {}, true],
+			[new CallTest_InvokeableClass2, function (string $s = ''): void {}, true],
+			[new CallTest_InvokeableClass2, function (string $s) {}, false],
+			[new CallTest_InvokeableClass2, function (?string $s): void {}, false],
 			[[$class, 'getString'], [$class, 'getStaticString'], true],
 			[[$class, 'getString'], [$class, 'setStaticString'], false],
 			[[$class, 'setString'], [$class, 'setStaticString'], true],
@@ -2571,9 +2571,9 @@ class CallTest extends TestCase
 	public function provideObjectData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
-		$ci = new CallTest_InvokeableClass();
-		$ci2 = new CallTest_InvokeableClass2();
+		$c = new CallTest_Class;
+		$ci = new CallTest_InvokeableClass;
+		$ci2 = new CallTest_InvokeableClass2;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -2643,9 +2643,9 @@ class CallTest extends TestCase
 	public function provideClassData(): array
 	{
 		//initialize
-		$c = new CallTest_Class();
-		$ci = new CallTest_InvokeableClass();
-		$ci2 = new CallTest_InvokeableClass2();
+		$c = new CallTest_Class;
+		$ci = new CallTest_InvokeableClass;
+		$ci2 = new CallTest_InvokeableClass2;
 		$class = CallTest_Class::class;
 		$class_abstract = CallTest_AbstractClass::class;
 		$interface = CallTest_Interface::class;
@@ -2762,7 +2762,7 @@ class CallTest extends TestCase
 			[Closure::fromCallable('json_encode'), 'json'],
 			[Closure::fromCallable([UCall::reflection('strlen'), 'getName']), 'Reflection'],
 			[function () {}, null],
-			[new CallTest_InvokeableClass(), null],
+			[new CallTest_InvokeableClass, null],
 			[[$class, 'getString'], null],
 			[[$class, 'getStaticString'], null],
 			[[$class, 'getProtectedInteger'], null],
@@ -2866,27 +2866,27 @@ class CallTest extends TestCase
 				function (CallTest_Class2 $c): ?CallTest_Interface {}],
 			[function (CallTest_Class $c): CallTest_InterfaceClass {},
 				function (CallTest_Class2 $c): CallTest_Interface {}],
-			[new CallTest_InvokeableClass(), null],
-			[new CallTest_InvokeableClass(), function () {}],
-			[new CallTest_InvokeableClass(), function (): ?CallTest_Class {}],
-			[new CallTest_InvokeableClass2(), null],
-			[new CallTest_InvokeableClass2(), function (string $s): void {}],
-			[new CallTest_InvokeableClass2(), function (string $s = ''): void {}],
-			[[new CallTest_Class(), 'getString'], null],
-			[[new CallTest_Class(), 'getString'], function () {}],
-			[[new CallTest_Class(), 'getString'], function (): string {}],
-			[[new CallTest_Class(), 'setString'], null],
-			[[new CallTest_Class(), 'setString'], function (string $s): void {}],
+			[new CallTest_InvokeableClass, null],
+			[new CallTest_InvokeableClass, function () {}],
+			[new CallTest_InvokeableClass, function (): ?CallTest_Class {}],
+			[new CallTest_InvokeableClass2, null],
+			[new CallTest_InvokeableClass2, function (string $s): void {}],
+			[new CallTest_InvokeableClass2, function (string $s = ''): void {}],
+			[[new CallTest_Class, 'getString'], null],
+			[[new CallTest_Class, 'getString'], function () {}],
+			[[new CallTest_Class, 'getString'], function (): string {}],
+			[[new CallTest_Class, 'setString'], null],
+			[[new CallTest_Class, 'setString'], function (string $s): void {}],
 			[CallTest_Class::class . '::getStaticString', null],
 			[CallTest_Class::class . '::getStaticString', function () {}],
 			[CallTest_Class::class . '::getStaticString', function (): string {}],
 			[CallTest_Class::class . '::setStaticString', null],
 			[CallTest_Class::class . '::setStaticString', function (string $s): void {}],
-			[[new CallTest_Class(), 'getStaticString'], null],
-			[[new CallTest_Class(), 'getStaticString'], function () {}],
-			[[new CallTest_Class(), 'getStaticString'], function (): string {}],
-			[[new CallTest_Class(), 'setStaticString'], null],
-			[[new CallTest_Class(), 'setStaticString'], function (string $s): void {}],
+			[[new CallTest_Class, 'getStaticString'], null],
+			[[new CallTest_Class, 'getStaticString'], function () {}],
+			[[new CallTest_Class, 'getStaticString'], function (): string {}],
+			[[new CallTest_Class, 'setStaticString'], null],
+			[[new CallTest_Class, 'setStaticString'], function (string $s): void {}],
 			[function (): bool|float|object|array {}, function (): void {}],
 			[function (): bool|float|object|array {}, function (): bool|float|object|array {}],
 			[function (): bool|float|object {}, function (): bool|float|object|array {}],
@@ -3083,16 +3083,16 @@ class CallTest extends TestCase
 			[function (CallTest_Class2 $c): CallTest_Interface {},
 				function (CallTest_Class $c): CallTest_InterfaceClass {}],
 			[[], null],
-			[new CallTest_InvokeableClass(), function ($s) {}],
-			[new CallTest_InvokeableClass(), function (): CallTest_Class {}],
-			[new CallTest_InvokeableClass2(), function (int $i): void {}],
-			[new CallTest_InvokeableClass2(), function (string $s) {}],
-			[[new CallTest_Class(), 'getString'], function (): bool {}],
-			[[new CallTest_Class(), 'getString'], function (string $s): string {}],
-			[[new CallTest_Class(), 'setString'], function (): void {}],
-			[[new CallTest_Class(), 'getStaticString'], function (): bool {}],
-			[[new CallTest_Class(), 'getStaticString'], function (string $s): string {}],
-			[[new CallTest_Class(), 'setStaticString'], function (): void {}],
+			[new CallTest_InvokeableClass, function ($s) {}],
+			[new CallTest_InvokeableClass, function (): CallTest_Class {}],
+			[new CallTest_InvokeableClass2, function (int $i): void {}],
+			[new CallTest_InvokeableClass2, function (string $s) {}],
+			[[new CallTest_Class, 'getString'], function (): bool {}],
+			[[new CallTest_Class, 'getString'], function (string $s): string {}],
+			[[new CallTest_Class, 'setString'], function (): void {}],
+			[[new CallTest_Class, 'getStaticString'], function (): bool {}],
+			[[new CallTest_Class, 'getStaticString'], function (string $s): string {}],
+			[[new CallTest_Class, 'setStaticString'], function (): void {}],
 			[[CallTest_Class::class, 'getString'], null],
 			[[CallTest_Class::class, 'getProtectedInteger'], null],
 			[[CallTest_Class::class, 'getProtectedStaticInteger'], null],
@@ -3331,7 +3331,7 @@ class CallTest extends TestCase
 	public function testStackPreviousClass(): void
 	{
 		//initialize
-		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC));
 		
 		//assert
 		$this->assertSame(static::class, $a->getStackPreviousClassA());
@@ -3365,7 +3365,7 @@ class CallTest extends TestCase
 	public function testStackPreviousClasses(): void
 	{
 		//initialize
-		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC));
 		$class_a = CallTest_StackClassA::class;
 		$class_b = CallTest_StackClassB::class;
 		
@@ -3452,7 +3452,7 @@ class CallTest extends TestCase
 	public function testStackPreviousObject(): void
 	{
 		//initialize
-		$b = new CallTest_StackClassB(new CallTest_StackClassC());
+		$b = new CallTest_StackClassB(new CallTest_StackClassC);
 		$a = new CallTest_StackClassA($b);
 		
 		//assert
@@ -3487,7 +3487,7 @@ class CallTest extends TestCase
 	public function testStackPreviousObjects(): void
 	{
 		//initialize
-		$b = new CallTest_StackClassB(new CallTest_StackClassC());
+		$b = new CallTest_StackClassB(new CallTest_StackClassC);
 		$a = new CallTest_StackClassA($b);
 		
 		//assert
@@ -3566,7 +3566,7 @@ class CallTest extends TestCase
 	public function testStackPreviousObjectClass(): void
 	{
 		//initialize
-		$b = new CallTest_StackClassB(new CallTest_StackClassC());
+		$b = new CallTest_StackClassB(new CallTest_StackClassC);
 		$a = new CallTest_StackClassA($b);
 		
 		//assert
@@ -3601,7 +3601,7 @@ class CallTest extends TestCase
 	public function testStackPreviousObjectsClasses(): void
 	{
 		//initialize
-		$b = new CallTest_StackClassB(new CallTest_StackClassC());
+		$b = new CallTest_StackClassB(new CallTest_StackClassC);
 		$a = new CallTest_StackClassA($b);
 		$class_a = CallTest_StackClassA::class;
 		$class_b = CallTest_StackClassB::class;
@@ -3689,7 +3689,7 @@ class CallTest extends TestCase
 	public function testStackPreviousName(): void
 	{
 		//initialize
-		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC));
 		
 		//assert
 		$this->assertSame('testStackPreviousName', $a->getStackPreviousNameA());
@@ -3822,7 +3822,7 @@ class CallTest extends TestCase
 	public function testStackPreviousNames(): void
 	{
 		//initialize
-		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC()));
+		$a = new CallTest_StackClassA(new CallTest_StackClassB(new CallTest_StackClassC));
 		
 		//assert
 		$this->assertGreaterThan(1, count($a->getStackPreviousNamesA()));

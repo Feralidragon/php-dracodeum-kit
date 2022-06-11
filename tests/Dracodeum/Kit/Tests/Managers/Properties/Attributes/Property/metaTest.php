@@ -34,7 +34,7 @@ class metaTest extends TestCase
 	public function test(string $name, string $meta_name, mixed $value): void
 	{
 		//initialize
-		$manager = new Manager(new metaTest_Class());
+		$manager = new Manager(new metaTest_Class);
 		$property = $manager->getProperty($name);
 		
 		//assert

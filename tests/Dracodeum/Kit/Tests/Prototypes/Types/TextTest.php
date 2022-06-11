@@ -90,7 +90,7 @@ class TextTest extends TestCase
 			[1],
 			[1.1],
 			[[]],
-			[new stdClass()],
+			[new stdClass],
 			[fopen(__FILE__, 'r')]
 		];
 	}

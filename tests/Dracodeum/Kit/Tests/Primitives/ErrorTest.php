@@ -31,7 +31,7 @@ class ErrorTest extends TestCase
 		$error = Error::build(
 			name: 'InvalidValue',
 			text: "The quick brown fox jumped over the lazy dog.",
-			data: ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass()]
+			data: ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass]
 		);
 		
 		//clone
@@ -55,7 +55,7 @@ class ErrorTest extends TestCase
 		//initialize
 		$name = 'InvalidValue';
 		$text = "The quick brown fox jumped over the lazy dog.";
-		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass()];
+		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass];
 		$json = json_encode([
 			'name' => $name,
 			'text' => $text,
@@ -169,7 +169,7 @@ class ErrorTest extends TestCase
 	public function testData(): void
 	{
 		//initialize
-		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass()];
+		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass];
 		
 		//build
 		$error = Error::build();
@@ -191,7 +191,7 @@ class ErrorTest extends TestCase
 	public function testData_Build(): void
 	{
 		//initialize
-		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass()];
+		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass];
 		
 		//build
 		$error = Error::build(data: $data);
