@@ -236,7 +236,7 @@ final class System implements IUninstantiable
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\HostnameNotSet();
+			throw new Exceptions\HostnameNotSet;
 		}
 		return $hostname;
 	}
@@ -272,7 +272,7 @@ final class System implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\IpAddressNotSet();
+		throw new Exceptions\IpAddressNotSet;
 	}
 	
 	/**
@@ -293,7 +293,7 @@ final class System implements IUninstantiable
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\HostNotSet();
+			throw new Exceptions\HostNotSet;
 		}
 		return $host;
 	}

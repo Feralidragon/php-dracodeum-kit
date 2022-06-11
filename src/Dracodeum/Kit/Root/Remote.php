@@ -65,7 +65,7 @@ final class Remote implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\IpAddressNotSet();
+		throw new Exceptions\IpAddressNotSet;
 	}
 	
 	/**
@@ -116,7 +116,7 @@ final class Remote implements IUninstantiable
 		if ($no_throw) {
 			return null;
 		}
-		throw new Exceptions\AgentNotSet();
+		throw new Exceptions\AgentNotSet;
 	}
 	
 	/**

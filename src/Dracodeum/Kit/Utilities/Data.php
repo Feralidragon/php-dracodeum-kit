@@ -1789,7 +1789,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		return reset($array);
 	}
@@ -1813,7 +1813,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		reset($array);
 		return key($array);
@@ -1838,7 +1838,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		return end($array);
 	}
@@ -1862,7 +1862,7 @@ final class Data extends Utility
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\EmptyArray();
+			throw new Exceptions\EmptyArray;
 		}
 		end($array);
 		return key($array);
