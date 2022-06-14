@@ -103,17 +103,28 @@ class TypeTest extends TestCase
 			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
 			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
 			['class', Prototypes\TClass::class],
+			['class<stdClass>', Prototypes\TClass::class],
+			['class< stdClass >', Prototypes\TClass::class],
 			['interface', Prototypes\TInterface::class],
 			['object', Prototypes\TObject::class],
+			['object<stdClass>', Prototypes\TObject::class],
+			['object< stdClass >', Prototypes\TObject::class],
 			['resource', Prototypes\TResource::class],
+			['resource<stream>', Prototypes\TResource::class],
+			['resource< stream >', Prototypes\TResource::class],
 			['callable', Prototypes\TCallable::class],
 			['closure', Prototypes\TCallable::class],
 			['array', Prototypes\TArray::class],
+			['array<string>', Prototypes\TArray::class],
+			['array< string >', Prototypes\TArray::class],
+			['array<string,int>', Prototypes\TArray::class],
+			['array< string , int >', Prototypes\TArray::class],
 			['list', Prototypes\TArray::class],
 			['component', Prototypes\Component::class, [Component::class]],
 			['structure', Prototypes\Structure::class, [TypeTest_Struct::class]],
 			['struct', Prototypes\Structure::class, [TypeTest_Struct::class]],
 			['text', Prototypes\Text::class],
+			['stdClass', Prototypes\TObject::class],
 			['boolean|integer', Prototypes\Any::class],
 			['boolean | integer', Prototypes\Any::class],
 			['boolean|integer|ustring', Prototypes\Any::class],
@@ -135,7 +146,8 @@ class TypeTest extends TestCase
 			['(boolean|integer[])[]', Prototypes\TArray::class],
 			['(boolean | integer[])[]', Prototypes\TArray::class],
 			['(boolean[]|integer[]|ustring[])[]', Prototypes\TArray::class],
-			['(boolean[] | integer[] | ustring[])[]', Prototypes\TArray::class]
+			['(boolean[] | integer[] | ustring[])[]', Prototypes\TArray::class],
+			['array<string,(boolean[] | integer[] | ustring[] | class< stdClass >[])[]>', Prototypes\TArray::class]
 		];
 	}
 	

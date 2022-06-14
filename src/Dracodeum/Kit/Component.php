@@ -175,38 +175,41 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 					return true;
 				};
 				
-				//build (prototype producers)
-				if (!empty(self::$prototype_producers)) {
-					for ($class = static::class; $class !== false; $class = get_parent_class($class)) {
-						//producers
-						if (!empty(self::$prototype_producers[$class])) {
-							foreach (self::$prototype_producers[$class] as $prototype_producer) {
-								//instance
-								$instance = UCall::guardExecution(
-									[$prototype_producer, 'produce'], [$prototype, $properties],
-									$callback, ['function_name' => '__construct']
-								);
-								
-								//check
-								if (isset($instance)) {
-									break;
+				//build
+				if (!class_exists($prototype) || !UType::isA($prototype, $prototype_base_class)) {
+					//prototype producers
+					if (!empty(self::$prototype_producers)) {
+						for ($class = static::class; $class !== false; $class = get_parent_class($class)) {
+							//producers
+							if (!empty(self::$prototype_producers[$class])) {
+								foreach (self::$prototype_producers[$class] as $prototype_producer) {
+									//instance
+									$instance = UCall::guardExecution(
+										[$prototype_producer, 'produce'], [$prototype, $properties],
+										$callback, ['function_name' => '__construct']
+									);
+									
+									//check
+									if (isset($instance)) {
+										break;
+									}
 								}
 							}
-						}
-						
-						//check
-						if (isset($instance)) {
-							break;
+							
+							//check
+							if (isset($instance)) {
+								break;
+							}
 						}
 					}
-				}
-				
-				//build (method)
-				if (!isset($instance)) {
-					$instance = UCall::guardExecution(
-						\Closure::fromCallable([$this, 'producePrototype']), [$prototype, $properties],
-						$callback, ['function_name' => '__construct']
-					);
+					
+					//method
+					if (!isset($instance)) {
+						$instance = UCall::guardExecution(
+							\Closure::fromCallable([$this, 'producePrototype']), [$prototype, $properties],
+							$callback, ['function_name' => '__construct']
+						);
+					}
 				}
 				
 				//check
@@ -648,7 +651,10 @@ abstract class Component implements IDebugInfo, IDebugInfoProcessor, IProperties
 		}
 		
 		//named builder
-		if (isset($named_builder) && is_string($value)) {
+		if (
+			isset($named_builder) && is_string($value) && 
+			(!class_exists($value) || !UType::isA($value, static::getPrototypeBaseClass()))
+		) {
 			//assert
 			UCall::assert('named_builder', $named_builder, function (string $name, array $properties): ?Component {});
 			

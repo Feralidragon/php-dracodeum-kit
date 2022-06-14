@@ -10,9 +10,11 @@ namespace Dracodeum\Kit\Components;
 use Dracodeum\Kit\Component;
 use Dracodeum\Kit\Components\Type\{
 	Components,
-	Exceptions
+	Exceptions,
+	Protoname
 };
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
+use Dracodeum\Kit\Components\Type\Protoname\Enumerations\Type as EProtonameType;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
 	Types as Prototypes
@@ -101,29 +103,67 @@ class Type extends Component
 	/** {@inheritdoc} */
 	protected function producePrototype(string $name, array $properties)
 	{
-		//enclosed array
-		if (substr($name, -3) === ')[]' && $name[0] === '(') {
-			$type = $this->build(substr($name, 1, -3), ['strict' => $this->strict]);
-			return new Prototypes\TArray(['type' => $type, 'non_associative' => true] + $properties);
+		//protoname
+		$protoname = $this->protonamify($name, true);
+		if ($protoname === null) {
+			return null;
 		}
 		
-		//union
-		if (strpos($name, '|') !== false) {
-			$types = [];
-			foreach (array_map('trim', explode('|', $name)) as $type_name) {
-				$types[] = $this->build($type_name, ['strict' => $this->strict]);
-			}
-			return new Prototypes\Any(['types' => $types] + $properties);
+		//process
+		switch ($protoname->type) {
+			//simple
+			case EProtonameType::SIMPLE:
+				$name = $protoname->names[0];
+				break;
+				
+			//generic
+			case EProtonameType::GENERIC:
+				switch ($protoname->names[0]) {
+					case 'class':
+						return !isset($protoname->names[2])
+							? new Prototypes\TClass(['class' => $protoname->names[1]] + $properties)
+							: null;
+					case 'object':
+						return !isset($protoname->names[2])
+							? new Prototypes\TObject(['class' => $protoname->names[1]] + $properties)
+							: null;
+					case 'resource':
+						return !isset($protoname->names[2])
+							? new Prototypes\TResource(['type' => $protoname->names[1]] + $properties)
+							: null;
+					case 'array':
+						if (isset($protoname->names[3])) {
+							return null;
+						} elseif (isset($protoname->names[2])) {
+							return new Prototypes\TArray([
+								'type' => $this->build($protoname->names[2], ['strict' => $this->strict]),
+								'key_type' => $this->build($protoname->names[1], ['strict' => $this->strict])
+							] + $properties);
+						}
+						return new Prototypes\TArray([
+							'type' => $this->build($protoname->names[1], ['strict' => $this->strict])
+						] + $properties);
+				}
+				return null;
+				
+			//array
+			case EProtonameType::ARRAY:
+				return new Prototypes\TArray([
+					'type' => $this->build($protoname->names[0], ['strict' => $this->strict]),
+					'non_associative' => true
+				] + $properties);
+				
+			//union
+			case EProtonameType::UNION:
+				$types = [];
+				foreach ($protoname->names as $type_name) {
+					$types[] = $this->build($type_name, ['strict' => $this->strict]);
+				}
+				return new Prototypes\Any(['types' => $types] + $properties);
 		}
 		
-		//array
-		if (substr($name, -2) === '[]') {
-			$type = $this->build(substr($name, 0, -2), ['strict' => $this->strict]);
-			return new Prototypes\TArray(['type' => $type, 'non_associative' => true] + $properties);
-		}
-		
-		//return
-		return match ($name) {
+		//prototype
+		$prototype = match ($name) {
 			'any', 'mixed' => Prototypes\Any::class,
 			'boolean', 'bool' => Prototypes\Boolean::class,
 			'number' => Prototypes\Number::class,
@@ -145,6 +185,17 @@ class Type extends Component
 			'text' => Prototypes\Text::class,
 			default => null
 		};
+		if ($prototype !== null) {
+			return $prototype;
+		}
+		
+		//instance
+		if (class_exists($name)) {
+			return new Prototypes\TObject(['class' => $name] + $properties);
+		}
+		
+		//return
+		return null;
 	}
 	
 	
@@ -355,5 +406,143 @@ class Type extends Component
 	final public function hasMutators(): bool
 	{
 		return (bool)$this->mutators;
+	}
+	
+	
+	
+	//Private methods
+	/**
+	 * Protonamify a given name.
+	 * 
+	 * @param string $name
+	 * The name to protonamify.
+	 * 
+	 * @param bool $degroup
+	 * Return a degrouped protoname instance.
+	 * 
+	 * @return \Dracodeum\Kit\Components\Type\Protoname|null
+	 * A protoname instance from the given name, or `null` if none is instantiated.
+	 */
+	private function protonamify(string $name, bool $degroup = false): ?Protoname
+	{
+		//empty
+		$name = trim($name);
+		if ($name === '') {
+			return null;
+		}
+		
+		//tokenize
+		$depth = 0;
+		$names = [$name];
+		$type = EProtonameType::SIMPLE;
+		$buffer = $inner_buffer = '';
+		foreach (preg_split('/([<>()|,]|\[\])/', $name, flags: PREG_SPLIT_DELIM_CAPTURE) as $token) {
+			//initialize
+			$token = trim($token);
+			if ($token === '') {
+				continue;
+			}
+			
+			//token
+			if ($depth === 0) {
+				switch ($token) {
+					case '|':
+						if ($buffer === '') {
+							return null;
+						} elseif ($type !== EProtonameType::UNION) {
+							$type = EProtonameType::UNION;
+							$names = [];
+						}
+						$names[] = $buffer;
+						$buffer = $inner_buffer = '';
+						continue 2;
+					case '<':
+						if ($type === EProtonameType::SIMPLE) {
+							if ($buffer === '') {
+								return null;
+							}
+							$type = EProtonameType::GENERIC;
+							$names = [$buffer];
+						}
+						break;
+					case '(':
+						if ($type === EProtonameType::SIMPLE) {
+							if ($buffer !== '') {
+								return null;
+							}
+							$type = EProtonameType::GROUP;
+						}
+						break;
+					case '>':
+					case ')':
+					case ',':
+						return null;
+					case '[]':
+						if ($type !== EProtonameType::UNION) {
+							if ($buffer === '') {
+								return null;
+							}
+							$type = EProtonameType::ARRAY;
+							$names = [$buffer];
+						}
+						break;
+				}
+			} elseif ($depth === 1 && $type !== EProtonameType::UNION) {
+				switch ($token) {
+					case '>':
+						if ($type !== EProtonameType::GENERIC || $inner_buffer === '') {
+							return null;
+						}
+						$names[] = $inner_buffer;
+						break;
+					case ')':
+						if ($type !== EProtonameType::GROUP) {
+							return null;
+						}
+						$names = [$inner_buffer];
+						$inner_buffer = '';
+						break;
+					case ',':
+						if ($type !== EProtonameType::GENERIC) {
+							return null;
+						}
+						$names[] = $inner_buffer;
+						$inner_buffer = '';
+						continue 2;
+				}
+			}
+			
+			//buffer
+			$buffer .= $token;
+			if ($depth > 0) {
+				$inner_buffer .= $token;
+			}
+			
+			//depth
+			if ($token === '<' || $token === '(') {
+				$depth++;
+			} elseif ($token === '>' || $token === ')') {
+				$depth--;
+				if ($depth < 0) {
+					return null;
+				}
+			}
+		}
+		
+		//group
+		if ($degroup && $type === EProtonameType::GROUP) {
+			return $this->protonamify($names[0]);
+		}
+		
+		//union
+		if ($type === EProtonameType::UNION) {
+			if ($buffer === '') {
+				return null;
+			}
+			$names[] = $buffer;
+		}
+		
+		//return
+		return new Protoname($type, $names);
 	}
 }
