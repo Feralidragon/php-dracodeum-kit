@@ -776,7 +776,7 @@ final class Text extends Utility
 		
 		//tokenize
 		$f_string = '';
-		foreach (preg_split('/\{{2}([^{}]*)\}{2}/Us', $string, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}([^{}]*)\}{2}/Us', $string, flags: PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			//string
 			if ($i % 2 === 0) {
 				$f_string .= $token;
@@ -1136,7 +1136,7 @@ final class Text extends Utility
 		//pattern
 		$map = [];
 		$pattern = '';
-		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $mask, null, PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
+		foreach (preg_split('/\{{2}(.*)\}{2}/Us', $mask, flags: PREG_SPLIT_DELIM_CAPTURE) as $i => $token) {
 			if ($i % 2 === 0) {
 				$pattern .= preg_quote($token, $pattern_delimiter);
 			} else {
@@ -1637,7 +1637,7 @@ final class Text extends Utility
 			$t_length = 0;
 			$t_string = '';
 			$words_pattern = $unicode ? '/([\pL\pN_]+(?:-[\pL\pN_]+)*)/u' : '/(\w+(?:-\w+)*)/';
-			foreach (preg_split($words_pattern, $string, null, PREG_SPLIT_DELIM_CAPTURE) as $part) {
+			foreach (preg_split($words_pattern, $string, flags: PREG_SPLIT_DELIM_CAPTURE) as $part) {
 				$part_length = self::length($part, $unicode);
 				if ($t_length + $part_length > $length) {
 					break;
