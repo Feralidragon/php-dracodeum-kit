@@ -7,19 +7,11 @@
 
 namespace Dracodeum\Kit\Managers\PropertiesV2;
 
-use Dracodeum\Kit\Exception as KException;
+use Dracodeum\Kit\ExceptionV2 as KException;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/**
- * @property-read \Dracodeum\Kit\Managers\PropertiesV2 $manager
- * The manager instance.
- */
 abstract class Exception extends KException
 {
-	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
-	/** {@inheritdoc} */
-	protected function loadProperties(): void
-	{
-		$this->addProperty('manager')->setAsStrictObject(Manager::class);
-	}
+	//Public properties
+	public Manager $manager;
 }

@@ -58,11 +58,7 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		$text = UCall::guardExecution(Closure::fromCallable([$this, 'produceText']), [], [Text::class, 'coerce']);
 		$text
 			->setObject($this)
-			->setStringifier(function (mixed $value, TextOptions $text_options): string {
-				return UText::stringify($value, $text_options, [
-					'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringable' => true
-				]);
-			})
+			->setStringifier($this->getStringifier())
 		;
 		
 		//parent
@@ -89,5 +85,23 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		if ($property->getReflection()->isPublic() && $property->getMode()[0] === 'r') {
 			$property->setMode('r+');
 		}
+	}
+	
+	
+	
+	//Final protected methods
+	/**
+	 * Get stringifier.
+	 * 
+	 * @return callable
+	 * The stringifier.
+	 */
+	final protected function getStringifier(): callable
+	{
+		return function (mixed $value, TextOptions $text_options): string {
+			return UText::stringify($value, $text_options, [
+				'quote_strings' => true, 'prepend_type' => is_bool($value), 'non_stringable' => true
+			]);
+		};
 	}
 }

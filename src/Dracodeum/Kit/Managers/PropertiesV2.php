@@ -573,7 +573,7 @@ final class PropertiesV2 extends Manager
 		//missing
 		$missing_names = array_keys(array_diff_key($this->required_map, $mapped_values));
 		if ($missing_names) {
-			throw new Exceptions\Missing([$this, $missing_names]);
+			throw new Exceptions\Missing($this, $missing_names);
 		}
 		
 		//finalize
@@ -606,7 +606,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($undefined_names) {
-			throw new Exceptions\Undefined([$this, $undefined_names]);
+			throw new Exceptions\Undefined($this, $undefined_names);
 		}
 		
 		//return
@@ -639,7 +639,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($inaccessible_names) {
-			throw new Exceptions\Inaccessible([$this, $inaccessible_names, $scope_class]);
+			throw new Exceptions\Inaccessible($this, $inaccessible_names, $scope_class);
 		}
 		
 		//return
@@ -672,7 +672,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($unreadable_names) {
-			throw new Exceptions\Unreadable([$this, $unreadable_names, $scope_class]);
+			throw new Exceptions\Unreadable($this, $unreadable_names, $scope_class);
 		}
 		
 		//return
@@ -711,7 +711,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($unwriteable_names) {
-			throw new Exceptions\Unwriteable([$this, $unwriteable_names, $scope_class]);
+			throw new Exceptions\Unwriteable($this, $unwriteable_names, $scope_class);
 		}
 		
 		//return
@@ -747,7 +747,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($ununsettable_names) {
-			throw new Exceptions\Ununsettable([$this, $ununsettable_names, $scope_class]);
+			throw new Exceptions\Ununsettable($this, $ununsettable_names, $scope_class);
 		}
 		
 		//return
@@ -794,7 +794,7 @@ final class PropertiesV2 extends Manager
 		
 		//check
 		if ($uninitialized_names) {
-			throw new Exceptions\Uninitialized([$this, $uninitialized_names]);
+			throw new Exceptions\Uninitialized($this, $uninitialized_names);
 		}
 		
 		//return
@@ -876,7 +876,7 @@ final class PropertiesV2 extends Manager
 		
 		//errors
 		if ($errors) {
-			throw new Exceptions\Invalid([$this, $errors_values, $errors]);
+			throw new Exceptions\Invalid($this, $errors_values, $errors);
 		}
 		
 		//return
@@ -961,7 +961,7 @@ final class PropertiesV2 extends Manager
 		
 		//errors
 		if ($errors) {
-			throw new Exceptions\Invalid([$this, array_intersect_key($values, $errors), $errors]);
+			throw new Exceptions\Invalid($this, array_intersect_key($values, $errors), $errors);
 		}
 		
 		//finalize
