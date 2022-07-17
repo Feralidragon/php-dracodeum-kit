@@ -9,9 +9,11 @@ namespace Dracodeum\Kit\Utilities;
 
 use Dracodeum\Kit\Utility;
 use Dracodeum\Kit\Utilities\Type\{
+	Info,
 	Options,
 	Exceptions
 };
+use Dracodeum\Kit\Utilities\Type\Info\Enumerations\Kind as EInfoKind;
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable,
@@ -2865,5 +2867,240 @@ final class Type extends Utility
 			$type = Component::build($type, $properties);
 		}
 		return $type->textify($value, $context, $no_throw);
+	}
+	
+	/**
+	 * Get info instance from a given name.
+	 * 
+	 * @param string $name
+	 * The name to get from.
+	 * 
+	 * @param bool $degroup
+	 * Return a degrouped info instance.
+	 * 
+	 * @param bool $no_throw
+	 * Do not throw an exception.
+	 * 
+	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Info\InvalidName
+	 * 
+	 * @return \Dracodeum\Kit\Utilities\Type\Info|null
+	 * An info instance from the given name.  
+	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given name is invalid.
+	 */
+	final public static function info(string $name, bool $degroup = false, bool $no_throw = false): ?Info
+	{
+		//name
+		$name = trim($name);
+		if ($name === '') {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot be empty."]);
+		}
+		
+		//initialize
+		$ikind = EInfoKind::SIMPLE;
+		$iname = $name;
+		$inames = [];
+		
+		//tokenize
+		$depth = 0;
+		$buffer = $inner_buffer = '';
+		foreach (preg_split('/([<>()|,]|\[\])/', $name, flags: PREG_SPLIT_DELIM_CAPTURE) as $token) {
+			//initialize
+			$token = trim($token);
+			if ($token === '') {
+				continue;
+			}
+			
+			//token
+			if ($depth === 0) {
+				switch ($token) {
+					//union
+					case '|':
+						if ($buffer === '') {
+							if ($no_throw) {
+								return null;
+							}
+							throw new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Unexpected union pipe \"{$token}\" character."
+							]);
+						} elseif ($ikind !== EInfoKind::UNION) {
+							$ikind = EInfoKind::UNION;
+							$iname = null;
+							$inames = [];
+						}
+						$inames[] = $buffer;
+						$buffer = $inner_buffer = '';
+						continue 2;
+						
+					//generic (start)
+					case '<':
+						if ($ikind !== EInfoKind::UNION) {
+							if ($ikind !== EInfoKind::SIMPLE || $buffer === '') {
+								if ($no_throw) {
+									return null;
+								}
+								throw new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "Unexpected generic start \"{$token}\" character."
+								]);
+							}
+							$ikind = EInfoKind::GENERIC;
+							$iname = $buffer;
+							$inames = [];
+						}
+						break;
+						
+					//group (start)
+					case '(':
+						if ($ikind !== EInfoKind::UNION) {
+							if ($ikind !== EInfoKind::SIMPLE || $buffer !== '') {
+								if ($no_throw) {
+									return null;
+								}
+								throw new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "Unexpected group start \"{$token}\" character."
+								]);
+							}
+							$ikind = EInfoKind::GROUP;
+							$iname = null;
+							$inames = [];
+						}
+						break;
+						
+					//unexpected
+					case '>':
+					case ')':
+					case ',':
+						if ($no_throw) {
+							return null;
+						}
+						throw new Exceptions\Info\InvalidName([
+							$name, 'error_message' => "Unexpected \"{$token}\" character."
+						]);
+						
+					//array
+					case '[]':
+						if ($ikind !== EInfoKind::UNION) {
+							if ($buffer === '') {
+								if ($no_throw) {
+									return null;
+								}
+								throw new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "Unexpected array \"{$token}\" characters."
+								]);
+							}
+							$ikind = EInfoKind::ARRAY;
+							$iname = $buffer;
+							$inames = [];
+						}
+						break;
+						
+					//default
+					default:
+						if ($ikind !== EInfoKind::SIMPLE && $ikind !== EInfoKind::UNION) {
+							if ($no_throw) {
+								return null;
+							}
+							throw new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Unexpected expression \"{$token}\"."
+							]);
+						}
+						break;
+				}
+				
+			} elseif ($depth === 1 && $ikind !== EInfoKind::UNION) {
+				switch ($token) {
+					//generic (end)
+					case '>':
+						if ($ikind !== EInfoKind::GENERIC || $inner_buffer === '') {
+							if ($no_throw) {
+								return null;
+							}
+							throw new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Unexpected generic end \"{$token}\" character."
+							]);
+						}
+						$inames[] = $inner_buffer;
+						break;
+						
+					//group (end)
+					case ')':
+						if ($ikind !== EInfoKind::GROUP) {
+							if ($no_throw) {
+								return null;
+							}
+							throw new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Unexpected group end \"{$token}\" character."
+							]);
+						}
+						$iname = $inner_buffer;
+						$inner_buffer = '';
+						break;
+						
+					//generic (delimiter)
+					case ',':
+						if ($ikind !== EInfoKind::GENERIC) {
+							if ($no_throw) {
+								return null;
+							}
+							throw new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "Unexpected generic delimiter \"{$token}\" character."
+							]);
+						}
+						$inames[] = $inner_buffer;
+						$inner_buffer = '';
+						continue 2;
+				}
+			}
+			
+			//buffer
+			$buffer .= $token;
+			if ($depth > 0) {
+				$inner_buffer .= $token;
+			}
+			
+			//depth
+			if ($token === '<' || $token === '(') {
+				$depth++;
+			} elseif ($token === '>' || $token === ')') {
+				$depth--;
+				if ($depth < 0) {
+					if ($no_throw) {
+						return null;
+					}
+					throw new Exceptions\Info\InvalidName([
+						$name, 'error_message' => "Unexpected ending \"{$token}\" character."
+					]);
+				}
+			}
+		}
+		
+		//group
+		if ($degroup && $ikind === EInfoKind::GROUP) {
+			return self::info($iname, $degroup, $no_throw);
+		}
+		
+		//union
+		if ($ikind === EInfoKind::UNION) {
+			if ($buffer === '') {
+				if ($no_throw) {
+					return null;
+				}
+				throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Unexpected union end."]);
+			}
+			$inames[] = $buffer;
+		}
+		
+		//depth
+		if ($depth > 0) {
+			if ($no_throw) {
+				return null;
+			}
+			throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Missing ending character."]);
+		}
+		
+		//return
+		return new Info($ikind, $iname, $inames);
 	}
 }
