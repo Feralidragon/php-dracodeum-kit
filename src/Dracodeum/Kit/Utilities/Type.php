@@ -2903,11 +2903,18 @@ final class Type extends Utility
 		$iname = $name;
 		$inames = [];
 		
+		//maps
+		static $open_map = ['<' => '>', '(' => ')'];
+		static $close_map = ['>' => '<', ')' => '('];
+		
 		//tokenize
 		$depth = 0;
-		$buffer = $inner_buffer = '';
+		$depth_map = [];
+		$buffer = $outer_buffer = $inner_buffer = '';
 		foreach (preg_split('/([<>()|,]|\[\])/', $name, flags: PREG_SPLIT_DELIM_CAPTURE) as $token) {
 			//initialize
+			$position = strlen($outer_buffer) + 1;
+			$outer_buffer .= $token;
 			$token = trim($token);
 			if ($token === '') {
 				continue;
@@ -2923,7 +2930,8 @@ final class Type extends Utility
 								return null;
 							}
 							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected union pipe \"{$token}\" character."
+								$name,
+								'error_message' => "Unexpected \"{$token}\" union character at position {$position}."
 							]);
 						} elseif ($ikind !== EInfoKind::UNION) {
 							$ikind = EInfoKind::UNION;
@@ -2934,7 +2942,7 @@ final class Type extends Utility
 						$buffer = $inner_buffer = '';
 						continue 2;
 						
-					//generic (start)
+					//generic (open)
 					case '<':
 						if ($ikind !== EInfoKind::UNION) {
 							if ($ikind !== EInfoKind::SIMPLE || $buffer === '') {
@@ -2942,7 +2950,9 @@ final class Type extends Utility
 									return null;
 								}
 								throw new Exceptions\Info\InvalidName([
-									$name, 'error_message' => "Unexpected generic start \"{$token}\" character."
+									$name,
+									'error_message' => "Unexpected \"{$token}\" generic opening character " .
+										"at position {$position}."
 								]);
 							}
 							$ikind = EInfoKind::GENERIC;
@@ -2951,7 +2961,7 @@ final class Type extends Utility
 						}
 						break;
 						
-					//group (start)
+					//group (open)
 					case '(':
 						if ($ikind !== EInfoKind::UNION) {
 							if ($ikind !== EInfoKind::SIMPLE || $buffer !== '') {
@@ -2959,7 +2969,9 @@ final class Type extends Utility
 									return null;
 								}
 								throw new Exceptions\Info\InvalidName([
-									$name, 'error_message' => "Unexpected group start \"{$token}\" character."
+									$name,
+									'error_message' => "Unexpected \"{$token}\" group opening character " .
+										"at position {$position}."
 								]);
 							}
 							$ikind = EInfoKind::GROUP;
@@ -2976,7 +2988,7 @@ final class Type extends Utility
 							return null;
 						}
 						throw new Exceptions\Info\InvalidName([
-							$name, 'error_message' => "Unexpected \"{$token}\" character."
+							$name, 'error_message' => "Unexpected \"{$token}\" character at position {$position}."
 						]);
 						
 					//array
@@ -2987,7 +2999,9 @@ final class Type extends Utility
 									return null;
 								}
 								throw new Exceptions\Info\InvalidName([
-									$name, 'error_message' => "Unexpected array \"{$token}\" characters."
+									$name,
+									'error_message' => "Unexpected \"{$token}\" array characters " .
+										"at position {$position}."
 								]);
 							}
 							$ikind = EInfoKind::ARRAY;
@@ -2998,12 +3012,12 @@ final class Type extends Utility
 						
 					//default
 					default:
-						if ($ikind !== EInfoKind::SIMPLE && $ikind !== EInfoKind::UNION) {
+						if (!in_array($ikind, [EInfoKind::SIMPLE, EInfoKind::UNION], true)) {
 							if ($no_throw) {
 								return null;
 							}
 							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected expression \"{$token}\"."
+								$name, 'error_message' => "Unexpected \"{$token}\" expression at position {$position}."
 							]);
 						}
 						break;
@@ -3011,45 +3025,52 @@ final class Type extends Utility
 				
 			} elseif ($depth === 1 && $ikind !== EInfoKind::UNION) {
 				switch ($token) {
-					//generic (end)
+					//generic (close)
 					case '>':
 						if ($ikind !== EInfoKind::GENERIC || $inner_buffer === '') {
 							if ($no_throw) {
 								return null;
 							}
 							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected generic end \"{$token}\" character."
+								$name,
+								'error_message' => "Unexpected \"{$token}\" generic closing character " .
+									"at position {$position}."
 							]);
 						}
 						$inames[] = $inner_buffer;
 						break;
 						
-					//group (end)
+					//group (close)
 					case ')':
 						if ($ikind !== EInfoKind::GROUP) {
 							if ($no_throw) {
 								return null;
 							}
 							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected group end \"{$token}\" character."
+								$name,
+								'error_message' => "Unexpected \"{$token}\" group closing character " .
+									"at position {$position}."
 							]);
 						}
 						$iname = $inner_buffer;
 						$inner_buffer = '';
 						break;
 						
-					//generic (delimiter)
+					//generic (separator)
 					case ',':
-						if ($ikind !== EInfoKind::GENERIC) {
+						if ($ikind !== EInfoKind::GENERIC || $inner_buffer === '') {
 							if ($no_throw) {
 								return null;
 							}
 							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected generic delimiter \"{$token}\" character."
+								$name,
+								'error_message' => "Unexpected \"{$token}\" generic separator character " .
+									"at position {$position}."
 							]);
 						}
 						$inames[] = $inner_buffer;
 						$inner_buffer = '';
+						$buffer .= $token;
 						continue 2;
 				}
 			}
@@ -3061,17 +3082,25 @@ final class Type extends Utility
 			}
 			
 			//depth
-			if ($token === '<' || $token === '(') {
-				$depth++;
-			} elseif ($token === '>' || $token === ')') {
-				$depth--;
-				if ($depth < 0) {
+			if (isset($open_map[$token])) {
+				$depth_map[++$depth] = $token;
+			} elseif (isset($close_map[$token])) {
+				//check
+				if (!isset($depth_map[$depth]) || $close_map[$token] !== $depth_map[$depth]) {
 					if ($no_throw) {
 						return null;
 					}
 					throw new Exceptions\Info\InvalidName([
-						$name, 'error_message' => "Unexpected ending \"{$token}\" character."
+						$name, 'error_message' => "Unexpected \"{$token}\" closing character at position {$position}."
 					]);
+				}
+				
+				//finalize
+				unset($depth_map[$depth--]);
+				
+				//buffer
+				if ($depth === 0) {
+					$inner_buffer = '';
 				}
 			}
 		}
@@ -3087,17 +3116,19 @@ final class Type extends Utility
 				if ($no_throw) {
 					return null;
 				}
-				throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Unexpected union end."]);
+				throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Missing last union type."]);
 			}
 			$inames[] = $buffer;
 		}
 		
 		//depth
-		if ($depth > 0) {
+		if (isset($depth_map[$depth])) {
 			if ($no_throw) {
 				return null;
 			}
-			throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Missing ending character."]);
+			throw new Exceptions\Info\InvalidName([
+				$name, 'error_message' => "Missing \"{$open_map[$depth_map[$depth]]}\" closing character."
+			]);
 		}
 		
 		//return

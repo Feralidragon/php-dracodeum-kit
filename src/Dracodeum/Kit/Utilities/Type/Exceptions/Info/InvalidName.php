@@ -34,7 +34,7 @@ class InvalidName extends Exception
 	protected function loadProperties(): void
 	{
 		$this->addProperty('name')->setAsString();
-		$this->addProperty('error_message')->setAsString(false, true)->setDefaultValue(null);
+		$this->addProperty('error_message')->setAsString(true, true)->setDefaultValue(null);
 	}
 	
 	
