@@ -7,7 +7,7 @@
 
 namespace Dracodeum\Kit\Traits;
 
-use Dracodeum\Kit\Managers\Readonly as Manager;
+use Dracodeum\Kit\Managers\MReadonly as Manager;
 use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 
 /**
@@ -16,10 +16,10 @@ use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
  * 
  * @see \Dracodeum\Kit\Interfaces\Readonlyable
  */
-trait Readonly
+trait TReadonly
 {
 	//Private properties
-	/** @var \Dracodeum\Kit\Managers\Readonly|null */
+	/** @var \Dracodeum\Kit\Managers\MReadonly|null */
 	private $readonly_manager = null;
 	
 	
@@ -141,7 +141,7 @@ trait Readonly
 	/**
 	 * Get read-only manager instance.
 	 * 
-	 * @return \Dracodeum\Kit\Managers\Readonly
+	 * @return \Dracodeum\Kit\Managers\MReadonly
 	 * <p>The read-only manager instance.</p>
 	 */
 	private function getReadonlyManager(): Manager

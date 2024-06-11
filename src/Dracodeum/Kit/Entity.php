@@ -90,7 +90,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	use KTraits\Properties\Arrayable;
 	use KTraits\Properties\ArrayAccess;
 	use KTraits\Properties\Keyable;
-	use KTraits\Readonly;
+	use KTraits\TReadonly;
 	use KTraits\Stringable;
 	use KTraits\Uncloneable;
 	use Traits\DefaultBuilder;
@@ -208,7 +208,7 @@ IReadonlyable, IPersistable, IUnpersistable, ILogEventTag, IArrayInstantiable, I
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return $this->getAll();
 	}

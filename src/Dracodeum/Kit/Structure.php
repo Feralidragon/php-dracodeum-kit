@@ -63,7 +63,7 @@ IArrayInstantiable, ICloneable
 	use KTraits\Properties\Arrayable;
 	use KTraits\Properties\ArrayAccess;
 	use KTraits\Properties\Keyable;
-	use KTraits\Readonly;
+	use KTraits\TReadonly;
 	use KTraits\Stringable;
 	use KTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
@@ -108,7 +108,7 @@ IArrayInstantiable, ICloneable
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return $this->getAll();
 	}

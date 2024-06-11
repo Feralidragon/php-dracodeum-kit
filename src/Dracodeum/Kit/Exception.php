@@ -83,7 +83,7 @@ abstract class Exception extends \Exception implements IDebugInfo, IDebugInfoPro
 		}
 		
 		//parent
-		parent::__construct($message, $options->code, $options->previous);
+		parent::__construct($message, $options->code ?? 0, $options->previous);
 	}
 	
 	

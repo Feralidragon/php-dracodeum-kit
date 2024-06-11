@@ -49,7 +49,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 {
 	//Traits
 	use Traits\DebugInfo;
-	use Traits\Readonly;
+	use Traits\TReadonly;
 	use Traits\Stringable;
 	use Traits\Evaluators;
 	use Traits\KeyEvaluators;
@@ -160,7 +160,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetGet($offset)
+	final public function offsetGet($offset): mixed
 	{
 		return $this->get($offset);
 	}
@@ -229,7 +229,7 @@ IArrayable, IArrayInstantiable, IKeyable, IStringable, ICloneable
 	
 	//Implemented final public methods (JsonSerializable)
 	/** {@inheritdoc} */
-	final public function jsonSerialize()
+	final public function jsonSerialize(): mixed
 	{
 		return (object)$this->getAll();
 	}

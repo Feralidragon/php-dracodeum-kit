@@ -60,27 +60,7 @@ class TString extends Prototype implements IMutatorProducer
 			$string = $value->toString();
 		} elseif (is_int($value) || is_float($value) || $value instanceof IPhpStringable) {
 			$string = (string)$value;
-		}
-		
-		//unicode
-		if ($string !== null && $this->unicode) {
-			//convert
-			$encoding = mb_detect_encoding($string, mb_detect_order(), true);
-			$locale_encoding = Locale::getEncoding();
-			if ($encoding !== false) {
-				$string = mb_convert_encoding($string, $locale_encoding, $encoding);
-			} elseif ($locale_encoding === 'UTF-8') {
-				$string = utf8_encode($string);
-			}
-			
-			//bom
-			if ($locale_encoding === 'UTF-8') {
-				$string = preg_replace('/^\xEF\xBB\xBF/', '', $string);
-			}
-		}
-		
-		//error
-		if ($string === null) {
+		} else {
 			$text = Text::build()
 				->setString("Only a string of characters is allowed.")
 				->setString(
@@ -93,6 +73,31 @@ class TString extends Prototype implements IMutatorProducer
 				->setAsLocalized(self::class)
 			;
 			return Error::build(text: $text);
+		}
+		
+		//unicode
+		if ($this->unicode) {
+			//detect
+			$encoding = mb_detect_encoding($string, ['ASCII', 'UTF-8', 'ISO-8859-1'], true);
+			if ($encoding === false) {
+				$encoding = mb_detect_encoding($string);
+				if ($encoding === false) {
+					return Error::build(
+						text: Text::build("Unknown encoding used in the given string.")->setAsLocalized(self::class)
+					);
+				}
+			}
+			
+			//convert
+			$locale_encoding = Locale::getEncoding();
+			if ($encoding !== $locale_encoding) {
+				$string = mb_convert_encoding($string, $locale_encoding, $encoding);
+			}
+			
+			//bom
+			if ($locale_encoding === 'UTF-8') {
+				$string = preg_replace('/^\xEF\xBB\xBF/', '', $string);
+			}
 		}
 		
 		//finalize

@@ -9,9 +9,9 @@ namespace Dracodeum\Kit\Traits\Cloneable;
 
 /**
  * This trait implements the PHP <code>__clone</code> magic method when the cloneable 
- * and the <code>Dracodeum\Kit\Traits\Readonly</code> traits are used.
+ * and the <code>Dracodeum\Kit\Traits\TReadonly</code> traits are used.
  * 
- * @see \Dracodeum\Kit\Traits\Readonly
+ * @see \Dracodeum\Kit\Traits\TReadonly
  */
 trait ReadonlyProcessor
 {

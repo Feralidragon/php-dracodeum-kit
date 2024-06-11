@@ -81,12 +81,24 @@ class Text extends Input implements IInformation, ISchemaData, IConstraintProduc
 		
 		//unicode
 		if ($this->unicode) {
-			$encoding = mb_detect_encoding($value);
+			//detect
+			$encoding = mb_detect_encoding($value, ['ASCII', 'UTF-8', 'ISO-8859-1'], true);
+			if ($encoding === false) {
+				$encoding = mb_detect_encoding($value);
+				if ($encoding === false) {
+					return false;
+				}
+			}
+			
+			//convert
 			$locale_encoding = Locale::getEncoding();
-			if ($encoding !== false) {
+			if ($encoding !== $locale_encoding) {
 				$value = mb_convert_encoding($value, $locale_encoding, $encoding);
-			} elseif ($locale_encoding === 'UTF-8') {
-				$value = utf8_encode($value);
+			}
+			
+			//bom
+			if ($locale_encoding === 'UTF-8') {
+				$value = preg_replace('/^\xEF\xBB\xBF/', '', $value);
 			}
 		}
 		

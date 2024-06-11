@@ -61,7 +61,7 @@ IIntegerInstantiable, IFloatInstantiable, IStringInstantiable, ICallableInstanti
 	use KTraits\LazyProperties;
 	use KTraits\LazyProperties\ArrayAccess;
 	use KTraits\LazyProperties\Keyable;
-	use KTraits\Readonly;
+	use KTraits\TReadonly;
 	use KTraits\CloneableOnly;
 	use Traits\DefaultBuilder;
 	use Traits\PropertiesInitializer;

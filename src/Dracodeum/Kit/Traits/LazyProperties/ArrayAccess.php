@@ -22,7 +22,7 @@ trait ArrayAccess
 	}
 	
 	/** {@inheritdoc} */
-	final public function offsetGet($offset)
+	final public function offsetGet($offset): mixed
 	{
 		return $this->get($offset);
 	}

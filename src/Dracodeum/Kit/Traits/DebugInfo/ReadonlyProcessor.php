@@ -9,10 +9,10 @@ namespace Dracodeum\Kit\Traits\DebugInfo;
 
 /**
  * This trait implements the <code>Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor</code> interface 
- * when the debug info and the <code>Dracodeum\Kit\Traits\Readonly</code> traits are used.
+ * when the debug info and the <code>Dracodeum\Kit\Traits\TReadonly</code> traits are used.
  * 
  * @see \Dracodeum\Kit\Traits\DebugInfo\Interfaces\DebugInfoProcessor
- * @see \Dracodeum\Kit\Traits\Readonly
+ * @see \Dracodeum\Kit\Traits\TReadonly
  */
 trait ReadonlyProcessor
 {

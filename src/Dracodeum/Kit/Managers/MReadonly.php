@@ -17,7 +17,7 @@ use Dracodeum\Kit\Traits\DebugInfo\Info as DebugInfo;
 use Dracodeum\Kit\Utilities\Call as UCall;
 
 /** This manager handles the read-only state and the resulting callback functions of an object. */
-class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
+class MReadonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 {
 	//Traits
 	use Traits\DebugInfo;
@@ -65,10 +65,10 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * 
 	 * @param object $owner
 	 * <p>The owner object to clone for.</p>
-	 * @return \Dracodeum\Kit\Managers\Readonly
+	 * @return \Dracodeum\Kit\Managers\MReadonly
 	 * <p>The new cloned instance from this one for the given owner.</p>
 	 */
-	public function cloneForOwner(object $owner): Readonly
+	public function cloneForOwner(object $owner): MReadonly
 	{
 		$clone = new static($owner);
 		$clone->callbacks = $this->callbacks;
@@ -106,7 +106,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function enable(): Readonly
+	final public function enable(): MReadonly
 	{
 		if (!$this->enabled) {
 			foreach ($this->callbacks as $callback) {
@@ -133,7 +133,7 @@ class Readonly extends Manager implements IDebugInfo, IDebugInfoProcessor
 	 * @return $this
 	 * <p>This instance, for chaining purposes.</p>
 	 */
-	final public function addCallback(callable $callback): Readonly
+	final public function addCallback(callable $callback): MReadonly
 	{
 		UCall::guard(!$this->enabled, [
 			'hint_message' => "This method may only be called before enablement, in manager with owner {{owner}}.",

@@ -3605,6 +3605,9 @@ class DataTest extends TestCase
 		return [
 			[[], null, 0x00, []],
 			[$array, null, 0x00, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3612,19 +3615,19 @@ class DataTest extends TestCase
 					'k2' => null,
 					'k4' => 'unreal',
 					'k5' => 'foobar',
-					'k7' => ['X' => 'T', 'k' => '#', 2 => 3, 555 => 1]
+					'k7' => [2 => 3, 555 => 1, 'X' => 'T', 'k' => '#']
 				],
 				'd' => 'bar',
 				'farm' => [
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 0, 0x00, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3639,12 +3642,12 @@ class DataTest extends TestCase
 					'carrots' => 100,
 					'broccoli' => 73,
 					'cabages' => 240
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 1, 0x00, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3659,15 +3662,9 @@ class DataTest extends TestCase
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, null, UData::SORT_REVERSE, [
-				999 => 700,
-				997 => 810,
-				711 => 750,
 				'farm' => [
 					'carrots' => 100,
 					'cabages' => 240,
@@ -3675,19 +3672,19 @@ class DataTest extends TestCase
 				],
 				'd' => 'bar',
 				'c' => [
-					'k7' => [555 => 1, 2 => 3, 'k' => '#', 'X' => 'T'],
+					'k7' => ['k' => '#', 'X' => 'T', 555 => 1, 2 => 3],
 					'k5' => 'foobar',
 					'k4' => 'unreal',
 					'k2' => null,
 					'k1' => ['a', 'b']
 				],
 				'b' => 'foo',
-				'a' => [1, 66, 4]
-			]],
-			[$array, 0, UData::SORT_REVERSE, [
+				'a' => [1, 66, 4],
 				999 => 700,
 				997 => 810,
-				711 => 750,
+				711 => 750
+			]],
+			[$array, 0, UData::SORT_REVERSE, [
 				'farm' => [
 					'carrots' => 100,
 					'broccoli' => 73,
@@ -3702,12 +3699,12 @@ class DataTest extends TestCase
 					'k2' => null
 				],
 				'b' => 'foo',
-				'a' => [4, 66, 1]
-			]],
-			[$array, 1, UData::SORT_REVERSE, [
+				'a' => [4, 66, 1],
 				999 => 700,
 				997 => 810,
-				711 => 750,
+				711 => 750
+			]],
+			[$array, 1, UData::SORT_REVERSE, [
 				'farm' => [
 					'carrots' => 100,
 					'cabages' => 240,
@@ -3722,7 +3719,10 @@ class DataTest extends TestCase
 					'k1' => ['b', 'a']
 				],
 				'b' => 'foo',
-				'a' => [1, 66, 4]
+				'a' => [1, 66, 4],
+				999 => 700,
+				997 => 810,
+				711 => 750
 			]],
 			[$array, null, UData::SORT_ASSOC_EXCLUDE, [
 				'b' => 'foo',
@@ -3785,6 +3785,9 @@ class DataTest extends TestCase
 				711 => 750
 			]],
 			[$array, null, UData::SORT_NONASSOC_ASSOC, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3792,19 +3795,19 @@ class DataTest extends TestCase
 					'k2' => null,
 					'k4' => 'unreal',
 					'k5' => 'foobar',
-					'k7' => ['X' => 'T', 'k' => '#', 2 => 3, 555 => 1]
+					'k7' => [2 => 3, 555 => 1, 'X' => 'T', 'k' => '#']
 				],
 				'd' => 'bar',
 				'farm' => [
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 0, UData::SORT_NONASSOC_ASSOC, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3819,12 +3822,12 @@ class DataTest extends TestCase
 					'carrots' => 100,
 					'broccoli' => 73,
 					'cabages' => 240
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 1, UData::SORT_NONASSOC_ASSOC, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3839,12 +3842,12 @@ class DataTest extends TestCase
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, null, UData::SORT_NONASSOC_EXCLUDE, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3852,19 +3855,19 @@ class DataTest extends TestCase
 					'k2' => null,
 					'k4' => 'unreal',
 					'k5' => 'foobar',
-					'k7' => ['X' => 'T', 'k' => '#', 2 => 3, 555 => 1]
+					'k7' => [2 => 3, 555 => 1, 'X' => 'T', 'k' => '#']
 				],
 				'd' => 'bar',
 				'farm' => [
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 0, UData::SORT_NONASSOC_EXCLUDE, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3879,12 +3882,12 @@ class DataTest extends TestCase
 					'carrots' => 100,
 					'broccoli' => 73,
 					'cabages' => 240
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, 1, UData::SORT_NONASSOC_EXCLUDE, [
+				711 => 750,
+				997 => 810,
+				999 => 700,
 				'a' => [4, 66, 1],
 				'b' => 'foo',
 				'c' => [
@@ -3899,10 +3902,7 @@ class DataTest extends TestCase
 					'broccoli' => 73,
 					'cabages' => 240,
 					'carrots' => 100
-				],
-				711 => 750,
-				997 => 810,
-				999 => 700
+				]
 			]],
 			[$array, null, UData::SORT_REVERSE | UData::SORT_ASSOC_EXCLUDE, [
 				'b' => 'foo',
@@ -3925,9 +3925,6 @@ class DataTest extends TestCase
 				711 => 750
 			]],
 			[$array, null, UData::SORT_REVERSE | UData::SORT_NONASSOC_ASSOC, [
-				999 => 700,
-				997 => 810,
-				711 => 750,
 				'farm' => [
 					'carrots' => 100,
 					'cabages' => 240,
@@ -3935,19 +3932,19 @@ class DataTest extends TestCase
 				],
 				'd' => 'bar',
 				'c' => [
-					'k7' => [555 => 1, 2 => 3, 'k' => '#', 'X' => 'T'],
+					'k7' => ['k' => '#', 'X' => 'T', 555 => 1, 2 => 3],
 					'k5' => 'foobar',
 					'k4' => 'unreal',
 					'k2' => null,
 					'k1' => [1 => 'a', 0 => 'b']
 				],
 				'b' => 'foo',
-				'a' => [2 => 1, 1 => 66, 0 => 4]
-			]],
-			[$array, null, UData::SORT_REVERSE | UData::SORT_NONASSOC_EXCLUDE, [
+				'a' => [2 => 1, 1 => 66, 0 => 4],
 				999 => 700,
 				997 => 810,
-				711 => 750,
+				711 => 750
+			]],
+			[$array, null, UData::SORT_REVERSE | UData::SORT_NONASSOC_EXCLUDE, [
 				'farm' => [
 					'carrots' => 100,
 					'cabages' => 240,
@@ -3955,14 +3952,17 @@ class DataTest extends TestCase
 				],
 				'd' => 'bar',
 				'c' => [
-					'k7' => [555 => 1, 2 => 3, 'k' => '#', 'X' => 'T'],
+					'k7' => ['k' => '#', 'X' => 'T', 555 => 1, 2 => 3],
 					'k5' => 'foobar',
 					'k4' => 'unreal',
 					'k2' => null,
 					'k1' => ['b', 'a']
 				],
 				'b' => 'foo',
-				'a' => [4, 66, 1]
+				'a' => [4, 66, 1],
+				999 => 700,
+				997 => 810,
+				711 => 750
 			]],
 			[$array, null, UData::SORT_ASSOC_EXCLUDE | UData::SORT_NONASSOC_ASSOC, [
 				'b' => 'foo',
