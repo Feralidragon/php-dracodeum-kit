@@ -42,30 +42,6 @@ class TObjectTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		//initialize
-		$object0 = new stdClass;
-		$object1 = new TObjectTest_Class1;
-		$object2 = new TObjectTest_Class2;
-		
-		//return
-		return [
-			[$object0, $object0],
-			[$object1, $object1],
-			[$object2, $object2],
-			[$object0, $object0, ['class' => stdClass::class]],
-			[$object1, $object1, ['class' => TObjectTest_Class1::class]],
-			[$object2, $object2, ['class' => TObjectTest_Class1::class]]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -80,35 +56,6 @@ class TObjectTest extends TestCase
 	public function testProcess_Error(mixed $value, array $properties = []): void
 	{
 		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
-	 * Provide process data (error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Error(): array
-	{
-		return [
-			[null],
-			[false],
-			[true],
-			[1],
-			[1.1],
-			[''],
-			[' '],
-			['123'],
-			['foo'],
-			[[]],
-			[fopen(__FILE__, 'r')],
-			[stdClass::class],
-			[TObjectTest_Class1::class],
-			[TObjectTest_Class2::class],
-			[new stdClass, ['class' => TObjectTest_Class1::class]],
-			[new TObjectTest_Class1, ['class' => stdClass::class]],
-			[new TObjectTest_Class1, ['class' => TObjectTest_Class2::class]]
-		];
 	}
 	
 	/**
@@ -132,13 +79,69 @@ class TObjectTest extends TestCase
 		$this->assertMatchesRegularExpression($expected, $text->toString());
 	}
 	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		//initialize
+		$object0 = new stdClass;
+		$object1 = new TObjectTest_Class1;
+		$object2 = new TObjectTest_Class2;
+		
+		//return
+		return [
+			[$object0, $object0],
+			[$object1, $object1],
+			[$object2, $object2],
+			[$object0, $object0, ['class' => stdClass::class]],
+			[$object1, $object1, ['class' => TObjectTest_Class1::class]],
+			[$object2, $object2, ['class' => TObjectTest_Class1::class]]
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
+	{
+		return [
+			[null],
+			[false],
+			[true],
+			[1],
+			[1.1],
+			[''],
+			[' '],
+			['123'],
+			['foo'],
+			[[]],
+			[fopen(__FILE__, 'r')],
+			[stdClass::class],
+			[TObjectTest_Class1::class],
+			[TObjectTest_Class2::class],
+			[new stdClass, ['class' => TObjectTest_Class1::class]],
+			[new TObjectTest_Class1, ['class' => stdClass::class]],
+			[new TObjectTest_Class1, ['class' => TObjectTest_Class2::class]]
+		];
+	}
+	
 	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		return [
 			[new stdClass, '/^object<stdClass>#\d+$/'],

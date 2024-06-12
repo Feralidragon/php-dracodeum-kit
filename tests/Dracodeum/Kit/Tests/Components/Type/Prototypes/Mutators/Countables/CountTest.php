@@ -41,39 +41,6 @@ class CountTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			[[], [0]],
-			[[123], [1]],
-			[[123, 'foo'], [2]],
-			[[123, 'foo', 'bar'], [3]],
-			[[1, 'foo', 2, 'bar', 3], [5]]
-		];
-	}
-	
-	/**
-	 * Provide process data (class).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Class(): array
-	{
-		$data = $this->provideProcessData();
-		foreach ($data as &$d) {
-			$d[0] = new CountTest_Class($d[0]);
-		}
-		unset($d);
-		return $data;
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -92,12 +59,60 @@ class CountTest extends TestCase
 	}
 	
 	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			[[], [0]],
+			[[123], [1]],
+			[[123, 'foo'], [2]],
+			[[123, 'foo', 'bar'], [3]],
+			[[1, 'foo', 2, 'bar', 3], [5]]
+		];
+	}
+	
+	/**
+	 * Provide process data (class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Class(): array
+	{
+		$data = self::provideProcessData();
+		foreach ($data as &$d) {
+			$d[0] = new CountTest_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+	
+	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[[], [1]],
@@ -118,26 +133,14 @@ class CountTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_Class(): array
+	public static function provideProcessData_Error_Class(): array
 	{
-		$data = $this->provideProcessData_Error();
+		$data = self::provideProcessData_Error();
 		foreach ($data as &$d) {
 			$d[0] = new CountTest_Class($d[0]);
 		}
 		unset($d);
 		return $data;
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
 	}
 }
 

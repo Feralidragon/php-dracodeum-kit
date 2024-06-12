@@ -42,27 +42,6 @@ class TResourceTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		//initialize
-		$resource1 = fopen(__FILE__, 'r');
-		$resource2 = fopen(__FILE__, 'r');
-		fclose($resource2);
-		
-		//return
-		return [
-			[$resource1, $resource1],
-			[$resource2, $resource2],
-			[$resource1, $resource1, ['type' => 'stream']]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -80,12 +59,50 @@ class TResourceTest extends TestCase
 	}
 	
 	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 */
+	public function testTextifierInterface(): void
+	{
+		$text = Component::build(Prototype::class)->textify(fopen(__FILE__, 'r'));
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertMatchesRegularExpression('/^resource<stream>#\d+$/', $text->toString());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		//initialize
+		$resource1 = fopen(__FILE__, 'r');
+		$resource2 = fopen(__FILE__, 'r');
+		fclose($resource2);
+		
+		//return
+		return [
+			[$resource1, $resource1],
+			[$resource2, $resource2],
+			[$resource1, $resource1, ['type' => 'stream']]
+		];
+	}
+	
+	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[null],
@@ -101,19 +118,5 @@ class TResourceTest extends TestCase
 			[new stdClass],
 			[fopen(__FILE__, 'r'), ['type' => 'curl']]
 		];
-	}
-	
-	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 */
-	public function testTextifierInterface(): void
-	{
-		$text = Component::build(Prototype::class)->textify(fopen(__FILE__, 'r'));
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertMatchesRegularExpression('/^resource<stream>#\d+$/', $text->toString());
 	}
 }

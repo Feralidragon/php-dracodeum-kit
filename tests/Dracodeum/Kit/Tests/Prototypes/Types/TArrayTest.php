@@ -49,12 +49,203 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Internal
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test process (non-internal).
+	 * 
+	 * @testdox Process (non-internal)
+	 * @dataProvider provideProcessData
+	 * @dataProvider provideProcessData_NonInternal
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties = []): void
+	{
+		$component = Component::build(Prototype::class, $properties);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$v = $value;
+				$this->assertNull($component->process($v, $context));
+				$this->assertSame($expected, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Test process (non-internal, error).
+	 * 
+	 * @testdox Process (non-internal, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_NonInternal_Error(mixed $value, array $properties = []): void
+	{
+		$component = Component::build(Prototype::class, $properties);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict(mixed $value, mixed $expected, array $properties = []): void
+	{
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($value));
+		$this->assertSame($expected, $value);
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Internal
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Test process (non-internal, error, strict).
+	 * 
+	 * @testdox Process (non-internal, error, strict)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * @dataProvider provideProcessData_NonInternal_Error_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_NonInternal_Error_Strict(mixed $value, array $properties = []): void
+	{
+		$component = Component::build(Prototype::class, ['strict' => true] + $properties);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected textified value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 * 
+	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * The info level to test with.
+	 */
+	public function testTextifierInterface(
+		mixed $value, string $expected, array $properties = [], $info_level = EInfoLevel::ENDUSER
+	): void
+	{
+		$text = Component::build(Prototype::class, $properties)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($expected, $text->toString(['info_level' => $info_level]));
+	}
+	
+	/**
+	 * Test `MutatorProducer` interface.
+	 * 
+	 * @testdox MutatorProducer interface ("$name")
+	 * @dataProvider provideMutatorProducerData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $expected
+	 * The expected produced class.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
+	{
+		$mutator = (new Prototype)->produceMutator($name, $properties);
+		$this->assertNotNull($mutator);
+		$this->assertTrue(UType::isA($mutator, $expected));
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		//initialize
 		$c1 = new TArrayTest_Class1;
@@ -96,30 +287,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Error_Internal
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties = []): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		//initialize
 		$c1 = new TArrayTest_Class1;
@@ -167,7 +340,7 @@ class TArrayTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_Internal(): array
+	public static function provideProcessData_Error_Internal(): array
 	{
 		return [
 			[''],
@@ -178,40 +351,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal).
-	 * 
-	 * @testdox Process (non-internal)
-	 * @dataProvider provideProcessData
-	 * @dataProvider provideProcessData_NonInternal
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected processed value.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_NonInternal(mixed $value, mixed $expected, array $properties = []): void
-	{
-		$component = Component::build(Prototype::class, $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$v = $value;
-				$this->assertNull($component->process($v, $context));
-				$this->assertSame($expected, $v);
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal(): array
+	public static function provideProcessData_NonInternal(): array
 	{
 		//initialize
 		$type1_class = TArrayTest_TypePrototype1::class;
@@ -251,35 +396,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal, error).
-	 * 
-	 * @testdox Process (non-internal, error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_NonInternal_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_NonInternal_Error(mixed $value, array $properties = []): void
-	{
-		$component = Component::build(Prototype::class, $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertInstanceOf(Error::class, $component->process($value, $context));
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal_Error(): array
+	public static function provideProcessData_NonInternal_Error(): array
 	{
 		//initialize
 		$type1_class = TArrayTest_TypePrototype1::class;
@@ -307,33 +429,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict).
-	 * 
-	 * @testdox Process (strict)
-	 * @dataProvider provideProcessData_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected processed value.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict(mixed $value, mixed $expected, array $properties = []): void
-	{
-		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($value));
-		$this->assertSame($expected, $value);
-	}
-	
-	/**
 	 * Provide process data (strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict(): array
+	public static function provideProcessData_Strict(): array
 	{
 		//initialize
 		$type1_class = TArrayTest_TypePrototype1::class;
@@ -362,33 +463,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict, error).
-	 * 
-	 * @testdox Process (strict, error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Error_Internal
-	 * @dataProvider provideProcessData_Strict_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
-	{
-		$this->assertInstanceOf(
-			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
-		);
-	}
-	
-	/**
 	 * Provide process data (strict, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict_Error(): array
+	public static function provideProcessData_Strict_Error(): array
 	{
 		return [
 			[new TArrayTest_Class1],
@@ -397,36 +477,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal, error, strict).
-	 * 
-	 * @testdox Process (non-internal, error, strict)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_NonInternal_Error
-	 * @dataProvider provideProcessData_NonInternal_Error_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_NonInternal_Error_Strict(mixed $value, array $properties = []): void
-	{
-		$component = Component::build(Prototype::class, ['strict' => true] + $properties);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertInstanceOf(Error::class, $component->process($value, $context));
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal, error, strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal_Error_Strict(): array
+	public static function provideProcessData_NonInternal_Error_Strict(): array
 	{
 		return [
 			[''],
@@ -443,41 +499,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * @dataProvider provideTextifierInterfaceData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected
-	 * The expected textified value.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
-	 * The info level to test with.
-	 */
-	public function testTextifierInterface(
-		mixed $value, string $expected, array $properties = [], $info_level = EInfoLevel::ENDUSER
-	): void
-	{
-		$text = Component::build(Prototype::class, $properties)->textify($value);
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($expected, $text->toString(['info_level' => $info_level]));
-	}
-	
-	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		//initialize
 		$type1_class = TArrayTest_TypePrototype1::class;
@@ -560,36 +587,12 @@ class TArrayTest extends TestCase
 	}
 	
 	/**
-	 * Test `MutatorProducer` interface.
-	 * 
-	 * @testdox MutatorProducer interface ("$name")
-	 * @dataProvider provideMutatorProducerData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $expected
-	 * The expected produced class.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
-	{
-		$mutator = (new Prototype)->produceMutator($name, $properties);
-		$this->assertNotNull($mutator);
-		$this->assertTrue(UType::isA($mutator, $expected));
-	}
-	
-	/**
 	 * Provide `MutatorProducer` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMutatorProducerData(): array
+	public static function provideMutatorProducerData(): array
 	{
 		return [
 			['non_empty', CountableMutators\NonEmpty::class],

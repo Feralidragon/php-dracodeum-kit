@@ -39,33 +39,6 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			[0, '0'],
-			[1, '1'],
-			[0.0, '0'],
-			[1.0, '1'],
-			[7.5, '7.5'],
-			[-179.248, '-179.248'],
-			['', ''],
-			[' ', ' '],
-			['0', '0'],
-			['foo', 'foo'],
-			['foo Bar', 'foo Bar'],
-			["premi\xC3\xA9re", "premi\xC3\xA9re"],
-			["premi\xE9re", "premi\xE9re"],
-			[new TStringTest_Class1, 'Class1'],
-			[new TStringTest_Class2, '__Class2']
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -77,24 +50,6 @@ class TStringTest extends TestCase
 	public function testProcess_Error(mixed $value): void
 	{
 		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
-	}
-	
-	/**
-	 * Provide process data (error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Error(): array
-	{
-		return [
-			[null],
-			[false],
-			[true],
-			[[]],
-			[new stdClass],
-			[fopen(__FILE__, 'r')]
-		];
 	}
 	
 	/**
@@ -116,28 +71,6 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (unicode).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Unicode(): array
-	{
-		return [
-			['', ''],
-			[' ', ' '],
-			['0', '0'],
-			['foo', 'foo'],
-			['foo Bar', 'foo Bar'],
-			["premi\xC3\xA9re", "premi\u{00E9}re"],
-			["premi\xE9re", "premi\u{00E9}re"],
-			["\u{3041}", "\u{3041}"],
-			["\xE3\x81\x81", "\u{3041}"],
-			["\xEF\xBB\xBF\xE3\x81\x81", "\u{3041}"]
-		];
-	}
-	
-	/**
 	 * Test process (strict).
 	 * 
 	 * @testdox Process (strict)
@@ -154,25 +87,6 @@ class TStringTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (strict).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict(): array
-	{
-		return [
-			[''],
-			[' '],
-			['0'],
-			['foo'],
-			['foo Bar'],
-			["premi\xC3\xA9re"],
-			["premi\xE9re"]
-		];
-	}
-	
-	/**
 	 * Test process (strict, error).
 	 * 
 	 * @testdox Process (strict, error)
@@ -185,26 +99,6 @@ class TStringTest extends TestCase
 	public function testProcess_Strict_Error(mixed $value): void
 	{
 		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
-	}
-	
-	/**
-	 * Provide process data (strict, error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict_Error(): array
-	{
-		return [
-			[0],
-			[1],
-			[0.0],
-			[1.0],
-			[7.5],
-			[-179.248],
-			[new TStringTest_Class1],
-			[new TStringTest_Class2]
-		];
 	}
 	
 	/**
@@ -231,13 +125,122 @@ class TStringTest extends TestCase
 		$this->assertTrue(UType::isA($mutator, $expected));
 	}
 	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			[0, '0'],
+			[1, '1'],
+			[0.0, '0'],
+			[1.0, '1'],
+			[7.5, '7.5'],
+			[-179.248, '-179.248'],
+			['', ''],
+			[' ', ' '],
+			['0', '0'],
+			['foo', 'foo'],
+			['foo Bar', 'foo Bar'],
+			["premi\xC3\xA9re", "premi\xC3\xA9re"],
+			["premi\xE9re", "premi\xE9re"],
+			[new TStringTest_Class1, 'Class1'],
+			[new TStringTest_Class2, '__Class2']
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
+	{
+		return [
+			[null],
+			[false],
+			[true],
+			[[]],
+			[new stdClass],
+			[fopen(__FILE__, 'r')]
+		];
+	}
+	
+	/**
+	 * Provide process data (unicode).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Unicode(): array
+	{
+		return [
+			['', ''],
+			[' ', ' '],
+			['0', '0'],
+			['foo', 'foo'],
+			['foo Bar', 'foo Bar'],
+			["premi\xC3\xA9re", "premi\u{00E9}re"],
+			["premi\xE9re", "premi\u{00E9}re"],
+			["\u{3041}", "\u{3041}"],
+			["\xE3\x81\x81", "\u{3041}"],
+			["\xEF\xBB\xBF\xE3\x81\x81", "\u{3041}"]
+		];
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict(): array
+	{
+		return [
+			[''],
+			[' '],
+			['0'],
+			['foo'],
+			['foo Bar'],
+			["premi\xC3\xA9re"],
+			["premi\xE9re"]
+		];
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[0],
+			[1],
+			[0.0],
+			[1.0],
+			[7.5],
+			[-179.248],
+			[new TStringTest_Class1],
+			[new TStringTest_Class2]
+		];
+	}
+	
 	/**
 	 * Provide `MutatorProducer` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMutatorProducerData(): array
+	public static function provideMutatorProducerData(): array
 	{
 		return [
 			['length', StringableMutators\Length::class, [10]],

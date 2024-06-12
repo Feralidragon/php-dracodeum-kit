@@ -41,27 +41,6 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			['', ''],
-			[' ', ' '],
-			['0', '0'],
-			['123', '123'],
-			['foo', 'foo'],
-			['foo Bar', 'foo Bar'],
-			[Text::build('foo bar 123'), 'foo bar 123'],
-			[new TextTest_Class1('foo 123 BAR'), 'foo 123 BAR'],
-			[new TextTest_Class2('FOO 1 BAR 23'), 'FOO 1 BAR 23']
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -73,26 +52,6 @@ class TextTest extends TestCase
 	public function testProcess_Error(mixed $value): void
 	{
 		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
-	}
-	
-	/**
-	 * Provide process data (error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Error(): array
-	{
-		return [
-			[null],
-			[false],
-			[true],
-			[1],
-			[1.1],
-			[[]],
-			[new stdClass],
-			[fopen(__FILE__, 'r')]
-		];
 	}
 	
 	/**
@@ -115,19 +74,6 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (strict).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict(): array
-	{
-		return [
-			[Text::build('foo bar 123'), 'foo bar 123']
-		];
-	}
-	
-	/**
 	 * Test process (strict, error).
 	 * 
 	 * @testdox Process (strict, error)
@@ -143,26 +89,6 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (strict, error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict_Error(): array
-	{
-		return [
-			[''],
-			[' '],
-			['0'],
-			['123'],
-			['foo'],
-			['foo Bar'],
-			[new TextTest_Class1('foo 123 BAR')],
-			[new TextTest_Class2('FOO 1 BAR 23')]
-		];
-	}
-	
-	/**
 	 * Test `Textifier` interface.
 	 * 
 	 * @testdox Textifier interface
@@ -174,6 +100,83 @@ class TextTest extends TestCase
 		$value = Text::build();
 		$text = Component::build(Prototype::class)->textify($value);
 		$this->assertSame($value, $text);
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			['', ''],
+			[' ', ' '],
+			['0', '0'],
+			['123', '123'],
+			['foo', 'foo'],
+			['foo Bar', 'foo Bar'],
+			[Text::build('foo bar 123'), 'foo bar 123'],
+			[new TextTest_Class1('foo 123 BAR'), 'foo 123 BAR'],
+			[new TextTest_Class2('FOO 1 BAR 23'), 'FOO 1 BAR 23']
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
+	{
+		return [
+			[null],
+			[false],
+			[true],
+			[1],
+			[1.1],
+			[[]],
+			[new stdClass],
+			[fopen(__FILE__, 'r')]
+		];
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict(): array
+	{
+		return [
+			[Text::build('foo bar 123'), 'foo bar 123']
+		];
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict_Error(): array
+	{
+		return [
+			[''],
+			[' '],
+			['0'],
+			['123'],
+			['foo'],
+			['foo Bar'],
+			[new TextTest_Class1('foo 123 BAR')],
+			[new TextTest_Class2('FOO 1 BAR 23')]
+		];
 	}
 }
 

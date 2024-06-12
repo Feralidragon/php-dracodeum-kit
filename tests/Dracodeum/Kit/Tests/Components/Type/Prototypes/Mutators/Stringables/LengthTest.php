@@ -40,41 +40,6 @@ class LengthTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			['', [0]],
-			['a', [1]],
-			['  ', [2]],
-			['foo', [3]],
-			['Foo Bar', [7]],
-			["foo\u{2003}b\u{01d4b6}r", [12]],
-			["foo\u{2003}b\u{01d4b6}r", [7, 'unicode' => true]]
-		];
-	}
-	
-	/**
-	 * Provide process data (class).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Class(): array
-	{
-		$data = $this->provideProcessData();
-		foreach ($data as &$d) {
-			$d[0] = new LengthTest_Class($d[0]);
-		}
-		unset($d);
-		return $data;
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -93,12 +58,62 @@ class LengthTest extends TestCase
 	}
 	
 	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			['', [0]],
+			['a', [1]],
+			['  ', [2]],
+			['foo', [3]],
+			['Foo Bar', [7]],
+			["foo\u{2003}b\u{01d4b6}r", [12]],
+			["foo\u{2003}b\u{01d4b6}r", [7, 'unicode' => true]]
+		];
+	}
+	
+	/**
+	 * Provide process data (class).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Class(): array
+	{
+		$data = self::provideProcessData();
+		foreach ($data as &$d) {
+			$d[0] = new LengthTest_Class($d[0]);
+		}
+		unset($d);
+		return $data;
+	}
+	
+	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			['', [1]],
@@ -122,26 +137,14 @@ class LengthTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_Class(): array
+	public static function provideProcessData_Error_Class(): array
 	{
-		$data = $this->provideProcessData_Error();
+		$data = self::provideProcessData_Error();
 		foreach ($data as &$d) {
 			$d[0] = new LengthTest_Class($d[0]);
 		}
 		unset($d);
 		return $data;
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
 	}
 }
 

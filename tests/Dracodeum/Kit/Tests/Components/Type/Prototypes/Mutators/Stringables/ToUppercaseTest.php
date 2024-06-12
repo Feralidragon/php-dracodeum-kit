@@ -37,13 +37,16 @@ class ToUppercaseTest extends TestCase
 		$this->assertSame($expected, $value);
 	}
 	
+	
+	
+	//Public static methods
 	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			['a', 'A'],
@@ -67,9 +70,9 @@ class ToUppercaseTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Class(): array
+	public static function provideProcessData_Class(): array
 	{
-		$data = $this->provideProcessData();
+		$data = self::provideProcessData();
 		foreach ($data as &$d) {
 			$d[0] = new ToUppercaseTest_Class($d[0]);
 		}

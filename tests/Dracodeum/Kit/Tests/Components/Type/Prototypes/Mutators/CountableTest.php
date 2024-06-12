@@ -35,20 +35,6 @@ class CountableTest extends TestCase
 	}
 	
 	/**
-	 * Provide `Validator` interface data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideValidatorInterfaceData(): array
-	{
-		return [
-			[[]],
-			[new CountableTest_Class]
-		];
-	}
-	
-	/**
 	 * Test `Validator` interface (error).
 	 * 
 	 * @testdox Validator interface (error)
@@ -65,13 +51,30 @@ class CountableTest extends TestCase
 		Component::build(CountableTest_Prototype::class)->process($value);
 	}
 	
+	
+	
+	//Public static methods
+	/**
+	 * Provide `Validator` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideValidatorInterfaceData(): array
+	{
+		return [
+			[[]],
+			[new CountableTest_Class]
+		];
+	}
+	
 	/**
 	 * Provide `Validator` interface data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValidatorInterfaceData_Error(): array
+	public static function provideValidatorInterfaceData_Error(): array
 	{
 		return [
 			[null],

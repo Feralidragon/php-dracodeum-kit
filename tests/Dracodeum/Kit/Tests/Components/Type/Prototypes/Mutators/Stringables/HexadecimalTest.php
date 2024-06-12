@@ -38,12 +38,42 @@ class HexadecimalTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Class
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 */
+	public function testProcess_Error(mixed $value): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
+	}
+	
+	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class)->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[''],
@@ -60,9 +90,9 @@ class HexadecimalTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Class(): array
+	public static function provideProcessData_Class(): array
 	{
-		$data = $this->provideProcessData();
+		$data = self::provideProcessData();
 		foreach ($data as &$d) {
 			$d[0] = new HexadecimalTest_Class($d[0]);
 		}
@@ -71,27 +101,12 @@ class HexadecimalTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Error_Class
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 */
-	public function testProcess_Error(mixed $value): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[' '],
@@ -115,26 +130,14 @@ class HexadecimalTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_Class(): array
+	public static function provideProcessData_Error_Class(): array
 	{
-		$data = $this->provideProcessData_Error();
+		$data = self::provideProcessData_Error();
 		foreach ($data as &$d) {
 			$d[0] = new HexadecimalTest_Class($d[0]);
 		}
 		unset($d);
 		return $data;
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class)->getExplanation());
 	}
 }
 

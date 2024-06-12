@@ -39,12 +39,44 @@ class RangeTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [0, 1])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[0, [0, 0]],
@@ -69,22 +101,22 @@ class RangeTest extends TestCase
 			[2, [0, 2, 'min_exclusive' => true]],
 			[1, [0.5, 1.5, 'min_exclusive' => true]],
 			[1.5, [0.5, 1.5, 'min_exclusive' => true]],
-			[-1, [-2, -0.5], 'min_exclusive' => true],
-			[-0.5, [-2, -0.5], 'min_exclusive' => true],
-			[100, [75, 123], 'min_exclusive' => true],
-			[123, [75, 123], 'min_exclusive' => true],
-			[-204.1, [-204.375, -123.456], 'min_exclusive' => true],
-			[-150.777, [-204.375, -123.456], 'min_exclusive' => true],
-			[-123.9, [-204.375, -123.456], 'min_exclusive' => true],
-			[-123.456, [-204.375, -123.456], 'min_exclusive' => true],
-			[0, [0, 2], 'max_exclusive' => true],
-			[1, [0, 2], 'max_exclusive' => true],
-			[0.5, [0.5, 1.5], 'max_exclusive' => true],
-			[1, [0.5, 1.5], 'max_exclusive' => true],
-			[-2, [-2, -0.5], 'max_exclusive' => true],
-			[-1, [-2, -0.5], 'max_exclusive' => true],
-			[75, [75, 123], 'max_exclusive' => true],
-			[100, [75, 123], 'max_exclusive' => true],
+			[-1, [-2, -0.5, 'min_exclusive' => true]],
+			[-0.5, [-2, -0.5, 'min_exclusive' => true]],
+			[100, [75, 123, 'min_exclusive' => true]],
+			[123, [75, 123, 'min_exclusive' => true]],
+			[-204.1, [-204.375, -123.456, 'min_exclusive' => true]],
+			[-150.777, [-204.375, -123.456, 'min_exclusive' => true]],
+			[-123.9, [-204.375, -123.456, 'min_exclusive' => true]],
+			[-123.456, [-204.375, -123.456, 'min_exclusive' => true]],
+			[0, [0, 2, 'max_exclusive' => true]],
+			[1, [0, 2, 'max_exclusive' => true]],
+			[0.5, [0.5, 1.5, 'max_exclusive' => true]],
+			[1, [0.5, 1.5, 'max_exclusive' => true]],
+			[-2, [-2, -0.5, 'max_exclusive' => true]],
+			[-1, [-2, -0.5, 'max_exclusive' => true]],
+			[75, [75, 123, 'max_exclusive' => true]],
+			[100, [75, 123, 'max_exclusive' => true]],
 			[-204.375, [-204.375, -123.456, 'max_exclusive' => true]],
 			[-204.1, [-204.375, -123.456, 'max_exclusive' => true]],
 			[-150.777, [-204.375, -123.456, 'max_exclusive' => true]],
@@ -92,10 +124,10 @@ class RangeTest extends TestCase
 			[1, [0, 2, 'min_exclusive' => true, 'max_exclusive' => true]],
 			[1, [0.5, 1.5, 'min_exclusive' => true, 'max_exclusive' => true]],
 			[-1, [-2, -0.5, 'min_exclusive' => true, 'max_exclusive' => true]],
-			[100, [75, 123], 'min_exclusive' => true, 'max_exclusive' => true],
-			[-204.1, [-204.375, -123.456], 'min_exclusive' => true, 'max_exclusive' => true],
-			[-150.777, [-204.375, -123.456], 'min_exclusive' => true, 'max_exclusive' => true],
-			[-123.9, [-204.375, -123.456], 'min_exclusive' => true, 'max_exclusive' => true],
+			[100, [75, 123, 'min_exclusive' => true, 'max_exclusive' => true]],
+			[-204.1, [-204.375, -123.456, 'min_exclusive' => true, 'max_exclusive' => true]],
+			[-150.777, [-204.375, -123.456, 'min_exclusive' => true, 'max_exclusive' => true]],
+			[-123.9, [-204.375, -123.456, 'min_exclusive' => true, 'max_exclusive' => true]],
 			[-1, [0, 0, 'negate' => true]],
 			[1, [0, 0, 'negate' => true]],
 			[-1, [0, 2, 'negate' => true]],
@@ -171,29 +203,12 @@ class RangeTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[-1, [0, 0]],
@@ -317,17 +332,5 @@ class RangeTest extends TestCase
 			[-150.777, [-204.375, -123.456, 'negate' => true, 'min_exclusive' => true, 'max_exclusive' => true]],
 			[-123.9, [-204.375, -123.456, 'negate' => true, 'min_exclusive' => true, 'max_exclusive' => true]]
 		];
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [0, 1])->getExplanation());
 	}
 }

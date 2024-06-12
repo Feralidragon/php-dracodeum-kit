@@ -34,20 +34,6 @@ class NumericalTest extends TestCase
 	}
 	
 	/**
-	 * Provide `Validator` interface data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideValidatorInterfaceData(): array
-	{
-		return [
-			[123],
-			[123.456]
-		];
-	}
-	
-	/**
 	 * Test `Validator` interface (error).
 	 * 
 	 * @testdox Validator interface (error)
@@ -64,13 +50,30 @@ class NumericalTest extends TestCase
 		Component::build(NumericalTest_Prototype::class)->process($value);
 	}
 	
+	
+	
+	//Public static methods
+	/**
+	 * Provide `Validator` interface data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideValidatorInterfaceData(): array
+	{
+		return [
+			[123],
+			[123.456]
+		];
+	}
+	
 	/**
 	 * Provide `Validator` interface data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValidatorInterfaceData_Error(): array
+	public static function provideValidatorInterfaceData_Error(): array
 	{
 		return [
 			[null],

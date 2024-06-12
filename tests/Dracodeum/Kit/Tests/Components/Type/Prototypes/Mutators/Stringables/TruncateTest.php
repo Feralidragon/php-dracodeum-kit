@@ -39,12 +39,27 @@ class TruncateTest extends TestCase
 	}
 	
 	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			["The quick fox jumps. Over the lazy dog.", "", [0]],
@@ -90,26 +105,14 @@ class TruncateTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Class(): array
+	public static function provideProcessData_Class(): array
 	{
-		$data = $this->provideProcessData();
+		$data = self::provideProcessData();
 		foreach ($data as &$d) {
 			$d[0] = new TruncateTest_Class($d[0]);
 		}
 		unset($d);
 		return $data;
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
 	}
 }
 

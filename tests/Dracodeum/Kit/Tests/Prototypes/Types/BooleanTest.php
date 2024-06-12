@@ -41,12 +41,133 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
+	 * Test process (non-internal).
+	 * 
+	 * @testdox Process (non-internal)
+	 * @dataProvider provideProcessData_NonInternal
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected processed value.
+	 */
+	public function testProcess_NonInternal(mixed $value, mixed $expected): void
+	{
+		$component = Component::build(Prototype::class);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$v = $value;
+				$this->assertNull($component->process($v, $context));
+				$this->assertSame($expected, $v);
+			}
+		}
+	}
+	
+	/**
+	 * Test process (non-internal, error).
+	 * 
+	 * @testdox Process (non-internal, error)
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 */
+	public function testProcess_NonInternal_Error(mixed $value): void
+	{
+		$component = Component::build(Prototype::class);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 */
+	public function testProcess_Strict(mixed $value): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true])->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 */
+	public function testProcess_Strict_Error(mixed $value): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
+	}
+	
+	/**
+	 * Test process (non-internal, error, strict).
+	 * 
+	 * @testdox Process (non-internal, error, strict)
+	 * @dataProvider provideProcessData_NonInternal_Error
+	 * @dataProvider provideProcessData_NonInternal_Error_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 */
+	public function testProcess_NonInternal_Error_Strict(mixed $value): void
+	{
+		$component = Component::build(Prototype::class, ['strict' => true]);
+		foreach (EContext::getValues() as $context) {
+			if ($context !== EContext::INTERNAL) {
+				$this->assertInstanceOf(Error::class, $component->process($value, $context));
+			}
+		}
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 */
+	public function testTextifierInterface(): void
+	{
+		//initialize
+		$component = Component::build(Prototype::class);
+		
+		//false
+		$text_false = $component->textify(false);
+		$this->assertInstanceOf(Text::class, $text_false);
+		$this->assertSame('no', $text_false->toString(['info_level' => EInfoLevel::ENDUSER]));
+		$this->assertSame('false', $text_false->toString(['info_level' => EInfoLevel::TECHNICAL]));
+		
+		//true
+		$text_true = $component->textify(true);
+		$this->assertInstanceOf(Text::class, $text_true);
+		$this->assertSame('yes', $text_true->toString(['info_level' => EInfoLevel::ENDUSER]));
+		$this->assertSame('true', $text_true->toString(['info_level' => EInfoLevel::TECHNICAL]));
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[null, false],
@@ -82,36 +203,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal).
-	 * 
-	 * @testdox Process (non-internal)
-	 * @dataProvider provideProcessData_NonInternal
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected processed value.
-	 */
-	public function testProcess_NonInternal(mixed $value, mixed $expected): void
-	{
-		$component = Component::build(Prototype::class);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$v = $value;
-				$this->assertNull($component->process($v, $context));
-				$this->assertSame($expected, $v);
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal(): array
+	public static function provideProcessData_NonInternal(): array
 	{
 		return [
 			[false, false],
@@ -132,31 +229,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal, error).
-	 * 
-	 * @testdox Process (non-internal, error)
-	 * @dataProvider provideProcessData_NonInternal_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 */
-	public function testProcess_NonInternal_Error(mixed $value): void
-	{
-		$component = Component::build(Prototype::class);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertInstanceOf(Error::class, $component->process($value, $context));
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal_Error(): array
+	public static function provideProcessData_NonInternal_Error(): array
 	{
 		return [
 			[null],
@@ -178,28 +256,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict).
-	 * 
-	 * @testdox Process (strict)
-	 * @dataProvider provideProcessData_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 */
-	public function testProcess_Strict(mixed $value): void
-	{
-		$v = $value;
-		$this->assertNull(Component::build(Prototype::class, ['strict' => true])->process($v));
-		$this->assertSame($value, $v);
-	}
-	
-	/**
 	 * Provide process data (strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict(): array
+	public static function provideProcessData_Strict(): array
 	{
 		return [
 			[false],
@@ -208,26 +270,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict, error).
-	 * 
-	 * @testdox Process (strict, error)
-	 * @dataProvider provideProcessData_Strict_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 */
-	public function testProcess_Strict_Error(mixed $value): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, ['strict' => true])->process($value));
-	}
-	
-	/**
 	 * Provide process data (strict, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict_Error(): array
+	public static function provideProcessData_Strict_Error(): array
 	{
 		return [
 			[null],
@@ -261,32 +309,12 @@ class BooleanTest extends TestCase
 	}
 	
 	/**
-	 * Test process (non-internal, error, strict).
-	 * 
-	 * @testdox Process (non-internal, error, strict)
-	 * @dataProvider provideProcessData_NonInternal_Error
-	 * @dataProvider provideProcessData_NonInternal_Error_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 */
-	public function testProcess_NonInternal_Error_Strict(mixed $value): void
-	{
-		$component = Component::build(Prototype::class, ['strict' => true]);
-		foreach (EContext::getValues() as $context) {
-			if ($context !== EContext::INTERNAL) {
-				$this->assertInstanceOf(Error::class, $component->process($value, $context));
-			}
-		}
-	}
-	
-	/**
 	 * Provide process data (non-internal, error, strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_NonInternal_Error_Strict(): array
+	public static function provideProcessData_NonInternal_Error_Strict(): array
 	{
 		return [
 			[0],
@@ -304,30 +332,5 @@ class BooleanTest extends TestCase
 			['no'],
 			['yes']
 		];
-	}
-	
-	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 */
-	public function testTextifierInterface(): void
-	{
-		//initialize
-		$component = Component::build(Prototype::class);
-		
-		//false
-		$text_false = $component->textify(false);
-		$this->assertInstanceOf(Text::class, $text_false);
-		$this->assertSame('no', $text_false->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame('false', $text_false->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		
-		//true
-		$text_true = $component->textify(true);
-		$this->assertInstanceOf(Text::class, $text_true);
-		$this->assertSame('yes', $text_true->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame('true', $text_true->toString(['info_level' => EInfoLevel::TECHNICAL]));
 	}
 }

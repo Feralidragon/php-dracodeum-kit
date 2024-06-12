@@ -45,28 +45,6 @@ class EnumerationTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			[1, 1, [EnumerationTest_Enum1::class]],
-			[4, 4, [EnumerationTest_Enum1::class]],
-			[9, 9, [EnumerationTest_Enum1::class]],
-			['A', 1, [EnumerationTest_Enum1::class]],
-			['B', 4, [EnumerationTest_Enum1::class]],
-			['C', 9, [EnumerationTest_Enum1::class]],
-			['foo', 'foo', [EnumerationTest_Enum2::class]],
-			['bar', 'bar', [EnumerationTest_Enum2::class]],
-			['FOO', 'foo', [EnumerationTest_Enum2::class]],
-			['BAR', 'bar', [EnumerationTest_Enum2::class]]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -81,45 +59,6 @@ class EnumerationTest extends TestCase
 	public function testProcess_Error(mixed $value, array $properties): void
 	{
 		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
-	 * Provide process data (error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Error(): array
-	{
-		return [
-			[null, [EnumerationTest_Enum1::class]],
-			[false, [EnumerationTest_Enum1::class]],
-			[true, [EnumerationTest_Enum1::class]],
-			[0, [EnumerationTest_Enum1::class]],
-			[10, [EnumerationTest_Enum1::class]],
-			[-1, [EnumerationTest_Enum1::class]],
-			[0.0, [EnumerationTest_Enum1::class]],
-			[1.0, [EnumerationTest_Enum1::class]],
-			[-1.0, [EnumerationTest_Enum1::class]],
-			['', [EnumerationTest_Enum1::class]],
-			[' ', [EnumerationTest_Enum1::class]],
-			['foobar', [EnumerationTest_Enum1::class]],
-			[[], [EnumerationTest_Enum1::class]],
-			[new stdClass, [EnumerationTest_Enum1::class]],
-			[fopen(__FILE__, 'r'), [EnumerationTest_Enum1::class]],
-			[2, [EnumerationTest_Enum1::class]],
-			['D', [EnumerationTest_Enum1::class]],
-			[' A ', [EnumerationTest_Enum1::class]],
-			['_B_', [EnumerationTest_Enum1::class]],
-			[1, [EnumerationTest_Enum2::class]],
-			['A', [EnumerationTest_Enum2::class]],
-			['Foo', [EnumerationTest_Enum2::class]],
-			['Bar', [EnumerationTest_Enum2::class]],
-			['foo2', [EnumerationTest_Enum2::class]],
-			['foobar', [EnumerationTest_Enum2::class]],
-			[' FOO ', [EnumerationTest_Enum2::class]],
-			['_BAR_', [EnumerationTest_Enum2::class]]
-		];
 	}
 	
 	/**
@@ -158,23 +97,6 @@ class EnumerationTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (non-internal).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_NonInternal(): array
-	{
-		return [
-			['A', 1, [EnumerationTest_Enum1::class]],
-			['B', 4, [EnumerationTest_Enum1::class]],
-			['C', 9, [EnumerationTest_Enum1::class]],
-			['FOO', 'foo', [EnumerationTest_Enum2::class]],
-			['BAR', 'bar', [EnumerationTest_Enum2::class]]
-		];
-	}
-	
-	/**
 	 * Test process (non-internal error).
 	 * 
 	 * @testdox Process (non-internal error)
@@ -205,23 +127,6 @@ class EnumerationTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (non-internal error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_NonInternal_Error(): array
-	{
-		return array_merge($this->provideProcessData_Error(), [
-			[1, [EnumerationTest_Enum1::class]],
-			[4, [EnumerationTest_Enum1::class]],
-			[9, [EnumerationTest_Enum1::class]],
-			['foo', [EnumerationTest_Enum2::class]],
-			['bar', [EnumerationTest_Enum2::class]]
-		]);
-	}
-	
-	/**
 	 * Test process (strict).
 	 * 
 	 * @testdox Process (strict)
@@ -238,23 +143,6 @@ class EnumerationTest extends TestCase
 		$v = $value;
 		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
 		$this->assertSame($value, $v);
-	}
-	
-	/**
-	 * Provide process data (strict).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict(): array
-	{
-		return [
-			[1, [EnumerationTest_Enum1::class]],
-			[4, [EnumerationTest_Enum1::class]],
-			[9, [EnumerationTest_Enum1::class]],
-			['foo', [EnumerationTest_Enum2::class]],
-			['bar', [EnumerationTest_Enum2::class]]
-		];
 	}
 	
 	/**
@@ -275,23 +163,6 @@ class EnumerationTest extends TestCase
 		$this->assertInstanceOf(
 			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
 		);
-	}
-	
-	/**
-	 * Provide process data (strict, error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Strict_Error(): array
-	{
-		return [
-			['A', [EnumerationTest_Enum1::class]],
-			['B', [EnumerationTest_Enum1::class]],
-			['C', [EnumerationTest_Enum1::class]],
-			['FOO', [EnumerationTest_Enum2::class]],
-			['BAR', [EnumerationTest_Enum2::class]]
-		];
 	}
 	
 	/**
@@ -318,13 +189,145 @@ class EnumerationTest extends TestCase
 		$this->assertSame($expected, $text->toString());
 	}
 	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			[1, 1, [EnumerationTest_Enum1::class]],
+			[4, 4, [EnumerationTest_Enum1::class]],
+			[9, 9, [EnumerationTest_Enum1::class]],
+			['A', 1, [EnumerationTest_Enum1::class]],
+			['B', 4, [EnumerationTest_Enum1::class]],
+			['C', 9, [EnumerationTest_Enum1::class]],
+			['foo', 'foo', [EnumerationTest_Enum2::class]],
+			['bar', 'bar', [EnumerationTest_Enum2::class]],
+			['FOO', 'foo', [EnumerationTest_Enum2::class]],
+			['BAR', 'bar', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
+	{
+		return [
+			[null, [EnumerationTest_Enum1::class]],
+			[false, [EnumerationTest_Enum1::class]],
+			[true, [EnumerationTest_Enum1::class]],
+			[0, [EnumerationTest_Enum1::class]],
+			[10, [EnumerationTest_Enum1::class]],
+			[-1, [EnumerationTest_Enum1::class]],
+			[0.0, [EnumerationTest_Enum1::class]],
+			[1.0, [EnumerationTest_Enum1::class]],
+			[-1.0, [EnumerationTest_Enum1::class]],
+			['', [EnumerationTest_Enum1::class]],
+			[' ', [EnumerationTest_Enum1::class]],
+			['foobar', [EnumerationTest_Enum1::class]],
+			[[], [EnumerationTest_Enum1::class]],
+			[new stdClass, [EnumerationTest_Enum1::class]],
+			[fopen(__FILE__, 'r'), [EnumerationTest_Enum1::class]],
+			[2, [EnumerationTest_Enum1::class]],
+			['D', [EnumerationTest_Enum1::class]],
+			[' A ', [EnumerationTest_Enum1::class]],
+			['_B_', [EnumerationTest_Enum1::class]],
+			[1, [EnumerationTest_Enum2::class]],
+			['A', [EnumerationTest_Enum2::class]],
+			['Foo', [EnumerationTest_Enum2::class]],
+			['Bar', [EnumerationTest_Enum2::class]],
+			['foo2', [EnumerationTest_Enum2::class]],
+			['foobar', [EnumerationTest_Enum2::class]],
+			[' FOO ', [EnumerationTest_Enum2::class]],
+			['_BAR_', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
+	/**
+	 * Provide process data (non-internal).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_NonInternal(): array
+	{
+		return [
+			['A', 1, [EnumerationTest_Enum1::class]],
+			['B', 4, [EnumerationTest_Enum1::class]],
+			['C', 9, [EnumerationTest_Enum1::class]],
+			['FOO', 'foo', [EnumerationTest_Enum2::class]],
+			['BAR', 'bar', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
+	/**
+	 * Provide process data (non-internal error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_NonInternal_Error(): array
+	{
+		return array_merge(self::provideProcessData_Error(), [
+			[1, [EnumerationTest_Enum1::class]],
+			[4, [EnumerationTest_Enum1::class]],
+			[9, [EnumerationTest_Enum1::class]],
+			['foo', [EnumerationTest_Enum2::class]],
+			['bar', [EnumerationTest_Enum2::class]]
+		]);
+	}
+	
+	/**
+	 * Provide process data (strict).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict(): array
+	{
+		return [
+			[1, [EnumerationTest_Enum1::class]],
+			[4, [EnumerationTest_Enum1::class]],
+			[9, [EnumerationTest_Enum1::class]],
+			['foo', [EnumerationTest_Enum2::class]],
+			['bar', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
+	/**
+	 * Provide process data (strict, error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Strict_Error(): array
+	{
+		return [
+			['A', [EnumerationTest_Enum1::class]],
+			['B', [EnumerationTest_Enum1::class]],
+			['C', [EnumerationTest_Enum1::class]],
+			['FOO', [EnumerationTest_Enum2::class]],
+			['BAR', [EnumerationTest_Enum2::class]]
+		];
+	}
+	
 	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		return [
 			[1, 'A', [EnumerationTest_Enum1::class]],

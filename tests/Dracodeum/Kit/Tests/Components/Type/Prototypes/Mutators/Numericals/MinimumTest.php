@@ -39,12 +39,44 @@ class MinimumTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [0])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[0, [0]],
@@ -72,29 +104,12 @@ class MinimumTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[-1, [0]],
@@ -112,17 +127,5 @@ class MinimumTest extends TestCase
 			[-123.456, [-123.456, 'exclusive' => true]],
 			[123.456, [123.456, 'exclusive' => true]]
 		];
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [0])->getExplanation());
 	}
 }

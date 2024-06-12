@@ -41,12 +41,45 @@ class MinCountTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Error_Class
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test `ExplanationProducer` interface.
+	 * 
+	 * @testdox ExplanationProducer interface
+	 * 
+	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
+	 */
+	public function testExplanationProducerInterface(): void
+	{
+		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[[], [0]],
@@ -70,9 +103,9 @@ class MinCountTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Class(): array
+	public static function provideProcessData_Class(): array
 	{
-		$data = $this->provideProcessData();
+		$data = self::provideProcessData();
 		foreach ($data as &$d) {
 			$d[0] = new MinCountTest_Class($d[0]);
 		}
@@ -81,30 +114,12 @@ class MinCountTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Error_Class
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[[], [1]],
@@ -127,26 +142,14 @@ class MinCountTest extends TestCase
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error_Class(): array
+	public static function provideProcessData_Error_Class(): array
 	{
-		$data = $this->provideProcessData_Error();
+		$data = self::provideProcessData_Error();
 		foreach ($data as &$d) {
 			$d[0] = new MinCountTest_Class($d[0]);
 		}
 		unset($d);
 		return $data;
-	}
-	
-	/**
-	 * Test `ExplanationProducer` interface.
-	 * 
-	 * @testdox ExplanationProducer interface
-	 * 
-	 * @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer
-	 */
-	public function testExplanationProducerInterface(): void
-	{
-		$this->assertInstanceOf(Text::class, Component::build(Prototype::class, [10])->getExplanation());
 	}
 }
 

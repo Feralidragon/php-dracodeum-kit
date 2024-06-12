@@ -33,13 +33,16 @@ class EmptyNullTest extends TestCase
 		$this->assertSame($expected, $value);
 	}
 	
+	
+	
+	//Public static methods
 	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		//initialize
 		$c1 = new EmptyNullTest_Class('');

@@ -44,12 +44,80 @@ class AnyTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected_error_string
+	 * The expected error string.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, string $expected_error_string, array $properties = []): void
+	{
+		$error = Component::build(Prototype::class, $properties)->process($value);
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertSame($expected_error_string, $error->getText()->toString());
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected textified value.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testTextifierInterface(mixed $value, string $expected, array $properties = []): void
+	{
+		$text = Component::build(Prototype::class, $properties)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($expected, $text->toString());
+	}
+	
+	/**
+	 * Test `Textifier` interface (null).
+	 * 
+	 * @testdox Textifier interface (null)
+	 * @dataProvider provideTextifierInterfaceData_Null
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testTextifierInterface_Null(mixed $value, array $properties = []): void
+	{
+		$this->assertNull(Component::build(Prototype::class, $properties)->textify($value, no_throw: true));
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		//initialize
 		$stdc = new stdClass;
@@ -85,34 +153,12 @@ class AnyTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected_error_string
-	 * The expected error string.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, string $expected_error_string, array $properties = []): void
-	{
-		$error = Component::build(Prototype::class, $properties)->process($value);
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertSame($expected_error_string, $error->getText()->toString());
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		//initialize
 		$stdc = new stdClass;
@@ -140,36 +186,12 @@ class AnyTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * @dataProvider provideTextifierInterfaceData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected
-	 * The expected textified value.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testTextifierInterface(mixed $value, string $expected, array $properties = []): void
-	{
-		$text = Component::build(Prototype::class, $properties)->textify($value);
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($expected, $text->toString());
-	}
-	
-	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		//initialize
 		$stdc = new stdClass;
@@ -201,31 +223,12 @@ class AnyTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface (null).
-	 * 
-	 * @testdox Textifier interface (null)
-	 * @dataProvider provideTextifierInterfaceData_Null
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testTextifierInterface_Null(mixed $value, array $properties = []): void
-	{
-		$this->assertNull(Component::build(Prototype::class, $properties)->textify($value, no_throw: true));
-	}
-	
-	/**
 	 * Provide `Textifier` interface data (null).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData_Null(): array
+	public static function provideTextifierInterfaceData_Null(): array
 	{
 		//initialize
 		$c = new AnyTest_Class;

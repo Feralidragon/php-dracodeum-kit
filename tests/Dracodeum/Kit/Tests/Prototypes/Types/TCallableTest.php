@@ -60,12 +60,53 @@ class TCallableTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected textified value.
+	 */
+	public function testTextifierInterface(mixed $value, string $expected): void
+	{
+		$text = Component::build(Prototype::class)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($expected, $text->toString());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		//initialize
 		$c = new TCallableTest_Class;
@@ -152,29 +193,12 @@ class TCallableTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties = []): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		//initialize
 		$c = new TCallableTest_Class;
@@ -318,33 +342,12 @@ class TCallableTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * @dataProvider provideTextifierInterfaceData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected
-	 * The expected textified value.
-	 */
-	public function testTextifierInterface(mixed $value, string $expected): void
-	{
-		$text = Component::build(Prototype::class)->textify($value);
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($expected, $text->toString());
-	}
-	
-	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		//initialize
 		$c = new TCallableTest_Class;
@@ -355,7 +358,7 @@ class TCallableTest extends TestCase
 		//return
 		return [
 			['strlen', "callable<strlen>"],
-			[function () {}, "callable<anonymous@" . __FILE__ . ":358>"],
+			[function () {}, "callable<anonymous@" . __FILE__ . ":361>"],
 			[$ci, "callable<{$class_invokeable}::__invoke>"],
 			[[$c, 'getString'], "callable<{$class}::getString>"],
 			["{$class}::getStaticString", "callable<{$class}::getStaticString>"],

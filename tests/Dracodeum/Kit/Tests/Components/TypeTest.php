@@ -81,77 +81,6 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Provide prototype name data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function providePrototypeNameData(): array
-	{
-		return [
-			['any', Prototypes\Any::class],
-			['mixed', Prototypes\Any::class],
-			['boolean', Prototypes\Boolean::class],
-			['bool', Prototypes\Boolean::class],
-			['number', Prototypes\Number::class],
-			['integer', Prototypes\Number::class],
-			['int', Prototypes\Number::class],
-			['float', Prototypes\Number::class],
-			['double', Prototypes\Number::class],
-			['string', Prototypes\TString::class],
-			['ustring', Prototypes\TString::class],
-			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
-			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
-			['class', Prototypes\TClass::class],
-			['class<stdClass>', Prototypes\TClass::class],
-			['class< stdClass >', Prototypes\TClass::class],
-			['interface', Prototypes\TInterface::class],
-			['object', Prototypes\TObject::class],
-			['object<stdClass>', Prototypes\TObject::class],
-			['object< stdClass >', Prototypes\TObject::class],
-			['resource', Prototypes\TResource::class],
-			['resource<stream>', Prototypes\TResource::class],
-			['resource< stream >', Prototypes\TResource::class],
-			['callable', Prototypes\TCallable::class],
-			['closure', Prototypes\TCallable::class],
-			['array', Prototypes\TArray::class],
-			['array<string>', Prototypes\TArray::class],
-			['array< string >', Prototypes\TArray::class],
-			['array<string,int>', Prototypes\TArray::class],
-			['array< string , int >', Prototypes\TArray::class],
-			['list', Prototypes\TArray::class],
-			['component', Prototypes\Component::class, [Component::class]],
-			['structure', Prototypes\Structure::class, [TypeTest_Struct::class]],
-			['struct', Prototypes\Structure::class, [TypeTest_Struct::class]],
-			['text', Prototypes\Text::class],
-			['stdClass', Prototypes\TObject::class],
-			['boolean|integer', Prototypes\Any::class],
-			['boolean | integer', Prototypes\Any::class],
-			['boolean|integer|ustring', Prototypes\Any::class],
-			['boolean | integer | ustring', Prototypes\Any::class],
-			['boolean|integer[]', Prototypes\Any::class],
-			['boolean | integer[]', Prototypes\Any::class],
-			['boolean[]|integer[]|ustring[]', Prototypes\Any::class],
-			['boolean[] | integer[] | ustring[]', Prototypes\Any::class],
-			['boolean[]', Prototypes\TArray::class],
-			['integer[]', Prototypes\TArray::class],
-			['ustring[]', Prototypes\TArray::class],
-			['(boolean)[]', Prototypes\TArray::class],
-			['(integer)[]', Prototypes\TArray::class],
-			['(ustring)[]', Prototypes\TArray::class],
-			['(boolean|integer)[]', Prototypes\TArray::class],
-			['(boolean | integer)[]', Prototypes\TArray::class],
-			['(boolean|integer|ustring)[]', Prototypes\TArray::class],
-			['(boolean | integer | ustring)[]', Prototypes\TArray::class],
-			['(boolean|integer[])[]', Prototypes\TArray::class],
-			['(boolean | integer[])[]', Prototypes\TArray::class],
-			['(boolean[]|integer[]|ustring[])[]', Prototypes\TArray::class],
-			['(boolean[] | integer[] | ustring[])[]', Prototypes\TArray::class],
-			['array<string,(boolean[] | integer[] | ustring[] | class< stdClass >[])[]>', Prototypes\TArray::class]
-		];
-	}
-	
-	/**
 	 * Test process.
 	 * 
 	 * @testdox Process
@@ -285,31 +214,6 @@ class TypeTest extends TestCase
 		$error = Component::build($prototype, $properties)->process($value);
 		$this->assertNull($error);
 		$this->assertNull($value);
-	}
-	
-	/**
-	 * Provide process data (nullable).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Nullable(): array
-	{
-		//initialize
-		$prototype1_class = TypeTest_Prototype1::class;
-		$prototype2_class = TypeTest_Prototype2::class;
-		
-		//return
-		return [
-			[$prototype1_class, ['nullable' => true]],
-			["?{$prototype2_class}"],
-			["{$prototype2_class}|null"],
-			["{$prototype2_class} | null"],
-			["null|{$prototype2_class}"],
-			["null | {$prototype2_class}"],
-			["{$prototype1_class}|null|{$prototype2_class}"],
-			["{$prototype1_class} | null | {$prototype2_class}"]
-		];
 	}
 	
 	/**
@@ -466,40 +370,6 @@ class TypeTest extends TestCase
 	public function testProcessCast_NoThrow_Null(string $prototype, mixed $value, $context = EContext::INTERNAL): void
 	{
 		$this->assertNull(Component::build($prototype)->processCast($value, $context, true));
-	}
-	
-	/**
-	 * Provide process cast data for a `CastFailed` exception to be thrown.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessCastData_Exception_CastFailed(): array
-	{
-		//initialize
-		$prototype1 = TypeTest_Prototype1::class;
-		$prototype2 = TypeTest_Prototype2::class;
-		
-		//return
-		return [
-			[$prototype1, null],
-			[$prototype2, null],
-			[$prototype1, '-79102.75'],
-			[$prototype2, 'foo'],
-			[$prototype2, stdClass::class, EContext::CONFIGURATION],
-			[$prototype2, stdClass::class, EContext::INTERFACE],
-			[$prototype1, 120.5, EContext::INTERNAL, $prototype1::ERROR_STRING],
-			[$prototype1, '50', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
-			[$prototype1, 'foo', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
-			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING,
-				['info_level' => EInfoLevel::ENDUSER], true],
-			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
-				['info_level' => EInfoLevel::ENDUSER], true],
-			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
-				['info_level' => EInfoLevel::TECHNICAL]],
-			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
-				['info_level' => EInfoLevel::INTERNAL]]
-		];
 	}
 	
 	/**
@@ -734,25 +604,6 @@ class TypeTest extends TestCase
 	}
 	
 	/**
-	 * Provide textify data for a `TextificationFailed` exception to be thrown.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideTextifyData_Exception_TextificationFailed(): array
-	{
-		return [
-			[TypeTest_Prototype1::class, '-79102.75', EContext::INTERNAL, false],
-			[TypeTest_Prototype1::class, null, EContext::INTERNAL, false],
-			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERFACE, false],
-			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERNAL, true],
-			[TypeTest_Prototype3::class, [], EContext::INTERNAL, true],
-			[TypeTest_Prototype3::class, new stdClass, EContext::INTERNAL, true],
-			[TypeTest_Prototype3::class, fopen(__FILE__, 'r'), EContext::INTERNAL, true]
-		];
-	}
-	
-	/**
 	 * Test mutators.
 	 * 
 	 * @testdox Mutators
@@ -772,37 +623,6 @@ class TypeTest extends TestCase
 		$this->assertTrue($component->hasMutators());
 		$this->assertNull($component->process($value));
 		$this->assertSame($expected, $value);
-	}
-	
-	/**
-	 * Provide mutators data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideMutatorsData(): array
-	{
-		return [[
-			Component::build(TypeTest_Prototype3::class)
-				->addMutator(TypeTest_MutatorPrototype1::class)
-				->addMutator(TypeTest_MutatorPrototype2::class, [1000])
-			, '35', 1735.0
-		], [
-			Component::build(TypeTest_Prototype3::class)
-				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
-				->addMutator(TypeTest_MutatorPrototype2::class, ['amount' => 37])
-			, '48', 935.5
-		], [
-			Component::build(TypeTest_Prototype3::class)
-				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class))
-				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, [1000]))
-			, '35', 1735.0
-		], [
-			Component::build(TypeTest_Prototype3::class)
-				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]))
-				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37]))
-			, '48', 935.5
-		]];
 	}
 	
 	/**
@@ -837,6 +657,189 @@ class TypeTest extends TestCase
 		$this->assertTrue($error->hasText());
 		$this->assertNotSame('', (string)$error->getText());
 		$this->assertNotSame(TypeTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide prototype name data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function providePrototypeNameData(): array
+	{
+		return [
+			['any', Prototypes\Any::class],
+			['mixed', Prototypes\Any::class],
+			['boolean', Prototypes\Boolean::class],
+			['bool', Prototypes\Boolean::class],
+			['number', Prototypes\Number::class],
+			['integer', Prototypes\Number::class],
+			['int', Prototypes\Number::class],
+			['float', Prototypes\Number::class],
+			['double', Prototypes\Number::class],
+			['string', Prototypes\TString::class],
+			['ustring', Prototypes\TString::class],
+			['enumeration', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
+			['enum', Prototypes\Enumeration::class, [TypeTest_Enum::class]],
+			['class', Prototypes\TClass::class],
+			['class<stdClass>', Prototypes\TClass::class],
+			['class< stdClass >', Prototypes\TClass::class],
+			['interface', Prototypes\TInterface::class],
+			['object', Prototypes\TObject::class],
+			['object<stdClass>', Prototypes\TObject::class],
+			['object< stdClass >', Prototypes\TObject::class],
+			['resource', Prototypes\TResource::class],
+			['resource<stream>', Prototypes\TResource::class],
+			['resource< stream >', Prototypes\TResource::class],
+			['callable', Prototypes\TCallable::class],
+			['closure', Prototypes\TCallable::class],
+			['array', Prototypes\TArray::class],
+			['array<string>', Prototypes\TArray::class],
+			['array< string >', Prototypes\TArray::class],
+			['array<string,int>', Prototypes\TArray::class],
+			['array< string , int >', Prototypes\TArray::class],
+			['list', Prototypes\TArray::class],
+			['component', Prototypes\Component::class, [Component::class]],
+			['structure', Prototypes\Structure::class, [TypeTest_Struct::class]],
+			['struct', Prototypes\Structure::class, [TypeTest_Struct::class]],
+			['text', Prototypes\Text::class],
+			['stdClass', Prototypes\TObject::class],
+			['boolean|integer', Prototypes\Any::class],
+			['boolean | integer', Prototypes\Any::class],
+			['boolean|integer|ustring', Prototypes\Any::class],
+			['boolean | integer | ustring', Prototypes\Any::class],
+			['boolean|integer[]', Prototypes\Any::class],
+			['boolean | integer[]', Prototypes\Any::class],
+			['boolean[]|integer[]|ustring[]', Prototypes\Any::class],
+			['boolean[] | integer[] | ustring[]', Prototypes\Any::class],
+			['boolean[]', Prototypes\TArray::class],
+			['integer[]', Prototypes\TArray::class],
+			['ustring[]', Prototypes\TArray::class],
+			['(boolean)[]', Prototypes\TArray::class],
+			['(integer)[]', Prototypes\TArray::class],
+			['(ustring)[]', Prototypes\TArray::class],
+			['(boolean|integer)[]', Prototypes\TArray::class],
+			['(boolean | integer)[]', Prototypes\TArray::class],
+			['(boolean|integer|ustring)[]', Prototypes\TArray::class],
+			['(boolean | integer | ustring)[]', Prototypes\TArray::class],
+			['(boolean|integer[])[]', Prototypes\TArray::class],
+			['(boolean | integer[])[]', Prototypes\TArray::class],
+			['(boolean[]|integer[]|ustring[])[]', Prototypes\TArray::class],
+			['(boolean[] | integer[] | ustring[])[]', Prototypes\TArray::class],
+			['array<string,(boolean[] | integer[] | ustring[] | class< stdClass >[])[]>', Prototypes\TArray::class]
+		];
+	}
+	
+	/**
+	 * Provide process data (nullable).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Nullable(): array
+	{
+		//initialize
+		$prototype1_class = TypeTest_Prototype1::class;
+		$prototype2_class = TypeTest_Prototype2::class;
+		
+		//return
+		return [
+			[$prototype1_class, ['nullable' => true]],
+			["?{$prototype2_class}"],
+			["{$prototype2_class}|null"],
+			["{$prototype2_class} | null"],
+			["null|{$prototype2_class}"],
+			["null | {$prototype2_class}"],
+			["{$prototype1_class}|null|{$prototype2_class}"],
+			["{$prototype1_class} | null | {$prototype2_class}"]
+		];
+	}
+	
+	/**
+	 * Provide process cast data for a `CastFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessCastData_Exception_CastFailed(): array
+	{
+		//initialize
+		$prototype1 = TypeTest_Prototype1::class;
+		$prototype2 = TypeTest_Prototype2::class;
+		
+		//return
+		return [
+			[$prototype1, null],
+			[$prototype2, null],
+			[$prototype1, '-79102.75'],
+			[$prototype2, 'foo'],
+			[$prototype2, stdClass::class, EContext::CONFIGURATION],
+			[$prototype2, stdClass::class, EContext::INTERFACE],
+			[$prototype1, 120.5, EContext::INTERNAL, $prototype1::ERROR_STRING],
+			[$prototype1, '50', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
+			[$prototype1, 'foo', EContext::INTERNAL, $prototype1::ERROR_STRING, null, true],
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING,
+				['info_level' => EInfoLevel::ENDUSER], true],
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::ENDUSER], true],
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::TECHNICAL]],
+			[$prototype1, new stdClass, EContext::INTERNAL, $prototype1::ERROR_STRING_TECHNICAL,
+				['info_level' => EInfoLevel::INTERNAL]]
+		];
+	}
+	
+	/**
+	 * Provide textify data for a `TextificationFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideTextifyData_Exception_TextificationFailed(): array
+	{
+		return [
+			[TypeTest_Prototype1::class, '-79102.75', EContext::INTERNAL, false],
+			[TypeTest_Prototype1::class, null, EContext::INTERNAL, false],
+			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERFACE, false],
+			[TypeTest_Prototype2::class, stdClass::class, EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, [], EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, new stdClass, EContext::INTERNAL, true],
+			[TypeTest_Prototype3::class, fopen(__FILE__, 'r'), EContext::INTERNAL, true]
+		];
+	}
+	
+	/**
+	 * Provide mutators data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideMutatorsData(): array
+	{
+		return [[
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(TypeTest_MutatorPrototype1::class)
+				->addMutator(TypeTest_MutatorPrototype2::class, [1000])
+			, '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(TypeTest_MutatorPrototype1::class, ['amount' => 850.5])
+				->addMutator(TypeTest_MutatorPrototype2::class, ['amount' => 37])
+			, '48', 935.5
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class))
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, [1000]))
+			, '35', 1735.0
+		], [
+			Component::build(TypeTest_Prototype3::class)
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype1::class, ['amount' => 850.5]))
+				->addMutator(MutatorComponent::build(TypeTest_MutatorPrototype2::class, ['amount' => 37]))
+			, '48', 935.5
+		]];
 	}
 }
 

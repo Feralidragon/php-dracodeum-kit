@@ -41,13 +41,16 @@ class metaTest extends TestCase
 		$this->assertSame($value, $property->getMetaValue($meta_name));
 	}
 	
+	
+	
+	//Public static methods
 	/**
 	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideData(): array
+	public static function provideData(): array
 	{
 		return [
 			['p1', 'm1', 123],

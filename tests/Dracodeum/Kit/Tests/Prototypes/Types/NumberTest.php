@@ -46,12 +46,95 @@ class NumberTest extends TestCase
 	}
 	
 	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict(mixed $value, array $properties = []): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Test `MutatorProducer` interface.
+	 * 
+	 * @testdox MutatorProducer interface ("$name")
+	 * @dataProvider provideMutatorProducerData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $expected
+	 * The expected produced class.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
+	{
+		$mutator = (new Prototype)->produceMutator($name, $properties);
+		$this->assertNotNull($mutator);
+		$this->assertTrue(UType::isA($mutator, $expected));
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		return [
 			[0, 0],
@@ -141,29 +224,12 @@ class NumberTest extends TestCase
 	}
 	
 	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties = []): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[null],
@@ -198,31 +264,12 @@ class NumberTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict).
-	 * 
-	 * @testdox Process (strict)
-	 * @dataProvider provideProcessData_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict(mixed $value, array $properties = []): void
-	{
-		$v = $value;
-		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
-		$this->assertSame($value, $v);
-	}
-	
-	/**
 	 * Provide process data (strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict(): array
+	public static function provideProcessData_Strict(): array
 	{
 		return [
 			[0],
@@ -249,32 +296,12 @@ class NumberTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict, error).
-	 * 
-	 * @testdox Process (strict, error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Strict_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict_Error(mixed $value, array $properties = []): void
-	{
-		$this->assertInstanceOf(
-			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
-		);
-	}
-	
-	/**
 	 * Provide process data (strict, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict_Error(): array
+	public static function provideProcessData_Strict_Error(): array
 	{
 		return [
 			['0'],
@@ -309,36 +336,12 @@ class NumberTest extends TestCase
 	}
 	
 	/**
-	 * Test `MutatorProducer` interface.
-	 * 
-	 * @testdox MutatorProducer interface ("$name")
-	 * @dataProvider provideMutatorProducerData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $expected
-	 * The expected produced class.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testMutatorProducerInterface(string $name, string $expected, array $properties = []): void
-	{
-		$mutator = (new Prototype)->produceMutator($name, $properties);
-		$this->assertNotNull($mutator);
-		$this->assertTrue(UType::isA($mutator, $expected));
-	}
-	
-	/**
 	 * Provide `MutatorProducer` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMutatorProducerData(): array
+	public static function provideMutatorProducerData(): array
 	{
 		return [
 			['minimum', NumericalMutators\Minimum::class, [0]],

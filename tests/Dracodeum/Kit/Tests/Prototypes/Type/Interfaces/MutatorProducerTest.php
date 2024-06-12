@@ -42,12 +42,46 @@ class MutatorProducerTest extends TestCase
 	}
 	
 	/**
+	 * Test error.
+	 * 
+	 * @testdox Error
+	 */
+	public function testError(): void
+	{
+		//build
+		$component = Component::build(MutatorProducerTest_Prototype::class)->addMutator('m1')->addMutator('m2', [1000]);
+		
+		//check
+		$this->assertTrue($component->hasMutators());
+		
+		//error 1
+		$value = $v = 65;
+		$error = $component->process($value);
+		$this->assertSame($v, $value);
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertTrue($error->hasText());
+		$this->assertSame(MutatorProducerTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
+		
+		//error 2
+		$value = $v = 15;
+		$error = $component->process($value);
+		$this->assertSame($v, $value);
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertTrue($error->hasText());
+		$this->assertNotSame('', (string)$error->getText());
+		$this->assertNotSame(MutatorProducerTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideData(): array
+	public static function provideData(): array
 	{
 		return [[
 			Component::build(MutatorProducerTest_Prototype::class)->addMutator('m1'), 35, 735.0
@@ -82,37 +116,6 @@ class MutatorProducerTest extends TestCase
 				->addMutator(MutatorProducerTest_MutatorPrototype2::class, ['amount' => 37])
 			, 48, 935.5
 		]];
-	}
-	
-	/**
-	 * Test error.
-	 * 
-	 * @testdox Error
-	 */
-	public function testError(): void
-	{
-		//build
-		$component = Component::build(MutatorProducerTest_Prototype::class)->addMutator('m1')->addMutator('m2', [1000]);
-		
-		//check
-		$this->assertTrue($component->hasMutators());
-		
-		//error 1
-		$value = $v = 65;
-		$error = $component->process($value);
-		$this->assertSame($v, $value);
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertTrue($error->hasText());
-		$this->assertSame(MutatorProducerTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
-		
-		//error 2
-		$value = $v = 15;
-		$error = $component->process($value);
-		$this->assertSame($v, $value);
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertTrue($error->hasText());
-		$this->assertNotSame('', (string)$error->getText());
-		$this->assertNotSame(MutatorProducerTest_MutatorPrototype1::ERROR_STRING, (string)$error->getText());
 	}
 }
 

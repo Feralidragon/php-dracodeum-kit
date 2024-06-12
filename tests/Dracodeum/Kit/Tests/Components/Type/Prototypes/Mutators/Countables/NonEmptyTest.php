@@ -37,22 +37,6 @@ class NonEmptyTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			[[[]]],
-			[[1, 2, 3]],
-			[['foobar']],
-			[new NonEmptyTest_Class1]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -67,20 +51,6 @@ class NonEmptyTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (error).
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData_Error(): array
-	{
-		return [
-			[[]],
-			[new NonEmptyTest_Class2]
-		];
-	}
-	
-	/**
 	 * Test `ExplanationProducer` interface.
 	 * 
 	 * @testdox ExplanationProducer interface
@@ -90,6 +60,39 @@ class NonEmptyTest extends TestCase
 	public function testExplanationProducerInterface(): void
 	{
 		$this->assertInstanceOf(Text::class, Component::build(Prototype::class)->getExplanation());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData(): array
+	{
+		return [
+			[[[]]],
+			[[1, 2, 3]],
+			[['foobar']],
+			[new NonEmptyTest_Class1]
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
+	{
+		return [
+			[[]],
+			[new NonEmptyTest_Class2]
+		];
 	}
 }
 

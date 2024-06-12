@@ -40,24 +40,6 @@ class TInterfaceTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideProcessData(): array
-	{
-		return [
-			['Stringable', IStringable::class],
-			['\Stringable', IStringable::class],
-			[IStringable::class, IStringable::class],
-			['Dracodeum\Kit\Tests\Prototypes\Types\TInterfaceTest_Interface', TInterfaceTest_Interface::class],
-			['\Dracodeum\Kit\Tests\Prototypes\Types\TInterfaceTest_Interface', TInterfaceTest_Interface::class],
-			[TInterfaceTest_Interface::class, TInterfaceTest_Interface::class]
-		];
-	}
-	
-	/**
 	 * Test process (error).
 	 * 
 	 * @testdox Process (error)
@@ -72,12 +54,56 @@ class TInterfaceTest extends TestCase
 	}
 	
 	/**
-	 * Provide process data (error).
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected textified value.
+	 */
+	public function testTextifierInterface(mixed $value, string $expected): void
+	{
+		$text = Component::build(Prototype::class)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame($expected, $text->toString());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData(): array
+	{
+		return [
+			['Stringable', IStringable::class],
+			['\Stringable', IStringable::class],
+			[IStringable::class, IStringable::class],
+			['Dracodeum\Kit\Tests\Prototypes\Types\TInterfaceTest_Interface', TInterfaceTest_Interface::class],
+			['\Dracodeum\Kit\Tests\Prototypes\Types\TInterfaceTest_Interface', TInterfaceTest_Interface::class],
+			[TInterfaceTest_Interface::class, TInterfaceTest_Interface::class]
+		];
+	}
+	
+	/**
+	 * Provide process data (error).
+	 * 
+	 * @disregard P1009 `Stringable1` is meant to be an invalid class for this test.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideProcessData_Error(): array
 	{
 		return [
 			[null],
@@ -105,33 +131,12 @@ class TInterfaceTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * @dataProvider provideTextifierInterfaceData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected
-	 * The expected textified value.
-	 */
-	public function testTextifierInterface(mixed $value, string $expected): void
-	{
-		$text = Component::build(Prototype::class)->textify($value);
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($expected, $text->toString());
-	}
-	
-	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		//initialize
 		$interface = TInterfaceTest_Interface::class;

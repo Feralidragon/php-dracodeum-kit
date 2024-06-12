@@ -376,12 +376,1668 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
+	 * Test values initialization expecting a `Missing` exception to be thrown.
+	 * 
+	 * @testdox Values initialization Missing exception
+	 * @dataProvider provideValuesInitializationData_MissingException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param array $values
+	 * The values to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception value names.
+	 */
+	public function testValuesInitialization_MissingException(string $class, array $values, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//exception
+		$this->expectException(MissingException::class);
+		try {
+			$manager->initialize($values);
+		} catch (MissingException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test values initialization expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Values initialization Undefined exception
+	 * @dataProvider provideValuesInitializationData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param array $values
+	 * The values to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception value names.
+	 */
+	public function testValuesInitialization_UndefinedException(
+		string $class, array $values, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->initialize($values);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test values initialization expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Values initialization Inaccessible exception
+	 * @dataProvider provideValuesInitializationData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param array $values
+	 * The values to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception value names.
+	 */
+	public function testValuesInitialization_InaccessibleException(
+		string $class, ?string $scope_class, array $values, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->initialize($values, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test values initialization expecting an `Unwriteable` exception to be thrown.
+	 * 
+	 * @testdox Values initialization Unwriteable exception
+	 * @dataProvider provideValuesInitializationData_UnwriteableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param array $values
+	 * The values to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception value names.
+	 */
+	public function testValuesInitialization_UnwriteableException(
+		string $class, ?string $scope_class, array $values, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//exception
+		$this->expectException(UnwriteableException::class);
+		try {
+			$manager->initialize($values, $scope_class);
+		} catch (UnwriteableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test values initialization expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Values initialization Invalid exception
+	 * @dataProvider provideValuesInitializationData_InvalidException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param array $values
+	 * The values to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception value names.
+	 */
+	public function testValuesInitialization_InvalidException(string $class, array $values, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->initialize($values);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, array_keys($exception->values));
+			$this->assertSame($expected_names, array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `has` method.
+	 * 
+	 * @testdox Has
+	 * @dataProvider provideHasData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected returning value.
+	 */
+	public function testHas(string $name, string $class, ?string $scope_class, bool $expected): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		
+		//assert
+		$this->assertSame($expected, $manager->has($name, $scope_class));
+	}
+	
+	/**
+	 * Test `isset` method.
+	 * 
+	 * @testdox Isset
+	 * @dataProvider provideIssetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param bool $expected
+	 * The expected returning value.
+	 */
+	public function testIsset(string $name, string $class, ?string $scope_class, bool $expected): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//assert
+		$this->assertSame($expected, $manager->isset($name, $scope_class));
+	}
+	
+	/**
+	 * Test `get` method.
+	 * 
+	 * @testdox Get
+	 * @dataProvider provideGetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected returning value.
+	 */
+	public function testGet(string $name, string $class, ?string $scope_class, mixed $expected): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		} + [
+			'p1' => 456,
+			'p10' => '__T__',
+			'p21' => '7k',
+			'p23' => '930'
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize($values, $class);
+		
+		//assert
+		$this->assertSame($expected, $manager->get($name, $scope_class));
+	}
+	
+	/**
+	 * Test `get` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Get Undefined exception
+	 * @dataProvider provideGetData_UndefinedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testGet_UndefinedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->get($name);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `get` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Get Inaccessible exception
+	 * @dataProvider provideGetData_InaccessibleException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testGet_InaccessibleException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->get($name, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `get` method expecting an `Unreadable` exception to be thrown.
+	 * 
+	 * @testdox Get Unreadable exception
+	 * @dataProvider provideGetData_UnreadableException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testGet_UnreadableException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnreadableException::class);
+		try {
+			$manager->get($name, $scope_class);
+		} catch (UnreadableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `get` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Get Uninitialized exception
+	 * @dataProvider provideGetData_UninitializedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testGet_UninitializedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->get($name, $class);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `get` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Get Invalid exception
+	 * @dataProvider provideGetData_InvalidException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testGet_InvalidException(string $name, string $class): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		} + [
+			'p23' => 'foo',
+			'c1p1' => new stdClass
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize($values, $class);
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->get($name, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], array_keys($exception->values));
+			$this->assertSame([$name], array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mget` method.
+	 * 
+	 * @testdox Mget
+	 * @dataProvider provideMgetData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[]|null $names
+	 * The names to test with.
+	 * 
+	 * @param array $expected
+	 * The expected returning values.
+	 */
+	public function testMget(string $class, ?string $scope_class, ?array $names, array $expected): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		} + [
+			'p1' => 456,
+			'p10' => '__T__',
+			'p21' => '7k',
+			'p23' => '930'
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize($values, $class);
+		
+		//assert
+		$this->assertSame($expected, $manager->mget($names, $scope_class));
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Mget Undefined exception
+	 * @dataProvider provideMgetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMget_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->mget($names);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Mget Inaccessible exception
+	 * @dataProvider provideMgetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMget_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->mget($names, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Unreadable` exception to be thrown.
+	 * 
+	 * @testdox Mget Unreadable exception
+	 * @dataProvider provideMgetData_UnreadableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMget_UnreadableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnreadableException::class);
+		try {
+			$manager->mget($names, $scope_class);
+		} catch (UnreadableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Mget Uninitialized exception
+	 * @dataProvider provideMgetData_UninitializedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMget_UninitializedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->mget($names, $class);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mget` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Mget Invalid exception
+	 * @dataProvider provideMgetData_InvalidException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMget_InvalidException(string $class, array $names, array $expected_names): void
+	{
+		//values
+		$values = match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		} + [
+			'p23' => 'foo',
+			'c1p1' => new stdClass
+		];
+		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize($values, $class);
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->mget($names, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, array_keys($exception->values));
+			$this->assertSame($expected_names, array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `set` method.
+	 * 
+	 * @testdox Set
+	 * @dataProvider provideSetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param mixed $expected
+	 * The expected value.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testSet(string $name, mixed $value, mixed $expected, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		
+		//assert
+		$this->assertSame($manager, $manager->set($name, $value, $scope_class));
+		$this->assertSame($expected, ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+	}
+	
+	/**
+	 * Test `set` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Set Undefined exception
+	 * @dataProvider provideSetData_UndefinedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testSet_UndefinedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->set($name, 1);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `set` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Set Inaccessible exception
+	 * @dataProvider provideSetData_InaccessibleException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testSet_InaccessibleException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->set($name, 1, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `set` method expecting an `Unwriteable` exception to be thrown.
+	 * 
+	 * @testdox Set Unwriteable exception
+	 * @dataProvider provideSetData_UnwriteableException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testSet_UnwriteableException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnwriteableException::class);
+		try {
+			$manager->set($name, 1, $scope_class);
+		} catch (UnwriteableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `set` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Set Invalid exception
+	 * @dataProvider provideSetData_InvalidException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testSet_InvalidException(string $name, mixed $value, string $class): void
+	{		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		});
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->set($name, $value, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name => $value], $exception->values);
+			$this->assertSame([$name], array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mset` method.
+	 * 
+	 * @testdox Mset
+	 * @dataProvider provideMsetData
+	 * 
+	 * @param array $values
+	 * The values to test with, as a set of `name => value` pairs.
+	 * 
+	 * @param array $expected
+	 * The expected values, as a set of `name => value` pairs.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testMset(array $values, array $expected, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		
+		//assert
+		$this->assertSame($manager, $manager->mset($values, $scope_class));
+		$this->assertSame(
+			$expected, array_intersect_key($manager->mget(null, $class1) + $manager->mget(null, $class2), $values)
+		);
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Mset Undefined exception
+	 * @dataProvider provideMsetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMset_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1));
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Mset Inaccessible exception
+	 * @dataProvider provideMsetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMset_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1), $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Unwriteable` exception to be thrown.
+	 * 
+	 * @testdox Mset Unwriteable exception
+	 * @dataProvider provideMsetData_UnwriteableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMset_UnwriteableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnwriteableException::class);
+		try {
+			$manager->mset(array_fill_keys($names, 1), $scope_class);
+		} catch (UnwriteableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `mset` method expecting an `Invalid` exception to be thrown.
+	 * 
+	 * @testdox Mset Invalid exception
+	 * @dataProvider provideMsetData_InvalidException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 * 
+	 * @param array $values
+	 * The values to test with, as a set of `name => value` pairs.
+	 */
+	public function testMset_InvalidException(string $class, array $expected_names, array $values): void
+	{		
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', []]
+		});
+		
+		//exception
+		$this->expectException(InvalidException::class);
+		try {
+			$manager->mset($values, $class);
+		} catch (InvalidException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame(array_intersect_key($values, array_flip($expected_names)), $exception->values);
+			$this->assertSame($expected_names, array_keys($exception->errors));
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `unset` method.
+	 * 
+	 * @testdox Unset
+	 * @dataProvider provideUnsetData
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testUnset(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values1 = [
+			'p6' => true,
+			'p7' => [],
+			'p8' => '-98',
+			'p9' => '-2.5',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => '-749',
+			'p20' => 'fooBar',
+			'p21' => '7k',
+			'p22' => '75.80',
+			'p23' => '930',
+			'c1p0' => 56.72,
+			'c1p1' => 234
+		];
+		$values2 = [
+			'c2p1' => 1,
+			'c2p2' => '975',
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//defaults
+		$defaults = [
+			'p6' => null,
+			'p7' => null,
+			'p8' => 0,
+			'p9' => 1.0,
+			'p11' => 1,
+			'p12' => 1,
+			'p13' => 1,
+			'p14' => 1,
+			'p15' => 1,
+			'p16' => 1,
+			'p17' => 1,
+			'p18' => 1,
+			'p19' => 1200,
+			'p20' => '420',
+			'p21' => null,
+			'p22' => '100',
+			'p23' => 1,
+			'c1p0' => 'foo',
+			'c1p1' => '',
+			'c2p1' => false,
+			'c2p2' => 75.5,
+			'c2p4' => []
+		];
+		
+		//manager
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values1, $class1);
+		if ($class === $class2) {
+			$manager->mset($values2, $class2);
+		}
+		
+		//assert
+		$this->assertNotSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+		$this->assertSame($manager, $manager->unset($name, $scope_class));
+		$this->assertSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Uninitialized` exception to be thrown.
+	 * 
+	 * @testdox Unset Uninitialized exception
+	 * @dataProvider provideUnsetData_UninitializedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testUnset_UninitializedException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values = [
+			'p1' => 456,
+			'p10' => '__A__'
+		];
+		
+		//manager
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values, $class1);
+		
+		//assert
+		$this->assertSame($values[$name], $manager->get($name, $class1));
+		$this->assertSame($manager, $manager->unset($name, $scope_class));
+		
+		//exception
+		$this->expectException(UninitializedException::class);
+		try {
+			$manager->get($name, $class1);
+		} catch (UninitializedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Unset Undefined exception
+	 * @dataProvider provideUnsetData_UndefinedException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testUnset_UndefinedException(string $name, string $class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->unset($name);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Unset Inaccessible exception
+	 * @dataProvider provideUnsetData_InaccessibleException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testUnset_InaccessibleException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->unset($name, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `unset` method expecting an `Ununsettable` exception to be thrown.
+	 * 
+	 * @testdox Unset Ununsettable exception
+	 * @dataProvider provideUnsetData_UnunsettableException
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 */
+	public function testUnset_UnunsettableException(string $name, string $class, ?string $scope_class): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnunsettableException::class);
+		try {
+			$manager->unset($name, $scope_class);
+		} catch (UnunsettableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame([$name], $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `munset` method.
+	 * 
+	 * @testdox Munset
+	 * @dataProvider provideMunsetData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 */
+	public function testMunset(string $class, ?string $scope_class, array $names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//values
+		$values1 = [
+			'p6' => true,
+			'p7' => [],
+			'p8' => '-98',
+			'p9' => '-2.5',
+			'p11' => '__A__',
+			'p12' => ['a'],
+			'p13' => 333,
+			'p14' => 8.75,
+			'p15' => 0x0f,
+			'p16' => 'FOO',
+			'p17' => false,
+			'p18' => true,
+			'p19' => '-749',
+			'p20' => 'fooBar',
+			'p21' => '7k',
+			'p22' => '75.80',
+			'p23' => '930',
+			'c1p0' => 56.72,
+			'c1p1' => 234
+		];
+		$values2 = [
+			'c2p2' => '975',
+			'c2p1' => 1,
+			'c2p4' => ['foo', 'bar']
+		];
+		
+		//defaults
+		$defaults = [
+			'p6' => null,
+			'p7' => null,
+			'p8' => 0,
+			'p9' => 1.0,
+			'p11' => 1,
+			'p12' => 1,
+			'p13' => 1,
+			'p14' => 1,
+			'p15' => 1,
+			'p16' => 1,
+			'p17' => 1,
+			'p18' => 1,
+			'p19' => 1200,
+			'p20' => '420',
+			'p21' => null,
+			'p22' => '100',
+			'p23' => 1,
+			'c1p0' => 'foo',
+			'c1p1' => '',
+			'c2p2' => 75.5,
+			'c2p1' => false,
+			'c2p4' => []
+		];
+		
+		//manager
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			$class1 => [123],
+			$class2 => [123, '4.35M', 2]
+		});
+		$manager->mset($values1, $class1);
+		if ($class === $class2) {
+			$manager->mset($values2, $class2);
+		}
+		
+		//assert (before)
+		$names_map = array_flip($names);
+		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$inner_defaults = array_intersect_key($defaults, $names_map);
+		foreach ($inner_defaults as $name => $default) {
+			$this->assertNotSame($default, $values[$name]);
+		}
+		
+		//assert
+		$this->assertSame($manager, $manager->munset($names, $scope_class));
+		
+		//assert (after)
+		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$outer_defaults = array_diff_key(array_intersect_key($defaults, $values), $names_map);
+		foreach ($outer_defaults as $name => $default) {
+			$this->assertNotSame($default, $values[$name]);
+		}
+		$this->assertSame(array_intersect_key($defaults, $names_map), array_intersect_key($values, $names_map));
+	}
+	
+	/**
+	 * Test `munset` method expecting an `Undefined` exception to be thrown.
+	 * 
+	 * @testdox Munset Undefined exception
+	 * @dataProvider provideMunsetData_UndefinedException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMunset_UndefinedException(string $class, array $names, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UndefinedException::class);
+		try {
+			$manager->munset($names);
+		} catch (UndefinedException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `munset` method expecting an `Inaccessible` exception to be thrown.
+	 * 
+	 * @testdox Munset Inaccessible exception
+	 * @dataProvider provideMunsetData_InaccessibleException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMunset_InaccessibleException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(InaccessibleException::class);
+		try {
+			$manager->munset($names, $scope_class);
+		} catch (InaccessibleException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test `munset` method expecting an `Ununsettable` exception to be thrown.
+	 * 
+	 * @testdox Munset Ununsettable exception
+	 * @dataProvider provideMunsetData_UnunsettableException
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $scope_class
+	 * The scope class to test with.
+	 * 
+	 * @param string[] $names
+	 * The names to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected exception names.
+	 */
+	public function testMunset_UnunsettableException(
+		string $class, ?string $scope_class, array $names, array $expected_names
+	): void
+	{
+		//initialize
+		Manager::clearCache();
+		$manager = new Manager(new $class);
+		$manager->initialize(match ($class) {
+			PropertiesTest_Class1::class => [123],
+			PropertiesTest_Class2::class => [123, '4.35M', 2]
+		});
+		
+		//exception
+		$this->expectException(UnunsettableException::class);
+		try {
+			$manager->munset($names, $scope_class);
+		} catch (UnunsettableException $exception) {
+			$this->assertSame($manager, $exception->manager);
+			$this->assertSame($expected_names, $exception->names);
+			$this->assertSame($scope_class, $exception->scope_class);
+			throw $exception;
+		}
+	}
+	
+	/**
+	 * Test meta.
+	 * 
+	 * @testdox Meta
+	 */
+	public function testMeta(): void
+	{
+		//initialize
+		Manager::clearCache();
+		
+		//managers
+		$manager1 = new Manager(new PropertiesTest_ClassM1);
+		$manager1b = new Manager(new PropertiesTest_ClassM1);
+		$manager2 = new Manager(new PropertiesTest_ClassM2);
+		$manager2b = new Manager(new PropertiesTest_ClassM2);
+		
+		//metas
+		$meta1 = $manager1->getMeta();
+		$meta1b = $manager1b->getMeta();
+		$meta2 = $manager2->getMeta();
+		$meta2b = $manager2b->getMeta();
+		
+		//assert (instances)
+		$this->assertInstanceOf(PMeta::class, $meta1);
+		$this->assertInstanceOf(PMeta::class, $meta1b);
+		$this->assertInstanceOf(PMeta::class, $meta2);
+		$this->assertInstanceOf(PMeta::class, $meta2b);
+		
+		//assert (references)
+		$this->assertSame($meta1, $meta1b);
+		$this->assertSame($meta2, $meta2b);
+		$this->assertNotSame($meta1, $meta2);
+		
+		//assert (entries)
+		$this->assertFalse($meta1->has('m0'));
+		$this->assertTrue($meta1->has('m1'));
+		$this->assertFalse($meta1->has('m2'));
+		$this->assertFalse($meta2->has('m0'));
+		$this->assertTrue($meta2->has('m1'));
+		$this->assertTrue($meta2->has('m2'));
+		
+		//assert (defaults)
+		$this->assertSame(1, $meta1->get('m1')->default);
+		$this->assertSame(1, $meta2->get('m1')->default);
+		$this->assertSame(false, $meta2->get('m2')->default);
+		
+		//assert (properties)
+		foreach (['p1', 'p2'] as $pname) {
+			$this->assertSame($meta1, $manager1->getProperty($pname)->getMeta());
+			$this->assertSame($meta1, $manager2->getProperty($pname)->getMeta());
+		}
+		foreach (['p3', 'p4', 'p5'] as $pname) {
+			$this->assertSame($meta2, $manager2->getProperty($pname)->getMeta());
+		}
+	}
+	
+	/**
+	 * Test meta value.
+	 * 
+	 * @testdox Meta value
+	 * @dataProvider provideMetaValueData
+	 * 
+	 * @param string $pname
+	 * The property name to test with.
+	 * 
+	 * @param string $name
+	 * The name to test with.
+	 * 
+	 * @param mixed $value
+	 * The expected value.
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 */
+	public function testMetaValue(string $pname, string $name, mixed $value, string $class): void
+	{
+		Manager::clearCache();
+		$this->assertSame($value, (new Manager(new $class))->getProperty($pname)->getMetaValue($name));
+	}
+	
+	/**
+	 * Test meta expecting a property `InvalidMetaValue` exception to be thrown.
+	 * 
+	 * @testdox Meta property InvalidMetaValue exception
+	 */
+	public function testMeta_PropertyInvalidMetaValueException(): void
+	{
+		//initialize
+		$name = 'm1';
+		$value = 'abc';
+		$property = (new Manager(new PropertiesTest_ClassM1))->getProperty('p1');
+		
+		//exception
+		$this->expectException(PropertyInvalidMetaValueException::class);
+		try {
+			$property->setMetaValue($name, $value);
+		} catch (PropertyInvalidMetaValueException $exception) {
+			$this->assertSame($property, $exception->property);
+			$this->assertSame($name, $exception->name);
+			$this->assertSame($value, $exception->value);
+			$this->assertInstanceOf(Error::class, $exception->error);
+			throw $exception;
+		}
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide values initialization data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData(): array
+	public static function provideValuesInitializationData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -1138,44 +2794,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test values initialization expecting a `Missing` exception to be thrown.
-	 * 
-	 * @testdox Values initialization Missing exception
-	 * @dataProvider provideValuesInitializationData_MissingException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param array $values
-	 * The values to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception value names.
-	 */
-	public function testValuesInitialization_MissingException(string $class, array $values, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//exception
-		$this->expectException(MissingException::class);
-		try {
-			$manager->initialize($values);
-		} catch (MissingException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide values initialization data for a `Missing` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData_MissingException(): array
+	public static function provideValuesInitializationData_MissingException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -1194,46 +2818,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test values initialization expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Values initialization Undefined exception
-	 * @dataProvider provideValuesInitializationData_UndefinedException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param array $values
-	 * The values to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception value names.
-	 */
-	public function testValuesInitialization_UndefinedException(
-		string $class, array $values, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->initialize($values);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide values initialization data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData_UndefinedException(): array
+	public static function provideValuesInitializationData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -1253,50 +2843,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test values initialization expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Values initialization Inaccessible exception
-	 * @dataProvider provideValuesInitializationData_InaccessibleException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param array $values
-	 * The values to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception value names.
-	 */
-	public function testValuesInitialization_InaccessibleException(
-		string $class, ?string $scope_class, array $values, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->initialize($values, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide values initialization data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData_InaccessibleException(): array
+	public static function provideValuesInitializationData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -1328,50 +2880,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test values initialization expecting an `Unwriteable` exception to be thrown.
-	 * 
-	 * @testdox Values initialization Unwriteable exception
-	 * @dataProvider provideValuesInitializationData_UnwriteableException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param array $values
-	 * The values to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception value names.
-	 */
-	public function testValuesInitialization_UnwriteableException(
-		string $class, ?string $scope_class, array $values, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//exception
-		$this->expectException(UnwriteableException::class);
-		try {
-			$manager->initialize($values, $scope_class);
-		} catch (UnwriteableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide values initialization data for an `Unwriteable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData_UnwriteableException(): array
+	public static function provideValuesInitializationData_UnwriteableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -1402,45 +2916,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test values initialization expecting an `Invalid` exception to be thrown.
-	 * 
-	 * @testdox Values initialization Invalid exception
-	 * @dataProvider provideValuesInitializationData_InvalidException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param array $values
-	 * The values to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception value names.
-	 */
-	public function testValuesInitialization_InvalidException(string $class, array $values, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//exception
-		$this->expectException(InvalidException::class);
-		try {
-			$manager->initialize($values);
-		} catch (InvalidException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, array_keys($exception->values));
-			$this->assertSame($expected_names, array_keys($exception->errors));
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide values initialization data for an `Invalid` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideValuesInitializationData_InvalidException(): array
+	public static function provideValuesInitializationData_InvalidException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -1466,40 +2947,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `has` method.
-	 * 
-	 * @testdox Has
-	 * @dataProvider provideHasData
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param bool $expected
-	 * The expected returning value.
-	 */
-	public function testHas(string $name, string $class, ?string $scope_class, bool $expected): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		
-		//assert
-		$this->assertSame($expected, $manager->has($name, $scope_class));
-	}
-	
-	/**
 	 * Provide `has` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideHasData(): array
+	public static function provideHasData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -1793,44 +3246,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `isset` method.
-	 * 
-	 * @testdox Isset
-	 * @dataProvider provideIssetData
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param bool $expected
-	 * The expected returning value.
-	 */
-	public function testIsset(string $name, string $class, ?string $scope_class, bool $expected): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//assert
-		$this->assertSame($expected, $manager->isset($name, $scope_class));
-	}
-	
-	/**
 	 * Provide `isset` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideIssetData(): array
+	public static function provideIssetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -2154,52 +3575,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method.
-	 * 
-	 * @testdox Get
-	 * @dataProvider provideGetData
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected returning value.
-	 */
-	public function testGet(string $name, string $class, ?string $scope_class, mixed $expected): void
-	{
-		//values
-		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		} + [
-			'p1' => 456,
-			'p10' => '__T__',
-			'p21' => '7k',
-			'p23' => '930'
-		];
-		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize($values, $class);
-		
-		//assert
-		$this->assertSame($expected, $manager->get($name, $scope_class));
-	}
-	
-	/**
 	 * Provide `get` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData(): array
+	public static function provideGetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -2394,45 +3775,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Get Undefined exception
-	 * @dataProvider provideGetData_UndefinedException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testGet_UndefinedException(string $name, string $class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->get($name);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `get` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData_UndefinedException(): array
+	public static function provideGetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -2456,49 +3804,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Get Inaccessible exception
-	 * @dataProvider provideGetData_InaccessibleException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testGet_InaccessibleException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->get($name, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `get` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData_InaccessibleException(): array
+	public static function provideGetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -2525,49 +3836,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method expecting an `Unreadable` exception to be thrown.
-	 * 
-	 * @testdox Get Unreadable exception
-	 * @dataProvider provideGetData_UnreadableException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testGet_UnreadableException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnreadableException::class);
-		try {
-			$manager->get($name, $scope_class);
-		} catch (UnreadableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `get` method data for an `Unreadable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData_UnreadableException(): array
+	public static function provideGetData_UnreadableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -2613,45 +3887,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method expecting an `Uninitialized` exception to be thrown.
-	 * 
-	 * @testdox Get Uninitialized exception
-	 * @dataProvider provideGetData_UninitializedException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testGet_UninitializedException(string $name, string $class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UninitializedException::class);
-		try {
-			$manager->get($name, $class);
-		} catch (UninitializedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `get` method data for an `Uninitialized` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData_UninitializedException(): array
+	public static function provideGetData_UninitializedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -2667,52 +3908,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `get` method expecting an `Invalid` exception to be thrown.
-	 * 
-	 * @testdox Get Invalid exception
-	 * @dataProvider provideGetData_InvalidException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testGet_InvalidException(string $name, string $class): void
-	{
-		//values
-		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', []]
-		} + [
-			'p23' => 'foo',
-			'c1p1' => new stdClass
-		];
-		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize($values, $class);
-		
-		//exception
-		$this->expectException(InvalidException::class);
-		try {
-			$manager->get($name, $class);
-		} catch (InvalidException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], array_keys($exception->values));
-			$this->assertSame([$name], array_keys($exception->errors));
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `get` method data for an `Invalid` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideGetData_InvalidException(): array
+	public static function provideGetData_InvalidException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -2728,52 +3929,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method.
-	 * 
-	 * @testdox Mget
-	 * @dataProvider provideMgetData
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[]|null $names
-	 * The names to test with.
-	 * 
-	 * @param array $expected
-	 * The expected returning values.
-	 */
-	public function testMget(string $class, ?string $scope_class, ?array $names, array $expected): void
-	{
-		//values
-		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		} + [
-			'p1' => 456,
-			'p10' => '__T__',
-			'p21' => '7k',
-			'p23' => '930'
-		];
-		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize($values, $class);
-		
-		//assert
-		$this->assertSame($expected, $manager->mget($names, $scope_class));
-	}
-	
-	/**
 	 * Provide `mget` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData(): array
+	public static function provideMgetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -3362,48 +4523,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Mget Undefined exception
-	 * @dataProvider provideMgetData_UndefinedException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMget_UndefinedException(string $class, array $names, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->mget($names);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mget` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData_UndefinedException(): array
+	public static function provideMgetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -3423,54 +4548,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Mget Inaccessible exception
-	 * @dataProvider provideMgetData_InaccessibleException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMget_InaccessibleException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->mget($names, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mget` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData_InaccessibleException(): array
+	public static function provideMgetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -3495,54 +4578,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method expecting an `Unreadable` exception to be thrown.
-	 * 
-	 * @testdox Mget Unreadable exception
-	 * @dataProvider provideMgetData_UnreadableException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMget_UnreadableException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnreadableException::class);
-		try {
-			$manager->mget($names, $scope_class);
-		} catch (UnreadableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mget` method data for an `Unreadable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData_UnreadableException(): array
+	public static function provideMgetData_UnreadableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -3578,48 +4619,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method expecting an `Uninitialized` exception to be thrown.
-	 * 
-	 * @testdox Mget Uninitialized exception
-	 * @dataProvider provideMgetData_UninitializedException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMget_UninitializedException(string $class, array $names, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UninitializedException::class);
-		try {
-			$manager->mget($names, $class);
-		} catch (UninitializedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mget` method data for an `Uninitialized` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData_UninitializedException(): array
+	public static function provideMgetData_UninitializedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -3639,55 +4644,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mget` method expecting an `Invalid` exception to be thrown.
-	 * 
-	 * @testdox Mget Invalid exception
-	 * @dataProvider provideMgetData_InvalidException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMget_InvalidException(string $class, array $names, array $expected_names): void
-	{
-		//values
-		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', []]
-		} + [
-			'p23' => 'foo',
-			'c1p1' => new stdClass
-		];
-		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize($values, $class);
-		
-		//exception
-		$this->expectException(InvalidException::class);
-		try {
-			$manager->mget($names, $class);
-		} catch (InvalidException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, array_keys($exception->values));
-			$this->assertSame($expected_names, array_keys($exception->errors));
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mget` method data for an `Invalid` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMgetData_InvalidException(): array
+	public static function provideMgetData_InvalidException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -3707,50 +4669,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `set` method.
-	 * 
-	 * @testdox Set
-	 * @dataProvider provideSetData
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param mixed $expected
-	 * The expected value.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testSet(string $name, mixed $value, mixed $expected, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$class1 = PropertiesTest_Class1::class;
-		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
-		});
-		
-		//assert
-		$this->assertSame($manager, $manager->set($name, $value, $scope_class));
-		$this->assertSame($expected, ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
-	}
-	
-	/**
 	 * Provide `set` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideSetData(): array
+	public static function provideSetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -3931,45 +4855,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `set` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Set Undefined exception
-	 * @dataProvider provideSetData_UndefinedException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testSet_UndefinedException(string $name, string $class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->set($name, 1);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `set` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideSetData_UndefinedException(): array
+	public static function provideSetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -3993,49 +4884,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `set` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Set Inaccessible exception
-	 * @dataProvider provideSetData_InaccessibleException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testSet_InaccessibleException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->set($name, 1, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `set` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideSetData_InaccessibleException(): array
+	public static function provideSetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4062,49 +4916,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `set` method expecting an `Unwriteable` exception to be thrown.
-	 * 
-	 * @testdox Set Unwriteable exception
-	 * @dataProvider provideSetData_UnwriteableException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testSet_UnwriteableException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnwriteableException::class);
-		try {
-			$manager->set($name, 1, $scope_class);
-		} catch (UnwriteableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `set` method data for an `Unwriteable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideSetData_UnwriteableException(): array
+	public static function provideSetData_UnwriteableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4174,49 +4991,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `set` method expecting an `Invalid` exception to be thrown.
-	 * 
-	 * @testdox Set Invalid exception
-	 * @dataProvider provideSetData_InvalidException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testSet_InvalidException(string $name, mixed $value, string $class): void
-	{		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', []]
-		});
-		
-		//exception
-		$this->expectException(InvalidException::class);
-		try {
-			$manager->set($name, $value, $class);
-		} catch (InvalidException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name => $value], $exception->values);
-			$this->assertSame([$name], array_keys($exception->errors));
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `set` method data for an `Invalid` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideSetData_InvalidException(): array
+	public static function provideSetData_InvalidException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -4241,49 +5021,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mset` method.
-	 * 
-	 * @testdox Mset
-	 * @dataProvider provideMsetData
-	 * 
-	 * @param array $values
-	 * The values to test with, as a set of `name => value` pairs.
-	 * 
-	 * @param array $expected
-	 * The expected values, as a set of `name => value` pairs.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testMset(array $values, array $expected, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$class1 = PropertiesTest_Class1::class;
-		$class2 = PropertiesTest_Class2::class;
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
-		});
-		
-		//assert
-		$this->assertSame($manager, $manager->mset($values, $scope_class));
-		$this->assertSame(
-			$expected, array_intersect_key($manager->mget(null, $class1) + $manager->mget(null, $class2), $values)
-		);
-	}
-	
-	/**
 	 * Provide `mset` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMsetData(): array
+	public static function provideMsetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4441,48 +5184,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mset` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Mset Undefined exception
-	 * @dataProvider provideMsetData_UndefinedException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMset_UndefinedException(string $class, array $names, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->mset(array_fill_keys($names, 1));
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mset` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMsetData_UndefinedException(): array
+	public static function provideMsetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -4502,54 +5209,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mset` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Mset Inaccessible exception
-	 * @dataProvider provideMsetData_InaccessibleException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMset_InaccessibleException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->mset(array_fill_keys($names, 1), $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mset` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMsetData_InaccessibleException(): array
+	public static function provideMsetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4574,54 +5239,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mset` method expecting an `Unwriteable` exception to be thrown.
-	 * 
-	 * @testdox Mset Unwriteable exception
-	 * @dataProvider provideMsetData_UnwriteableException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMset_UnwriteableException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnwriteableException::class);
-		try {
-			$manager->mset(array_fill_keys($names, 1), $scope_class);
-		} catch (UnwriteableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mset` method data for an `Unwriteable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMsetData_UnwriteableException(): array
+	public static function provideMsetData_UnwriteableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4663,49 +5286,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `mset` method expecting an `Invalid` exception to be thrown.
-	 * 
-	 * @testdox Mset Invalid exception
-	 * @dataProvider provideMsetData_InvalidException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 * 
-	 * @param array $values
-	 * The values to test with, as a set of `name => value` pairs.
-	 */
-	public function testMset_InvalidException(string $class, array $expected_names, array $values): void
-	{		
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', []]
-		});
-		
-		//exception
-		$this->expectException(InvalidException::class);
-		try {
-			$manager->mset($values, $class);
-		} catch (InvalidException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame(array_intersect_key($values, array_flip($expected_names)), $exception->values);
-			$this->assertSame($expected_names, array_keys($exception->errors));
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `mset` method data for an `Invalid` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMsetData_InvalidException(): array
+	public static function provideMsetData_InvalidException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -4728,105 +5314,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `unset` method.
-	 * 
-	 * @testdox Unset
-	 * @dataProvider provideUnsetData
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testUnset(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$class1 = PropertiesTest_Class1::class;
-		$class2 = PropertiesTest_Class2::class;
-		
-		//values
-		$values1 = [
-			'p6' => true,
-			'p7' => [],
-			'p8' => '-98',
-			'p9' => '-2.5',
-			'p11' => '__A__',
-			'p12' => ['a'],
-			'p13' => 333,
-			'p14' => 8.75,
-			'p15' => 0x0f,
-			'p16' => 'FOO',
-			'p17' => false,
-			'p18' => true,
-			'p19' => '-749',
-			'p20' => 'fooBar',
-			'p21' => '7k',
-			'p22' => '75.80',
-			'p23' => '930',
-			'c1p0' => 56.72,
-			'c1p1' => 234
-		];
-		$values2 = [
-			'c2p1' => 1,
-			'c2p2' => '975',
-			'c2p4' => ['foo', 'bar']
-		];
-		
-		//defaults
-		$defaults = [
-			'p6' => null,
-			'p7' => null,
-			'p8' => 0,
-			'p9' => 1.0,
-			'p11' => 1,
-			'p12' => 1,
-			'p13' => 1,
-			'p14' => 1,
-			'p15' => 1,
-			'p16' => 1,
-			'p17' => 1,
-			'p18' => 1,
-			'p19' => 1200,
-			'p20' => '420',
-			'p21' => null,
-			'p22' => '100',
-			'p23' => 1,
-			'c1p0' => 'foo',
-			'c1p1' => '',
-			'c2p1' => false,
-			'c2p2' => 75.5,
-			'c2p4' => []
-		];
-		
-		//manager
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
-		});
-		$manager->mset($values1, $class1);
-		if ($class === $class2) {
-			$manager->mset($values2, $class2);
-		}
-		
-		//assert
-		$this->assertNotSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
-		$this->assertSame($manager, $manager->unset($name, $scope_class));
-		$this->assertSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
-	}
-	
-	/**
 	 * Provide `unset` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideUnsetData(): array
+	public static function provideUnsetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -4978,63 +5471,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `unset` method expecting an `Uninitialized` exception to be thrown.
-	 * 
-	 * @testdox Unset Uninitialized exception
-	 * @dataProvider provideUnsetData_UninitializedException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testUnset_UninitializedException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$class1 = PropertiesTest_Class1::class;
-		$class2 = PropertiesTest_Class2::class;
-		
-		//values
-		$values = [
-			'p1' => 456,
-			'p10' => '__A__'
-		];
-		
-		//manager
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
-		});
-		$manager->mset($values, $class1);
-		
-		//assert
-		$this->assertSame($values[$name], $manager->get($name, $class1));
-		$this->assertSame($manager, $manager->unset($name, $scope_class));
-		
-		//exception
-		$this->expectException(UninitializedException::class);
-		try {
-			$manager->get($name, $class1);
-		} catch (UninitializedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `unset` method data for an `Uninitialized` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideUnsetData_UninitializedException(): array
+	public static function provideUnsetData_UninitializedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -5059,45 +5501,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `unset` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Unset Undefined exception
-	 * @dataProvider provideUnsetData_UndefinedException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testUnset_UndefinedException(string $name, string $class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->unset($name);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `unset` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideUnsetData_UndefinedException(): array
+	public static function provideUnsetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -5121,49 +5530,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `unset` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Unset Inaccessible exception
-	 * @dataProvider provideUnsetData_InaccessibleException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testUnset_InaccessibleException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->unset($name, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `unset` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideUnsetData_InaccessibleException(): array
+	public static function provideUnsetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -5190,49 +5562,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `unset` method expecting an `Ununsettable` exception to be thrown.
-	 * 
-	 * @testdox Unset Ununsettable exception
-	 * @dataProvider provideUnsetData_UnunsettableException
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 */
-	public function testUnset_UnunsettableException(string $name, string $class, ?string $scope_class): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnunsettableException::class);
-		try {
-			$manager->unset($name, $scope_class);
-		} catch (UnunsettableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame([$name], $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `unset` method data for an `Ununsettable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideUnsetData_UnunsettableException(): array
+	public static function provideUnsetData_UnunsettableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -5319,119 +5654,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `munset` method.
-	 * 
-	 * @testdox Munset
-	 * @dataProvider provideMunsetData
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 */
-	public function testMunset(string $class, ?string $scope_class, array $names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$class1 = PropertiesTest_Class1::class;
-		$class2 = PropertiesTest_Class2::class;
-		
-		//values
-		$values1 = [
-			'p6' => true,
-			'p7' => [],
-			'p8' => '-98',
-			'p9' => '-2.5',
-			'p11' => '__A__',
-			'p12' => ['a'],
-			'p13' => 333,
-			'p14' => 8.75,
-			'p15' => 0x0f,
-			'p16' => 'FOO',
-			'p17' => false,
-			'p18' => true,
-			'p19' => '-749',
-			'p20' => 'fooBar',
-			'p21' => '7k',
-			'p22' => '75.80',
-			'p23' => '930',
-			'c1p0' => 56.72,
-			'c1p1' => 234
-		];
-		$values2 = [
-			'c2p2' => '975',
-			'c2p1' => 1,
-			'c2p4' => ['foo', 'bar']
-		];
-		
-		//defaults
-		$defaults = [
-			'p6' => null,
-			'p7' => null,
-			'p8' => 0,
-			'p9' => 1.0,
-			'p11' => 1,
-			'p12' => 1,
-			'p13' => 1,
-			'p14' => 1,
-			'p15' => 1,
-			'p16' => 1,
-			'p17' => 1,
-			'p18' => 1,
-			'p19' => 1200,
-			'p20' => '420',
-			'p21' => null,
-			'p22' => '100',
-			'p23' => 1,
-			'c1p0' => 'foo',
-			'c1p1' => '',
-			'c2p2' => 75.5,
-			'c2p1' => false,
-			'c2p4' => []
-		];
-		
-		//manager
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
-		});
-		$manager->mset($values1, $class1);
-		if ($class === $class2) {
-			$manager->mset($values2, $class2);
-		}
-		
-		//assert (before)
-		$names_map = array_flip($names);
-		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
-		$inner_defaults = array_intersect_key($defaults, $names_map);
-		foreach ($inner_defaults as $name => $default) {
-			$this->assertNotSame($default, $values[$name]);
-		}
-		
-		//assert
-		$this->assertSame($manager, $manager->munset($names, $scope_class));
-		
-		//assert (after)
-		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
-		$outer_defaults = array_diff_key(array_intersect_key($defaults, $values), $names_map);
-		foreach ($outer_defaults as $name => $default) {
-			$this->assertNotSame($default, $values[$name]);
-		}
-		$this->assertSame(array_intersect_key($defaults, $names_map), array_intersect_key($values, $names_map));
-	}
-	
-	/**
 	 * Provide `munset` method data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMunsetData(): array
+	public static function provideMunsetData(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -5481,48 +5709,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `munset` method expecting an `Undefined` exception to be thrown.
-	 * 
-	 * @testdox Munset Undefined exception
-	 * @dataProvider provideMunsetData_UndefinedException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMunset_UndefinedException(string $class, array $names, array $expected_names): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UndefinedException::class);
-		try {
-			$manager->munset($names);
-		} catch (UndefinedException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `munset` method data for an `Undefined` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMunsetData_UndefinedException(): array
+	public static function provideMunsetData_UndefinedException(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_Class1::class;
@@ -5542,54 +5734,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `munset` method expecting an `Inaccessible` exception to be thrown.
-	 * 
-	 * @testdox Munset Inaccessible exception
-	 * @dataProvider provideMunsetData_InaccessibleException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMunset_InaccessibleException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(InaccessibleException::class);
-		try {
-			$manager->munset($names, $scope_class);
-		} catch (InaccessibleException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `munset` method data for an `Inaccessible` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMunsetData_InaccessibleException(): array
+	public static function provideMunsetData_InaccessibleException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -5614,54 +5764,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test `munset` method expecting an `Ununsettable` exception to be thrown.
-	 * 
-	 * @testdox Munset Ununsettable exception
-	 * @dataProvider provideMunsetData_UnunsettableException
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 * 
-	 * @param string|null $scope_class
-	 * The scope class to test with.
-	 * 
-	 * @param string[] $names
-	 * The names to test with.
-	 * 
-	 * @param string[] $expected_names
-	 * The expected exception names.
-	 */
-	public function testMunset_UnunsettableException(
-		string $class, ?string $scope_class, array $names, array $expected_names
-	): void
-	{
-		//initialize
-		Manager::clearCache();
-		$manager = new Manager(new $class);
-		$manager->initialize(match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		});
-		
-		//exception
-		$this->expectException(UnunsettableException::class);
-		try {
-			$manager->munset($names, $scope_class);
-		} catch (UnunsettableException $exception) {
-			$this->assertSame($manager, $exception->manager);
-			$this->assertSame($expected_names, $exception->names);
-			$this->assertSame($scope_class, $exception->scope_class);
-			throw $exception;
-		}
-	}
-	
-	/**
 	 * Provide `munset` method data for an `Ununsettable` exception to be thrown.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMunsetData_UnunsettableException(): array
+	public static function provideMunsetData_UnunsettableException(): array
 	{
 		//initialize
 		$stdclass = stdClass::class;
@@ -5734,92 +5842,12 @@ class PropertiesTest extends TestCase
 	}
 	
 	/**
-	 * Test meta.
-	 * 
-	 * @testdox Meta
-	 */
-	public function testMeta(): void
-	{
-		//initialize
-		Manager::clearCache();
-		
-		//managers
-		$manager1 = new Manager(new PropertiesTest_ClassM1);
-		$manager1b = new Manager(new PropertiesTest_ClassM1);
-		$manager2 = new Manager(new PropertiesTest_ClassM2);
-		$manager2b = new Manager(new PropertiesTest_ClassM2);
-		
-		//metas
-		$meta1 = $manager1->getMeta();
-		$meta1b = $manager1b->getMeta();
-		$meta2 = $manager2->getMeta();
-		$meta2b = $manager2b->getMeta();
-		
-		//assert (instances)
-		$this->assertInstanceOf(PMeta::class, $meta1);
-		$this->assertInstanceOf(PMeta::class, $meta1b);
-		$this->assertInstanceOf(PMeta::class, $meta2);
-		$this->assertInstanceOf(PMeta::class, $meta2b);
-		
-		//assert (references)
-		$this->assertSame($meta1, $meta1b);
-		$this->assertSame($meta2, $meta2b);
-		$this->assertNotSame($meta1, $meta2);
-		
-		//assert (entries)
-		$this->assertFalse($meta1->has('m0'));
-		$this->assertTrue($meta1->has('m1'));
-		$this->assertFalse($meta1->has('m2'));
-		$this->assertFalse($meta2->has('m0'));
-		$this->assertTrue($meta2->has('m1'));
-		$this->assertTrue($meta2->has('m2'));
-		
-		//assert (defaults)
-		$this->assertSame(1, $meta1->get('m1')->default);
-		$this->assertSame(1, $meta2->get('m1')->default);
-		$this->assertSame(false, $meta2->get('m2')->default);
-		
-		//assert (properties)
-		foreach (['p1', 'p2'] as $pname) {
-			$this->assertSame($meta1, $manager1->getProperty($pname)->getMeta());
-			$this->assertSame($meta1, $manager2->getProperty($pname)->getMeta());
-		}
-		foreach (['p3', 'p4', 'p5'] as $pname) {
-			$this->assertSame($meta2, $manager2->getProperty($pname)->getMeta());
-		}
-	}
-	
-	/**
-	 * Test meta value.
-	 * 
-	 * @testdox Meta value
-	 * @dataProvider provideMetaValueData
-	 * 
-	 * @param string $pname
-	 * The property name to test with.
-	 * 
-	 * @param string $name
-	 * The name to test with.
-	 * 
-	 * @param mixed $value
-	 * The expected value.
-	 * 
-	 * @param string $class
-	 * The class to test with.
-	 */
-	public function testMetaValue(string $pname, string $name, mixed $value, string $class): void
-	{
-		Manager::clearCache();
-		$this->assertSame($value, (new Manager(new $class))->getProperty($pname)->getMetaValue($name));
-	}
-	
-	/**
 	 * Provide meta value data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideMetaValueData(): array
+	public static function provideMetaValueData(): array
 	{
 		//initialize
 		$class1 = PropertiesTest_ClassM1::class;
@@ -5838,31 +5866,6 @@ class PropertiesTest extends TestCase
 			['p5', 'm1', 7, $class2],
 			['p5', 'm2', true, $class2]
 		];
-	}
-	
-	/**
-	 * Test meta expecting a property `InvalidMetaValue` exception to be thrown.
-	 * 
-	 * @testdox Meta property InvalidMetaValue exception
-	 */
-	public function testMeta_PropertyInvalidMetaValueException(): void
-	{
-		//initialize
-		$name = 'm1';
-		$value = 'abc';
-		$property = (new Manager(new PropertiesTest_ClassM1))->getProperty('p1');
-		
-		//exception
-		$this->expectException(PropertyInvalidMetaValueException::class);
-		try {
-			$property->setMetaValue($name, $value);
-		} catch (PropertyInvalidMetaValueException $exception) {
-			$this->assertSame($property, $exception->property);
-			$this->assertSame($name, $exception->name);
-			$this->assertSame($value, $exception->value);
-			$this->assertInstanceOf(Error::class, $exception->error);
-			throw $exception;
-		}
 	}
 	
 	

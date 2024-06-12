@@ -663,21 +663,6 @@ class TextTest extends TestCase
 	}
 	
 	/**
-	 * Provide stringifier data for an `AssertionFailed` exception to be thrown.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function provideStringifierData_AssertionFailedException(): array
-	{
-		return [
-			[function (mixed $value): string {}],
-			[function (mixed $value, TextOptions $text_options) {}],
-			[function (string $value, TextOptions $text_options): string {}]
-		];
-	}
-	
-	/**
 	 * Test placeholder as quoted.
 	 * 
 	 * @testdox Placeholder as quoted
@@ -756,21 +741,6 @@ class TextTest extends TestCase
 			$this->assertSame($stringifier, $exception->function);
 			throw $exception;
 		}
-	}
-	
-	/**
-	 * Provide placeholder stringifier data for an `AssertionFailed` exception to be thrown.
-	 * 
-	 * @return array
-	 * The data.
-	 */
-	public function providePlaceholderStringifierData_AssertionFailedException(): array
-	{
-		return [
-			[function (mixed $value): string {}],
-			[function (mixed $value, TextOptions $text_options) {}],
-			[function (string $value, TextOptions $text_options): string {}]
-		];
 	}
 	
 	/**
@@ -989,5 +959,38 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertSame($string_main_1_2_3, $text->toString());
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide stringifier data for an `AssertionFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideStringifierData_AssertionFailedException(): array
+	{
+		return [
+			[function (mixed $value): string {}],
+			[function (mixed $value, TextOptions $text_options) {}],
+			[function (string $value, TextOptions $text_options): string {}]
+		];
+	}
+	
+	/**
+	 * Provide placeholder stringifier data for an `AssertionFailed` exception to be thrown.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function providePlaceholderStringifierData_AssertionFailedException(): array
+	{
+		return [
+			[function (mixed $value): string {}],
+			[function (mixed $value, TextOptions $text_options) {}],
+			[function (string $value, TextOptions $text_options): string {}]
+		];
 	}
 }

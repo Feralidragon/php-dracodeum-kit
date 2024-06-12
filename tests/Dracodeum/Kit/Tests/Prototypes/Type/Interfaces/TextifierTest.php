@@ -45,13 +45,16 @@ class TextifierTest extends TestCase
 		}
 	}
 	
+	
+	
+	//Public static methods
 	/**
 	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideData(): array
+	public static function provideData(): array
 	{
 		return [
 			[105, '105'],

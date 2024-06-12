@@ -53,12 +53,131 @@ class StructureTest extends TestCase
 	}
 	
 	/**
+	 * Test process (clone).
+	 * 
+	 * @testdox Process (clone)
+	 */
+	public function testProcess_Clone(): void
+	{
+		//initialize
+		$class1 = StructureTest_Class1::class;
+		$class1a = StructureTest_Class1_A::class;
+		$properties1a = ['label' => "Bar", 'flags' => 0xbd47, 'ratio' => 4.765];
+		
+		//assert
+		foreach ([false, true] as $strict) {
+			//keep
+			$value = $v = new $class1a($properties1a);
+			$this->assertNull(Component::build(Prototype::class, [$class1, 'strict' => $strict])->process($v));
+			$this->assertInstanceOf($class1a, $v);
+			$this->assertSame($value, $v);
+			foreach ($properties1a as $p_name => $p_value) {
+				$this->assertSame($p_value, $v->$p_name);
+			}
+			
+			//clone
+			$value = $v = new $class1a($properties1a);
+			$this->assertNull(
+				Component::build(Prototype::class, [$class1, 'clone' => true, 'strict' => $strict])->process($v)
+			);
+			$this->assertInstanceOf($class1a, $v);
+			$this->assertNotSame($value, $v);
+			foreach ($properties1a as $p_name => $p_value) {
+				$this->assertSame($p_value, $v->$p_name);
+			}
+		}
+	}
+	
+	/**
+	 * Test process (error).
+	 * 
+	 * @testdox Process (error)
+	 * @dataProvider provideProcessData_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
+	}
+	
+	/**
+	 * Test process (strict).
+	 * 
+	 * @testdox Process (strict)
+	 * @dataProvider provideProcessData_Strict
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict(mixed $value, array $properties): void
+	{
+		$v = $value;
+		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
+		$this->assertSame($value, $v);
+	}
+	
+	/**
+	 * Test process (strict, error).
+	 * 
+	 * @testdox Process (strict, error)
+	 * @dataProvider provideProcessData_Error
+	 * @dataProvider provideProcessData_Strict_Error
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testProcess_Strict_Error(mixed $value, array $properties): void
+	{
+		$this->assertInstanceOf(
+			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
+		);
+	}
+	
+	/**
+	 * Test `Textifier` interface.
+	 * 
+	 * @testdox Textifier interface
+	 * @dataProvider provideTextifierInterfaceData
+	 * 
+	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
+	 * 
+	 * @param mixed $value
+	 * The value to test with.
+	 * 
+	 * @param string $expected
+	 * The expected regular expression match.
+	 * 
+	 * @param array $properties
+	 * The properties to test with.
+	 */
+	public function testTextifierInterface(mixed $value, string $expected, array $properties): void
+	{
+		$text = Component::build(Prototype::class, $properties)->textify($value);
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertMatchesRegularExpression($expected, $text->toString());
+	}
+	
+	
+	
+	//Public static methods
+	/**
 	 * Provide process data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData(): array
+	public static function provideProcessData(): array
 	{
 		//initialize
 		$class1 = StructureTest_Class1::class;
@@ -151,65 +270,12 @@ class StructureTest extends TestCase
 	}
 	
 	/**
-	 * Test process (clone).
-	 * 
-	 * @testdox Process (clone)
-	 */
-	public function testProcess_Clone(): void
-	{
-		//initialize
-		$class1 = StructureTest_Class1::class;
-		$class1a = StructureTest_Class1_A::class;
-		$properties1a = ['label' => "Bar", 'flags' => 0xbd47, 'ratio' => 4.765];
-		
-		//assert
-		foreach ([false, true] as $strict) {
-			//keep
-			$value = $v = new $class1a($properties1a);
-			$this->assertNull(Component::build(Prototype::class, [$class1, 'strict' => $strict])->process($v));
-			$this->assertInstanceOf($class1a, $v);
-			$this->assertSame($value, $v);
-			foreach ($properties1a as $p_name => $p_value) {
-				$this->assertSame($p_value, $v->$p_name);
-			}
-			
-			//clone
-			$value = $v = new $class1a($properties1a);
-			$this->assertNull(
-				Component::build(Prototype::class, [$class1, 'clone' => true, 'strict' => $strict])->process($v)
-			);
-			$this->assertInstanceOf($class1a, $v);
-			$this->assertNotSame($value, $v);
-			foreach ($properties1a as $p_name => $p_value) {
-				$this->assertSame($p_value, $v->$p_name);
-			}
-		}
-	}
-	
-	/**
-	 * Test process (error).
-	 * 
-	 * @testdox Process (error)
-	 * @dataProvider provideProcessData_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Error(mixed $value, array $properties): void
-	{
-		$this->assertInstanceOf(Error::class, Component::build(Prototype::class, $properties)->process($value));
-	}
-	
-	/**
 	 * Provide process data (error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Error(): array
+	public static function provideProcessData_Error(): array
 	{
 		//initialize
 		$class1 = StructureTest_Class1::class;
@@ -243,31 +309,12 @@ class StructureTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict).
-	 * 
-	 * @testdox Process (strict)
-	 * @dataProvider provideProcessData_Strict
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict(mixed $value, array $properties): void
-	{
-		$v = $value;
-		$this->assertNull(Component::build(Prototype::class, ['strict' => true] + $properties)->process($v));
-		$this->assertSame($value, $v);
-	}
-	
-	/**
 	 * Provide process data (strict).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict(): array
+	public static function provideProcessData_Strict(): array
 	{
 		//initialize
 		$class1 = StructureTest_Class1::class;
@@ -281,32 +328,12 @@ class StructureTest extends TestCase
 	}
 	
 	/**
-	 * Test process (strict, error).
-	 * 
-	 * @testdox Process (strict, error)
-	 * @dataProvider provideProcessData_Error
-	 * @dataProvider provideProcessData_Strict_Error
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testProcess_Strict_Error(mixed $value, array $properties): void
-	{
-		$this->assertInstanceOf(
-			Error::class, Component::build(Prototype::class, ['strict' => true] + $properties)->process($value)
-		);
-	}
-	
-	/**
 	 * Provide process data (strict, error).
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideProcessData_Strict_Error(): array
+	public static function provideProcessData_Strict_Error(): array
 	{
 		//initialize
 		$class1 = StructureTest_Class1::class;
@@ -321,36 +348,12 @@ class StructureTest extends TestCase
 	}
 	
 	/**
-	 * Test `Textifier` interface.
-	 * 
-	 * @testdox Textifier interface
-	 * @dataProvider provideTextifierInterfaceData
-	 * 
-	 * @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier
-	 * 
-	 * @param mixed $value
-	 * The value to test with.
-	 * 
-	 * @param string $expected
-	 * The expected regular expression match.
-	 * 
-	 * @param array $properties
-	 * The properties to test with.
-	 */
-	public function testTextifierInterface(mixed $value, string $expected, array $properties): void
-	{
-		$text = Component::build(Prototype::class, $properties)->textify($value);
-		$this->assertInstanceOf(Text::class, $text);
-		$this->assertMatchesRegularExpression($expected, $text->toString());
-	}
-	
-	/**
 	 * Provide `Textifier` interface data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideTextifierInterfaceData(): array
+	public static function provideTextifierInterfaceData(): array
 	{
 		//initialize
 		$class1 = StructureTest_Class1::class;

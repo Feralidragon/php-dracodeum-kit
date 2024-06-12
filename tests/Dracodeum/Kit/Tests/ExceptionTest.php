@@ -50,13 +50,16 @@ class ExceptionTest extends TestCase
 		$this->assertSame($message, $exception->getMessage());
 	}
 	
+	
+	
+	//Public static methods
 	/**
 	 * Provide data.
 	 * 
 	 * @return array
 	 * The data.
 	 */
-	public function provideData(): array
+	public static function provideData(): array
 	{
 		//initialize
 		$previous = new \Exception;
