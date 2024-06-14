@@ -9,6 +9,11 @@ namespace Dracodeum\Kit\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\ExceptionV2 as Exception;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text
+};
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Throwable;
 
 /** @see \Dracodeum\Kit\ExceptionV2 */
@@ -48,6 +53,43 @@ class ExceptionTest extends TestCase
 		$this->assertSame($code, $exception->getCode());
 		$this->assertSame($previous, $exception->getPrevious());
 		$this->assertSame($message, $exception->getMessage());
+	}
+	
+	/**
+	 * Test text.
+	 * 
+	 * @testdox Text
+	 */
+	public function testText(): void
+	{
+		//initialize
+		$text = (new ExceptionTest_Class('Foo'))->getText();
+		
+		//assert
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertSame('An error occurred for "Foo" with 123.', $text->toString());
+	}
+	
+	/**
+	 * Test error.
+	 * 
+	 * @testdox Error
+	 */
+	public function testError(): void
+	{
+		//initialize
+		$exception = new ExceptionTest_Class('Foo');
+		$error = $exception->toError();
+		
+		//assert
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertSame(ExceptionTest_Class::class, $error->getName());
+		$this->assertSame('An error occurred for "Foo" with 123.', $error->getText()->toString());
+		$this->assertSame($exception, $error->getThrowable());
+		$this->assertNull($error->getData());
+		$this->assertNull($error->getData(EInfoLevel::ENDUSER));
+		$this->assertNull($error->getData(EInfoLevel::TECHNICAL));
+		$this->assertSame(['name' => 'Foo', 'number' => 123], $error->getData(EInfoLevel::INTERNAL));
 	}
 	
 	

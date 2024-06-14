@@ -291,7 +291,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
-	 * @return array
+	 * @return array<string,mixed>
 	 * The property values, as a set of `name => value` pairs.
 	 */
 	final public function mget(?array $names = null, ?string $scope_class = null): array
@@ -816,7 +816,7 @@ final class PropertiesV2 extends Manager
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Uninitialized
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Invalid
 	 * 
-	 * @return array
+	 * @return array<string,mixed>
 	 * The values, as a set of `name => value` pairs.
 	 */
 	private function getValues(array $names, ?string $scope_class): array

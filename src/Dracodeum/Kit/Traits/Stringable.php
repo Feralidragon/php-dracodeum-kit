@@ -26,7 +26,7 @@ trait Stringable
 	 * the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface implemented.
 	 * 
 	 * @return string
-	 * <p>This object cast to a string.</p>
+	 * <p>A string cast from this object.</p>
 	 */
 	final public function __toString(): string
 	{

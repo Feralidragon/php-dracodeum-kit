@@ -9,13 +9,13 @@ namespace Dracodeum\Kit\Primitives;
 
 use Dracodeum\Kit\Primitive;
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
-use Exception;
+use Throwable;
 
 /**
  * This primitive represents an error.
  * 
  * This is a simple object which represents and stores error information, such as a name to identify the error, 
- * text as an error message to the user or/and developer, an `Exception` instance that originated it, as well as data 
+ * text as an error message to the user or/and developer, the `Throwable` instance that originated it, as well as data 
  * as additional information, with a structure definition usually bound to the given name.
  * 
  * Unlike an exception, this object cannot be thrown and therefore does not break out from the current call stack, 
@@ -28,7 +28,7 @@ final class Error extends Primitive
 	//Private properties
 	private ?string $name = null;
 	private ?Text $text = null;
-	private ?Exception $exception = null;
+	private ?Throwable $throwable = null;
 	
 	/** @var array<int,mixed> */
 	private array $data = [];
@@ -137,39 +137,39 @@ final class Error extends Primitive
 	}
 	
 	/**
-	 * Check if has exception.
+	 * Check if has throwable.
 	 * 
 	 * @return bool
-	 * Boolean `true` if has exception.
+	 * Boolean `true` if has throwable.
 	 */
-	final public function hasException(): bool
+	final public function hasThrowable(): bool
 	{
-		return $this->exception !== null;
+		return $this->throwable !== null;
 	}
 	
 	/**
-	 * Get exception instance.
+	 * Get throwable instance.
 	 * 
-	 * @return \Exception|null
-	 * The exception instance, or `null` if none is set.
+	 * @return \Throwable|null
+	 * The throwable instance, or `null` if none is set.
 	 */
-	final public function getException(): ?Exception
+	final public function getThrowable(): ?Throwable
 	{
-		return $this->exception;
+		return $this->throwable;
 	}
 	
 	/**
-	 * Set exception instance.
+	 * Set throwable instance.
 	 * 
-	 * @param \Exception $exception
-	 * The exception instance to set.
+	 * @param \Throwable $throwable
+	 * The throwable instance to set.
 	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function setException(Exception $exception)
+	final public function setThrowable(Throwable $throwable)
 	{
-		$this->exception = $exception;
+		$this->throwable = $throwable;
 		return $this;
 	}
 	

@@ -12,11 +12,15 @@ use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
-use Dracodeum\Kit\Primitives\Text;
+use Dracodeum\Kit\Primitives\{
+	Text,
+	Error
+};
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
 };
+use Exception as PhpException;
 use Closure;
 
 /**
@@ -29,10 +33,15 @@ use Closure;
  * 
  * @see https://php.net/manual/en/class.exception.php
  */
-abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
+abstract class ExceptionV2 extends PhpException implements IPropertyInitializer
 {
 	//Traits
 	use Traits\PropertiesV2;
+	
+	
+	
+	//Private properties
+	private Text $text;
 	
 	
 	
@@ -54,15 +63,11 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		$this->initializePropertiesManager($properties);
 		
 		//text
-		/** @var \Dracodeum\Kit\Primitives\Text $text */
-		$text = UCall::guardExecution(Closure::fromCallable([$this, 'produceText']), [], [Text::class, 'coerce']);
-		$text
-			->setObject($this)
-			->setStringifier($this->getStringifier())
-		;
+		$this->text = UCall::guardExecution(Closure::fromCallable([$this, 'produceText']), [], [Text::class, 'coerce']);
+		$this->text->setObject($this)->setStringifier($this->getStringifier());
 		
 		//parent
-		parent::__construct($text->toString(['info_level' => EInfoLevel::INTERNAL->value]), $code, $previous);
+		parent::__construct($this->text->toString(['info_level' => EInfoLevel::INTERNAL->value]), $code, $previous);
 	}
 	
 	
@@ -85,6 +90,33 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		if ($property->getReflection()->isPublic() && $property->getMode()[0] === 'r') {
 			$property->setMode('r+');
 		}
+	}
+	
+	
+	
+	//Final public methods
+	/**
+	 * Get text instance.
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Text
+	 * The text instance.
+	 */
+	final public function getText(): Text
+	{
+		return $this->text;
+	}
+	
+	/**
+	 * Cast this exception to an error instance.
+	 * 
+	 * @return \Dracodeum\Kit\Primitives\Error
+	 * An error instance cast from this exception.
+	 */
+	final public function toError(): Error
+	{
+		return Error::build($this::class, $this->text)
+			->setThrowable($this)
+			->setData($this->getPropertiesManager()->mget(scope_class: $this::class), EInfoLevel::INTERNAL);
 	}
 	
 	

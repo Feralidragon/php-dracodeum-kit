@@ -15,7 +15,7 @@ interface Floatable
 	 * Cast this object to a float.
 	 * 
 	 * @return float
-	 * <p>This object cast to a float.</p>
+	 * <p>A float cast from this object.</p>
 	 */
 	public function toFloat(): float;
 }

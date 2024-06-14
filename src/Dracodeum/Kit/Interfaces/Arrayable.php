@@ -15,7 +15,7 @@ interface Arrayable
 	 * Cast this object to an array.
 	 * 
 	 * @return array
-	 * <p>This object cast to an array.</p>
+	 * <p>An array cast from this object.</p>
 	 */
 	public function toArray(): array;
 }

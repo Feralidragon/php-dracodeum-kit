@@ -13,6 +13,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
+use Error as PhpError;
 use Exception;
 use stdClass;
 
@@ -112,25 +113,24 @@ class ErrorTest extends TestCase
 	}
 	
 	/**
-	 * Test exception.
+	 * Test throwable.
 	 * 
-	 * @testdox Exception
+	 * @testdox Throwable
 	 */
-	public function testException(): void
+	public function testThrowable(): void
 	{
-		//initialize
-		$exception = new Exception;
-		
-		//build
-		$error = Error::build();
-		
-		//assert
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertFalse($error->hasException());
-		$this->assertNull($error->getException());
-		$this->assertSame($error, $error->setException($exception));
-		$this->assertTrue($error->hasException());
-		$this->assertSame($exception, $error->getException());
+		foreach ([new PhpError, new Exception] as $throwable) {
+			//build
+			$error = Error::build();
+			
+			//assert
+			$this->assertInstanceOf(Error::class, $error);
+			$this->assertFalse($error->hasThrowable());
+			$this->assertNull($error->getThrowable());
+			$this->assertSame($error, $error->setThrowable($throwable));
+			$this->assertTrue($error->hasThrowable());
+			$this->assertSame($throwable, $error->getThrowable());
+		}	
 	}
 	
 	/**

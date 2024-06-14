@@ -15,7 +15,7 @@ interface Integerable
 	 * Cast this object to an integer.
 	 * 
 	 * @return int
-	 * <p>This object cast to an integer.</p>
+	 * <p>An integer cast from this object.</p>
 	 */
 	public function toInteger(): int;
 }

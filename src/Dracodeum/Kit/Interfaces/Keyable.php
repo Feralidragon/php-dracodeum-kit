@@ -20,7 +20,7 @@ interface Keyable
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @return string
-	 * <p>This object cast to a key.</p>
+	 * <p>A key cast from this object.</p>
 	 */
 	public function toKey(bool $recursive = false, ?bool &$safe = null): string;
 }
