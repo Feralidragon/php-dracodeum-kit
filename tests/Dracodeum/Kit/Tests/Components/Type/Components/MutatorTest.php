@@ -14,7 +14,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Components\Type\Components\Mutator */
@@ -46,22 +46,22 @@ class MutatorTest extends TestCase
 		$this->assertSame($v1, $value1);
 		$this->assertInstanceOf(Error::class, $error1);
 		$this->assertTrue($error1->hasText());
-		$this->assertNotSame('', $error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER]));
+		$this->assertNotSame('', $error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER->value]));
 		$this->assertNotSame(
 			MutatorTest_Prototype1::ERROR_STRING,
-			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER])
+			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER->value])
 		);
 		$this->assertNotSame(
 			MutatorTest_Prototype1::ERROR_STRING_TECHNICAL,
-			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER])
+			$error1->getText()->toString(['info_level' => EInfoLevel::ENDUSER->value])
 		);
 		$this->assertSame(
 			MutatorTest_Prototype1::ERROR_STRING_TECHNICAL,
-			$error1->getText()->toString(['info_level' => EInfoLevel::TECHNICAL])
+			$error1->getText()->toString(['info_level' => EInfoLevel::TECHNICAL->value])
 		);
 		$this->assertSame(
 			MutatorTest_Prototype1::ERROR_STRING_TECHNICAL,
-			$error1->getText()->toString(['info_level' => EInfoLevel::INTERNAL])
+			$error1->getText()->toString(['info_level' => EInfoLevel::INTERNAL->value])
 		);
 		
 		//value1 (success 1)

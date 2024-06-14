@@ -14,7 +14,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
 	Call as UCall,

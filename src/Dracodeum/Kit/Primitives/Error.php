@@ -8,36 +8,30 @@
 namespace Dracodeum\Kit\Primitives;
 
 use Dracodeum\Kit\Primitive;
-use Dracodeum\Kit\Interfaces\Cloneable as ICloneable;
-use JsonSerializable as IJsonSerializable;
-use Dracodeum\Kit\Traits;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
+use Exception;
 
 /**
  * This primitive represents an error.
  * 
  * This is a simple object which represents and stores error information, such as a name to identify the error, 
- * text as an error message to the user, as well as data as additional structural information, with a structure 
- * definition usually bound to the given name.
+ * text as an error message to the user or/and developer, an `Exception` instance that originated it, as well as data 
+ * as additional information, with a structure definition usually bound to the given name.
  * 
- * Unlike an exception, this object cannot be thrown and therefore does not break out from the current stack, 
+ * Unlike an exception, this object cannot be thrown and therefore does not break out from the current call stack, 
  * and is meant to be used to represent an error which can be directly returned to any user, including the end-user, 
- * therefore it must be assumed that both the given name and data may be returned and become publicly visible, 
- * thus any related sensitive system information in the given text must be set with the internal info level, 
+ * thus any related sensitive system information in the given text and data must be set with the `INTERNAL` info level, 
  * or not set at all.
  */
-final class Error extends Primitive implements ICloneable, IJsonSerializable
+final class Error extends Primitive
 {
-	//Traits
-	use Traits\Cloneable;
-	
-	
-	
 	//Private properties
 	private ?string $name = null;
-	
 	private ?Text $text = null;
+	private ?Exception $exception = null;
 	
-	private mixed $data = null;
+	/** @var array<int,mixed> */
+	private array $data = [];
 	
 	
 	
@@ -50,11 +44,8 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * 
 	 * @param coercible<\Dracodeum\Kit\Primitives\Text>|null $text
 	 * The text to instantiate with.
-	 * 
-	 * @param mixed $data
-	 * The data to instantiate with.
 	 */
-	final public function __construct(?string $name = null, $text = null, mixed $data = null)
+	final public function __construct(?string $name = null, $text = null)
 	{
 		//name
 		if ($name !== null) {
@@ -65,24 +56,6 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 		if ($text !== null) {
 			$this->setText($text);
 		}
-		
-		//data
-		if ($data !== null) {
-			$this->setData($data);
-		}
-	}
-	
-	
-	
-	//Implemented final public methods (JsonSerializable)
-	/** {@inheritdoc} */
-	final public function jsonSerialize(): mixed
-	{
-		return [
-			'name' => $this->name,
-			'text' => $this->text,
-			'data' => $this->data
-		];
 	}
 	
 	
@@ -164,25 +137,68 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	}
 	
 	/**
+	 * Check if has exception.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has exception.
+	 */
+	final public function hasException(): bool
+	{
+		return $this->exception !== null;
+	}
+	
+	/**
+	 * Get exception instance.
+	 * 
+	 * @return \Exception|null
+	 * The exception instance, or `null` if none is set.
+	 */
+	final public function getException(): ?Exception
+	{
+		return $this->exception;
+	}
+	
+	/**
+	 * Set exception instance.
+	 * 
+	 * @param \Exception $exception
+	 * The exception instance to set.
+	 * 
+	 * @return $this
+	 * This instance, for chaining purposes.
+	 */
+	final public function setException(Exception $exception)
+	{
+		$this->exception = $exception;
+		return $this;
+	}
+	
+	/**
 	 * Check if has data.
+	 * 
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
+	 * The info level to check for.
 	 * 
 	 * @return bool
 	 * Boolean `true` if has data.
 	 */
-	final public function hasData(): bool
+	final public function hasData(EInfoLevel $info_level = EInfoLevel::ENDUSER): bool
 	{
-		return $this->data !== null;
+		return $this->getData($info_level) !== null;
 	}
 	
 	/**
 	 * Get data.
 	 * 
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
+	 * The info level to get for.
+	 * 
 	 * @return mixed
 	 * The data.
 	 */
-	final public function getData(): mixed
+	final public function getData(EInfoLevel $info_level = EInfoLevel::ENDUSER): mixed
 	{
-		return $this->data;
+		return $this->data[$info_level->value] ?? null;
 	}
 	
 	/**
@@ -191,12 +207,15 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * @param mixed $data
 	 * The data to set.
 	 * 
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
+	 * The info level to set with.
+	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function setData(mixed $data)
+	final public function setData(mixed $data, EInfoLevel $info_level = EInfoLevel::ENDUSER)
 	{
-		$this->data = $data;
+		$this->data[$info_level->value] = $data;
 		return $this;
 	}
 	
@@ -212,14 +231,11 @@ final class Error extends Primitive implements ICloneable, IJsonSerializable
 	 * @param coercible<\Dracodeum\Kit\Primitives\Text>|null $text
 	 * The text to build with.
 	 * 
-	 * @param mixed $data
-	 * The data to build with.
-	 * 
 	 * @return static
 	 * The built instance.
 	 */
-	final public static function build(?string $name = null, $text = null, mixed $data = null)
+	final public static function build(?string $name = null, $text = null): static
 	{
-		return new static($name, $text, $data);
+		return new static($name, $text);
 	}
 }

@@ -19,7 +19,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Dracodeum\Kit\Interfaces\Arrayable as IArrayable;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables as CountableMutators;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
@@ -200,16 +200,16 @@ class TArrayTest extends TestCase
 	 * @param array $properties
 	 * The properties to test with.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to test with.
 	 */
 	public function testTextifierInterface(
-		mixed $value, string $expected, array $properties = [], $info_level = EInfoLevel::ENDUSER
+		mixed $value, string $expected, array $properties = [], EInfoLevel $info_level = EInfoLevel::ENDUSER
 	): void
 	{
 		$text = Component::build(Prototype::class, $properties)->textify($value);
 		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($expected, $text->toString(['info_level' => $info_level]));
+		$this->assertSame($expected, $text->toString(['info_level' => $info_level->value]));
 	}
 	
 	/**

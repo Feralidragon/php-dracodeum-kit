@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Options\Text as TextOptions;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**

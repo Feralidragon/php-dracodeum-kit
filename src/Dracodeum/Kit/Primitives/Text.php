@@ -10,13 +10,12 @@ namespace Dracodeum\Kit\Primitives;
 use Dracodeum\Kit\Primitive;
 use Dracodeum\Kit\Interfaces\{
 	Stringable as IStringable,
-	StringInstantiable as IStringInstantiable,
-	Cloneable as ICloneable
+	StringInstantiable as IStringInstantiable
 };
 use JsonSerializable as IJsonSerializable;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Primitives\Text\Exceptions;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
@@ -29,18 +28,17 @@ use Dracodeum\Kit\Utilities\{
  * This primitive represents a text.
  * 
  * This is a simple object which represents and stores a string or set of strings, each to be shown to an end-user or 
- * developer, or to be logged internally, depending on the requested and assigned info level of each string.
+ * developer, or to be shown or logged internally, depending on the requested and assigned info level of each string.
  * 
  * Each string may also be dynamic and parameterized, by:
  * - having placeholders to be replaced with parameters;
  * - having a plural form;
  * - supporting localization, to be translated to different languages.
  */
-final class Text extends Primitive implements IStringable, IStringInstantiable, ICloneable, IJsonSerializable
+final class Text extends Primitive implements IStringable, IStringInstantiable, IJsonSerializable
 {
 	//Traits
 	use Traits\Stringable;
-	use Traits\Cloneable;
 	
 	
 	
@@ -104,10 +102,10 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to instantiate with.
 	 */
-	final public function __construct(?string $string = null, $info_level = EInfoLevel::ENDUSER)
+	final public function __construct(?string $string = null, EInfoLevel $info_level = EInfoLevel::ENDUSER)
 	{
 		if ($string !== null) {
 			$this->setString($string, $info_level);
@@ -122,17 +120,17 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	{
 		//initialize
 		$text_options = TextOptions::coerce($text_options, nullable: true);
-		$info_levels = $text_options !== null
-			? array_reverse(range(EInfoLevel::ENDUSER, $text_options->info_level))
-			: EInfoLevel::getValues();
+		$info_level_values = $text_options !== null
+			? array_reverse(range(EInfoLevel::ENDUSER->value, $text_options->info_level))
+			: array_map(fn (EInfoLevel $info_level) => $info_level->value, EInfoLevel::cases());
 		
 		//string
 		$string = '';
 		$plural_string = null;
-		foreach ($info_levels as $info_level) {
-			if (isset($this->strings[$info_level])) {
-				$string = $this->strings[$info_level];
-				$plural_string = $this->plural_strings[$info_level] ?? null;
+		foreach ($info_level_values as $info_level_value) {
+			if (isset($this->strings[$info_level_value])) {
+				$string = $this->strings[$info_level_value];
+				$plural_string = $this->plural_strings[$info_level_value] ?? null;
 				break;
 			}
 		}
@@ -156,7 +154,7 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 					//flags
 					$flags = $this->placeholders_flags[$placeholder] ?? 0x0;
 					if (UByte::hasFlag($flags, self::FLAG_PLACEHOLDER_QUOTED)) {
-						$string = $fill_text_options->info_level === EInfoLevel::ENDUSER
+						$string = $fill_text_options->info_level === EInfoLevel::ENDUSER->value
 							? "\u{201c}{$string}\u{201d}"
 							: "\"{$string}\"";
 					}
@@ -232,13 +230,13 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Check if has string.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to check for.
 	 * 
 	 * @return bool
 	 * Boolean `true` if has string.
 	 */
-	final public function hasString($info_level = EInfoLevel::ENDUSER): bool
+	final public function hasString(EInfoLevel $info_level = EInfoLevel::ENDUSER): bool
 	{
 		return $this->getString($info_level) !== null;
 	}
@@ -246,15 +244,15 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get string.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to get for.
 	 * 
 	 * @return string|null
 	 * The string, or `null` if none is set.
 	 */
-	final public function getString($info_level = EInfoLevel::ENDUSER): ?string
+	final public function getString(EInfoLevel $info_level = EInfoLevel::ENDUSER): ?string
 	{
-		return $this->strings[EInfoLevel::coerceValue($info_level)] ?? null;
+		return $this->strings[$info_level->value] ?? null;
 	}
 	
 	/**
@@ -275,28 +273,28 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to set with.
 	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function setString(string $string, $info_level = EInfoLevel::ENDUSER)
+	final public function setString(string $string, EInfoLevel $info_level = EInfoLevel::ENDUSER)
 	{
-		$this->strings[EInfoLevel::coerceValue($info_level)] = $string;
+		$this->strings[$info_level->value] = $string;
 		return $this;
 	}
 	
 	/**
 	 * Check if has plural string.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to check for.
 	 * 
 	 * @return bool
 	 * Boolean `true` if has plural string.
 	 */
-	final public function hasPluralString($info_level = EInfoLevel::ENDUSER): bool
+	final public function hasPluralString(EInfoLevel $info_level = EInfoLevel::ENDUSER): bool
 	{
 		return $this->getPluralString($info_level) !== null;
 	}
@@ -304,15 +302,15 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	/**
 	 * Get plural string.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to get for.
 	 * 
 	 * @return string|null
 	 * The plural string, or `null` if none is set.
 	 */
-	final public function getPluralString($info_level = EInfoLevel::ENDUSER): ?string
+	final public function getPluralString(EInfoLevel $info_level = EInfoLevel::ENDUSER): ?string
 	{
-		return $this->plural_strings[EInfoLevel::coerceValue($info_level)] ?? null;
+		return $this->plural_strings[$info_level->value] ?? null;
 	}
 	
 	/**
@@ -333,15 +331,15 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to set with.
 	 * 
 	 * @return $this
 	 * This instance, for chaining purposes.
 	 */
-	final public function setPluralString(string $string, $info_level = EInfoLevel::ENDUSER)
+	final public function setPluralString(string $string, EInfoLevel $info_level = EInfoLevel::ENDUSER)
 	{
-		$this->plural_strings[EInfoLevel::coerceValue($info_level)] = $string;
+		$this->plural_strings[$info_level->value] = $string;
 		return $this;
 	}
 	
@@ -673,13 +671,13 @@ final class Text extends Primitive implements IStringable, IStringInstantiable, 
 	 * If suffixed with opening and closing parenthesis, such as `{{object.method()}}`, then the given pointers are 
 	 * interpreted as getter method calls, but they cannot be given any arguments.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Enumerations\InfoLevel>> $info_level
+	 * @param \Dracodeum\Kit\Enums\Info\Level $info_level
 	 * The info level to build with.
 	 * 
 	 * @return static
 	 * The built instance.
 	 */
-	final public static function build(?string $string = null, $info_level = EInfoLevel::ENDUSER)
+	final public static function build(?string $string = null, EInfoLevel $info_level = EInfoLevel::ENDUSER): static
 	{
 		return new static($string, $info_level);
 	}

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text as TextPrimitive
 };
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 
 /**
  * This prototype represents a text.

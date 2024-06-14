@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Prototypes\Types\Boolean */
@@ -148,14 +148,14 @@ class BooleanTest extends TestCase
 		//false
 		$text_false = $component->textify(false);
 		$this->assertInstanceOf(Text::class, $text_false);
-		$this->assertSame('no', $text_false->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame('false', $text_false->toString(['info_level' => EInfoLevel::TECHNICAL]));
+		$this->assertSame('no', $text_false->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame('false', $text_false->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
 		
 		//true
 		$text_true = $component->textify(true);
 		$this->assertInstanceOf(Text::class, $text_true);
-		$this->assertSame('yes', $text_true->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame('true', $text_true->toString(['info_level' => EInfoLevel::TECHNICAL]));
+		$this->assertSame('yes', $text_true->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame('true', $text_true->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
 	}
 	
 	

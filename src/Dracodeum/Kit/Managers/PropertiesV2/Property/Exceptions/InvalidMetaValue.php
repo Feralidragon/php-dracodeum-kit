@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Managers\PropertiesV2\Property\Exceptions;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Property\Exception;
 use Dracodeum\Kit\Primitives\Error;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\Text as UText;
 
 /**
@@ -52,7 +52,7 @@ class InvalidMetaValue extends Exception
 	{
 		if ($placeholder === 'error') {
 			return UText::formatMessage(
-				$value->getText()->toString(['info_level' => EInfoLevel::INTERNAL]),
+				$value->getText()->toString(['info_level' => EInfoLevel::INTERNAL->value]),
 				indentation_expression: "   "
 			);
 		}

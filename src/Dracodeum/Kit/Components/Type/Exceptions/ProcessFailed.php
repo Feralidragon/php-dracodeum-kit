@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Components\Type\Exceptions;
 use Dracodeum\Kit\Components\Type\Exception;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\coercive;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Primitives\{
 	Text,
@@ -58,7 +58,9 @@ abstract class ProcessFailed extends Exception
 				return EContext::getName($value);
 			})
 			->setPlaceholderStringifier('error', function (mixed $value, TextOptions $text_options): string {
-				return UText::formatMessage($value->getText()->toString(['info_level' => EInfoLevel::INTERNAL]), true);
+				return UText::formatMessage(
+					$value->getText()->toString(['info_level' => EInfoLevel::INTERNAL->value]), true
+				);
 			})
 		;
 		

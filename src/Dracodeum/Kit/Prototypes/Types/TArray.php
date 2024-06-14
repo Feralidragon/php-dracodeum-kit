@@ -22,7 +22,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables as CountableMutators;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\{
 	Data as UData,
 	Text as UText
@@ -335,7 +335,7 @@ class TArray extends Prototype implements ITextifier, IMutatorProducer
 					
 					//string
 					$string = implode($multiline ? ",\n" : ", ", $strings);
-					if ($multiline && $text_options->info_level !== EInfoLevel::ENDUSER) {
+					if ($multiline && $text_options->info_level !== EInfoLevel::ENDUSER->value) {
 						$string = "\n" . UText::indentate($string) . "\n";
 					}
 					

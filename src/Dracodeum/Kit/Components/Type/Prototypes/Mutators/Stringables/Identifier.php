@@ -10,10 +10,8 @@ namespace Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringable as Prototype;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer as IExplanationProducer;
 use Dracodeum\Kit\Primitives\Text;
-use Dracodeum\Kit\Enumerations\{
-	InfoLevel as EInfoLevel,
-	TextCase as ETextCase
-};
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
+use Dracodeum\Kit\Enumerations\TextCase as ETextCase;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use Dracodeum\Kit\Utilities\Text as UText;

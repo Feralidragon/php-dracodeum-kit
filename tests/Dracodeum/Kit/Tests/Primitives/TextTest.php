@@ -9,7 +9,7 @@ namespace Dracodeum\Kit\Tests\Primitives;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Primitives\Text;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\Call\Exceptions\AssertionFailed as CallAssertionFailedException;
 
@@ -35,43 +35,6 @@ class TextTest extends TestCase
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
 		$this->assertSame($string, $text->toString());
-	}
-	
-	/**
-	 * Test `Cloneable` interface.
-	 * 
-	 * @testdox Cloneable interface
-	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Cloneable
-	 */
-	public function testCloneableInterface(): void
-	{
-		//build
-		$text = Text::build()
-			->setString("The {{fox_count}} quick brown fox named {{fox_name}} jumps over the lazy dog.")
-			->setPluralString(
-				"The {{fox_count}} quick brown foxes named {{fox_name}} jump over the lazy dog."
-			)
-			->setString(
-				"The {{fox_count}} high-speed brown vulpes named {{fox_name}} jumps over the laziest canis.",
-				EInfoLevel::TECHNICAL
-			)
-			->setPluralString(
-				"The {{fox_count}} high-speed brown vulpes named {{fox_name}} jump over the laziest canis.",
-				EInfoLevel::TECHNICAL
-			)
-			->setPluralNumberPlaceholder('fox_count')
-			->setPluralNumber(12)
-			->setParameters(['fox_name' => "Cooper"])
-		;
-		
-		//clone
-		$clone = $text->clone();
-		
-		//assert
-		$this->assertInstanceOf(Text::class, $clone);
-		$this->assertEquals($text, $clone);
-		$this->assertNotSame($text, $clone);
 	}
 	
 	/**
@@ -113,8 +76,8 @@ class TextTest extends TestCase
 		$this->assertSame($string, $text->getString());
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
-		foreach (EInfoLevel::getValues() as $info_level) {
-			$this->assertSame($string, $text->toString(['info_level' => $info_level]));
+		foreach (EInfoLevel::cases() as $info_level) {
+			$this->assertSame($string, $text->toString(['info_level' => $info_level->value]));
 		}
 	}
 	
@@ -139,9 +102,9 @@ class TextTest extends TestCase
 		$this->assertSame($string, $text->getString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
-		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -167,9 +130,9 @@ class TextTest extends TestCase
 		$this->assertSame($string, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
-		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -196,9 +159,9 @@ class TextTest extends TestCase
 		$this->assertNull($text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
-		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -229,9 +192,9 @@ class TextTest extends TestCase
 		$this->assertSame($string_intern, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string, (string)$text);
 		$this->assertSame($string, $text->toString());
-		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_intern, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame($string, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string_intern, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -258,9 +221,9 @@ class TextTest extends TestCase
 		$this->assertSame($string_intern, $text->getString(EInfoLevel::INTERNAL));
 		$this->assertSame($string_tech, (string)$text);
 		$this->assertSame($string_tech, $text->toString());
-		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_intern, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame('', $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string_intern, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -441,9 +404,9 @@ class TextTest extends TestCase
 		$this->assertTrue($text->hasString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string_tech, $text->getString(EInfoLevel::TECHNICAL));
 		$this->assertSame($string_param, $text->toString());
-		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**
@@ -500,9 +463,9 @@ class TextTest extends TestCase
 			$this->assertFalse($text->hasString(EInfoLevel::INTERNAL));
 			$this->assertNull($text->getString(EInfoLevel::INTERNAL));
 			$this->assertSame($string_param, $text->toString());
-			$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+			$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+			$this->assertSame($string_tech_param, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 		}
 	}
 	
@@ -590,9 +553,9 @@ class TextTest extends TestCase
 				//assert
 				$this->assertSame((float)$number, $text->getPluralNumber());
 				$this->assertSame($s, $text->toString());
-				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 			}
 			
 			//assert (plural)
@@ -605,9 +568,9 @@ class TextTest extends TestCase
 				//assert
 				$this->assertSame((float)$number, $text->getPluralNumber());
 				$this->assertSame($s, $text->toString());
-				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+				$this->assertSame($s, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+				$this->assertSame($s_tech, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 			}
 		}
 	}
@@ -687,9 +650,9 @@ class TextTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Text::class, $text);
-		$this->assertSame($string_param_enduser, $text->toString(['info_level' => EInfoLevel::ENDUSER]));
-		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL]));
-		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::INTERNAL]));
+		$this->assertSame($string_param_enduser, $text->toString(['info_level' => EInfoLevel::ENDUSER->value]));
+		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::TECHNICAL->value]));
+		$this->assertSame($string_param, $text->toString(['info_level' => EInfoLevel::INTERNAL->value]));
 	}
 	
 	/**

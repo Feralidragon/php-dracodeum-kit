@@ -17,7 +17,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 use Dracodeum\Kit\Options\Text as TextOptions;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\{
 	Data as UData,
 	Text as UText
@@ -78,7 +78,7 @@ class Invalid extends Exception
 				//single
 				if (count($value) === 1) {
 					return UText::formatMessage(
-						UData::first($value)->getText()->toString(['info_level' => EInfoLevel::INTERNAL]),
+						UData::first($value)->getText()->toString(['info_level' => EInfoLevel::INTERNAL->value]),
 						indentation_expression: "   "
 					);
 				}
@@ -87,7 +87,7 @@ class Invalid extends Exception
 				$strings = [];
 				foreach ($value as $name => $v) {
 					$strings[] = "{$name}: " . UText::formatMessage(
-						$v->getText()->toString(['info_level' => EInfoLevel::INTERNAL]),
+						$v->getText()->toString(['info_level' => EInfoLevel::INTERNAL->value]),
 						indentation_expression: "   "
 					);
 				}

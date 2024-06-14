@@ -11,7 +11,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPrope
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Options\Text as TextOptions;
-use Dracodeum\Kit\Enumerations\InfoLevel as EInfoLevel;
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Primitives\Text;
 use Dracodeum\Kit\Utilities\{
 	Call as UCall,
@@ -62,7 +62,7 @@ abstract class ExceptionV2 extends \Exception implements IPropertyInitializer
 		;
 		
 		//parent
-		parent::__construct($text->toString(['info_level' => EInfoLevel::INTERNAL]), $code, $previous);
+		parent::__construct($text->toString(['info_level' => EInfoLevel::INTERNAL->value]), $code, $previous);
 	}
 	
 	

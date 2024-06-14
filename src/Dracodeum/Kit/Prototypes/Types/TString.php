@@ -17,10 +17,8 @@ use Dracodeum\Kit\Primitives\{
 };
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables as StringableMutators;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
-use Dracodeum\Kit\Enumerations\{
-	InfoLevel as EInfoLevel,
-	TextCase as ETextCase
-};
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
+use Dracodeum\Kit\Enumerations\TextCase as ETextCase;
 use Dracodeum\Kit\Root\Locale;
 
 /**

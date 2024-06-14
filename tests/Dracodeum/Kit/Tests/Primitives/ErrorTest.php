@@ -12,64 +12,14 @@ use Dracodeum\Kit\Primitives\{
 	Error,
 	Text
 };
+use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
+use Exception;
 use stdClass;
 
 /** @see \Dracodeum\Kit\Primitives\Error */
 class ErrorTest extends TestCase
 {
 	//Public methods
-	/**
-	 * Test `Cloneable` interface.
-	 * 
-	 * @testdox Cloneable interface
-	 * 
-	 * @see \Dracodeum\Kit\Interfaces\Cloneable
-	 */
-	public function testCloneableInterface(): void
-	{
-		//build
-		$error = Error::build(
-			name: 'InvalidValue',
-			text: "The quick brown fox jumped over the lazy dog.",
-			data: ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass]
-		);
-		
-		//clone
-		$clone = $error->clone();
-		
-		//assert
-		$this->assertInstanceOf(Error::class, $clone);
-		$this->assertEquals($error, $clone);
-		$this->assertNotSame($error, $clone);
-	}
-	
-	/**
-	 * Test `JsonSerializable` interface.
-	 * 
-	 * @testdox JsonSerializable interface
-	 * 
-	 * @see https://www.php.net/manual/en/class.jsonserializable.php
-	 */
-	public function testJsonSerializableInterface(): void
-	{
-		//initialize
-		$name = 'InvalidValue';
-		$text = "The quick brown fox jumped over the lazy dog.";
-		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass];
-		$json = json_encode([
-			'name' => $name,
-			'text' => $text,
-			'data' => $data
-		]);
-		
-		//build
-		$error = Error::build($name, $text, $data);
-		
-		//assert
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertSame($json, json_encode($error));
-	}
-	
 	/**
 	 * Test name.
 	 * 
@@ -162,6 +112,28 @@ class ErrorTest extends TestCase
 	}
 	
 	/**
+	 * Test exception.
+	 * 
+	 * @testdox Exception
+	 */
+	public function testException(): void
+	{
+		//initialize
+		$exception = new Exception;
+		
+		//build
+		$error = Error::build();
+		
+		//assert
+		$this->assertInstanceOf(Error::class, $error);
+		$this->assertFalse($error->hasException());
+		$this->assertNull($error->getException());
+		$this->assertSame($error, $error->setException($exception));
+		$this->assertTrue($error->hasException());
+		$this->assertSame($exception, $error->getException());
+	}
+	
+	/**
 	 * Test data.
 	 * 
 	 * @testdox Data
@@ -176,29 +148,12 @@ class ErrorTest extends TestCase
 		
 		//assert
 		$this->assertInstanceOf(Error::class, $error);
-		$this->assertFalse($error->hasData());
-		$this->assertNull($error->getData());
-		$this->assertSame($error, $error->setData($data));
-		$this->assertTrue($error->hasData());
-		$this->assertSame($data, $error->getData());
-	}
-	
-	/**
-	 * Test data (build).
-	 * 
-	 * @testdox Data (build)
-	 */
-	public function testData_Build(): void
-	{
-		//initialize
-		$data = ['a' => 11111, 'b' => 'foobar', 'F' => new stdClass];
-		
-		//build
-		$error = Error::build(data: $data);
-		
-		//assert
-		$this->assertInstanceOf(Error::class, $error);
-		$this->assertTrue($error->hasData());
-		$this->assertSame($data, $error->getData());
+		foreach (EInfoLevel::cases() as $info_level) {
+			$this->assertFalse($error->hasData($info_level));
+			$this->assertNull($error->getData($info_level));
+			$this->assertSame($error, $error->setData($data, $info_level));
+			$this->assertTrue($error->hasData($info_level));
+			$this->assertSame($data, $error->getData($info_level));
+		}
 	}
 }
