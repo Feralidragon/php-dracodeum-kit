@@ -531,7 +531,7 @@ final class Property
 		//process
 		$error = $this->meta->process($name, $value);
 		if ($error !== null) {
-			throw new Exceptions\InvalidMetaValue([$this, $name, $value, $error]);
+			throw new Exceptions\InvalidMetaValue($this, $name, $value, $error);
 		}
 		
 		//set

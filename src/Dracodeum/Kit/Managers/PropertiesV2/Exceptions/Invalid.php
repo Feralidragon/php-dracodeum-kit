@@ -49,13 +49,13 @@ class Invalid extends Exception
 		return Text::build()
 			->setString(
 				"Invalid value given for the following property in {{manager.getOwner()}}: {{values}}, " . 
-				"with the following error: {{errors}}"
+					"with the following error: {{errors}}"
 			)
 			->setPluralString(
 				"Invalid values given for the following properties in {{manager.getOwner()}}:\n" . 
-				"{{values}}\n" . 
-				"with the following errors:\n" . 
-				"{{errors}}"
+					"{{values}}\n" . 
+					"with the following errors:\n" . 
+					"{{errors}}"
 			)
 			->setPluralNumber(count($this->values))
 			->setPlaceholderStringifier('values', function (mixed $value, TextOptions $text_options): string {

@@ -7,18 +7,12 @@
 
 namespace Dracodeum\Kit\Managers\PropertiesV2\Meta;
 
-use Dracodeum\Kit\Exception as KException;
+use Dracodeum\Kit\ExceptionV2 as KException;
+use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\strict;
 
-/**
- * @property-read string $class
- * The class.
- */
 abstract class Exception extends KException
 {
-	//Implemented protected methods (Dracodeum\Kit\Exception\Traits\PropertiesLoader)
-	/** {@inheritdoc} */
-	protected function loadProperties(): void
-	{
-		$this->addProperty('class')->setAsStrictClass();
-	}
+	//Public properties
+	#[strict('class')]
+	public string $class;
 }

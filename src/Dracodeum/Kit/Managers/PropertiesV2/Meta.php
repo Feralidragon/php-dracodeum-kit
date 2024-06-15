@@ -78,7 +78,7 @@ final class Meta
 	final public function get(string $name): Entry
 	{
 		if (!isset($this->entries[$name])) {
-			throw new Exceptions\Undefined([$this->class, $name]);
+			throw new Exceptions\Undefined($this->class, $name);
 		}
 		return $this->entries[$name];
 	}
@@ -105,13 +105,13 @@ final class Meta
 	{
 		//check
 		if (isset($this->entries[$name])) {
-			throw new Exceptions\Defined([$this->class, $name]);
+			throw new Exceptions\Defined($this->class, $name);
 		}
 		
 		//default
 		$error = $type->process($default);
 		if ($error !== null) {
-			throw new Exceptions\InvalidDefault([$this->class, $name, $default, $error]);
+			throw new Exceptions\InvalidDefault($this->class, $name, $default, $error);
 		}
 		
 		//set

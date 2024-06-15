@@ -132,7 +132,6 @@ class ExceptionTest extends TestCase
 class ExceptionTest_Class extends Exception
 {
 	public string $name;
-	
 	public int $number = 123;
 	
 	protected function produceText()
