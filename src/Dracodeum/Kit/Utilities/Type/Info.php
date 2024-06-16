@@ -7,18 +7,13 @@
 
 namespace Dracodeum\Kit\Utilities\Type;
 
-use Dracodeum\Kit\Utilities\Type\Info\Enumerations\Kind as EKind;
+use Dracodeum\Kit\Utilities\Type\Info\Enums\Kind as EKind;
+use Dracodeum\Kit\Exceptions\Argument\Invalid as InvalidArgument;
 
-final class Info
+final readonly class Info
 {
 	//Public properties
-	/** @var enum<\Dracodeum\Kit\Utilities\Type\Info\Enumerations\Kind> */
-	public $kind; //TODO: set as readonly
-	
-	public ?string $name; //TODO: set as readonly
-	
-	/** @var string[] */
-	public array $names; //TODO: set as readonly
+	public string $name;
 	
 	
 	
@@ -26,19 +21,31 @@ final class Info
 	/**
 	 * Instantiate class.
 	 * 
-	 * @param coercible<enum<\Dracodeum\Kit\Utilities\Type\Info\Enumerations\Kind>> $kind
+	 * @param \Dracodeum\Kit\Utilities\Type\Info\Enums\Kind $kind
 	 * The kind to instantiate with.
-	 * 
-	 * @param string|null $name
-	 * The name to instantiate with.
 	 * 
 	 * @param string[] $names
 	 * The names to instantiate with.
+	 * 
+	 * @param string $flags
+	 * The flags to instantiate with.
+	 * 
+	 * @param array $parameters
+	 * The parameters to instantiate with.
+	 * 
+	 * @throws \Dracodeum\Kit\Exceptions\Argument\Invalid
 	 */
-	final public function __construct($kind, ?string $name = null, array $names = [])
-	{
-		$this->kind = EKind::coerceValue($kind);
-		$this->name = $name;
-		$this->names = $names;
+	final public function __construct(
+		public EKind $kind,
+		public array $names,
+		public string $flags = '',
+		public array $parameters = []
+	) {
+		if (!isset($names[0]) || !array_is_list($names)) {
+			throw new InvalidArgument(
+				'names', $names, error_message: "Only a non-empty non-associative string array is expected to be given."
+			);
+		}
+		$this->name = $names[0];
 	}
 }

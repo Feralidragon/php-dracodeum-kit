@@ -13,7 +13,7 @@ use Dracodeum\Kit\Utilities\Type\{
 	Options,
 	Exceptions
 };
-use Dracodeum\Kit\Utilities\Type\Info\Enumerations\Kind as EInfoKind;
+use Dracodeum\Kit\Utilities\Type\Info\Enums\Kind as EInfoKind;
 use Dracodeum\Kit\Interfaces\{
 	Integerable as IIntegerable,
 	Floatable as IFloatable,
@@ -33,7 +33,11 @@ use Dracodeum\Kit\Interfaces\{
 };
 use Dracodeum\Kit\Components\Type as Component;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
-use Dracodeum\Kit\Primitives\Text as TextPrimitive;
+use Dracodeum\Kit\Enums\Error\Type as EErrorType;
+use Dracodeum\Kit\Primitives\{
+	Error,
+	Text as TextPrimitive
+};
 
 /**
  * This utility implements a set of methods used to check, validate and get information from PHP types, 
@@ -2086,7 +2090,7 @@ final class Type extends Utility
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @return string
-	 * <p>The given object cast to a key.</p>
+	 * <p>A key cast from the given object.</p>
 	 */
 	final public static function key(object $object, bool $recursive = false, ?bool &$safe = null): string
 	{
@@ -2115,7 +2119,7 @@ final class Type extends Utility
 	 * <p>The safety indicator which, if set to boolean <code>true</code>, 
 	 * indicates that the returning key may be used for longer term purposes, such as internal cache keys.</p>
 	 * @return string|null
-	 * <p>The given value cast to a key.<br>
+	 * <p>A key cast from the given value.<br>
 	 * If <var>$keyables_only</var> is set to boolean <code>true</code>, 
 	 * then <code>null</code> is returned if it could not be cast to a key.</p>
 	 */
@@ -2876,262 +2880,121 @@ final class Type extends Utility
 	 * The name to get from.
 	 * 
 	 * @param bool $degroup
-	 * Return a degrouped info instance.
+	 * Return an info instance with the given name already degrouped.
 	 * 
-	 * @param bool $no_throw
-	 * Do not throw an exception.
+	 * @param \Dracodeum\Kit\Enums\Error\Type $error_type
+	 * The type of error to return if an error occurs.
 	 * 
 	 * @throws \Dracodeum\Kit\Utilities\Type\Exceptions\Info\InvalidName
 	 * 
-	 * @return \Dracodeum\Kit\Utilities\Type\Info|null
+	 * @return \Dracodeum\Kit\Utilities\Type\Info|\Dracodeum\Kit\Primitives\Error|null
 	 * An info instance from the given name.  
-	 * If `$no_throw` is set to boolean `true`, then `null` is returned if the given name is invalid.
+	 * If an error occurs, then the returning value follows the behavior set through `$error_type` instead.
 	 */
-	final public static function info(string $name, bool $degroup = false, bool $no_throw = false): ?Info
+	final public static function info(
+		string $name, bool $degroup = false, EErrorType $error_type = EErrorType::THROWABLE
+	): Info|Error|null
 	{
 		//name
 		$name = trim($name);
 		if ($name === '') {
-			if ($no_throw) {
-				return null;
-			}
-			throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot be empty."]);
+			return match ($error_type) {
+				EErrorType::NULL => null,
+				default => $error_type->handleThrowable(
+					new Exceptions\Info\InvalidName([$name, 'error_message' => "The given name cannot be empty."])
+				)
+			};
 		}
 		
-		//initialize
-		$ikind = EInfoKind::SIMPLE;
-		$iname = $name;
-		$inames = [];
 		
-		//maps
-		static $open_map = ['<' => '>', '(' => ')'];
-		static $close_map = ['>' => '<', ')' => '('];
+		//TODO: memoization
 		
-		//tokenize
-		$depth = 0;
-		$depth_map = [];
-		$buffer = $outer_buffer = $inner_buffer = '';
-		foreach (preg_split('/([<>()|,]|\[\])/', $name, flags: PREG_SPLIT_DELIM_CAPTURE) as $token) {
-			//initialize
-			$position = strlen($outer_buffer) + 1;
-			$outer_buffer .= $token;
-			$token = trim($token);
-			if ($token === '') {
-				continue;
-			}
-			
-			//token
-			if ($depth === 0) {
-				switch ($token) {
-					//union
-					case '|':
-						if ($buffer === '') {
-							if ($no_throw) {
-								return null;
-							}
-							throw new Exceptions\Info\InvalidName([
-								$name,
-								'error_message' => "Unexpected \"{$token}\" union character at position {$position}."
-							]);
-						} elseif ($ikind !== EInfoKind::UNION) {
-							$ikind = EInfoKind::UNION;
-							$iname = null;
-							$inames = [];
-						}
-						$inames[] = $buffer;
-						$buffer = $inner_buffer = '';
-						continue 2;
-						
-					//generic (open)
-					case '<':
-						if ($ikind !== EInfoKind::UNION) {
-							if ($ikind !== EInfoKind::SIMPLE || $buffer === '') {
-								if ($no_throw) {
-									return null;
-								}
-								throw new Exceptions\Info\InvalidName([
-									$name,
-									'error_message' => "Unexpected \"{$token}\" generic opening character " .
-										"at position {$position}."
-								]);
-							}
-							$ikind = EInfoKind::GENERIC;
-							$iname = $buffer;
-							$inames = [];
-						}
-						break;
-						
-					//group (open)
-					case '(':
-						if ($ikind !== EInfoKind::UNION) {
-							if ($ikind !== EInfoKind::SIMPLE || $buffer !== '') {
-								if ($no_throw) {
-									return null;
-								}
-								throw new Exceptions\Info\InvalidName([
-									$name,
-									'error_message' => "Unexpected \"{$token}\" group opening character " .
-										"at position {$position}."
-								]);
-							}
-							$ikind = EInfoKind::GROUP;
-							$iname = null;
-							$inames = [];
-						}
-						break;
-						
-					//unexpected
-					case '>':
-					case ')':
-					case ',':
-						if ($no_throw) {
-							return null;
-						}
-						throw new Exceptions\Info\InvalidName([
-							$name, 'error_message' => "Unexpected \"{$token}\" character at position {$position}."
-						]);
-						
-					//array
-					case '[]':
-						if ($ikind !== EInfoKind::UNION) {
-							if ($buffer === '') {
-								if ($no_throw) {
-									return null;
-								}
-								throw new Exceptions\Info\InvalidName([
-									$name,
-									'error_message' => "Unexpected \"{$token}\" array characters " .
-										"at position {$position}."
-								]);
-							}
-							$ikind = EInfoKind::ARRAY;
-							$iname = $buffer;
-							$inames = [];
-						}
-						break;
-						
-					//default
-					default:
-						if (!in_array($ikind, [EInfoKind::SIMPLE, EInfoKind::UNION], true)) {
-							if ($no_throw) {
-								return null;
-							}
-							throw new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "Unexpected \"{$token}\" expression at position {$position}."
-							]);
-						}
-						break;
-				}
-				
-			} elseif ($depth === 1 && $ikind !== EInfoKind::UNION) {
-				switch ($token) {
-					//generic (close)
-					case '>':
-						if ($ikind !== EInfoKind::GENERIC || $inner_buffer === '') {
-							if ($no_throw) {
-								return null;
-							}
-							throw new Exceptions\Info\InvalidName([
-								$name,
-								'error_message' => "Unexpected \"{$token}\" generic closing character " .
-									"at position {$position}."
-							]);
-						}
-						$inames[] = $inner_buffer;
-						break;
-						
-					//group (close)
-					case ')':
-						if ($ikind !== EInfoKind::GROUP) {
-							if ($no_throw) {
-								return null;
-							}
-							throw new Exceptions\Info\InvalidName([
-								$name,
-								'error_message' => "Unexpected \"{$token}\" group closing character " .
-									"at position {$position}."
-							]);
-						}
-						$iname = $inner_buffer;
-						$inner_buffer = '';
-						break;
-						
-					//generic (separator)
-					case ',':
-						if ($ikind !== EInfoKind::GENERIC || $inner_buffer === '') {
-							if ($no_throw) {
-								return null;
-							}
-							throw new Exceptions\Info\InvalidName([
-								$name,
-								'error_message' => "Unexpected \"{$token}\" generic separator character " .
-									"at position {$position}."
-							]);
-						}
-						$inames[] = $inner_buffer;
-						$inner_buffer = '';
-						$buffer .= $token;
-						continue 2;
-				}
-			}
-			
-			//buffer
-			$buffer .= $token;
-			if ($depth > 0) {
-				$inner_buffer .= $token;
-			}
-			
-			//depth
-			if (isset($open_map[$token])) {
-				$depth_map[++$depth] = $token;
-			} elseif (isset($close_map[$token])) {
-				//check
-				if (!isset($depth_map[$depth]) || $close_map[$token] !== $depth_map[$depth]) {
-					if ($no_throw) {
-						return null;
-					}
-					throw new Exceptions\Info\InvalidName([
-						$name, 'error_message' => "Unexpected \"{$token}\" closing character at position {$position}."
-					]);
-				}
-				
-				//finalize
-				unset($depth_map[$depth--]);
-				
-				//buffer
-				if ($depth === 0) {
-					$inner_buffer = '';
-				}
+		
+		//patterns
+		static $base_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
+		static $flags_pattern = '(?:\w+:)?(?:[^\w.,:;\\\\\/\[\](){}&|]+)?';
+		static $parameter_pattern = "(?:{$base_pattern}\s*:\s*)?(?:\\\\.|[^,:()\\\\]+)+";
+		static $parameters_pattern = "{$parameter_pattern}(?:\s*,\s*{$parameter_pattern})*";
+		static $match_group_pattern = '/^(\((?:\\\\.|[^()]|(?1))*\))$/';
+		static $match_generic_pattern = "/^" .
+			"(?P<flags>{$flags_pattern})?" .
+			"(?P<base>{$base_pattern})" .
+			"(?:\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
+			"(?:<(?P<types>[^()<>]+|([(<](?:\\\\.|[^()<>]+|(?1))*[)>]))>)?" .
+			"$/i";
+		
+		//split patterns
+		static $split_patterns = [];
+		if (!$split_patterns) {
+			foreach (['|', '&'] as $delimiter) {
+				$split_patterns[$delimiter] = "/(" .
+					"(?:(?:\\\\.|[^{$delimiter}()<>])+|(\((?:\\\\.|[^()]|(?2))*\)|<(?:\\\\.|[^<>]|(?2))*>))+" .
+					")/";
 			}
 		}
 		
 		//group
-		if ($degroup && $ikind === EInfoKind::GROUP) {
-			return self::info($iname, $degroup, $no_throw);
+		if (preg_match($match_group_pattern, $name)) {
+			$name = trim(substr($name, 1, -1));
+			return $degroup ? self::info($name, true, $error_type) : new Info(EInfoKind::GROUP, [$name]);
 		}
 		
-		//union
-		if ($ikind === EInfoKind::UNION) {
-			if ($buffer === '') {
-				if ($no_throw) {
-					return null;
+		//union and intersection
+		static $delimiters_kinds = ['|' => EInfoKind::UNION, '&' => EInfoKind::INTERSECTION];
+		foreach ($split_patterns as $delimiter => $split_pattern) {
+			//process
+			$names = [];
+			$delimited = true;
+			foreach (preg_split($split_pattern, $name, flags: PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) as $s) {
+				$s = trim($s);
+				if ($s === $delimiter) {
+					$delimited = true;
+				} elseif ($s === '') {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name,
+								'error_message' => "The given name cannot have blanks within a union or intersection."
+							])
+						)
+					};
+				} elseif ($delimited) {
+					$names[] = $s;
+					$delimited = false;
 				}
-				throw new Exceptions\Info\InvalidName([$name, 'error_message' => "Missing last union type."]);
 			}
-			$inames[] = $buffer;
+			
+			//finalize
+			if (count($names) > 1) {
+				return new Info($delimiters_kinds[$delimiter], $names);
+			}
+			unset($names, $delimited);
 		}
 		
-		//depth
-		if (isset($depth_map[$depth])) {
-			if ($no_throw) {
-				return null;
-			}
-			throw new Exceptions\Info\InvalidName([
-				$name, 'error_message' => "Missing \"{$open_map[$depth_map[$depth]]}\" closing character."
-			]);
+		//array
+		if (substr($name, -2) === '[]') {
+			return new Info(EInfoKind::ARRAY, [trim(substr($name, 0, -2))]);
+		}
+		
+		//generic
+		if (preg_match($match_generic_pattern, $name, $matches)) {
+			$names = [$matches['base']];
+			$flags = str_replace(':', '', $matches['flags'] ?? ''); //TODO: validate duplicated flags
+			
+			$parameters = []; //TODO
+			
+			$types = []; //TODO
+			
+			return new Info(EInfoKind::GENERIC, $names, $flags, $parameters);
 		}
 		
 		//return
-		return new Info($ikind, $iname, $inames);
+		return match ($error_type) {
+			EErrorType::NULL => null,
+			default => $error_type->handleThrowable(
+				new Exceptions\Info\InvalidName([$name])
+			)
+		};
 	}
 }
