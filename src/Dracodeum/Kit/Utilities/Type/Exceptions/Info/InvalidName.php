@@ -23,7 +23,7 @@ class InvalidName extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return "Invalid name {{name}}: {{error_message}}";
+		return $this->error_message !== null ? "Invalid name {{name}}: {{error_message}}" : "Invalid name {{name}}.";
 	}
 	
 	

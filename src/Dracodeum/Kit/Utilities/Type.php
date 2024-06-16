@@ -2992,9 +2992,7 @@ final class Type extends Utility
 		//return
 		return match ($error_type) {
 			EErrorType::NULL => null,
-			default => $error_type->handleThrowable(
-				new Exceptions\Info\InvalidName([$name])
-			)
+			default => $error_type->handleThrowable(new Exceptions\Info\InvalidName([$name]))
 		};
 	}
 }
