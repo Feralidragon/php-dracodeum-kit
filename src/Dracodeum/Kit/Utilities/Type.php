@@ -2939,13 +2939,12 @@ final class Type extends Utility
 		static $split_parameter_pattern = "/\s*({$parameter_pattern})\s*/i";
 		static $split_delimiter_patterns = [];
 		if (!$split_delimiter_patterns) {
-			foreach (['|', '&', ','] as $delimiter) {
-				$split_delimiter_patterns[$delimiter] = "/(" .
-					"(?:" .
-						"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
-						"(\((?:{$grouping_pattern}|(?2)|(?3))*\))|" .
-						"(<(?:{$grouping_pattern}|(?2)|(?3))+>)|" .
-					")+)/";
+			foreach ([',', '|', '&'] as $delimiter) {
+				$split_delimiter_patterns[$delimiter] = "/((?:" .
+					"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
+					"(\((?:{$grouping_pattern}|(?2)|(?3))*\))|" .
+					"(<(?:{$grouping_pattern}|(?2)|(?3))+>)|" .
+				")+)/";
 			}
 		}
 		static $split_type_pattern = $split_delimiter_patterns[','];
@@ -2961,7 +2960,7 @@ final class Type extends Utility
 		
 		//union and intersection
 		static $delimiters_kinds = ['|' => EInfoKind::UNION, '&' => EInfoKind::INTERSECTION];
-		foreach (['|', '&'] as $delimiter) {
+		foreach ($delimiters_kinds as $delimiter => $kind) {
 			//process
 			$names = [];
 			$delimited = true;
@@ -2988,10 +2987,9 @@ final class Type extends Utility
 			
 			//finalize
 			if (count($names) > 1) {
-				$info = $infos[$name] = new Info($delimiters_kinds[$delimiter], $names);
+				$info = $infos[$name] = new Info($kind, $names);
 				return $info;
 			}
-			unset($names, $delimited);
 		}
 		
 		//array
