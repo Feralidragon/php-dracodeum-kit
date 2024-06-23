@@ -2901,38 +2901,40 @@ final class Type extends Utility
 			return match ($error_type) {
 				EErrorType::NULL => null,
 				default => $error_type->handleThrowable(
-					new Exceptions\Info\InvalidName([$name, 'error_message' => "The given name cannot be empty."])
+					new Exceptions\Info\InvalidName([$name, 'error_message' => "The given name cannot be blank."])
 				)
 			};
 		}
 		
 		//memoization
 		static $infos = [];
-		if (isset($infos[$name])) {
-			return $infos[$name];
+		if (isset($infos[$name][$degroup])) {
+			return $infos[$name][$degroup];
 		}
 		
 		//initialize
 		static $split_flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY;
 		
 		//patterns
-		static $base_pattern = '[a-z_]\w*(?:[.\\\\][a-z_]\w*)*';
-		static $flags_pattern = '(?:\w+:)?(?:[^\w.,:;"\'\\\\\/\[\](){}&|]+)?';
+		static $name_pattern = '[a-z_]\w*(?:\.[a-z_]\w*)*';
+		static $base_pattern = "(?:{$name_pattern}|\\\\?[a-z_]\w*(?:\\\\[a-z_]\w*)*)";
+		static $flags_pattern = '(?:(?:\w\s*)+:)?(?:[^\w.,:;"\'\\\\\/\[\](){}<>&|]+)?';
 		static $quoted_pattern = '"(?:\\\\.|[^"])*"';
-		static $grouping_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
-		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^,:()\\\\\"])+)";
-		static $parameter_pattern = "(?:{$base_pattern}\s*:\s*)?{$parameter_value_pattern}";
+		static $unnested_pattern = "(?:{$quoted_pattern}|\\\\.|[^()<>\"])";
+		static $parameter_value_pattern = "(?:{$quoted_pattern}|(?:\\\\.|[^,:()<>\\\\\"])+)";
+		static $parameter_pattern = "(?:{$name_pattern}\s*:\s*)?{$parameter_value_pattern}";
 		static $parameters_pattern = "{$parameter_pattern}(?:\s*,\s*{$parameter_pattern})*";
 		
 		//match patterns
-		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()]|(?1))*\))$/";
+		static $match_array_pattern = '/(\[\s*(?P<size>\d+)?\s*\])$/';
+		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()\"]|(?1))*\))$/i";
 		static $match_generic_pattern = "/^" .
 			"(?P<flags>{$flags_pattern})?" .
 			"(?P<base>{$base_pattern})" .
 			"(?:\s*\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
 			"(?:\s*<(?P<types>.+)>)?" .
 			"$/i";
-		static $match_parameter_pattern = "/^(?:(?P<name>{$base_pattern})\s*:\s*)?" .
+		static $match_parameter_pattern = "/^(?:(?P<name>{$name_pattern})\s*:\s*)?" .
 			"(?P<value>{$parameter_value_pattern})$/i";
 		
 		//split patterns
@@ -2942,9 +2944,9 @@ final class Type extends Utility
 			foreach ([',', '|', '&'] as $delimiter) {
 				$split_delimiter_patterns[$delimiter] = "/((?:" .
 					"(?:{$quoted_pattern}|\\\\.|[^{$delimiter}()<>\"])+|" .
-					"(\((?:{$grouping_pattern}|(?2)|(?3))*\))|" .
-					"(<(?:{$grouping_pattern}|(?2)|(?3))+>)|" .
-				")+)/";
+					"(\((?:{$unnested_pattern}|(?2)|(?3))*\))|" .
+					"(<(?:{$unnested_pattern}|(?2)|(?3))*>)" .
+				")+)/i";
 			}
 		}
 		static $split_type_pattern = $split_delimiter_patterns[','];
@@ -2952,7 +2954,7 @@ final class Type extends Utility
 		//group
 		if (preg_match($match_group_pattern, $name)) {
 			$group_name = trim(substr($name, 1, -1));
-			$info = $infos[$name] = $degroup
+			$info = $infos[$name][$degroup] = $degroup
 				? self::info($group_name, true, $error_type)
 				: new Info(EInfoKind::GROUP, [$group_name]);
 			return $info;
@@ -2985,16 +2987,40 @@ final class Type extends Utility
 				}
 			}
 			
+			//error
+			if ($delimited && $names) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name,
+							'error_message' => "The given name cannot have a union or intersection ending with a " .
+								"trailing operator."
+						])
+					)
+				};
+			}
+			
 			//finalize
 			if (count($names) > 1) {
-				$info = $infos[$name] = new Info($kind, $names);
+				$info = $infos[$name][false] = $infos[$name][true] = new Info($kind, $names);
 				return $info;
 			}
 		}
 		
 		//array
-		if (substr($name, -2) === '[]') {
-			$info = $infos[$name] = new Info(EInfoKind::ARRAY, [trim(substr($name, 0, -2))]);
+		if (preg_match($match_array_pattern, $name, $matches)) {
+			//parameters
+			$parameters = [];
+			$size = $matches['size'] ?? '';
+			if ($size !== '') {
+				$parameters[] = (int)$size;
+			}
+			
+			//finalize
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::ARRAY, [trim(substr($name, 0, -strlen($matches[1])))], parameters: $parameters
+			);
 			return $info;
 		}
 		
@@ -3004,7 +3030,7 @@ final class Type extends Utility
 			$names = [$matches['base']];
 			
 			//flags
-			$flags = str_replace(':', '', $matches['flags'] ?? '');
+			$flags = preg_replace('/[\s:]/', '', $matches['flags'] ?? '');
 			if (strlen(count_chars($flags, 3)) !== strlen($flags)) {
 				return match ($error_type) {
 					EErrorType::NULL => null,
@@ -3032,48 +3058,63 @@ final class Type extends Utility
 							])
 						)
 					};
-				} elseif ($delimited && preg_match($match_parameter_pattern, $s, $parameter_matches)) {
-					//initialize
-					$parameter_name = trim($parameter_matches['name'] ?? '');
-					$parameter_value = trim($parameter_matches['value']);
-					if ($parameter_value[0] === '"') {
-						$parameter_value = substr($parameter_value, 1, -1);
-					}
-					$parameter_value = stripcslashes($parameter_value);
-					
-					//parameter
-					if ($parameter_name !== '') {
-						if (isset($parameters[$parameter_name])) {
-							return match ($error_type) {
-								EErrorType::NULL => null,
-								default => $error_type->handleThrowable(
-									new Exceptions\Info\InvalidName([
-										$name,
-										'error_message' => "The given name cannot have duplicated parameter names."
-									])
-								)
-							};
+				} elseif ($delimited) {
+					if (preg_match($match_parameter_pattern, $s, $parameter_matches)) {
+						//initialize
+						$parameter_name = trim($parameter_matches['name'] ?? '');
+						$parameter_value = trim($parameter_matches['value']);
+						if ($parameter_value[0] === '"') {
+							$parameter_value = substr($parameter_value, 1, -1);
 						}
-						$parameters[$parameter_name] = $parameter_value;
+						$parameter_value = stripcslashes($parameter_value);
+						
+						//parameter
+						if ($parameter_name !== '') {
+							if (isset($parameters[$parameter_name])) {
+								return match ($error_type) {
+									EErrorType::NULL => null,
+									default => $error_type->handleThrowable(
+										new Exceptions\Info\InvalidName([
+											$name,
+											'error_message' => "The given name cannot have duplicated parameter names."
+										])
+									)
+								};
+							}
+							$parameters[$parameter_name] = $parameter_value;
+						} else {
+							$parameters[] = $parameter_value;
+						}
+						
+						//finalize
+						$delimited = false;
+						unset($parameter_name, $parameter_value, $parameter_matches);
 					} else {
-						$parameters[] = $parameter_value;
+						return match ($error_type) {
+							EErrorType::NULL => null,
+							default => $error_type->handleThrowable(
+								new Exceptions\Info\InvalidName([
+									$name, 'error_message' => "The given name has malformed parameters."
+								])
+							)
+						};
 					}
-					
-					//finalize
-					$delimited = false;
-					unset($parameter_name, $parameter_value, $parameter_matches);
-				} else {
-					return match ($error_type) {
-						EErrorType::NULL => null,
-						default => $error_type->handleThrowable(
-							new Exceptions\Info\InvalidName([
-								$name, 'error_message' => "The given name has malformed parameters."
-							])
-						)
-					};
 				}
 			}
+			
+			//parameters (finalize)
 			ksort($parameters);
+			if ($delimited && $parameters) {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([
+							$name,
+							'error_message' => "The given name cannot have its parameters ending with a trailing comma."
+						])
+					)
+				};
+			}
 			
 			//types
 			$delimited = true;
@@ -3110,7 +3151,9 @@ final class Type extends Utility
 			}
 			
 			//return
-			$info = $infos[$name] = new Info(EInfoKind::GENERIC, $names, $flags, $parameters);
+			$info = $infos[$name][false] = $infos[$name][true] = new Info(
+				EInfoKind::GENERIC, $names, $flags, $parameters
+			);
 			return $info;
 		}
 		
