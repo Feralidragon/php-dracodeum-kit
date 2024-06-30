@@ -23,7 +23,9 @@ class InvalidName extends Exception
 	/** {@inheritdoc} */
 	public function getDefaultMessage(): string
 	{
-		return $this->error_message !== null ? "Invalid name {{name}}: {{error_message}}" : "Invalid name {{name}}.";
+		return $this->error_message !== null
+			? "Invalid type name {{name}}: {{error_message}}"
+			: "Invalid type name {{name}}.";
 	}
 	
 	
