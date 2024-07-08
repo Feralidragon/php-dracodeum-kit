@@ -2930,7 +2930,7 @@ final class Type extends Utility
 		static $parameters_pattern = "{$parameter_pattern}(?:\s*{$parameter_delimiter}\s*{$parameter_pattern})*";
 		
 		//match patterns
-		static $match_array_pattern = '/(\[\s*(?P<size>\d+)?\s*\])$/';
+		static $match_array_pattern = '/\S\s*(\[\s*(?P<size>\d+)?\s*\])$/';
 		static $match_group_pattern = "/^(\((?:{$quoted_pattern}|\\\\.|[^()\"]|(?1))*\))$/si";
 		static $match_generic_pattern = "/^" .
 			"(?P<flags>{$flags_pattern})?" .
@@ -2938,6 +2938,7 @@ final class Type extends Utility
 			"(?:\s*\(\s*(?P<parameters>{$parameters_pattern})?\s*\))?" .
 			"(?:\s*<(?P<types>.+)>)?" .
 			"$/si";
+		static $match_type_non_pattern = "/^(?:\(\s*(?!\))|[{$type_delimiter})<>\"])+$/";
 		static $match_parameter_pattern = "/^(?:(?P<name>{$name_pattern})\s*:\s*)?" .
 			"(?P<value>{$parameter_value_pattern})$/si";
 		
@@ -2957,10 +2958,22 @@ final class Type extends Utility
 		
 		//group
 		if (preg_match($match_group_pattern, $name)) {
+			//name
 			$group_name = trim(substr($name, 1, -1));
-			$info = $infos[$name][$degroup] = $degroup
-				? self::info($group_name, true, $error_type)
-				: new Info(EInfoKind::GROUP, [$group_name]);
+			if ($group_name === '') {
+				return match ($error_type) {
+					EErrorType::NULL => null,
+					default => $error_type->handleThrowable(
+						new Exceptions\Info\InvalidName([$name, 'error_message' => "Cannot have an empty group."])
+					)
+				};
+			}
+			
+			//info
+			$info = $degroup ? self::info($group_name, true, $error_type) : new Info(EInfoKind::GROUP, [$group_name]);
+			if ($info instanceof Info) {
+				$infos[$name][$degroup] = $info;
+			}
 			return $info;
 		}
 		
@@ -3128,6 +3141,15 @@ final class Type extends Utility
 					};
 				} elseif ($s === $type_delimiter) {
 					$delimited = true;
+				} elseif (preg_match($match_type_non_pattern, $s)) {
+					return match ($error_type) {
+						EErrorType::NULL => null,
+						default => $error_type->handleThrowable(
+							new Exceptions\Info\InvalidName([
+								$name, 'error_message' => "At least one malformed type was found."
+							])
+						)
+					};
 				} elseif ($delimited) {
 					$names[] = $s;
 					$delimited = false;
