@@ -10,11 +10,9 @@ namespace Dracodeum\Kit\Components;
 use Dracodeum\Kit\Component;
 use Dracodeum\Kit\Components\Type\{
 	Components,
-	Exceptions,
-	Protoname
+	Exceptions
 };
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
-use Dracodeum\Kit\Components\Type\Protoname\Enumerations\Type as EProtonameType;
 use Dracodeum\Kit\Prototypes\{
 	Type as Prototype,
 	Types as Prototypes
@@ -28,7 +26,12 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use Stringable as IPhpStringable;
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as ENumberType;
-use Dracodeum\Kit\Utilities\Call as UCall;
+use Dracodeum\Kit\Utilities\{
+	Call as UCall,
+	Type as UType
+};
+use Dracodeum\Kit\Utilities\Type\Info\Enums\Kind as EInfoKind;
+use Dracodeum\Kit\Enums\Error\Type as EErrorType;
 
 /**
  * This component represents a type which validates and coerces values.
@@ -103,63 +106,77 @@ class Type extends Component
 	/** {@inheritdoc} */
 	protected function producePrototype(string $name, array $properties)
 	{
-		//protoname
-		$protoname = $this->protonamify($name, true);
-		if ($protoname === null) {
+		//info
+		$info = UType::info($name, true, EErrorType::NULL);
+		if ($info === null) {
 			return null;
 		}
 		
 		//process
-		switch ($protoname->type) {
-			//simple
-			case EProtonameType::SIMPLE:
-				$name = $protoname->names[0];
-				break;
-				
+		switch ($info->kind) {
 			//generic
-			case EProtonameType::GENERIC:
-				switch ($protoname->names[0]) {
+			case EInfoKind::GENERIC:
+				switch ($info->name) {
 					case 'class':
-						return !isset($protoname->names[2])
-							? new Prototypes\TClass(['class' => $protoname->names[1]] + $properties)
-							: null;
+						if (isset($info->names[1])) {
+							return !isset($info->names[2])
+								? new Prototypes\TClass(['class' => $info->names[1]] + $properties)
+								: null;
+						}
+						break;
 					case 'object':
-						return !isset($protoname->names[2])
-							? new Prototypes\TObject(['class' => $protoname->names[1]] + $properties)
-							: null;
+						if (isset($info->names[1])) {
+							return !isset($info->names[2])
+								? new Prototypes\TObject(['class' => $info->names[1]] + $properties)
+								: null;
+						}
+						break;
 					case 'resource':
-						return !isset($protoname->names[2])
-							? new Prototypes\TResource(['type' => $protoname->names[1]] + $properties)
-							: null;
+						if (isset($info->names[1])) {
+							return !isset($info->names[2])
+								? new Prototypes\TResource(['type' => $info->names[1]] + $properties)
+								: null;
+						}
 					case 'array':
-						if (isset($protoname->names[3])) {
+						if (isset($info->names[3])) {
 							return null;
-						} elseif (isset($protoname->names[2])) {
+						} elseif (isset($info->names[2]) && isset($info->names[1])) {
 							return new Prototypes\TArray([
-								'type' => $this->build($protoname->names[2], ['strict' => $this->strict]),
-								'key_type' => $this->build($protoname->names[1], ['strict' => $this->strict])
+								'type' => $this->build($info->names[2], ['strict' => $this->strict]),
+								'key_type' => $this->build($info->names[1], ['strict' => $this->strict])
+							] + $properties);
+						} elseif (isset($info->names[1])) {
+							return new Prototypes\TArray([
+								'type' => $this->build($info->names[1], ['strict' => $this->strict])
 							] + $properties);
 						}
-						return new Prototypes\TArray([
-							'type' => $this->build($protoname->names[1], ['strict' => $this->strict])
-						] + $properties);
+						break;
+					default:
+						if (isset($info->names[1])) {
+							return null;
+						}
 				}
-				return null;
+				$name = $info->name;
+				break;
 				
 			//array
-			case EProtonameType::ARRAY:
+			case EInfoKind::ARRAY:
 				return new Prototypes\TArray([
-					'type' => $this->build($protoname->names[0], ['strict' => $this->strict]),
+					'type' => $this->build($info->name, ['strict' => $this->strict]),
 					'non_associative' => true
 				] + $properties);
 				
 			//union
-			case EProtonameType::UNION:
+			case EInfoKind::UNION:
 				$types = [];
-				foreach ($protoname->names as $type_name) {
+				foreach ($info->names as $type_name) {
 					$types[] = $this->build($type_name, ['strict' => $this->strict]);
 				}
 				return new Prototypes\Any(['types' => $types] + $properties);
+				
+			//unknown
+			default:
+				return null;
 		}
 		
 		//prototype
@@ -371,6 +388,17 @@ class Type extends Component
 	}
 	
 	/**
+	 * Check if has mutators.
+	 * 
+	 * @return bool
+	 * Boolean `true` if has mutators.
+	 */
+	final public function hasMutators(): bool
+	{
+		return (bool)$this->mutators;
+	}
+	
+	/**
 	 * Add mutator.
 	 * 
 	 * @param coercible<\Dracodeum\Kit\Components\Type\Components\Mutator> $mutator
@@ -395,154 +423,5 @@ class Type extends Component
 		
 		//return
 		return $this;
-	}
-	
-	/**
-	 * Check if has mutators.
-	 * 
-	 * @return bool
-	 * Boolean `true` if has mutators.
-	 */
-	final public function hasMutators(): bool
-	{
-		return (bool)$this->mutators;
-	}
-	
-	
-	
-	//Private methods
-	/**
-	 * Protonamify a given name.
-	 * 
-	 * @param string $name
-	 * The name to protonamify.
-	 * 
-	 * @param bool $degroup
-	 * Return a degrouped protoname instance.
-	 * 
-	 * @return \Dracodeum\Kit\Components\Type\Protoname|null
-	 * A protoname instance from the given name, or `null` if none is instantiated.
-	 */
-	private function protonamify(string $name, bool $degroup = false): ?Protoname
-	{
-		//empty
-		$name = trim($name);
-		if ($name === '') {
-			return null;
-		}
-		
-		//tokenize
-		$depth = 0;
-		$names = [$name];
-		$type = EProtonameType::SIMPLE;
-		$buffer = $inner_buffer = '';
-		foreach (preg_split('/([<>()|,]|\[\])/', $name, flags: PREG_SPLIT_DELIM_CAPTURE) as $token) {
-			//initialize
-			$token = trim($token);
-			if ($token === '') {
-				continue;
-			}
-			
-			//token
-			if ($depth === 0) {
-				switch ($token) {
-					case '|':
-						if ($buffer === '') {
-							return null;
-						} elseif ($type !== EProtonameType::UNION) {
-							$type = EProtonameType::UNION;
-							$names = [];
-						}
-						$names[] = $buffer;
-						$buffer = $inner_buffer = '';
-						continue 2;
-					case '<':
-						if ($type === EProtonameType::SIMPLE) {
-							if ($buffer === '') {
-								return null;
-							}
-							$type = EProtonameType::GENERIC;
-							$names = [$buffer];
-						}
-						break;
-					case '(':
-						if ($type === EProtonameType::SIMPLE) {
-							if ($buffer !== '') {
-								return null;
-							}
-							$type = EProtonameType::GROUP;
-						}
-						break;
-					case '>':
-					case ')':
-					case ',':
-						return null;
-					case '[]':
-						if ($type !== EProtonameType::UNION) {
-							if ($buffer === '') {
-								return null;
-							}
-							$type = EProtonameType::ARRAY;
-							$names = [$buffer];
-						}
-						break;
-				}
-			} elseif ($depth === 1 && $type !== EProtonameType::UNION) {
-				switch ($token) {
-					case '>':
-						if ($type !== EProtonameType::GENERIC || $inner_buffer === '') {
-							return null;
-						}
-						$names[] = $inner_buffer;
-						break;
-					case ')':
-						if ($type !== EProtonameType::GROUP) {
-							return null;
-						}
-						$names = [$inner_buffer];
-						$inner_buffer = '';
-						break;
-					case ',':
-						if ($type !== EProtonameType::GENERIC) {
-							return null;
-						}
-						$names[] = $inner_buffer;
-						$inner_buffer = '';
-						continue 2;
-				}
-			}
-			
-			//buffer
-			$buffer .= $token;
-			if ($depth > 0) {
-				$inner_buffer .= $token;
-			}
-			
-			//depth
-			if ($token === '<' || $token === '(') {
-				$depth++;
-			} elseif ($token === '>' || $token === ')') {
-				$depth--;
-				if ($depth < 0) {
-					return null;
-				}
-			}
-		}
-		
-		//group
-		if ($degroup && $type === EProtonameType::GROUP) {
-			return $this->protonamify($names[0]);
-		}
-		
-		//union
-		if ($type === EProtonameType::UNION) {
-			if ($buffer === '') {
-				return null;
-			}
-			$names[] = $buffer;
-		}
-		
-		//return
-		return new Protoname($type, $names);
 	}
 }
