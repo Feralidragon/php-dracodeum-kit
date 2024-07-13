@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Alphanumerical */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Alphanumerical */
 class AlphanumericalTest extends TestCase
 {
 	//Public methods

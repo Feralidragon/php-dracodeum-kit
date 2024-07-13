@@ -12,7 +12,7 @@ use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\EmptyNull as Prototype;
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\EmptyNull */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\EmptyNull */
 class EmptyNullTest extends TestCase
 {
 	//Public methods

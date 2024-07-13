@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\CountRange */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\CountRange */
 class CountRangeTest extends TestCase
 {
 	//Public methods

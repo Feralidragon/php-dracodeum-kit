@@ -14,7 +14,7 @@ use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as UCallHaltExceptions;
 use Countable as ICountable;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countable */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countable */
 class CountableTest extends TestCase
 {
 	//Public methods

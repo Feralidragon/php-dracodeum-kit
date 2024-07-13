@@ -17,7 +17,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Interfaces\Stringable as IStringable;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Text */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Text */
 class TextTest extends TestCase
 {
 	//Public methods

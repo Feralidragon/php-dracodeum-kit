@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Lowercase */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Lowercase */
 class LowercaseTest extends TestCase
 {
 	//Public methods

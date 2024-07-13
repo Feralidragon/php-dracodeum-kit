@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Tests\Exceptions\Argument;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Exceptions\Argument\Invalid as Exception;
 
-/** @see \Dracodeum\Kit\Exceptions\Argument\Invalid */
+/** @covers \Dracodeum\Kit\Exceptions\Argument\Invalid */
 class InvalidTest extends TestCase
 {
 	//Public methods

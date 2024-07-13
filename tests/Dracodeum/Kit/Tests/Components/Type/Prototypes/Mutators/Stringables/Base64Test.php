@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Base64 */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Base64 */
 class Base64Test extends TestCase
 {
 	//Public methods

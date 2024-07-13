@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Wildcards */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Wildcards */
 class WildcardsTest extends TestCase
 {
 	//Public methods

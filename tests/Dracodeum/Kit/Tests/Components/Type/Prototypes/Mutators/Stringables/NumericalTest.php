@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Numerical */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Numerical */
 class NumericalTest extends TestCase
 {
 	//Public methods

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\coercive;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\coercive */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\coercive */
 class coerciveTest extends TestCase
 {
 	//Public methods

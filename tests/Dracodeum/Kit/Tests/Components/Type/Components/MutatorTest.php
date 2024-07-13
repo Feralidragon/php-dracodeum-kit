@@ -17,7 +17,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Components\Type\Components\Mutator */
+/** @covers \Dracodeum\Kit\Components\Type\Components\Mutator */
 class MutatorTest extends TestCase
 {
 	//Public methods

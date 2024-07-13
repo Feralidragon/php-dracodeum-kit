@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\MinLength */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\MinLength */
 class MinLengthTest extends TestCase
 {
 	//Public methods

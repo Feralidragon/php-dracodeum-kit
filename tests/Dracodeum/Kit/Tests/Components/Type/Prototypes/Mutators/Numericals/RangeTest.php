@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Range */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Range */
 class RangeTest extends TestCase
 {
 	//Public methods

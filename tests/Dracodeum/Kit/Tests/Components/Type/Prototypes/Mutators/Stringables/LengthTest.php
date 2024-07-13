@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Length */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Length */
 class LengthTest extends TestCase
 {
 	//Public methods

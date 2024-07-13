@@ -17,7 +17,7 @@ use Dracodeum\Kit\Primitives\{
 use Stringable as IStringable;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TInterface */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TInterface */
 class TInterfaceTest extends TestCase
 {
 	//Public methods

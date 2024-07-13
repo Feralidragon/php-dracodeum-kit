@@ -12,7 +12,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\meta;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\meta */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\meta */
 class metaTest extends TestCase
 {
 	//Public methods

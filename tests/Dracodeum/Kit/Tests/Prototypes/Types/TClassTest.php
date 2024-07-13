@@ -17,7 +17,7 @@ use Dracodeum\Kit\Primitives\{
 use Stringable as IStringable;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TClass */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TClass */
 class TClassTest extends TestCase
 {
 	//Public methods

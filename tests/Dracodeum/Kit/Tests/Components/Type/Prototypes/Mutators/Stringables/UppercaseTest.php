@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Uppercase */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Uppercase */
 class UppercaseTest extends TestCase
 {
 	//Public methods

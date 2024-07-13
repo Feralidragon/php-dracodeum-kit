@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Byte as UByte;
 use Dracodeum\Kit\Utilities\Byte\Exceptions;
 
-/** @see \Dracodeum\Kit\Utilities\Byte */
+/** @covers \Dracodeum\Kit\Utilities\Byte */
 class ByteTest extends TestCase
 {
 	//Public methods

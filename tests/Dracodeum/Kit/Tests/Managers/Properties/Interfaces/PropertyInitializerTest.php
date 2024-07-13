@@ -13,7 +13,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPrope
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer */
 class PropertyInitializerTest extends TestCase
 {
 	//Public methods

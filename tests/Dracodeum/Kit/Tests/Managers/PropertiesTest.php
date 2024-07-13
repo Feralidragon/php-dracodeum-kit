@@ -40,7 +40,7 @@ use ReflectionProperty;
 use stdClass;
 use Closure;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2 */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2 */
 class PropertiesTest extends TestCase
 {
 	//Public methods

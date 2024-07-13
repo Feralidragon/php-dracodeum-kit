@@ -18,7 +18,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible as InaccessibleE
 use Dracodeum\Kit\Prototypes\Type;
 use Dracodeum\Kit\Primitives\Error;
 
-/** @see \Dracodeum\Kit\Traits\PropertiesV2 */
+/** @covers \Dracodeum\Kit\Traits\PropertiesV2 */
 class PropertiesTest extends TestCase
 {
 	//Public methods

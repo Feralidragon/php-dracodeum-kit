@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\EmptyNull as Prototype;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\EmptyNull */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\EmptyNull */
 class EmptyNullTest extends TestCase
 {
 	//Public methods

@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Alphabetical */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Alphabetical */
 class AlphabeticalTest extends TestCase
 {
 	//Public methods

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\write;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\write */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\write */
 class writeTest extends TestCase
 {
 	//Public methods

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Trim as Prototype;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Trim */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Trim */
 class TrimTest extends TestCase
 {
 	//Public methods

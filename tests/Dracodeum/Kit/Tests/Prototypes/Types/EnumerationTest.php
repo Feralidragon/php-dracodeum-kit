@@ -19,7 +19,7 @@ use Dracodeum\Kit\Enumeration;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Enumeration */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Enumeration */
 class EnumerationTest extends TestCase
 {
 	//Public methods

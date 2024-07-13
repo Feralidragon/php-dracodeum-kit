@@ -13,7 +13,7 @@ use Dracodeum\Kit\Utilities\Call\Exceptions;
 use Dracodeum\Kit\Root\System;
 use Closure;
 
-/** @see \Dracodeum\Kit\Utilities\Call */
+/** @covers \Dracodeum\Kit\Utilities\Call */
 class CallTest extends TestCase
 {
 	//Public methods

@@ -14,7 +14,7 @@ use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Attribute;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer */
 class PropertyPostInitializerTest extends TestCase
 {
 	//Public methods

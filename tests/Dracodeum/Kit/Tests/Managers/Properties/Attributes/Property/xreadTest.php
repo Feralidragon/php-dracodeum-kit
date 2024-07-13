@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\xread;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\xread */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\xread */
 class xreadTest extends TestCase
 {
 	//Public methods

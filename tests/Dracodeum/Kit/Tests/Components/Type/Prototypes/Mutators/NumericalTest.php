@@ -13,7 +13,7 @@ use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical as Prototype;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as UCallHaltExceptions;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numerical */
 class NumericalTest extends TestCase
 {
 	//Public methods

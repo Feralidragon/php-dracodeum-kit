@@ -18,7 +18,7 @@ use Dracodeum\Kit\Utilities\Call as UCall;
 use stdClass;
 use Closure;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TCallable */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TCallable */
 class TCallableTest extends TestCase
 {
 	//Public methods

@@ -13,7 +13,7 @@ use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Utilities\Call\Exceptions\AssertionFailed as CallAssertionFailedException;
 
-/** @see \Dracodeum\Kit\Primitives\Text */
+/** @covers \Dracodeum\Kit\Primitives\Text */
 class TextTest extends TestCase
 {
 	//Public methods

@@ -21,7 +21,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Component */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Component */
 class ComponentTest extends TestCase
 {
 	//Public methods

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator as Prototype;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\mutator */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\mutator */
 class mutatorTest extends TestCase
 {
 	//Public methods

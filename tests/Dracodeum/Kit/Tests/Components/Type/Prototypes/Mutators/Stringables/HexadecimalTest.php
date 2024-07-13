@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Hexadecimal */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Hexadecimal */
 class HexadecimalTest extends TestCase
 {
 	//Public methods

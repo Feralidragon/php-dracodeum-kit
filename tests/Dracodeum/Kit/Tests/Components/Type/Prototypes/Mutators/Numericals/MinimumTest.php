@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Minimum */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Minimum */
 class MinimumTest extends TestCase
 {
 	//Public methods

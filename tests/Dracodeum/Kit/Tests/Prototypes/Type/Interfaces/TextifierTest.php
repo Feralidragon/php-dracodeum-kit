@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier */
+/** @covers \Dracodeum\Kit\Prototypes\Type\Interfaces\Textifier */
 class TextifierTest extends TestCase
 {
 	//Public methods

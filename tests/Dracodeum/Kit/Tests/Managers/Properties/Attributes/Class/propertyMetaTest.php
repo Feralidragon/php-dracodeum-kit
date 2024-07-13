@@ -12,7 +12,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Prototypes\Types\Number\Enumerations\Type as ENumberType;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta */
 class propertyMetaTest extends TestCase
 {
 	//Public methods

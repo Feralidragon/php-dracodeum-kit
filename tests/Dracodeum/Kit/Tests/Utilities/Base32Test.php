@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Base32 as UBase32;
 use Dracodeum\Kit\Enumerations\Base32\Alphabet as EAlphabet;
 use Dracodeum\Kit\Utilities\Base32\Exceptions;
 
-/** @see \Dracodeum\Kit\Utilities\Base32 */
+/** @covers \Dracodeum\Kit\Utilities\Base32 */
 class Base32Test extends TestCase
 {
 	//Public methods

@@ -14,7 +14,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\Meta;
 use Dracodeum\Kit\Components\Type;
 use Attribute;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Class\MetaInitializer */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Class\MetaInitializer */
 class MetaInitializerTest extends TestCase
 {
 	//Public methods

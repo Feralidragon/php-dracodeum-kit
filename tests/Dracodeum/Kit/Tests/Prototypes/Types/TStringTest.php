@@ -16,7 +16,7 @@ use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables as StringableM
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TString */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TString */
 class TStringTest extends TestCase
 {
 	//Public methods

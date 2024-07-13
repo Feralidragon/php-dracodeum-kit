@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Maximum */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Maximum */
 class MaximumTest extends TestCase
 {
 	//Public methods

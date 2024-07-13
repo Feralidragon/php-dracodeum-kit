@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\ignore;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\ignore */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\ignore */
 class ignoreTest extends TestCase
 {
 	//Public methods

@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Identifier */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Identifier */
 class IdentifierTest extends TestCase
 {
 	//Public methods

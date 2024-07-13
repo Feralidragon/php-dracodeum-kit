@@ -13,7 +13,7 @@ use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutator as Prototype;
 use Dracodeum\Kit\Utilities\Call\Exceptions\Halt as UCallHaltExceptions;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\Validator */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\Validator */
 class ValidatorTest extends TestCase
 {
 	//Public methods

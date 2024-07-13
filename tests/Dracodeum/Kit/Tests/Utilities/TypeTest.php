@@ -20,7 +20,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Utilities\Type */
+/** @covers \Dracodeum\Kit\Utilities\Type */
 class TypeTest extends TestCase
 {
 	//Public methods

@@ -17,7 +17,7 @@ use Error as PhpError;
 use Exception;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Primitives\Error */
+/** @covers \Dracodeum\Kit\Primitives\Error */
 class ErrorTest extends TestCase
 {
 	//Public methods

@@ -18,7 +18,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Any */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Any */
 class AnyTest extends TestCase
 {
 	//Public methods

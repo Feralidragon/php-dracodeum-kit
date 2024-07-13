@@ -15,7 +15,7 @@ use Dracodeum\Kit\Components\Type\Prototypes\Mutator as MutatorPrototype;
 use Dracodeum\Kit\Primitives\Error;
 use Dracodeum\Kit\Traits\LazyProperties\Property;
 
-/** @see \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer */
+/** @covers \Dracodeum\Kit\Prototypes\Type\Interfaces\MutatorProducer */
 class MutatorProducerTest extends TestCase
 {
 	//Public methods

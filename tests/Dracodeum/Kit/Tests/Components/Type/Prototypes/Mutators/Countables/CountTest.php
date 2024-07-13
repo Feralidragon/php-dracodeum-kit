@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\Count */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\Count */
 class CountTest extends TestCase
 {
 	//Public methods

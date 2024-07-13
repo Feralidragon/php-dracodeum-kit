@@ -18,7 +18,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Structure */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Structure */
 class StructureTest extends TestCase
 {
 	//Public methods

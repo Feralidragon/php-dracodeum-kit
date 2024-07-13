@@ -10,7 +10,7 @@ namespace Dracodeum\Kit\Tests\Utilities;
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Data as UData;
 
-/** @see \Dracodeum\Kit\Utilities\Data */
+/** @covers \Dracodeum\Kit\Utilities\Data */
 class DataTest extends TestCase
 {
 	//Public methods

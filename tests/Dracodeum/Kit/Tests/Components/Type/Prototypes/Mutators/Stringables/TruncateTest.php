@@ -12,7 +12,7 @@ use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Truncate as Prototype;
 use Dracodeum\Kit\Primitives\Text;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Truncate */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\Truncate */
 class TruncateTest extends TestCase
 {
 	//Public methods

@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Throwable;
 
-/** @see \Dracodeum\Kit\ExceptionV2 */
+/** @covers \Dracodeum\Kit\ExceptionV2 */
 class ExceptionTest extends TestCase
 {
 	//Public methods

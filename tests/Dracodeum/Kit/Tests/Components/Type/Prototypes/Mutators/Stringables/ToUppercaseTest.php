@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToUppercase as Prototype;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToUppercase */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToUppercase */
 class ToUppercaseTest extends TestCase
 {
 	//Public methods

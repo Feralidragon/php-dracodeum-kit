@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\NonEmpty */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\NonEmpty */
 class NonEmptyTest extends TestCase
 {
 	//Public methods

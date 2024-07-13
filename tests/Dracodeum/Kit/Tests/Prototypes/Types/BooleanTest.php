@@ -18,7 +18,7 @@ use Dracodeum\Kit\Primitives\{
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Boolean */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Boolean */
 class BooleanTest extends TestCase
 {
 	//Public methods

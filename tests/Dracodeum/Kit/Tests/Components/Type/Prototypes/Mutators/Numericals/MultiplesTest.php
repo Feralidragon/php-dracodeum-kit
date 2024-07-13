@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Multiples */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Multiples */
 class MultiplesTest extends TestCase
 {
 	//Public methods

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Even */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Even */
 class EvenTest extends TestCase
 {
 	//Public methods

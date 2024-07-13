@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Utilities\Base64 as UBase64;
 use Dracodeum\Kit\Utilities\Base64\Exceptions;
 
-/** @see \Dracodeum\Kit\Utilities\Base64 */
+/** @covers \Dracodeum\Kit\Utilities\Base64 */
 class Base64Test extends TestCase
 {
 	//Public methods

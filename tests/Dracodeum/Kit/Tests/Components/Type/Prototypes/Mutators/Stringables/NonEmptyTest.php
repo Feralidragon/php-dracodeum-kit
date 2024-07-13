@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\NonEmpty */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\NonEmpty */
 class NonEmptyTest extends TestCase
 {
 	//Public methods

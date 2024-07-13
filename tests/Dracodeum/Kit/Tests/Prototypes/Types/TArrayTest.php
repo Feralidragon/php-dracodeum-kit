@@ -23,7 +23,7 @@ use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TArray */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TArray */
 class TArrayTest extends TestCase
 {
 	//Public methods

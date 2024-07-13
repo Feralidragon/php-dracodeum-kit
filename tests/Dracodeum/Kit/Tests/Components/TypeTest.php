@@ -32,7 +32,7 @@ use Dracodeum\Kit\{
 use ReflectionProperty;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Components\Type */
+/** @covers \Dracodeum\Kit\Components\Type */
 class TypeTest extends TestCase
 {
 	//Public methods

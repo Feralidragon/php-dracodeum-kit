@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\strict;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\strict */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\strict */
 class strictTest extends TestCase
 {
 	//Public methods

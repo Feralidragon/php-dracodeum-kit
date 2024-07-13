@@ -12,7 +12,7 @@ use Dracodeum\Kit\Utilities\Type\Info;
 use Dracodeum\Kit\Utilities\Type\Info\Enums\Kind as EKind;
 use Dracodeum\Kit\Exceptions\Argument\Invalid as InvalidArgumentException;
 
-/** @see \Dracodeum\Kit\Utilities\Type\Info */
+/** @covers \Dracodeum\Kit\Utilities\Type\Info */
 class InfoTest extends TestCase
 {
 	//Public methods

@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\MinCount */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\MinCount */
 class MinCountTest extends TestCase
 {
 	//Public methods

@@ -15,7 +15,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Odd */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals\Odd */
 class OddTest extends TestCase
 {
 	//Public methods

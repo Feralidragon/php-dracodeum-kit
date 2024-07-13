@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Components\Type\Components\Mutator as Component;
 use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToLowercase as Prototype;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToLowercase */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Stringables\ToLowercase */
 class ToLowercaseTest extends TestCase
 {
 	//Public methods

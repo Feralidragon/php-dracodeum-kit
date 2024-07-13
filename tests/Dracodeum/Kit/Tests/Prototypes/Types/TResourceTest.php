@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\TResource */
+/** @covers \Dracodeum\Kit\Prototypes\Types\TResource */
 class TResourceTest extends TestCase
 {
 	//Public methods

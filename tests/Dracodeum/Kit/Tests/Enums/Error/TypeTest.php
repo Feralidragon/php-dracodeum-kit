@@ -16,7 +16,7 @@ use Exception as PhpException;
 use Error as PhpError;
 use Throwable;
 
-/** @see \Dracodeum\Kit\Enums\Error\Type */
+/** @covers \Dracodeum\Kit\Enums\Error\Type */
 class TypeTest extends TestCase
 {
 	//Public methods

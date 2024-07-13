@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\required;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\required */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\required */
 class requiredTest extends TestCase
 {
 	//Public methods

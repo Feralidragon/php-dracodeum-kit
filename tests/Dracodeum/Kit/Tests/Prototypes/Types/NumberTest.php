@@ -20,7 +20,7 @@ use Dracodeum\Kit\Components\Type\Prototypes\Mutators\Numericals as NumericalMut
 use Dracodeum\Kit\Utilities\Type as UType;
 use stdClass;
 
-/** @see \Dracodeum\Kit\Prototypes\Types\Number */
+/** @covers \Dracodeum\Kit\Prototypes\Types\Number */
 class NumberTest extends TestCase
 {
 	//Public methods

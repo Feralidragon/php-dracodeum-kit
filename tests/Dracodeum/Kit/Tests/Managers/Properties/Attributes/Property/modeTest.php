@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\mode;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\mode */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\mode */
 class modeTest extends TestCase
 {
 	//Public methods

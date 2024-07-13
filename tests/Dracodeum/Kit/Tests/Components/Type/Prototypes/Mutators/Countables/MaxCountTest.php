@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 };
 use Countable as ICountable;
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\MaxCount */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutators\Countables\MaxCount */
 class MaxCountTest extends TestCase
 {
 	//Public methods

@@ -16,7 +16,7 @@ use Dracodeum\Kit\Primitives\{
 	Text
 };
 
-/** @see \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer */
+/** @covers \Dracodeum\Kit\Components\Type\Prototypes\Mutator\Interfaces\ExplanationProducer */
 class ExplanationProducerTest extends TestCase
 {
 	//Public methods

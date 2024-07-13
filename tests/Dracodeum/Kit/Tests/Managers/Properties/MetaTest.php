@@ -19,7 +19,7 @@ use Dracodeum\Kit\Components\Type;
 use Dracodeum\Kit\Prototypes\Type as TypePrototype;
 use Dracodeum\Kit\Primitives\Error;
 
-/** @see \Dracodeum\Kit\Managers\PropertiesV2\Meta */
+/** @covers \Dracodeum\Kit\Managers\PropertiesV2\Meta */
 class MetaTest extends TestCase
 {
 	//Public methods
