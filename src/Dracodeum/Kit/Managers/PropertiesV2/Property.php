@@ -248,7 +248,7 @@ final class Property
 	final public function isReadable(?string $scope_class = null): bool
 	{
 		//check
-		if ($this->mode[0] === 'r') {
+		if ($this->reflection->isReadOnly() || $this->mode[0] === 'r') {
 			return true;
 		} elseif ($scope_class === null) {
 			return false;
@@ -276,7 +276,9 @@ final class Property
 	final public function isWriteable(?string $scope_class = null, bool $initializing = false): bool
 	{
 		//check
-		if ($this->mode !== 'r' && ($initializing || in_array($this->mode, ['rw', 'w'], true))) {
+		if (!$initializing && $this->reflection->isReadOnly()) {
+			return false;
+		} elseif ($this->mode !== 'r' && ($initializing || in_array($this->mode, ['rw', 'w'], true))) {
 			return true;
 		} elseif ($scope_class === null) {
 			return false;
@@ -450,7 +452,7 @@ final class Property
 		$function = function (string $name): void {
 			unset($this->$name);
 		};
-		$function->bindTo($object, $object)($this->getName());
+		$function->bindTo($object, $this->reflection->getDeclaringClass()->getName())($this->getName());
 		return $this;
 	}
 	

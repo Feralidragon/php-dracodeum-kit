@@ -603,7 +603,11 @@ class PropertiesTest extends TestCase
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
+			PropertiesTest_Class2::class => [123, '4.35M', 2],
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
 		});
 		
 		//assert
@@ -631,15 +635,15 @@ class PropertiesTest extends TestCase
 	public function testGet(string $name, string $class, ?string $scope_class, mixed $expected): void
 	{
 		//values
+		$extra_values = ['p1' => 456, 'p10' => '__T__', 'p21' => '7k', 'p23' => '930'];
 		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		} + [
-			'p1' => 456,
-			'p10' => '__T__',
-			'p21' => '7k',
-			'p23' => '930'
-		];
+			PropertiesTest_Class1::class => [123] + $extra_values,
+			PropertiesTest_Class2::class => [123, '4.35M', 2] + $extra_values,
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
+		};
 		
 		//initialize
 		Manager::clearCache();
@@ -851,15 +855,15 @@ class PropertiesTest extends TestCase
 	public function testMget(string $class, ?string $scope_class, ?array $names, array $expected): void
 	{
 		//values
+		$extra_values = ['p1' => 456, 'p10' => '__T__', 'p21' => '7k', 'p23' => '930'];
 		$values = match ($class) {
-			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
-		} + [
-			'p1' => 456,
-			'p10' => '__T__',
-			'p21' => '7k',
-			'p23' => '930'
-		];
+			PropertiesTest_Class1::class => [123] + $extra_values,
+			PropertiesTest_Class2::class => [123, '4.35M', 2] + $extra_values,
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
+		};
 		
 		//initialize
 		Manager::clearCache();
@@ -1096,15 +1100,23 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
+			$class2 => [123, '4.35M', 2],
+			$class_r1 => [123, 'p2' => 456],
+			$class_r2 => [123, 'p2' => 456, '789']
 		});
+		$classes = match ($class) {
+			$class1, $class2 => [$class1, $class2],
+			$class_r1, $class_r2 => [$class_r1, $class_r2]
+		};
 		
 		//assert
 		$this->assertSame($manager, $manager->set($name, $value, $scope_class));
-		$this->assertSame($expected, ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+		$this->assertSame($expected, ($manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]))[$name]);
 	}
 	
 	/**
@@ -1199,7 +1211,11 @@ class PropertiesTest extends TestCase
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
+			PropertiesTest_Class2::class => [123, '4.35M', 2],
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
 		});
 		
 		//exception
@@ -1275,16 +1291,26 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
+			$class2 => [123, '4.35M', 2],
+			$class_r1 => [123, 'p2' => 456],
+			$class_r2 => [123, 'p2' => 456, '789']
 		});
+		$classes = match ($class) {
+			$class1, $class2 => [$class1, $class2],
+			$class_r1, $class_r2 => [$class_r1, $class_r2]
+		};
 		
 		//assert
 		$this->assertSame($manager, $manager->mset($values, $scope_class));
 		$this->assertSame(
-			$expected, array_intersect_key($manager->mget(null, $class1) + $manager->mget(null, $class2), $values)
+			$expected, array_intersect_key(
+				$manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]), $values
+			)
 		);
 	}
 	
@@ -1393,7 +1419,11 @@ class PropertiesTest extends TestCase
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
+			PropertiesTest_Class2::class => [123, '4.35M', 2],
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
 		});
 		
 		//exception
@@ -1466,6 +1496,8 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//values
 		$values1 = [
@@ -1496,46 +1528,63 @@ class PropertiesTest extends TestCase
 		];
 		
 		//defaults
-		$defaults = [
-			'p6' => null,
-			'p7' => null,
-			'p8' => 0,
-			'p9' => 1.0,
-			'p11' => 1,
-			'p12' => 1,
-			'p13' => 1,
-			'p14' => 1,
-			'p15' => 1,
-			'p16' => 1,
-			'p17' => 1,
-			'p18' => 1,
-			'p19' => 1200,
-			'p20' => '420',
-			'p21' => null,
-			'p22' => '100',
-			'p23' => 1,
-			'c1p0' => 'foo',
-			'c1p1' => '',
-			'c2p1' => false,
-			'c2p2' => 75.5,
-			'c2p4' => []
-		];
+		$defaults = match ($class) {
+			$class1, $class2 => [
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p17' => 1,
+				'p18' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => null,
+				'p22' => '100',
+				'p23' => 1,
+				'c1p0' => 'foo',
+				'c1p1' => '',
+				'c2p1' => false,
+				'c2p2' => 75.5,
+				'c2p4' => []
+			],
+			$class_r1, $class_r2 => ['p2' => '']
+		};
 		
 		//manager
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
+			$class2 => [123, '4.35M', 2],
+			$class_r1 => [123, 'p2' => 456],
+			$class_r2 => [123, 'p2' => 456, '789']
 		});
-		$manager->mset($values1, $class1);
-		if ($class === $class2) {
-			$manager->mset($values2, $class2);
+		$classes = match ($class) {
+			$class1, $class2 => [$class1, $class2],
+			$class_r1, $class_r2 => [$class_r1, $class_r2]
+		};
+		$values = match ($class) {
+			$class1, $class2 => [$values1, $values2],
+			$class_r1, $class_r2 => [['p2' => '123'], []]
+		};
+		$manager->mset($values[0], $classes[0]);
+		if ($class === $classes[1] && $values[1]) {
+			$manager->mset($values[1], $classes[1]);
 		}
 		
 		//assert
-		$this->assertNotSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+		$this->assertNotSame(
+			$defaults[$name], ($manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]))[$name]
+		);
 		$this->assertSame($manager, $manager->unset($name, $scope_class));
-		$this->assertSame($defaults[$name], ($manager->mget(null, $class1) + $manager->mget(null, $class2))[$name]);
+		$this->assertSame(
+			$defaults[$name], ($manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]))[$name]
+		);
 	}
 	
 	/**
@@ -1681,7 +1730,11 @@ class PropertiesTest extends TestCase
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
+			PropertiesTest_Class2::class => [123, '4.35M', 2],
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
 		});
 		
 		//exception
@@ -1717,6 +1770,8 @@ class PropertiesTest extends TestCase
 		Manager::clearCache();
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//values
 		$values1 = [
@@ -1747,45 +1802,58 @@ class PropertiesTest extends TestCase
 		];
 		
 		//defaults
-		$defaults = [
-			'p6' => null,
-			'p7' => null,
-			'p8' => 0,
-			'p9' => 1.0,
-			'p11' => 1,
-			'p12' => 1,
-			'p13' => 1,
-			'p14' => 1,
-			'p15' => 1,
-			'p16' => 1,
-			'p17' => 1,
-			'p18' => 1,
-			'p19' => 1200,
-			'p20' => '420',
-			'p21' => null,
-			'p22' => '100',
-			'p23' => 1,
-			'c1p0' => 'foo',
-			'c1p1' => '',
-			'c2p2' => 75.5,
-			'c2p1' => false,
-			'c2p4' => []
-		];
+		$defaults = match ($class) {
+			$class1, $class2 => [
+				'p6' => null,
+				'p7' => null,
+				'p8' => 0,
+				'p9' => 1.0,
+				'p11' => 1,
+				'p12' => 1,
+				'p13' => 1,
+				'p14' => 1,
+				'p15' => 1,
+				'p16' => 1,
+				'p17' => 1,
+				'p18' => 1,
+				'p19' => 1200,
+				'p20' => '420',
+				'p21' => null,
+				'p22' => '100',
+				'p23' => 1,
+				'c1p0' => 'foo',
+				'c1p1' => '',
+				'c2p2' => 75.5,
+				'c2p1' => false,
+				'c2p4' => []
+			],
+			$class_r1, $class_r2 => ['p2' => '']
+		};
 		
 		//manager
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			$class1 => [123],
-			$class2 => [123, '4.35M', 2]
+			$class2 => [123, '4.35M', 2],
+			$class_r1 => [123, 'p2' => 456],
+			$class_r2 => [123, 'p2' => 456, '789']
 		});
-		$manager->mset($values1, $class1);
-		if ($class === $class2) {
-			$manager->mset($values2, $class2);
+		$classes = match ($class) {
+			$class1, $class2 => [$class1, $class2],
+			$class_r1, $class_r2 => [$class_r1, $class_r2]
+		};
+		$set_values = match ($class) {
+			$class1, $class2 => [$values1, $values2],
+			$class_r1, $class_r2 => [['p2' => '123'], []]
+		};
+		$manager->mset($set_values[0], $classes[0]);
+		if ($class === $classes[1] && $set_values[1]) {
+			$manager->mset($set_values[1], $classes[1]);
 		}
 		
 		//assert (before)
 		$names_map = array_flip($names);
-		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$values = $manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]);
 		$inner_defaults = array_intersect_key($defaults, $names_map);
 		foreach ($inner_defaults as $name => $default) {
 			$this->assertNotSame($default, $values[$name]);
@@ -1795,7 +1863,7 @@ class PropertiesTest extends TestCase
 		$this->assertSame($manager, $manager->munset($names, $scope_class));
 		
 		//assert (after)
-		$values = $manager->mget(null, $class1) + $manager->mget(null, $class2);
+		$values = $manager->mget(null, $classes[0]) + $manager->mget(null, $classes[1]);
 		$outer_defaults = array_diff_key(array_intersect_key($defaults, $values), $names_map);
 		foreach ($outer_defaults as $name => $default) {
 			$this->assertNotSame($default, $values[$name]);
@@ -1908,7 +1976,11 @@ class PropertiesTest extends TestCase
 		$manager = new Manager(new $class);
 		$manager->initialize(match ($class) {
 			PropertiesTest_Class1::class => [123],
-			PropertiesTest_Class2::class => [123, '4.35M', 2]
+			PropertiesTest_Class2::class => [123, '4.35M', 2],
+			PropertiesTest_ClassR1::class => [123, 'p2' => 456],
+			PropertiesTest_ClassR2::class => [123, 'p2' => 456, '789'],
+			PropertiesTest_ClassR3::class => [123, 456],
+			PropertiesTest_ClassR4::class => [123, 456, '789']
 		});
 		
 		//exception
@@ -2044,6 +2116,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -2789,7 +2865,11 @@ class PropertiesTest extends TestCase
 					'c2p2' => 975,
 					'c2p4' => ['foo', 'bar']
 				]
-			]
+			],
+			[$class_r1, null, ['p1' => 123, 'p2' => 456], ['p1' => '123', 'p2' => '456']],
+			[$class_r2, null, ['p1' => 123, 'p2' => 456, 'p3' => '789'], ['p1' => '123', 'p3' => 789, 'p2' => '456']],
+			[$class_r3, null, ['p1' => 123, 'p2' => 456], ['p1' => '123', 'p2' => '456']],
+			[$class_r4, null, ['p1' => 123, 'p2' => 456, 'p3' => '789'], ['p1' => '123', 'p2' => '456', 'p3' => 789]]
 		];
 	}
 	
@@ -2959,6 +3039,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -3241,7 +3325,55 @@ class PropertiesTest extends TestCase
 			['c2p5', $class2, $stdclass, false],
 			['c2p5', $class2, $class1, false],
 			['c2p5', $class2, $class2, false],
-			['c2p5', $class2, $class3, false]
+			['c2p5', $class2, $class3, false],
+			['p1', $class_r1, null, true],
+			['p1', $class_r1, $stdclass, true],
+			['p1', $class_r1, $class_r1, true],
+			['p1', $class_r1, $class_r2, true],
+			['p2', $class_r1, null, true],
+			['p2', $class_r1, $stdclass, true],
+			['p2', $class_r1, $class_r1, true],
+			['p2', $class_r1, $class_r2, true],
+			['p3', $class_r1, null, false],
+			['p3', $class_r1, $stdclass, false],
+			['p3', $class_r1, $class_r1, false],
+			['p3', $class_r1, $class_r2, false],
+			['p1', $class_r2, null, true],
+			['p1', $class_r2, $stdclass, true],
+			['p1', $class_r2, $class_r1, true],
+			['p1', $class_r2, $class_r2, true],
+			['p2', $class_r2, null, true],
+			['p2', $class_r2, $stdclass, true],
+			['p2', $class_r2, $class_r1, true],
+			['p2', $class_r2, $class_r2, true],
+			['p3', $class_r2, null, true],
+			['p3', $class_r2, $stdclass, true],
+			['p3', $class_r2, $class_r1, true],
+			['p3', $class_r2, $class_r2, true],
+			['p1', $class_r3, null, true],
+			['p1', $class_r3, $stdclass, true],
+			['p1', $class_r3, $class_r3, true],
+			['p1', $class_r3, $class_r4, true],
+			['p2', $class_r3, null, true],
+			['p2', $class_r3, $stdclass, true],
+			['p2', $class_r3, $class_r3, true],
+			['p2', $class_r3, $class_r4, true],
+			['p3', $class_r3, null, false],
+			['p3', $class_r3, $stdclass, false],
+			['p3', $class_r3, $class_r3, false],
+			['p3', $class_r3, $class_r4, false],
+			['p1', $class_r4, null, true],
+			['p1', $class_r4, $stdclass, true],
+			['p1', $class_r4, $class_r3, true],
+			['p1', $class_r4, $class_r4, true],
+			['p2', $class_r4, null, true],
+			['p2', $class_r4, $stdclass, true],
+			['p2', $class_r4, $class_r3, true],
+			['p2', $class_r4, $class_r4, true],
+			['p3', $class_r4, null, true],
+			['p3', $class_r4, $stdclass, true],
+			['p3', $class_r4, $class_r3, true],
+			['p3', $class_r4, $class_r4, true]
 		];
 	}
 	
@@ -3258,6 +3390,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -3570,7 +3706,55 @@ class PropertiesTest extends TestCase
 			['c2p5', $class2, $stdclass, false],
 			['c2p5', $class2, $class1, false],
 			['c2p5', $class2, $class2, false],
-			['c2p5', $class2, $class3, false]
+			['c2p5', $class2, $class3, false],
+			['p1', $class_r1, null, true],
+			['p1', $class_r1, $stdclass, true],
+			['p1', $class_r1, $class_r1, true],
+			['p1', $class_r1, $class_r2, true],
+			['p2', $class_r1, null, true],
+			['p2', $class_r1, $stdclass, true],
+			['p2', $class_r1, $class_r1, true],
+			['p2', $class_r1, $class_r2, true],
+			['p3', $class_r1, null, false],
+			['p3', $class_r1, $stdclass, false],
+			['p3', $class_r1, $class_r1, false],
+			['p3', $class_r1, $class_r2, false],
+			['p1', $class_r2, null, true],
+			['p1', $class_r2, $stdclass, true],
+			['p1', $class_r2, $class_r1, true],
+			['p1', $class_r2, $class_r2, true],
+			['p2', $class_r2, null, true],
+			['p2', $class_r2, $stdclass, true],
+			['p2', $class_r2, $class_r1, true],
+			['p2', $class_r2, $class_r2, true],
+			['p3', $class_r2, null, true],
+			['p3', $class_r2, $stdclass, true],
+			['p3', $class_r2, $class_r1, true],
+			['p3', $class_r2, $class_r2, true],
+			['p1', $class_r3, null, true],
+			['p1', $class_r3, $stdclass, true],
+			['p1', $class_r3, $class_r3, true],
+			['p1', $class_r3, $class_r4, true],
+			['p2', $class_r3, null, true],
+			['p2', $class_r3, $stdclass, true],
+			['p2', $class_r3, $class_r3, true],
+			['p2', $class_r3, $class_r4, true],
+			['p3', $class_r3, null, false],
+			['p3', $class_r3, $stdclass, false],
+			['p3', $class_r3, $class_r3, false],
+			['p3', $class_r3, $class_r4, false],
+			['p1', $class_r4, null, true],
+			['p1', $class_r4, $stdclass, true],
+			['p1', $class_r4, $class_r3, true],
+			['p1', $class_r4, $class_r4, true],
+			['p2', $class_r4, null, true],
+			['p2', $class_r4, $stdclass, true],
+			['p2', $class_r4, $class_r3, true],
+			['p2', $class_r4, $class_r4, true],
+			['p3', $class_r4, null, true],
+			['p3', $class_r4, $stdclass, true],
+			['p3', $class_r4, $class_r3, true],
+			['p3', $class_r4, $class_r4, true]
 		];
 	}
 	
@@ -3587,6 +3771,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -3770,7 +3958,47 @@ class PropertiesTest extends TestCase
 			['c2p3', $class2, $class1, '2'],
 			['c2p3', $class2, $class2, '2'],
 			['c2p3', $class2, $class3, '2'],
-			['c2p4', $class2, $class2, []]
+			['c2p4', $class2, $class2, []],
+			['p1', $class_r1, null, '123'],
+			['p1', $class_r1, $stdclass, '123'],
+			['p1', $class_r1, $class_r1, '123'],
+			['p1', $class_r1, $class_r2, '123'],
+			['p2', $class_r1, null, '456'],
+			['p2', $class_r1, $stdclass, '456'],
+			['p2', $class_r1, $class_r1, '456'],
+			['p2', $class_r1, $class_r2, '456'],
+			['p1', $class_r2, null, '123'],
+			['p1', $class_r2, $stdclass, '123'],
+			['p1', $class_r2, $class_r1, '123'],
+			['p1', $class_r2, $class_r2, '123'],
+			['p2', $class_r2, null, '456'],
+			['p2', $class_r2, $stdclass, '456'],
+			['p2', $class_r2, $class_r1, '456'],
+			['p2', $class_r2, $class_r2, '456'],
+			['p3', $class_r2, null, 789],
+			['p3', $class_r2, $stdclass, 789],
+			['p3', $class_r2, $class_r1, 789],
+			['p3', $class_r2, $class_r2, 789],
+			['p1', $class_r3, null, '123'],
+			['p1', $class_r3, $stdclass, '123'],
+			['p1', $class_r3, $class_r3, '123'],
+			['p1', $class_r3, $class_r4, '123'],
+			['p2', $class_r3, null, '456'],
+			['p2', $class_r3, $stdclass, '456'],
+			['p2', $class_r3, $class_r3, '456'],
+			['p2', $class_r3, $class_r4, '456'],
+			['p1', $class_r4, null, '123'],
+			['p1', $class_r4, $stdclass, '123'],
+			['p1', $class_r4, $class_r3, '123'],
+			['p1', $class_r4, $class_r4, '123'],
+			['p2', $class_r4, null, '456'],
+			['p2', $class_r4, $stdclass, '456'],
+			['p2', $class_r4, $class_r3, '456'],
+			['p2', $class_r4, $class_r4, '456'],
+			['p3', $class_r4, null, 789],
+			['p3', $class_r4, $stdclass, 789],
+			['p3', $class_r4, $class_r3, 789],
+			['p3', $class_r4, $class_r4, 789]
 		];
 	}
 	
@@ -3941,6 +4169,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -4518,7 +4750,39 @@ class PropertiesTest extends TestCase
 					'c2p0' => 4350000,
 					'p0' => 123
 				]
-			]
+			],
+			[$class_r1, null, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r1, $stdclass, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r1, $class_r1, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r1, $class_r2, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r1, null, ['p1'], ['p1' => '123']],
+			[$class_r1, $stdclass, ['p1'], ['p1' => '123']],
+			[$class_r1, $class_r1, ['p1'], ['p1' => '123']],
+			[$class_r1, $class_r2, ['p1'], ['p1' => '123']],
+			[$class_r2, null, null, ['p1' => '123', 'p3' => 789, 'p2' => '456']],
+			[$class_r2, $stdclass, null, ['p1' => '123', 'p3' => 789, 'p2' => '456']],
+			[$class_r2, $class_r1, null, ['p1' => '123', 'p3' => 789, 'p2' => '456']],
+			[$class_r2, $class_r2, null, ['p1' => '123', 'p3' => 789, 'p2' => '456']],
+			[$class_r2, null, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r2, $stdclass, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r2, $class_r1, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r2, $class_r2, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r3, null, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r3, $stdclass, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r3, $class_r3, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r3, $class_r4, null, ['p1' => '123', 'p2' => '456']],
+			[$class_r3, null, ['p1'], ['p1' => '123']],
+			[$class_r3, $stdclass, ['p1'], ['p1' => '123']],
+			[$class_r3, $class_r3, ['p1'], ['p1' => '123']],
+			[$class_r3, $class_r4, ['p1'], ['p1' => '123']],
+			[$class_r4, null, null, ['p1' => '123', 'p2' => '456', 'p3' => 789]],
+			[$class_r4, $stdclass, null, ['p1' => '123', 'p2' => '456', 'p3' => 789]],
+			[$class_r4, $class_r3, null, ['p1' => '123', 'p2' => '456', 'p3' => 789]],
+			[$class_r4, $class_r4, null, ['p1' => '123', 'p2' => '456', 'p3' => 789]],
+			[$class_r4, null, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r4, $stdclass, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r4, $class_r3, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]],
+			[$class_r4, $class_r4, ['p1', 'p3'], ['p1' => '123', 'p3' => 789]]
 		];
 	}
 	
@@ -4681,6 +4945,8 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//return
 		return [
@@ -4850,7 +5116,15 @@ class PropertiesTest extends TestCase
 			['c2p3', null, null, $class2, $class2],
 			['c2p3', null, null, $class2, $class3],
 			['c2p4', ['foo', 'bar'], ['foo', 'bar'], $class2, $class2],
-			['c2p4', ['foo', 'bar'], ['foo', 'bar'], $class2, $class3]
+			['c2p4', ['foo', 'bar'], ['foo', 'bar'], $class2, $class3],
+			['p2', 321, '321', $class_r1, null],
+			['p2', 321, '321', $class_r1, $stdclass],
+			['p2', 321, '321', $class_r1, $class_r1],
+			['p2', 321, '321', $class_r1, $class_r2],
+			['p2', 321, '321', $class_r2, null],
+			['p2', 321, '321', $class_r2, $stdclass],
+			['p2', 321, '321', $class_r2, $class_r1],
+			['p2', 321, '321', $class_r2, $class_r2]
 		];
 	}
 	
@@ -4928,6 +5202,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -4986,7 +5264,39 @@ class PropertiesTest extends TestCase
 			['c2p2', $class2, null],
 			['c2p2', $class2, $stdclass],
 			['c2p2', $class2, $class1],
-			['c2p2', $class2, $class3]
+			['c2p2', $class2, $class3],
+			['p1', $class_r1, null],
+			['p1', $class_r1, $stdclass],
+			['p1', $class_r1, $class_r1],
+			['p1', $class_r1, $class_r2],
+			['p1', $class_r2, null],
+			['p1', $class_r2, $stdclass],
+			['p1', $class_r2, $class_r1],
+			['p1', $class_r2, $class_r2],
+			['p3', $class_r2, null],
+			['p3', $class_r2, $stdclass],
+			['p3', $class_r2, $class_r1],
+			['p3', $class_r2, $class_r2],
+			['p1', $class_r3, null],
+			['p1', $class_r3, $stdclass],
+			['p1', $class_r3, $class_r3],
+			['p1', $class_r3, $class_r4],
+			['p2', $class_r3, null],
+			['p2', $class_r3, $stdclass],
+			['p2', $class_r3, $class_r3],
+			['p2', $class_r3, $class_r4],
+			['p1', $class_r4, null],
+			['p1', $class_r4, $stdclass],
+			['p1', $class_r4, $class_r3],
+			['p1', $class_r4, $class_r4],
+			['p2', $class_r4, null],
+			['p2', $class_r4, $stdclass],
+			['p2', $class_r4, $class_r3],
+			['p2', $class_r4, $class_r4],
+			['p3', $class_r4, null],
+			['p3', $class_r4, $stdclass],
+			['p3', $class_r4, $class_r3],
+			['p3', $class_r4, $class_r4]
 		];
 	}
 	
@@ -5033,6 +5343,8 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//values
 		$values = [
@@ -5179,7 +5491,15 @@ class PropertiesTest extends TestCase
 			[$class2_stdclass_values, $class2_stdclass_expected, $class2, $stdclass],
 			[$class2_class1_values, $class2_class1_expected, $class2, $class1],
 			[$class2_class2_values, $class2_class2_expected, $class2, $class2],
-			[$class2_class3_values, $class2_class3_expected, $class2, $class3]
+			[$class2_class3_values, $class2_class3_expected, $class2, $class3],
+			[['p2' => 321], ['p2' => '321'], $class_r1, null],
+			[['p2' => 321], ['p2' => '321'], $class_r1, $stdclass],
+			[['p2' => 321], ['p2' => '321'], $class_r1, $class_r1],
+			[['p2' => 321], ['p2' => '321'], $class_r1, $class_r2],
+			[['p2' => 321], ['p2' => '321'], $class_r2, null],
+			[['p2' => 321], ['p2' => '321'], $class_r2, $stdclass],
+			[['p2' => 321], ['p2' => '321'], $class_r2, $class_r1],
+			[['p2' => 321], ['p2' => '321'], $class_r2, $class_r2]
 		];
 	}
 	
@@ -5251,6 +5571,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -5281,7 +5605,23 @@ class PropertiesTest extends TestCase
 			[$class2, null, ['p0', 'c2p0', 'c2p3', 'c2p2', 'p6'], ['c2p0', 'c2p2']],
 			[$class2, $stdclass, ['p0', 'c2p0', 'c2p3', 'c2p2', 'p6'], ['c2p0', 'c2p2']],
 			[$class2, $class1, ['p0', 'c2p0', 'c2p3', 'p6', 'c2p2'], ['c2p0', 'c2p2']],
-			[$class2, $class3, ['p0', 'c2p0', 'c2p1', 'c2p2', 'c2p3'], ['c2p1', 'c2p2']]
+			[$class2, $class3, ['p0', 'c2p0', 'c2p1', 'c2p2', 'c2p3'], ['c2p1', 'c2p2']],
+			[$class_r1, null, ['p1', 'p2'], ['p1']],
+			[$class_r1, $stdclass, ['p1', 'p2'], ['p1']],
+			[$class_r1, $class_r1, ['p1', 'p2'], ['p1']],
+			[$class_r1, $class_r2, ['p1', 'p2'], ['p1']],
+			[$class_r2, null, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $stdclass, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $class_r1, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $class_r2, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r3, null, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $stdclass, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $class_r1, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $class_r2, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r4, null, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $stdclass, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $class_r1, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $class_r2, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']]
 		];
 	}
 	
@@ -5326,6 +5666,8 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//return
 		return [
@@ -5466,7 +5808,15 @@ class PropertiesTest extends TestCase
 			['c2p1', $class2, $class2],
 			['c2p2', $class2, $class2],
 			['c2p4', $class2, $class2],
-			['c2p4', $class2, $class3]
+			['c2p4', $class2, $class3],
+			['p2', $class_r1, null],
+			['p2', $class_r1, $stdclass],
+			['p2', $class_r1, $class_r1],
+			['p2', $class_r1, $class_r2],
+			['p2', $class_r2, null],
+			['p2', $class_r2, $stdclass],
+			['p2', $class_r2, $class_r1],
+			['p2', $class_r2, $class_r2]
 		];
 	}
 	
@@ -5574,6 +5924,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -5649,7 +6003,39 @@ class PropertiesTest extends TestCase
 			['c2p3', $class2, $stdclass],
 			['c2p3', $class2, $class1],
 			['c2p3', $class2, $class2],
-			['c2p3', $class2, $class3]
+			['c2p3', $class2, $class3],
+			['p1', $class_r1, null],
+			['p1', $class_r1, $stdclass],
+			['p1', $class_r1, $class_r1],
+			['p1', $class_r1, $class_r2],
+			['p1', $class_r2, null],
+			['p1', $class_r2, $stdclass],
+			['p1', $class_r2, $class_r1],
+			['p1', $class_r2, $class_r2],
+			['p3', $class_r2, null],
+			['p3', $class_r2, $stdclass],
+			['p3', $class_r2, $class_r1],
+			['p3', $class_r2, $class_r2],
+			['p1', $class_r3, null],
+			['p1', $class_r3, $stdclass],
+			['p1', $class_r3, $class_r3],
+			['p1', $class_r3, $class_r4],
+			['p2', $class_r3, null],
+			['p2', $class_r3, $stdclass],
+			['p2', $class_r3, $class_r3],
+			['p2', $class_r3, $class_r4],
+			['p1', $class_r4, null],
+			['p1', $class_r4, $stdclass],
+			['p1', $class_r4, $class_r3],
+			['p1', $class_r4, $class_r4],
+			['p2', $class_r4, null],
+			['p2', $class_r4, $stdclass],
+			['p2', $class_r4, $class_r3],
+			['p2', $class_r4, $class_r4],
+			['p3', $class_r4, null],
+			['p3', $class_r4, $stdclass],
+			['p3', $class_r4, $class_r3],
+			['p3', $class_r4, $class_r4]
 		];
 	}
 	
@@ -5666,6 +6052,8 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
 		
 		//return
 		return [
@@ -5704,7 +6092,15 @@ class PropertiesTest extends TestCase
 			[$class2, $class3, [
 				'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p17', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0',
 				'c2p4'
-			]]
+			]],
+			[$class_r1, null, ['p2']],
+			[$class_r1, $stdclass, ['p2']],
+			[$class_r1, $class_r1, ['p2']],
+			[$class_r1, $class_r2, ['p2']],
+			[$class_r2, null, ['p2']],
+			[$class_r2, $stdclass, ['p2']],
+			[$class_r2, $class_r1, ['p2']],
+			[$class_r2, $class_r2, ['p2']]
 		];
 	}
 	
@@ -5776,6 +6172,10 @@ class PropertiesTest extends TestCase
 		$class1 = PropertiesTest_Class1::class;
 		$class2 = PropertiesTest_Class2::class;
 		$class3 = PropertiesTest_Class3::class;
+		$class_r1 = PropertiesTest_ClassR1::class;
+		$class_r2 = PropertiesTest_ClassR2::class;
+		$class_r3 = PropertiesTest_ClassR3::class;
+		$class_r4 = PropertiesTest_ClassR4::class;
 		
 		//return
 		return [
@@ -5837,7 +6237,23 @@ class PropertiesTest extends TestCase
 				['p0', 'p6', 'p7', 'p8', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'c1p0', 'c1p1', 'c2p0', 'c2p1',
 					'c2p2', 'c2p3', 'c2p4'],
 				['p0', 'p15', 'p16', 'p18', 'c1p1', 'c2p0', 'c2p1', 'c2p2', 'c2p3']
-			]
+			],
+			[$class_r1, null, ['p1', 'p2'], ['p1']],
+			[$class_r1, $stdclass, ['p1', 'p2'], ['p1']],
+			[$class_r1, $class_r1, ['p1', 'p2'], ['p1']],
+			[$class_r1, $class_r2, ['p1', 'p2'], ['p1']],
+			[$class_r2, null, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $stdclass, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $class_r1, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r2, $class_r2, ['p1', 'p2', 'p3'], ['p1', 'p3']],
+			[$class_r3, null, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $stdclass, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $class_r1, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r3, $class_r2, ['p1', 'p2'], ['p1', 'p2']],
+			[$class_r4, null, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $stdclass, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $class_r1, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']],
+			[$class_r4, $class_r2, ['p1', 'p2', 'p3'], ['p1', 'p2', 'p3']]
 		];
 	}
 	
@@ -7236,4 +7652,40 @@ class PropertiesTest_ClassM2 extends PropertiesTest_ClassM1
 	
 	#[meta('m1', 7), meta('m2', true)]
 	public $p5;
+}
+
+
+
+/** Test case dummy read class 1. */
+class PropertiesTest_ClassR1
+{
+	public readonly string $p1;
+	
+	public string $p2 = '';
+}
+
+
+
+/** Test case dummy read class 2. */
+class PropertiesTest_ClassR2 extends PropertiesTest_ClassR1
+{
+	public readonly int $p3;
+}
+
+
+
+/** Test case dummy read class 3. */
+readonly class PropertiesTest_ClassR3
+{
+	public string $p1;
+	
+	public string $p2;
+}
+
+
+
+/** Test case dummy read class 4. */
+readonly class PropertiesTest_ClassR4 extends PropertiesTest_ClassR3
+{
+	public int $p3;
 }
