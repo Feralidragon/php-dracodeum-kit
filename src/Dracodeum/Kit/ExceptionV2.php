@@ -7,7 +7,8 @@
 
 namespace Dracodeum\Kit;
 
-use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer as IPropertyInitializer;
+use Exception as PhpException;
+use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyBooter as IPropertyBooter;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Dracodeum\Kit\Traits;
 use Dracodeum\Kit\Options\Text as TextOptions;
@@ -20,7 +21,6 @@ use Dracodeum\Kit\Utilities\{
 	Call as UCall,
 	Text as UText
 };
-use Exception as PhpException;
 use Closure;
 
 /**
@@ -33,7 +33,7 @@ use Closure;
  * 
  * @see https://php.net/manual/en/class.exception.php
  */
-abstract class ExceptionV2 extends PhpException implements IPropertyInitializer
+abstract class ExceptionV2 extends PhpException implements IPropertyBooter
 {
 	//Traits
 	use Traits\PropertiesV2;
@@ -83,9 +83,9 @@ abstract class ExceptionV2 extends PhpException implements IPropertyInitializer
 	
 	
 	
-	//Implemented final public static methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyInitializer)
+	//Implemented final public static methods (Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyBooter)
 	/** {@inheritdoc} */
-	final public static function initializeProperty(Property $property): void
+	final public static function bootProperty(Property $property): void
 	{
 		if ($property->getReflection()->isPublic() && $property->getMode()[0] === 'r') {
 			$property->setMode('r+');

@@ -30,6 +30,7 @@ use ReflectionClass;
  * 
  * Only non-static and non-private properties are supported and affected.
  * 
+ * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\PropertyBooter
  * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Class\MetaInitializer
  * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyInitializer
  * @see \Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer
@@ -971,8 +972,8 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//owner
-					if (UType::implements($owner_class, Interfaces\PropertyInitializer::class)) {
-						$owner_class::initializeProperty($property);
+					if (UType::implements($owner_class, Interfaces\PropertyBooter::class)) {
+						$owner_class::bootProperty($property);
 					}
 					
 					//attributes (post)

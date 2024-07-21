@@ -9,14 +9,14 @@ namespace Dracodeum\Kit\Managers\PropertiesV2\Interfaces;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
 
-interface PropertyInitializer
+interface PropertyBooter
 {
 	//Public static methods
 	/**
-	 * Initialize a given property instance.
+	 * Boot a given property instance.
 	 * 
 	 * @param \Dracodeum\Kit\Managers\PropertiesV2\Property $property
-	 * The property instance to initialize.
+	 * The property instance to boot.
 	 */
-	public static function initializeProperty(Property $property): void;
+	public static function bootProperty(Property $property): void;
 }
