@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Tests\Managers\Properties\Interfaces\Attribute\Property;
 
 use PHPUnit\Framework\TestCase;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
+use Dracodeum\Kit\Attributes\Class\PropertyMeta;
 use Dracodeum\Kit\Managers\PropertiesV2\Interfaces\Attribute\Property\PropertyPostInitializer as IPropertyPostInitializer;
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Property;
@@ -49,7 +49,7 @@ class PropertyPostInitializerTest_Attribute implements IPropertyPostInitializer
 
 
 /** Test case dummy class. */
-#[propertyMeta('m1', 'int', 0)]
+#[PropertyMeta('m1', 'int', 0)]
 class PropertyPostInitializerTest_Class
 {
 	public $p1;

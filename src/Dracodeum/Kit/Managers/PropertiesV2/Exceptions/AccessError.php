@@ -8,9 +8,9 @@
 namespace Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Exception;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
-	coercive,
-	mutator
+use Dracodeum\Kit\Attributes\Property\{
+	Coercive,
+	Mutator
 };
 use Dracodeum\Kit\Options\Text as TextOptions;
 use Dracodeum\Kit\Primitives\Text;
@@ -20,7 +20,7 @@ abstract class AccessError extends Exception
 {
 	//Public properties
 	/** @var string[] */
-	#[coercive('string[]'), mutator('non_empty')]
+	#[Coercive('string[]'), Mutator('non_empty')]
 	public array $names;
 	
 	

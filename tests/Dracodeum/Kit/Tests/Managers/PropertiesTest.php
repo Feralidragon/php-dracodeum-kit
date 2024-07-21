@@ -8,15 +8,15 @@
 namespace Dracodeum\Kit\Tests\Managers;
 
 use PHPUnit\Framework\TestCase;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Class\propertyMeta;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
-	mode,
-	required,
-	coercive,
-	strict,
-	ignore,
-	lazy,
-	meta
+use Dracodeum\Kit\Attributes\Class\PropertyMeta;
+use Dracodeum\Kit\Attributes\Property\{
+	Mode,
+	Required,
+	Coercive,
+	Strict,
+	Ignore,
+	Lazy,
+	Meta
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\{
@@ -7544,54 +7544,54 @@ class PropertiesTest_Class1
 	
 	protected float $p9 = 1.0;
 	
-	#[mode('r')]
+	#[Mode('r')]
 	public mixed $p10;
 	
-	#[mode('r')]
+	#[Mode('r')]
 	public $p11 = 1;
 	
-	#[mode('r+')]
+	#[Mode('r+')]
 	public $p12 = 1;
 	
-	#[mode('w')]
+	#[Mode('w')]
 	public $p13 = 1;
 	
-	#[mode('w-')]
+	#[Mode('w-')]
 	public $p14 = 1;
 	
-	#[mode('r', true)]
+	#[Mode('r', true)]
 	public $p15 = 1;
 	
-	#[mode('r+', true)]
+	#[Mode('r+', true)]
 	public $p16 = 1;
 	
-	#[mode('w', true)]
+	#[Mode('w', true)]
 	public $p17 = 1;
 	
-	#[mode('w-', true)]
+	#[Mode('w-', true)]
 	public $p18 = 1;
 	
-	#[coercive('int')]
+	#[Coercive('int')]
 	public $p19 = '1.2k';
 	
-	#[coercive('?string')]
+	#[Coercive('?string')]
 	public $p20 = 420;
 	
-	#[coercive]
+	#[Coercive]
 	public ?int $p21 = null;
 	
 	public $p22 = '100'; //alternate type in real-time between int and float
 	
-	#[lazy]
+	#[Lazy]
 	public int $p23 = 1;
 	
-	#[ignore]
+	#[Ignore]
 	public $p24;
 	
-	#[mode('r+'), coercive, lazy]
+	#[Mode('r+'), Coercive, Lazy]
 	public string $c1p0 = 'foo';
 	
-	#[lazy, mode('w-', true)]
+	#[Lazy, Mode('w-', true)]
 	protected string $c1p1 = '';
 }
 
@@ -7600,19 +7600,19 @@ class PropertiesTest_Class1
 /** Test case dummy class 2. */
 class PropertiesTest_Class2 extends PropertiesTest_Class1
 {
-	#[required, mode('w-'), coercive('int')]
+	#[Required, Mode('w-'), Coercive('int')]
 	public $c2p0;
 	
-	#[lazy, mode('r', true)]
+	#[Lazy, Mode('r', true)]
 	protected bool $c2p1 = false;
 	
-	#[mode('r+', true), coercive]
+	#[Mode('r+', true), Coercive]
 	public int|float $c2p2 = 75.5;
 	
-	#[coercive, lazy]
+	#[Coercive, Lazy]
 	public int|string|null $c2p3;
 	
-	#[strict('string[]'), mode('w', true)]
+	#[Strict('string[]'), Mode('w', true)]
 	protected array $c2p4 = [];
 	
 	private string $c2p5;
@@ -7623,34 +7623,34 @@ class PropertiesTest_Class2 extends PropertiesTest_Class1
 /** Test case dummy class 3. */
 class PropertiesTest_Class3 extends PropertiesTest_Class2
 {
-	#[mode('r')]
+	#[Mode('r')]
 	public $c3p0;
 }
 
 
 
 /** Test case dummy meta class 1. */
-#[propertyMeta('m1', 'int', 1)]
+#[PropertyMeta('m1', 'int', 1)]
 class PropertiesTest_ClassM1
 {
 	public $p1;
 	
-	#[meta('m1', '3')]
+	#[Meta('m1', '3')]
 	public $p2;
 }
 
 
 
 /** Test case dummy meta class 2. */
-#[propertyMeta('m2', 'bool', 0)]
+#[PropertyMeta('m2', 'bool', 0)]
 class PropertiesTest_ClassM2 extends PropertiesTest_ClassM1
 {
 	public $p3;
 	
-	#[meta('m1', '1k')]
+	#[Meta('m1', '1k')]
 	public $p4;
 	
-	#[meta('m1', 7), meta('m2', true)]
+	#[Meta('m1', 7), Meta('m2', true)]
 	public $p5;
 }
 

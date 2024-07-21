@@ -8,9 +8,9 @@
 namespace Dracodeum\Kit\Managers\PropertiesV2\Exceptions;
 
 use Dracodeum\Kit\Managers\PropertiesV2\Exception;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
-	coercive,
-	mutator
+use Dracodeum\Kit\Attributes\Property\{
+	Coercive,
+	Mutator
 };
 use Dracodeum\Kit\Primitives\{
 	Error,
@@ -30,14 +30,14 @@ class Invalid extends Exception
 	 * @var array<string,mixed>
 	 * The values, as a set of `name => value` pairs.
 	 */
-	#[coercive('array<string,mixed>'), mutator('non_empty')]
+	#[Coercive('array<string,mixed>'), Mutator('non_empty')]
 	public array $values;
 	
 	/**
 	 * @var array<string,\Dracodeum\Kit\Primitives\Error>
 	 * The error instances, as a set of `name => error` pairs.
 	 */
-	#[coercive('array<string,' . Error::class . '>'), mutator('non_empty')]
+	#[Coercive('array<string,' . Error::class . '>'), Mutator('non_empty')]
 	public array $errors;
 	
 	

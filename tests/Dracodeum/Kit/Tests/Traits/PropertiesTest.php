@@ -9,9 +9,9 @@ namespace Dracodeum\Kit\Tests\Traits;
 
 use PHPUnit\Framework\TestCase;
 use Dracodeum\Kit\Traits;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
-	coercive,
-	strict
+use Dracodeum\Kit\Attributes\Property\{
+	Coercive,
+	Strict
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
 use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible as InaccessibleException;
@@ -179,13 +179,13 @@ class PropertiesTest_Class1 extends PropertiesTest_Class0
 {
 	use Traits\PropertiesV2;
 	
-	#[strict]
+	#[Strict]
 	public string $p1;
 	
-	#[coercive]
+	#[Coercive]
 	public int $p2 = 100;
 	
-	#[coercive(PropertiesTest_Type::class)]
+	#[Coercive(PropertiesTest_Type::class)]
 	public $p3;
 	
 	protected $p4;

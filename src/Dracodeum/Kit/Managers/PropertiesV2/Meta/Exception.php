@@ -8,11 +8,11 @@
 namespace Dracodeum\Kit\Managers\PropertiesV2\Meta;
 
 use Dracodeum\Kit\ExceptionV2 as KException;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\strict;
+use Dracodeum\Kit\Attributes\Property\Strict;
 
 abstract class Exception extends KException
 {
 	//Public properties
-	#[strict('class')]
+	#[Strict('class')]
 	public string $class;
 }

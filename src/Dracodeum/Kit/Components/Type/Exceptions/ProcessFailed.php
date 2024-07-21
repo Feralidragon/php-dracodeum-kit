@@ -8,7 +8,7 @@
 namespace Dracodeum\Kit\Components\Type\Exceptions;
 
 use Dracodeum\Kit\Components\Type\Exception;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\coercive;
+use Dracodeum\Kit\Attributes\Property\Coercive;
 use Dracodeum\Kit\Components\Type\Enumerations\Context as EContext;
 use Dracodeum\Kit\Enums\Info\Level as EInfoLevel;
 use Dracodeum\Kit\Options\Text as TextOptions;
@@ -23,7 +23,7 @@ abstract class ProcessFailed extends Exception
 	//Public properties
 	public mixed $value;
 	
-	#[coercive('enum', EContext::class)]
+	#[Coercive('enum', EContext::class)]
 	public string $context;
 	
 	public ?Error $error = null;

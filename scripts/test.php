@@ -4,11 +4,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dracodeum\Kit\Root\System;
 use Dracodeum\Kit\Factories\Component as FComponent;
-use Dracodeum\Kit\Managers\PropertiesV2\Attributes\Property\{
-	coercive,
-	strict,
-	mutator,
-	write
+use Dracodeum\Kit\Attributes\Property\{
+	Coercive,
+	Strict,
+	Mutator,
+	Write
 };
 
 System::setAsFramework();
@@ -16,7 +16,7 @@ System::setEnvironment('development');
 
 class A
 {
-	#[coercive('ustring', nullable: true), mutator('non_empty'), mutator('truncate', 5, ellipsis: true)]
+	#[Coercive('ustring', nullable: true), Mutator('non_empty'), Mutator('truncate', 5, ellipsis: true)]
 	public string $label;
 	
 	protected int $amount = 12;
@@ -35,10 +35,10 @@ class B extends A
 
 class C extends B
 {	
-	#[coercive]
+	#[Coercive]
 	private float $ratio = 1.0;
 	
-	#[strict, write(true)]
+	#[Strict, Write(true)]
 	public float $percentage = 100.0;
 };
 $a = new C;
