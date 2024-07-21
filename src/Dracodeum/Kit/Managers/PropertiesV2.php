@@ -405,6 +405,23 @@ final class PropertiesV2 extends Manager
 	
 	
 	//Final public static methods
+	/**
+	 * Get property instances from a given class.
+	 * 
+	 * @param string $class
+	 * The class to get from.
+	 * 
+	 * @param string|null $base_class
+	 * The base class to get with.
+	 * 
+	 * @return array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property>
+	 * The property instances from the given class, as a set of `name => property` pairs.
+	 */
+	final public static function classProperties(string $class, ?string $base_class = null): array
+	{
+		return self::bootProperties($class, $base_class)->properties;
+	}
+	
 	/** Clear cache. */
 	final public static function clearCache(): void
 	{

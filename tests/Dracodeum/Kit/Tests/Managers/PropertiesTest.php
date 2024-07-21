@@ -2100,6 +2100,59 @@ class PropertiesTest extends TestCase
 		}
 	}
 	
+	/**
+	 * Test `classProperties` method.
+	 * 
+	 * @testdox PropertiesV2::classProperties('$class', $base_class)
+	 * @dataProvider provideClassPropertiesData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string|null $base_class
+	 * The base class test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected returning property names.
+	 */
+	public function testClassProperties(string $class, ?string $base_class, array $expected_names): void
+	{
+		//initialize
+		Manager::clearCache();
+		$properties = Manager::classProperties($class, $base_class);
+		
+		//assert
+		$this->assertSame($expected_names, array_keys($properties));
+		$this->assertSame($properties, (new Manager(new $class, $base_class))->getProperties());
+		Manager::clearCache();
+		$this->assertNotSame($properties, (new Manager(new $class, $base_class))->getProperties());
+		$this->assertSame(
+			Manager::classProperties($class, $base_class), (new Manager(new $class, $base_class))->getProperties()
+		);
+	}
+	
+	/**
+	 * Test `clearCache` method.
+	 * 
+	 * @testdox PropertiesV2::clearCache()
+	 */
+	public function testClearCache(): void
+	{
+		//initialize
+		Manager::clearCache();
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		$properties = (new Manager(new $class2, $class1))->getProperties();
+		
+		//assert
+		$this->assertSame($properties, (new Manager(new $class2, $class1))->getProperties());
+		$this->assertNotSame($properties, (new Manager(new $class2))->getProperties());
+		$this->assertNotSame($properties, (new Manager(new $class2, $class2))->getProperties());
+		$this->assertSame($properties, (new Manager(new $class2, $class1))->getProperties());
+		Manager::clearCache();
+		$this->assertNotSame($properties, (new Manager(new $class2, $class1))->getProperties());
+	}
+	
 	
 	
 	//Public static methods
@@ -6281,6 +6334,36 @@ class PropertiesTest extends TestCase
 			['p4', 'm2', false, $class2],
 			['p5', 'm1', 7, $class2],
 			['p5', 'm2', true, $class2]
+		];
+	}
+	
+	/**
+	 * Provide `classProperties` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function provideClassPropertiesData(): array
+	{
+		//initialize
+		$class1 = PropertiesTest_Class1::class;
+		$class2 = PropertiesTest_Class2::class;
+		
+		//return
+		return [
+			[$class1, null, [
+				'p0', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18',
+				'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1'
+			]],
+			[$class2, null, [
+				'p0', 'c2p0', 'c2p3', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16',
+				'p17', 'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1', 'c2p1', 'c2p2', 'c2p4'
+			]],
+			[$class2, $class1, [
+				'p0', 'c2p0', 'c2p3', 'p1', 'p6', 'p7', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16',
+				'p17', 'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'c1p0', 'c1p1', 'c2p1', 'c2p2', 'c2p4'
+			]],
+			[$class2, $class2, ['c2p0', 'c2p3', 'c2p1', 'c2p2', 'c2p4']]
 		];
 	}
 	

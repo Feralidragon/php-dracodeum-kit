@@ -14,6 +14,7 @@ use Dracodeum\Kit\Attributes\Property\{
 	Strict
 };
 use Dracodeum\Kit\Managers\PropertiesV2 as Manager;
+use Dracodeum\Kit\Managers\PropertiesV2\Property;
 use Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible as InaccessibleException;
 use Dracodeum\Kit\Prototypes\Type;
 use Dracodeum\Kit\Primitives\Error;
@@ -162,6 +163,47 @@ class PropertiesTest extends TestCase
 			throw $exception;
 		}
 	}
+	
+	/**
+	 * Test `properties` method.
+	 * 
+	 * @testdox self::properties()
+	 * @dataProvider providePropertiesData
+	 * 
+	 * @param string $class
+	 * The class to test with.
+	 * 
+	 * @param string[] $expected_names
+	 * The expected returning property names.
+	 */
+	public function testProperties(string $class, array $expected_names): void
+	{
+		//initialize
+		$properties = $class::getProperties();
+		
+		//assert
+		$this->assertSame($expected_names, array_keys($properties));
+		foreach ($properties as $property) {
+			$this->assertInstanceOf(Property::class, $property);
+		}
+	}
+	
+	
+	
+	//Public static methods
+	/**
+	 * Provide `properties` method data.
+	 * 
+	 * @return array
+	 * The data.
+	 */
+	public static function providePropertiesData(): array
+	{
+		return [
+			[PropertiesTest_Class1::class, ['p1', 'p2', 'p3', 'p4']],
+			[PropertiesTest_Class2::class, ['p1', 'p2', 'p3', 'p4', 'p5']]
+		];
+	}
 }
 
 
@@ -206,6 +248,11 @@ class PropertiesTest_Class1 extends PropertiesTest_Class0
 	{
 		return $this->getPropertiesManager();
 	}
+	
+	public static function getProperties()
+	{
+		return static::properties();
+	}
 }
 
 
@@ -213,6 +260,8 @@ class PropertiesTest_Class1 extends PropertiesTest_Class0
 /** Test case dummy class 2. */
 class PropertiesTest_Class2 extends PropertiesTest_Class1
 {
+	public string $p5 = '';
+	
 	public function issetP4(): bool
 	{
 		return isset($this->p4);

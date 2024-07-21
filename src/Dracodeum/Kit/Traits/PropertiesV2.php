@@ -113,4 +113,18 @@ trait PropertiesV2
 		}
 		return $this->properties_manager;
 	}
+	
+	
+	
+	//Final protected static methods
+	/**
+	 * Get property instances.
+	 * 
+	 * @return array<string,\Dracodeum\Kit\Managers\PropertiesV2\Property>
+	 * The property instances, as a set of `name => property` pairs.
+	 */
+	final protected static function properties(): array
+	{
+		return Manager::classProperties(static::class, self::class);
+	}
 }
