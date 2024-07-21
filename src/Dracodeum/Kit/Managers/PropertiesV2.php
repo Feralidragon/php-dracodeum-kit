@@ -17,7 +17,8 @@ use Dracodeum\Kit\Managers\PropertiesV2\{
 };
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
-	Call as UCall
+	Call as UCall,
+	Type as UType
 };
 use ReflectionClass;
 
@@ -415,136 +416,9 @@ final class PropertiesV2 extends Manager
 	/** Initialize properties. */
 	private function initializeProperties(): void
 	{
-		//initialize
-		$owner_class = $this->owner::class;
-		$owner_base_key = (string)$this->owner_base_class;
-		if (!isset(self::$classes_entries[$owner_base_key][$owner_class])) {
-			//classes
-			$is_outer = false;
-			$classes = $outer_classes = [];
-			for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
-				if ($is_outer) {
-					$outer_classes[] = $class;
-				} else {
-					$classes[] = $class;
-					$is_outer = $class === $this->owner_base_class;
-				}
-			}
-			$classes = array_reverse($classes);
-			
-			//properties
-			$parent_class = null;
-			foreach ($classes as $class) {
-				//class
-				if (!isset(self::$classes_entries[$owner_base_key][$class])) {
-					//initialize
-					$r_class = new ReflectionClass($class);
-					$properties_post_attributes = [];
-					
-					//properties
-					$properties = $parent_class !== null
-						? self::$classes_entries[$owner_base_key][$parent_class]->properties
-						: [];
-					
-					//meta
-					$meta = $parent_class !== null
-						? self::$classes_entries[$owner_base_key][$parent_class]->meta->clone($class)
-						: new Meta($class);
-					
-					//class
-					foreach ($r_class->getAttributes() as $r_attribute) {
-						$attribute = $r_attribute->newInstance();
-						if ($attribute instanceof Interfaces\Attribute\Class\MetaInitializer) {
-							$attribute->initializeMeta($meta);
-						}
-					}
-					
-					//properties
-					foreach ($r_class->getProperties() as $r_property) {
-						//initialize
-						$p_name = $r_property->getName();
-						
-						//check
-						if (
-							$r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name]) || 
-							in_array($r_property->getDeclaringClass()->getName(), $outer_classes, true)
-						) {
-							continue;
-						}
-						
-						//property
-						$property = new Property($r_property, $meta);
-						
-						//attributes
-						foreach ($r_property->getAttributes() as $r_attribute) {
-							$attribute = $r_attribute->newInstance();
-							if ($attribute instanceof Interfaces\Attribute\Property\PropertyInitializer) {
-								$attribute->initializeProperty($property);
-							}
-						}
-						
-						//ignore
-						if ($property->isIgnored()) {
-							continue;
-						}
-						
-						//owner
-						if ($this->owner instanceof Interfaces\PropertyInitializer) {
-							$this->owner->initializeProperty($property);
-						}
-						
-						//attributes (post)
-						foreach ($r_property->getAttributes() as $r_attribute) {
-							$attribute = $r_attribute->newInstance();
-							if ($attribute instanceof Interfaces\Attribute\Property\PropertyPostInitializer) {
-								$properties_post_attributes[$p_name][] = $attribute;
-							}
-						}
-						
-						//finalize
-						$properties[$p_name] = $property;
-					}
-					
-					//class entry
-					$class_entry = self::$classes_entries[$owner_base_key][$class] = new ClassEntry($properties, $meta);
-					
-					//sort
-					uasort($class_entry->properties, function (Property $property1, Property $property2): int {
-						return (int)$property2->isRequired() - (int)$property1->isRequired();
-					});
-					
-					//required mapping
-					$i = 0;
-					foreach ($class_entry->properties as $p_name => $property) {
-						if ($property->isRequired()) {
-							$class_entry->required_maps[$p_name] = $i++;
-						} else {
-							break;
-						}
-					}
-					unset($i);
-					
-					//post-attributes
-					foreach ($properties_post_attributes as $p_name => $attributes) {
-						$property = $properties[$p_name];
-						foreach ($attributes as $attribute) {
-							$attribute->postInitializeProperty($property);
-						}
-					}
-					
-					//finalize
-					unset($r_class, $properties_post_attributes, $properties, $meta, $class_entry);
-				}
-				
-				//parent class
-				$parent_class = $class;
-			}
-		}
-		
-		//finalize
-		$class_entry = self::$classes_entries[$owner_base_key][$owner_class];
+		$class_entry = $this->bootProperties($this->owner::class, $this->owner_base_class);
 		$this->properties = $class_entry->properties;
-		$this->required_map = $class_entry->required_maps;
+		$this->required_map = $class_entry->required_map;
 		$this->meta = $class_entry->meta;
 	}
 	
@@ -1002,5 +876,153 @@ final class PropertiesV2 extends Manager
 			$this->values[$name] = null;
 			$this->values_flags[$name] = 0x0;
 		}
+	}
+	
+	
+	
+	//Private static methods
+	/**
+	 * Boot properties.
+	 * 
+	 * @param string $owner_class
+	 * The owner class to boot with.
+	 * 
+	 * @param string|null $owner_base_class
+	 * The owner base class to boot with.
+	 * 
+	 * @return \Dracodeum\Kit\Managers\PropertiesV2\ClassEntry
+	 * The booted properties class entry instance.
+	 */
+	private static function bootProperties(string $owner_class, ?string $owner_base_class = null): ClassEntry
+	{
+		//initialize
+		$owner_base_key = (string)$owner_base_class;
+		if (isset(self::$classes_entries[$owner_base_key][$owner_class])) {
+			return self::$classes_entries[$owner_base_key][$owner_class];
+		}
+		
+		//classes
+		$is_outer = false;
+		$classes = $outer_classes = [];
+		for ($class = $owner_class; $class !== false; $class = get_parent_class($class)) {
+			if ($is_outer) {
+				$outer_classes[] = $class;
+			} else {
+				$classes[] = $class;
+				$is_outer = $class === $owner_base_class;
+			}
+		}
+		$classes = array_reverse($classes);
+		
+		//properties
+		$parent_class = null;
+		foreach ($classes as $class) {
+			//class
+			if (!isset(self::$classes_entries[$owner_base_key][$class])) {
+				//initialize
+				$r_class = new ReflectionClass($class);
+				$properties_post_attributes = [];
+				
+				//properties
+				$properties = $parent_class !== null
+					? self::$classes_entries[$owner_base_key][$parent_class]->properties
+					: [];
+				
+				//meta
+				$meta = $parent_class !== null
+					? self::$classes_entries[$owner_base_key][$parent_class]->meta->clone($class)
+					: new Meta($class);
+				
+				//class
+				foreach ($r_class->getAttributes() as $r_attribute) {
+					$attribute = $r_attribute->newInstance();
+					if ($attribute instanceof Interfaces\Attribute\Class\MetaInitializer) {
+						$attribute->initializeMeta($meta);
+					}
+				}
+				
+				//properties
+				foreach ($r_class->getProperties() as $r_property) {
+					//initialize
+					$p_name = $r_property->getName();
+					
+					//check
+					if (
+						$r_property->isStatic() || $r_property->isPrivate() || isset($properties[$p_name]) || 
+						in_array($r_property->getDeclaringClass()->getName(), $outer_classes, true)
+					) {
+						continue;
+					}
+					
+					//property
+					$property = new Property($r_property, $meta);
+					
+					//attributes
+					foreach ($r_property->getAttributes() as $r_attribute) {
+						$attribute = $r_attribute->newInstance();
+						if ($attribute instanceof Interfaces\Attribute\Property\PropertyInitializer) {
+							$attribute->initializeProperty($property);
+						}
+					}
+					
+					//ignore
+					if ($property->isIgnored()) {
+						continue;
+					}
+					
+					//owner
+					if (UType::implements($owner_class, Interfaces\PropertyInitializer::class)) {
+						$owner_class::initializeProperty($property);
+					}
+					
+					//attributes (post)
+					foreach ($r_property->getAttributes() as $r_attribute) {
+						$attribute = $r_attribute->newInstance();
+						if ($attribute instanceof Interfaces\Attribute\Property\PropertyPostInitializer) {
+							$properties_post_attributes[$p_name][] = $attribute;
+						}
+					}
+					
+					//finalize
+					$properties[$p_name] = $property;
+				}
+				
+				//class entry
+				$class_entry = self::$classes_entries[$owner_base_key][$class] = new ClassEntry($properties, $meta);
+				
+				//sort
+				uasort($class_entry->properties, function (Property $property1, Property $property2): int {
+					return (int)$property2->isRequired() - (int)$property1->isRequired();
+				});
+				
+				//required mapping
+				$i = 0;
+				foreach ($class_entry->properties as $p_name => $property) {
+					if ($property->isRequired()) {
+						$class_entry->required_map[$p_name] = $i++;
+					} else {
+						break;
+					}
+				}
+				unset($i);
+				
+				//post-attributes
+				foreach ($properties_post_attributes as $p_name => $attributes) {
+					$property = $properties[$p_name];
+					foreach ($attributes as $attribute) {
+						$attribute->postInitializeProperty($property);
+					}
+				}
+				
+				//finalize
+				unset($r_class, $properties_post_attributes, $properties, $meta, $class_entry);
+			}
+			
+			//parent class
+			$parent_class = $class;
+		}
+		
+		//return
+		return self::$classes_entries[$owner_base_key][$owner_class];
 	}
 }

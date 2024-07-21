@@ -17,7 +17,7 @@ final class ClassEntry
 	public Meta $meta;
 	
 	/** @var array<string,int> */
-	public array $required_maps = [];
+	public array $required_map = [];
 	
 	
 	
