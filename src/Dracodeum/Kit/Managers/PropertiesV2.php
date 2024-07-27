@@ -17,8 +17,7 @@ use Dracodeum\Kit\Managers\PropertiesV2\{
 };
 use Dracodeum\Kit\Utilities\{
 	Byte as UByte,
-	Call as UCall,
-	Type as UType
+	Call as UCall
 };
 use ReflectionClass;
 
@@ -989,7 +988,7 @@ final class PropertiesV2 extends Manager
 					}
 					
 					//owner
-					if (UType::implements($owner_class, Interfaces\PropertyBooter::class)) {
+					if (is_a($owner_class, Interfaces\PropertyBooter::class, true)) {
 						$owner_class::bootProperty($property);
 					}
 					
