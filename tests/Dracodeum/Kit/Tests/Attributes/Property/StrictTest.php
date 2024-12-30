@@ -25,10 +25,10 @@ class StrictTest extends TestCase
 	 * The name to test with.
 	 * 
 	 * @param bool $typed
-	 * Whether or not it is expected to be typed.
+	 * Whether it is expected to be typed.
 	 * 
 	 * @param bool $nullable
-	 * Whether or not it is expected to be nullable.
+	 * Whether it is expected to be nullable.
 	 */
 	public function test(string $name, bool $typed, bool $nullable = false): void
 	{

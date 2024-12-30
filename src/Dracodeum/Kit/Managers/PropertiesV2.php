@@ -580,7 +580,7 @@ final class PropertiesV2 extends Manager
 	 * The scope class to use.
 	 * 
 	 * @param bool $initializing
-	 * Whether or not the call is being performed in the context of an initialization.
+	 * Whether the call is being performed in the context of an initialization.
 	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Unwriteable
 	 * 
@@ -784,7 +784,7 @@ final class PropertiesV2 extends Manager
 	 * The scope class to use.
 	 * 
 	 * @param bool $initializing
-	 * Whether or not the call is being performed in the context of an initialization.
+	 * Whether the call is being performed in the context of an initialization.
 	 * 
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Undefined
 	 * @throws \Dracodeum\Kit\Managers\PropertiesV2\Exceptions\Inaccessible

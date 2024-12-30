@@ -268,7 +268,7 @@ final class Property
 	 * The scope class to check with.
 	 * 
 	 * @param bool $initializing
-	 * Whether or not the call is being performed in the context of an initialization.
+	 * Whether the call is being performed in the context of an initialization.
 	 * 
 	 * @return bool
 	 * Boolean `true` if is writeable.

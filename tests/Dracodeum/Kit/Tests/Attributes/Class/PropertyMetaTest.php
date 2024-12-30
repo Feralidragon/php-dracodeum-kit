@@ -26,13 +26,13 @@ class PropertyMetaTest extends TestCase
 	 * The name to test with.
 	 * 
 	 * @param bool $exists
-	 * Whether or not it is expected to exist.
+	 * Whether it is expected to exist.
 	 * 
 	 * @param mixed $default
 	 * The expected default.
 	 * 
 	 * @param bool $nullable
-	 * Whether or not it is expected to be nullable.
+	 * Whether it is expected to be nullable.
 	 */
 	public function test(string $name, bool $exists, mixed $default = null, bool $nullable = false): void
 	{

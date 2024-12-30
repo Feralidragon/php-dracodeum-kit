@@ -156,7 +156,7 @@ final class Text extends Utility
 	 * The returning string represents the given value in order to be shown or printed out in messages.<br>
 	 * <br>
 	 * Scalar values retain their full representation, while objects are represented only by their class names or ids, 
-	 * resources by their ids, and arrays as lists or structures depending on whether or not they are associative.<br>
+	 * resources by their ids, and arrays as lists or structures depending on whether they are associative.<br>
 	 * <br>
 	 * Objects implementing either the <code>Dracodeum\Kit\Interfaces\Stringable</code> interface or 
 	 * the <code>__toString</code> method are stringified through one of them, whichever one is implemented first, 

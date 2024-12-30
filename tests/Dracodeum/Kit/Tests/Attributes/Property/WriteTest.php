@@ -28,7 +28,7 @@ class WriteTest extends TestCase
 	 * The expected mode.
 	 * 
 	 * @param bool $affect_subclasses
-	 * Whether or not it is expected to affect subclasses.
+	 * Whether it is expected to affect subclasses.
 	 */
 	public function test(string $name, string $mode, bool $affect_subclasses = false): void
 	{

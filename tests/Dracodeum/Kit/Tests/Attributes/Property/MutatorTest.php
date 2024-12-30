@@ -29,10 +29,10 @@ class MutatorTest extends TestCase
 	 * The name to test with.
 	 * 
 	 * @param bool $typed
-	 * Whether or not it is expected to be typed.
+	 * Whether it is expected to be typed.
 	 * 
 	 * @param bool $mutated
-	 * Whether or not it is expected to be mutated.
+	 * Whether it is expected to be mutated.
 	 */
 	public function test(string $name, bool $typed, bool $mutated): void
 	{
